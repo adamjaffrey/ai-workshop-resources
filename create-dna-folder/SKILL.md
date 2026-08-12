@@ -1,18 +1,18 @@
 ---
 name: create-dna-folder
-description: Create and verify a `dna` subfolder inside an existing standard `projects` folder, containing starter `USER.md` and `BUSINESS.md` context documents with the canonical `dna/v1` metadata schema, then configure installed Codex and Claude software to load those documents when relevant. Use when a user is setting up Business DNA, personal and business context files, or the DNA workspace that follows creation of their standard projects directory.
+description: Create and verify a `dna` subfolder inside an existing standard `projects` folder, containing starter `USER.md` and `BUSINESS.md` context documents with the canonical `dna/v1` metadata schema, then ask whether to configure Codex, Claude, or both to load those documents when relevant. Use when a user is setting up Business DNA, personal and business context files, or the DNA workspace that follows creation of their standard projects directory.
 metadata:
   doc_schema: "skill/v1"
-  doc_version: "26.0.5"
-  last_update_at: "Thu 13 Aug 2026 at 12:16:16 am AEST (+10:00)"
-  last_update_summary: "Adopt build versioning system metadata"
+  doc_version: "26.0.6"
+  last_update_at: "Thu 13 Aug 2026 at 12:44:43 am AEST (+10:00)"
+  last_update_summary: "Add explicit software selection"
   last_update_by: "Adam Jaffrey"
   last_update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Create DNA Folder
 
-Create a `dna` directory inside the user's existing standard `projects` directory. Create only `USER.md` and `BUSINESS.md` inside it, then add a concise DNA bootstrap to the user-level instruction file for each applicable Codex or Claude installation. Do not initialize a Git repository or add other files inside `dna`.
+Create a `dna` directory inside the user's existing standard `projects` directory. Create only `USER.md` and `BUSINESS.md` inside it, then ask the user whether to add a concise DNA bootstrap for Codex, Claude, or both. Update only the instruction file or files selected by the user. Do not initialize a Git repository or add other files inside `dna`.
 
 ## Resolve the destination
 
@@ -134,7 +134,16 @@ Preserve the wording and heading order. Do not add guessed answers beneath the p
 
 ## Configure instruction bootstraps
 
-After creating or confirming both DNA documents, configure every applicable installed product. Detect the operating system, the user's home directory, relevant environment overrides, and whether Codex or Claude is installed or is the software currently running the skill. Do not create configuration for unrelated software that is not installed.
+After creating or confirming both DNA documents, ask the user exactly which software to configure: **Codex**, **Claude**, or **both**. Wait for their answer before inspecting, requesting access to, creating, or updating any software instruction file. Do not infer the choice from which software is installed, which product is running the skill, or which configuration directories already exist.
+
+Treat the answer as the complete configuration scope:
+
+- If the user chooses Codex, configure only the Codex instruction file. Do not inspect or change the Claude instruction file.
+- If the user chooses Claude, configure only the Claude instruction file. Do not inspect or change the Codex instruction file.
+- If the user chooses both, configure both instruction files independently.
+- If the answer is ambiguous, ask the user to choose Codex, Claude, or both before proceeding.
+
+After the user chooses, detect the operating system, the user's home directory, and relevant environment overrides needed to resolve only the selected instruction path or paths.
 
 Use these user-level instruction paths:
 
@@ -143,7 +152,7 @@ Use these user-level instruction paths:
 - Claude on macOS: `/Users/<login-username>/.claude/CLAUDE.md`.
 - Claude on Windows: `%USERPROFILE%\.claude\CLAUDE.md`.
 
-For each applicable instruction file:
+For each selected instruction file:
 
 1. Inspect the parent directory and file before changing anything.
 2. If the file does not exist and its parent is writable, create it. If it exists, preserve all unrelated content.
@@ -169,11 +178,11 @@ Do not copy the contents of the DNA documents into an instruction file. The boot
 
 Treat an initial filesystem boundary as a requestable permission, not a final failure.
 
-1. If an applicable instruction file or its parent cannot be read or written, tell the user which exact path needs access and why.
+1. If a selected instruction file or its parent cannot be read or written, tell the user which exact path needs access and why.
 2. Use the available permission mechanism to request read and write access to that exact instruction file, or the narrowest parent path required to create it. Request the shortest supported duration and do not request Full Access or unrelated paths.
 3. After access is granted, inspect the file, make the bounded bootstrap update, and verify it by reading it back.
 4. If access is denied, unavailable, or still fails after the request, do not claim that the software was configured. Give the user the exact absolute instruction-file path and the exact rendered bootstrap text to paste into the software's **Custom instructions** field in Settings. Do not leave placeholders or environment variables in that text.
-5. Provide separate rendered fallback text for Codex and Claude when both applicable instruction files remain inaccessible. The text may be identical apart from the surrounding product label; the paths must match the current operating system and user.
+5. Provide rendered fallback text only for the selected product or products whose instruction files remain inaccessible. When both were selected and both remain inaccessible, provide separate Codex and Claude fallback sections. The text may be identical apart from the surrounding product label; the paths must match the current operating system and user.
 
 ## Verify
 
@@ -183,7 +192,8 @@ After creation:
 2. Verify that `USER.md` and `BUSINESS.md` exist as regular files.
 3. Read both files back and confirm that their YAML frontmatter parses, all required metadata fields are present, and the five requested level-two headings appear in the specified order.
 4. Confirm that no placeholders remain and that no extra files or Git repository were created.
-5. Read each applicable accessible instruction file back and confirm that exactly one complete DNA bootstrap block is present with both resolved DNA paths.
-6. Report the full absolute paths, which items were created, updated, or preserved, which products were configured, and any permission blocker, malformed block, or copy/paste fallback supplied.
+5. Read each selected accessible instruction file back and confirm that exactly one complete DNA bootstrap block is present with both resolved DNA paths.
+6. Confirm that no unselected product instruction file was inspected or changed.
+7. Report the full absolute paths, which items were created, updated, or preserved, which product or products the user selected and configured, and any permission blocker, malformed block, or copy/paste fallback supplied.
 
 Treat the task as complete only after these checks pass.
