@@ -1,6 +1,13 @@
 ---
 name: create-projects-folder
 description: Create and verify a safe parent folder for code repositories on macOS or Windows. Use when a user is setting up a computer for development, wants a `projects` directory, needs a repository workspace folder, or asks Codex to prepare the standard location in which future repositories will be stored.
+metadata:
+  doc_schema: "skill/v1"
+  doc_version: "26.0.6"
+  last_update_at: "Thu 13 Aug 2026 at 12:13:01 am AEST (+10:00)"
+  last_update_summary: "Adopt build versioning system metadata"
+  last_update_by: "Adam Jaffrey"
+  last_update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Create Projects Folder

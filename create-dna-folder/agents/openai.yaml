@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create DNA Folder"
+  short_description: "Create DNA files and configure AI context"
+  default_prompt: "Use $create-dna-folder to create starter DNA context files and configure installed Codex and Claude software to load them when relevant."
