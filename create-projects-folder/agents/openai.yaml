@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Projects Folder"
+  short_description: "Create and verify a repository parent folder"
+  default_prompt: "Use $create-projects-folder to create my repository parent folder safely."
