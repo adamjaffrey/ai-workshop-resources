@@ -1,0 +1,4 @@
+interface:
+  display_name: "Business DNA Extractor"
+  short_description: "Build a researched, approved BUSINESS.md"
+  default_prompt: "Use $business-dna-extractor to research my business and create my BUSINESS.md DNA file."
