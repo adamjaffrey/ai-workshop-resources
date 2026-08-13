@@ -2,10 +2,10 @@
 name: create-dna-folder
 description: Create and verify a `dna` subfolder inside an existing standard `projects` folder, containing starter `USER.md` and `BUSINESS.md` context documents with the canonical `dna/v1` metadata schema, then ask whether to configure Codex, Claude, or both to load those documents when relevant. Use when a user is setting up Business DNA, personal and business context files, or the DNA workspace that follows creation of their standard projects directory.
 metadata:
-  doc_schema: "skill/v1"
-  doc_version: "26.0.6"
-  last_update_at: "Thu 13 Aug 2026 at 12:44:43 am AEST (+10:00)"
-  last_update_summary: "Add explicit software selection"
+  doc_schema: "skill/v2"
+  doc_version: "26.0.7"
+  last_update_at: "Thu 13 Aug 2026 at 10:51:49 am AEST (+10:00)"
+  last_update_summary: "Adopt version two skill schema"
   last_update_by: "Adam Jaffrey"
   last_update_assisted_by_agent: "ChatGPT Codex"
 ---
