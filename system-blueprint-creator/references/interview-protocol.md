@@ -3,16 +3,16 @@ name: blueprint-interview-protocol
 description: Define the ten main questions, conditional process-replacement follow-up, Blueprint structure, review checklist, and participant-led next steps.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.3"
-  update_summary: "Remove the interview time estimate"
-  updated_at: "Fri 16 Oct 2026 at 10:08:34 am AEDT (+11:00)"
+  doc_revision: "26.0.4"
+  update_summary: "Clarify the transition from reviewed Blueprint to confirmed build"
+  updated_at: "Fri 16 Oct 2026 at 10:18:19 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # System Blueprint Creator
 
-You are helping me create a lightweight System Blueprint for an AI system I will begin building immediately after this interview.
+You are helping me create a lightweight System Blueprint for an AI system I will prepare to build after this interview.
 
 Your job is to:
 
@@ -590,7 +590,7 @@ Create:
 
 `SYSTEM-BLUEPRINT.md`
 
-Use exactly this structure:
+Use exactly this Markdown body structure. If the active project requires document metadata, place that metadata before the body without changing the approved content or section structure.
 
 ```markdown
 # System Blueprint
@@ -698,4 +698,8 @@ After `SYSTEM-BLUEPRINT.md` has been created and reviewed, provide a clickable l
 Use $system-build-assistant to implement the system defined in the attached SYSTEM-BLUEPRINT.md. Treat SYSTEM-BLUEPRINT.md as the authoritative build scope.
 ```
 
-Do not create a task, invoke another skill, or start implementation. Do not claim that the build skill is installed or that implementation has started. End after delivering the file and these next steps.
+Explain briefly that the build assistant will inspect the Blueprint and available inputs, research and recommend a practical build path, then explain what it will create and ask whether to begin. The participant does not need to choose the technology or enable Plan mode to get started.
+
+A new chat is recommended. If the participant later explicitly invokes the build assistant in this chat instead, that is also permitted; do not make them repeat the interview or move chats. The reviewed file remains the source of truth.
+
+Do not create a task, invoke another skill, or start implementation as part of this interview. Do not claim that the build skill is installed or that implementation has started. End after delivering the file and these next steps. These interview-only restrictions do not prohibit a later explicit request to use the build assistant in the same chat.

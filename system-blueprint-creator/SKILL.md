@@ -3,9 +3,9 @@ name: system-blueprint-creator
 description: Conduct a ten-question interview beginning with a project name and including a conditional process-replacement follow-up, create and review SYSTEM-BLUEPRINT.md for one to three selected AI workflow steps, and explain how the participant can start a separate build session. Use to define a bounded first AI build from a future-state workflow.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.5"
-  update_summary: "Capture context for purples that replace a larger process"
-  updated_at: "Fri 16 Oct 2026 at 10:02:54 am AEDT (+11:00)"
+  doc_revision: "26.0.6"
+  update_summary: "Align participant next steps with the build-start checkpoint"
+  updated_at: "Fri 16 Oct 2026 at 10:18:19 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -48,4 +48,4 @@ Do not claim Blueprint completion if the file could not be written or a required
 
 After the Blueprint passes review, follow Phase 5 in the protocol. Provide a clickable link or downloadable attachment to the completed `SYSTEM-BLUEPRINT.md`, then tell the user to open a new task/session, upload the file, and invoke `system-build-assistant` using the supplied prompt.
 
-Do not create another task, invoke the build skill, or begin implementation. Do not resolve a sibling skill path or require the build skill to be installed before completing the Blueprint. The participant controls when to start the build.
+Do not create another task, invoke the build skill, or begin implementation as part of this interview. Do not resolve a sibling skill path or require the build skill to be installed before completing the Blueprint. The participant controls when to start the build. A new chat is the recommended next step; if they later explicitly invoke the build skill in this chat, that is permitted and the interview-only restrictions no longer prevent the build workflow.

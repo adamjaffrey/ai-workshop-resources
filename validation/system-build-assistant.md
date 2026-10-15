@@ -3,9 +3,9 @@ name: build-assistant-validation
 description: Record validation of the renamed workshop build assistant and its scenario walkthroughs.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.2"
-  update_summary: "Check the explicit build-start confirmation decision paths"
-  updated_at: "Fri 16 Oct 2026 at 10:16:32 am AEDT (+11:00)"
+  doc_revision: "26.0.3"
+  update_summary: "Record the joint workshop skill compatibility review"
+  updated_at: "Fri 16 Oct 2026 at 10:19:00 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -62,3 +62,23 @@ Manual walkthroughs check the written decision paths; they do not prove future a
 ## Build-Start Confirmation Follow-Up
 
 Manual walkthrough of the added checkpoint: after selecting the manual enquiry-drafting path, the assistant explains the first draft, supplied inputs, project files, representative test and human review, then asks whether to begin. Selecting the path alone cannot start implementation. An explicit yes permits the described work when the runtime allows implementation; “adjust”, “not yet” or no answer does not. In Plan mode, yes does not switch modes. Approval for a bounded feasibility check stops at that check; commencing the subsequent build requires its own concrete explanation and confirmation. An already-given explicit start instruction after the explanation is honoured without a duplicate question. These are instruction walkthroughs, not live participant interaction tests.
+
+## Joint Workshop Readiness Review
+
+Reviewed both complete skill entrypoints, their UI metadata and both instruction references together. Corrected the creator's closing guidance to explain research, recommendation and confirmation before building, and limited its no-build/no-invocation rule to the interview so a later explicit same-chat build request is permitted. Allowed project-required metadata before the Blueprint body. The builder now checks all ten expected sections, the selected-step count and observable completion criteria, while accepting appropriate “none” answers and handling material TBDs without restarting the interview. The ten scripted questions and all text-fenced script blocks were preserved exactly.
+
+Executed checks passed for both skills: Skill Creator quick validation, PVS frontmatter validation for all four skill Markdown files, UI names and invocation prompts, short-description lengths, local reference links, ten-question order, unchanged scripted text blocks and matching all ten output sections to the builder's input contract. No obsolete build-skill spelling or automatic handoff instruction was found in either skill. The unrelated root Blueprint and creator VERSION checksums remained unchanged.
+
+Manual journey walkthroughs covered these outcomes:
+
+| Scenario | Reviewed Outcome |
+|---|---|
+| Simple enquiry draft | Ten confirmed answers produce the Blueprint; new-chat build researches a suitable path and waits for start confirmation before creating the first draft |
+| One purple replaces a process | Conditional context captures old work separately from approved AI responsibilities; builder preserves that boundary and human review |
+| Participant invokes the builder in the original chat | Creator's interview restrictions end; builder uses the reviewed file without moving chats or restarting questions |
+| Required input is missing or TBD | Builder inspects first, asks only for a material missing item and does not invent it or reject an otherwise usable Blueprint |
+| Connection capability is uncertain | Bounded check has pass/fail conditions and its own confirmation; a check result does not silently start the full build |
+| No permitted native question UI | Short inline choices work; no compulsory Plan-mode switch or fabricated tool call |
+| Participant chooses a path but has not said to start | Builder explains concrete work and waits; silence and “not yet” do not start implementation |
+
+Assessment: the source instructions are consistent and ready for a facilitated workshop trial. This review did not exercise installed-skill discovery, actual question UI, a full interactive interview or a participant's live integration. Repository-wide PVS remains blocked by the unrelated root Blueprint's missing frontmatter; the skill files pass their direct checks.
