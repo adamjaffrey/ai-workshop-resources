@@ -1,0 +1,4 @@
+interface:
+  display_name: "System Blueprint Creator"
+  short_description: "Name a project and create its reviewed AI blueprint"
+  default_prompt: "Use $system-blueprint-creator to interview me, create SYSTEM-BLUEPRINT.md, and explain how to start a new build session."
