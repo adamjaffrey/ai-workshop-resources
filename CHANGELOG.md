@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.4"
-  update_summary: "Apply Wavelength colours and improve icons and copying"
-  updated_at: "Fri 16 Oct 2026 at 10:36:16 am AEDT (+11:00)"
+  doc_revision: "26.0.5"
+  update_summary: "Add Wavelength branding and contain the website artefact"
+  updated_at: "Fri 16 Oct 2026 at 10:39:42 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.4 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 10:39:42 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add Wavelength branding and contain the website artefact
+
+### Added
+
+- Add the existing Wavelength worm logo and WAVELENGTH wordmark using bundled Mark Pro Bold from Client Onboarder.
+
+### Changed
+
+- Use white text and icons on the selected agent toggle and blue numbered badges.
+- Keep the standalone page, assets and version authority together in `website/`; move the website version authority from the repository root to `website/VERSION.txt`.
+- Retain shared project governance at the repository root.
+
+### Validation
+
+- Chrome — logo loading, Mark Pro font loading and white foregrounds on both selected-agent states and numbered badges passed.
+- All four prompt variants, clipboard copying, forced-copy-failure selection and manual keyboard copying — passed.
+- Desktop visual review and mobile overflow check — passed with no browser errors.
 
 ## v26.0.3 — 2026-10-16
 

@@ -6,6 +6,11 @@
   <meta name="description" content="Install the Blueprint Creator and Build Assistant skills for your AI Implementation Workshop.">
   <title>AI Implementation Workshop Resources</title>
   <style>
+    @font-face { font-family: "Mark Pro"; src: url("assets/MarkPro-Bold.ttf") format("truetype"); font-weight: 700; font-style: normal; font-display: swap; }
+    .brand { display: flex; align-items: center; gap: 14px; margin-bottom: 32px; }
+    .brand-mark { display: grid; place-items: center; background: #00A2FF; padding: 14px 12px; border-radius: 10px; }
+    .brand-mark img { display: block; width: 72px; height: auto; }
+    .brand-name { font-family: "Mark Pro", Montserrat, sans-serif; font-size: clamp(22px, 4vw, 28px); font-weight: 700; letter-spacing: .035em; }
     :root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1A1A1A; background: #F3F3F3; }
     * { box-sizing: border-box; }
     body { margin: 0; }
@@ -25,14 +30,14 @@
     .toggle { display: inline-flex; padding: 4px; border: 1px solid #dcdcdc; border-radius: 12px; background: #e9e9e9; gap: 4px; }
     button { font: inherit; cursor: pointer; }
     .toggle button { border: 0; border-radius: 8px; background: transparent; color: #454545; padding: 10px 18px; font-size: 14px; font-weight: 650; }
-    .toggle button[aria-pressed="true"] { color: #1A1A1A; background: #00A2FF; box-shadow: 0 2px 4px #0000001a; }
+    .toggle button[aria-pressed="true"] { color: #fff; background: #00A2FF; box-shadow: 0 2px 4px #0000001a; }
     button:focus-visible, pre:focus-visible { outline: 3px solid #0076bb; outline-offset: 4px; }
     .icon { width: 18px; height: 18px; flex: none; vertical-align: middle; }
     .symbol .icon { width: 26px; height: 26px; }
     .toggle button, .copy { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
     .toggle .brand-icon { width: 20px; height: 20px; }
     .step { display: flex; align-items: center; gap: 10px; }
-    .step-number { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #00A2FF; color: #1A1A1A; font-size: 24px; font-weight: 800; letter-spacing: -.04em; }
+    .step-number { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #00A2FF; color: #fff; font-size: 24px; font-weight: 800; letter-spacing: -.04em; }
     .copy .success-icon { display: none; }
     .copy[data-copied="true"] .copy-icon { display: none; }
     .copy[data-copied="true"] .success-icon { display: inline; }
@@ -65,6 +70,10 @@
 </head>
 <body>
   <main>
+    <div class="brand" aria-label="Wavelength">
+      <span class="brand-mark"><img src="assets/wavelength-worm.png" alt="" width="1590" height="638"></span>
+      <span class="brand-name">WAVELENGTH</span>
+    </div>
     <header class="page-header">
       <div>
       <p class="eyebrow">Your workshop toolkit</p>
