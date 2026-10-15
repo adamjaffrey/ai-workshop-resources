@@ -1,11 +1,11 @@
 ---
 name: blueprint-interview-protocol
-description: Define the ten-question interview, confirmed Blueprint structure, review checklist, and participant-led next steps.
+description: Define the ten main questions, conditional process-replacement follow-up, Blueprint structure, review checklist, and participant-led next steps.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.1"
-  update_summary: "Define ten questions and manual build-session instructions"
-  updated_at: "Fri 16 Oct 2026 at 09:50:27 am AEDT (+11:00)"
+  doc_revision: "26.0.2"
+  update_summary: "Capture context for purples that replace a larger process"
+  updated_at: "Fri 16 Oct 2026 at 10:02:54 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -32,7 +32,7 @@ Follow these rules throughout the entire process.
 
 ## Interview Behaviour
 
-* Ask exactly **10 questions**
+* Ask **10 main questions**, plus the conditional process-replacement follow-up after Question 3 when applicable
 * Ask them **one at a time**
 * Ask them in the exact order provided
 * Reproduce each defined question block exactly
@@ -40,7 +40,7 @@ Follow these rules throughout the entire process.
 * Wait for my answer before continuing
 * After every answer, show me what you captured and ask me to confirm it
 * Do not proceed until I confirm the captured answer
-* Do not ask follow-up, clarification, discovery or optional questions
+* Do not ask additional questions except the process-replacement follow-up and its narrowly scoped clarifications defined below
 * Corrections I provide during confirmation are permitted and must be incorporated
 * Corrections do not permit you to begin a new line of questioning
 
@@ -99,7 +99,7 @@ For Questions 1 and 3-10, the captured answer must be **200 words maximum**.
 
 Use only as many words as required. The 200-word limit is a maximum.
 
-Question 2 has no word limit because the complete workflow must be represented.
+Question 2 and the process-replacement context confirmation have no word limit because the complete workflow and replacement context must be represented.
 
 ---
 
@@ -205,17 +205,18 @@ After Question 2 is confirmed, send the following exactly:
 ```text
 **Question 3 of 10: Build Scope**
 
-Q. "Which 1-3 purple steps from your workflow have you selected to build today?"
+Q. "Which 1-3 purple steps are we building today? If one or more purples replace several steps or your entire process, name those purples and tell me where the replacement starts and finishes."
 
 Tips:
 - Use the same names shown on your workflow map
 - Choose only the purple steps you have already decided to focus on
 - Select a maximum of three
+- A purple can replace a whole process; tell me if that is what you intend
 ```
 
 ### Answer 3 Confirmation
 
-List only the selected purple steps.
+List the selected purple steps and any stated replacement boundaries. If the user has named a replacement purple that is not on the map, capture its relationship to the approved map explicitly; do not silently redraw the map.
 
 Use their existing workflow labels exactly wherever possible.
 
@@ -227,9 +228,37 @@ Then use the standard confirmation format.
 
 ---
 
+### Conditional Follow-Up: Understand the Process Being Replaced
+
+After confirming Answer 3, ask this follow-up whenever the selected one to three purples replace the entire process or collapse multiple existing steps into broader AI actions. Use the user's descriptions in Questions 2 and 3 to identify this case. Ask even if some details were already supplied; carry those details forward so the participant can complete or correct them instead of repeating them. Skip this follow-up for ordinary selected steps that do not replace a larger process.
+
+Send the following exactly:
+
+```text
+**Follow-Up: What Happens Inside These Purples?**
+
+Q. "Please walk me through the work these purples are replacing, from start to finish. What are the steps, what is each trying to achieve, and what does the AI need to understand to do that work well?"
+
+Tips:
+- Tell me what starts the work and what a successful result looks like
+- Describe the important steps in order, including decisions, different paths and work that repeats
+- Explain which work each purple takes over and anything that should no longer happen
+- Include the information used, important business context, and what is passed to the next step
+- Tell me which actions, decisions or approvals must still stay with a person
+- If helpful, walk through one real example
+```
+
+Capture the response as **Process Replacement Context**, organised under the selected purple names. Distinguish the existing process from the work the user wants AI to perform. An old step is context, not an automatic requirement to reproduce or automate it. Preserve the user's goals, sequence, decisions, business context, replacement boundaries, and remaining human work. Do not turn the explanation into extra purple steps or suggest a technical solution.
+
+If essential replacement boundaries, intended work, goals or human responsibilities remain unclear, ask a short, targeted clarification about the missing detail, one at a time. These clarifications may only complete this replacement context, not introduce features or reopen general discovery. If the user does not know, record `TBD`; do not keep asking the same question or claim the context is complete.
+
+Show the complete captured context using the standard confirmation format. There is no word limit. Incorporate corrections and wait for confirmation before Question 4. Carry the confirmed context into Questions 4-10; their answers refine the same build. If a later answer conflicts with replacement context, show the affected capture and obtain a correction through the existing confirmation process rather than silently selecting one interpretation.
+
+---
+
 ## Question 4 of 10: Objective
 
-After Question 3 is confirmed, send the following exactly:
+After Question 3 and any required Process Replacement Context are confirmed, send the following exactly:
 
 ```text
 **Question 4 of 10: Objective**
@@ -457,7 +486,7 @@ Do not ask any more questions.
 
 Use only the information explicitly approved during Phase 1.
 
-Treat the ten confirmed answers as the source of truth.
+Treat the ten confirmed answers and any confirmed Process Replacement Context as the source of truth.
 
 Map them into the Blueprint as follows.
 
@@ -494,6 +523,8 @@ Include only the selected 1-3 🟪 steps.
 
 These steps define the implementation boundary for the first build.
 
+When the conditional follow-up was used, add a `### Process Replacement Context` subsection here. Preserve the approved replacement boundaries, original steps and goals, intended AI responsibilities, business context, and remaining human work. Clearly distinguish background about the old process from approved requirements. Include unresolved details as `TBD`. Omit this subsection when the follow-up was not needed.
+
 ## Required Inputs
 
 Use the confirmed answer to Question 5.
@@ -509,7 +540,7 @@ Use `TBD` where a required source was explicitly identified as unknown.
 
 ## Required Behaviour
 
-Use the confirmed answer to Question 6.
+Use the confirmed answer to Question 6 together with the intended AI work explicitly approved in Process Replacement Context, if present.
 
 Describe the essential behaviour of the selected purple steps in logical sequence.
 
@@ -578,7 +609,7 @@ Use exactly this structure:
 
 ## Build Scope
 
-[The selected 1-3 purple steps.]
+[The selected 1-3 purple steps. When applicable, include a Process Replacement Context subsection containing the confirmed replacement context.]
 
 ## Required Inputs
 
@@ -634,6 +665,8 @@ Check specifically that:
 * workflow colours and sequence are correct;
 * branches and loops are represented correctly;
 * Build Scope contains only the selected purple steps;
+* any required Process Replacement Context was confirmed and preserved, with original-process context distinguished from intended AI work;
+* replacement boundaries, goals, decisions and remaining human work are clear or explicitly marked `TBD`;
 * inputs relate only to the selected build;
 * required behaviour has not expanded beyond my answer;
 * outputs represent the boundary of the selected build;
@@ -659,10 +692,10 @@ After `SYSTEM-BLUEPRINT.md` has been created and reviewed, provide a clickable l
 1. Save or download `SYSTEM-BLUEPRINT.md`.
 2. Open a new task/session for their project.
 3. Upload `SYSTEM-BLUEPRINT.md` to that session.
-4. Invoke `system-blueprint-build-assistant` with this prompt:
+4. Invoke `system-build-assistant` with this prompt:
 
 ```text
-Use $system-blueprint-build-assistant to implement the system defined in the attached SYSTEM-BLUEPRINT.md. Treat SYSTEM-BLUEPRINT.md as the authoritative build scope.
+Use $system-build-assistant to implement the system defined in the attached SYSTEM-BLUEPRINT.md. Treat SYSTEM-BLUEPRINT.md as the authoritative build scope.
 ```
 
 Do not create a task, invoke another skill, or start implementation. Do not claim that the build skill is installed or that implementation has started. End after delivering the file and these next steps.
