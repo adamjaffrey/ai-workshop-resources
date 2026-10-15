@@ -6,47 +6,60 @@
   <meta name="description" content="Install the Blueprint Creator and Build Assistant skills for your AI Implementation Workshop.">
   <title>AI Implementation Workshop Resources</title>
   <style>
-    :root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #192b2a; background: #f5f6f2; }
+    :root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1A1A1A; background: #F3F3F3; }
     * { box-sizing: border-box; }
     body { margin: 0; }
     main { max-width: 1120px; margin: auto; padding: 64px 28px 40px; }
     .page-header { display: grid; grid-template-columns: minmax(0, 1fr) 220px; align-items: start; gap: 36px; }
-    .qr-card { margin: 0; padding: 14px; text-align: center; background: white; border: 1px solid #dce3dd; border-radius: 16px; }
-    .qr-card a { display: block; color: #305c47; text-decoration: none; border-radius: 6px; }
-    .qr-card a:focus-visible { outline: 3px solid #bd6b27; outline-offset: 4px; }
+    .qr-card { margin: 0; padding: 14px; text-align: center; background: white; border: 1px solid #dedede; border-radius: 16px; }
+    .qr-card a { display: block; color: #006AA6; text-decoration: none; border-radius: 6px; }
+    .qr-card a:focus-visible { outline: 3px solid #0076bb; outline-offset: 4px; }
     .qr-card img { display: block; width: 190px; max-width: 100%; height: auto; margin: 0 auto 8px; }
     .qr-card figcaption { font-size: 13px; line-height: 1.5; font-weight: 600; }
     @media (max-width: 700px) { .page-header { grid-template-columns: 1fr; gap: 24px; } .qr-card { width: 220px; } }
-    .eyebrow { color: #426960; font-size: 12px; font-weight: 750; letter-spacing: .14em; text-transform: uppercase; margin: 0 0 16px; }
+    .eyebrow { color: #006AA6; font-size: 12px; font-weight: 750; letter-spacing: .14em; text-transform: uppercase; margin: 0 0 16px; }
     h1 { max-width: 780px; font-size: clamp(32px, 4.6vw, 50px); line-height: 1.12; letter-spacing: -.045em; margin: 0 0 20px; }
-    .intro { max-width: 660px; color: #596663; font-size: 17px; line-height: 1.65; margin: 0; }
+    .intro { max-width: 660px; color: #5B6066; font-size: 17px; line-height: 1.65; margin: 0; }
     .controls { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin: 32px 0 28px; }
     .controls-label { font-size: 14px; font-weight: 600; }
-    .toggle { display: inline-flex; padding: 4px; border: 1px solid #d7dfd9; border-radius: 12px; background: #e9eee8; gap: 4px; }
+    .toggle { display: inline-flex; padding: 4px; border: 1px solid #dcdcdc; border-radius: 12px; background: #e9e9e9; gap: 4px; }
     button { font: inherit; cursor: pointer; }
-    .toggle button { border: 0; border-radius: 8px; background: transparent; color: #4d6059; padding: 10px 18px; font-size: 14px; font-weight: 650; }
-    .toggle button[aria-pressed="true"] { color: white; background: #254e43; box-shadow: 0 2px 4px #19342c1a; }
-    button:focus-visible, pre:focus-visible { outline: 3px solid #bd6b27; outline-offset: 4px; }
+    .toggle button { border: 0; border-radius: 8px; background: transparent; color: #454545; padding: 10px 18px; font-size: 14px; font-weight: 650; }
+    .toggle button[aria-pressed="true"] { color: #1A1A1A; background: #00A2FF; box-shadow: 0 2px 4px #0000001a; }
+    button:focus-visible, pre:focus-visible { outline: 3px solid #0076bb; outline-offset: 4px; }
+    .icon { width: 18px; height: 18px; flex: none; vertical-align: middle; }
+    .symbol .icon { width: 26px; height: 26px; }
+    .toggle button, .copy { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+    .toggle .brand-icon { width: 20px; height: 20px; }
+    .step { display: flex; align-items: center; gap: 10px; }
+    .step-number { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #00A2FF; color: #1A1A1A; font-size: 24px; font-weight: 800; letter-spacing: -.04em; }
+    .copy .success-icon { display: none; }
+    .copy[data-copied="true"] .copy-icon { display: none; }
+    .copy[data-copied="true"] .success-icon { display: inline; }
+    .status { display: flex; align-items: flex-start; gap: 8px; }
+    .status svg[hidden] { display: none; }
+    pre, pre code { -webkit-user-select: text; user-select: text; cursor: text; }
+    pre::selection, pre code::selection { color: #1A1A1A; background: #8ed6ff; }
     .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
-    article { background: #fff; border: 1px solid #dce3dd; border-radius: 18px; padding: 28px; display: flex; flex-direction: column; }
+    article { background: #fff; border: 1px solid #dedede; border-radius: 18px; padding: 28px; display: flex; flex-direction: column; }
     .card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
-    .symbol { width: 48px; height: 48px; border-radius: 13px; display: grid; place-items: center; background: #edf2eb; color: #305c47; }
-    .build .symbol { background: #f9eee3; color: #a36125; }
-    .step { color: #64736d; font-size: 12px; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; }
+    .symbol { width: 48px; height: 48px; border-radius: 13px; display: grid; place-items: center; background: #e6f6ff; color: #006AA6; }
+    .build .symbol { background: #e6f6ff; color: #006AA6; }
+    .step { color: #5B6066; font-size: 12px; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; }
     h2 { margin: 0 0 8px; font-size: 24px; letter-spacing: -.025em; }
-    .slug { font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; color: #62716a; margin: 0 0 16px; overflow-wrap: anywhere; }
-    .description { color: #596663; font-size: 15px; line-height: 1.65; margin: 0 0 24px; }
-    .code-wrap { flex: 1; border-radius: 12px; overflow: hidden; background: #182924; color: #e8eee9; }
+    .slug { font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; color: #5B6066; margin: 0 0 16px; overflow-wrap: anywhere; }
+    .description { color: #5B6066; font-size: 15px; line-height: 1.65; margin: 0 0 24px; }
+    .code-wrap { flex: 1; border-radius: 12px; overflow: hidden; background: #1A1A1A; color: #f3f3f3; }
     .code-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid #ffffff18; gap: 8px; }
-    .code-label { font-size: 12px; color: #bccbc2; }
+    .code-label { font-size: 12px; color: #c8c8c8; }
     .copy { background: #ffffff12; border: 1px solid #ffffff30; color: #fff; border-radius: 7px; padding: 7px 11px; font-size: 12px; font-weight: 600; min-width: 92px; }
     .copy:hover { background: #ffffff25; }
     pre { margin: 0; padding: 18px; white-space: pre-wrap; overflow-wrap: anywhere; font: 12px/1.8 ui-monospace, SFMono-Regular, Consolas, monospace; }
     code { font: inherit; }
-    .help { font-size: 13px; color: #64736d; line-height: 1.6; margin: 24px 0 0; }
-    .status { min-height: 22px; margin: 12px 0 0; color: #305c47; font-size: 13px; }
-    footer { border-top: 1px solid #dce3dd; margin-top: 24px; padding-top: 20px; color: #64736d; font-size: 12px; }
-    footer a { color: #305c47; text-underline-offset: 3px; }
+    .help { font-size: 13px; color: #5B6066; line-height: 1.6; margin: 24px 0 0; }
+    .status { min-height: 22px; margin: 12px 0 0; color: #006AA6; font-size: 13px; }
+    footer { border-top: 1px solid #dedede; margin-top: 24px; padding-top: 20px; color: #5B6066; font-size: 12px; }
+    footer a { color: #006AA6; text-underline-offset: 3px; }
     @media (max-width: 700px) { main { padding: 36px 18px 28px; } .cards { grid-template-columns: 1fr; gap: 18px; } article { padding: 22px; } h2 { font-size: 22px; } }
   </style>
 </head>
@@ -68,40 +81,133 @@
     <div class="controls">
       <span class="controls-label" id="agent-label">I’m using</span>
       <div class="toggle" role="group" aria-labelledby="agent-label">
-        <button type="button" data-agent="codex" aria-pressed="true">Codex</button>
-        <button type="button" data-agent="claude-code" aria-pressed="false">Claude Code</button>
+        <button type="button" data-agent="codex" aria-pressed="true"><svg class="brand-icon" aria-hidden="true" focusable="false" fill="currentColor" fill-rule="evenodd" height="1em" style="flex:none;line-height:1" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M8.086.457a6.105 6.105 0 013.046-.415c1.333.153 2.521.72 3.564 1.7a.117.117 0 00.107.029c1.408-.346 2.762-.224 4.061.366l.063.03.154.076c1.357.703 2.33 1.77 2.918 3.198.278.679.418 1.388.421 2.126a5.655 5.655 0 01-.18 1.631.167.167 0 00.04.155 5.982 5.982 0 011.578 2.891c.385 1.901-.01 3.615-1.183 5.14l-.182.22a6.063 6.063 0 01-2.934 1.851.162.162 0 00-.108.102c-.255.736-.511 1.364-.987 1.992-1.199 1.582-2.962 2.462-4.948 2.451-1.583-.008-2.986-.587-4.21-1.736a.145.145 0 00-.14-.032c-.518.167-1.04.191-1.604.185a5.924 5.924 0 01-2.595-.622 6.058 6.058 0 01-2.146-1.781c-.203-.269-.404-.522-.551-.821a7.74 7.74 0 01-.495-1.283 6.11 6.11 0 01-.017-3.064.166.166 0 00.008-.074.115.115 0 00-.037-.064 5.958 5.958 0 01-1.38-2.202 5.196 5.196 0 01-.333-1.589 6.915 6.915 0 01.188-2.132c.45-1.484 1.309-2.648 2.577-3.493.282-.188.55-.334.802-.438.286-.12.573-.22.861-.304a.129.129 0 00.087-.087A6.016 6.016 0 015.635 2.31C6.315 1.464 7.132.846 8.086.457zm-.804 7.85a.848.848 0 00-1.473.842l1.694 2.965-1.688 2.848a.849.849 0 001.46.864l1.94-3.272a.849.849 0 00.007-.854l-1.94-3.393zm5.446 6.24a.849.849 0 000 1.695h4.848a.849.849 0 000-1.696h-4.848z"></path></svg><span>Codex</span></button>
+        <button type="button" data-agent="claude-code" aria-pressed="false"><svg class="brand-icon" aria-hidden="true" focusable="false" fill="currentColor" fill-rule="evenodd" height="1em" style="flex:none;line-height:1" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M4.709 15.955l4.72-2.647.08-.23-.08-.128H9.2l-.79-.048-2.698-.073-2.339-.097-2.266-.122-.571-.121L0 11.784l.055-.352.48-.321.686.06 1.52.103 2.278.158 1.652.097 2.449.255h.389l.055-.157-.134-.098-.103-.097-2.358-1.596-2.552-1.688-1.336-.972-.724-.491-.364-.462-.158-1.008.656-.722.881.06.225.061.893.686 1.908 1.476 2.491 1.833.365.304.145-.103.019-.073-.164-.274-1.355-2.446-1.446-2.49-.644-1.032-.17-.619a2.97 2.97 0 01-.104-.729L6.283.134 6.696 0l.996.134.42.364.62 1.414 1.002 2.229 1.555 3.03.456.898.243.832.091.255h.158V9.01l.128-1.706.237-2.095.23-2.695.08-.76.376-.91.747-.492.584.28.48.685-.067.444-.286 1.851-.559 2.903-.364 1.942h.212l.243-.242.985-1.306 1.652-2.064.73-.82.85-.904.547-.431h1.033l.76 1.129-.34 1.166-1.064 1.347-.881 1.142-1.264 1.7-.79 1.36.073.11.188-.02 2.856-.606 1.543-.28 1.841-.315.833.388.091.395-.328.807-1.969.486-2.309.462-3.439.813-.042.03.049.061 1.549.146.662.036h1.622l3.02.225.79.522.474.638-.079.485-1.215.62-1.64-.389-3.829-.91-1.312-.329h-.182v.11l1.093 1.068 2.006 1.81 2.509 2.33.127.578-.322.455-.34-.049-2.205-1.657-.851-.747-1.926-1.62h-.128v.17l.444.649 2.345 3.521.122 1.08-.17.353-.608.213-.668-.122-1.374-1.925-1.415-2.167-1.143-1.943-.14.08-.674 7.254-.316.37-.729.28-.607-.461-.322-.747.322-1.476.389-1.924.315-1.53.286-1.9.17-.632-.012-.042-.14.018-1.434 1.967-2.18 2.945-1.726 1.845-.414.164-.717-.37.067-.662.401-.589 2.388-3.036 1.44-1.882.93-1.086-.006-.158h-.055L4.132 18.56l-1.13.146-.487-.456.061-.746.231-.243 1.908-1.312-.006.006z"></path></svg><span>Claude Code</span></button>
       </div>
     </div>
     <section class="cards" aria-label="Workshop skills">
       <article>
         <div class="card-top">
-          <span class="symbol" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span>
-          <span class="step">01 · Plan your build</span>
+          <span class="symbol"><svg class="icon" aria-hidden="true" focusable="false"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
+  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+  <path d="M12 11h4" />
+  <path d="M12 16h4" />
+  <path d="M8 11h.01" />
+  <path d="M8 16h.01" />
+</svg></span>
+          <span class="step"><span class="step-number">1</span> Plan your build</span>
         </div>
         <h2>System Blueprint Creator</h2>
         <p class="slug">system-blueprint-creator</p>
         <p class="description">A guided interview to turn your chosen workflow into a clear System Blueprint: what to build, what it needs, and what success looks like.</p>
         <div class="code-wrap">
-          <div class="code-header"><span class="code-label">Install with <span data-agent-label>Codex</span></span><button class="copy" type="button" data-copy="system-blueprint-creator" aria-label="Copy System Blueprint Creator installation prompt">Copy prompt</button></div>
+          <div class="code-header"><span class="code-label">Install with <span data-agent-label>Codex</span></span><button class="copy" type="button" data-copy="system-blueprint-creator" aria-label="Copy System Blueprint Creator installation prompt"><svg class="icon copy-icon" aria-hidden="true" focusable="false"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+</svg><svg class="icon success-icon" aria-hidden="true" focusable="false"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 6 9 17l-5-5" />
+</svg><span class="copy-label">Copy prompt</span></button></div>
           <pre tabindex="0" aria-label="System Blueprint Creator installation prompt"><code id="system-blueprint-creator"></code></pre>
         </div>
       </article>
       <article class="build">
         <div class="card-top">
-          <span class="symbol" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m8 8-4 4 4 4m8-8 4 4-4 4m-3-10-2 20"/></svg></span>
-          <span class="step">02 · Make it work</span>
+          <span class="symbol"><svg class="icon" aria-hidden="true" focusable="false"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m18 16 4-4-4-4" />
+  <path d="m6 8-4 4 4 4" />
+  <path d="m14.5 4-5 16" />
+</svg></span>
+          <span class="step"><span class="step-number">2</span> Make it work</span>
         </div>
         <h2>System Build Assistant</h2>
         <p class="slug">system-build-assistant</p>
         <p class="description">Use your reviewed System Blueprint to build your first working version. The assistant recommends a practical approach and asks before starting implementation.</p>
         <div class="code-wrap">
-          <div class="code-header"><span class="code-label">Install with <span data-agent-label>Codex</span></span><button class="copy" type="button" data-copy="system-build-assistant" aria-label="Copy System Build Assistant installation prompt">Copy prompt</button></div>
+          <div class="code-header"><span class="code-label">Install with <span data-agent-label>Codex</span></span><button class="copy" type="button" data-copy="system-build-assistant" aria-label="Copy System Build Assistant installation prompt"><svg class="icon copy-icon" aria-hidden="true" focusable="false"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+</svg><svg class="icon success-icon" aria-hidden="true" focusable="false"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 6 9 17l-5-5" />
+</svg><span class="copy-label">Copy prompt</span></button></div>
           <pre tabindex="0" aria-label="System Build Assistant installation prompt"><code id="system-build-assistant"></code></pre>
         </div>
       </article>
     </section>
-    <p class="help">Each prompt installs one skill across your projects. Approve installation requests in your app. Once installed, start a fresh chat and ask your agent to use the skill by name.</p>
-    <p class="status" role="status" aria-live="polite" id="copy-status"></p>
+    <p class="help">Each prompt installs one skill across your projects. Approve installation requests in your app. You can also select any prompt text and copy it manually. Once installed, start a fresh chat and ask your agent to use the skill by name.</p>
+    <p class="status" role="status" aria-live="polite" id="copy-status"><svg hidden class="icon" aria-hidden="true" focusable="false"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 6 9 17l-5-5" />
+</svg><span></span></p>
     <noscript><p>Please enable JavaScript to select your coding agent and copy installation prompts.</p></noscript>
     <footer><a href="https://github.com/adamjaffrey/ai-workshop-resources">View the workshop skills on GitHub</a></footer>
   </main>
@@ -109,14 +215,22 @@
     const skills = ['system-blueprint-creator', 'system-build-assistant'];
     const status = document.getElementById('copy-status');
     const timers = new Map();
+    function setStatus(message, success = false) {
+      status.querySelector('span').textContent = message;
+      status.querySelector('svg').toggleAttribute('hidden', !success);
+    }
+    function resetCopy(button) {
+      button.dataset.copied = 'false';
+      button.querySelector('.copy-label').textContent = 'Copy prompt';
+    }
     function selectAgent(agent) {
       document.querySelectorAll('[data-agent]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.agent === agent)));
       document.querySelectorAll('[data-agent-label]').forEach(label => label.textContent = agent === 'codex' ? 'Codex' : 'Claude Code');
       skills.forEach(skill => {
         document.getElementById(skill).textContent = `Please install only the ${skill} workshop skill for my user account, available across projects. Run:\n\nnpx --yes skills add adamjaffrey/ai-workshop-resources --skill ${skill} --agent ${agent} --global --yes\n\nVerify that the skill and its supporting reference files were installed. If a prerequisite is missing, help me resolve it. Do not start the skill yet.`;
       });
-      document.querySelectorAll('[data-copy]').forEach(button => { clearTimeout(timers.get(button)); button.textContent = 'Copy prompt'; });
-      status.textContent = '';
+      document.querySelectorAll('[data-copy]').forEach(button => { clearTimeout(timers.get(button)); resetCopy(button); });
+      setStatus('');
     }
     function legacyCopy(text) {
       const input = document.createElement('textarea');
@@ -138,12 +252,20 @@
           await navigator.clipboard.writeText(text);
         } catch { legacyCopy(text); }
         button.focus();
-        button.textContent = 'Copied!';
-        status.textContent = 'Prompt copied. Paste it into your coding agent’s chat.';
+        button.dataset.copied = 'true';
+        button.querySelector('.copy-label').textContent = 'Copied!';
+        setStatus('Prompt copied. Paste it into your coding agent’s chat.', true);
         clearTimeout(timers.get(button));
-        timers.set(button, setTimeout(() => button.textContent = 'Copy prompt', 2200));
+        timers.set(button, setTimeout(() => resetCopy(button), 2200));
       } catch {
-        status.textContent = 'Clipboard access is unavailable. Select the prompt text and copy it manually.';
+        const code = document.getElementById(button.dataset.copy);
+        code.parentElement.focus();
+        const range = document.createRange();
+        range.selectNodeContents(code);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        setStatus('Automatic copying is unavailable. The prompt is selected — press ⌘C on Mac or Ctrl+C on Windows, or use your device’s Copy menu.');
       }
     }));
     selectAgent('codex');

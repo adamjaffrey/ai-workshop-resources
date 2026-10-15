@@ -3,14 +3,44 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.3"
-  update_summary: "Add the future workshop destination QR code"
-  updated_at: "Fri 16 Oct 2026 at 10:31:48 am AEDT (+11:00)"
+  doc_revision: "26.0.4"
+  update_summary: "Apply Wavelength colours and improve icons and copying"
+  updated_at: "Fri 16 Oct 2026 at 10:36:16 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.3 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 10:36:16 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Apply Wavelength colours and improve icons and copy feedback
+
+### Changed
+
+- Match Client Onboarder's approved blue, ink and pale-grey palette, with darker blue for readable text.
+- Use Lucide clipboard-list, code-xml, copy and check icons, and Codex and Claude brand marks from Lobe Icons with bundled licences.
+- Emphasise skill order with prominent numbered badges.
+
+### Fixed
+
+- Replace the malformed assistant slash with the standard Lucide code-xml path.
+- Keep prompts manually selectable and select the complete prompt with keyboard-copy guidance when automatic clipboard methods fail.
+
+### Validation
+
+- Chrome — all four individual prompts and real clipboard copies passed; no browser errors.
+- Forced native and legacy clipboard failures — exact prompt selection and manual keyboard copy passed.
+- Direct mouse selection and visible success icons — passed.
+- Desktop and mobile visual review and mobile overflow checks — passed.
 
 ## v26.0.2 — 2026-10-16
 
