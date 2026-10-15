@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.6"
-  update_summary: "Add a workshop password gate and reduce header branding"
-  updated_at: "Fri 16 Oct 2026 at 10:41:38 am AEDT (+11:00)"
+  doc_revision: "26.0.7"
+  update_summary: "Add animated password feedback and access confirmation"
+  updated_at: "Fri 16 Oct 2026 at 10:44:01 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.6 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 10:44:01 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add animated password feedback and access confirmation
+
+### Added
+
+- Gently shake the password panel on incorrect attempts, respecting reduced-motion preferences.
+- Show a green Lucide checkmark and Access granted confirmation for 900 milliseconds before unlocking.
+- Block repeated submissions during the success confirmation.
+
+### Validation
+
+- Chrome — repeatable shake, reduced-motion opt-out, visible green success checkmark, delayed opening and disabled repeat submission passed.
+- Existing password gate, session handling, mobile layout, all four prompts and automatic/manual clipboard checks — passed.
+- Success-state screenshot review — passed; no browser errors.
 
 ## v26.0.5 — 2026-10-16
 

@@ -20,6 +20,20 @@
     .password-field input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: 16px; padding: 14px 0; color: #1A1A1A; }
     .gate-submit { width: 100%; border: 0; border-radius: 10px; color: #fff; background: #00A2FF; padding: 14px; font-size: 15px; font-weight: 700; }
     .gate-panel .gate-error { color: #a62323; font-size: 13px; min-height: 21px; margin: 8px 0 16px; }
+    .gate-error { display: flex; align-items: center; gap: 7px; }
+    .gate-error .icon[hidden] { display: none; }
+    .gate-panel .gate-error.is-success { color: #167342; font-weight: 600; }
+    .gate-panel.is-success .password-field { border-color: #167342; }
+    .gate-panel.is-success .password-field:focus-within { outline-color: #167342; }
+    .gate-panel.is-success .password-field .icon { color: #167342; }
+    .gate-submit:disabled { cursor: default; }
+    .gate-panel.shake { animation: password-shake 340ms ease-in-out; }
+    @keyframes password-shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
+    @media (prefers-reduced-motion: reduce) { .gate-panel.shake { animation: none; } }
     @font-face { font-family: "Mark Pro"; src: url("assets/MarkPro-Bold.ttf") format("truetype"); font-weight: 700; font-style: normal; font-display: swap; }
     .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
     .brand-mark { display: grid; place-items: center; }
@@ -93,7 +107,7 @@
         <svg class="icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         <input id="workshop-password" name="password" type="password" autocomplete="current-password" autocapitalize="none" spellcheck="false" aria-describedby="gate-error" required autofocus>
       </div>
-      <p id="gate-error" class="gate-error" role="alert"></p>
+      <p id="gate-error" class="gate-error" role="status" aria-live="polite"><svg class="icon" hidden aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span></span></p>
       <button type="submit" class="gate-submit">Unlock resources</button>
       <noscript><p>Please enable JavaScript to unlock the workshop resources.</p></noscript>
     </form>
@@ -310,6 +324,10 @@
     const gate = document.getElementById('access-gate');
     const password = document.getElementById('workshop-password');
     const gateError = document.getElementById('gate-error');
+    const gateMessage = gateError.querySelector('span');
+    const gateCheck = gateError.querySelector('svg');
+    const gatePanel = document.getElementById('access-form');
+    let grantingAccess = false;
     const unlockButton = document.querySelector('.gate-submit');
     const accessKey = 'wavelength-workshop-access';
     function unlockResources(moveFocus = true) {
@@ -322,18 +340,35 @@
     try { if (sessionStorage.getItem(accessKey) === 'unlocked') unlockResources(false); } catch { /* Storage is optional. */ }
     document.getElementById('access-form').addEventListener('submit', event => {
       event.preventDefault();
+      if (grantingAccess) return;
       if (password.value === 'wavelength') {
-        try { sessionStorage.setItem(accessKey, 'unlocked'); } catch { /* Unlock still works without storage. */ }
-        unlockResources();
+        grantingAccess = true;
+        gatePanel.classList.remove('shake');
+        gatePanel.classList.add('is-success');
+        gateError.classList.add('is-success');
+        gateCheck.removeAttribute('hidden');
+        gateMessage.textContent = 'Access granted';
+        password.removeAttribute('aria-invalid');
+        password.readOnly = true;
+        unlockButton.disabled = true;
+        unlockButton.textContent = 'Opening resources…';
+        setTimeout(() => {
+          try { sessionStorage.setItem(accessKey, 'unlocked'); } catch { /* Unlock still works without storage. */ }
+          unlockResources();
+        }, 900);
       } else {
-        gateError.textContent = 'That password isn’t correct. Please try again.';
+        gateMessage.textContent = 'That password isn’t correct. Please try again.';
+        gatePanel.classList.remove('shake');
+        void gatePanel.offsetWidth;
+        gatePanel.classList.add('shake');
         password.setAttribute('aria-invalid', 'true');
         password.focus();
         password.select();
       }
     });
     password.addEventListener('input', () => {
-      gateError.textContent = '';
+      if (grantingAccess) return;
+      gateMessage.textContent = '';
       password.removeAttribute('aria-invalid');
     });
     gate.addEventListener('keydown', event => {
