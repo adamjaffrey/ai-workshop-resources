@@ -1,0 +1,4 @@
+interface:
+  display_name: "System Build Assistant"
+  short_description: "Build a reviewed Blueprint in this session"
+  default_prompt: "Use $system-build-assistant to implement the system defined in the attached SYSTEM-BLUEPRINT.md in this session. Treat it as the authoritative build scope."
