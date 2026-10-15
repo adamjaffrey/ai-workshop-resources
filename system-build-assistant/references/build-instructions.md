@@ -3,9 +3,9 @@ name: build-instructions
 description: Guide evidence-led implementation of a reviewed workshop Blueprint in the current session.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.1"
-  update_summary: "Define researched build recommendations and bounded feasibility checks"
-  updated_at: "Fri 16 Oct 2026 at 10:06:04 am AEDT (+11:00)"
+  doc_revision: "26.0.2"
+  update_summary: "Add a concrete build-start explanation and confirmation checkpoint"
+  updated_at: "Fri 16 Oct 2026 at 10:16:32 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -46,7 +46,7 @@ Compare practical effort, verified cost, available access, ease of use, manual w
 
 Recommend the best-fitting route yourself and explain the main trade-off in a few plain sentences or a compact table. Participants should not have to choose the technology. Prefer few dependencies, straightforward use, observable results and preserved human oversight. A manual route is suitable only if it meets the approved requirements; otherwise label it a partial check, not the completed build.
 
-Proceed with authorised work when the recommendation is sufficiently supported and implementation is permitted. Do not add a routine approval gate for ordinary implementation choices. Ask only for unresolved business preferences or constraints that materially affect the route, such as whether a manual transfer is acceptable when the Blueprint leaves that open.
+Once the participant has selected a build path or accepted your recommendation, use the build-start checkpoint below before implementation. Choosing a path alone does not mean “start building”. During path selection, ask only for unresolved business preferences or constraints that materially affect the route, such as whether a manual transfer is acceptable when the Blueprint leaves that open.
 
 ## 4. Resolve Uncertainty With a Quick Feasibility Check
 
@@ -63,6 +63,8 @@ When an untested assumption could change the recommendation, recommend a small b
 Example: “We need to check whether the connection can read the full enquiry and its attachment. I'll try one approved sample and compare the returned information with the original. If both are available, we can try the draft step. If either is missing, I'll check whether using a supplied copy would still meet your Blueprint.”
 
 Respect the current mode and permissions. In Plan mode, research and design the check; implement it only when implementation is permitted. A test proposal is not authorisation to buy anything, expose secrets, send messages or change external records. Use a local or read-only test when it answers the assumption; seek any required approval for the exact external action separately. Do not infer write access from read access.
+
+Before implementing a quick feasibility check, use the build-start checkpoint to explain and confirm that bounded check. Approval for the check alone does not authorise the subsequent full build; after the result settles the path, explain that build and ask whether to commence it.
 
 After a permitted test, report the observed result and update the recommendation. A passing sample establishes only the tested behaviour; it does not prove the whole build, all account access or production reliability. If blocked by access, distinguish “not tested” from “unsupported”.
 
@@ -81,6 +83,23 @@ Example: “Would you be comfortable copying one enquiry into the first version?
 Never treat preselection, a timeout or silence as consent. Keep work dependent on a required answer pending; continue independent inspection or planning where useful. Respect tools that prohibit permission requests and use the appropriate approval mechanism for external actions.
 
 Application mode is controlled by the app/developer settings; prose in this skill cannot switch it. Do not claim to have switched modes or make switching a blocker to completing planning. [Official Codex guidance](https://learn.chatgpt.com/guides/best-practices#plan-first-for-difficult-tasks) describes user toggles `/plan` and `Shift+Tab`; check current guidance before giving client-specific instructions. That guidance does not establish which question tools this session exposes. The live tool contracts and active instructions govern availability.
+
+## Confirm Before Commencing the Build
+
+After the participant selects a path or accepts your recommendation, explain in friendly, concrete language what starting means for their particular Blueprint:
+
+- What you will create first and what they will receive.
+- Which supplied inputs, files and connections you will use, and any files or settings you intend to create or change.
+- How you will test the first result and what the participant will review or do manually.
+- Any material setup, verified cost, access gap or uncertainty affecting this first build; if the next action is only a quick feasibility check, make its limited purpose and stopping point clear.
+
+Keep this to a short paragraph or a few bullets, then ask one focused question: “Would you like me to start this build now?” Offer “Yes, start” (recommended when ready), “Adjust the approach” and “Not yet”, explaining that these begin the described work, revise the plan or pause implementation. Allow a free-text answer. Use a permitted native question tool when its contract allows this confirmation; otherwise ask inline in chat. Never use a tool that prohibits permission requests for this checkpoint.
+
+For example: “I'll create a first version that turns one supplied enquiry and your business information into a draft reply. I'll save it in this project and check it against your Blueprint. You'll review the draft before anything is sent. Would you like me to start this build now?” Adapt the explanation to the actual path; do not imply sending is authorised by this example.
+
+Wait for an explicit affirmative answer before commencing implementation. A path selection, initial skill invocation, preselected option, timeout or silence is not this confirmation. If the participant has already explicitly said to begin after receiving this concrete explanation, honour that answer without asking again. Once confirmed, proceed through the described build without repeatedly asking about ordinary implementation details. A materially changed path or scope needs an updated explanation and confirmation.
+
+Confirmation does not switch application mode or override restrictions. If Plan mode is active, finish the plan and explain that implementation can begin once the participant enables it. Separate approvals for purchases, messages or external writes still apply; “start the build” does not waive them.
 
 ## 6. Make It Work
 

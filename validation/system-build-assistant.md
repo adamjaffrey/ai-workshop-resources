@@ -3,9 +3,9 @@ name: build-assistant-validation
 description: Record validation of the renamed workshop build assistant and its scenario walkthroughs.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.1"
-  update_summary: "Record build assistant validation and its limitations"
-  updated_at: "Fri 16 Oct 2026 at 10:06:04 am AEDT (+11:00)"
+  doc_revision: "26.0.2"
+  update_summary: "Check the explicit build-start confirmation decision paths"
+  updated_at: "Fri 16 Oct 2026 at 10:16:32 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -58,3 +58,7 @@ Outcome: the fallback is usable without fabricating a tool call. With a permitte
 ## Limits
 
 Manual walkthroughs check the written decision paths; they do not prove future agent adherence, account access, product capability or build quality. Each participant build must perform the required current research and representative tests for its own inputs and environment.
+
+## Build-Start Confirmation Follow-Up
+
+Manual walkthrough of the added checkpoint: after selecting the manual enquiry-drafting path, the assistant explains the first draft, supplied inputs, project files, representative test and human review, then asks whether to begin. Selecting the path alone cannot start implementation. An explicit yes permits the described work when the runtime allows implementation; “adjust”, “not yet” or no answer does not. In Plan mode, yes does not switch modes. Approval for a bounded feasibility check stops at that check; commencing the subsequent build requires its own concrete explanation and confirmation. An already-given explicit start instruction after the explanation is honoured without a duplicate question. These are instruction walkthroughs, not live participant interaction tests.
