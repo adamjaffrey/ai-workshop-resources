@@ -6,11 +6,25 @@
   <meta name="description" content="Install the Blueprint Creator and Build Assistant skills for your AI Implementation Workshop.">
   <title>AI Implementation Workshop Resources</title>
   <style>
+    body.is-locked { overflow: hidden; }
+    .access-gate { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 24px; background: rgb(70 73 78 / 42%); backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px); overflow-y: auto; }
+    .access-gate[hidden] { display: none; }
+    .gate-panel { width: min(100%, 430px); background: #fff; border: 1px solid #dedede; border-radius: 20px; padding: 32px; box-shadow: 0 24px 80px #00000024; }
+    .gate-panel h2 { font-size: 28px; margin-bottom: 12px; }
+    .gate-panel p { color: #5B6066; font-size: 15px; line-height: 1.6; }
+    .gate-panel .eyebrow { color: #006AA6; font-size: 11px; }
+    .gate-panel label { display: block; font-size: 14px; font-weight: 650; margin: 24px 0 8px; }
+    .password-field { display: flex; align-items: center; gap: 12px; border: 1px solid #bfc4c9; border-radius: 10px; padding: 0 14px; background: #fafafa; }
+    .password-field:focus-within { outline: 3px solid #0076bb; outline-offset: 3px; }
+    .password-field .icon { color: #5B6066; }
+    .password-field input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: 16px; padding: 14px 0; color: #1A1A1A; }
+    .gate-submit { width: 100%; border: 0; border-radius: 10px; color: #fff; background: #00A2FF; padding: 14px; font-size: 15px; font-weight: 700; }
+    .gate-panel .gate-error { color: #a62323; font-size: 13px; min-height: 21px; margin: 8px 0 16px; }
     @font-face { font-family: "Mark Pro"; src: url("assets/MarkPro-Bold.ttf") format("truetype"); font-weight: 700; font-style: normal; font-display: swap; }
-    .brand { display: flex; align-items: center; gap: 14px; margin-bottom: 32px; }
-    .brand-mark { display: grid; place-items: center; background: #00A2FF; padding: 14px 12px; border-radius: 10px; }
-    .brand-mark img { display: block; width: 72px; height: auto; }
-    .brand-name { font-family: "Mark Pro", Montserrat, sans-serif; font-size: clamp(22px, 4vw, 28px); font-weight: 700; letter-spacing: .035em; }
+    .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+    .brand-mark { display: grid; place-items: center; }
+    .brand-mark img { display: block; width: 48px; height: auto; filter: brightness(0); }
+    .brand-name { font-family: "Mark Pro", Montserrat, sans-serif; font-size: 16px; font-weight: 700; letter-spacing: .035em; }
     :root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1A1A1A; background: #F3F3F3; }
     * { box-sizing: border-box; }
     body { margin: 0; }
@@ -68,8 +82,23 @@
     @media (max-width: 700px) { main { padding: 36px 18px 28px; } .cards { grid-template-columns: 1fr; gap: 18px; } article { padding: 22px; } h2 { font-size: 22px; } }
   </style>
 </head>
-<body>
-  <main>
+<body class="is-locked">
+  <div class="access-gate" id="access-gate" role="dialog" aria-modal="true" aria-labelledby="gate-title" aria-describedby="gate-description">
+    <form class="gate-panel" id="access-form">
+      <p class="eyebrow">Wavelength · Workshop access</p>
+      <h2 id="gate-title">Your workshop resources</h2>
+      <p id="gate-description">Enter your workshop password to unlock the tools for your next build.</p>
+      <label for="workshop-password">Password</label>
+      <div class="password-field">
+        <svg class="icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <input id="workshop-password" name="password" type="password" autocomplete="current-password" autocapitalize="none" spellcheck="false" aria-describedby="gate-error" required autofocus>
+      </div>
+      <p id="gate-error" class="gate-error" role="alert"></p>
+      <button type="submit" class="gate-submit">Unlock resources</button>
+      <noscript><p>Please enable JavaScript to unlock the workshop resources.</p></noscript>
+    </form>
+  </div>
+  <main id="workshop-content" inert>
     <div class="brand" aria-label="Wavelength">
       <span class="brand-mark"><img src="assets/wavelength-worm.png" alt="" width="1590" height="638"></span>
       <span class="brand-name">WAVELENGTH</span>
@@ -278,6 +307,40 @@
       }
     }));
     selectAgent('codex');
+    const gate = document.getElementById('access-gate');
+    const password = document.getElementById('workshop-password');
+    const gateError = document.getElementById('gate-error');
+    const unlockButton = document.querySelector('.gate-submit');
+    const accessKey = 'wavelength-workshop-access';
+    function unlockResources(moveFocus = true) {
+      gate.hidden = true;
+      document.getElementById('workshop-content').inert = false;
+      document.body.classList.remove('is-locked');
+      password.value = '';
+      if (moveFocus) document.querySelector('[data-agent="codex"]').focus();
+    }
+    try { if (sessionStorage.getItem(accessKey) === 'unlocked') unlockResources(false); } catch { /* Storage is optional. */ }
+    document.getElementById('access-form').addEventListener('submit', event => {
+      event.preventDefault();
+      if (password.value === 'wavelength') {
+        try { sessionStorage.setItem(accessKey, 'unlocked'); } catch { /* Unlock still works without storage. */ }
+        unlockResources();
+      } else {
+        gateError.textContent = 'That password isn’t correct. Please try again.';
+        password.setAttribute('aria-invalid', 'true');
+        password.focus();
+        password.select();
+      }
+    });
+    password.addEventListener('input', () => {
+      gateError.textContent = '';
+      password.removeAttribute('aria-invalid');
+    });
+    gate.addEventListener('keydown', event => {
+      if (event.key !== 'Tab') return;
+      if (event.shiftKey && document.activeElement === password) { event.preventDefault(); unlockButton.focus(); }
+      else if (!event.shiftKey && document.activeElement === unlockButton) { event.preventDefault(); password.focus(); }
+    });
   </script>
 </body>
 </html>

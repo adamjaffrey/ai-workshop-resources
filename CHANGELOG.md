@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.5"
-  update_summary: "Add Wavelength branding and contain the website artefact"
-  updated_at: "Fri 16 Oct 2026 at 10:39:42 am AEDT (+11:00)"
+  doc_revision: "26.0.6"
+  update_summary: "Add a workshop password gate and reduce header branding"
+  updated_at: "Fri 16 Oct 2026 at 10:41:38 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.5 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 10:41:38 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add a workshop password gate and reduce header branding
+
+### Added
+
+- Add a browser-side password gate with a Lucide lock icon, masked password field and grey blurred backdrop.
+- Keep background controls inactive until unlocked, contain keyboard focus, report incorrect passwords and remember access for the current tab session.
+- Allow unlocking when browser session storage is unavailable. This presentation gate is not server-side access control.
+
+### Changed
+
+- Remove the logo's blue tile, show a smaller black worm and reduce the Mark Pro WAVELENGTH wordmark to 16 pixels.
+
+### Validation
+
+- Chrome — incorrect and correct passwords, Enter submission, focus containment, session persistence, new-session gating and unavailable storage passed.
+- All four installation prompts, real clipboard copies and manual copying after simulated clipboard denial — passed.
+- Desktop and mobile gate screenshots, unlocked-page review and mobile overflow checks — passed; no browser errors.
 
 ## v26.0.4 — 2026-10-16
 
