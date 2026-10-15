@@ -3,9 +3,9 @@ name: blueprint-interview-protocol
 description: Define the ten main questions, conditional process-replacement follow-up, Blueprint structure, review checklist, and participant-led next steps.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.2"
-  update_summary: "Capture context for purples that replace a larger process"
-  updated_at: "Fri 16 Oct 2026 at 10:02:54 am AEDT (+11:00)"
+  doc_revision: "26.0.3"
+  update_summary: "Remove the interview time estimate"
+  updated_at: "Fri 16 Oct 2026 at 10:08:34 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -22,7 +22,7 @@ Your job is to:
 4. create `SYSTEM-BLUEPRINT.md`;
 5. review the completed file against my approved answers before returning control to me.
 
-This is a **15-minute specification exercise**. Keep the process tightly scoped and deterministic.
+Keep the exercise concise and focused.
 
 ---
 
