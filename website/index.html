@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Install the Blueprint Creator and Build Assistant skills for your AI Implementation Workshop.">
+  <title>AI Implementation Workshop Resources</title>
+  <style>
+    :root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #192b2a; background: #f5f6f2; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { max-width: 1120px; margin: auto; padding: 64px 28px 40px; }
+    .eyebrow { color: #426960; font-size: 12px; font-weight: 750; letter-spacing: .14em; text-transform: uppercase; margin: 0 0 16px; }
+    h1 { max-width: 780px; font-size: clamp(32px, 4.6vw, 50px); line-height: 1.12; letter-spacing: -.045em; margin: 0 0 20px; }
+    .intro { max-width: 660px; color: #596663; font-size: 17px; line-height: 1.65; margin: 0; }
+    .controls { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin: 32px 0 28px; }
+    .controls-label { font-size: 14px; font-weight: 600; }
+    .toggle { display: inline-flex; padding: 4px; border: 1px solid #d7dfd9; border-radius: 12px; background: #e9eee8; gap: 4px; }
+    button { font: inherit; cursor: pointer; }
+    .toggle button { border: 0; border-radius: 8px; background: transparent; color: #4d6059; padding: 10px 18px; font-size: 14px; font-weight: 650; }
+    .toggle button[aria-pressed="true"] { color: white; background: #254e43; box-shadow: 0 2px 4px #19342c1a; }
+    button:focus-visible, pre:focus-visible { outline: 3px solid #bd6b27; outline-offset: 4px; }
+    .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+    article { background: #fff; border: 1px solid #dce3dd; border-radius: 18px; padding: 28px; display: flex; flex-direction: column; }
+    .card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+    .symbol { width: 48px; height: 48px; border-radius: 13px; display: grid; place-items: center; background: #edf2eb; color: #305c47; }
+    .build .symbol { background: #f9eee3; color: #a36125; }
+    .step { color: #64736d; font-size: 12px; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; }
+    h2 { margin: 0 0 8px; font-size: 24px; letter-spacing: -.025em; }
+    .slug { font: 12px ui-monospace, SFMono-Regular, Consolas, monospace; color: #62716a; margin: 0 0 16px; overflow-wrap: anywhere; }
+    .description { color: #596663; font-size: 15px; line-height: 1.65; margin: 0 0 24px; }
+    .code-wrap { flex: 1; border-radius: 12px; overflow: hidden; background: #182924; color: #e8eee9; }
+    .code-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid #ffffff18; gap: 8px; }
+    .code-label { font-size: 12px; color: #bccbc2; }
+    .copy { background: #ffffff12; border: 1px solid #ffffff30; color: #fff; border-radius: 7px; padding: 7px 11px; font-size: 12px; font-weight: 600; min-width: 92px; }
+    .copy:hover { background: #ffffff25; }
+    pre { margin: 0; padding: 18px; white-space: pre-wrap; overflow-wrap: anywhere; font: 12px/1.8 ui-monospace, SFMono-Regular, Consolas, monospace; }
+    code { font: inherit; }
+    .help { font-size: 13px; color: #64736d; line-height: 1.6; margin: 24px 0 0; }
+    .status { min-height: 22px; margin: 12px 0 0; color: #305c47; font-size: 13px; }
+    footer { border-top: 1px solid #dce3dd; margin-top: 24px; padding-top: 20px; color: #64736d; font-size: 12px; }
+    footer a { color: #305c47; text-underline-offset: 3px; }
+    @media (max-width: 700px) { main { padding: 36px 18px 28px; } .cards { grid-template-columns: 1fr; gap: 18px; } article { padding: 22px; } h2 { font-size: 22px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">Your workshop toolkit</p>
+      <h1>AI Implementation Workshop Resources</h1>
+      <p class="intro">Two skills to take you from a clear plan to your first working build. Choose your coding agent, copy a prompt, and paste it into a local chat in the app.</p>
+    </header>
+    <div class="controls">
+      <span class="controls-label" id="agent-label">I’m using</span>
+      <div class="toggle" role="group" aria-labelledby="agent-label">
+        <button type="button" data-agent="codex" aria-pressed="true">Codex</button>
+        <button type="button" data-agent="claude-code" aria-pressed="false">Claude Code</button>
+      </div>
+    </div>
+    <section class="cards" aria-label="Workshop skills">
+      <article>
+        <div class="card-top">
+          <span class="symbol" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span>
+          <span class="step">01 · Plan your build</span>
+        </div>
+        <h2>System Blueprint Creator</h2>
+        <p class="slug">system-blueprint-creator</p>
+        <p class="description">A guided interview to turn your chosen workflow into a clear System Blueprint: what to build, what it needs, and what success looks like.</p>
+        <div class="code-wrap">
+          <div class="code-header"><span class="code-label">Install with <span data-agent-label>Codex</span></span><button class="copy" type="button" data-copy="system-blueprint-creator" aria-label="Copy System Blueprint Creator installation prompt">Copy prompt</button></div>
+          <pre tabindex="0" aria-label="System Blueprint Creator installation prompt"><code id="system-blueprint-creator"></code></pre>
+        </div>
+      </article>
+      <article class="build">
+        <div class="card-top">
+          <span class="symbol" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m8 8-4 4 4 4m8-8 4 4-4 4m-3-10-2 20"/></svg></span>
+          <span class="step">02 · Make it work</span>
+        </div>
+        <h2>System Build Assistant</h2>
+        <p class="slug">system-build-assistant</p>
+        <p class="description">Use your reviewed System Blueprint to build your first working version. The assistant recommends a practical approach and asks before starting implementation.</p>
+        <div class="code-wrap">
+          <div class="code-header"><span class="code-label">Install with <span data-agent-label>Codex</span></span><button class="copy" type="button" data-copy="system-build-assistant" aria-label="Copy System Build Assistant installation prompt">Copy prompt</button></div>
+          <pre tabindex="0" aria-label="System Build Assistant installation prompt"><code id="system-build-assistant"></code></pre>
+        </div>
+      </article>
+    </section>
+    <p class="help">Each prompt installs one skill across your projects. Approve installation requests in your app. Once installed, start a fresh chat and ask your agent to use the skill by name.</p>
+    <p class="status" role="status" aria-live="polite" id="copy-status"></p>
+    <noscript><p>Please enable JavaScript to select your coding agent and copy installation prompts.</p></noscript>
+    <footer><a href="https://github.com/adamjaffrey/ai-workshop-resources">View the workshop skills on GitHub</a></footer>
+  </main>
+  <script>
+    const skills = ['system-blueprint-creator', 'system-build-assistant'];
+    const status = document.getElementById('copy-status');
+    const timers = new Map();
+    function selectAgent(agent) {
+      document.querySelectorAll('[data-agent]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.agent === agent)));
+      document.querySelectorAll('[data-agent-label]').forEach(label => label.textContent = agent === 'codex' ? 'Codex' : 'Claude Code');
+      skills.forEach(skill => {
+        document.getElementById(skill).textContent = `Please install only the ${skill} workshop skill for my user account, available across projects. Run:\n\nnpx --yes skills add adamjaffrey/ai-workshop-resources --skill ${skill} --agent ${agent} --global --yes\n\nVerify that the skill and its supporting reference files were installed. If a prerequisite is missing, help me resolve it. Do not start the skill yet.`;
+      });
+      document.querySelectorAll('[data-copy]').forEach(button => { clearTimeout(timers.get(button)); button.textContent = 'Copy prompt'; });
+      status.textContent = '';
+    }
+    function legacyCopy(text) {
+      const input = document.createElement('textarea');
+      input.value = text;
+      input.setAttribute('readonly', '');
+      input.style.cssText = 'position:fixed;left:-9999px;top:0';
+      document.body.appendChild(input);
+      input.select();
+      let copied;
+      try { copied = document.execCommand('copy'); } finally { input.remove(); }
+      if (!copied) throw new Error('Clipboard unavailable');
+    }
+    document.querySelectorAll('[data-agent]').forEach(button => button.addEventListener('click', () => selectAgent(button.dataset.agent)));
+    document.querySelectorAll('[data-copy]').forEach(button => button.addEventListener('click', async () => {
+      const text = document.getElementById(button.dataset.copy).textContent;
+      try {
+        try {
+          if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
+          await navigator.clipboard.writeText(text);
+        } catch { legacyCopy(text); }
+        button.focus();
+        button.textContent = 'Copied!';
+        status.textContent = 'Prompt copied. Paste it into your coding agent’s chat.';
+        clearTimeout(timers.get(button));
+        timers.set(button, setTimeout(() => button.textContent = 'Copy prompt', 2200));
+      } catch {
+        status.textContent = 'Clipboard access is unavailable. Select the prompt text and copy it manually.';
+      }
+    }));
+    selectAgent('codex');
+  </script>
+</body>
+</html>
