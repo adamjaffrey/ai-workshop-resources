@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.20"
-  update_summary: "Restore centred content with an independently scrolling card row"
-  updated_at: "Fri 16 Oct 2026 at 08:47:18 pm AEDT (+11:00)"
+  doc_revision: "26.0.21"
+  update_summary: "Synchronise copy feedback and route vertical scrolling to the page"
+  updated_at: "Fri 16 Oct 2026 at 08:50:59 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.20 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 08:50:59 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Synchronise copy feedback and route vertical scrolling to the page
+
+### Changed
+
+- Use one feedback lifecycle for the button label and card message, resetting both after the success or failure message finishes fading out.
+- Show “Copy Failed” on failure and clear stale success state when a retry fails.
+- Remove the horizontal-gesture vertical lock; route vertical wheel, touch and keyboard input within cards to the page, preserving the horizontal row position and prompt scroll position.
+- Keep horizontal input independently responsible for moving the card row, without translating vertical deltas into horizontal movement.
+- Update the browser regression checks for the revised scrolling behaviour.
+
+### Validation
+
+- Chrome scroll regression checks — passed responsive alignment and independent wheel, touch and keyboard destinations, including vertical input immediately after horizontal input.
+- Copy timing checks — passed success and failure lifetimes through fade completion, failed retries and agent-change reset.
+- Authentication source tests — all eight passed.
+- Sites production build — passed.
 
 ## v26.0.19 — 2026-10-16
 
