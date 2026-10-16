@@ -23,7 +23,7 @@ for (const width of [1440, 1024, 1008, 800, 700, 661, 660, 390, 320]) {
   });
   assert.ok(!layout.overflow && !layout.scrollable);
   assert.equal(layout.contentWidth, Math.min(960, width - 48));
-  if (width > 660) assert.ok(layout.header.qr.x > layout.header.text.x);
+  if (width > 660) assert.equal(layout.header.qr.x - layout.header.text.right, 40);
   else assert.equal(layout.header.qrDisplay, 'none');
   assert.deepEqual(layout.headings, ['Step 1', 'Step 2', 'Step 3']);
   assert.equal(layout.titleSize, width > 660 ? 48 : 40);

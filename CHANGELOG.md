@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.29"
-  update_summary: "Strengthen the page title hierarchy above step headings"
-  updated_at: "Fri 16 Oct 2026 at 09:16:19 pm AEDT (+11:00)"
+  doc_revision: "26.0.30"
+  update_summary: "Give the introduction more space beside the QR code"
+  updated_at: "Fri 16 Oct 2026 at 09:18:56 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.29 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 09:18:56 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Give the introduction more space beside the QR code
+
+### Changed
+
+- Increase the gap between the introductory content and QR card from 24 to 40 pixels, reusing the page’s existing larger spacing.
+- Add an exact 40-pixel gap assertion to the responsive browser checks.
+
+### Validation
+
+- Chrome at 320, 390, 660, 661, 700, 800, 1008, 1024 and 1440 pixels — passed QR gap, responsive visibility, heading hierarchy and overflow checks.
+- Copy controls in both agent states, fixed feedback dimensions and vertical scrolling — passed.
+- Sites production build — passed.
 
 ## v26.0.28 — 2026-10-16
 
