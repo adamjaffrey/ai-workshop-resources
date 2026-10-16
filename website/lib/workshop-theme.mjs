@@ -79,7 +79,7 @@ const script = `(() => {
     apply();
   });
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.theme-toggle').forEach(control => { control.hidden = false; indicators.push(window.createWorkshopToggle(control)); });
+    document.querySelectorAll('.theme-toggle:not(.ph-static)').forEach(control => { control.hidden = false; indicators.push(window.createWorkshopToggle(control)); });
     apply();
     document.querySelectorAll('[data-theme-choice]').forEach(button => button.addEventListener('click', () => {
       preference = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';

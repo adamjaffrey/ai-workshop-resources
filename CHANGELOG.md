@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.43"
-  update_summary: "Make toggles rebound sharply and activate across their entire track"
-  updated_at: "Sat 17 Oct 2026 at 01:28:36 am AEDT (+11:00)"
+  doc_revision: "26.0.44"
+  update_summary: "Measure every word and soften blocks with opaque colour blends"
+  updated_at: "Sat 17 Oct 2026 at 01:38:42 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.43 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 01:38:42 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Measure every word and soften blocks with opaque colour blends
+
+### Changed
+
+- Replace estimated word widths and dummy prompt lines with Chrome-measured word geometry, retaining icons, button sizes and responsive wrapping.
+- Use opaque 35% foreground colour blends against each containing surface; preserve card and button backgrounds and add a local Block strength slider.
+- Generate geometry automatically during development/build startup and reject stale source fingerprints.
+- Separate the resource template from the login renderer and add Playwright as a build-time development dependency.
+
+### Validation
+
+- Authentication and placeholder source tests — 10 passed.
+- Chrome word comparison — all 1,205 desktop words and 1,202 mobile words match source positions and widths within 1px at 1440, 768, 390 and 320px.
+- Chrome blend-slider checks — passed in both themes; card backgrounds remain unchanged and block opacity remains 1.
+- Existing Chrome placeholder, theme and interaction checks — passed.
+- Sites production build — passed, including automatic geometry generation and stale-source checks.
 
 ## v26.0.42 — 2026-10-17
 

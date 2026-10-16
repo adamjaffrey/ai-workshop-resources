@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.14"
-  update_summary: "Document sharp rebounds and full-track toggle activation"
-  updated_at: "Sat 17 Oct 2026 at 01:28:36 am AEDT (+11:00)"
+  doc_revision: "26.0.15"
+  update_summary: "Document measured word blocks and opaque colour blending"
+  updated_at: "Sat 17 Oct 2026 at 01:38:42 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -34,11 +34,15 @@ This protects content delivered by this website. The linked public GitHub reposi
 
 ## Local Design Review
 
-Run `node website/scripts/preview-login.mjs` from the repository root, then open `website/outputs/login-design-preview.html` directly in Chrome. No server is needed. Switch between No blur, Blur only and Password panel using the preview controls. The form is disabled and the file contains no credentials or protected workshop content. The generated output is ignored by Git and excluded from deployment.
+Run `node website/scripts/measure-placeholder.mjs` followed by `node website/scripts/preview-login.mjs` from the repository root, then open `website/outputs/login-design-preview.html` directly in Chrome. No server is needed. Switch between No blur, Blur only and Password panel using the preview controls. The form is disabled and the file contains no credentials or protected workshop content. The generated output is ignored by Git and excluded from deployment.
 
-The login background is generated on the server from the current resources layout and its CSS through `website/lib/workshop-placeholder.mjs`. Layout changes therefore flow through automatically, including step count, columns, spacing, colours and mobile breakpoints. Text becomes anonymous word geometry; scripts, links and non-layout attributes are removed before the login response is sent. Prompt areas use fixed dummy lines. This is an approximate decorative background, not an exact screenshot of protected content.
+The login background uses the current resources layout and CSS with every visible word replaced by measured anonymous geometry, including prompt words. `website/scripts/measure-placeholder.mjs` opens the resource preview in installed Google Chrome through the Playwright development dependency, waits for its font, measures word bounds and saves `website/lib/workshop-placeholder.generated.json`. Source text, links, scripts and action attributes are excluded. Monospaced text uses invisible dummy glyphs with measured exceptions for emoji, preserving native wrapping. Public icons and images retain their original shapes.
 
-Development and build startup regenerate both standalone preview files; reload an already-open file after regeneration. The production login always uses the current resource layout without a separate regeneration step. Builds run the placeholder regression tests automatically. Run `node --test website/tests/placeholder.test.mjs` for source checks and `node website/tests/placeholder-browser-check.mjs` with `PLAYWRIGHT_MODULE` available for Chrome checks at four viewport widths in both themes. Unsupported new element types fail explicitly so their handling can be reviewed. Review controls exist only in the local preview. Keep design iterations local until publishing is approved.
+The blocks use an opaque blend of 35% foreground colour and 65% of the containing surface colour. Card and button surfaces remain unchanged. The local preview's Block strength slider adjusts this blend from 0% to 100%; it does not change the production default or apply opacity to the page. Text blocks retain their measured line boxes while painting the glyph-height region.
+
+Development and build startup automatically remeasure the page and regenerate both preview files. The source fingerprint rejects stale geometry instead of silently showing old shapes. After editing during a running development session, rerun the measurement and login preview commands, then reload. The build requires installed Google Chrome; measurement happens during preparation, never in a visitor's browser. `workshop-resource-page.mjs` owns the resource template independently of the login renderer so generation cannot import stale login geometry.
+
+Run `node --test website/tests/placeholder.test.mjs` for source and stale-geometry checks. Run `node website/tests/word-geometry-browser-check.mjs` for measured word positions and widths (within 1px at four viewports), surface-preserving colour blending and slider checks. `node website/tests/placeholder-browser-check.mjs` covers themes, overflow and the password panel. Exact measurements use the build machine's fonts; different operating-system fonts can produce small differences. Review controls exist only in the local preview. Keep design iterations local until publishing is approved.
 
 Run `node website/scripts/preview-resources.mjs` from the repository root to generate `website/outputs/workshop-resources-preview.html`. Open this file in Chrome, not the Codex sidebar. Both images and the font are embedded so the preview works when moved. It retains the agent selector and copy controls but omits session checks and logout; production authentication is unchanged.
 

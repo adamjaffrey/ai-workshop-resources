@@ -1,7 +1,7 @@
 // Standalone local preview: embed assets so the file also works when moved.
 import {mkdir, readFile, writeFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
-import {resourcePage} from '../lib/workshop-pages.mjs';
+import {resourcePage} from '../lib/workshop-resource-page.mjs';
 let html = resourcePage;
 for (const [name, mime] of [['wavelength-worm.png', 'image/png'], ['workshop-resources-qr.png', 'image/png'], ['MarkPro-Bold.ttf', 'font/ttf']]) {
   const bytes = await readFile(new URL('../public/assets/' + name, import.meta.url));

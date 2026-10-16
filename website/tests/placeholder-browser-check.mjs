@@ -10,7 +10,7 @@ try {
       await page.evaluate(theme => {document.documentElement.dataset.theme = theme;}, theme);
       assert.equal(await page.locator('.page-placeholder .step-row').count(), 3);
       assert.equal(await page.locator('.page-placeholder').getAttribute('inert'), '');
-      assert.equal((await page.locator('.page-placeholder').innerText()).trim(), '');
+      assert.equal((await page.locator('.page-placeholder').innerText()).replaceAll('x', '').trim(), '');
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
       const layout = await page.locator('.step-row').first().evaluate(el => ({x: el.getBoundingClientRect().x, width: el.getBoundingClientRect().width, columns: getComputedStyle(el).gridTemplateColumns}));
       if (width === 1440 && theme === 'light') await page.screenshot({path: new URL('../outputs/blur-preview.png', import.meta.url).pathname});
