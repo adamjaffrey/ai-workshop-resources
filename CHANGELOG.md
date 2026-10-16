@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.44"
-  update_summary: "Measure every word and soften blocks with opaque colour blends"
-  updated_at: "Sat 17 Oct 2026 at 01:38:42 am AEDT (+11:00)"
+  doc_revision: "26.0.45"
+  update_summary: "Speed up toggle motion and soften only the final settling"
+  updated_at: "Sat 17 Oct 2026 at 01:41:27 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.44 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 01:41:27 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Speed up toggle motion and soften only the final settling
+
+### Changed
+
+- Shorten both toggles' shared release animation from 520ms to 400ms, preserving constant-speed travel and a sharp first rebound.
+- Ease only the small final return and settling motion, retaining held stretching, full-track activation and reduced-motion support.
+- Refresh the measured login backdrop for the current resource-page fingerprint.
+
+### Validation
+
+- Chrome theme and interaction checks — passed, including measured constant-speed initial motion, immediate first reversal, 400ms release timing, gap activation, holds and shared motion.
+- Sites production build and measured-placeholder checks — passed.
 
 ## v26.0.43 — 2026-10-17
 

@@ -26,14 +26,14 @@ export const toggleScript = `window.createWorkshopToggle = function(toggle) {
       const direction = Math.sign(left - previous.left);
       if (!direction) return;
       // Constant-speed travel all the way to impact; reverse immediately on contact.
-      // Linear rebound legs avoid easing into a stop before each direction change.
+      // Keep the first rebound linear; soften only the small final return and settle.
       toggleAnimation = indicator.animate([
         {left: previous.left + 'px', width: previous.width + 'px', transform: previous.transform, offset: 0},
         {left: (left + direction * 6) + 'px', width: width + 'px', transform: 'scale(.95,1.06)', offset: .46},
-        {left: (left - direction * 3) + 'px', width: width + 'px', transform: 'scale(1.03,.98)', offset: .64},
-        {left: (left + direction * 1) + 'px', width: width + 'px', transform: 'scale(.99,1.01)', offset: .8},
+        {left: (left - direction * 3) + 'px', width: width + 'px', transform: 'scale(1.03,.98)', offset: .64, easing: 'cubic-bezier(.33,.67,.67,1)'},
+        {left: (left + direction * 1) + 'px', width: width + 'px', transform: 'scale(.99,1.01)', offset: .8, easing: 'ease-in-out'},
         {left: left + 'px', width: width + 'px', transform: 'scale(1)', offset: 1}
-      ], {duration: 520, easing: 'linear'});
+      ], {duration: 400, easing: 'linear'});
     }
     function press(button, input) {
       if (held || button.disabled) return;
