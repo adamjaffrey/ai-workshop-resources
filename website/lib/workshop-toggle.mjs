@@ -25,10 +25,14 @@ export const toggleScript = `window.createWorkshopToggle = function(toggle) {
       if (!animate || reducedMotionQuery.matches || !Number.isFinite(previous.left) || previous.width === 0) return;
       const direction = Math.sign(left - previous.left);
       if (!direction) return;
-      // Fast eased launch, slightly stronger landing squash, then diminishing rebounds.
+      // Cross the destination at full travel speed; braking begins beyond it.
+      // Match the overshoot's initial velocity to the linear travel segment.
+      const crossing = .38;
+      const peak = Math.min(.6, crossing + 12 * crossing / Math.abs(left - previous.left));
       toggleAnimation = indicator.animate([
-        {left: previous.left + 'px', width: previous.width + 'px', transform: previous.transform, offset: 0, easing: 'cubic-bezier(.2,.7,.3,1)'},
-        {left: (left + direction * 6) + 'px', width: width + 'px', transform: 'scale(.95,1.06)', offset: .48, easing: 'ease-in-out'},
+        {left: previous.left + 'px', width: previous.width + 'px', transform: previous.transform, offset: 0, easing: 'linear'},
+        {left: left + 'px', width: width + 'px', transform: 'scale(1.04,.98)', offset: crossing, easing: 'cubic-bezier(.333333,.666667,.666667,1)'},
+        {left: (left + direction * 6) + 'px', width: width + 'px', transform: 'scale(.95,1.06)', offset: peak, easing: 'ease-in-out'},
         {left: (left - direction * 3) + 'px', width: width + 'px', transform: 'scale(1.03,.98)', offset: .7, easing: 'ease-in-out'},
         {left: (left + direction * 1) + 'px', width: width + 'px', transform: 'scale(.99,1.01)', offset: .86, easing: 'ease-out'},
         {left: left + 'px', width: width + 'px', transform: 'scale(1)', offset: 1}

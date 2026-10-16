@@ -135,7 +135,7 @@ const animations = await first.locator('.segmented-toggle .toggle-indicator').ev
   els.forEach(e => e.parentElement.querySelector('button').click());
   return els.map(e => {
   const animation = e.getAnimations()[0];
-  return {duration: animation.effect.getTiming().duration, easing: animation.effect.getTiming().easing, transforms: animation.effect.getKeyframes().slice(1).map(f => [f.offset, f.transform, f.easing])};
+  return {duration: animation.effect.getTiming().duration, easing: animation.effect.getTiming().easing, transforms: animation.effect.getKeyframes().slice(1).map(f => [f.transform, f.easing])};
 }); });
 assert.deepEqual(animations[0], animations[1]);
 // Hold stretches without committing; release commits once and starts the shared bounce.

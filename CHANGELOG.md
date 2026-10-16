@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.40"
-  update_summary: "Use familiar app logos with coding-tool labels"
-  updated_at: "Sat 17 Oct 2026 at 01:17:06 am AEDT (+11:00)"
+  doc_revision: "26.0.41"
+  update_summary: "Carry toggle momentum through the destination before rebounding"
+  updated_at: "Sat 17 Oct 2026 at 01:19:43 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.40 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 01:19:43 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Carry toggle momentum through the destination before rebounding
+
+### Changed
+
+- Cross the destination at full travel speed before braking at the 6px overshoot and rebounding, instead of easing towards the destination.
+- Match the initial overshoot velocity to each toggle's travel distance through the shared controller, preserving the 520ms release and held stretch.
+
+### Validation
+
+- Chrome theme and interaction checks — passed for both shared controls, mouse and keyboard holds, cancellation, reduced motion, contrast and matching heights.
+- Sites production build — passed.
 
 ## v26.0.39 — 2026-10-17
 

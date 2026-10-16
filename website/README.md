@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.11"
-  update_summary: "Use familiar app logos with coding-tool labels"
-  updated_at: "Sat 17 Oct 2026 at 01:17:06 am AEDT (+11:00)"
+  doc_revision: "26.0.12"
+  update_summary: "Document momentum through the toggle destination"
+  updated_at: "Sat 17 Oct 2026 at 01:19:43 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -63,4 +63,4 @@ Generate both standalone previews, then run `node website/tests/theme-browser-ch
 
 The QR card, prompt panels and their feedback surfaces share `--content-surface`: #F8F9FA in light mode and the existing dark surface in dark mode. The QR image retains its white background. Change this variable to keep these surfaces in sync without changing password panels or button fills.
 
-Both toggles use `createWorkshopToggle` from `website/lib/workshop-toggle.mjs` and the shared `.segmented-toggle` styles. Their outer height is 50px, with 40px buttons and shared padding and borders. Clicking either half reverses the current state, including the selected half. The single animation controller owns a 160ms held stretch and a 520ms release animation with an eased launch, slightly stronger landing squash and diminishing rebounds; edits there affect both controls. Holding either half stretches the indicator without changing state. Releasing activates the other state. Space and Enter follow the same held/released sequence, and cancelled presses restore the indicator. Reduced motion cancels the animation and moves directly to the selected state.
+Both toggles use `createWorkshopToggle` from `website/lib/workshop-toggle.mjs` and the shared `.segmented-toggle` styles. Their outer height is 50px, with 40px buttons and shared padding and borders. Clicking either half reverses the current state, including the selected half. The single animation controller owns a 160ms held stretch and a 520ms release animation with constant-speed travel through the destination, braking beyond it, slightly stronger squash at the overshoot and diminishing rebounds; edits there affect both controls. Holding either half stretches the indicator without changing state. Releasing activates the other state. Space and Enter follow the same held/released sequence, and cancelled presses restore the indicator. Reduced motion cancels the animation and moves directly to the selected state.
