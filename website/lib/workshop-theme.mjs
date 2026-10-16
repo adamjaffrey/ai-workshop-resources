@@ -34,7 +34,7 @@ const styles = `
 }
 /* QR cards and prompt panels share one surface, independent of other controls. */
 .qr-card, #workshop-content .code-wrap, #workshop-content .status { background: var(--content-surface); }
-.segmented-toggle { position: relative; isolation: isolate; display: inline-flex; padding: 4px; gap: 4px; border-width: 1px; }
+.segmented-toggle { cursor: pointer; position: relative; isolation: isolate; display: inline-flex; padding: 4px; gap: 4px; border-width: 1px; }
 .segmented-toggle button { height: 40px; box-sizing: border-box; padding-top: 0; padding-bottom: 0; }
 .segmented-toggle .toggle-indicator { position: absolute; z-index: -1; pointer-events: none; top: 4px; bottom: 4px; border-radius: 8px; background: var(--agent-accent); box-shadow: 0 2px 4px #0000001a; }
 .theme-toggle.segmented-toggle .toggle-indicator { background: var(--surface); border: 1px solid var(--control-border); }

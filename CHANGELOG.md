@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.42"
-  update_summary: "Keep the blur background aligned with the resources layout"
-  updated_at: "Sat 17 Oct 2026 at 01:24:59 am AEDT (+11:00)"
+  doc_revision: "26.0.43"
+  update_summary: "Make toggles rebound sharply and activate across their entire track"
+  updated_at: "Sat 17 Oct 2026 at 01:28:36 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.42 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 01:28:36 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Make toggles rebound sharply and activate across their entire track
+
+### Changed
+
+- Move both toggle indicators at constant speed to the overshoot and reverse immediately, removing pre-impact braking and eased rebound turns.
+- Activate the toggle from its centre gap and outer padding, including held stretching and release, through the shared controller.
+- Preserve the 520ms release timing, keyboard behaviour and reduced-motion support.
+
+### Validation
+
+- Chrome interaction checks — passed, including measured equal-distance travel and immediate reversal, gap and padding activation at desktop and mobile widths, held states, cancellation, keyboard access and shared motion.
+- Sites production build and its placeholder checks — passed.
 
 ## v26.0.41 — 2026-10-17
 

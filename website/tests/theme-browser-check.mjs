@@ -76,6 +76,26 @@ for (const width of [1440, 390, 320]) {
   await page.setViewportSize({width, height: 1000});
   assert.deepEqual(await page.locator('.segmented-toggle').evaluateAll(els => els.map(e => e.getBoundingClientRect().height)), [50, 50]);
 }
+// Central gap and track padding must activate exactly once, including a held press.
+for (const width of [1440, 390]) {
+  await page.setViewportSize({width, height: 1000});
+  for (const [selector, attribute] of [['.theme-toggle', 'data-theme'], ['.toggle', 'data-selected-agent']]) {
+    const points = await page.locator(selector).evaluate(e => {
+      const r = e.getBoundingClientRect(), [a, b] = [...e.querySelectorAll('button')].map(x => x.getBoundingClientRect());
+      return [{x: (a.right + b.left) / 2, y: r.y + r.height / 2}, {x: r.x + 2, y: r.y + r.height / 2}, {x: r.x + r.width / 2, y: r.y + 2}];
+    });
+    for (const point of points) {
+      const before = await page.locator('html').getAttribute(attribute);
+      await page.mouse.move(point.x, point.y);
+      await page.mouse.down();
+      assert.equal(await page.locator('html').getAttribute(attribute), before);
+      await page.mouse.up();
+      assert.notEqual(await page.locator('html').getAttribute(attribute), before);
+      await page.waitForTimeout(30);
+      assert.notEqual(await page.locator('html').getAttribute(attribute), before);
+    }
+  }
+}
 await page.setViewportSize({width: 1440, height: 1000});
 await selectAgent('codex');
 await choose('dark');
@@ -131,6 +151,7 @@ await first.emulateMedia({reducedMotion: 'no-preference'});
 await first.locator('[data-agent="claude-code"]').click();
 assert.ok(await first.locator('.toggle .toggle-indicator').evaluate(e => e.getAnimations().length > 0));
 await first.getByRole('button', {name: 'Dark mode', exact: true}).click();
+await first.waitForTimeout(550);
 const animations = await first.locator('.segmented-toggle .toggle-indicator').evaluateAll(els => {
   els.forEach(e => e.parentElement.querySelector('button').click());
   return els.map(e => {
@@ -175,6 +196,22 @@ for (const [selector, attribute] of [['.theme-toggle', 'data-theme'], ['.toggle'
     assert.notEqual(await first.locator('html').getAttribute(attribute), old);
     await first.waitForTimeout(750);
   }
+}
+// Sample the actual animation: equal-distance travel, then immediate reversal.
+for (const selector of ['.theme-toggle', '.toggle']) {
+  await first.waitForTimeout(550);
+  const samples = await first.locator(selector).evaluate(e => {
+    e.querySelector('button').click();
+    const indicator = e.querySelector('.toggle-indicator'), animation = indicator.getAnimations()[0];
+    animation.pause();
+    const positions = [.1, .2, .3, .4, .46, .48].map(t => { animation.currentTime = t * 520; return parseFloat(getComputedStyle(indicator).left); });
+    animation.finish();
+    return positions;
+  });
+  const delta = samples[1] - samples[0];
+  assert.ok(Math.abs((samples[2] - samples[1]) - delta) < .02);
+  assert.ok(Math.abs((samples[3] - samples[2]) - delta) < .02);
+  assert.ok((samples[5] - samples[4]) * delta < 0);
 }
 await first.emulateMedia({reducedMotion: 'reduce'});
 await first.locator('[data-agent="codex"]').click();
