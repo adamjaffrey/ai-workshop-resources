@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.7"
-  update_summary: "Document shared light and dark themes and browser checks"
-  updated_at: "Sat 17 Oct 2026 at 12:46:51 am AEDT (+11:00)"
+  doc_revision: "26.0.8"
+  update_summary: "Document shared content surfaces and toggle behaviour"
+  updated_at: "Sat 17 Oct 2026 at 12:57:12 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -58,3 +58,7 @@ The initial theme follows the operating system. An explicit choice is stored und
 Dark mode uses near-black neutral surfaces, off-white text, lighter secondary text, and cards and icon tiles mixed with the selected agent accent. Accent button branding stays unchanged, the monochrome logo becomes white, and QR pixels retain their white background.
 
 Generate both standalone previews, then run `node website/tests/theme-browser-check.mjs` with Playwright available, or set `PLAYWRIGHT_MODULE` to its absolute module location. The checks use installed Chrome and cover both agents, four viewport widths, preference persistence, keyboard access, copy behaviour, text contrast, password styling, storage denial, nonce policy and reduced motion. Open user-facing previews in Chrome.
+
+The QR card, prompt panels and their feedback surfaces share `--content-surface`: #F0F1F2 in light mode and the existing dark surface in dark mode. The QR image retains its white background. Change this variable to keep these surfaces in sync without changing password panels or button fills.
+
+Both toggles use `createWorkshopToggle` from `website/lib/workshop-toggle.mjs` and the shared `.segmented-toggle` styles. Their outer height is 50px, with 40px buttons and shared padding and borders. Clicking either half reverses the current state, including the selected half. The single animation controller owns the 520ms timing, easing, stretch and overshoot; edits there affect both controls. Reduced motion cancels the animation and moves directly to the selected state.

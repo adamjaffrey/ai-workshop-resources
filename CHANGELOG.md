@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.35"
-  update_summary: "Add a persistent light and dark theme toggle"
-  updated_at: "Sat 17 Oct 2026 at 12:46:51 am AEDT (+11:00)"
+  doc_revision: "26.0.36"
+  update_summary: "Unify toggle motion and light-mode content surfaces"
+  updated_at: "Sat 17 Oct 2026 at 12:57:12 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.35 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 12:57:12 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Unify toggle motion and light-mode content surfaces
+
+### Changed
+
+- Link the QR card and code panel backgrounds through one light-grey content-surface variable, retaining the white QR image, spacing and dark palette.
+- Share the same sliding-indicator controller, stretch, overshoot, easing and reduced-motion handling between the theme and agent toggles.
+- Make clicking either half reverse the current state, including clicks on the selected half, and give both toggles one shared height rule.
+
+### Validation
+
+- Authentication source tests — 8 passed.
+- Chrome theme checks — passed, including equal 50px heights at desktop and mobile widths, either-half reversal, matching animation timings and transforms, both themes and agents, copying, persistence and reduced motion.
+- Sites production build — passed.
 
 ## v26.0.34 — 2026-10-17
 

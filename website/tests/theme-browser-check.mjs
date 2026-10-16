@@ -9,7 +9,8 @@ page.on('pageerror', error => errors.push(error.message));
 const resource = new URL('../outputs/workshop-resources-preview.html', import.meta.url).href;
 const login = new URL('../outputs/login-design-preview.html', import.meta.url).href;
 const theme = () => page.locator('html').getAttribute('data-theme');
-const choose = mode => page.getByRole('button', {name: mode === 'dark' ? 'Dark mode' : 'Light mode', exact: true}).click();
+const choose = async mode => { if (await theme() !== mode) await page.getByRole('button', {name: mode === 'dark' ? 'Dark mode' : 'Light mode', exact: true}).click(); };
+const selectAgent = async agent => { const button = page.locator(`[data-agent="${agent}"]`); if (await button.getAttribute('aria-pressed') !== 'true') await button.click(); };
 await page.goto(resource);
 assert.equal(await theme(), 'dark');
 await page.emulateMedia({colorScheme: 'light'});
@@ -25,7 +26,7 @@ for (const width of [1440, 768, 390, 320]) {
   for (const mode of ['light', 'dark']) {
     await choose(mode);
     for (const agent of ['codex', 'claude-code']) {
-      await page.locator(`[data-agent="${agent}"]`).click();
+      await selectAgent(agent);
       assert.equal(await page.locator(`[data-theme-choice="${mode}"]`).getAttribute('aria-pressed'), 'true');
       assert.equal(await page.locator('[data-theme-choice][aria-pressed="true"]').count(), 1);
       const metrics = await page.evaluate(() => {
@@ -48,7 +49,7 @@ for (const width of [1440, 768, 390, 320]) {
 for (const mode of ['light', 'dark']) {
   await choose(mode);
   for (const agent of ['codex', 'claude-code']) {
-    await page.locator(`[data-agent="${agent}"]`).click();
+    await selectAgent(agent);
     const ratios = await page.evaluate(() => {
       const canvas = document.createElement('canvas'); canvas.width = canvas.height = 1;
       const ctx = canvas.getContext('2d');
@@ -62,8 +63,21 @@ for (const mode of ['light', 'dark']) {
     for (const {fg, ratio} of ratios) assert.ok(ratio >= (fg === '.step-title' ? 3 : 4.5), `${mode}/${agent}/${fg}: ${ratio}`);
   }
 }
+// Either half reverses its control, even when already selected.
+for (const selector of ['[data-theme-choice="light"]', '[data-theme-choice="dark"]', '[data-agent="codex"]', '[data-agent="claude-code"]']) {
+  const attribute = selector.includes('theme-choice') ? 'data-theme' : 'data-selected-agent';
+  const before = await page.locator('html').getAttribute(attribute);
+  await page.locator(selector).click();
+  assert.notEqual(await page.locator('html').getAttribute(attribute), before);
+  await page.locator(selector).click();
+  assert.equal(await page.locator('html').getAttribute(attribute), before);
+}
+for (const width of [1440, 390, 320]) {
+  await page.setViewportSize({width, height: 1000});
+  assert.deepEqual(await page.locator('.segmented-toggle').evaluateAll(els => els.map(e => e.getBoundingClientRect().height)), [50, 50]);
+}
 await page.setViewportSize({width: 1440, height: 1000});
-await page.locator('[data-agent="codex"]').click();
+await selectAgent('codex');
 await choose('dark');
 await page.locator('[data-theme-choice="light"]').focus();
 await page.keyboard.press('Enter');
@@ -115,10 +129,16 @@ await first.waitForFunction(() => document.documentElement.dataset.theme === 'li
 assert.equal(await first.locator('[data-theme-choice="light"]').getAttribute('aria-pressed'), 'true');
 await first.emulateMedia({reducedMotion: 'no-preference'});
 await first.locator('[data-agent="claude-code"]').click();
-assert.ok(await first.locator('.toggle-indicator').evaluate(e => e.getAnimations().length > 0));
+assert.ok(await first.locator('.toggle .toggle-indicator').evaluate(e => e.getAnimations().length > 0));
+await first.getByRole('button', {name: 'Dark mode', exact: true}).click();
+const animations = await first.locator('.segmented-toggle .toggle-indicator').evaluateAll(els => els.map(e => {
+  const animation = e.getAnimations()[0];
+  return {duration: animation.effect.getTiming().duration, easing: animation.effect.getTiming().easing, transforms: animation.effect.getKeyframes().map(f => [f.offset, f.transform])};
+}));
+assert.deepEqual(animations[0], animations[1]);
 await first.emulateMedia({reducedMotion: 'reduce'});
 await first.locator('[data-agent="codex"]').click();
-assert.equal(await first.locator('.toggle-indicator').evaluate(e => e.getAnimations().length), 0);
+assert.equal(await first.locator('.toggle .toggle-indicator').evaluate(e => e.getAnimations().length), 0);
 assert.deepEqual(errors, []);
 await browser.close();
-console.log('PASS: system preference, explicit override, reload, both themes/agents at four widths, icon order, keyboard, copying, login palette, storage denial, text contrast, cross-page/tab persistence, CSP, agent animation/reduced motion, no script errors');
+console.log('PASS: system preference, explicit override, reload, both themes/agents at four widths, icon order, keyboard, copying, login palette, storage denial, text contrast, cross-page/tab persistence, CSP, agent animation/reduced motion, shared motion, equal heights, either-half reversal, no script errors');
