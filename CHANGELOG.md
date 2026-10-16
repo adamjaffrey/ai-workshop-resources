@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.22"
-  update_summary: "Pair copy feedback animations and rebalance card spacing"
-  updated_at: "Fri 16 Oct 2026 at 08:54:10 pm AEDT (+11:00)"
+  doc_revision: "26.0.23"
+  update_summary: "Increase vertical breathing room across the workshop page"
+  updated_at: "Fri 16 Oct 2026 at 08:55:31 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.22 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 08:55:31 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Increase vertical breathing room across the workshop page
+
+### Changed
+
+- Increase top and bottom page padding, the space after the brand, and the gaps before the cards and footer to 40 pixels.
+- Increase spacing above the selector, between main card sections, and below the footer divider to 32 pixels.
+- Increase prompt bodies to 192 pixels while preserving equal panel heights, the horizontal card row and compact feedback spacing.
+
+### Validation
+
+- Chrome at 320, 390, 1024 and 1440 pixels — passed measured spacing, equal prompt heights and no page-wide horizontal overflow.
+- Desktop visual inspection — passed.
+- Authentication source tests — all eight passed.
+- Sites production build — passed.
 
 ## v26.0.21 — 2026-10-16
 
