@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.9"
-  update_summary: "Restore the blurred-page look with empty placeholders"
-  updated_at: "Fri 16 Oct 2026 at 07:06:25 pm AEDT (+11:00)"
+  doc_revision: "26.0.10"
+  update_summary: "Add a local design preview and align the placeholder layout"
+  updated_at: "Fri 16 Oct 2026 at 07:15:09 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.9 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 07:15:09 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add a local design preview and align the placeholder layout
+
+### Changed
+
+- Match the real page's header, QR-card position, selector, resource cards and footer using empty decorative shapes and shared layout classes.
+- Extract the placeholder markup and styles into an editable module.
+
+### Added
+
+- Generate a standalone HTML review file with No blur, Blur only and Password panel views; no preview server or credentials required.
+
+### Validation
+
+- `node --test website/tests/auth.test.mjs` — all eight access-control tests passed.
+- Sites `build-site.mjs` — local production build passed.
+- `node website/scripts/preview-login.mjs` and Chrome file preview — all three views, empty decorative content and mobile fit passed; desktop and mobile screenshots reviewed.
 
 ## v26.0.8 — 2026-10-16
 
