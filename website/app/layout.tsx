@@ -5,8 +5,8 @@ export const metadata: Metadata = {
   title: "AI Implementation Workshop Resources",
   description: "Workshop resources with shared-password access.",
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
   },
 };
 

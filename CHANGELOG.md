@@ -3,14 +3,43 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.12"
-  update_summary: "Improve workshop step layout and repair standalone preview assets"
-  updated_at: "Fri 16 Oct 2026 at 07:52:34 pm AEDT (+11:00)"
+  doc_revision: "26.0.13"
+  update_summary: "Refresh workshop icons and selected-agent colours"
+  updated_at: "Fri 16 Oct 2026 at 07:58:30 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.12 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 07:58:30 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refresh workshop icons and selected-agent colours
+
+### Changed
+
+- Replace the favicon with the supplied Wavelength PNG on login and resources pages, and embed it in the portable preview.
+- Replace the Claude mark with Lobe Icons' Claude Code SVG.
+- Switch all step badges and the selected agent toggle between blue (#0285FF, provisional Codex accent) and Lobe's Claude Code orange (#D97757), with readable dark labels.
+
+### Removed
+
+- Remove the old favicon and unused window, file and globe scaffold icons.
+
+### Validation
+
+- Authentication source tests — all eight passed.
+- Sites production build — passed.
+- Chrome preview — both colour states, three badges, toggle, Claude Code artwork, favicon, images and mobile fit passed; no script errors.
+- PVS changed-document and version checks — passed. The whole-project validator cannot represent the existing repository layout with its website-level version authority and root governance documents.
 
 ## v26.0.11 — 2026-10-16
 
