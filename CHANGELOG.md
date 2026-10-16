@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.36"
-  update_summary: "Unify toggle motion and light-mode content surfaces"
-  updated_at: "Sat 17 Oct 2026 at 12:57:12 am AEDT (+11:00)"
+  doc_revision: "26.0.37"
+  update_summary: "Add held toggle stretches and stronger release bounces"
+  updated_at: "Sat 17 Oct 2026 at 01:10:51 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.36 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 01:10:51 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add held toggle stretches and stronger release bounces
+
+### Changed
+
+- Stretch either toggle while held without changing state, then slide and bounce on release through one shared controller.
+- Add an eased launch, stronger landing squash and progressively smaller rebounds, retaining reduced-motion support and equal control heights.
+- Support held Space and Enter activation and restore the indicator when a press is cancelled.
+- Lighten the shared QR-card and code-panel surface to #F8F9FA while preserving white QR pixels and the dark palette.
+
+### Validation
+
+- Authentication source tests — 8 passed.
+- Chrome theme checks — passed, including held mouse and keyboard states, release activation, outside-release cancellation, shared motion, equal heights, both themes and agents, persistence and contrast.
+- Sites production build — passed.
 
 ## v26.0.35 — 2026-10-17
 

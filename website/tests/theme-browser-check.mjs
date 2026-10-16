@@ -133,9 +133,47 @@ assert.ok(await first.locator('.toggle .toggle-indicator').evaluate(e => e.getAn
 await first.getByRole('button', {name: 'Dark mode', exact: true}).click();
 const animations = await first.locator('.segmented-toggle .toggle-indicator').evaluateAll(els => els.map(e => {
   const animation = e.getAnimations()[0];
-  return {duration: animation.effect.getTiming().duration, easing: animation.effect.getTiming().easing, transforms: animation.effect.getKeyframes().map(f => [f.offset, f.transform])};
+  return {duration: animation.effect.getTiming().duration, easing: animation.effect.getTiming().easing, transforms: animation.effect.getKeyframes().slice(1).map(f => [f.offset, f.transform, f.easing])};
 }));
 assert.deepEqual(animations[0], animations[1]);
+// Hold stretches without committing; release commits once and starts the shared bounce.
+await first.waitForTimeout(750);
+for (const [selector, attribute] of [['.theme-toggle', 'data-theme'], ['.toggle', 'data-selected-agent']]) {
+  const button = first.locator(selector + ' button').first();
+  const indicator = first.locator(selector + ' .toggle-indicator');
+  const before = await first.locator('html').getAttribute(attribute);
+  const box = await button.boundingBox();
+  await first.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await first.mouse.down();
+  await first.waitForTimeout(220);
+  assert.equal(await first.locator('html').getAttribute(attribute), before);
+  assert.ok(await indicator.evaluate(e => new DOMMatrix(getComputedStyle(e).transform).a > 1.1));
+  await first.waitForTimeout(150);
+  assert.equal(await first.locator('html').getAttribute(attribute), before);
+  await first.mouse.up();
+  assert.notEqual(await first.locator('html').getAttribute(attribute), before);
+  assert.equal(await indicator.evaluate(e => e.getAnimations()[0].effect.getTiming().duration), 680);
+  await first.waitForTimeout(750);
+  const after = await first.locator('html').getAttribute(attribute);
+  // Releasing outside cancels rather than changing the setting.
+  await first.mouse.down();
+  await first.mouse.move(10, 10);
+  await first.mouse.up();
+  await first.waitForTimeout(40);
+  assert.equal(await first.locator('html').getAttribute(attribute), after);
+  assert.equal(await indicator.evaluate(e => getComputedStyle(e).transform), 'none');
+  // Space and Enter have the same held phase and commit once on key release.
+  for (const key of ['Space', 'Enter']) {
+    await button.focus();
+    const old = await first.locator('html').getAttribute(attribute);
+    await first.keyboard.down(key);
+    await first.waitForTimeout(180);
+    assert.equal(await first.locator('html').getAttribute(attribute), old);
+    await first.keyboard.up(key);
+    assert.notEqual(await first.locator('html').getAttribute(attribute), old);
+    await first.waitForTimeout(750);
+  }
+}
 await first.emulateMedia({reducedMotion: 'reduce'});
 await first.locator('[data-agent="codex"]').click();
 assert.equal(await first.locator('.toggle .toggle-indicator').evaluate(e => e.getAnimations().length), 0);

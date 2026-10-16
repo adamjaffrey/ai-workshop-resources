@@ -1,4 +1,4 @@
-// One indicator controller for the agent and theme segmented buttons.
+// One press, hold and release controller for both segmented toggles.
 export const toggleScript = `window.createWorkshopToggle = function(toggle) {
     const reducedMotionQuery = matchMedia('(prefers-reduced-motion: reduce)');
     toggle.classList.add('segmented-toggle');
@@ -6,26 +6,80 @@ export const toggleScript = `window.createWorkshopToggle = function(toggle) {
     indicator.className = 'toggle-indicator';
     indicator.setAttribute('aria-hidden', 'true');
     toggle.prepend(indicator);
-    let toggleAnimation;
+    let toggleAnimation, held, releaseTimer;
+    const selectedButton = () => toggle.querySelector('[aria-pressed="true"]');
+    function snapshot() {
+      const style = getComputedStyle(indicator);
+      return {left: parseFloat(style.left), width: parseFloat(style.width), transform: style.transform};
+    }
     function moveIndicator(animate = true) {
-      const selected = toggle.querySelector('[aria-pressed="true"]');
+      const selected = selectedButton();
       if (!selected) return;
-      const previous = {left: parseFloat(getComputedStyle(indicator).left), width: indicator.getBoundingClientRect().width};
+      const previous = snapshot();
+      clearTimeout(releaseTimer);
+      held = undefined;
       toggleAnimation?.cancel();
-      const left = selected.offsetLeft;
-      const width = selected.offsetWidth;
+      const left = selected.offsetLeft, width = selected.offsetWidth;
       indicator.style.left = left + 'px';
       indicator.style.width = width + 'px';
-      if (!animate || reducedMotionQuery.matches || !Number.isFinite(previous.left) || previous.width === 0 || previous.left === left) return;
+      if (!animate || reducedMotionQuery.matches || !Number.isFinite(previous.left) || previous.width === 0) return;
       const direction = Math.sign(left - previous.left);
+      if (!direction) return;
+      // Fast eased launch, pronounced landing squash, then diminishing rebounds.
       toggleAnimation = indicator.animate([
-        {left: previous.left + 'px', width: previous.width + 'px', transform: 'scale(1)'},
-        {left: (previous.left + (left - previous.left) * .55) + 'px', width: ((previous.width + width) / 2) + 'px', transform: 'scale(1.12,.94)', offset: .38},
-        {left: (left + direction * 5) + 'px', width: width + 'px', transform: 'scale(.97,1.03)', offset: .72},
-        {left: (left - direction * 2) + 'px', width: width + 'px', transform: 'scale(1.015,.99)', offset: .88},
-        {left: left + 'px', width: width + 'px', transform: 'scale(1)'}
-      ], {duration: 520, easing: 'cubic-bezier(.2,.65,.3,1)'});
+        {left: previous.left + 'px', width: previous.width + 'px', transform: previous.transform, offset: 0, easing: 'cubic-bezier(.2,.7,.3,1)'},
+        {left: (left + direction * 8) + 'px', width: width + 'px', transform: 'scale(.9,1.12)', offset: .48, easing: 'ease-in-out'},
+        {left: (left - direction * 4) + 'px', width: width + 'px', transform: 'scale(1.06,.96)', offset: .7, easing: 'ease-in-out'},
+        {left: (left + direction * 2) + 'px', width: width + 'px', transform: 'scale(.98,1.02)', offset: .86, easing: 'ease-out'},
+        {left: left + 'px', width: width + 'px', transform: 'scale(1)', offset: 1}
+      ], {duration: 680, easing: 'linear'});
     }
+    function press(button, input) {
+      if (held || button.disabled) return;
+      clearTimeout(releaseTimer);
+      held = {button, input};
+      if (reducedMotionQuery.matches) return;
+      const previous = snapshot();
+      toggleAnimation?.cancel();
+      indicator.style.left = previous.left + 'px';
+      indicator.style.width = previous.width + 'px';
+      const selected = selectedButton();
+      const direction = selected === toggle.querySelector('button') ? 1 : -1;
+      toggleAnimation = indicator.animate([
+        {transform: previous.transform},
+        {transform: 'translateX(' + direction * 5 + 'px) scale(1.16,.92)'}
+      ], {duration: 160, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards'});
+    }
+    function cancelPress() {
+      if (held) moveIndicator(false);
+    }
+    toggle.addEventListener('pointerdown', event => {
+      const button = event.target.closest('button');
+      if (button && toggle.contains(button) && event.button === 0 && event.isPrimary) press(button, event.pointerId);
+    });
+    window.addEventListener('pointerup', event => {
+      if (held?.input !== event.pointerId) return;
+      // Native click commits on release; if released outside, restore without toggling.
+      releaseTimer = setTimeout(cancelPress, 0);
+    });
+    window.addEventListener('pointercancel', cancelPress);
+    window.addEventListener('blur', cancelPress);
+    toggle.addEventListener('focusout', event => {
+      if (event.relatedTarget !== held?.button) cancelPress();
+    });
+    toggle.addEventListener('keydown', event => {
+      if (![' ', 'Enter'].includes(event.key) || event.target.tagName !== 'BUTTON') return;
+      event.preventDefault();
+      if (!event.repeat) press(event.target, event.key);
+    });
+    toggle.addEventListener('keyup', event => {
+      if (![' ', 'Enter'].includes(event.key)) return;
+      event.preventDefault();
+      if (held?.input === event.key && held.button === event.target) {
+        event.target.click();
+        cancelPress();
+      }
+    });
     new ResizeObserver(() => moveIndicator(false)).observe(toggle);
     reducedMotionQuery.addEventListener('change', () => moveIndicator(false));
     return moveIndicator;

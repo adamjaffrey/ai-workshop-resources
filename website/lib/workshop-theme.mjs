@@ -7,7 +7,7 @@ const moon = icon('<path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.4
 const control = `<div class="theme-toggle" role="group" aria-label="Colour theme" hidden><button type="button" data-theme-choice="light" aria-label="Light mode" title="Light mode" aria-pressed="false">${sun}</button><button type="button" data-theme-choice="dark" aria-label="Dark mode" title="Dark mode" aria-pressed="false">${moon}</button></div>`;
 const styles = `
 :root {
-  --agent-accent: #0285FF; --page: #f3f3f3; --surface: #fff; --content-surface: #f0f1f2; --text: #1a1a1a;
+  --agent-accent: #0285FF; --page: #f3f3f3; --surface: #fff; --content-surface: #f8f9fa; --text: #1a1a1a;
   --muted-text: #5b6066; --border: #dedede; --panel-border: #d5d9dd;
   --control-border: #c7ccd1; --control-bg: #e9e9e9; --control-text: #454545;
   --hover: #e9edf0; --field-bg: #fafafa; --field-border: #bfc4c9;
