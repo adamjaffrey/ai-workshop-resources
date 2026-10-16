@@ -27,6 +27,21 @@ try {
     await page.evaluate(() => document.fonts.ready);
     const projected = await page.locator('.ph-word').evaluateAll(elements=>elements.map(el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height};}).filter(r=>r.width && r.height));
     assert.equal(projected.length,original.length);
+    const capErrors = await page.locator('.ph-word').evaluateAll(elements => {
+      const canvas = document.createElement('canvas').getContext('2d');
+      return elements.flatMap((el, i) => {
+        const css = getComputedStyle(el), size = parseFloat(css.fontSize);
+        canvas.font = `${css.fontWeight} ${css.fontSize} ${css.fontFamily}`;
+        const expected = canvas.measureText('H').actualBoundingBoxAscent;
+        const cap = parseFloat(css.getPropertyValue('--ph-cap')) * size;
+        const bottom = parseFloat(css.getPropertyValue('--ph-bottom')) * size;
+        const descent = canvas.measureText('Mg').fontBoundingBoxDescent;
+        const painted = el.classList.contains('ph-code-word') ? cap : parseFloat(getComputedStyle(el, '::before').height);
+        return Math.abs(cap - expected) > 1 || Math.abs(bottom - descent) > 1 || Math.abs(painted - cap) > .05 ? [{i, cap, expected, bottom, descent, painted}] : [];
+      });
+    });
+    assert.deepEqual(capErrors, [], `Cap height or baseline drift at ${width}px`);
+
     const differences = original.map((r,i)=>({i,code:r.code,dx:Math.abs(r.x-projected[i].x),dy:Math.abs(r.y-projected[i].y),dw:Math.abs(r.width-projected[i].width)}));
     assert.deepEqual(differences.filter(r=>r.dx>1||r.dy>1||r.dw>1), [], `Word geometry drift at ${width}px`);
     console.log(`PASS: ${original.length} word positions and widths within 1px at ${width}px`);

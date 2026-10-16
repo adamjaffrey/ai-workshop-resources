@@ -15,6 +15,6 @@ test('measured geometry includes prompt words without source text or actions', (
   assert.doesNotMatch(html, /system-blueprint-creator|system-build-assistant|github.com|href=|onclick=|data-copy=|<script|<title|<form/);
   assert.match(html, /aria-hidden="true" inert/);
   assert.doesNotMatch(html.replace(/<[^>]*>/g, ''), /[^x\s]/);
-  assert.match(html, /--ph-top/);
+  assert.match(html, /--ph-cap/);
   assert.doesNotMatch(html, /ph-code-line/);
 });

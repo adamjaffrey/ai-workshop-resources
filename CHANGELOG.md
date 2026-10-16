@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.46"
-  update_summary: "Quicken toggle release and limit held stretch by pixel width"
-  updated_at: "Sat 17 Oct 2026 at 01:47:30 am AEDT (+11:00)"
+  doc_revision: "26.0.47"
+  update_summary: "Align word blocks to a consistent cap height and baseline"
+  updated_at: "Sat 17 Oct 2026 at 01:51:16 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.46 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 01:51:16 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Align word blocks to a consistent cap height and baseline
+
+### Changed
+
+- Paint each placeholder using its text style's measured capital-H height and common alphabetic baseline instead of each word's individual glyph bounds.
+- Apply the same height rule to monospaced prompt words and emoji placeholders while preserving measured widths, line boxes, wrapping and the 35% colour blend.
+
+### Validation
+
+- Chrome geometry checks — passed for cap height, baseline, blend slider and unchanged word positions and widths at 1440, 768, 390 and 320px.
+- Authentication and placeholder source tests — 10 passed.
+- Sites production build — passed with regenerated geometry and source fingerprint checks.
 
 ## v26.0.45 — 2026-10-17
 

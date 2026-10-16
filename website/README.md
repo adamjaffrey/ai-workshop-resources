@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.17"
-  update_summary: "Document quicker releases and width-limited held stretching"
-  updated_at: "Sat 17 Oct 2026 at 01:47:30 am AEDT (+11:00)"
+  doc_revision: "26.0.18"
+  update_summary: "Document consistent cap-height placeholder blocks"
+  updated_at: "Sat 17 Oct 2026 at 01:51:16 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -38,7 +38,7 @@ Run `node website/scripts/measure-placeholder.mjs` followed by `node website/scr
 
 The login background uses the current resources layout and CSS with every visible word replaced by measured anonymous geometry, including prompt words. `website/scripts/measure-placeholder.mjs` opens the resource preview in installed Google Chrome through the Playwright development dependency, waits for its font, measures word bounds and saves `website/lib/workshop-placeholder.generated.json`. Source text, links, scripts and action attributes are excluded. Monospaced text uses invisible dummy glyphs with measured exceptions for emoji, preserving native wrapping. Public icons and images retain their original shapes.
 
-The blocks use an opaque blend of 35% foreground colour and 65% of the containing surface colour. Card and button surfaces remain unchanged. The local preview's Block strength slider adjusts this blend from 0% to 100%; it does not change the production default or apply opacity to the page. Text blocks retain their measured line boxes while painting the glyph-height region.
+The blocks use an opaque blend of 35% foreground colour and 65% of the containing surface colour. Card and button surfaces remain unchanged. The local preview's Block strength slider adjusts this blend from 0% to 100%; it does not change the production default or apply opacity to the page. Text blocks retain their measured widths and line boxes while painting one consistent cap-height rectangle per text style, measured from the capital H and aligned to the alphabetic baseline. Individual ascenders, descenders and emoji do not alter the painted block height. Prompt words use the same cap-height rule while preserving native wrapping.
 
 Development and build startup automatically remeasure the page and regenerate both preview files. The source fingerprint rejects stale geometry instead of silently showing old shapes. After editing during a running development session, rerun the measurement and login preview commands, then reload. The build requires installed Google Chrome; measurement happens during preparation, never in a visitor's browser. `workshop-resource-page.mjs` owns the resource template independently of the login renderer so generation cannot import stale login geometry.
 

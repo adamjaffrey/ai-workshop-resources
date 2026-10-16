@@ -33,6 +33,7 @@ try {
       canvas.font = `${css.fontWeight} ${css.fontSize} ${css.fontFamily}`;
       const font = canvas.measureText('Mg');
       const descent = font.fontBoundingBoxDescent / fontSize;
+      const capHeight = canvas.measureText('H').actualBoundingBoxAscent / fontSize;
       const fragment = document.createDocumentFragment();
       for (const match of node.textContent.matchAll(/\S+|\s+/gu)) {
         if (!match[0].trim()) { fragment.append(document.createTextNode(match[0])); continue; }
@@ -41,6 +42,9 @@ try {
         const rect = range.getBoundingClientRect();
         if (!rect.width || !rect.height) continue;
         const word = document.createElement('span');
+        // One cap-height rectangle per text style, ending on the baseline.
+        word.style.setProperty('--ph-cap', `${capHeight}em`);
+        word.style.setProperty('--ph-bottom', `${descent}em`);
         if (node.parentElement.closest('pre, .slug') && [...match[0]].every(char => Math.abs(canvas.measureText(char).width - canvas.measureText('x').width) < .01)) {
           word.className = 'ph-word ph-code-word';
           if (node.parentElement.closest('.slug')) word.style.setProperty('--ph-ink', 'var(--muted-text)');
@@ -57,10 +61,6 @@ try {
         word.style.width = `${rect.width / fontSize}em`;
         word.style.height = `${rect.height / fontSize}em`;
         word.style.verticalAlign = `${-descent}em`;
-        // Paint the glyph-height region, while retaining the exact line box.
-        const glyph = canvas.measureText(match[0]);
-        word.style.setProperty('--ph-top', `${Math.max(0, rect.height - font.fontBoundingBoxDescent - glyph.actualBoundingBoxAscent) / fontSize}em`);
-        word.style.setProperty('--ph-bottom', `${Math.max(0, font.fontBoundingBoxDescent - glyph.actualBoundingBoxDescent) / fontSize}em`);
         fragment.append(word); words++;
       }
       target.replaceWith(fragment);
