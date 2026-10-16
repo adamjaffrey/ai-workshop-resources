@@ -3,14 +3,35 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.37"
-  update_summary: "Add held toggle stretches and stronger release bounces"
-  updated_at: "Sat 17 Oct 2026 at 01:10:51 am AEDT (+11:00)"
+  doc_revision: "26.0.38"
+  update_summary: "Outline the QR image with the shared card border colour"
+  updated_at: "Sat 17 Oct 2026 at 01:13:01 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.37 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 01:13:01 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Outline the QR image with the shared card border colour
+
+### Changed
+
+- Add a 1px keyline around the white QR image using the same theme-aware border variable as the outer card, preserving image dimensions and spacing.
+
+### Validation
+
+- Chrome computed-style and visual checks — passed in both themes; keyline matches the card border, image remains white and 150px wide, and card padding remains 14px.
+- Sites production build — passed.
 
 ## v26.0.36 — 2026-10-17
 
