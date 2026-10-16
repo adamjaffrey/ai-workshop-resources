@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.50"
-  update_summary: "Set the blur default to 4px with 40% block strength"
-  updated_at: "Sat 17 Oct 2026 at 02:09:30 am AEDT (+11:00)"
+  doc_revision: "26.0.51"
+  update_summary: "Match focus rings and reorder keyboard navigation"
+  updated_at: "Sat 17 Oct 2026 at 02:14:37 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.50 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 02:14:37 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Match focus rings and reorder keyboard navigation
+
+### Fixed
+
+- Match the QR link focus radius to the outer card's 16px radius.
+- Trace each complete scroll viewport with sharp top corners and rounded bottom corners, keeping its focus ring visible while scrolling.
+- Place the QR link between the theme and agent controls in native Tab order, preserving the visible layout and refreshing placeholder geometry for the structural change.
+
+### Validation
+
+- Authentication and placeholder source tests — 10 passed.
+- Chrome keyboard and focus checks — passed for forward/reverse navigation, mobile QR skipping, and all three scrolled prompt regions.
+- Chrome word geometry and theme checks — passed at four viewport widths.
+- Production build — passed with the v26.0.50 display.
 
 ## v26.0.49 — 2026-10-17
 
