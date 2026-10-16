@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.15"
-  update_summary: "Tint step cards to match the selected agent"
-  updated_at: "Fri 16 Oct 2026 at 08:16:05 pm AEDT (+11:00)"
+  doc_revision: "26.0.16"
+  update_summary: "Match card icon colours to the selected agent"
+  updated_at: "Fri 16 Oct 2026 at 08:20:18 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.15 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 08:20:18 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Match card icon colours to the selected agent
+
+### Changed
+
+- Use 12% selected-agent colour mixed with white for all three icon tile backgrounds, and 80% selected-agent colour mixed with black for the icon lines.
+- Document the card and icon colour mixes in the website README.
+
+### Validation
+
+- Chrome preview — exact background and line colour mixes passed for all three icons in both agent states; card tints, white toggle and badge labels, assets and mobile layout passed.
+- Authentication source tests — all eight passed.
+- Sites production build — passed.
+- PVS changed-document and version checks — passed.
 
 ## v26.0.14 — 2026-10-16
 
