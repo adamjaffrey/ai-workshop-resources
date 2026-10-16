@@ -1,5 +1,5 @@
 // Generate a standalone design preview. Never imported by the production Worker.
-import {mkdir, writeFile} from 'node:fs/promises';
+import {mkdir, readFile, writeFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import {loginPage} from '../lib/workshop-pages.mjs';
 const styles=`
@@ -12,9 +12,13 @@ body[data-review=clear], body[data-review=blurred] {overflow:auto;}
 .review-toolbar button[aria-pressed=true] {background:#006aa6;color:white;}
 .review-toolbar small {width:100%;color:#666;}
 `;
-const nav=`<nav class="review-toolbar" aria-label="Local design preview"><strong>Local preview</strong>${[['clear','No blur'],['blurred','Blur only'],['panel','Password panel']].map(([key,label])=>`<button type="button" data-review-view="${key}" aria-pressed="${key==='clear'}">${label}</button>`).join('')}<small>Decorative placeholders only · Local file · Nothing is published</small></nav>`;
+const nav=`<nav class="review-toolbar" aria-label="Local design preview"><strong>Local preview</strong>${[['clear','No blur'],['blurred','Blur only'],['panel','Password panel']].map(([key,label])=>`<button type="button" data-review-view="${key}" aria-pressed="${key==='blurred'}">${label}</button>`).join('')}<small>Decorative placeholders only · Local file · Nothing is published</small></nav>`;
 const script=`<script>document.querySelectorAll('[data-review-view]').forEach(button=>button.addEventListener('click',()=>{document.body.dataset.review=button.dataset.reviewView;document.querySelectorAll('[data-review-view]').forEach(other=>other.setAttribute('aria-pressed',String(other===button)));}));document.getElementById('access-form').addEventListener('submit',event=>event.preventDefault());</script>`;
-const html=loginPage.replace(/<script[^>]*src="\/login\.js"[^>]*><\/script>/g,'').replace('<body class="is-locked">','<body class="is-locked" data-review="clear">').replace('</style>',styles+'</style>').replace('</body>',nav+script+'</body>').replace('type="submit"','type="button"').replace(' required autofocus',' disabled');
+let html=loginPage.replace(/<script[^>]*src="\/login\.js"[^>]*><\/script>/g,'').replace('<body class="is-locked">','<body class="is-locked" data-review="blurred">').replace('</style>',styles+'</style>').replace('</body>',nav+script+'</body>').replace('type="submit"','type="button"').replace(' required autofocus',' disabled');
+for (const [name, mime] of [['wavelength-worm.png', 'image/png'], ['MarkPro-Bold.ttf', 'font/ttf']]) {
+  const bytes = await readFile(new URL('../public/assets/' + name, import.meta.url));
+  html = html.replaceAll('/assets/' + name, `data:${mime};base64,${bytes.toString('base64')}`);
+}
 const directory=new URL('../outputs/',import.meta.url);
 await mkdir(directory,{recursive:true});
 const target=new URL('login-design-preview.html',directory);

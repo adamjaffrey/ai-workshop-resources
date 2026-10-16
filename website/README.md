@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.12"
-  update_summary: "Document momentum through the toggle destination"
-  updated_at: "Sat 17 Oct 2026 at 01:19:43 am AEDT (+11:00)"
+  doc_revision: "26.0.13"
+  update_summary: "Document automatic blur layout synchronisation"
+  updated_at: "Sat 17 Oct 2026 at 01:24:59 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -34,9 +34,11 @@ This protects content delivered by this website. The linked public GitHub reposi
 
 ## Local Design Review
 
-Run `node website/scripts/preview-login.mjs` from the repository root, then open `website/outputs/login-design-preview.html` directly in a browser. No server is needed. Switch between No blur, Blur only and Password panel using the preview controls. The form is disabled and the file contains no credentials or protected workshop content. The generated output is ignored by Git and excluded from deployment.
+Run `node website/scripts/preview-login.mjs` from the repository root, then open `website/outputs/login-design-preview.html` directly in Chrome. No server is needed. Switch between No blur, Blur only and Password panel using the preview controls. The form is disabled and the file contains no credentials or protected workshop content. The generated output is ignored by Git and excluded from deployment.
 
-Edit `website/lib/workshop-placeholder.mjs` for the decorative markup and styling, rerun the generator, then reload the HTML file. Shared page layout classes keep the structure aligned with the real page. Review controls exist only in this generated local file; production authentication is unchanged. Keep design iterations local until publishing is approved.
+The login background is generated on the server from the current resources layout and its CSS through `website/lib/workshop-placeholder.mjs`. Layout changes therefore flow through automatically, including step count, columns, spacing, colours and mobile breakpoints. Text becomes anonymous word geometry; scripts, links and non-layout attributes are removed before the login response is sent. Prompt areas use fixed dummy lines. This is an approximate decorative background, not an exact screenshot of protected content.
+
+Development and build startup regenerate both standalone preview files; reload an already-open file after regeneration. The production login always uses the current resource layout without a separate regeneration step. Builds run the placeholder regression tests automatically. Run `node --test website/tests/placeholder.test.mjs` for source checks and `node website/tests/placeholder-browser-check.mjs` with `PLAYWRIGHT_MODULE` available for Chrome checks at four viewport widths in both themes. Unsupported new element types fail explicitly so their handling can be reviewed. Review controls exist only in the local preview. Keep design iterations local until publishing is approved.
 
 Run `node website/scripts/preview-resources.mjs` from the repository root to generate `website/outputs/workshop-resources-preview.html`. Open this file in Chrome, not the Codex sidebar. Both images and the font are embedded so the preview works when moved. It retains the agent selector and copy controls but omits session checks and logout; production authentication is unchanged.
 

@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.41"
-  update_summary: "Carry toggle momentum through the destination before rebounding"
-  updated_at: "Sat 17 Oct 2026 at 01:19:43 am AEDT (+11:00)"
+  doc_revision: "26.0.42"
+  update_summary: "Keep the blur background aligned with the resources layout"
+  updated_at: "Sat 17 Oct 2026 at 01:24:59 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.41 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 01:24:59 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Keep the blur background aligned with the resources layout
+
+### Changed
+
+- Generate the inert login background from the current resources structure and CSS, replacing the outdated two-card layout with the three alternating steps.
+- Remove source text, links, scripts and non-layout attributes before delivering decorative placeholders.
+- Refresh standalone previews on development and build startup, open the login preview in blur mode, and embed its branding assets.
+- Run layout synchronisation and content-removal regression checks during builds; document the automatic update path.
+
+### Validation
+
+- Authentication and placeholder source tests — 10 passed.
+- Chrome theme and interaction suite — passed.
+- Chrome blur checks — passed at 1440, 768, 390 and 320px in both themes, including matching column geometry, empty text, overflow and password panel checks.
+- Sites production build — passed.
 
 ## v26.0.40 — 2026-10-17
 
