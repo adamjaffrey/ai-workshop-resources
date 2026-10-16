@@ -3,14 +3,43 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.26"
-  update_summary: "Set the workshop content width and stacking breakpoint"
-  updated_at: "Fri 16 Oct 2026 at 09:05:45 pm AEDT (+11:00)"
+  doc_revision: "26.0.27"
+  update_summary: "Keep prompts stationary while showing copy feedback below them"
+  updated_at: "Fri 16 Oct 2026 at 09:11:47 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.26 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 09:11:47 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Keep prompts stationary while showing copy feedback below them
+
+### Changed
+
+- Move success and failure messages beneath the prompt inside its panel, expanding downward without shifting the prompt position.
+- Remove copy-button minimum widths so each state fits its content while preserving the right edge and consistent inner padding.
+- Add a green success outline matching the existing success text and Lucide Check icon.
+- Lower the stacking breakpoint to 660 pixels.
+- Extend browser checks for stationary prompts, shrinking right-aligned buttons, green outlines and the verified Lucide SVG path.
+
+### Validation
+
+- Chrome at 320, 390, 660, 661, 700, 800, 1008, 1024 and 1440 pixels — passed responsive layout and spacing checks.
+- Success, fade completion, reset and failure — passed fixed prompt position and downward-only panel expansion.
+- All copy actions in both agent states — passed payloads, feedback, button sizing and right-edge alignment.
+- Rendered icon inspection — copy and check both use 18-pixel dimensions, a 24-unit viewBox, 2-unit strokes and round caps and joins; Check matches the installed Lucide SVG path.
+- Authentication source tests — all eight passed.
+- Sites production build — passed.
 
 ## v26.0.25 — 2026-10-16
 
