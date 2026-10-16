@@ -11,6 +11,7 @@ for (const width of [1440, 1024, 1008, 800, 700, 661, 660, 390, 320]) {
     const box = element => { const r = element.getBoundingClientRect(); return {x:r.x, y:r.y, width:r.width, right:r.right, bottom:r.bottom}; };
     return {
       overflow: document.documentElement.scrollWidth > innerWidth,
+      header: {text:box(document.querySelector('.page-header > div')), qr:box(document.querySelector('.qr-card')), qrDisplay:getComputedStyle(document.querySelector('.qr-card')).display},
       contentWidth: document.querySelector('.cards').getBoundingClientRect().width,
       scrollable: document.querySelector('.cards').scrollWidth > document.querySelector('.cards').clientWidth,
       headings: [...document.querySelectorAll('.step-title')].map(e => e.textContent),
@@ -20,6 +21,8 @@ for (const width of [1440, 1024, 1008, 800, 700, 661, 660, 390, 320]) {
   });
   assert.ok(!layout.overflow && !layout.scrollable);
   assert.equal(layout.contentWidth, Math.min(960, width - 48));
+  if (width > 660) assert.ok(layout.header.qr.x > layout.header.text.x);
+  else assert.equal(layout.header.qrDisplay, 'none');
   assert.deepEqual(layout.headings, ['Step 1', 'Step 2', 'Step 3']);
   assert.equal(new Set(layout.codeHeights).size, 1);
   layout.rows.forEach(({marker, card, line, copy}, index) => {
@@ -40,12 +43,14 @@ for (const agent of ['codex', 'claude-code']) {
   await page.locator(`[data-agent="${agent}"]`).click();
   for (const button of await page.locator('[data-copy]').all()) {
     await button.scrollIntoViewIfNeeded();
-    const beforeCopy = await button.evaluate(e => ({right:e.getBoundingClientRect().right, width:e.offsetWidth, promptY:e.closest('article').querySelector('pre').getBoundingClientRect().top + scrollY}));
+    const beforeCopy = await button.evaluate(e => ({right:e.getBoundingClientRect().right, width:e.offsetWidth, panelHeight:e.closest('.code-wrap').offsetHeight, cardHeight:e.closest('article').offsetHeight, promptY:e.closest('article').querySelector('pre').getBoundingClientRect().top + scrollY}));
     await button.click();
-    const afterCopy = await button.evaluate(e => ({right:e.getBoundingClientRect().right, width:e.offsetWidth, promptY:e.closest('article').querySelector('pre').getBoundingClientRect().top + scrollY, border:getComputedStyle(e).borderTopColor}));
+    const afterCopy = await button.evaluate(e => ({right:e.getBoundingClientRect().right, width:e.offsetWidth, panelHeight:e.closest('.code-wrap').offsetHeight, cardHeight:e.closest('article').offsetHeight, promptY:e.closest('article').querySelector('pre').getBoundingClientRect().top + scrollY, border:getComputedStyle(e).borderTopColor}));
     assert.equal(afterCopy.right, beforeCopy.right);
     assert.ok(afterCopy.width < beforeCopy.width);
     assert.equal(afterCopy.promptY, beforeCopy.promptY);
+    assert.equal(afterCopy.panelHeight, beforeCopy.panelHeight);
+    assert.equal(afterCopy.cardHeight, beforeCopy.cardHeight);
     assert.equal(afterCopy.border, 'rgb(22, 115, 66)');
     const card = button.locator('xpath=ancestor::article');
     assert.equal(await button.locator('.copy-label').textContent(), 'Copied');

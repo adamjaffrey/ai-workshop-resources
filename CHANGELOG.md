@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.27"
-  update_summary: "Keep prompts stationary while showing copy feedback below them"
-  updated_at: "Fri 16 Oct 2026 at 09:11:47 pm AEDT (+11:00)"
+  doc_revision: "26.0.28"
+  update_summary: "Overlay copy feedback and hide the QR code on small screens"
+  updated_at: "Fri 16 Oct 2026 at 09:15:12 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.27 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 09:15:12 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Overlay copy feedback and hide the QR code on small screens
+
+### Changed
+
+- Position feedback over the bottom of the existing prompt body, preserving panel and card dimensions throughout success, failure and dismissal.
+- Keep the white feedback surface, divider and paired button/message animations, removing the height-collapse animation.
+- Hide the QR card at 660 pixels and below, matching the step stacking breakpoint, and retain it beside the header above that width.
+- Extend browser checks for fixed panel and card heights and responsive QR visibility.
+
+### Validation
+
+- Chrome at 320, 390, 660, 661, 700, 800, 1008, 1024 and 1440 pixels — passed layout, QR visibility and overflow checks.
+- All copy controls in both agent states — passed fixed dimensions, stable prompt position, feedback and button alignment.
+- Success fade-out, reset and failure checks — passed unchanged panel dimensions and prompt position.
+- Desktop overlay visual inspection — passed.
+- Sites production build — passed.
 
 ## v26.0.26 — 2026-10-16
 
