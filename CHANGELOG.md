@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.21"
-  update_summary: "Synchronise copy feedback and route vertical scrolling to the page"
-  updated_at: "Fri 16 Oct 2026 at 08:50:59 pm AEDT (+11:00)"
+  doc_revision: "26.0.22"
+  update_summary: "Pair copy feedback animations and rebalance card spacing"
+  updated_at: "Fri 16 Oct 2026 at 08:54:10 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.21 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 08:54:10 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Pair copy feedback animations and rebalance card spacing
+
+### Changed
+
+- Animate button feedback and its card message with identical entrance and exit keyframes, durations and shared start times, retaining the common reset lifecycle.
+- Match install labels, copy labels and feedback to 12-pixel text; reduce the feedback gap beneath body copy to 8 pixels.
+- Give desktop cards 32-pixel padding, retain 24-pixel padding on small screens, and provide more room inside prompt headers and prompt bodies.
+- Keep 24-pixel spacing between major sections and use 16-pixel gaps for related controls and card heading icons.
+- Share one pure-white surface colour between prompt panels and the QR card.
+
+### Validation
+
+- Chrome paired-animation checks — passed matching entrance and exit keyframes, start times, durations, cancellation, reset and reduced motion.
+- Typography and spacing checks at 320, 390, 1024 and 1440 pixels in both agent states — passed matching text sizes, shared white surfaces, feedback gap and header fit.
+- Existing Chrome scroll regression checks — passed.
+- Authentication source tests — all eight passed.
+- Sites production build — passed.
 
 ## v26.0.20 — 2026-10-16
 
