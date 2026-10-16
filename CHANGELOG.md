@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.47"
-  update_summary: "Align word blocks to a consistent cap height and baseline"
-  updated_at: "Sat 17 Oct 2026 at 01:51:16 am AEDT (+11:00)"
+  doc_revision: "26.0.48"
+  update_summary: "Match icon blocks by set and preserve the QR white border"
+  updated_at: "Sat 17 Oct 2026 at 01:56:57 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.47 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 01:56:57 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Match icon blocks by set and preserve the QR white border
+
+### Changed
+
+- Replace background SVG icons with measured blocks, matching dimensions within the step, agent-logo, theme and copy-control sets.
+- Replace the QR pattern with a block while retaining its measured 48px white quiet zone inside the 540px source image, including in dark mode.
+- Apply the existing 35% colour blend and preview slider to the new blocks without changing the card surfaces or word geometry.
+
+### Validation
+
+- Chrome checks — passed for matched icon sizes, QR white-border pixels, unchanged text geometry and blend controls at four viewport widths.
+- Authentication and placeholder source tests — 10 passed.
+- Sites production build — passed with automatic geometry generation and stale-source checks.
 
 ## v26.0.46 — 2026-10-17
 

@@ -12,7 +12,7 @@ test('login inherits current CSS and measured geometry; stale layouts fail', () 
 test('measured geometry includes prompt words without source text or actions', () => {
   const html = geometry.markup;
   assert.ok(geometry.words > 1000);
-  assert.doesNotMatch(html, /system-blueprint-creator|system-build-assistant|github.com|href=|onclick=|data-copy=|<script|<title|<form/);
+  assert.doesNotMatch(html, /system-blueprint-creator|system-build-assistant|github.com|href=|onclick=|data-copy=|<script|<title|<form|<svg/);
   assert.match(html, /aria-hidden="true" inert/);
   assert.doesNotMatch(html.replace(/<[^>]*>/g, ''), /[^x\s]/);
   assert.match(html, /--ph-cap/);

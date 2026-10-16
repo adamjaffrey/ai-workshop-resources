@@ -80,15 +80,59 @@ try {
         el.style.transform = css.transform;
       }
       if (el.tagName === 'IMG') {
-        // Both are public decorative assets; no arbitrary source URLs are copied.
-        el.src = original.closest('.brand-mark') ? '/assets/wavelength-worm.png' : '/assets/workshop-resources-qr.png';
+        // Retain the public brand mark; the QR uses empty square geometry.
+        const brand = original.closest('.brand-mark');
+        if (brand) {
+          el.src = '/assets/wavelength-worm.png';
+        } else {
+          // Measure the actual QR quiet zone; retain its opaque white padding.
+          const raster = document.createElement('canvas');
+          const width = raster.width = original.naturalWidth;
+          const height = raster.height = original.naturalHeight;
+          const context = raster.getContext('2d');
+          context.drawImage(original, 0, 0);
+          const pixels = context.getImageData(0, 0, width, height).data;
+          let left = width, top = height, right = 0, bottom = 0;
+          for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+            const offset = (y * width + x) * 4;
+            if (pixels[offset + 3] > 127 && Math.min(...pixels.subarray(offset, offset + 3)) < 128) {
+              left = Math.min(left, x); top = Math.min(top, y);
+              right = Math.max(right, x + 1); bottom = Math.max(bottom, y + 1);
+            }
+          }
+          if (right <= left || bottom <= top) throw new Error('QR pattern bounds missing');
+          const frame = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}"><path fill="white" fill-rule="evenodd" d="M0 0H${width}V${height}H0Z M${left} ${top}H${right}V${bottom}H${left}Z"/></svg>`;
+          el.src = 'data:image/svg+xml,' + encodeURIComponent(frame);
+          el.classList.add('ph-qr-block');
+        }
         el.alt = '';
       }
       if (el.tagName === 'FORM') {const replacement = document.createElement('div'); replacement.append(...el.childNodes); el.replaceWith(replacement);}
     }
+    // Match each icon family to its largest measured layout box. Hidden variants
+    // use their CSS dimensions, so Copy/Success states share the same geometry.
+    const iconSet = el => el.closest('.symbol') ? 'step' : el.classList.contains('brand-icon') ? 'agent' : el.closest('.theme-toggle') ? 'theme' : el.closest('.copy') ? 'copy' : 'other';
+    const iconSizes = {};
+    for (const el of source.querySelectorAll('svg')) {
+      const group = iconSet(el), rect = el.getBoundingClientRect(), css = getComputedStyle(el);
+      const size = iconSizes[group] ||= {width: 0, height: 0};
+      size.width = Math.max(size.width, rect.width || parseFloat(css.width) || 0);
+      size.height = Math.max(size.height, rect.height || parseFloat(css.height) || 0);
+    }
+    for (let i = 0; i < sourceElements.length; i++) {
+      const original = sourceElements[i];
+      if (original.tagName.toLowerCase() !== 'svg') continue;
+      const group = iconSet(original), size = iconSizes[group];
+      const block = document.createElement('span');
+      block.className = `${original.getAttribute('class') || ''} ph-icon`;
+      block.dataset.phIconSet = group;
+      block.style.width = `${size.width}px`;
+      block.style.height = `${size.height}px`;
+      cloneElements[i].replaceWith(block);
+    }
     clone.id = 'workshop-content'; clone.className = 'page-placeholder';
     clone.setAttribute('aria-hidden', 'true'); clone.setAttribute('inert', '');
-    return {markup: clone.outerHTML, words};
+    return {markup: clone.outerHTML, words, iconSizes};
   });
   const fingerprint = createHash('sha256').update(resourcePage).digest('hex');
   await writeFile(new URL('../lib/workshop-placeholder.generated.json', import.meta.url), JSON.stringify({fingerprint, ...result}) + '\n');

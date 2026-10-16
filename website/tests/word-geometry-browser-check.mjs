@@ -27,6 +27,33 @@ try {
     await page.evaluate(() => document.fonts.ready);
     const projected = await page.locator('.ph-word').evaluateAll(elements=>elements.map(el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height};}).filter(r=>r.width && r.height));
     assert.equal(projected.length,original.length);
+    const decorationErrors = await page.evaluate(() => {
+      const failures = [], groups = new Map();
+      for (const el of document.querySelectorAll('.ph-icon')) {
+        const css = getComputedStyle(el);
+        const key = el.dataset.phIconSet;
+        const size = `${css.width}/${css.height}`;
+        if (groups.has(key) && groups.get(key) !== size) failures.push(`Mismatched ${key} size`);
+        groups.set(key, size);
+      }
+      const expected = {step:'26px/26px', agent:'20px/20px', theme:'20px/20px', copy:'18px/18px'};
+      for (const [key, size] of Object.entries(expected)) if (groups.get(key) !== size) failures.push(`Unexpected ${key} dimensions`);
+      if (document.querySelector('.page-placeholder svg')) failures.push('Original icon remains');
+      const qr = document.querySelector('.ph-qr-block');
+      if (!qr || !qr.src.startsWith('data:image/svg+xml,') || qr.naturalWidth !== qr.naturalHeight) failures.push('QR is not empty square geometry');
+      if (qr) {
+        const canvas = document.createElement('canvas');canvas.width = canvas.height = 540;
+        const context = canvas.getContext('2d');context.drawImage(qr,0,0);
+        for (const [x,y] of [[0,270],[47,270],[492,270],[270,47],[270,492]]) {
+          if ([...context.getImageData(x,y,1,1).data].join(',') !== '255,255,255,255') failures.push('QR white padding changed');
+        }
+        if (context.getImageData(270,270,1,1).data[3] !== 0) failures.push('QR centre is not a blendable block');
+      }
+      if (innerWidth > 660 && Math.abs(qr.getBoundingClientRect().width - 150) > .1) failures.push('QR size changed');
+      return failures;
+    });
+    assert.deepEqual(decorationErrors, [], `Icon or QR block mismatch at ${width}px`);
+
     const capErrors = await page.locator('.ph-word').evaluateAll(elements => {
       const canvas = document.createElement('canvas').getContext('2d');
       return elements.flatMap((el, i) => {
