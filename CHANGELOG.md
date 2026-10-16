@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.8"
-  update_summary: "Secure workshop access with persistent seven-day sessions"
-  updated_at: "Fri 16 Oct 2026 at 04:39:05 pm AEDT (+11:00)"
+  doc_revision: "26.0.9"
+  update_summary: "Restore the blurred-page look with empty placeholders"
+  updated_at: "Fri 16 Oct 2026 at 07:06:25 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.8 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 07:06:25 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Restore the blurred-page look with empty placeholders
+
+### Changed
+
+- Show decorative header and card shapes behind the login panel, with no workshop text, links, images or controls.
+- Hide the decorative layout from assistive technology and prevent interaction.
+
+### Validation
+
+- `node --test website/tests/auth.test.mjs` — all eight access-control tests passed.
+- Sites `build-site.mjs` — production build passed.
+- Desktop and mobile Chrome inspection — empty placeholder content, non-interactive markup and mobile overflow checks passed; screenshots reviewed.
 
 ## v26.0.7 — 2026-10-16
 
