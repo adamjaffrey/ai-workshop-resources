@@ -5,7 +5,7 @@ const page = await browser.newPage({viewport: {width: 1440, height: 1000}, hasTo
 const errors = [];
 page.on('pageerror', error => errors.push(error.message));
 await page.goto(new URL('../outputs/workshop-resources-preview.html', import.meta.url).href);
-for (const width of [1440, 1024, 848, 720, 681, 680, 390, 320]) {
+for (const width of [1440, 1024, 1008, 800, 761, 760, 390, 320]) {
   await page.setViewportSize({width, height: 1000});
   const layout = await page.evaluate(() => {
     const box = element => { const r = element.getBoundingClientRect(); return {x:r.x, y:r.y, width:r.width, right:r.right, bottom:r.bottom}; };
@@ -19,11 +19,11 @@ for (const width of [1440, 1024, 848, 720, 681, 680, 390, 320]) {
     };
   });
   assert.ok(!layout.overflow && !layout.scrollable);
-  assert.equal(layout.contentWidth, Math.min(800, width - 48));
+  assert.equal(layout.contentWidth, Math.min(960, width - 48));
   assert.deepEqual(layout.headings, ['Step 1', 'Step 2', 'Step 3']);
   assert.equal(new Set(layout.codeHeights).size, 1);
   layout.rows.forEach(({marker, card, line, copy}, index) => {
-    if (width > 680) {
+    if (width > 760) {
       assert.ok(index % 2 ? card.x < marker.x : card.x > marker.x);
       assert.equal(marker.y - card.y, 12);
       assert.ok(Math.abs((index % 2 ? line.x - card.right : card.x - line.right) - 24) < .1);

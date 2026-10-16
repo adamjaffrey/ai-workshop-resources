@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.25"
-  update_summary: "Narrow the page and top-align detached step accents"
-  updated_at: "Fri 16 Oct 2026 at 09:03:46 pm AEDT (+11:00)"
+  doc_revision: "26.0.26"
+  update_summary: "Set the workshop content width and stacking breakpoint"
+  updated_at: "Fri 16 Oct 2026 at 09:05:45 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.25 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 09:05:45 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Set the workshop content width and stacking breakpoint
+
+### Changed
+
+- Increase the content width from 800 to 960 pixels and move the stacking breakpoint from 680 to 760 pixels.
+- Update responsive regression checks for the new width and breakpoint.
+
+### Validation
+
+- Chrome at 320, 390, 760, 761, 800, 1008, 1024 and 1440 pixels — passed width, alignment, accent clearance and absence of horizontal overflow.
+- All copy controls in both agent states and vertical page scrolling — passed.
+- Sites production build — passed.
 
 ## v26.0.24 — 2026-10-16
 
