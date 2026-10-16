@@ -1,7 +1,7 @@
 const {chromium} = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 import assert from 'node:assert/strict';
 const browser = await chromium.launch({channel: 'chrome', headless: true});
-const page = await browser.newPage({viewport: {width: 1440, height: 1000}, hasTouch: true});
+const page = await browser.newPage({viewport: {width: 1440, height: 1000}, hasTouch: true, reducedMotion: 'reduce'});
 const errors = [];
 page.on('pageerror', error => errors.push(error.message));
 await page.goto(new URL('../outputs/workshop-resources-preview.html', import.meta.url).href);
@@ -27,7 +27,7 @@ for (const width of [1440, 1024, 1008, 800, 700, 661, 660, 390, 320]) {
   else assert.equal(layout.header.qrDisplay, 'none');
   assert.deepEqual(layout.headings, ['Step 1', 'Step 2', 'Step 3']);
   assert.equal(layout.titleSize, width > 660 ? 48 : 40);
-  assert.equal(layout.stepSize, width > 660 ? 40 : 32);
+  assert.equal(layout.stepSize, width > 660 ? 32 : 28);
   assert.equal(new Set(layout.codeHeights).size, 1);
   layout.rows.forEach(({marker, card, line, copy}, index) => {
     if (width > 660) {
@@ -70,9 +70,14 @@ const before = await page.evaluate(() => ({y:scrollY, prompt:document.querySelec
 await page.mouse.wheel(0, 80);
 await page.waitForTimeout(80);
 const after = await page.evaluate(() => ({y:scrollY, prompt:document.querySelector('pre').scrollTop, x:document.querySelector('.cards').scrollLeft}));
-assert.ok(after.y > before.y);
-assert.equal(after.prompt, before.prompt);
+assert.equal(after.y, before.y);
+assert.ok(after.prompt > before.prompt);
 assert.equal(after.x, 0);
+await page.locator('.description').first().hover();
+const pageBefore = await page.evaluate(() => scrollY);
+await page.mouse.wheel(0, 80);
+await page.waitForTimeout(80);
+assert.ok(await page.evaluate(() => scrollY) > pageBefore);
 assert.deepEqual(errors, []);
 await page.evaluate(() => scrollTo(0, 0));
 await page.screenshot({path:'/tmp/workshop-alternating-desktop.png', fullPage:true});
@@ -80,4 +85,4 @@ await page.setViewportSize({width:390, height:844});
 await page.locator('.step-row').first().scrollIntoViewIfNeeded();
 await page.screenshot({path:'/tmp/workshop-alternating-mobile.png'});
 await browser.close();
-console.log('PASS: all copy actions in both themes; vertical page scrolling; no horizontal row or page scrolling; no page errors');
+console.log('PASS: all copy actions in both themes; native code-block scrolling; no horizontal row or page scrolling; no page errors');

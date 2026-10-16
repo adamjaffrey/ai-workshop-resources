@@ -3,14 +3,47 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.30"
-  update_summary: "Give the introduction more space beside the QR code"
-  updated_at: "Fri 16 Oct 2026 at 09:18:56 pm AEDT (+11:00)"
+  doc_revision: "26.0.31"
+  update_summary: "Refine heading hierarchy, scrolling and interactive motion"
+  updated_at: "Sat 17 Oct 2026 at 12:29:15 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.30 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 12:29:15 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine heading hierarchy, scrolling and interactive motion
+
+### Changed
+
+- Reduce step headings to 32 pixels on desktop and 28 pixels on mobile for clearer hierarchy beneath the page title.
+- Put skill installation commands inside Markdown bash fences in the displayed and copied prompts.
+
+### Added
+
+- Add a sliding agent-toggle indicator with a restrained stretch and bounce.
+- Reveal each step heading and card from opposite sides as its row enters the viewport, alternating by layout position and respecting reduced-motion preferences.
+
+### Fixed
+
+- Restore native wheel, touch and keyboard scrolling inside code blocks by removing the page-level gesture overrides.
+
+### Validation
+
+- Chrome responsive checks at nine widths, copy actions in both themes, fixed feedback dimensions, code-block scrolling and page scrolling — passed.
+- Chrome toggle motion, indicator alignment, scroll reveals, fenced commands and reduced-motion checks — passed.
+- Authentication tests — 8 passed.
+- Sites production build and source, preview and bundle version displays — passed.
 
 ## v26.0.29 — 2026-10-16
 
