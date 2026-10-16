@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.2"
-  update_summary: "Document standalone local design previews"
-  updated_at: "Fri 16 Oct 2026 at 07:15:09 pm AEDT (+11:00)"
+  doc_revision: "26.0.3"
+  update_summary: "Document the portable workshop resources preview"
+  updated_at: "Fri 16 Oct 2026 at 07:52:34 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -37,3 +37,5 @@ This protects content delivered by this website. The linked public GitHub reposi
 Run `node website/scripts/preview-login.mjs` from the repository root, then open `website/outputs/login-design-preview.html` directly in a browser. No server is needed. Switch between No blur, Blur only and Password panel using the preview controls. The form is disabled and the file contains no credentials or protected workshop content. The generated output is ignored by Git and excluded from deployment.
 
 Edit `website/lib/workshop-placeholder.mjs` for the decorative markup and styling, rerun the generator, then reload the HTML file. Shared page layout classes keep the structure aligned with the real page. Review controls exist only in this generated local file; production authentication is unchanged. Keep design iterations local until publishing is approved.
+
+Run `node website/scripts/preview-resources.mjs` from the repository root to generate `website/outputs/workshop-resources-preview.html`. Open this file in Chrome, not the Codex sidebar. Both images and the font are embedded so the preview works when moved. It retains the agent selector and copy controls but omits session checks and logout; production authentication is unchanged.

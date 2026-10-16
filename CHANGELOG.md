@@ -3,14 +3,46 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.11"
-  update_summary: "Add guided Node.js setup and concise installation status messages"
-  updated_at: "Fri 16 Oct 2026 at 07:42:35 pm AEDT (+11:00)"
+  doc_revision: "26.0.12"
+  update_summary: "Improve workshop step layout and repair standalone preview assets"
+  updated_at: "Fri 16 Oct 2026 at 07:52:34 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.11 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 07:52:34 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Improve workshop step layout and repair standalone preview assets
+
+### Changed
+
+- Place Node.js setup across the full width above the two skill cards.
+- Put explicit STEP labels on the left and move each icon beside its name and kebab-case title.
+- Use the Lucide MonitorDown icon for Node.js setup.
+
+### Fixed
+
+- Use root-relative hosted asset paths and embed both images and the font in the standalone HTML preview.
+
+### Added
+
+- Add `website/scripts/preview-resources.mjs` to regenerate the portable HTML preview without session redirects.
+
+### Validation
+
+- Chrome standalone-file checks — both images decoded, requested card geometry and icons present, both agent selectors and copy controls passed, mobile fit passed and no script errors.
+- `node --test website/tests/auth.test.mjs` — all eight tests passed.
+- Sites `build-site.mjs` — local production build passed.
 
 ## v26.0.10 — 2026-10-16
 
