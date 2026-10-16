@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.5"
-  update_summary: "Match card icon colours to the selected agent"
-  updated_at: "Fri 16 Oct 2026 at 08:20:18 pm AEDT (+11:00)"
+  doc_revision: "26.0.6"
+  update_summary: "Strengthen icon tile backgrounds to a sixteen percent tint"
+  updated_at: "Fri 16 Oct 2026 at 08:21:31 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -47,4 +47,4 @@ The selected agent toggle and all three step badges use white (#FFFFFF) text, wi
 - Codex blue: #0285FF is the `--blue-400` value in [ChatGPT Learn’s stylesheet](https://learn.chatgpt.com/_astro/PageLayout.CV08qZUK.css), retrieved from [ChatGPT Learn](https://learn.chatgpt.com/) on 16 October 2026. That stylesheet uses it for solid information backgrounds and dark-mode focus rings and switches. This is verified interface usage, not a claim that OpenAI publishes it as Codex’s official brand blue.
 - Claude Code orange: #D97757 is `COLOR_PRIMARY` in [Lobe Icons’ Claude Code style source](https://github.com/lobehub/lobe-icons/blob/master/src/ClaudeCode/style.ts), verified on 16 October 2026. The toggle uses [Lobe’s Claude Code SVG](https://github.com/lobehub/lobe-icons/blob/master/packages/static-svg/icons/claudecode.svg), inheriting the white foreground through `currentColor`.
 
-All three step cards use 4% of the selected accent mixed with 96% white. Their icon tiles use 12% accent mixed with 88% white, and their icon lines use 80% accent mixed with 20% black. These sRGB mixes follow the selected agent automatically.
+All three step cards use 4% of the selected accent mixed with 96% white. Their icon tiles use 16% accent mixed with 84% white, and their icon lines use 80% accent mixed with 20% black. These sRGB mixes follow the selected agent automatically.

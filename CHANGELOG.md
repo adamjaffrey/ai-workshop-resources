@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.16"
-  update_summary: "Match card icon colours to the selected agent"
-  updated_at: "Fri 16 Oct 2026 at 08:20:18 pm AEDT (+11:00)"
+  doc_revision: "26.0.17"
+  update_summary: "Strengthen icon tile backgrounds to a sixteen percent tint"
+  updated_at: "Fri 16 Oct 2026 at 08:21:31 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.16 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 08:21:31 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Strengthen icon tile backgrounds to a sixteen percent tint
+
+### Changed
+
+- Increase icon tile backgrounds from 12% to 16% selected-agent colour mixed with white, giving more separation from the 4% card tint.
+- Update the documented icon background mix.
+
+### Validation
+
+- Chrome preview — all three icon backgrounds matched the 16% mix in both states; line colours, card tints, controls and mobile layout passed.
+- Sites production build — passed.
+- PVS changed-document and version checks — passed.
 
 ## v26.0.15 — 2026-10-16
 
