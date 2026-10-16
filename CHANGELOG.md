@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.14"
-  update_summary: "Document verified accent sources and use white agent labels"
-  updated_at: "Fri 16 Oct 2026 at 08:13:12 pm AEDT (+11:00)"
+  doc_revision: "26.0.15"
+  update_summary: "Tint step cards to match the selected agent"
+  updated_at: "Fri 16 Oct 2026 at 08:16:05 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.14 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 08:16:05 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Tint step cards to match the selected agent
+
+### Changed
+
+- Tint all three step cards with 4% of the selected agent’s accent mixed with 96% white; switch automatically between Codex blue and Claude Code orange.
+
+### Validation
+
+- Chrome preview — all three card backgrounds matched the exact 4% blend in both states; existing white logos, labels, badges, image loading and mobile fit passed.
+- Authentication source tests — all eight passed.
+- Sites production build — passed.
+- PVS changed-document and version checks — passed.
 
 ## v26.0.13 — 2026-10-16
 
