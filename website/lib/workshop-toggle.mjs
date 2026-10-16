@@ -25,14 +25,14 @@ export const toggleScript = `window.createWorkshopToggle = function(toggle) {
       if (!animate || reducedMotionQuery.matches || !Number.isFinite(previous.left) || previous.width === 0) return;
       const direction = Math.sign(left - previous.left);
       if (!direction) return;
-      // Fast eased launch, pronounced landing squash, then diminishing rebounds.
+      // Fast eased launch, slightly stronger landing squash, then diminishing rebounds.
       toggleAnimation = indicator.animate([
         {left: previous.left + 'px', width: previous.width + 'px', transform: previous.transform, offset: 0, easing: 'cubic-bezier(.2,.7,.3,1)'},
-        {left: (left + direction * 8) + 'px', width: width + 'px', transform: 'scale(.9,1.12)', offset: .48, easing: 'ease-in-out'},
-        {left: (left - direction * 4) + 'px', width: width + 'px', transform: 'scale(1.06,.96)', offset: .7, easing: 'ease-in-out'},
-        {left: (left + direction * 2) + 'px', width: width + 'px', transform: 'scale(.98,1.02)', offset: .86, easing: 'ease-out'},
+        {left: (left + direction * 6) + 'px', width: width + 'px', transform: 'scale(.95,1.06)', offset: .48, easing: 'ease-in-out'},
+        {left: (left - direction * 3) + 'px', width: width + 'px', transform: 'scale(1.03,.98)', offset: .7, easing: 'ease-in-out'},
+        {left: (left + direction * 1) + 'px', width: width + 'px', transform: 'scale(.99,1.01)', offset: .86, easing: 'ease-out'},
         {left: left + 'px', width: width + 'px', transform: 'scale(1)', offset: 1}
-      ], {duration: 680, easing: 'linear'});
+      ], {duration: 520, easing: 'linear'});
     }
     function press(button, input) {
       if (held || button.disabled) return;

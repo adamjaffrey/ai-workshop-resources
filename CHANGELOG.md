@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.38"
-  update_summary: "Outline the QR image with the shared card border colour"
-  updated_at: "Sat 17 Oct 2026 at 01:13:01 am AEDT (+11:00)"
+  doc_revision: "26.0.39"
+  update_summary: "Restore snappy toggle timing with a restrained stronger bounce"
+  updated_at: "Sat 17 Oct 2026 at 01:15:16 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.38 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 01:15:16 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Restore snappy toggle timing with a restrained stronger bounce
+
+### Changed
+
+- Restore the shared release duration to 520ms, reduce the exaggerated landing squash and use 6px, 3px and 1px diminishing rebounds.
+- Preserve held stretching, release activation, shared easing, equal heights and reduced-motion support.
+
+### Validation
+
+- Chrome theme and interaction checks — passed, including shared animation frames, duration, mouse and keyboard holds, cancellation, both themes, matching heights and contrast.
+- Sites production build — passed.
 
 ## v26.0.37 — 2026-10-17
 
