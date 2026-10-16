@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.7"
-  update_summary: "Add animated password feedback and access confirmation"
-  updated_at: "Fri 16 Oct 2026 at 10:44:01 am AEDT (+11:00)"
+  doc_revision: "26.0.8"
+  update_summary: "Secure workshop access with persistent seven-day sessions"
+  updated_at: "Fri 16 Oct 2026 at 04:39:05 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.7 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 04:39:05 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Secure workshop access with persistent seven-day sessions
+
+### Security
+
+- Replace the browser-side password gate with server-side scrypt verification and authenticated content responses.
+- Store only hashed session tokens in D1 and use persistent Secure, HttpOnly cookies with a fixed seven-day expiry.
+- Add logout revocation, password-rotation invalidation, persisted attempt limits, origin checks and fail-closed responses.
+- Exclude local credentials from Git and document the public GitHub access boundary.
+
+### Validation
+
+- `node --test tests/auth.test.mjs` — all eight security and session tests passed.
+- Sites `build-site.mjs` — production Worker build passed.
+- `node tests/browser-check.mjs` against the local built Worker — login, cookie flags, new tabs, browser restart, logout, agent selection and mobile overflow checks passed with no page errors.
 
 ## v26.0.6 — 2026-10-16
 

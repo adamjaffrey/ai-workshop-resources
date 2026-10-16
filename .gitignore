@@ -1,1 +1,5 @@
 .DS_Store
+
+# Local credentials and environment files
+.env
+.env.*
