@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.3"
-  update_summary: "Document the portable workshop resources preview"
-  updated_at: "Fri 16 Oct 2026 at 07:52:34 pm AEDT (+11:00)"
+  doc_revision: "26.0.4"
+  update_summary: "Record verified agent accent colours and white foregrounds"
+  updated_at: "Fri 16 Oct 2026 at 08:13:12 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -39,3 +39,10 @@ Run `node website/scripts/preview-login.mjs` from the repository root, then open
 Edit `website/lib/workshop-placeholder.mjs` for the decorative markup and styling, rerun the generator, then reload the HTML file. Shared page layout classes keep the structure aligned with the real page. Review controls exist only in this generated local file; production authentication is unchanged. Keep design iterations local until publishing is approved.
 
 Run `node website/scripts/preview-resources.mjs` from the repository root to generate `website/outputs/workshop-resources-preview.html`. Open this file in Chrome, not the Codex sidebar. Both images and the font are embedded so the preview works when moved. It retains the agent selector and copy controls but omits session checks and logout; production authentication is unchanged.
+
+## Agent Colours
+
+The selected agent toggle and all three step badges use white (#FFFFFF) text, with a white logo in the selected toggle. Codex uses #0285FF and Claude Code uses #D97757. These are the user-approved interface colours.
+
+- Codex blue: #0285FF is the `--blue-400` value in [ChatGPT Learn’s stylesheet](https://learn.chatgpt.com/_astro/PageLayout.CV08qZUK.css), retrieved from [ChatGPT Learn](https://learn.chatgpt.com/) on 16 October 2026. That stylesheet uses it for solid information backgrounds and dark-mode focus rings and switches. This is verified interface usage, not a claim that OpenAI publishes it as Codex’s official brand blue.
+- Claude Code orange: #D97757 is `COLOR_PRIMARY` in [Lobe Icons’ Claude Code style source](https://github.com/lobehub/lobe-icons/blob/master/src/ClaudeCode/style.ts), verified on 16 October 2026. The toggle uses [Lobe’s Claude Code SVG](https://github.com/lobehub/lobe-icons/blob/master/packages/static-svg/icons/claudecode.svg), inheriting the white foreground through `currentColor`.

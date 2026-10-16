@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.13"
-  update_summary: "Refresh workshop icons and selected-agent colours"
-  updated_at: "Fri 16 Oct 2026 at 07:58:30 pm AEDT (+11:00)"
+  doc_revision: "26.0.14"
+  update_summary: "Document verified accent sources and use white agent labels"
+  updated_at: "Fri 16 Oct 2026 at 08:13:12 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.13 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 08:13:12 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Document verified accent sources and use white agent labels
+
+### Changed
+
+- Keep the approved Codex blue (#0285FF) and Claude Code orange (#D97757), and use white logos and text in the selected toggle and white text on all step badges.
+- Document ChatGPT Learn’s blue CSS token and Lobe Icons’ Claude Code primary colour in the website README; replace the earlier provisional description with the subsequently verified source.
+
+### Validation
+
+- Authentication source tests — all eight passed.
+- Chrome preview — both backgrounds, white selected logos and labels, all three white badge labels, embedded assets and mobile fit passed; no script errors.
+- Sites production build — passed.
+- PVS changed-document checks and artefact version validation — passed; the existing mixed-root layout remains outside the whole-project validator’s supported layouts.
 
 ## v26.0.12 — 2026-10-16
 
@@ -28,7 +52,7 @@ Refresh workshop icons and selected-agent colours
 
 - Replace the favicon with the supplied Wavelength PNG on login and resources pages, and embed it in the portable preview.
 - Replace the Claude mark with Lobe Icons' Claude Code SVG.
-- Switch all step badges and the selected agent toggle between blue (#0285FF, provisional Codex accent) and Lobe's Claude Code orange (#D97757), with readable dark labels.
+- Switch all step badges and the selected agent toggle between blue (#0285FF, ChatGPT Learn blue; source verified subsequently) and Lobe's Claude Code orange (#D97757), with readable dark labels.
 
 ### Removed
 
