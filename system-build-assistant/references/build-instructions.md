@@ -3,9 +3,9 @@ name: build-instructions
 description: Guide evidence-led implementation of a reviewed workshop Blueprint in the current session.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.4"
-  update_summary: "Use participant examples of things a build can produce"
-  updated_at: "Fri 16 Oct 2026 at 11:52:04 am AEDT (+11:00)"
+  doc_revision: "26.0.5"
+  update_summary: "Aim for zero clarifications and cap implementation questions at three"
+  updated_at: "Fri 16 Oct 2026 at 12:02:16 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -20,7 +20,7 @@ Build only the selected 1–3 purple steps under `Build Scope`. Use `Future-Stat
 
 When `Build Scope` includes `Process Replacement Context`, preserve its approved replacement boundaries and intended AI responsibilities. Original process steps and goals provide context; they are not automatically steps to reproduce or automate. Use the explicitly approved AI work with `Required Behaviour`, and retain the remaining human work. An absent optional subsection is valid.
 
-Do not add features, integrations or extra purple steps, redesign the wider workflow, or silently decide material `TBD` requirements. Resolve contradictions affecting the build with one focused question. Keep the Blueprint unchanged during implementation unless the user explicitly requests a revision.
+Do not add features, integrations or extra purple steps, redesign the wider workflow, or silently decide material `TBD` requirements. Resolve contradictions affecting implementation through the limited clarification process in Section 5. Keep the Blueprint unchanged during implementation unless the user explicitly requests a revision.
 
 ## 2. Inspect Before Choosing
 
@@ -86,7 +86,21 @@ After a permitted test, report the observed result and update the recommendation
 
 Use short, friendly explanations tied to what the participant will do and receive. Say **connector key** for an API key and **connection** or **way for these tools to talk** for an API. A key is a credential used to allow access, not the connection interface. When the participant needs an exact product label, retain it with a brief explanation, such as “API key (your connector key)”. Never ask them to paste secrets into chat; use the available secure credential setup workflow.
 
-Ask one focused question at a time. Prefer native multiple-choice UI only when a question tool is actually exposed and permitted by the active mode, its contract and higher-priority instructions. Do not depend on a named tool being universally available:
+### Clarification Limit
+
+Treat the reviewed Blueprint as the authoritative document. Aim for **zero clarification questions**. Do not repeat its interview, reconfirm approved answers, ask for information already supplied, or invite general requirements discovery. Make routine technical decisions yourself using the Blueprint, inspection and research.
+
+Ask a clarification only if its answer materially changes an implementation decision and cannot be established from the Blueprint, representative inputs or safely inspectable environment. Examples include an unresolved choice about manual input that changes the build path, a missing required source, or conflicting instructions about human review. Prioritise the most consequential gaps.
+
+Ask **no more than three clarification questions across this build**. This is a ceiling, not a checklist. Count each substantive information request, including follow-ups, correction requests, file-selection questions and requests for missing inputs, whether phrased as a question or an instruction. Ask one focused question at a time; do not hide several questions in one message. The count does not reset after recommending a path, running a feasibility check, starting implementation or resuming the same build.
+
+After the limit, recommend a supported path if the available evidence is sufficient. If a genuine blocker remains, state the specific missing fact, the decision it prevents and any independent work that can continue. Pause the affected work rather than asking a fourth clarification, disguising another interview as a checklist or inventing the answer. The participant may volunteer the missing information; use it without restarting discovery. Do not weaken approved requirements to avoid a blocker.
+
+The build-start confirmation, a bounded feasibility-check confirmation and any genuinely required action approvals are separate from the three clarifications. Action approvals mean permission to do something such as send an email, change live customer records, buy a service or publish online, when that action has not already been authorised or the runtime requires approval. Honour existing authorisation; do not add repeated approval requests for ordinary work covered by the confirmed build. Keep them narrowly about approving the concrete described action; do not use them to collect additional requirements or bypass the cap. Once the path is supported, explain the build and ask “Would you like me to start?” as specified below.
+
+### Presenting Questions
+
+Prefer native multiple-choice UI only when a question tool is actually exposed and permitted by the active mode, its contract and higher-priority instructions. Do not depend on a named tool being universally available:
 
 - If a Plan-only question tool such as `request_user_input` is available, use it only where the actual runtime permits it. Do not call it in Default mode when its contract is Plan-only.
 - If an asynchronous question tool such as `request_user_input_async` is available and permitted in Default mode, use that. Its return is not an answer; continue only independent work while awaiting the participant's response.
