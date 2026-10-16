@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.17"
-  update_summary: "Strengthen icon tile backgrounds to a sixteen percent tint"
-  updated_at: "Fri 16 Oct 2026 at 08:21:31 pm AEDT (+11:00)"
+  doc_revision: "26.0.18"
+  update_summary: "Simplify workshop page typography and copy feedback"
+  updated_at: "Fri 16 Oct 2026 at 08:30:10 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.17 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 08:30:10 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Simplify workshop page typography and copy feedback
+
+### Changed
+
+- Shorten the title, widen the introduction, and consolidate typography to four sizes per viewport, three font families and two line-height ratios.
+- Use equally sized light-grey prompt panels with 180-pixel scrollable bodies and monospace prompts and skill labels.
+- Use “SCAN TO OPEN”, “Copy Prompt” and green “Copied” labels, with success and failure feedback beneath each card’s description.
+- Replace the GitHub footer link with the artefact version and Wavelength Creative copyright, separated by a Unicode bullet (U+2022).
+- Move useful instructions into the introduction and cards; remove the redundant text beneath the cards.
+
+### Validation
+
+- Chrome audit at 320, 390, 768, 1024, 1280 and 1440 pixels — passed matching panel heights, font limits and no horizontal page overflow.
+- Desktop heading and introduction — passed one-line heading and two-line introduction at 1024 pixels and wider.
+- Both agent selections and all three copy actions — passed exact prompt payloads, green success feedback, failure feedback and manual selection.
+- Authentication source tests — all eight passed.
+- Sites production build — passed.
 
 ## v26.0.16 — 2026-10-16
 
