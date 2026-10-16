@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.49"
-  update_summary: "Add blur tuning and reuse measurements for unchanged layouts"
-  updated_at: "Sat 17 Oct 2026 at 02:04:20 am AEDT (+11:00)"
+  doc_revision: "26.0.50"
+  update_summary: "Set the blur default to 4px with 40% block strength"
+  updated_at: "Sat 17 Oct 2026 at 02:09:30 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.49 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 02:09:30 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Set the blur default to 4px with 40% block strength
+
+### Changed
+
+- Reduce the background blur default from 5px to 4px in the login renderer and preview slider, retaining 40% block strength.
+- Update the documented default and browser-check expectations without remeasuring geometry.
+
+### Validation
+
+- Renderer and generated preview default assertions — passed for 40% strength and 4px blur.
+- Sites production build and placeholder checks — passed; existing geometry reused without remeasurement.
 
 ## v26.0.48 — 2026-10-17
 

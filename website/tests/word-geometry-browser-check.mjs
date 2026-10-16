@@ -24,7 +24,7 @@ try {
     });
     await page.goto(new URL('../outputs/login-design-preview.html', import.meta.url).href);
     assert.equal(await page.locator('#block-strength').inputValue(), '40');
-    assert.equal(await page.locator('#blur-amount').inputValue(), '5');
+    assert.equal(await page.locator('#blur-amount').inputValue(), '4');
     await page.locator('#blur-amount').fill('8.5');
     await page.locator('#blur-amount').dispatchEvent('input');
     assert.equal(await page.locator('#blur-amount-value').textContent(), '8.5px');
@@ -32,7 +32,7 @@ try {
     await page.locator('#blur-amount').fill('0');
     await page.locator('#blur-amount').dispatchEvent('input');
     assert.equal(await page.locator('.page-placeholder').evaluate(el => getComputedStyle(el).filter), 'blur(0px)');
-    await page.locator('#blur-amount').fill('5');
+    await page.locator('#blur-amount').fill('4');
     await page.locator('#blur-amount').dispatchEvent('input');
     await page.getByRole('button',{name:'No blur',exact:true}).click();
     await page.evaluate(() => document.fonts.ready);

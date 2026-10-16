@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.20"
-  update_summary: "Define block rules, preview sliders and layout-only remeasurement"
-  updated_at: "Sat 17 Oct 2026 at 02:03:31 am AEDT (+11:00)"
+  doc_revision: "26.0.21"
+  update_summary: "Set the background blur default to 4px"
+  updated_at: "Sat 17 Oct 2026 at 02:09:30 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -36,7 +36,7 @@ This protects content delivered by this website. The linked public GitHub reposi
 
 Run `node website/scripts/measure-placeholder.mjs --if-needed` followed by `node website/scripts/preview-login.mjs` from the repository root, then open `website/outputs/login-design-preview.html` directly in Chrome. The first command reuses valid measurements without launching Chrome; the second regenerates the standalone HTML. No server is needed. The form is disabled, and the preview contains no credentials or protected workshop content. Output files are ignored by Git and excluded from deployment.
 
-Switch between No blur, Blur only and Password panel. Block strength ranges from 0% to 100%, initially 40%. Background blur ranges from 0px to 20px in 0.5px steps, initially 5px. Both sliders update independently and can be adjusted together. No blur temporarily removes the background blur while retaining its slider value; switching back restores that value. Password panel retains its additional 7px backdrop blur. Slider changes are local to the preview, reset when reloaded, and do not persist production settings.
+Switch between No blur, Blur only and Password panel. Block strength ranges from 0% to 100%, initially 40%. Background blur ranges from 0px to 20px in 0.5px steps, initially 4px. Both sliders update independently and can be adjusted together. No blur temporarily removes the background blur while retaining its slider value; switching back restores that value. Password panel retains its additional 7px backdrop blur. Slider changes are local to the preview, reset when reloaded, and do not persist production settings.
 
 Run `node website/scripts/preview-resources.mjs` from the repository root to generate `website/outputs/workshop-resources-preview.html`. Open it in Chrome. Images and the font are embedded so previews work when moved. The resources preview retains the agent selector and copy controls but omits session checks and logout. Keep design iterations local until publishing is approved.
 
@@ -60,7 +60,7 @@ Run `node website/scripts/preview-resources.mjs` from the repository root to gen
 
 - Default block strength is 40%: an opaque mix of 40% foreground ink and 60% of the containing surface colour. This is a colour blend, not element or page opacity.
 - Use the relevant surface for each word/icon: page, card, prompt panel, button or icon tile. Preserve those surfaces and their colours. For the QR centre, mix dark ink with white and leave its white padding untouched.
-- Apply the same Block strength setting to words, icons and the QR centre. Retain the separate 5px background blur default. Do not bake strength or blur into measured geometry; changing either never requires remeasurement.
+- Apply the same Block strength setting to words, icons and the QR centre. Retain the separate 4px background blur default. Do not bake strength or blur into measured geometry; changing either never requires remeasurement.
 
 ### Reuse And Remeasurement
 

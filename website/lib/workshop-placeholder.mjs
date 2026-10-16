@@ -7,7 +7,7 @@ export function placeholderFromPage(_page, layoutRevision = placeholderLayoutRev
   return geometry.markup;
 }
 export const placeholderStyles = `
-.page-placeholder { --ph-strength:40%; --ph-blur:5px; --ph-surface:var(--page); pointer-events:none; user-select:none; filter:blur(var(--ph-blur)); }
+.page-placeholder { --ph-strength:40%; --ph-blur:4px; --ph-surface:var(--page); pointer-events:none; user-select:none; filter:blur(var(--ph-blur)); }
 .page-placeholder article { --ph-surface:var(--card-bg); }
 .page-placeholder .code-wrap, .page-placeholder .qr-card { --ph-surface:var(--content-surface); }
 .page-placeholder .copy, .page-placeholder .theme-toggle button { --ph-surface:var(--surface); }
