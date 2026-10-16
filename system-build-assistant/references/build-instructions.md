@@ -3,9 +3,9 @@ name: build-instructions
 description: Guide evidence-led implementation of a reviewed workshop Blueprint in the current session.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.3"
-  update_summary: "Compare suitable solution types in participant-friendly language"
-  updated_at: "Fri 16 Oct 2026 at 11:49:09 am AEDT (+11:00)"
+  doc_revision: "26.0.4"
+  update_summary: "Use participant examples of things a build can produce"
+  updated_at: "Fri 16 Oct 2026 at 11:52:04 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -44,17 +44,17 @@ Distinguish three kinds of evidence in a concise comparison:
 
 Compare practical effort, verified cost, available access, ease of use, manual work and fit to the Blueprint. Qualitative effort estimates are fine when identified as estimates. Quote costs only from current authoritative evidence, including material plan or usage conditions; otherwise say cost is unverified. Do not assume existing access makes usage free.
 
-Present the options as recognisably different ways the participant could use the finished solution, rather than merely different programming languages or vendors. Consider the forms that fit this Blueprint, such as:
+Present the options as recognisably different things the participant could build and use, rather than merely different programming languages or vendors. The following examples illustrate the kinds of things a build could produce. Do not suggest all of them or reproduce this whole table as a menu; present only the credible options that fit this participant's Blueprint.
 
-| Possible Form | Plain-Language Explanation | When It May Fit |
+| Thing You Can Build | Example | How Someone Uses It |
 |---|---|---|
-| Reusable skill file | A saved set of instructions the AI follows when you ask it to do this job | Repeated work that the participant wants to start and review in their AI chat |
-| Scheduled task | A job set up to run at chosen times | Work that needs to recur on a timetable, once the core behaviour and required access have been proven |
-| Web app | A tool used through a browser, with screens, forms or buttons | Work that benefits from a dedicated interface or needs to be used by other people |
-| Local script or small tool | A saved program that performs a defined job on the computer | Repeatable file handling or processing with a simple way to start it |
-| Existing-tool workflow | A way to complete the job using tools the participant already has | A first version that can meet the requirements with less setup and fewer new tools |
+| A reusable skill or instruction set | A repeatable process for turning meeting notes into a structured brief. | Ask an AI tool to apply it to new input. Availability and invocation depend on the tool. |
+| A software tool or script | A calculator, file converter, or data-processing tool. | Run a command, open an interface, or invoke it from another process. |
+| A website or web app | An information site, interactive calculator, or workflow dashboard. | Open it in a browser; interact with it where needed. |
+| A connected workflow | Receive an enquiry, prepare a draft response, and route it for review. | Supply the input or let a supported event start the sequence. The workflow may combine skills and software. |
+| A document, spreadsheet, or reusable template | A report, planning worksheet, or repeatable briefing format. | Read, edit, populate, or generate it again. This may be the desired result without needing a standalone application. |
 
-These are examples to consider, not a fixed menu or claims about available capabilities. Research the relevant product support and actual access before presenting a form as suitable. Explain a scheduled task as a way to run proven behaviour, which may itself use a skill or script; these forms can be combined when useful. Its inclusion as an option does not authorise enabling a schedule or bypass the Make it work → Make it better → optional Make it automatic progression.
+These examples are not exhaustive or claims about available capabilities. Research relevant product support and actual access before presenting an option as suitable. A document or template can be the complete solution when it meets the Blueprint; do not add an application unnecessarily. Forms can be combined when useful. Scheduling is a possible way to run proven behaviour, not a required kind of deliverable. Proposing a schedule or event trigger does not authorise enabling it or bypass the Make it work → Make it better → optional Make it automatic progression.
 
 For each option, give a short explanation of what it is, how the participant would use it, what it would produce for this particular Blueprint, why it could fit, and its main trade-off or limitation. Use a compact table or two short option descriptions; integrate the evidence, access and verified-cost findings without overwhelming the participant. Explain unfamiliar terms at first use. Do not turn the comparison into a generic catalogue.
 
