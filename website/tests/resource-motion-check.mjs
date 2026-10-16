@@ -6,6 +6,9 @@ const errors=[];
 page.on('pageerror', error=>errors.push(error.message));
 await page.goto(new URL('../outputs/workshop-resources-preview.html',import.meta.url).href);
 await page.waitForTimeout(800);
+assert.deepEqual(await page.locator('.step-row').evaluateAll(rows => rows.map(row =>
+ [...row.children].map(element => getComputedStyle(element).getPropertyValue('--reveal-offset').trim())
+)), [['64px','64px'],['-64px','-64px'],['64px','64px']]);
 assert.equal(await page.locator('.step-row').last().evaluate(e=>e.classList.contains('is-revealed')),false);
 await page.locator('[data-agent="claude-code"]').click();
 assert.ok(await page.locator('.toggle-indicator').evaluate(e=>e.getAnimations().length>0));
