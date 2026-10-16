@@ -3,9 +3,9 @@ name: build-instructions
 description: Guide evidence-led implementation of a reviewed workshop Blueprint in the current session.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.2"
-  update_summary: "Add a concrete build-start explanation and confirmation checkpoint"
-  updated_at: "Fri 16 Oct 2026 at 10:16:32 am AEDT (+11:00)"
+  doc_revision: "26.0.3"
+  update_summary: "Compare suitable solution types in participant-friendly language"
+  updated_at: "Fri 16 Oct 2026 at 11:49:09 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -30,7 +30,7 @@ Discover the actual tools and operations available in this session, including re
 
 ## 3. Research and Recommend a Build Path
 
-Research 1–3 credible approaches for this actual build before selecting a path, even when the direction looks clear. Begin with existing tools and a manual-input route when it can satisfy the Blueprint. Do not invent alternatives to reach a quota or treat a route that cannot meet a required criterion as viable.
+Research and present two credible implementation options for this actual build before selecting a path, even when the direction looks clear. Include a third only when it offers a useful practical difference. Begin with existing tools and a manual-input route when it can satisfy the Blueprint. If only one approach is credible, explain why; do not invent alternatives to reach a quota or treat a route that cannot meet a required criterion as viable.
 
 For each serious candidate, consult current authoritative product documentation and inspect relevant available connected tools. Investigate the exact required operations: for example, reading full text versus a summary, accessing attachments or custom fields, producing the required output, and preserving review before an external write. A product name, a general integration page or an advertised connector is insufficient evidence. Do not recommend an API, connector, capability or integration from memory.
 
@@ -44,7 +44,21 @@ Distinguish three kinds of evidence in a concise comparison:
 
 Compare practical effort, verified cost, available access, ease of use, manual work and fit to the Blueprint. Qualitative effort estimates are fine when identified as estimates. Quote costs only from current authoritative evidence, including material plan or usage conditions; otherwise say cost is unverified. Do not assume existing access makes usage free.
 
-Recommend the best-fitting route yourself and explain the main trade-off in a few plain sentences or a compact table. Participants should not have to choose the technology. Prefer few dependencies, straightforward use, observable results and preserved human oversight. A manual route is suitable only if it meets the approved requirements; otherwise label it a partial check, not the completed build.
+Present the options as recognisably different ways the participant could use the finished solution, rather than merely different programming languages or vendors. Consider the forms that fit this Blueprint, such as:
+
+| Possible Form | Plain-Language Explanation | When It May Fit |
+|---|---|---|
+| Reusable skill file | A saved set of instructions the AI follows when you ask it to do this job | Repeated work that the participant wants to start and review in their AI chat |
+| Scheduled task | A job set up to run at chosen times | Work that needs to recur on a timetable, once the core behaviour and required access have been proven |
+| Web app | A tool used through a browser, with screens, forms or buttons | Work that benefits from a dedicated interface or needs to be used by other people |
+| Local script or small tool | A saved program that performs a defined job on the computer | Repeatable file handling or processing with a simple way to start it |
+| Existing-tool workflow | A way to complete the job using tools the participant already has | A first version that can meet the requirements with less setup and fewer new tools |
+
+These are examples to consider, not a fixed menu or claims about available capabilities. Research the relevant product support and actual access before presenting a form as suitable. Explain a scheduled task as a way to run proven behaviour, which may itself use a skill or script; these forms can be combined when useful. Its inclusion as an option does not authorise enabling a schedule or bypass the Make it work → Make it better → optional Make it automatic progression.
+
+For each option, give a short explanation of what it is, how the participant would use it, what it would produce for this particular Blueprint, why it could fit, and its main trade-off or limitation. Use a compact table or two short option descriptions; integrate the evidence, access and verified-cost findings without overwhelming the participant. Explain unfamiliar terms at first use. Do not turn the comparison into a generic catalogue.
+
+Recommend the best-fitting route yourself, mark it “Recommended”, and explain why it fits this product better than the other credible option. When helpful, distinguish the recommended first build from an optional later form without expanding the approved scope. Participants should not have to choose the technology. Prefer few dependencies, straightforward use, observable results and preserved human oversight. A manual route is suitable only if it meets the approved requirements; otherwise label it a partial check, not the completed build.
 
 Once the participant has selected a build path or accepted your recommendation, use the build-start checkpoint below before implementation. Choosing a path alone does not mean “start building”. During path selection, ask only for unresolved business preferences or constraints that materially affect the route, such as whether a manual transfer is acceptable when the Blueprint leaves that open.
 
