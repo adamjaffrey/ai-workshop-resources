@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.6"
-  update_summary: "Strengthen icon tile backgrounds to a sixteen percent tint"
-  updated_at: "Fri 16 Oct 2026 at 08:21:31 pm AEDT (+11:00)"
+  doc_revision: "26.0.7"
+  update_summary: "Document shared light and dark themes and browser checks"
+  updated_at: "Sat 17 Oct 2026 at 12:46:51 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -42,9 +42,19 @@ Run `node website/scripts/preview-resources.mjs` from the repository root to gen
 
 ## Agent Colours
 
-The selected agent toggle and all three step badges use white (#FFFFFF) text, with a white logo in the selected toggle. Codex uses #0285FF and Claude Code uses #D97757. These are the user-approved interface colours.
+The selected agent toggle uses white (#FFFFFF) text and a white logo in both themes. Step headings use the theme-specific accent ink. Codex uses #0285FF and Claude Code uses #D97757. These are the user-approved interface colours.
 
 - Codex blue: #0285FF is the `--blue-400` value in [ChatGPT Learn’s stylesheet](https://learn.chatgpt.com/_astro/PageLayout.CV08qZUK.css), retrieved from [ChatGPT Learn](https://learn.chatgpt.com/) on 16 October 2026. That stylesheet uses it for solid information backgrounds and dark-mode focus rings and switches. This is verified interface usage, not a claim that OpenAI publishes it as Codex’s official brand blue.
 - Claude Code orange: #D97757 is `COLOR_PRIMARY` in [Lobe Icons’ Claude Code style source](https://github.com/lobehub/lobe-icons/blob/master/src/ClaudeCode/style.ts), verified on 16 October 2026. The toggle uses [Lobe’s Claude Code SVG](https://github.com/lobehub/lobe-icons/blob/master/packages/static-svg/icons/claudecode.svg), inheriting the white foreground through `currentColor`.
 
-All three step cards use 4% of the selected accent mixed with 96% white. Their icon tiles use 16% accent mixed with 84% white, and their icon lines use 80% accent mixed with 20% black. These sRGB mixes follow the selected agent automatically.
+In light mode, all three step cards use 4% of the selected accent mixed with 96% white. Their icon tiles use 16% accent mixed with 84% white, and their icon lines use 80% accent mixed with 20% black. These sRGB mixes follow the selected agent automatically.
+
+## Colour Themes
+
+`website/lib/workshop-theme.mjs` supplies shared theme variables, Lucide Sun/Moon controls and an early nonce-authorised preference script for both server-rendered pages. The sun is always on the left and the moon on the right; the active button is filled and exposes its pressed state. The resources control sits beside the branding; the password control sits inside the access panel so it remains reachable while the background is inert.
+
+The initial theme follows the operating system. An explicit choice is stored under `workshop-colour-theme`, survives page navigation and browser visits, and synchronises across tabs. If storage is unavailable, switching still works for the current page. The script applies the theme before rendering and follows device changes until a choice is made.
+
+Dark mode uses near-black neutral surfaces, off-white text, lighter secondary text, and cards and icon tiles mixed with the selected agent accent. Accent button branding stays unchanged, the monochrome logo becomes white, and QR pixels retain their white background.
+
+Generate both standalone previews, then run `node website/tests/theme-browser-check.mjs` with Playwright available, or set `PLAYWRIGHT_MODULE` to its absolute module location. The checks use installed Chrome and cover both agents, four viewport widths, preference persistence, keyboard access, copy behaviour, text contrast, password styling, storage denial, nonce policy and reduced motion. Open user-facing previews in Chrome.

@@ -3,14 +3,43 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.34"
-  update_summary: "Remove language labels from installation command fences"
-  updated_at: "Sat 17 Oct 2026 at 12:37:23 am AEDT (+11:00)"
+  doc_revision: "26.0.35"
+  update_summary: "Add a persistent light and dark theme toggle"
+  updated_at: "Sat 17 Oct 2026 at 12:46:51 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.34 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 12:46:51 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add a persistent light and dark theme toggle
+
+### Added
+
+- Add a sun-left, moon-right Lucide theme selector beside the branding and inside the password panel, with an explicit active state and keyboard support.
+- Follow the device theme initially, remember explicit choices and synchronise open tabs without flashing the default theme.
+- Add dark surfaces, reversed text, accent-tinted cards, readable feedback and white monochrome branding while keeping QR codes scannable.
+
+### Changed
+
+- Share theme tokens across the current resource layout and password screen, preserving installation prompts, agent selection, copy feedback and scroll reveals.
+- Retain working theme controls in the standalone password preview and contain narrow-screen placeholder overflow.
+
+### Validation
+
+- Authentication source tests — 8 passed.
+- Chrome theme checks — passed for both agents and themes at 1440, 768, 390 and 320 pixels, keyboard operation, copying, text contrast, saved preferences, cross-page and cross-tab updates, storage denial, nonce policy and reduced motion.
+- Sites production build and source, preview and bundle version displays — passed.
 
 ## v26.0.33 — 2026-10-17
 
