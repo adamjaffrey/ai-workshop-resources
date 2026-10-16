@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.24"
-  update_summary: "Arrange workshop steps in alternating connected rows"
-  updated_at: "Fri 16 Oct 2026 at 08:59:38 pm AEDT (+11:00)"
+  doc_revision: "26.0.25"
+  update_summary: "Narrow the page and top-align detached step accents"
+  updated_at: "Fri 16 Oct 2026 at 09:03:46 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.24 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 09:03:46 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Narrow the page and top-align detached step accents
+
+### Changed
+
+- Cap all main content at 800 pixels and give the resource card more width than its step label in each alternating row.
+- Lower the stacked-layout breakpoint to 680 pixels.
+- Align step labels 12 pixels beneath the top of their cards to account for rounded corners.
+- Place accent lines 24 pixels below the step text and stop them 24 pixels short of the adjacent card; remove the connecting dots.
+- Use short accent underlines when the steps stack on narrow screens.
+
+### Validation
+
+- Chrome at 320, 390, 680, 681, 720, 848, 1024 and 1440 pixels — passed content width, alternating and stacked layouts, 12-pixel top offsets and 24-pixel accent clearance.
+- All three copy actions in both agent states and vertical page scrolling — passed.
+- Desktop visual inspection and horizontal overflow checks — passed.
+- Authentication source tests — all eight passed.
+- Sites production build — passed.
 
 ## v26.0.23 — 2026-10-16
 

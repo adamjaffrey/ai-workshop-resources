@@ -5,24 +5,31 @@ const page = await browser.newPage({viewport: {width: 1440, height: 1000}, hasTo
 const errors = [];
 page.on('pageerror', error => errors.push(error.message));
 await page.goto(new URL('../outputs/workshop-resources-preview.html', import.meta.url).href);
-for (const width of [1920, 1440, 1024, 801, 800, 390, 320]) {
+for (const width of [1440, 1024, 848, 720, 681, 680, 390, 320]) {
   await page.setViewportSize({width, height: 1000});
   const layout = await page.evaluate(() => {
-    const box = element => { const r = element.getBoundingClientRect(); return {x:r.x, y:r.y, width:r.width, bottom:r.bottom}; };
+    const box = element => { const r = element.getBoundingClientRect(); return {x:r.x, y:r.y, width:r.width, right:r.right, bottom:r.bottom}; };
     return {
       overflow: document.documentElement.scrollWidth > innerWidth,
+      contentWidth: document.querySelector('.cards').getBoundingClientRect().width,
       scrollable: document.querySelector('.cards').scrollWidth > document.querySelector('.cards').clientWidth,
       headings: [...document.querySelectorAll('.step-title')].map(e => e.textContent),
-      rows: [...document.querySelectorAll('.step-row')].map(e => ({marker:box(e.querySelector('.step-marker')), card:box(e.querySelector('article'))})),
+      rows: [...document.querySelectorAll('.step-row')].map(e => ({marker:box(e.querySelector('.step-marker')), card:box(e.querySelector('article')), line:box(e.querySelector('.step-connector')), copy:box(e.querySelector('.step-copy'))})),
       codeHeights: [...document.querySelectorAll('pre')].map(e => e.offsetHeight)
     };
   });
   assert.ok(!layout.overflow && !layout.scrollable);
+  assert.equal(layout.contentWidth, Math.min(800, width - 48));
   assert.deepEqual(layout.headings, ['Step 1', 'Step 2', 'Step 3']);
   assert.equal(new Set(layout.codeHeights).size, 1);
-  layout.rows.forEach(({marker, card}, index) => {
-    if (width > 800) assert.ok(index % 2 ? card.x < marker.x : card.x > marker.x);
+  layout.rows.forEach(({marker, card, line, copy}, index) => {
+    if (width > 680) {
+      assert.ok(index % 2 ? card.x < marker.x : card.x > marker.x);
+      assert.equal(marker.y - card.y, 12);
+      assert.ok(Math.abs((index % 2 ? line.x - card.right : card.x - line.right) - 24) < .1);
+    }
     else { assert.equal(card.x, marker.x); assert.ok(card.y >= marker.bottom + 23); }
+    assert.equal(line.y - copy.bottom, 24);
     if (index) assert.ok(card.y > layout.rows[index - 1].card.bottom);
   });
   console.log(`PASS: alternating layout at ${width}px`);
