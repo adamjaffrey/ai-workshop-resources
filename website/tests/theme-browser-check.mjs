@@ -170,12 +170,14 @@ for (const [selector, attribute] of [['.theme-toggle', 'data-theme'], ['.toggle'
   await first.mouse.down();
   await first.waitForTimeout(220);
   assert.equal(await first.locator('html').getAttribute(attribute), before);
-  assert.ok(await indicator.evaluate(e => new DOMMatrix(getComputedStyle(e).transform).a > 1.1));
+  const stretch = await indicator.evaluate(e => { const css = getComputedStyle(e), scale = new DOMMatrix(css.transform).a; return {scale, addedWidth: parseFloat(css.width) * (scale - 1)}; });
+  assert.ok(stretch.scale > 1 && stretch.scale <= 1.141);
+  assert.ok(Math.abs(stretch.addedWidth - 6) < .05);
   await first.waitForTimeout(150);
   assert.equal(await first.locator('html').getAttribute(attribute), before);
   await first.mouse.up();
   assert.notEqual(await first.locator('html').getAttribute(attribute), before);
-  assert.equal(await indicator.evaluate(e => e.getAnimations()[0].effect.getTiming().duration), 400);
+  assert.equal(await indicator.evaluate(e => e.getAnimations()[0].effect.getTiming().duration), 360);
   await first.waitForTimeout(750);
   const after = await first.locator('html').getAttribute(attribute);
   // Releasing outside cancels rather than changing the setting.
@@ -204,7 +206,7 @@ for (const selector of ['.theme-toggle', '.toggle']) {
     e.querySelector('button').click();
     const indicator = e.querySelector('.toggle-indicator'), animation = indicator.getAnimations()[0];
     animation.pause();
-    const positions = [.1, .2, .3, .4, .46, .48].map(t => { animation.currentTime = t * 400; return parseFloat(getComputedStyle(indicator).left); });
+    const positions = [.1, .2, .3, .4, .46, .48].map(t => { animation.currentTime = t * 360; return parseFloat(getComputedStyle(indicator).left); });
     animation.finish();
     return positions;
   });

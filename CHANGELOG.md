@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.45"
-  update_summary: "Speed up toggle motion and soften only the final settling"
-  updated_at: "Sat 17 Oct 2026 at 01:41:27 am AEDT (+11:00)"
+  doc_revision: "26.0.46"
+  update_summary: "Quicken toggle release and limit held stretch by pixel width"
+  updated_at: "Sat 17 Oct 2026 at 01:47:30 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.45 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 01:47:30 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Quicken toggle release and limit held stretch by pixel width
+
+### Changed
+
+- Shorten the shared release animation from 400ms to 360ms while preserving the sharp first rebound and smooth final settle.
+- Cap held stretching at 6px of added width, with a 14% maximum, so the wide app picker feels consistent with the compact theme toggle.
+- Reduce held translation to 4px and vertical compression to 6%, and refresh the measured backdrop.
+
+### Validation
+
+- Chrome theme and interaction checks — passed, including measured held stretch on both controls, 360ms release timing, constant-speed travel, immediate rebound, whole-track activation and keyboard holds.
+- Sites production build and measured-placeholder checks — passed.
 
 ## v26.0.44 — 2026-10-17
 

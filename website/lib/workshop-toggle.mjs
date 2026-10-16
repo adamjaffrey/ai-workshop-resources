@@ -33,7 +33,7 @@ export const toggleScript = `window.createWorkshopToggle = function(toggle) {
         {left: (left - direction * 3) + 'px', width: width + 'px', transform: 'scale(1.03,.98)', offset: .64, easing: 'cubic-bezier(.33,.67,.67,1)'},
         {left: (left + direction * 1) + 'px', width: width + 'px', transform: 'scale(.99,1.01)', offset: .8, easing: 'ease-in-out'},
         {left: left + 'px', width: width + 'px', transform: 'scale(1)', offset: 1}
-      ], {duration: 400, easing: 'linear'});
+      ], {duration: 360, easing: 'linear'});
     }
     function press(button, input) {
       if (held || button.disabled) return;
@@ -46,9 +46,11 @@ export const toggleScript = `window.createWorkshopToggle = function(toggle) {
       indicator.style.width = previous.width + 'px';
       const selected = selectedButton();
       const direction = selected === toggle.querySelector('button') ? 1 : -1;
+      // Cap added width in pixels so wide labels do not exaggerate the held stretch.
+      const stretch = 1 + Math.min(.14, 6 / Math.max(previous.width, 1));
       toggleAnimation = indicator.animate([
         {transform: previous.transform},
-        {transform: 'translateX(' + direction * 5 + 'px) scale(1.16,.92)'}
+        {transform: 'translateX(' + direction * 4 + 'px) scale(' + stretch + ',.94)'}
       ], {duration: 160, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards'});
     }
     function cancelPress() {
