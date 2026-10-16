@@ -26,7 +26,7 @@ for (const row of await page.locator('.step-row').all()) {
 for (const agent of ['claude-code','codex']) {
  await page.locator(`[data-agent="${agent}"]`).click();
  for(const skill of ['system-blueprint-creator','system-build-assistant']) {
-  assert.match(await page.locator(`code#${skill}`).textContent(), new RegExp('```shell\\nnpx[^\\n]+--agent '+agent+'[^\\n]+\\n```'));
+  assert.match(await page.locator(`code#${skill}`).textContent(), new RegExp('```\\nnpx[^\\n]+--agent '+agent+'[^\\n]+\\n```'));
  }
 }
 await page.evaluate(()=>scrollTo(0,0));

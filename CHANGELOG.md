@@ -3,14 +3,35 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.33"
-  update_summary: "Reverse step reveal directions and clarify command formatting"
-  updated_at: "Sat 17 Oct 2026 at 12:33:33 am AEDT (+11:00)"
+  doc_revision: "26.0.34"
+  update_summary: "Remove language labels from installation command fences"
+  updated_at: "Sat 17 Oct 2026 at 12:37:23 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.33 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 12:37:23 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Remove language labels from installation command fences
+
+### Changed
+
+- Keep plain triple-backtick fences around the installer commands without a language label in displayed and copied prompts.
+
+### Validation
+
+- Chrome command-fence, motion and reduced-motion checks — passed.
+- Sites production build and source, preview and bundle version displays — passed.
 
 ## v26.0.32 — 2026-10-17
 
