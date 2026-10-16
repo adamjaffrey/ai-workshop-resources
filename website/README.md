@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.10"
-  update_summary: "Restore the quicker shared toggle release timing"
-  updated_at: "Sat 17 Oct 2026 at 01:15:16 am AEDT (+11:00)"
+  doc_revision: "26.0.11"
+  update_summary: "Use familiar app logos with coding-tool labels"
+  updated_at: "Sat 17 Oct 2026 at 01:17:06 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -40,12 +40,14 @@ Edit `website/lib/workshop-placeholder.mjs` for the decorative markup and stylin
 
 Run `node website/scripts/preview-resources.mjs` from the repository root to generate `website/outputs/workshop-resources-preview.html`. Open this file in Chrome, not the Codex sidebar. Both images and the font are embedded so the preview works when moved. It retains the agent selector and copy controls but omits session checks and logout; production authentication is unchanged.
 
-## Agent Colours
+## Agent Logos And Colours
+
+The agent selector pairs the ChatGPT knot logo with “Codex” and the Claude starburst logo with “Claude Code”. The inline SVGs come from [Lobe Icons’ OpenAI SVG](https://github.com/lobehub/lobe-icons/blob/master/packages/static-svg/icons/openai.svg) and [Claude SVG](https://github.com/lobehub/lobe-icons/blob/master/packages/static-svg/icons/claude.svg). Both inherit `currentColor`, remain decorative to assistive technology and retain visible tool labels.
 
 The selected agent toggle uses white (#FFFFFF) text and a white logo in both themes. Step headings use the theme-specific accent ink. Codex uses #0285FF and Claude Code uses #D97757. These are the user-approved interface colours.
 
 - Codex blue: #0285FF is the `--blue-400` value in [ChatGPT Learn’s stylesheet](https://learn.chatgpt.com/_astro/PageLayout.CV08qZUK.css), retrieved from [ChatGPT Learn](https://learn.chatgpt.com/) on 16 October 2026. That stylesheet uses it for solid information backgrounds and dark-mode focus rings and switches. This is verified interface usage, not a claim that OpenAI publishes it as Codex’s official brand blue.
-- Claude Code orange: #D97757 is `COLOR_PRIMARY` in [Lobe Icons’ Claude Code style source](https://github.com/lobehub/lobe-icons/blob/master/src/ClaudeCode/style.ts), verified on 16 October 2026. The toggle uses [Lobe’s Claude Code SVG](https://github.com/lobehub/lobe-icons/blob/master/packages/static-svg/icons/claudecode.svg), inheriting the white foreground through `currentColor`.
+- Claude Code orange: #D97757 is `COLOR_PRIMARY` in [Lobe Icons’ Claude Code style source](https://github.com/lobehub/lobe-icons/blob/master/src/ClaudeCode/style.ts), verified on 16 October 2026. The colour remains unchanged when using the Claude logo.
 
 In light mode, all three step cards use 4% of the selected accent mixed with 96% white. Their icon tiles use 16% accent mixed with 84% white, and their icon lines use 80% accent mixed with 20% black. These sRGB mixes follow the selected agent automatically.
 

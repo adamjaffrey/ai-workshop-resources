@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.39"
-  update_summary: "Restore snappy toggle timing with a restrained stronger bounce"
-  updated_at: "Sat 17 Oct 2026 at 01:15:16 am AEDT (+11:00)"
+  doc_revision: "26.0.40"
+  update_summary: "Use familiar app logos with coding-tool labels"
+  updated_at: "Sat 17 Oct 2026 at 01:17:06 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.39 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 01:17:06 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Use familiar app logos with coding-tool labels
+
+### Changed
+
+- Replace the specialised Codex icon with the ChatGPT knot and the Claude Code icon with the Claude starburst in the workshop agent selector.
+- Retain the Codex and Claude Code labels, existing accent colours and theme-aware icon styling; document the logo sources.
+
+### Validation
+
+- Authentication tests — passed (8/8).
+- Chrome theme and interaction checks — passed for both agents and themes at four viewport widths.
+- Sites production build — passed.
 
 ## v26.0.38 — 2026-10-17
 
