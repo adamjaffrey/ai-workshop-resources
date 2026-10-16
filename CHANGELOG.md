@@ -3,14 +3,44 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.23"
-  update_summary: "Increase vertical breathing room across the workshop page"
-  updated_at: "Fri 16 Oct 2026 at 08:55:31 pm AEDT (+11:00)"
+  doc_revision: "26.0.24"
+  update_summary: "Arrange workshop steps in alternating connected rows"
+  updated_at: "Fri 16 Oct 2026 at 08:59:38 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.23 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 08:59:38 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Arrange workshop steps in alternating connected rows
+
+### Changed
+
+- Replace the horizontal card row with three centred alternating rows: cards right, left, then right.
+- Add prominent Step 1, Step 2 and Step 3 H2 headings opposite their cards, with purpose lines and agent-coloured connectors ending at the cards.
+- Remove duplicate in-card step badges and use H3 headings for the resources beneath each step.
+- Stack each step heading above its card at widths of 800 pixels and below, preserving logical reading order and generous row spacing.
+- Remove horizontal scrolling behaviour while preserving vertical page scrolling and paired copy feedback.
+- Update the browser regression checks for alternating alignment, mobile stacking and both agents’ copy controls.
+
+### Validation
+
+- Chrome at 320, 390, 800, 801, 1024, 1440 and 1920 pixels — passed alternating or stacked alignment, equal prompt heights and absence of horizontal scrolling.
+- All three copy actions in both agent states — passed full prompt payloads and success feedback.
+- Desktop and mobile visual inspection — passed.
+- Vertical page scrolling and browser error checks — passed.
+- Authentication source tests — all eight passed.
+- Sites production build — passed.
 
 ## v26.0.22 — 2026-10-16
 
