@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.52"
-  update_summary: "Correct QR corners and add external code focus spacing"
-  updated_at: "Sat 17 Oct 2026 at 02:17:57 am AEDT (+11:00)"
+  doc_revision: "26.0.53"
+  update_summary: "Make QR corners concentric with the outer card"
+  updated_at: "Sat 17 Oct 2026 at 02:20:05 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.52 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 02:20:05 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Make QR corners concentric with the outer card
+
+### Fixed
+
+- Derive the QR link radius from the outer card radius minus its padding and border: 16px minus 14px minus 1px gives a 1px inner radius.
+- Inherit that radius on the QR image so its outline and the offset keyboard focus ring follow the same corner geometry.
+
+### Validation
+
+- Authentication and placeholder source tests — 10 passed.
+- Chrome focus checks — passed for QR image/link radii, Tab order and code-region focus spacing; QR focus screenshot visually inspected.
+- Production build — passed, retaining existing dimensions and placeholder geometry.
 
 ## v26.0.51 — 2026-10-17
 

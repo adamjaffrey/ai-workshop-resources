@@ -52,7 +52,7 @@ const styles = `
 .theme-toggle .icon { width: 20px; height: 20px; }
 .gate-toolbar { display: flex; justify-content: flex-end; margin-bottom: 20px; }
 :root[data-theme="dark"] .brand-mark img { filter: brightness(0) invert(1); }
-.qr-card img { background: white; border-radius: 16px; outline: 1px solid var(--border); }
+.qr-card img { background: white; border-radius: inherit; outline: 1px solid var(--border); }
 :root[data-theme="dark"] .page-placeholder .ph-line, :root[data-theme="dark"] .ph-brand-mark { background: #707b8b; }
 :root[data-theme="dark"] .ph-toggle span:last-child { background: var(--control-bg); }
 @media (max-width: 380px) { .page-toolbar { gap: 8px; } .page-toolbar .brand { gap: 6px; } .page-toolbar .brand-name { font-size: 13px; } .page-toolbar .brand-mark img { width: 36px; } .theme-toggle button { width: 40px; } }
