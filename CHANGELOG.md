@@ -3,14 +3,44 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.10"
-  update_summary: "Add a local design preview and align the placeholder layout"
-  updated_at: "Fri 16 Oct 2026 at 07:15:09 pm AEDT (+11:00)"
+  doc_revision: "26.0.11"
+  update_summary: "Add guided Node.js setup and concise installation status messages"
+  updated_at: "Fri 16 Oct 2026 at 07:42:35 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.10 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 07:42:35 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add guided Node.js setup and concise installation status messages
+
+### Added
+
+- Add a copyable Node.js setup prompt as Step 1 before the two skill installation steps.
+
+### Changed
+
+- Check and resolve missing prerequisites in both skill prompts, including when setup is skipped.
+- Request short emoji status messages with uppercase bold labels and colons, verified completion checks and one next action.
+- Keep technical verification internal and suppress lengthy installation summaries.
+- Fit three cards on desktop and stack them on smaller screens, with scrollable prompt text and complete clipboard copies.
+
+### Validation
+
+- `node --test website/tests/auth.test.mjs` — all eight access-control tests passed.
+- Sites `build-site.mjs` — local production build passed.
+- Chrome source-page preview — all three ordered steps, both agent choices, six clipboard copies, fallback/status text, mobile fit and no script errors passed.
+- Actual Node.js installation on a clean participant computer and agent adherence to response wording were not tested.
 
 ## v26.0.9 — 2026-10-16
 
