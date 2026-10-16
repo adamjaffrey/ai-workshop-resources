@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.48"
-  update_summary: "Match icon blocks by set and preserve the QR white border"
-  updated_at: "Sat 17 Oct 2026 at 01:56:57 am AEDT (+11:00)"
+  doc_revision: "26.0.49"
+  update_summary: "Add blur tuning and reuse measurements for unchanged layouts"
+  updated_at: "Sat 17 Oct 2026 at 02:04:20 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.48 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 02:04:20 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add blur tuning and reuse measurements for unchanged layouts
+
+### Changed
+
+- Set the opaque block colour-blend default to 40% and add an independent 0–20px background-blur preview slider, initially 5px.
+- Reuse existing geometry when the layout revision matches, instead of remeasuring on every build or invalidating it for unrelated source edits.
+- Document word, cap-height, baseline, icon-set, QR-padding and colour rules in the website README; require layout-only remeasurement in repository instructions.
+
+### Validation
+
+- Authentication and placeholder source tests — 10 passed, including layout-revision mismatch rejection and reuse after non-layout edits.
+- Chrome checks — passed for both sliders, unchanged word geometry, cap heights, icon sets, QR padding, themes and responsive layout at four widths.
+- Existing measured markup, word count and icon dimensions — byte-for-byte/value comparison passed; no remeasurement performed.
+- Sites production build — passed and explicitly reused the existing layout geometry without launching Chrome measurement.
 
 ## v26.0.47 — 2026-10-17
 

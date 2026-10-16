@@ -23,6 +23,17 @@ try {
       return words;
     });
     await page.goto(new URL('../outputs/login-design-preview.html', import.meta.url).href);
+    assert.equal(await page.locator('#block-strength').inputValue(), '40');
+    assert.equal(await page.locator('#blur-amount').inputValue(), '5');
+    await page.locator('#blur-amount').fill('8.5');
+    await page.locator('#blur-amount').dispatchEvent('input');
+    assert.equal(await page.locator('#blur-amount-value').textContent(), '8.5px');
+    assert.equal(await page.locator('.page-placeholder').evaluate(el => getComputedStyle(el).filter), 'blur(8.5px)');
+    await page.locator('#blur-amount').fill('0');
+    await page.locator('#blur-amount').dispatchEvent('input');
+    assert.equal(await page.locator('.page-placeholder').evaluate(el => getComputedStyle(el).filter), 'blur(0px)');
+    await page.locator('#blur-amount').fill('5');
+    await page.locator('#blur-amount').dispatchEvent('input');
     await page.getByRole('button',{name:'No blur',exact:true}).click();
     await page.evaluate(() => document.fonts.ready);
     const projected = await page.locator('.ph-word').evaluateAll(elements=>elements.map(el=>{const r=el.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height};}).filter(r=>r.width && r.height));
@@ -80,7 +91,7 @@ try {
       assert.equal(await page.locator('#block-strength-value').textContent(), '80%');
       assert.equal(await page.locator('.page-placeholder article').first().evaluate(el => getComputedStyle(el).backgroundColor), surface);
       assert.equal(await page.locator('.ph-word').first().evaluate(el => getComputedStyle(el, '::before').opacity), '1');
-      await page.locator('#block-strength').fill('35');
+      await page.locator('#block-strength').fill('40');
       await page.locator('#block-strength').dispatchEvent('input');
     }
     await page.evaluate(() => document.documentElement.dataset.theme = 'light');

@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.19"
-  update_summary: "Document matched icon blocks and preserved QR white padding"
-  updated_at: "Sat 17 Oct 2026 at 01:56:57 am AEDT (+11:00)"
+  doc_revision: "26.0.20"
+  update_summary: "Define block rules, preview sliders and layout-only remeasurement"
+  updated_at: "Sat 17 Oct 2026 at 02:03:31 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -34,17 +34,45 @@ This protects content delivered by this website. The linked public GitHub reposi
 
 ## Local Design Review
 
-Run `node website/scripts/measure-placeholder.mjs` followed by `node website/scripts/preview-login.mjs` from the repository root, then open `website/outputs/login-design-preview.html` directly in Chrome. No server is needed. Switch between No blur, Blur only and Password panel using the preview controls. The form is disabled and the file contains no credentials or protected workshop content. The generated output is ignored by Git and excluded from deployment.
+Run `node website/scripts/measure-placeholder.mjs --if-needed` followed by `node website/scripts/preview-login.mjs` from the repository root, then open `website/outputs/login-design-preview.html` directly in Chrome. The first command reuses valid measurements without launching Chrome; the second regenerates the standalone HTML. No server is needed. The form is disabled, and the preview contains no credentials or protected workshop content. Output files are ignored by Git and excluded from deployment.
 
-The login background uses the current resources layout and CSS with every visible word replaced by measured anonymous geometry, including prompt words. `website/scripts/measure-placeholder.mjs` opens the resource preview in installed Google Chrome through the Playwright development dependency, waits for its font, measures word bounds and saves `website/lib/workshop-placeholder.generated.json`. Source text, links, scripts and action attributes are excluded. Monospaced text uses invisible dummy glyphs with measured exceptions for emoji, preserving native wrapping. The branding mark remains visible. SVG icons become blocks sized consistently within their measured step, agent-logo, theme and copy-control sets. Each set uses its largest measured layout box, including CSS dimensions for hidden success variants. The QR pattern becomes a square colour-blended block while preserving the original opaque white quiet zone, measured directly from the image pixels. Icon and QR blocks follow the same Block strength setting as the words.
+Switch between No blur, Blur only and Password panel. Block strength ranges from 0% to 100%, initially 40%. Background blur ranges from 0px to 20px in 0.5px steps, initially 5px. Both sliders update independently and can be adjusted together. No blur temporarily removes the background blur while retaining its slider value; switching back restores that value. Password panel retains its additional 7px backdrop blur. Slider changes are local to the preview, reset when reloaded, and do not persist production settings.
 
-The blocks use an opaque blend of 35% foreground colour and 65% of the containing surface colour. Card and button surfaces remain unchanged. The local preview's Block strength slider adjusts this blend from 0% to 100%; it does not change the production default or apply opacity to the page. Text blocks retain their measured widths and line boxes while painting one consistent cap-height rectangle per text style, measured from the capital H and aligned to the alphabetic baseline. Individual ascenders, descenders and emoji do not alter the painted block height. Prompt words use the same cap-height rule while preserving native wrapping.
+Run `node website/scripts/preview-resources.mjs` from the repository root to generate `website/outputs/workshop-resources-preview.html`. Open it in Chrome. Images and the font are embedded so previews work when moved. The resources preview retains the agent selector and copy controls but omits session checks and logout. Keep design iterations local until publishing is approved.
 
-Development and build startup automatically remeasure the page and regenerate both preview files. The source fingerprint rejects stale geometry instead of silently showing old shapes. After editing during a running development session, rerun the measurement and login preview commands, then reload. The build requires installed Google Chrome; measurement happens during preparation, never in a visitor's browser. `workshop-resource-page.mjs` owns the resource template independently of the login renderer so generation cannot import stale login geometry.
+## Block Geometry Rules
 
-Run `node --test website/tests/placeholder.test.mjs` for source and stale-geometry checks. Run `node website/tests/word-geometry-browser-check.mjs` for measured word positions and widths (within 1px at four viewports), surface-preserving colour blending and slider checks. `node website/tests/placeholder-browser-check.mjs` covers themes, overflow and the password panel. Exact measurements use the build machine's fonts; different operating-system fonts can produce small differences. Review controls exist only in the local preview. Keep design iterations local until publishing is approved.
+### Words And Text Styles
 
-Run `node website/scripts/preview-resources.mjs` from the repository root to generate `website/outputs/workshop-resources-preview.html`. Open this file in Chrome, not the Codex sidebar. Both images and the font are embedded so the preview works when moved. It retains the agent selector and copy controls but omits session checks and logout; production authentication is unchanged.
+- Replace every visible word separately, including prompt text; do not estimate widths from character counts or replace entire prompt lines with generic bars.
+- Measure rendered word widths in Chrome after the page font has loaded. Retain the measured widths, original spacing, line boxes and responsive wrapping.
+- Use one consistent cap height per text style, measured from capital H at that style's font family, weight and size. Align each block's bottom to the alphabetic baseline. Do not use average word height or each word's ascenders/descenders; emoji placeholders follow the same cap-height rule.
+- Monospaced words use invisible anonymous glyphs to preserve native wrapping, including words that span lines. Wider exceptions such as emoji use measured boxes. Never include the original protected words in the generated login geometry.
+
+### Icons And QR Code
+
+- Replace background SVG icons with blocks. Group the step icons, agent logos, theme icons and copy/success icons separately; match dimensions within each set using its largest measured width and height. Include CSS dimensions for hidden state variants.
+- Current set dimensions are 26×26px for step icons, 20×20px for ChatGPT/Claude logos, 20×20px for theme icons and 18×18px for copy/success icons. These describe the present layout; future layout measurements determine new values.
+- Preserve each icon's layout classes, alignment, surrounding tile/button, responsive visibility and spacing. Keep the Wavelength branding image visible. Functional password-panel controls remain functional and are not replaced.
+- Replace only the QR pattern with one block. Measure the original dark-pixel bounds and preserve the surrounding opaque white quiet zone. The present 540×540px source has 48px padding on each side, scaled proportionally with the image. Keep that padding white in both themes; retain the QR card, caption, border and responsive visibility.
+
+### Colour And Blur
+
+- Default block strength is 40%: an opaque mix of 40% foreground ink and 60% of the containing surface colour. This is a colour blend, not element or page opacity.
+- Use the relevant surface for each word/icon: page, card, prompt panel, button or icon tile. Preserve those surfaces and their colours. For the QR centre, mix dark ink with white and leave its white padding untouched.
+- Apply the same Block strength setting to words, icons and the QR centre. Retain the separate 5px background blur default. Do not bake strength or blur into measured geometry; changing either never requires remeasurement.
+
+### Reuse And Remeasurement
+
+Website changes that preserve layout reuse the existing geometry. Colour, strength, blur, interaction timing, authentication, documentation and preview controls do not require remeasurement unless they also change resting dimensions or positions. Layout changes include structure, spacing, fonts, text metrics, wrapping, breakpoints, changed word geometry, icon dimensions and QR bounds/padding.
+
+For a layout change, increment `placeholderLayoutRevision` in `website/lib/workshop-layout.mjs`. Development/build startup runs `measure-placeholder.mjs --if-needed`, which measures only when that revision differs from the generated geometry or the geometry is missing. Without a layout change, it skips measurement and regenerates the preview HTML from the existing blocks. After edits in an already-running development session, run the same conditional measurement command and regenerate the preview HTML, then reload Chrome. The direct measurement command without `--if-needed` forces regeneration and should be reserved for an actual geometry update.
+
+`website/scripts/measure-placeholder.mjs` uses installed Google Chrome through the Playwright development dependency and saves anonymous markup in `website/lib/workshop-placeholder.generated.json`. The stored source fingerprint records provenance only; it does not invalidate measurements for unrelated source changes. The renderer rejects a mismatched layout revision. Measurement runs during preparation, never in a visitor's browser. `workshop-resource-page.mjs` owns the resource template independently of the login renderer. Original text, links, scripts and action attributes are excluded from the login markup, which remains inert and hidden from assistive technology.
+
+### Validation
+
+Run `node --test website/tests/placeholder.test.mjs` for content removal and layout-revision checks. Run `node website/tests/word-geometry-browser-check.mjs` for word positions and widths within 1px at four viewports, cap heights/baselines, matched icon sets, QR padding and both sliders. `node website/tests/placeholder-browser-check.mjs` covers themes, overflow and the password panel. Geometry comparisons use the build machine's fonts; other operating-system fonts may differ slightly. Run relevant checks for the change rather than remeasuring unchanged geometry.
 
 ## Agent Logos And Colours
 

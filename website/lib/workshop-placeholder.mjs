@@ -1,14 +1,13 @@
-import {createHash} from 'node:crypto';
+import {placeholderLayoutRevision} from './workshop-layout.mjs';
 import geometry from './workshop-placeholder.generated.json' with {type: 'json'};
 
 // Only anonymous measured geometry is shipped to unauthenticated visitors.
-export function placeholderFromPage(page) {
-  const fingerprint = createHash('sha256').update(page).digest('hex');
-  if (fingerprint !== geometry.fingerprint) throw new Error('Blur geometry is stale: run node scripts/measure-placeholder.mjs from website');
+export function placeholderFromPage(_page, layoutRevision = placeholderLayoutRevision) {
+  if (layoutRevision !== geometry.layoutRevision) throw new Error('Blur geometry is stale: run node scripts/measure-placeholder.mjs from website');
   return geometry.markup;
 }
 export const placeholderStyles = `
-.page-placeholder { --ph-strength:35%; --ph-surface:var(--page); pointer-events:none; user-select:none; filter:blur(5px); }
+.page-placeholder { --ph-strength:40%; --ph-blur:5px; --ph-surface:var(--page); pointer-events:none; user-select:none; filter:blur(var(--ph-blur)); }
 .page-placeholder article { --ph-surface:var(--card-bg); }
 .page-placeholder .code-wrap, .page-placeholder .qr-card { --ph-surface:var(--content-surface); }
 .page-placeholder .copy, .page-placeholder .theme-toggle button { --ph-surface:var(--surface); }

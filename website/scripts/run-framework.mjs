@@ -4,7 +4,7 @@ import { readExecutionProfile } from "./execution-profile.mjs";
 
 const [command, ...args] = process.argv.slice(2);
 if (!["dev", "build"].includes(command)) throw new Error("Expected dev or build.");
-const measured = spawnSync(process.execPath, [fileURLToPath(new URL('./measure-placeholder.mjs', import.meta.url))], {stdio: 'inherit'});
+const measured = spawnSync(process.execPath, [fileURLToPath(new URL('./measure-placeholder.mjs', import.meta.url)), '--if-needed'], {stdio: 'inherit'});
 if (measured.error) throw measured.error;
 if (measured.status !== 0) process.exit(measured.status ?? 1);
 if (command === 'build') {

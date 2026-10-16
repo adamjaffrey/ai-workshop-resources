@@ -1,8 +1,18 @@
 // Build-time only: measure rendered text, then serialise geometry without content.
-import {writeFile} from 'node:fs/promises';
+import {readFile, writeFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {chromium} from 'playwright';
 import {resourcePage} from '../lib/workshop-resource-page.mjs';
+import {placeholderLayoutRevision} from '../lib/workshop-layout.mjs';
+const target = new URL('../lib/workshop-placeholder.generated.json', import.meta.url);
+if (process.argv.includes('--if-needed')) {
+  let existing;
+  try {existing = JSON.parse(await readFile(target, 'utf8'));} catch (error) {if (error.code !== 'ENOENT') throw error;}
+  if (existing?.layoutRevision === placeholderLayoutRevision) {
+    console.log(`Reusing block geometry for layout revision ${placeholderLayoutRevision}; no browser measurement needed`);
+    process.exit(0);
+  }
+}
 await import('./preview-resources.mjs');
 const browser = await chromium.launch({channel: 'chrome', headless: true});
 try {
@@ -135,6 +145,6 @@ try {
     return {markup: clone.outerHTML, words, iconSizes};
   });
   const fingerprint = createHash('sha256').update(resourcePage).digest('hex');
-  await writeFile(new URL('../lib/workshop-placeholder.generated.json', import.meta.url), JSON.stringify({fingerprint, ...result}) + '\n');
+  await writeFile(new URL('../lib/workshop-placeholder.generated.json', import.meta.url), JSON.stringify({layoutRevision: placeholderLayoutRevision, fingerprint, ...result}) + '\n');
   console.log(`Measured ${result.words} anonymous word shapes in Chrome`);
 } finally {await browser.close();}
