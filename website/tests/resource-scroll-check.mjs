@@ -15,6 +15,8 @@ for (const width of [1440, 1024, 1008, 800, 700, 661, 660, 390, 320]) {
       contentWidth: document.querySelector('.cards').getBoundingClientRect().width,
       scrollable: document.querySelector('.cards').scrollWidth > document.querySelector('.cards').clientWidth,
       headings: [...document.querySelectorAll('.step-title')].map(e => e.textContent),
+      titleSize: parseFloat(getComputedStyle(document.querySelector('h1')).fontSize),
+      stepSize: parseFloat(getComputedStyle(document.querySelector('.step-title')).fontSize),
       rows: [...document.querySelectorAll('.step-row')].map(e => ({marker:box(e.querySelector('.step-marker')), card:box(e.querySelector('article')), line:box(e.querySelector('.step-connector')), copy:box(e.querySelector('.step-copy'))})),
       codeHeights: [...document.querySelectorAll('pre')].map(e => e.offsetHeight)
     };
@@ -24,6 +26,8 @@ for (const width of [1440, 1024, 1008, 800, 700, 661, 660, 390, 320]) {
   if (width > 660) assert.ok(layout.header.qr.x > layout.header.text.x);
   else assert.equal(layout.header.qrDisplay, 'none');
   assert.deepEqual(layout.headings, ['Step 1', 'Step 2', 'Step 3']);
+  assert.equal(layout.titleSize, width > 660 ? 48 : 40);
+  assert.equal(layout.stepSize, width > 660 ? 40 : 32);
   assert.equal(new Set(layout.codeHeights).size, 1);
   layout.rows.forEach(({marker, card, line, copy}, index) => {
     if (width > 660) {

@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.28"
-  update_summary: "Overlay copy feedback and hide the QR code on small screens"
-  updated_at: "Fri 16 Oct 2026 at 09:15:12 pm AEDT (+11:00)"
+  doc_revision: "26.0.29"
+  update_summary: "Strengthen the page title hierarchy above step headings"
+  updated_at: "Fri 16 Oct 2026 at 09:16:19 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.28 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 09:16:19 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Strengthen the page title hierarchy above step headings
+
+### Changed
+
+- Increase the page H1 to 48 pixels above the 40-pixel step H2 headings.
+- At 660 pixels and below, use a 40-pixel H1 above 32-pixel H2 headings so both levels retain their hierarchy.
+- Add responsive checks for exact heading sizes.
+
+### Validation
+
+- Chrome at 320, 390, 660, 661, 700, 800, 1008, 1024 and 1440 pixels — passed heading hierarchy, layout and overflow checks.
+- Copy controls in both agent states, fixed feedback dimensions and vertical scrolling — passed.
+- Sites production build — passed.
 
 ## v26.0.27 — 2026-10-16
 
