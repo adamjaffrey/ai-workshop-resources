@@ -3,14 +3,44 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.19"
-  update_summary: "Refine horizontal workshop cards and animated copy feedback"
-  updated_at: "Fri 16 Oct 2026 at 08:41:48 pm AEDT (+11:00)"
+  doc_revision: "26.0.20"
+  update_summary: "Restore centred content with an independently scrolling card row"
+  updated_at: "Fri 16 Oct 2026 at 08:47:18 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.19 — 2026-10-16
+
+**Built at:** Fri 16 Oct 2026 at 08:47:18 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Restore centred content with an independently scrolling card row
+
+### Changed
+
+- Restore the previous centred width for the logo, header, toggle and footer while allowing the card row to extend to both window edges.
+- Align Step 1 with the main content on initial load and preserve matching space after the final card.
+- Lock wheel gestures to their starting axis, never converting vertical input into horizontal scrolling; block vertical page, prompt and keyboard movement during horizontal gestures, including at row boundaries.
+- Support horizontal touch gestures with vertical movement locked, while retaining ordinary vertical touch scrolling and pinch zoom.
+
+### Added
+
+- Add a repeatable Chrome regression check for layout alignment, responsive overflow, wheel and touch direction, boundary locking, prompt scrolling and keyboard blocking.
+
+### Validation
+
+- Chrome regression check at 320, 390, 1024, 1440 and 1920 pixels — passed content widths, initial alignment and no page-wide horizontal overflow.
+- Wheel, touch, prompt and keyboard scroll checks — passed.
+- Authentication source tests — all eight passed.
+- Sites production build — passed.
 
 ## v26.0.18 — 2026-10-16
 
