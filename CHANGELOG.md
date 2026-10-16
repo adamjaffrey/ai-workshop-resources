@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.32"
-  update_summary: "Reveal each step heading and card together from the same side"
-  updated_at: "Sat 17 Oct 2026 at 12:31:52 am AEDT (+11:00)"
+  doc_revision: "26.0.33"
+  update_summary: "Reverse step reveal directions and clarify command formatting"
+  updated_at: "Sat 17 Oct 2026 at 12:33:33 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.32 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 12:33:33 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Reverse step reveal directions and clarify command formatting
+
+### Changed
+
+- Reveal the Step 1 and Step 3 pairs from the left and the Step 2 pair from the right.
+- Label installer command fences as shell rather than bash to avoid implying that participants need Bash.
+
+### Validation
+
+- Chrome reveal directions, toggle animation, shell command fences and reduced-motion checks — passed.
+- Sites production build and source, preview and bundle version displays — passed.
 
 ## v26.0.31 — 2026-10-17
 
