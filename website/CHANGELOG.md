@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.57"
-  update_summary: "Move the website build history into its project"
-  updated_at: "Sat 17 Oct 2026 at 12:44:42 pm AEDT (+11:00)"
+  doc_revision: "26.0.58"
+  update_summary: "Lock background scrolling and refine login and pre-header copy"
+  updated_at: "Sat 17 Oct 2026 at 12:50:17 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.56 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 12:50:17 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Lock background scrolling and refine login and pre-header copy
+
+### Fixed
+
+- Fix the locked body in place and disable root overscroll while preserving scrolling inside the password panel.
+
+### Changed
+
+- Use “Workshop Resources”, “Unlock Resources” and “Opening Resources…” on the login panel.
+- Title-case raw pre-heading text and theme-button labels while retaining uppercase pre-heading display.
+- Refresh the website footer version display without changing background geometry.
+
+### Validation
+
+- Authentication and placeholder source tests — 10 passed.
+- Chrome login checks — passed at four widths in both themes; focused-field scrolling moved the panel while the background stayed stationary in a simulated keyboard-sized viewport.
+- Sites production build — passed; physical-device scroll verification remains with the refreshed phone preview.
 
 ## v26.0.55 — 2026-10-17
 

@@ -39,6 +39,15 @@ try {
     await page.waitForTimeout(80);
     const bounds=await page.locator('#workshop-password').boundingBox();
     assert.ok(bounds.y>=80&&bounds.y+bounds.height<=380,JSON.stringify({width,theme,bounds}));
+    // Scroll while the field is focused and the visual viewport is keyboard-sized.
+    const backgroundTop=await page.locator('.page-placeholder').evaluate(el=>el.getBoundingClientRect().top);
+    await page.locator('#access-gate').evaluate(el=>el.scrollTop=0);
+    await page.mouse.move(width/2,180);
+    await page.mouse.wheel(0,400);
+    await page.waitForTimeout(150);
+    assert.ok(await page.locator('#access-gate').evaluate(el=>el.scrollTop>0));
+    assert.equal(await page.evaluate(()=>window.scrollY),0);
+    assert.equal(await page.locator('.page-placeholder').evaluate(el=>el.getBoundingClientRect().top),backgroundTop);
     await page.locator('#workshop-password').fill('wrong-password');
     await page.keyboard.press('Enter');
     await page.getByText('That password isn’t correct. Please try again.').waitFor();

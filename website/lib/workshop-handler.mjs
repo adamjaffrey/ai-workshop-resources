@@ -151,7 +151,7 @@ form.addEventListener('submit',async event=>{
     if(!response.ok)throw new Error(result.error||'Unable to sign in. Please try again.');
     password.value='';password.readOnly=true;
     form.classList.add('is-success'); error.classList.add('is-success');error.querySelector('svg').removeAttribute('hidden');
-    message.textContent='Access granted';button.textContent='Opening resources…';
+    message.textContent='Access granted';button.textContent='Opening Resources…';
     setTimeout(()=>location.replace('/'),900);
   } catch(failure) {
     message.textContent=failure.message==='Failed to fetch'?'Unable to connect. Please try again.':failure.message;
