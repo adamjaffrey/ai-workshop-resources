@@ -3,14 +3,43 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.60"
-  update_summary: "Add isolated local phone-preview authentication"
-  updated_at: "Sat 17 Oct 2026 at 01:02:10 pm AEDT (+11:00)"
+  doc_revision: "26.0.61"
+  update_summary: "Persist agent accents and refine the footer and preview handoff"
+  updated_at: "Sat 17 Oct 2026 at 01:14:58 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.59 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 01:14:58 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Persist agent accents and refine the footer and preview handoff
+
+### Changed
+
+- Persist the Codex or Claude Code choice across login, logout and reload, apply it before paint on both pages, and synchronise changes between tabs. Default to Codex.
+- Centralise branded accents and derived colour tokens for text, links, focus rings, button fills, card tints and icon ink; preserve neutral surfaces and semantic feedback colours.
+- Move the title-cased Log Out button to the footer's bottom right, retaining version/copyright at the left.
+- Require clearly formatted preview links with the active local password in a copyable code block in project instructions.
+- Limit block refreshes to changes affecting the visible blurred background, permit necessary refreshes without separate approval and retain the previous saved geometry for this below-background footer change.
+- Preserve footer geometry in the standalone resources fixture with a disabled Log Out button.
+
+### Validation
+
+- Authentication and placeholder source tests — 10 passed.
+- Login browser checks — passed focus, keyboard viewport, scroll containment and fallback checks at four widths in both themes.
+- Agent-preference browser checks — passed real login/logout/reload persistence, both themes, prompt selection, cross-tab sync, invalid/denied storage and footer alignment at four widths.
+- Login Sun, Moon, Lock and Check geometry — matched the installed Lucide icon definitions.
+- Sites production build — passed with the original saved background geometry.
 
 ## v26.0.58 — 2026-10-17
 

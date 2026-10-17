@@ -12,7 +12,7 @@ const start = html.indexOf('    async function checkSession()');
 const end = html.indexOf('  </script>', start);
 if (start < 0 || end < 0) throw new Error('Preview session boundary missing');
 html = html.slice(0, start) + html.slice(end);
-html = html.replace(/<form action="\/auth\/logout"[\s\S]*?<\/form>/, '');
+html = html.replace(/<form action="\/auth\/logout"[\s\S]*?<\/form>/, '<form><button type="button" disabled>Log Out</button></form>');
 const output = new URL('../outputs/workshop-resources-preview.html', import.meta.url);
 await mkdir(new URL('../outputs/', import.meta.url), {recursive: true});
 await writeFile(output, html);

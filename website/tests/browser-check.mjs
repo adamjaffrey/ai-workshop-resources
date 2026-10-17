@@ -25,7 +25,7 @@ const tab=await context.newPage();await tab.goto('http://127.0.0.1:8787/');asser
 await context.close();
 context=await chromium.launchPersistentContext(profile,options);page=await context.newPage();await page.goto('http://127.0.0.1:8787/');
 assert.equal(await page.locator('#workshop-content').count(),1);
-await page.getByRole('button',{name:'Log out',exact:true}).click();await page.locator('#workshop-password').waitFor();
+await page.getByRole('button',{name:'Log Out',exact:true}).click();await page.locator('#workshop-password').waitFor();
 assert.equal(await page.locator('#workshop-content').count(),0);
 await page.setViewportSize({width:390,height:844});await page.screenshot({path:'/tmp/workshop-secure-mobile.png',fullPage:true});
 assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));

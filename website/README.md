@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.24"
-  update_summary: "Document isolated phone-preview authentication"
-  updated_at: "Sat 17 Oct 2026 at 01:01:23 pm AEDT (+11:00)"
+  doc_revision: "26.0.25"
+  update_summary: "Document shared agent accents and Lucide login icons"
+  updated_at: "Sat 17 Oct 2026 at 01:14:58 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -52,7 +52,7 @@ To run the optional test, use `npm --prefix website run test:blur-preview` from 
 
 Switch between No blur, Blur only and Password panel. Block strength ranges from 0% to 100%, initially 40%. Background blur ranges from 0px to 20px in 0.5px steps, initially 4px. Both sliders update independently and can be adjusted together. No blur temporarily removes the background blur while retaining its slider value; switching back restores that value. Password panel retains its additional 7px backdrop blur. Slider changes are local to the preview, reset when reloaded, and do not persist production settings.
 
-Run `node website/scripts/preview-resources.mjs` from the repository root to generate `website/outputs/workshop-resources-preview.html`. Open it in Chrome. Images and the font are embedded so previews work when moved. The resources preview retains the agent selector and copy controls but omits session checks and logout. Keep design iterations local until publishing is approved.
+Run `node website/scripts/preview-resources.mjs` from the repository root to generate `website/outputs/workshop-resources-preview.html`. Open it in Chrome. Images and the font are embedded so previews work when moved. The resources preview retains the agent selector and copy controls but omits session checks and disables logout. The disabled footer button preserves its layout for block measurement. Keep design iterations local until publishing is approved.
 
 ## Block Geometry Rules
 
@@ -78,11 +78,11 @@ Run `node website/scripts/preview-resources.mjs` from the repository root to gen
 
 ### Reuse And Remeasurement
 
-Website changes that preserve layout reuse the existing geometry. Colour, strength, blur, interaction timing, authentication, documentation and preview controls do not require remeasurement unless they also change resting dimensions or positions. Layout changes include structure, spacing, fonts, text metrics, wrapping, breakpoints, changed word geometry, icon dimensions and QR bounds/padding.
+Website changes that preserve layout reuse the existing geometry. Colour, strength, blur, interaction timing, authentication, documentation and preview controls do not require remeasurement unless they also change resting dimensions or positions. Layout changes include structure, spacing, fonts, text metrics, wrapping, breakpoints, changed word geometry, icon dimensions and QR bounds/padding. Refresh only when those changes affect the visible blurred login background. Footer-only changes below that visible background do not require remeasurement or a layout-revision increment.
 
-Block measurement is manual-only. When explicitly asked to refresh block positions, run `npm --prefix website run blocks:measure` from the repository root, then optionally run `npm --prefix website run test:blur-preview` to check the result. The measurement command refreshes the saved geometry even if the layout revision is unchanged.
+Refresh block positions with `npm --prefix website run blocks:measure` from the repository root when an authorised layout change requires it; no separate approval is needed. Run `npm --prefix website run test:blur-preview` only when explicitly requested. The measurement command refreshes the saved geometry even if the layout revision is unchanged.
 
-For a layout change, increment `placeholderLayoutRevision` in `website/lib/workshop-layout.mjs` to mark existing measurements stale. Normal development/build startup never launches measurement or the blur tester; it reuses saved geometry and refreshes only the resources preview. A stale layout revision fails the existing renderer/check guard with an instruction to run the manual measurement command, rather than silently remeasuring. Non-layout changes require neither a revision increment nor measurement. Commit manually refreshed geometry with the corresponding layout change.
+For a layout change affecting visible background blocks, increment `placeholderLayoutRevision` in `website/lib/workshop-layout.mjs` to mark existing measurements stale. Normal development/build startup never launches measurement or the blur tester; it reuses saved geometry and refreshes only the resources preview. A stale layout revision fails the existing renderer/check guard with an instruction to run the manual measurement command, rather than silently remeasuring. Non-layout changes require neither a revision increment nor measurement. Refresh and commit geometry with the corresponding layout change.
 
 `website/scripts/measure-placeholder.mjs` uses installed Google Chrome through the Playwright development dependency and saves anonymous markup in `website/lib/workshop-placeholder.generated.json`. The stored source fingerprint records provenance only; it does not invalidate measurements for unrelated source changes. The renderer rejects a mismatched layout revision. Measurement runs during preparation, never in a visitor's browser. `workshop-resource-page.mjs` owns the resource template independently of the login renderer. Original text, links, scripts and action attributes are excluded from the login markup, which remains inert and hidden from assistive technology.
 
@@ -100,6 +100,12 @@ The selected agent toggle uses white (#FFFFFF) text and a white logo in both the
 - Claude Code orange: #D97757 is `COLOR_PRIMARY` in [Lobe Icons’ Claude Code style source](https://github.com/lobehub/lobe-icons/blob/master/src/ClaudeCode/style.ts), verified on 16 October 2026. The colour remains unchanged when using the Claude logo.
 
 In light mode, all three step cards use 4% of the selected accent mixed with 96% white. Their icon tiles use 16% accent mixed with 84% white, and their icon lines use 80% accent mixed with 20% black. These sRGB mixes follow the selected agent automatically.
+
+## Shared Agent Accent
+
+`website/lib/workshop-agent.mjs` owns the `workshop-selected-agent` preference. It applies Codex by default before paint, remembers Claude Code or Codex across navigation and logout, and synchronises changes between tabs. Storage denial preserves switching for the current page; unsupported stored values fall back to Codex. Both pages derive branded text, focus rings, links, icon ink, button fills and card tints from the shared `--agent-accent` in `workshop-theme.mjs`. Neutral chrome, white QR backgrounds and semantic error/success colours retain their independent roles.
+
+The functional login icons are Lucide Sun, Moon, Lock and Check, matching `node_modules/lucide-react/dist/esm/icons/{sun,moon,lock,check}.mjs`. They use decorative inline SVG with current-colour strokes and the existing Lucide licence. The resource footer places version/copyright at the left and the title-cased Log Out button at the bottom right.
 
 ## Colour Themes
 

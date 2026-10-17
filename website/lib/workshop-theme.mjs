@@ -1,4 +1,5 @@
 import {toggleScript} from './workshop-toggle.mjs';
+import {agentScript} from './workshop-agent.mjs';
 // Shared theme for the server-rendered login and resource pages.
 // Sun and Moon paths from the installed Lucide package (ISC; public/assets/lucide-LICENSE.txt).
 const icon = paths => `<svg class="icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`;
@@ -7,11 +8,11 @@ const moon = icon('<path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.4
 const control = `<div class="theme-toggle" role="group" aria-label="Colour theme" hidden><button type="button" data-theme-choice="light" aria-label="Light Mode" title="Light Mode" aria-pressed="false">${sun}</button><button type="button" data-theme-choice="dark" aria-label="Dark Mode" title="Dark Mode" aria-pressed="false">${moon}</button></div>`;
 const styles = `
 :root {
-  --agent-accent: #0285FF; --page: #f3f3f3; --surface: #fff; --content-surface: #f8f9fa; --text: #1a1a1a;
+  --agent-accent: #0285FF; --agent-ink: #fff; --page: #f3f3f3; --surface: #fff; --content-surface: #f8f9fa; --text: #1a1a1a;
   --muted-text: #5b6066; --border: #dedede; --panel-border: #d5d9dd;
   --control-border: #c7ccd1; --control-bg: #e9e9e9; --control-text: #454545;
   --hover: #e9edf0; --field-bg: #fafafa; --field-border: #bfc4c9;
-  --success: #167342; --error: #a62323; --link: #006aa6;
+  --success: #167342; --error: #a62323; --link: var(--icon-ink);
   --icon-ink: color-mix(in srgb, var(--agent-accent) 80%, black);
   --card-bg: color-mix(in srgb, var(--agent-accent) 4%, white);
   --tile-bg: color-mix(in srgb, var(--agent-accent) 16%, white);
@@ -25,13 +26,14 @@ const styles = `
   --border: #363d48; --panel-border: #414b59; --control-border: #566171;
   --control-bg: #252b34; --control-text: #c4cbd5; --hover: #303946;
   --field-bg: #11151b; --field-border: #566171; --success: #75d6a3; --error: #ff9b9b;
-  --link: #8acbff; --icon-ink: color-mix(in srgb, var(--agent-accent) 55%, white);
+  --link: var(--icon-ink); --icon-ink: color-mix(in srgb, var(--agent-accent) 55%, white);
   --card-bg: color-mix(in srgb, var(--agent-accent) 12%, #171b21);
   --tile-bg: color-mix(in srgb, var(--agent-accent) 24%, #171b21);
   --connector: color-mix(in srgb, var(--agent-accent) 45%, #171b21);
   --selection: color-mix(in srgb, var(--agent-accent) 40%, #171b21);
   --selection-text: #fff; --gate-overlay: rgb(0 0 0 / 55%); color-scheme: dark;
 }
+:root[data-selected-agent="claude-code"] { --agent-accent: #D97757; }
 /* QR cards and prompt panels share one surface, independent of other controls. */
 .qr-card, #workshop-content .code-wrap, #workshop-content .status { background: var(--content-surface); }
 .segmented-toggle { cursor: pointer; position: relative; isolation: isolate; display: inline-flex; padding: 4px; gap: 4px; border-width: 1px; }
@@ -90,7 +92,7 @@ const script = `(() => {
 })();`;
 
 export function withTheme(html, login = false) {
-  html = html.replace('</head>', `<style>${styles}</style><script nonce="__NONCE__" data-workshop-theme>${toggleScript}\n${script}</script></head>`);
+  html = html.replace('</head>', `<style>${styles}</style><script nonce="__NONCE__" data-workshop-theme>${agentScript}\n${toggleScript}\n${script}</script></head>`);
   if (login) return html.replace('</h2>', `</h2><div class="gate-toolbar"><p class="eyebrow">Workshop Access</p>${control}</div>`);
   return html.replace('<div class="brand" aria-label="Wavelength">', '<div class="page-toolbar"><div class="brand" aria-label="Wavelength">')
     .replace('    <header class="page-header">', `    ${control}</div>\n    <header class="page-header">`);
