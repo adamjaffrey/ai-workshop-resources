@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.29"
-  update_summary: "Widen mobile step accent lines to 120 pixels"
-  updated_at: "Sat 17 Oct 2026 at 01:46:31 pm AEDT (+11:00)"
+  doc_revision: "26.0.30"
+  update_summary: "Prevent button text selection and add held-press feedback"
+  updated_at: "Sat 17 Oct 2026 at 01:59:24 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -126,3 +126,7 @@ Both toggles use `createWorkshopToggle` from `website/lib/workshop-toggle.mjs` a
 Keep the version and complete copyright notice as separate nonbreaking groups. Allow wrapping only between those groups, hiding the decorative bullet and its horizontal spacing when wrapped. Keep Log Out right-aligned and vertically centred when alongside the text; on narrow screens allow its form to move to a separate row, left-aligned with the text. Use the installed Lucide Log Out icon.
 
 Reveal each step marker and linked card together once the card enters the viewport by 48px, observing the card rather than the whole step row. Honour reduced-motion preferences by showing content immediately. Mobile step connector lines are consistently 120px wide.
+
+## Button Interaction
+
+Disable text selection and iOS touch callouts only within buttons and their descendants. Keep page copy and prompt code selectable. Preserve native activation and keyboard focus, use held-press feedback on regular buttons, and retain the segmented selectors’ existing press/release animation. Clear held feedback on release, pointer cancellation, pointer exit, focus loss or page hiding. Honour reduced motion with a static pressed treatment. Keep selection colours derived from the agent accent where supported, allowing native iPhone selection highlighting.

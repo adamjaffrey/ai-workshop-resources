@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.67"
-  update_summary: "Match logout text to the semibold button style"
-  updated_at: "Sat 17 Oct 2026 at 01:50:17 pm AEDT (+11:00)"
+  doc_revision: "26.0.68"
+  update_summary: "Prevent button text selection and add held-press feedback"
+  updated_at: "Sat 17 Oct 2026 at 01:59:24 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.66 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 01:59:24 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Prevent button text selection and add held-press feedback
+
+### Changed
+
+- Disable button-label selection and iOS touch callouts on both pages without disabling selection of content or prompt code.
+- Add a subtle held-press scale and accent inset to regular buttons, retaining native activation, keyboard focus and existing segmented-toggle motion.
+- Clear held state on release and cancellation; respect reduced motion with static feedback.
+- Document native iPhone highlight fallback and preserve the existing agent-derived selection colours.
+
+### Validation
+
+- Button interaction Chrome checks — passed touch hold/release, button descendant styling, selectable prompt/body text, keyboard activation and reduced motion.
+- Agent-preference Chrome regression checks — passed.
+- Authentication and placeholder source tests — 10 passed.
+- Sites production build — passed. Native iPhone interaction awaits device confirmation.
 
 ## v26.0.65 — 2026-10-17
 
