@@ -129,6 +129,7 @@ const password=document.getElementById('workshop-password');
 const button=form.querySelector('button[type="submit"]');
 const error=document.getElementById('gate-error');
 const message=error.querySelector('span');
+const announcement=document.getElementById('login-announcement');
 // Focus the heading without opening a software keyboard or scrolling the page.
 window.workshopFocusPanel(document.getElementById('access-gate'));
 const gate=document.getElementById('access-gate');
@@ -160,7 +161,11 @@ const serviceFailure='Workshop access is temporarily unavailable. Please try aga
 function setStatus(state,text) {
   error.classList.remove('is-loading','is-success','is-error','is-info');
   error.classList.add('is-'+state);
-  if(message.textContent!==text) message.textContent=text;
+  const visibleText=state==='error'?text:'';
+  if(message.textContent!==visibleText) message.textContent=visibleText;
+  announcement.textContent=state==='error'?'':text;
+  const inputIcon=state==='loading'||state==='success'?state:'lock';
+  form.querySelectorAll('[data-input-icon]').forEach(icon=>icon.toggleAttribute('hidden',icon.dataset.inputIcon!==inputIcon));
   error.querySelectorAll('[data-status-icon]').forEach(icon=>icon.toggleAttribute('hidden',icon.dataset.statusIcon!==state));
   form.classList.toggle('is-success',state==='success');
 }
@@ -170,9 +175,9 @@ function release() {
 function showFailure(text,invalid=false,shake=false) {
   setStatus('error',text);
   if(invalid) {
-    password.setAttribute('aria-invalid','true');password.focus();password.select();
+    password.focus();password.select();password.setAttribute('aria-invalid','true');
   }
-  if(shake) { void form.offsetWidth;form.classList.add('shake'); }
+  if(shake) { form.classList.add('is-password-error');void form.offsetWidth;form.classList.add('shake'); }
   release();
 }
 function updateRetry() {
@@ -186,13 +191,19 @@ function updateRetry() {
   setStatus('error','Too many attempts. Please try again in '+duration+'.');
   button.disabled=true;
 }
+function resetPasswordError() {
+  if(busy)return;
+  password.removeAttribute('aria-invalid');form.classList.remove('shake','is-password-error');
+}
+password.addEventListener('focus',resetPasswordError);
+password.addEventListener('pointerdown',resetPasswordError);
 password.addEventListener('input',()=>{
-  password.removeAttribute('aria-invalid');form.classList.remove('shake');
+  resetPasswordError();
   if(!busy&&!retryUntil) setStatus('info','');
 });
 form.addEventListener('submit',async event=>{
   event.preventDefault();if(busy||retryUntil>Date.now())return;
-  form.classList.remove('shake');password.removeAttribute('aria-invalid');
+  form.classList.remove('shake','is-password-error');password.removeAttribute('aria-invalid');
   if(!password.value) { showFailure('Enter your workshop password.',true);return; }
   busy=true;button.disabled=true;button.setAttribute('aria-busy','true');
   setStatus('loading','Checking password…');

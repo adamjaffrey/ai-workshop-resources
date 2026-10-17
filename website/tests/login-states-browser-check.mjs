@@ -25,22 +25,34 @@ try {
   await page.goto('https://workshop.example/');
   const input=page.locator('#workshop-password'),button=page.locator('.gate-submit'),status=page.locator('#gate-error');
   const submit=async()=>{await input.fill('example');await button.click();};
+  const initial=await page.locator('#access-form').boundingBox();
   const hasShake=()=>page.locator('#access-form').evaluate(e=>e.classList.contains('shake'));
   const state=async(kind,text)=>{
-   await page.waitForFunction(({kind,text})=>{const e=document.querySelector('#gate-error');return e.classList.contains('is-'+kind)&&e.textContent===text;},{kind,text});
+   await page.waitForFunction(({kind,text})=>{const e=document.querySelector('#gate-error');return e.classList.contains('is-'+kind)&&(kind==='error'?e.textContent:document.querySelector('#login-announcement').textContent)===text;},{kind,text});
    assert.equal(await status.evaluate(e=>getComputedStyle(e).fontWeight),'400');
    assert.equal(await button.evaluate(e=>getComputedStyle(e).fontWeight),'600');
-   if(kind!=='info')assert.equal(await status.locator('[data-status-icon="'+kind+'"]').isVisible(),true);
+   const box=await page.locator('#access-form').boundingBox();assert.ok(Math.abs(box.height-initial.height)<1,'panel height must not jump');
+   if(kind==='error')assert.equal(await status.locator('[data-status-icon="error"]').isVisible(),true);
+   else {assert.equal(await status.locator('span').textContent(),'');if(kind!=='info')assert.equal(await page.locator('[data-input-icon="'+kind+'"]').isVisible(),true);}
   };
   await button.click();await state('error','Enter your workshop password.');assert.equal(requests,0);assert.equal(await hasShake(),false);
   mode='pending';await submit();await state('loading','Checking password…');
   assert.equal(await status.evaluate(e=>getComputedStyle(e).color),theme==='light'?'rgb(91, 96, 102)':'rgb(183, 190, 200)');
-  assert.equal(await status.locator('[data-status-icon="loading"]').evaluate(e=>getComputedStyle(e).animationName),'login-spin');
+  assert.equal(await page.locator('[data-input-icon="loading"]').evaluate(e=>getComputedStyle(e).animationName),'login-spin');
   await page.emulateMedia({reducedMotion:'reduce'});
-  assert.equal(await status.locator('[data-status-icon="loading"]').evaluate(e=>getComputedStyle(e).animationName),'none');
+  assert.equal(await page.locator('[data-input-icon="loading"]').evaluate(e=>getComputedStyle(e).animationName),'none');
   await page.emulateMedia({reducedMotion:'no-preference'});mode='wrong';pending();
   await state('error','That password isn’t correct. Please try again.');assert.equal(await hasShake(),true);assert.equal(await input.getAttribute('aria-invalid'),'true');
   assert.equal(await status.evaluate(e=>getComputedStyle(e).color),theme==='light'?'rgb(166, 35, 35)':'rgb(255, 155, 155)');
+  const lock=page.locator('[data-input-icon="lock"]');
+  const red=theme==='light'?'rgb(166, 35, 35)':'rgb(255, 155, 155)';
+  assert.equal(await lock.evaluate(e=>getComputedStyle(e).color),red);
+  await input.click();assert.equal(await input.getAttribute('aria-invalid'),null);
+  assert.notEqual(await lock.evaluate(e=>getComputedStyle(e).color),red);
+  mode='wrong';await submit();await state('error','That password isn’t correct. Please try again.');
+  await input.fill('new input');assert.notEqual(await lock.evaluate(e=>getComputedStyle(e).color),red);
+  mode='wrong';await submit();await state('error','That password isn’t correct. Please try again.');
+  await button.focus();await page.keyboard.press('Shift+Tab');assert.equal(await input.getAttribute('aria-invalid'),null);
   for(const [next,text] of [['network','Unable to connect. Check your connection and try again.'],['service','Workshop access is temporarily unavailable. Please try again later.'],['malformed','Unable to sign in. Please try again.'],['unexpected','Unable to sign in. Please try again.']]){
    mode=next;await submit();await state('error',text);assert.equal(await hasShake(),false);assert.equal(await input.getAttribute('aria-invalid'),null);assert.equal(await button.isEnabled(),true);
   }

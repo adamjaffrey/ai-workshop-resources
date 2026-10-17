@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.47"
-  update_summary: "Refine QR feedback and remove theme toggle motion delays"
-  updated_at: "Sat 17 Oct 2026 at 05:55:21 pm AEDT (+11:00)"
+  doc_revision: "26.0.48"
+  update_summary: "Move login progress into the input icon and reserve error space"
+  updated_at: "Sat 17 Oct 2026 at 05:58:34 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -52,7 +52,7 @@ To run the optional test, use `npm --prefix website run test:blur-preview` from 
 
 Switch between No blur, Blur only and Password panel. Block strength ranges from 0% to 100%, initially 40%. Background blur ranges from 0px to 20px in 0.5px steps, initially 4px. Both sliders update independently and can be adjusted together. No blur temporarily removes the background blur while retaining its slider value; switching back restores that value. Password panel retains its additional 7px backdrop blur. Slider changes are local to the preview, reset when reloaded, and do not persist production settings.
 
-Run `node website/scripts/preview-resources.mjs` from the repository root to generate `website/outputs/workshop-resources-preview.html`. Open it in Chrome. Images and the font are embedded so previews work when moved. The resources preview retains the agent selector and copy controls but omits session checks and disables logout. The disabled footer button preserves its layout for block measurement. Keep design iterations local until publishing is approved.
+Run `node website/scripts/preview-resources.mjs` from the repository root to generate `website/outputs/workshop-resources-preview.html`. Share its path for the user to open; do not launch Chrome automatically. Images and the font are embedded so previews work when moved. The resources preview retains the agent selector and copy controls but omits session checks and disables logout. The disabled footer button preserves its layout for block measurement. Keep design iterations local until publishing is approved.
 
 ## Block Geometry Rules
 
@@ -115,7 +115,7 @@ The initial theme follows the operating system. An explicit choice is stored und
 
 Dark mode uses near-black neutral surfaces, off-white text, lighter secondary text, and cards and icon tiles mixed with the selected agent accent. Accent button branding stays unchanged, the monochrome logo becomes white, and QR pixels retain their white background.
 
-For an explicit manual theme check, generate the resources preview and archived login fixture first, then run `node website/tests/theme-browser-check.mjs` with Playwright available, or set `PLAYWRIGHT_MODULE` to its absolute module location. The checks use installed Chrome and cover both agents, four viewport widths, preference persistence, keyboard access, copy behaviour, text contrast, password styling, storage denial, nonce policy and reduced motion. Open user-facing previews in Chrome.
+For an explicit manual theme check, generate the resources preview and archived login fixture first, then run `node website/tests/theme-browser-check.mjs` with Playwright available, or set `PLAYWRIGHT_MODULE` to its absolute module location. The checks use installed Chrome and cover both agents, four viewport widths, preference persistence, keyboard access, copy behaviour, text contrast, password styling, storage denial, nonce policy and reduced motion. Share user-facing previews without opening them; use Chrome only when the user explicitly asks to open a preview.
 
 The QR card, prompt panels and their feedback surfaces share `--content-surface`: #F8F9FA in light mode and the existing dark surface in dark mode. The QR image retains its white background. Change this variable to keep these surfaces in sync without changing password panels or button fills.
 
@@ -133,19 +133,19 @@ Disable text selection and iOS touch callouts only within buttons and their desc
 
 ## Login Feedback
 
-Use muted-grey checking feedback with the Lucide Loader Circle rotated by CSS; reduced-motion preferences keep it static. Success uses the semantic green and Lucide Check. Errors use the semantic red and Lucide X, independent of agent accent. Keep status text in sentence case and button labels in CMOS title case.
+Use a fixed 18px input icon slot: blue Lucide Lock at rest, CSS-rotated Loader Circle while checking, and green Check on success. Reduced motion keeps the spinner static. Checking and success messages remain in a visually hidden live region; only errors appear below the field, with the semantic red Lucide X. Keep status text in sentence case and button labels in CMOS title case.
 
 Validate empty passwords inline without shaking. Only an incorrect-password response marks the supplied password invalid and shakes the panel; connection, service and request failures must not imply a password mistake. Do not expose raw server or browser exceptions. Service outages render a styled login page where possible and return structured failures for login requests.
 
 Rate-limit feedback uses the actual remaining server window from Retry-After, rounds displayed minutes up, and says less than a minute for the final minute. Disable submission until that time ends, then announce that signing in can be retried. Update announcements only when displayed text changes, avoiding per-second screen-reader chatter.
 
-Login status messages use the existing system font at 14px with a 21px line height, regular weight (400) for all statuses, including checking, errors, retry information and success; the submit button remains semibold (600). Leave 12px below the input border and 16px before the submit button. Centre the 18px status icon against the first line, including when a message wraps.
+Login status messages use the existing system font at 14px with a 21px line height, regular weight (400) for all statuses, including checking, errors, retry information and success; the submit button remains semibold (600). Leave 12px between label and field, 16px below the input border and 16px before the submit button. Reserve three lines (63px at default text size) for errors in every state; permit growth for text scaling instead of clipping. Centre the 18px status icon against the first line, including when a message wraps.
 
 ## Theme Transitions
 
 Use a 420ms circular reveal with a 300px feathered mask edge and ease-out (`cubic-bezier(.22,1,.36,1)`) for light mode and its exact time-reversed ease-in for dark mode from the centre of the destination sun/moon button for explicit light/dark changes on both pages. Light mode expands the incoming light snapshot from the sun; dark mode reverses the same animation on the outgoing light snapshot, contracting it into the moon, with a 280ms soft-colour fallback when View Transitions are unavailable. Agent selection uses an eased colour blend synchronised with slider arrival at exactly 160ms, derived from shared toggle timing for both agent and day/night selectors; use 60ms each for rebound, return and settling (340ms total), retaining existing distances and easing. Animate only changed colours and theme-dependent brand treatment, preserving independent press and reveal animations. Rapid changes resolve to the latest preference. Apply saved theme and agent colours immediately before initial paint with no decorative transition. Skip or cancel transitions when reduced motion is enabled.
 
-During successful login, keep the green input border, full outer ring and padlock visible regardless of input focus until navigation completes. The submit button also uses semantic success green, with white text in light mode and dark text in dark mode for contrast.
+During successful login, keep the green input border, full outer ring and check visible regardless of input focus until navigation completes. The submit button also uses semantic success green, with white text in light mode and dark text in dark mode for contrast.
 
 Contain horizontal page overflow at both the root and body, using clipping with a hidden-overflow fallback. Preserve vertical document scrolling after login and the login panel’s own scroll handling.
 
@@ -158,3 +158,5 @@ The shared controller tracks pointer input versus Tab navigation, preserving rea
 Explicit theme changes retain a 420ms duration and 300px feather. `workshop-reveal.mjs` samples the visible viewport and inverts the feathered mask coverage, so easing controls average visible colour change instead of radius. Blend 80% of the original easing with 20% linear progress to avoid a lingering edge at the end of day mode and start of night mode. Sorted sample distances and prefix sums keep this setup inexpensive. Render the theme toggle in its own transition layer, with no old-control snapshot, so the root reveal cannot conceal its 340ms slide and rebound. Night mode reverses the light-mask frames, originating at the selected moon; day mode originates at the selected sun. Saved preferences apply before paint without motion, and reduced-motion and soft-transition fallbacks remain available.
 
 The QR encodes `https://ai-workshop-resources.adamjaffrey.chatgpt.site/`, verified against the existing Sites project. Its button displays the installed Lucide Copy icon and Copy Link label on hover or keyboard focus, copies that same URL with a legacy clipboard fallback, and reports success or failure. Keep the overlay exactly inside the QR image; place the caption gap outside the button. Share the prompt-copy feedback lifecycle: green Lucide Check and text, 180ms ease-out entrance, 5000ms success hold (12000ms for failure), then 650ms ease-in-out exit; reduced motion skips the animation. Keep the 540px image and 48px white quiet zone. All enabled buttons and selector tracks use the pointer cursor.
+
+After a wrong password, keep the padlock red until typing, focus, or pointer/touch activation of the field resets it to blue. Set the red state after programmatic error-recovery focus so it is not immediately cleared. Normal input icons and focus rings use theme-adjusted Codex blue regardless of agent choice; other branded controls retain the selected agent accent.

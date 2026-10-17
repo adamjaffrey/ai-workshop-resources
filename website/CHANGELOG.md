@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.85"
-  update_summary: "Refine QR feedback and remove theme toggle motion delays"
-  updated_at: "Sat 17 Oct 2026 at 05:55:21 pm AEDT (+11:00)"
+  doc_revision: "26.0.86"
+  update_summary: "Move login progress into the input icon and reserve error space"
+  updated_at: "Sat 17 Oct 2026 at 05:58:34 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.84 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 05:58:34 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Move login progress into the input icon and reserve error space
+
+### Changed
+
+- Swap the input padlock for a rotating Lucide Loader Circle during checking and a green Check on success. Keep progress/success text in a visually hidden live region and preserve reduced-motion support.
+- Show only errors beneath the field, reserve three lines to prevent panel resizing, and increase label/field and field/error spacing to 12px and 16px.
+- Keep the padlock red after a wrong password until typing or refocusing/clicking/tapping the field restores the blue icon and input focus styling.
+- Retain the green success outline and submit button; preserve initial focus and keyboard access.
+- Stop automatically opening previews after builds; deliver the URL and local password for user review instead.
+
+### Validation
+
+- Authentication and placeholder tests — 10 passed.
+- Login-state Chrome checks — passed at four mobile/tablet/desktop widths in both themes, including icon swaps, hidden announcements, stable panel height, error reset and reduced motion.
+- Login keyboard/viewport checks, shared focus checks and agent-preference Chrome checks — passed.
+- Headless mobile visual review and Sites production build — passed.
 
 ## v26.0.83 — 2026-10-17
 

@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.10"
-  update_summary: "Standardise focus placement and keyboard-only control rings"
-  updated_at: "Sat 17 Oct 2026 at 05:32:24 pm AEDT (+11:00)"
+  doc_revision: "26.0.11"
+  update_summary: "Move login progress into the input icon and reserve error space"
+  updated_at: "Sat 17 Oct 2026 at 05:58:34 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -29,10 +29,10 @@ metadata:
 
 ## Preview Delivery
 
-- Always open user-facing website and HTML previews in Google Chrome.
+- Do not automatically open a browser, tab or preview after a build. Provide the preview link and current local test password so the user can check it themselves.
+- Open a preview only when the user explicitly requests it; use Google Chrome for that request.
 - Never open or present a preview in the Codex sidebar, embedded browser, or preview panel. Do not use `open_in_codex` to show previews.
-- On macOS, use `open -a "Google Chrome"` with the preview's absolute file path or local server URL.
-- If opening Chrome is unavailable, provide the preview path or URL with instructions to open it in Chrome; do not substitute a sidebar preview.
+- Headless browser validation is permitted and does not count as opening a user-facing preview.
 
 - Every preview-link handoff must put the clickable URL beside a clearly labelled, copyable fenced code block containing the current local test password. Use concise visual labels such as “🔗 Preview” and “🔑 Test Password” to distinguish them. Read the active server's password; never reuse a password from an earlier preview process. Never put production credentials in a handoff. If a preview has no password, explicitly say so.
 - Use modest formatting, short sections and helpful icons in user-facing handoffs so links, credentials, results and limits are easy to identify.
@@ -42,6 +42,10 @@ metadata:
 - Sessions expire seven days after login, without extending on use. Keep this implementation detail in repository documentation, not the login page copy.
 - On initial load, focus the login heading with no visible focus ring. Tab order is the day/night toggle as one stop, password field, then unlock button on desktop and mobile.
 - Keep the password input visible above the mobile keyboard and allow the login panel to scroll when the visible viewport is short.
+
+- Keep checking and success text visually hidden but announced to screen readers. Swap the password-slot Lucide padlock for Loader Circle during checking and Check on success; use green success styling and honour reduced motion.
+- Show only error messages below the input. Reserve three text lines so ordinary status changes do not resize or recentre the panel; allow expansion for accessibility text scaling rather than clipping messages. Keep 12px between label and input, and 16px between input and error row.
+- After an incorrect password, colour the padlock red until the user types or refocuses/clicks/taps the input. Restore the blue icon and blue input focus ring; this input treatment is independent of the selected agent accent.
 
 ## Focus and Panel Opening
 
