@@ -98,7 +98,7 @@ const script = `(() => {
   const indicators = [];
   const valid = value => value === 'light' || value === 'dark';
   try { const saved = localStorage.getItem(key); if (valid(saved)) preference = saved; } catch {}
-  window.workshopColourTransition = change => {
+  window.workshopColourTransition = (change, duration = 280) => {
     // Capture interrupted colours before cancelling, then batch reads before animation writes.
     const before = !reducedMotion.matches
       ? [...document.querySelectorAll('html, body, body *')].filter(element => element.getClientRects().length).map(element => [element, colours(element)])
@@ -109,7 +109,7 @@ const script = `(() => {
       const changed = colourProperties.filter(property => previous[property] !== next[property]);
       if (!changed.length) return;
       const frame = values => Object.fromEntries(changed.map(property => [property, values[property]]));
-      const animation = element.animate([frame(previous), frame(next)], {duration: 280, easing: 'cubic-bezier(.2,0,.2,1)'});
+      const animation = element.animate([frame(previous), frame(next)], {duration, easing: 'cubic-bezier(.2,0,.2,1)'});
       themeAnimations.add(animation);
       animation.onfinish = () => themeAnimations.delete(animation);
     });

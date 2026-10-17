@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.73"
-  update_summary: "Pair circular theme reveals with soft agent accent transitions"
-  updated_at: "Sat 17 Oct 2026 at 02:19:07 pm AEDT (+11:00)"
+  doc_revision: "26.0.74"
+  update_summary: "Synchronise accent blending with the slider arrival"
+  updated_at: "Sat 17 Oct 2026 at 02:26:25 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.72 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 02:26:25 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Synchronise accent blending with the slider arrival
+
+### Changed
+
+- Shorten agent-accent blending from 280ms to 165.6ms, matching the slider’s arrival at 46% of its 360ms animation before rebound and settling.
+- Derive both timings from shared constants to preserve synchronisation; retain theme reveal and fallback durations.
+
+### Validation
+
+- Theme/agent transition Chrome checks — passed, including derived accent timing, initial-load preferences, reduced motion and circular-reveal fallback.
+- Sites production build and placeholder checks — passed.
 
 ## v26.0.71 — 2026-10-17
 

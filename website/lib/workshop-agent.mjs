@@ -1,3 +1,4 @@
+import {toggleTiming} from './workshop-toggle.mjs';
 // Runs before paint on both pages. This stores a display preference, never access.
 export const agentScript = `(() => {
   const key='workshop-selected-agent';
@@ -11,7 +12,7 @@ export const agentScript = `(() => {
       document.documentElement.dataset.selectedAgent=current;
       window.dispatchEvent(new Event('workshop-agent-change'));
     };
-    if (animate && changed && window.workshopColourTransition) window.workshopColourTransition(change);
+    if (animate && changed && window.workshopColourTransition) window.workshopColourTransition(change, ${toggleTiming.duration * toggleTiming.arrivalFraction});
     else change();
   }
   window.workshopAgent={

@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {toggleTiming} from '../lib/workshop-toggle.mjs';
 import {once} from 'node:events';
 import {chromium} from 'playwright';
 import {createPhonePreview} from '../scripts/phone-preview.mjs';
@@ -30,7 +31,7 @@ try {
   if(unlocked){
    const card=page.locator('article').first();const before=await card.evaluate(e=>getComputedStyle(e).backgroundColor);
    await page.evaluate(()=>window.workshopAgent.select('claude-code'));
-   assert.equal(await card.evaluate(e=>e.getAnimations().find(a=>a.effect.getKeyframes().some(f=>'backgroundColor' in f)).effect.getTiming().duration),280);
+   assert.equal(await card.evaluate(e=>e.getAnimations().find(a=>a.effect.getKeyframes().some(f=>'backgroundColor' in f)).effect.getTiming().duration),toggleTiming.duration * toggleTiming.arrivalFraction);
    await page.waitForTimeout(80);const middle=await card.evaluate(e=>getComputedStyle(e).backgroundColor);await page.waitForTimeout(250);const after=await card.evaluate(e=>getComputedStyle(e).backgroundColor);
    assert.notEqual(before,middle);assert.notEqual(after,middle);
    await page.reload();assert.equal(await page.locator('html').getAttribute('data-selected-agent'),'claude-code');assert.equal(await card.evaluate(e=>e.getAnimations().filter(a=>a.effect.getKeyframes().some(f=>'backgroundColor' in f)).length),0);
