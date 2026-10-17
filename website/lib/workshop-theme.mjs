@@ -37,7 +37,6 @@ const styles = `
 /* Button labels are controls; document and prompt text remain selectable. */
 button, button * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 button:not(.segmented-toggle button) { transition: scale 120ms ease-out; }
-button:enabled:is(:active, .is-held) { box-shadow: inset 0 0 0 2px var(--icon-ink); }
 button:enabled:is(:active, .is-held):not(.segmented-toggle button) { scale: .97; }
 @media (prefers-reduced-motion: reduce) {
   button:not(.segmented-toggle button) { transition: none; }
@@ -73,21 +72,44 @@ const script = `(() => {
   const key = 'workshop-colour-theme';
   const system = matchMedia('(prefers-color-scheme: dark)');
   let preference;
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  const themeAnimations = new Set();
+  const colourProperties = ['color', 'backgroundColor', 'borderTopColor', 'borderRightColor', 'borderBottomColor', 'borderLeftColor', 'outlineColor', 'fill', 'stroke', 'filter'];
+  const cancelThemeAnimations = () => { themeAnimations.forEach(animation => animation.cancel()); themeAnimations.clear(); };
+  reducedMotion.addEventListener('change', () => { if (reducedMotion.matches) cancelThemeAnimations(); });
+  const colours = element => {
+    const style = getComputedStyle(element);
+    return Object.fromEntries(colourProperties.map(property => [property, style[property]]));
+  };
   const indicators = [];
   const valid = value => value === 'light' || value === 'dark';
   try { const saved = localStorage.getItem(key); if (valid(saved)) preference = saved; } catch {}
-  function apply() {
+  function apply(animate = false) {
     const theme = preference || (system.matches ? 'dark' : 'light');
+    // Capture the current interpolated colours before cancelling an interrupted transition.
+    const before = animate && !reducedMotion.matches && document.documentElement.dataset.theme !== theme
+      ? [...document.querySelectorAll('html, body, body *')].filter(element => element.getClientRects().length).map(element => [element, colours(element)])
+      : [];
+    cancelThemeAnimations();
     document.documentElement.dataset.theme = theme;
     document.querySelectorAll('[data-theme-choice]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.themeChoice === theme)));
     indicators.forEach(move => move());
+    // Animate only changed colour properties; leave reveal, press and toggle motion alone.
+    before.map(([element, previous]) => [element, previous, colours(element)]).forEach(([element, previous, next]) => {
+      const changed = colourProperties.filter(property => previous[property] !== next[property]);
+      if (!changed.length) return;
+      const frame = values => Object.fromEntries(changed.map(property => [property, values[property]]));
+      const animation = element.animate([frame(previous), frame(next)], {duration: 280, easing: 'cubic-bezier(.2,0,.2,1)'});
+      themeAnimations.add(animation);
+      animation.onfinish = () => themeAnimations.delete(animation);
+    });
   }
   apply();
-  system.addEventListener('change', () => { if (!preference) apply(); });
+  system.addEventListener('change', () => { if (!preference) apply(true); });
   window.addEventListener('storage', event => {
     if (event.key !== key && event.key !== null) return;
     preference = valid(event.newValue) ? event.newValue : undefined;
-    apply();
+    apply(true);
   });
   document.addEventListener('DOMContentLoaded', () => {
     // Keep held feedback stable during long touches; native click still activates on release.
@@ -112,7 +134,7 @@ const script = `(() => {
     document.querySelectorAll('[data-theme-choice]').forEach(button => button.addEventListener('click', () => {
       preference = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
       try { localStorage.setItem(key, preference); } catch {}
-      apply();
+      apply(true);
     }));
   });
 })();`;

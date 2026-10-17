@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.70"
-  update_summary: "Balance login status typography and align Lucide feedback icons"
-  updated_at: "Sat 17 Oct 2026 at 02:08:34 pm AEDT (+11:00)"
+  doc_revision: "26.0.71"
+  update_summary: "Soften theme transitions and remove the held-button border"
+  updated_at: "Sat 17 Oct 2026 at 02:12:49 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.69 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 02:12:49 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Soften theme transitions and remove the held-button border
+
+### Changed
+
+- Remove the inset accent border from held buttons while retaining keyboard focus indicators and existing press/toggle motion.
+- Animate light/dark theme colours over 280ms on login and resource pages, including the theme-dependent brand filter, without altering layout or unrelated animations.
+- Continue rapid reversals from their current colours, apply saved themes immediately on load, and skip/cancel theme animation for reduced motion.
+- Preserve the separately completed login icon and status-spacing refinements.
+
+### Validation
+
+- Theme-transition Chrome checks — passed login/main interpolation, duration, rapid reversal, reload and reduced-motion scenarios.
+- Button interaction Chrome checks — passed touch hold/release, keyboard focus and selectable content.
+- Agent-preference and login Chrome regressions — passed.
+- Sites production build and placeholder checks — passed; no block remeasurement required for colour/motion changes.
 
 ## v26.0.68 — 2026-10-17
 

@@ -31,7 +31,8 @@ try {
  await page.evaluate(()=>getSelection().removeAllRanges());
  await page.emulateMedia({reducedMotion:'reduce'});await copy.focus();await page.keyboard.down('Space');
  assert.equal(await copy.evaluate(e=>getComputedStyle(e).scale),'none');
- assert.notEqual(await copy.evaluate(e=>getComputedStyle(e).boxShadow),'none');
+ assert.equal(await copy.evaluate(e=>getComputedStyle(e).boxShadow),'none');
+ assert.notEqual(await copy.evaluate(e=>getComputedStyle(e).outlineStyle),'none');
  await page.keyboard.up('Space');assert.equal(await page.evaluate(()=>window.copyClicks),2);
  console.log('PASS: button/child selection disabled, touch hold feedback and release activation, selectable prompt/body text, keyboard activation and reduced motion');
 } finally {await browser.close();await new Promise(r=>server.close(r));}

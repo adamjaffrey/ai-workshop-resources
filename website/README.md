@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.32"
-  update_summary: "Balance login status typography and align Lucide feedback icons"
-  updated_at: "Sat 17 Oct 2026 at 02:08:34 pm AEDT (+11:00)"
+  doc_revision: "26.0.33"
+  update_summary: "Soften theme transitions and remove the held-button border"
+  updated_at: "Sat 17 Oct 2026 at 02:12:49 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -129,7 +129,7 @@ Reveal each step marker and linked card together once the card enters the viewpo
 
 ## Button Interaction
 
-Disable text selection and iOS touch callouts only within buttons and their descendants. Keep page copy and prompt code selectable. Preserve native activation and keyboard focus, use held-press feedback on regular buttons, and retain the segmented selectors’ existing press/release animation. Clear held feedback on release, pointer cancellation, pointer exit, focus loss or page hiding. Honour reduced motion with a static pressed treatment. Keep selection colours derived from the agent accent where supported, allowing native iPhone selection highlighting.
+Disable text selection and iOS touch callouts only within buttons and their descendants. Keep page copy and prompt code selectable. Preserve native activation and keyboard focus, use held-press feedback on regular buttons, and retain the segmented selectors’ existing press/release animation. Clear held feedback on release, pointer cancellation, pointer exit, focus loss or page hiding. Do not draw a border or focus-like ring for a held press. Preserve genuine keyboard focus indicators and disable press scaling for reduced motion. Keep selection colours derived from the agent accent where supported, allowing native iPhone selection highlighting.
 
 ## Login Feedback
 
@@ -140,3 +140,7 @@ Validate empty passwords inline without shaking. Only an incorrect-password resp
 Rate-limit feedback uses the actual remaining server window from Retry-After, rounds displayed minutes up, and says less than a minute for the final minute. Disable submission until that time ends, then announce that signing in can be retried. Update announcements only when displayed text changes, avoiding per-second screen-reader chatter.
 
 Login status messages use the existing system font at 14px with a 21px line height, regular weight for checking/errors and semibold for success. Leave 12px below the input border and 16px before the submit button. Centre the 18px status icon against the first line, including when a message wraps.
+
+## Theme Transitions
+
+Use a synchronised 280ms eased colour transition when changing the theme on either page. Animate only changed colours and the theme-dependent brand filter, preserving independent press, toggle and reveal animations. Rapid theme changes start from the current interpolated colours. Apply the saved theme immediately before initial paint, and skip or cancel theme animations when reduced motion is enabled.
