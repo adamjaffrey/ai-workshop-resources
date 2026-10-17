@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.31"
-  update_summary: "Clarify login states with Lucide icons and friendly errors"
-  updated_at: "Sat 17 Oct 2026 at 02:05:15 pm AEDT (+11:00)"
+  doc_revision: "26.0.32"
+  update_summary: "Balance login status typography and align Lucide feedback icons"
+  updated_at: "Sat 17 Oct 2026 at 02:08:34 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -105,7 +105,7 @@ In light mode, all three step cards use 4% of the selected accent mixed with 96%
 
 `website/lib/workshop-agent.mjs` owns the `workshop-selected-agent` preference. It applies Codex by default before paint, remembers Claude Code or Codex across navigation and logout, and synchronises changes between tabs. Storage denial preserves switching for the current page; unsupported stored values fall back to Codex. Both pages derive branded text, focus rings, links, icon ink, button fills and card tints from the shared `--agent-accent` in `workshop-theme.mjs`. Neutral chrome, white QR backgrounds and semantic error/success colours retain their independent roles.
 
-The functional login icons are Lucide Sun, Moon, Lock, Check, Loader Circle and Circle X, matching `node_modules/lucide-react/dist/esm/icons/{sun,moon,lock,check,loader-circle,circle-x}.mjs`. They use decorative inline SVG with current-colour strokes and the existing Lucide licence. The resource footer places version/copyright at the left and the title-cased Log Out button at the right, vertically centred alongside that text.
+The functional login icons are Lucide Sun, Moon, Lock, Check, Loader Circle and X, matching `node_modules/lucide-react/dist/esm/icons/{sun,moon,lock,check,loader-circle,x}.mjs`. They use decorative inline SVG with current-colour strokes and the existing Lucide licence. The resource footer places version/copyright at the left and the title-cased Log Out button at the right, vertically centred alongside that text.
 
 ## Colour Themes
 
@@ -133,8 +133,10 @@ Disable text selection and iOS touch callouts only within buttons and their desc
 
 ## Login Feedback
 
-Use muted-grey checking feedback with the Lucide Loader Circle rotated by CSS; reduced-motion preferences keep it static. Success uses the semantic green and Lucide Check. Errors use the semantic red and Lucide Circle X, independent of agent accent. Keep status text in sentence case and button labels in CMOS title case.
+Use muted-grey checking feedback with the Lucide Loader Circle rotated by CSS; reduced-motion preferences keep it static. Success uses the semantic green and Lucide Check. Errors use the semantic red and Lucide X, independent of agent accent. Keep status text in sentence case and button labels in CMOS title case.
 
 Validate empty passwords inline without shaking. Only an incorrect-password response marks the supplied password invalid and shakes the panel; connection, service and request failures must not imply a password mistake. Do not expose raw server or browser exceptions. Service outages render a styled login page where possible and return structured failures for login requests.
 
 Rate-limit feedback uses the actual remaining server window from Retry-After, rounds displayed minutes up, and says less than a minute for the final minute. Disable submission until that time ends, then announce that signing in can be retried. Update announcements only when displayed text changes, avoiding per-second screen-reader chatter.
+
+Login status messages use the existing system font at 14px with a 21px line height, regular weight for checking/errors and semibold for success. Leave 12px below the input border and 16px before the submit button. Centre the 18px status icon against the first line, including when a message wraps.

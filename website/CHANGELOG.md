@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.69"
-  update_summary: "Clarify login states with Lucide icons and friendly errors"
-  updated_at: "Sat 17 Oct 2026 at 02:05:15 pm AEDT (+11:00)"
+  doc_revision: "26.0.70"
+  update_summary: "Balance login status typography and align Lucide feedback icons"
+  updated_at: "Sat 17 Oct 2026 at 02:08:34 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.68 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 02:08:34 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Balance login status typography and align Lucide feedback icons
+
+### Changed
+
+- Replace the error Circle X with the installed Lucide X definition.
+- Increase login status text to 14px with a 21px line height and a 12px gap below the input; preserve the system font, regular message weight and semibold success.
+- Centre status icons against the first text line and preserve 16px spacing before the submit button.
+
+### Validation
+
+- Chrome icon alignment audit — passed at 320, 390, 768 and 1440px in both themes for password, status, agent-selector, copy, logout and card-heading icons.
+- Mobile status screenshot review — passed; wrapped message aligns with the plain X.
+- Login-state and focus/keyboard/scroll regression Chrome checks — passed.
+- Sites production build and placeholder checks — passed.
 
 ## v26.0.67 — 2026-10-17
 
