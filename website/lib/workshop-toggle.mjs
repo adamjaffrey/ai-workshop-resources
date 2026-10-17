@@ -1,5 +1,7 @@
 // One press, hold and release controller for both segmented toggles.
-export const toggleTiming = {duration: 360, arrivalFraction: .46};
+// Preserve the existing 64.8ms rebound, 57.6ms return and 72ms settle.
+export const toggleTiming = {arrival: 160, rebound: 64.8, return: 57.6, settle: 72};
+toggleTiming.duration = toggleTiming.arrival + toggleTiming.rebound + toggleTiming.return + toggleTiming.settle;
 export const toggleScript = `window.createWorkshopToggle = function(toggle) {
     const reducedMotionQuery = matchMedia('(prefers-reduced-motion: reduce)');
     toggle.classList.add('segmented-toggle');
@@ -30,9 +32,9 @@ export const toggleScript = `window.createWorkshopToggle = function(toggle) {
       // Keep the first rebound linear; soften only the small final return and settle.
       toggleAnimation = indicator.animate([
         {left: previous.left + 'px', width: previous.width + 'px', transform: previous.transform, offset: 0},
-        {left: (left + direction * 6) + 'px', width: width + 'px', transform: 'scale(.95,1.06)', offset: ${toggleTiming.arrivalFraction}},
-        {left: (left - direction * 3) + 'px', width: width + 'px', transform: 'scale(1.03,.98)', offset: .64, easing: 'cubic-bezier(.33,.67,.67,1)'},
-        {left: (left + direction * 1) + 'px', width: width + 'px', transform: 'scale(.99,1.01)', offset: .8, easing: 'ease-in-out'},
+        {left: (left + direction * 6) + 'px', width: width + 'px', transform: 'scale(.95,1.06)', offset: ${toggleTiming.arrival / toggleTiming.duration}},
+        {left: (left - direction * 3) + 'px', width: width + 'px', transform: 'scale(1.03,.98)', offset: ${(toggleTiming.arrival + toggleTiming.rebound) / toggleTiming.duration}, easing: 'cubic-bezier(.33,.67,.67,1)'},
+        {left: (left + direction * 1) + 'px', width: width + 'px', transform: 'scale(.99,1.01)', offset: ${(toggleTiming.arrival + toggleTiming.rebound + toggleTiming.return) / toggleTiming.duration}, easing: 'ease-in-out'},
         {left: left + 'px', width: width + 'px', transform: 'scale(1)', offset: 1}
       ], {duration: ${toggleTiming.duration}, easing: 'linear'});
     }

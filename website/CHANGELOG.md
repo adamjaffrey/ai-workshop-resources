@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.74"
-  update_summary: "Synchronise accent blending with the slider arrival"
-  updated_at: "Sat 17 Oct 2026 at 02:26:25 pm AEDT (+11:00)"
+  doc_revision: "26.0.75"
+  update_summary: "Tune toggle travel and feather the theme reveal"
+  updated_at: "Sat 17 Oct 2026 at 02:31:55 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.73 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 02:31:55 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Tune toggle travel and feather the theme reveal
+
+### Changed
+
+- Set shared agent/day-night slider travel and agent accent blending to exactly 160ms, preserving rebound distances, easing and phase durations.
+- Replace the hard circular clipping boundary with a 48px feathered radial mask; retain the 420ms reveal, reduced-motion handling and soft fallback.
+- Contain horizontal overflow at the root and body while preserving vertical scrolling. The reported iPhone-only scroll was not reproduced in Chrome; verify on device.
+
+### Validation
+
+- Theme-transition Chrome checks — passed feathered mask, 160ms travel/blend, unchanged rebound phase lengths, root horizontal containment, saved preferences and reduced motion.
+- Login and footer/reveal Chrome regressions — passed across mobile and desktop widths.
+- Mobile feathered-reveal screenshot — visually reviewed.
+- Sites production build and placeholder checks — passed.
 
 ## v26.0.72 — 2026-10-17
 

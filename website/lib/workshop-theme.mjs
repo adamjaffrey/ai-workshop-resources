@@ -34,15 +34,22 @@ const styles = `
   --selection-text: #fff; --gate-overlay: rgb(0 0 0 / 55%); color-scheme: dark;
 }
 :root[data-selected-agent="claude-code"] { --agent-accent: #D97757; }
+/* Contain viewport-wide motion at the root as well as the body (including Safari). */
+html, body { overflow-x: hidden; }
+@supports (overflow: clip) { html, body { overflow-x: clip; } }
+@property --theme-radius { syntax: '<length>'; inherits: false; initial-value: 0px; }
 /* Only explicit theme changes create a circular snapshot reveal. */
 :root.theme-reveal::view-transition-old(root),
 :root.theme-reveal::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
 :root.theme-reveal::view-transition-old(root) { z-index: 1; }
-:root.theme-reveal::view-transition-new(root) { z-index: 2; animation: theme-circle 420ms cubic-bezier(.2,0,.2,1) both; }
+:root.theme-reveal::view-transition-new(root) { z-index: 2;
+  -webkit-mask-image: radial-gradient(circle at var(--reveal-x) var(--reveal-y), #000 max(0px, calc(var(--theme-radius) - 48px)), transparent var(--theme-radius));
+  mask-image: radial-gradient(circle at var(--reveal-x) var(--reveal-y), #000 max(0px, calc(var(--theme-radius) - 48px)), transparent var(--theme-radius));
+  animation: theme-circle 420ms cubic-bezier(.2,0,.2,1) both; }
 :root.theme-reveal::view-transition { pointer-events: none; }
 @keyframes theme-circle {
-  from { clip-path: circle(0px at var(--reveal-x) var(--reveal-y)); }
-  to { clip-path: circle(var(--reveal-radius) at var(--reveal-x) var(--reveal-y)); }
+  from { --theme-radius: 0px; }
+  to { --theme-radius: var(--reveal-radius); }
 }
 @media (prefers-reduced-motion: reduce) {
   :root.theme-reveal::view-transition-new(root) { animation: none; }
@@ -133,7 +140,7 @@ const script = `(() => {
     if (request !== revealRequest) return;
     const root = document.documentElement;
     root.classList.remove('theme-reveal');
-    if (reducedMotion.matches || !document.startViewTransition) {
+    if (reducedMotion.matches || !document.startViewTransition || !('registerProperty' in CSS)) {
       apply(!reducedMotion.matches, theme);
       return;
     }
@@ -143,7 +150,7 @@ const script = `(() => {
     const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
     root.style.setProperty('--reveal-x', x + 'px');
     root.style.setProperty('--reveal-y', y + 'px');
-    root.style.setProperty('--reveal-radius', radius + 'px');
+    root.style.setProperty('--reveal-radius', (radius + 48) + 'px');
     root.classList.add('theme-reveal');
     reveal = document.startViewTransition(() => apply(false, theme));
     reveal.ready.catch(() => {}); // A skipped snapshot still commits the requested theme.

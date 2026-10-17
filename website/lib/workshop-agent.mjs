@@ -12,7 +12,7 @@ export const agentScript = `(() => {
       document.documentElement.dataset.selectedAgent=current;
       window.dispatchEvent(new Event('workshop-agent-change'));
     };
-    if (animate && changed && window.workshopColourTransition) window.workshopColourTransition(change, ${toggleTiming.duration * toggleTiming.arrivalFraction});
+    if (animate && changed && window.workshopColourTransition) window.workshopColourTransition(change, ${toggleTiming.arrival});
     else change();
   }
   window.workshopAgent={
