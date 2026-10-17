@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.75"
-  update_summary: "Tune toggle travel and feather the theme reveal"
-  updated_at: "Sat 17 Oct 2026 at 02:31:55 pm AEDT (+11:00)"
+  doc_revision: "26.0.76"
+  update_summary: "Widen the circular reveal feather to 140 pixels"
+  updated_at: "Sat 17 Oct 2026 at 02:36:00 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.74 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 02:36:00 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Widen the circular reveal feather to 140 pixels
+
+### Changed
+
+- Broaden the circular theme reveal from a 48px to a 140px feathered edge and extend its final radius to ensure complete coverage.
+- Preserve the existing reveal and slider timings.
+
+### Validation
+
+- Theme-transition Chrome checks — passed desktop/mobile reveals, agent blending, rapid toggles, saved preferences, reduced motion and fallback.
+- Sites production build and placeholder checks — passed.
 
 ## v26.0.73 — 2026-10-17
 
