@@ -25,7 +25,7 @@ try {
   });
   assert.equal(footer.wrapped,footer.differentLine);assert.equal(footer.nowrap,true);assert.equal(footer.overflow,false);
   assert.equal(footer.separator,footer.wrapped?'none':'"•"');
-  if(width<=660)assert.equal(await page.locator('.step-connector').first().evaluate(e=>e.getBoundingClientRect().width),112);
+  if(width<=660)assert.equal(await page.locator('.step-connector').first().evaluate(e=>e.getBoundingClientRect().width),120);
  }
  await page.emulateMedia({reducedMotion:'reduce'});await page.goto(url);
  assert.equal(await page.locator('.step-marker').last().evaluate(e=>getComputedStyle(e).opacity),'1');
