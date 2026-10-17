@@ -20,9 +20,13 @@ try {
    await page.waitForFunction(()=>document.getAnimations().some(a=>a.animationName==='theme-circle'));
    const circle=await page.evaluate(()=>{
     const a=document.getAnimations().find(a=>a.animationName==='theme-circle');
-    return {duration:a.effect.getTiming().duration,mask:getComputedStyle(document.documentElement,'::view-transition-new(root)').maskImage,radius:parseFloat(document.documentElement.style.getPropertyValue('--reveal-radius'))};
+    const root=document.documentElement;
+    const target=document.querySelector('.theme-toggle:not(.ph-static) [data-theme-choice="'+root.dataset.theme+'"]');
+    const bounds=target.getBoundingClientRect();
+    const originError=Math.abs(parseFloat(root.style.getPropertyValue('--reveal-x'))-bounds.left-bounds.width/2)+Math.abs(parseFloat(root.style.getPropertyValue('--reveal-y'))-bounds.top-bounds.height/2);
+    return {originError,easing:getComputedStyle(root,'::view-transition-new(root)').animationTimingFunction,duration:a.effect.getTiming().duration,mask:getComputedStyle(document.documentElement,'::view-transition-new(root)').maskImage,radius:parseFloat(document.documentElement.style.getPropertyValue('--reveal-radius'))};
    });
-   assert.equal(circle.duration,420);assert.ok(circle.mask.includes('radial-gradient'));
+   assert.equal(circle.duration,420);assert.ok(circle.originError<.01);assert.equal(circle.easing,'cubic-bezier(0.65, 0, 0.35, 1)');assert.ok(circle.mask.includes('radial-gradient'));
    assert.equal(await page.evaluate(()=>{scrollTo(1000,scrollY);return scrollX;}),0);assert.ok(circle.radius>=422);
    await settled();assert.notEqual(await page.locator('html').getAttribute('data-theme'),initial);
    await flip();await page.waitForTimeout(25);await flip();await page.waitForTimeout(25);await flip();await settled();

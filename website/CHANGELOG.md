@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.78"
-  update_summary: "Widen the circular reveal feather to 300 pixels"
-  updated_at: "Sat 17 Oct 2026 at 02:43:16 pm AEDT (+11:00)"
+  doc_revision: "26.0.79"
+  update_summary: "Ease the theme reveal from the destination mode icon"
+  updated_at: "Sat 17 Oct 2026 at 02:47:09 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.77 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 02:47:09 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Ease the theme reveal from the destination mode icon
+
+### Changed
+
+- Use a more pronounced ease-in/ease-out curve for the circular reveal while retaining its 420ms duration and 300px feather.
+- Centre the reveal on the destination sun/moon button, including activation through the opposite button or keyboard.
+
+### Validation
+
+- Theme-transition Chrome checks — passed destination-origin and easing assertions on both pages at mobile/desktop widths, rapid toggles, saved preferences, reduced motion and fallback.
+- Sites production build and placeholder checks — passed.
 
 ## v26.0.76 — 2026-10-17
 

@@ -45,7 +45,7 @@ html, body { overflow-x: hidden; }
 :root.theme-reveal::view-transition-new(root) { z-index: 2;
   -webkit-mask-image: radial-gradient(circle at var(--reveal-x) var(--reveal-y), #000 max(0px, calc(var(--theme-radius) - 300px)), transparent var(--theme-radius));
   mask-image: radial-gradient(circle at var(--reveal-x) var(--reveal-y), #000 max(0px, calc(var(--theme-radius) - 300px)), transparent var(--theme-radius));
-  animation: theme-circle 420ms cubic-bezier(.2,0,.2,1) both; }
+  animation: theme-circle 420ms cubic-bezier(.65,0,.35,1) both; }
 :root.theme-reveal::view-transition { pointer-events: none; }
 @keyframes theme-circle {
   from { --theme-radius: 0px; }
@@ -145,7 +145,8 @@ const script = `(() => {
       return;
     }
     cancelThemeAnimations();
-    const bounds = button.closest('.theme-toggle').getBoundingClientRect();
+    const destination = button.closest('.theme-toggle').querySelector('[data-theme-choice="' + theme + '"]');
+    const bounds = destination.getBoundingClientRect();
     const x = bounds.left + bounds.width / 2, y = bounds.top + bounds.height / 2;
     const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
     root.style.setProperty('--reveal-x', x + 'px');
