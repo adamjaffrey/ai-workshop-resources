@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.88"
-  update_summary: "Compact login errors and retain password feedback until editing"
-  updated_at: "Sat 17 Oct 2026 at 06:05:22 pm AEDT (+11:00)"
+  doc_revision: "26.0.89"
+  update_summary: "Apply consistent cursors across login and resource controls"
+  updated_at: "Sat 17 Oct 2026 at 06:09:48 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.87 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 06:09:48 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Apply consistent cursors across login and resource controls
+
+### Fixed
+
+- Use not-allowed for disabled controls, including login submission, and I-beam cursors for selectable text and text-entry fields.
+- Keep enabled controls and their labels, icons, padding and tracks consistently on the hand cursor; prioritise disabled states over child styles.
+- Clarify these complete-hit-target rules in repository instructions.
+
+### Validation
+
+- Ten authentication and placeholder tests — passed.
+- Headless Chrome cursor audit on login/main pages at desktop/mobile sizes, native and ARIA-disabled states, child icons/labels, text and in-flight login — passed.
+- Focus browser regression checks and Sites production build — passed.
 
 ## v26.0.86 — 2026-10-17
 

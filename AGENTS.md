@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.14"
-  update_summary: "Explicitly prohibit automatically opening Chrome previews"
-  updated_at: "Sat 17 Oct 2026 at 06:06:42 pm AEDT (+11:00)"
+  doc_revision: "26.0.15"
+  update_summary: "Apply consistent cursors across login and resource controls"
+  updated_at: "Sat 17 Oct 2026 at 06:09:48 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -64,7 +64,7 @@ Follow [Uxcel: Types of Cursors & When to Use Them](https://uxcel.com/lessons/ba
 
 - Use `cursor: pointer` (hand) for all enabled buttons, toggles, links and other clickable or activatable elements. Apply it across the complete hit target, including icons, labels, selector tracks, padding and gaps; the cursor must change immediately on hover.
 - Use `cursor: not-allowed` for disabled, blocked or unavailable controls, including controls marked `aria-disabled="true"`. This state takes precedence over pointer or text cursors. Cursor styling does not disable an action: also enforce the blocked behaviour and appropriate disabled semantics.
-- Use `cursor: text` (I-beam) for selectable text and text-entry/editing fields, including body copy, prompt/code text, password inputs and textareas. Text and icons inside clickable controls inherit the control's hand cursor; they are part of the action, not independent text-selection targets.
+- Use `cursor: text` (I-beam) for selectable text and text-entry/editing fields, including body copy, prompt/code text, password inputs and textareas. Text and icons inside clickable controls are part of the action, not independent text-selection targets. Over an enabled button or toggle, the icon, label text, background, padding and gaps must all show the same hand cursor; label text must never switch to an I-beam. If that control is disabled or blocked, every one of those areas must instead show the not-allowed cursor. Reserve the I-beam for independently selectable or editable text outside action controls.
 - Use the default arrow for noninteractive, nonselectable surfaces. For specialised interactions such as dragging, resizing or precision selection, follow the reference's action-specific cursor guidance.
 - Preserve these distinctions in normal, hover, focus and disabled states. Do not use `pointer-events: none` merely to style a disabled control if it prevents the intended not-allowed cursor from appearing.
 

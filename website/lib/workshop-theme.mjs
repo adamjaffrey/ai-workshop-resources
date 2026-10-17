@@ -70,8 +70,6 @@ html, body { overflow-x: hidden; }
 :root[data-focus-input="keyboard"] :is(button, a[href], [tabindex]):focus:not(pre):not([data-panel-heading]) { outline: 3px solid var(--icon-ink); outline-offset: 3px; }
 [data-panel-heading]:focus { outline: none !important; box-shadow: none !important; }
 /* Button labels are controls; document and prompt text remain selectable. */
-button:enabled, [role="button"], a[href] { cursor: pointer; }
-button:disabled { cursor: default; }
 button, button * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 button:not(.segmented-toggle button) { transition: scale 120ms ease-out; }
 button:enabled:is(:active, .is-held):not(.segmented-toggle button) { scale: .97; }
@@ -103,6 +101,13 @@ button:enabled:is(:active, .is-held):not(.segmented-toggle button) { scale: .97;
 :root[data-theme="dark"] .page-placeholder .ph-line, :root[data-theme="dark"] .ph-brand-mark { background: #707b8b; }
 :root[data-theme="dark"] .ph-toggle span:last-child { background: var(--control-bg); }
 @media (max-width: 380px) { .page-toolbar { gap: 8px; } .page-toolbar .brand { gap: 6px; } .page-toolbar .brand-name { font-size: 13px; } .page-toolbar .brand-mark img { width: 36px; } .theme-toggle button { width: 40px; } }
+/* Cursor semantics apply to both login and resources, including child hit targets. */
+html, body { cursor: default; }
+:where(p, h1, h2, h3, h4, h5, h6, span, label, li, dt, dd, blockquote, figcaption, pre, code, strong, em, small, b, i, td, th) { cursor: text; }
+:where(input:not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="image"]), textarea, [contenteditable="true"]) { cursor: text; }
+:where(button, a[href], summary, select, [role="button"], [role="switch"], [role="tab"], [role="checkbox"], [role="radio"], .segmented-toggle, input:is([type="button"], [type="submit"], [type="reset"], [type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"], [type="image"])) { cursor: pointer; }
+:where(button, a[href], summary, select, [role="button"], [role="switch"], [role="tab"], [role="checkbox"], [role="radio"], .segmented-toggle) * { cursor: inherit; }
+:is(:disabled, [aria-disabled="true"]), :is(:disabled, [aria-disabled="true"]) * { cursor: not-allowed; }
 `;
 // Runs in the head before paint; storage denial must never prevent using the page.
 const script = `(() => {
