@@ -34,6 +34,19 @@ const styles = `
   --selection-text: #fff; --gate-overlay: rgb(0 0 0 / 55%); color-scheme: dark;
 }
 :root[data-selected-agent="claude-code"] { --agent-accent: #D97757; }
+/* Only explicit theme changes create a circular snapshot reveal. */
+:root.theme-reveal::view-transition-old(root),
+:root.theme-reveal::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+:root.theme-reveal::view-transition-old(root) { z-index: 1; }
+:root.theme-reveal::view-transition-new(root) { z-index: 2; animation: theme-circle 420ms cubic-bezier(.2,0,.2,1) both; }
+:root.theme-reveal::view-transition { pointer-events: none; }
+@keyframes theme-circle {
+  from { clip-path: circle(0px at var(--reveal-x) var(--reveal-y)); }
+  to { clip-path: circle(var(--reveal-radius) at var(--reveal-x) var(--reveal-y)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root.theme-reveal::view-transition-new(root) { animation: none; }
+}
 /* Button labels are controls; document and prompt text remain selectable. */
 button, button * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 button:not(.segmented-toggle button) { transition: scale 120ms ease-out; }
@@ -74,9 +87,10 @@ const script = `(() => {
   let preference;
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const themeAnimations = new Set();
+  let reveal, revealRequest = 0;
   const colourProperties = ['color', 'backgroundColor', 'borderTopColor', 'borderRightColor', 'borderBottomColor', 'borderLeftColor', 'outlineColor', 'fill', 'stroke', 'filter'];
   const cancelThemeAnimations = () => { themeAnimations.forEach(animation => animation.cancel()); themeAnimations.clear(); };
-  reducedMotion.addEventListener('change', () => { if (reducedMotion.matches) cancelThemeAnimations(); });
+  reducedMotion.addEventListener('change', () => { if (reducedMotion.matches) { cancelThemeAnimations(); reveal?.skipTransition(); } });
   const colours = element => {
     const style = getComputedStyle(element);
     return Object.fromEntries(colourProperties.map(property => [property, style[property]]));
@@ -84,17 +98,13 @@ const script = `(() => {
   const indicators = [];
   const valid = value => value === 'light' || value === 'dark';
   try { const saved = localStorage.getItem(key); if (valid(saved)) preference = saved; } catch {}
-  function apply(animate = false) {
-    const theme = preference || (system.matches ? 'dark' : 'light');
-    // Capture the current interpolated colours before cancelling an interrupted transition.
-    const before = animate && !reducedMotion.matches && document.documentElement.dataset.theme !== theme
+  window.workshopColourTransition = change => {
+    // Capture interrupted colours before cancelling, then batch reads before animation writes.
+    const before = !reducedMotion.matches
       ? [...document.querySelectorAll('html, body, body *')].filter(element => element.getClientRects().length).map(element => [element, colours(element)])
       : [];
     cancelThemeAnimations();
-    document.documentElement.dataset.theme = theme;
-    document.querySelectorAll('[data-theme-choice]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.themeChoice === theme)));
-    indicators.forEach(move => move());
-    // Animate only changed colour properties; leave reveal, press and toggle motion alone.
+    change();
     before.map(([element, previous]) => [element, previous, colours(element)]).forEach(([element, previous, next]) => {
       const changed = colourProperties.filter(property => previous[property] !== next[property]);
       if (!changed.length) return;
@@ -103,6 +113,46 @@ const script = `(() => {
       themeAnimations.add(animation);
       animation.onfinish = () => themeAnimations.delete(animation);
     });
+  };
+  function apply(animate = false, theme = preference || (system.matches ? 'dark' : 'light')) {
+    const change = () => {
+      document.documentElement.dataset.theme = theme;
+      document.querySelectorAll('[data-theme-choice]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.themeChoice === theme)));
+      indicators.forEach(move => move());
+    };
+    if (animate && document.documentElement.dataset.theme !== theme) window.workshopColourTransition(change);
+    else change();
+  }
+  async function revealTheme(button) {
+    const request = ++revealRequest;
+    const theme = preference;
+    if (reveal) {
+      reveal.skipTransition();
+      await reveal.updateCallbackDone.catch(() => {});
+    }
+    if (request !== revealRequest) return;
+    const root = document.documentElement;
+    root.classList.remove('theme-reveal');
+    if (reducedMotion.matches || !document.startViewTransition) {
+      apply(!reducedMotion.matches, theme);
+      return;
+    }
+    cancelThemeAnimations();
+    const bounds = button.closest('.theme-toggle').getBoundingClientRect();
+    const x = bounds.left + bounds.width / 2, y = bounds.top + bounds.height / 2;
+    const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    root.style.setProperty('--reveal-x', x + 'px');
+    root.style.setProperty('--reveal-y', y + 'px');
+    root.style.setProperty('--reveal-radius', radius + 'px');
+    root.classList.add('theme-reveal');
+    reveal = document.startViewTransition(() => apply(false, theme));
+    reveal.ready.catch(() => {}); // A skipped snapshot still commits the requested theme.
+    await reveal.finished.catch(() => {});
+    if (request === revealRequest) {
+      root.classList.remove('theme-reveal');
+      ['--reveal-x', '--reveal-y', '--reveal-radius'].forEach(property => root.style.removeProperty(property));
+      reveal = undefined;
+    }
   }
   apply();
   system.addEventListener('change', () => { if (!preference) apply(true); });
@@ -132,9 +182,9 @@ const script = `(() => {
     document.querySelectorAll('.theme-toggle:not(.ph-static)').forEach(control => { control.hidden = false; indicators.push(window.createWorkshopToggle(control)); });
     apply();
     document.querySelectorAll('[data-theme-choice]').forEach(button => button.addEventListener('click', () => {
-      preference = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+      preference = (preference || document.documentElement.dataset.theme) === 'light' ? 'dark' : 'light';
       try { localStorage.setItem(key, preference); } catch {}
-      apply(true);
+      revealTheme(button);
     }));
   });
 })();`;

@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.34"
-  update_summary: "Preserve the login success ring and turn the submit button green"
-  updated_at: "Sat 17 Oct 2026 at 02:14:10 pm AEDT (+11:00)"
+  doc_revision: "26.0.35"
+  update_summary: "Pair circular theme reveals with soft agent accent transitions"
+  updated_at: "Sat 17 Oct 2026 at 02:18:55 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -143,6 +143,6 @@ Login status messages use the existing system font at 14px with a 21px line heig
 
 ## Theme Transitions
 
-Use a synchronised 280ms eased colour transition when changing the theme on either page. Animate only changed colours and the theme-dependent brand filter, preserving independent press, toggle and reveal animations. Rapid theme changes start from the current interpolated colours. Apply the saved theme immediately before initial paint, and skip or cancel theme animations when reduced motion is enabled.
+Use a 420ms circular reveal from the theme toggle for explicit light/dark changes on both pages, with a 280ms soft-colour fallback when View Transitions are unavailable. Agent selection uses a synchronised 280ms eased colour blend while retaining the selector’s existing movement. Animate only changed colours and theme-dependent brand treatment, preserving independent press and reveal animations. Rapid changes resolve to the latest preference. Apply saved theme and agent colours immediately before initial paint with no decorative transition. Skip or cancel transitions when reduced motion is enabled.
 
 During successful login, keep the green input border, full outer ring and padlock visible regardless of input focus until navigation completes. The submit button also uses semantic success green, with white text in light mode and dark text in dark mode for contrast.

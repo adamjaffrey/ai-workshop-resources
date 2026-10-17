@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.72"
-  update_summary: "Preserve the login success ring and turn the submit button green"
-  updated_at: "Sat 17 Oct 2026 at 02:14:10 pm AEDT (+11:00)"
+  doc_revision: "26.0.73"
+  update_summary: "Pair circular theme reveals with soft agent accent transitions"
+  updated_at: "Sat 17 Oct 2026 at 02:19:07 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.71 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 02:19:07 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Pair circular theme reveals with soft agent accent transitions
+
+### Changed
+
+- Reveal light/dark themes through a 420ms circle expanding from the toggle, with a soft-colour fallback where View Transitions are unavailable.
+- Blend agent-dependent accents over 280ms while preserving selector movement and unrelated animations.
+- Apply saved colours immediately on initial load; honour reduced motion and resolve rapid toggles to the latest preference.
+- Preserve the separately completed login success ring and semantic green submit state.
+
+### Validation
+
+- Theme-transition Chrome checks — passed both pages at mobile/desktop widths, circular duration, rapid toggles, soft agent colours, instant saved preferences, reduced motion and fallback.
+- Agent-preference and login Chrome regressions — passed.
+- Mobile circular-reveal screenshot — visually reviewed.
+- Sites production build and placeholder checks — passed; no geometry refresh needed for motion-only changes.
 
 ## v26.0.70 — 2026-10-17
 

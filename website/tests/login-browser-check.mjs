@@ -30,6 +30,8 @@ try {
     await page.keyboard.press('Tab');
     assert.equal(await page.evaluate(()=>document.activeElement.dataset.themeChoice),theme);
     await page.keyboard.press('Space');
+    await page.waitForFunction(expected=>document.documentElement.dataset.theme===expected,theme==='light'?'dark':'light');
+    await page.waitForFunction(()=>!document.documentElement.classList.contains('theme-reveal'));
     assert.equal(await page.locator('html').getAttribute('data-theme'),theme==='light'?'dark':'light');
     await page.keyboard.press('Tab');
     assert.equal(await page.evaluate(()=>document.activeElement.id),'workshop-password');

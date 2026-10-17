@@ -4,21 +4,26 @@ export const agentScript = `(() => {
   const normalise=value=>value==='claude-code'?'claude-code':'codex';
   let current='codex';
   try {current=normalise(localStorage.getItem(key));} catch {}
-  function apply(value) {
+  function apply(value, animate = false) {
+    const changed = current !== normalise(value);
     current=normalise(value);
-    document.documentElement.dataset.selectedAgent=current;
-    window.dispatchEvent(new Event('workshop-agent-change'));
+    const change = () => {
+      document.documentElement.dataset.selectedAgent=current;
+      window.dispatchEvent(new Event('workshop-agent-change'));
+    };
+    if (animate && changed && window.workshopColourTransition) window.workshopColourTransition(change);
+    else change();
   }
   window.workshopAgent={
     get current(){return current;},
     select(value){
       const next=normalise(value);
       try {localStorage.setItem(key,next);} catch {}
-      apply(next);
+      apply(next, true);
     }
   };
   apply(current);
   window.addEventListener('storage',event=>{
-    if(event.key===key||event.key===null)apply(event.newValue);
+    if(event.key===key||event.key===null)apply(event.newValue, true);
   });
 })();`;
