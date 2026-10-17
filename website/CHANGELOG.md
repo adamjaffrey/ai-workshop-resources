@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.109"
-  update_summary: "Explain and separate the Feather licence notice"
-  updated_at: "Sun 18 Oct 2026 at 01:00:14 am AEDT (+11:00)"
+  doc_revision: "26.0.110"
+  update_summary: "Compact style options and add back-to-top navigation"
+  updated_at: "Sun 18 Oct 2026 at 01:11:39 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.108 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 01:11:39 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Compact style options and add back-to-top navigation
+
+### Changed
+
+- Align the Style Options heading at the top and place Coding Agent left of Colour Theme in a shared two-column row.
+- Add a floating Lucide Arrow Up to Line button below the mobile options control, with heading focus and reduced-motion-aware scrolling.
+
+### Validation
+
+- Headless playground and mobile checks — passed, including heading offset, column alignment, scroll-to-top and focus destination.
+- Production build, geometry guard, syntax and whitespace checks — passed.
 
 ## v26.0.107 — 2026-10-18
 
