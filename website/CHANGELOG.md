@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.59"
-  update_summary: "Extend locked-page scroll containment across browser fallbacks"
-  updated_at: "Sat 17 Oct 2026 at 12:57:06 pm AEDT (+11:00)"
+  doc_revision: "26.0.60"
+  update_summary: "Add isolated local phone-preview authentication"
+  updated_at: "Sat 17 Oct 2026 at 01:02:10 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.58 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 01:02:10 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add isolated local phone-preview authentication
+
+### Added
+
+- Add `preview:phone` to exercise the real sign-in, authenticated page and logout flows over local Wi-Fi.
+- Generate a fresh preview password and in-memory SQLite session store for every server process without reading production credentials.
+- Adapt cookies only at the local HTTP boundary, using an independent preview cookie name; leave production Secure cookies and authentication unchanged.
+- Document local startup, credential rotation and test isolation in the website README.
+
+### Validation
+
+- Authentication and placeholder source tests — 10 passed.
+- Local-preview integration test — passed login, logout, session isolation and production-handler rejection of the local credential.
+- Chrome LAN preview — passed sign-in, success transition, unlocked scrolling, reload persistence and logout.
+- Sites production build — passed; generated JavaScript, HTML and JSON contain neither preview authentication code nor the generated test password.
 
 ## v26.0.57 — 2026-10-17
 

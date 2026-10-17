@@ -13,7 +13,8 @@
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate",
     "test:blur-preview": "node scripts/preview-resources.mjs && node _archive/preview-login.mjs && node tests/word-geometry-browser-check.mjs && node tests/placeholder-browser-check.mjs",
-    "blocks:measure": "node scripts/measure-placeholder.mjs"
+    "blocks:measure": "node scripts/measure-placeholder.mjs",
+    "preview:phone": "node scripts/phone-preview.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

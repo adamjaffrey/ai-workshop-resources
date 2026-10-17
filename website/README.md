@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.23"
-  update_summary: "Define independent website tracking and version ownership"
-  updated_at: "Sat 17 Oct 2026 at 12:44:42 pm AEDT (+11:00)"
+  doc_revision: "26.0.24"
+  update_summary: "Document isolated phone-preview authentication"
+  updated_at: "Sat 17 Oct 2026 at 01:01:23 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -31,6 +31,14 @@ Use Node.js 24 or later for the built-in SQLite tests. This application retains 
 For local Worker testing, apply `drizzle/0000_early_felicia_hardy.sql` to the local D1 database, provide a test-only `WORKSHOP_PASSWORD_VERIFIER` in ignored `dist/server/.dev.vars`, then run `npm start -- --port 8787`. The browser check uses the test password declared in `tests/auth.test.mjs`. Run `node tests/browser-check.mjs` with Playwright available, or set `PLAYWRIGHT_MODULE` to its absolute module location. The test uses installed Chrome. Rebuilds remove the local `dist/server/.dev.vars`; restore the test verifier and restart the preview after rebuilding. Remove local secret files before packaging.
 
 The tests cover unauthorised content delivery, forged cookies, fixed seven-day expiry, password rotation, logout revocation, origin checks, request limits, rate limits, unavailable dependencies, browser restarts and mobile layout. Login attempts are limited to 50 per source IP and 1,000 globally per 15-minute window. Participants behind one shared network share the IP allowance.
+
+## Phone Preview Sign-In
+
+Run `npm --prefix website run preview:phone` with Node.js 24 or later. Open the printed network URL on a phone connected to the same Wi-Fi and use the generated `preview-…` password printed by that process. This server exercises the real authentication handler, success transition, authenticated resources and logout. Each restart generates a new random password and an empty in-memory database, invalidating previous preview sessions.
+
+The preview script never reads `.env`, hosted secrets or production session storage. Its local verifier is passed only to its own handler calls. It is not imported by production entrypoints and supplies no production password bypass. Production continues to accept only its configured verifier. The local adapter translates the production cookie to a separate `workshop_preview_session` cookie without Secure so it works over LAN HTTP; HttpOnly and SameSite remain enabled. Production cookie settings are unchanged. Use only the printed test password in this HTTP preview.
+
+`node --test tests/phone-preview.test.mjs` checks login, session access, logout, isolation between two preview servers and production-handler rejection of the preview credential. The preview is stopped with Ctrl+C; no test credentials or sessions are written to disk.
 
 ## Access Boundary
 
