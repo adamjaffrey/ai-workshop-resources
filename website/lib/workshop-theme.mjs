@@ -43,8 +43,8 @@ html, body { overflow-x: hidden; }
 :root.theme-reveal::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
 :root.theme-reveal::view-transition-old(root) { z-index: 1; }
 :root.theme-reveal::view-transition-new(root) { z-index: 2;
-  -webkit-mask-image: radial-gradient(circle at var(--reveal-x) var(--reveal-y), #000 max(0px, calc(var(--theme-radius) - 140px)), transparent var(--theme-radius));
-  mask-image: radial-gradient(circle at var(--reveal-x) var(--reveal-y), #000 max(0px, calc(var(--theme-radius) - 140px)), transparent var(--theme-radius));
+  -webkit-mask-image: radial-gradient(circle at var(--reveal-x) var(--reveal-y), #000 max(0px, calc(var(--theme-radius) - 300px)), transparent var(--theme-radius));
+  mask-image: radial-gradient(circle at var(--reveal-x) var(--reveal-y), #000 max(0px, calc(var(--theme-radius) - 300px)), transparent var(--theme-radius));
   animation: theme-circle 420ms cubic-bezier(.2,0,.2,1) both; }
 :root.theme-reveal::view-transition { pointer-events: none; }
 @keyframes theme-circle {
@@ -150,7 +150,7 @@ const script = `(() => {
     const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
     root.style.setProperty('--reveal-x', x + 'px');
     root.style.setProperty('--reveal-y', y + 'px');
-    root.style.setProperty('--reveal-radius', (radius + 140) + 'px');
+    root.style.setProperty('--reveal-radius', (radius + 300) + 'px');
     root.classList.add('theme-reveal');
     reveal = document.startViewTransition(() => apply(false, theme));
     reveal.ready.catch(() => {}); // A skipped snapshot still commits the requested theme.

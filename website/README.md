@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.39"
-  update_summary: "Round shared slider rebound and settling phases to 60ms"
-  updated_at: "Sat 17 Oct 2026 at 02:38:42 pm AEDT (+11:00)"
+  doc_revision: "26.0.40"
+  update_summary: "Widen the circular reveal feather to 300 pixels"
+  updated_at: "Sat 17 Oct 2026 at 02:43:16 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -143,7 +143,7 @@ Login status messages use the existing system font at 14px with a 21px line heig
 
 ## Theme Transitions
 
-Use a 420ms circular reveal with a 140px feathered mask edge from the theme toggle for explicit light/dark changes on both pages, with a 280ms soft-colour fallback when View Transitions are unavailable. Agent selection uses an eased colour blend synchronised with slider arrival at exactly 160ms, derived from shared toggle timing for both agent and day/night selectors; use 60ms each for rebound, return and settling (340ms total), retaining existing distances and easing. Animate only changed colours and theme-dependent brand treatment, preserving independent press and reveal animations. Rapid changes resolve to the latest preference. Apply saved theme and agent colours immediately before initial paint with no decorative transition. Skip or cancel transitions when reduced motion is enabled.
+Use a 420ms circular reveal with a 300px feathered mask edge from the theme toggle for explicit light/dark changes on both pages, with a 280ms soft-colour fallback when View Transitions are unavailable. Agent selection uses an eased colour blend synchronised with slider arrival at exactly 160ms, derived from shared toggle timing for both agent and day/night selectors; use 60ms each for rebound, return and settling (340ms total), retaining existing distances and easing. Animate only changed colours and theme-dependent brand treatment, preserving independent press and reveal animations. Rapid changes resolve to the latest preference. Apply saved theme and agent colours immediately before initial paint with no decorative transition. Skip or cancel transitions when reduced motion is enabled.
 
 During successful login, keep the green input border, full outer ring and padlock visible regardless of input focus until navigation completes. The submit button also uses semantic success green, with white text in light mode and dark text in dark mode for contrast.
 
