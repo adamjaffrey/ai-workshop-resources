@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.63"
-  update_summary: "Adopt CMOS 18 title case and centre the footer action"
-  updated_at: "Sat 17 Oct 2026 at 01:36:05 pm AEDT (+11:00)"
+  doc_revision: "26.0.64"
+  update_summary: "Refine footer wrapping and card-driven step reveals"
+  updated_at: "Sat 17 Oct 2026 at 01:40:44 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.62 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 01:40:44 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine footer wrapping and card-driven step reveals
+
+### Changed
+
+- Keep each footer text group intact and hide the separator on wrapping; allow the right-aligned logout action onto a separate row when needed.
+- Add the installed Lucide Log Out doorway-and-arrow icon to the footer action and preserve it in standalone previews.
+- Trigger paired step/card reveals from card visibility at a 48px viewport inset, preserving reduced-motion behaviour.
+- Widen mobile step lines to 112px and refresh saved placeholder geometry.
+
+### Validation
+
+- Authentication and placeholder source tests — 10 passed.
+- Footer/reveal Chrome checks — passed at 320, 390, 660, 768 and 1440px, including wrap separators, overflow, card trigger and reduced motion.
+- Agent-preference Chrome checks — passed, including login/logout and responsive footer alignment.
+- Sites production build — passed; generated server bundle displays v26.0.62.
 
 ## v26.0.61 — 2026-10-17
 

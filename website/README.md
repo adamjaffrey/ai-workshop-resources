@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.26"
-  update_summary: "Clarify vertically centred footer action alignment"
-  updated_at: "Sat 17 Oct 2026 at 01:35:01 pm AEDT (+11:00)"
+  doc_revision: "26.0.27"
+  update_summary: "Refine footer wrapping and card-driven step reveals"
+  updated_at: "Sat 17 Oct 2026 at 01:40:44 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -120,3 +120,9 @@ For an explicit manual theme check, generate the resources preview and archived 
 The QR card, prompt panels and their feedback surfaces share `--content-surface`: #F8F9FA in light mode and the existing dark surface in dark mode. The QR image retains its white background. Change this variable to keep these surfaces in sync without changing password panels or button fills.
 
 Both toggles use `createWorkshopToggle` from `website/lib/workshop-toggle.mjs` and the shared `.segmented-toggle` styles. Their outer height is 50px, with 40px buttons and shared padding and borders. Clicking either half, the centre gap or the outer track padding reverses the current state, including the selected half. The single animation controller owns a 160ms held stretch and a 360ms release animation with constant-speed travel to the overshoot, immediate direction reversal, slight squash at impact and a sharp linear first rebound followed by eased final settling; edits there affect both controls. Holding either half stretches the indicator without changing state. Added width is capped at 6px (and 14%) through the shared controller so wider app labels do not exaggerate the deformation; held translation is 4px and vertical compression is 6%. Releasing activates the other state. Space and Enter follow the same held/released sequence, and cancelled presses restore the indicator. Reduced motion cancels the animation and moves directly to the selected state.
+
+## Footer and Step Motion
+
+Keep the version and complete copyright notice as separate nonbreaking groups. Allow wrapping only between those groups, hiding the decorative bullet and its horizontal spacing when wrapped. Keep Log Out right-aligned and vertically centred when alongside the text; on narrow screens allow its form to move to a separate row. Use the installed Lucide Log Out icon.
+
+Reveal each step marker and linked card together once the card enters the viewport by 48px, observing the card rather than the whole step row. Honour reduced-motion preferences by showing content immediately. Mobile step connector lines are consistently 112px wide.
