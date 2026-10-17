@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.113"
-  update_summary: "Keep agent choices together in the options popover"
-  updated_at: "Sun 18 Oct 2026 at 01:18:21 am AEDT (+11:00)"
+  doc_revision: "26.0.114"
+  update_summary: "Fit filtered icons and restore playground bottom spacing"
+  updated_at: "Sun 18 Oct 2026 at 01:22:34 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.112 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 01:22:34 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Fit filtered icons and restore playground bottom spacing
+
+### Fixed
+
+- Resize the icon frame to its visible content after filtering, source-link changes and wrapping, retaining a scrollable maximum for longer lists.
+- Restore 24px of breathing room above the docked inspector at the bottom of every tab.
+
+### Validation
+
+- Headless playground checks — passed, including every filter’s measured content/frame height and bottom clearance.
+- Production build, geometry guard, syntax and whitespace checks — passed.
 
 ## v26.0.111 — 2026-10-18
 
