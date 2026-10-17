@@ -40,7 +40,7 @@ html, body { overflow-x: hidden; }
 @supports (overflow: clip) { html, body { overflow-x: clip; } }
 @property --theme-radius { syntax: '<length>'; inherits: false; initial-value: 0px; }
 :root { --theme-reveal-duration: 420ms; }
-@media (max-width: 660px) { :root { --theme-reveal-duration: 360ms; } }
+@media (max-width: 660px) { :root { --theme-reveal-duration: 300ms; } }
 /* Only explicit theme changes create a circular snapshot reveal. */
 :root.theme-reveal::view-transition-old(root),
 :root.theme-reveal::view-transition-new(root) { animation: none; mix-blend-mode: normal; }

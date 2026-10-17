@@ -10,10 +10,10 @@ try {
  for(const width of [320,390,660,768,1440]) {
   await page.setViewportSize({width,height:844});await page.goto(url);await page.evaluate(()=>document.fonts.ready);
   const row=page.locator('.step-row').nth(1);
-  await row.evaluate(e=>scrollTo(0,e.querySelector('article').getBoundingClientRect().top+scrollY-innerHeight+24));
+  await row.evaluate(e=>scrollTo(0,e.querySelector('.step-copy').getBoundingClientRect().top+scrollY-innerHeight+24));
   await page.waitForTimeout(100);
   assert.equal(await row.evaluate(e=>e.classList.contains('is-revealed')),false,`early reveal at ${width}`);
-  await row.evaluate(e=>scrollTo(0,e.querySelector('article').getBoundingClientRect().top+scrollY-innerHeight+64));
+  await row.evaluate(e=>scrollTo(0,e.querySelector('.step-copy').getBoundingClientRect().top+scrollY-innerHeight+64));
   await page.waitForTimeout(100);
   assert.equal(await row.evaluate(e=>e.classList.contains('is-revealed')),true,`missing reveal at ${width}`);
   await page.waitForTimeout(800);
@@ -32,5 +32,5 @@ try {
  }
  await page.emulateMedia({reducedMotion:'reduce'});await page.goto(url);
  assert.equal(await page.locator('.step-marker').last().evaluate(e=>getComputedStyle(e).opacity),'1');
- console.log('PASS: offscreen first pair waits, card-driven paired reveals, reduced motion, footer wrap/separator, no overflow, and mobile lines at five widths');
+ console.log('PASS: offscreen first pair waits, step-text-driven paired reveals, reduced motion, footer wrap/separator, no overflow, and mobile lines at five widths');
 }finally{await browser.close();}

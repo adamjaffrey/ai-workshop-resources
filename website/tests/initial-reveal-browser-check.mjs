@@ -30,13 +30,14 @@ try {
  // A tiny initial sliver must wait; ten pixels qualifies.
  await page.setViewportSize({width:390,height:Math.floor(stepTop+5)});await page.goto(url);await page.waitForTimeout(250);
  assert.equal(await page.locator('.step-row').first().evaluate(e=>e.classList.contains('is-revealed')),false);
- // Fully offscreen pairs use exactly the later 40px card trigger, including the first.
+ // Fully offscreen pairs use exactly the later 40px step-text trigger, including the first.
  await page.setViewportSize({width:390,height:320});await page.goto(url);await page.waitForTimeout(200);
  for(const row of await page.locator('.step-row').all()) {
-  await row.evaluate(e=>scrollTo(0,e.querySelector('article').getBoundingClientRect().top+scrollY-innerHeight+39));await page.waitForTimeout(80);
+  await row.evaluate(e=>scrollTo(0,e.querySelector('.step-copy').getBoundingClientRect().top+scrollY-innerHeight+39));await page.waitForTimeout(80);
   assert.equal(await row.evaluate(e=>e.classList.contains('is-revealed')),false);
   await row.evaluate(e=>scrollBy(0,2));await page.waitForTimeout(80);
   assert.equal(await row.evaluate(e=>e.classList.contains('is-revealed')),true);
+  assert.equal(await row.evaluate(e=>e.querySelector('article').getBoundingClientRect().top>innerHeight),true,'stacked card must reveal before its own edge arrives');
  }
  // More cards require no new index-specific logic.
  const html=await readFile(new URL('../outputs/workshop-resources-preview.html',import.meta.url),'utf8');

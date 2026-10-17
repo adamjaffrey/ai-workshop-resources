@@ -29,7 +29,7 @@ try {
     const originError=Math.abs(parseFloat(root.style.getPropertyValue('--reveal-x'))-bounds.left-bounds.width/2)+Math.abs(parseFloat(root.style.getPropertyValue('--reveal-y'))-bounds.top-bounds.height/2);
     return {direction:getComputedStyle(root,pseudo).animationDirection,theme:root.dataset.theme,originError,easing:getComputedStyle(root,pseudo).animationTimingFunction,duration:a.effect.getTiming().duration,mask:getComputedStyle(root,pseudo).maskImage,radius:parseFloat(document.documentElement.style.getPropertyValue('--reveal-radius'))};
    });
-   assert.equal(circle.duration,width<=660?360:420);assert.equal(circle.direction,circle.theme==='dark'?'reverse':'normal');assert.ok(circle.originError<.01);assert.equal(circle.easing,'cubic-bezier(0.25, 0.35, 0.75, 0.85)');assert.ok(circle.mask.includes('radial-gradient'));
+   assert.equal(circle.duration,width<=660?300:420);assert.equal(circle.direction,circle.theme==='dark'?'reverse':'normal');assert.ok(circle.originError<.01);assert.equal(circle.easing,'cubic-bezier(0.25, 0.35, 0.75, 0.85)');assert.ok(circle.mask.includes('radial-gradient'));
    assert.equal(await page.evaluate(()=>{scrollTo(1000,scrollY);return scrollX;}),0);assert.ok(circle.radius>=422);
    await settled();assert.notEqual(await page.locator('html').getAttribute('data-theme'),initial);
    await flip();await page.waitForTimeout(25);await flip();await page.waitForTimeout(25);await flip();await settled();

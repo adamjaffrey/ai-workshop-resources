@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.98"
-  update_summary: "Tune mobile theme timing and reveal visible card pairs in sequence"
-  updated_at: "Sat 17 Oct 2026 at 08:20:49 pm AEDT (+11:00)"
+  doc_revision: "26.0.99"
+  update_summary: "Accelerate mobile themes and reveal pairs from their step text"
+  updated_at: "Sat 17 Oct 2026 at 08:25:25 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.97 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 08:25:25 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Accelerate mobile themes and reveal pairs from their step text
+
+### Changed
+
+- Shorten mobile circular reveals to 300ms, retaining 420ms desktop timing, the feather, inverse motion and synchronised toggle colours.
+- Trigger later paired reveals when the point 40px below the step text enters the viewport on every layout, allowing earlier stacked-card animation.
+- Preserve the initial 10px visibility check and 120ms stagger; update repository rules.
+
+### Validation
+
+- Eleven radius, authentication and placeholder tests — passed.
+- Headless Chrome initial/later reveal checks at nine sizes, five-card fixture and explicit stacked-card early-reveal assertion — passed.
+- Footer checks at five widths and theme/toggle-colour checks across mobile/desktop breakpoints — passed.
+- Sites production build — passed.
 
 ## v26.0.96 — 2026-10-17
 
