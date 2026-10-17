@@ -139,9 +139,10 @@ const script = `(() => {
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const themeAnimations = new Set();
   let reveal, revealRequest = 0;
+  let restoreControlColours = () => {};
   const colourProperties = ['color', 'backgroundColor', 'borderTopColor', 'borderRightColor', 'borderBottomColor', 'borderLeftColor', 'outlineColor', 'fill', 'stroke', 'filter'];
   const cancelThemeAnimations = () => { themeAnimations.forEach(animation => animation.cancel()); themeAnimations.clear(); };
-  reducedMotion.addEventListener('change', () => { if (reducedMotion.matches) { cancelThemeAnimations(); reveal?.skipTransition(); } });
+  reducedMotion.addEventListener('change', () => { if (reducedMotion.matches) { cancelThemeAnimations(); restoreControlColours(); reveal?.skipTransition(); } });
   const colours = element => {
     const style = getComputedStyle(element);
     return Object.fromEntries(colourProperties.map(property => [property, style[property]]));
@@ -187,13 +188,15 @@ const script = `(() => {
     if (request !== revealRequest) return;
     const root = document.documentElement;
     root.classList.remove('theme-reveal');
+    restoreControlColours();
     if (reducedMotion.matches || !document.startViewTransition || !('registerProperty' in CSS)) {
       apply(!reducedMotion.matches, theme);
       return;
     }
     cancelThemeAnimations();
     selectThemeControls(theme);
-    const destination = button.closest('.theme-toggle').querySelector('[data-theme-choice="' + theme + '"]');
+    const control = button.closest('.theme-toggle');
+    const destination = control.querySelector('[data-theme-choice="' + theme + '"]');
     const bounds = destination.getBoundingClientRect();
     const x = bounds.left + bounds.width / 2, y = bounds.top + bounds.height / 2;
     const range = (${revealRadiusRange.toString()})(innerWidth, innerHeight, x, y);
@@ -202,10 +205,43 @@ const script = `(() => {
     root.style.setProperty('--reveal-start', range.start + 'px');
     root.style.setProperty('--reveal-radius', range.end + 'px');
     root.classList.add('theme-reveal');
-    reveal = document.startViewTransition(() => apply(false, theme, false));
-    reveal.ready.catch(() => {}); // A skipped snapshot still commits the requested theme.
+    // Keep the independently moving toggle in the colours of its surrounding
+    // feather. Sample the actual animated radius, so this shares the reveal's
+    // clock and easing instead of starting a separate colour transition.
+    const tokens = ['--surface', '--control-border', '--control-bg', '--control-text', '--text'];
+    const before = getComputedStyle(control);
+    const previous = tokens.map(token => before.getPropertyValue(token));
+    const saved = tokens.map(token => control.style.getPropertyValue(token));
+    const controlBounds = control.getBoundingClientRect();
+    const distance = Math.hypot(controlBounds.left + controlBounds.width / 2 - x, controlBounds.top + controlBounds.height / 2 - y);
+    let colourFrame;
+    restoreControlColours = () => {
+      cancelAnimationFrame(colourFrame);
+      tokens.forEach((token, i) => saved[i] ? control.style.setProperty(token, saved[i]) : control.style.removeProperty(token));
+      control.style.removeProperty('--theme-control-previous');
+      restoreControlColours = () => {};
+    };
+    reveal = document.startViewTransition(() => {
+      apply(false, theme, false);
+      const style = getComputedStyle(control);
+      const next = tokens.map(token => style.getPropertyValue(token));
+      control.style.setProperty('--theme-control-previous', '100%');
+      tokens.forEach((token, i) => control.style.setProperty(token, 'color-mix(in srgb, ' + previous[i] + ' var(--theme-control-previous), ' + next[i] + ')'));
+    });
+    reveal.ready.then(() => {
+      const pseudo = theme === 'dark' ? '::view-transition-old(root)' : '::view-transition-new(root)';
+      function followFeather() {
+        if (request !== revealRequest || reducedMotion.matches) return;
+        const radius = parseFloat(getComputedStyle(root, pseudo).getPropertyValue('--theme-radius'));
+        const light = Math.max(0, Math.min(1, (radius - distance) / Math.min(300, radius)));
+        control.style.setProperty('--theme-control-previous', (100 * (theme === 'dark' ? light : 1 - light)) + '%');
+        colourFrame = requestAnimationFrame(followFeather);
+      }
+      followFeather();
+    }).catch(() => {}); // A skipped snapshot still commits the requested theme.
     await reveal.finished.catch(() => {});
     if (request === revealRequest) {
+      restoreControlColours();
       root.classList.remove('theme-reveal');
       ['--reveal-x', '--reveal-y', '--reveal-start', '--reveal-radius'].forEach(property => root.style.removeProperty(property));
       reveal = undefined;

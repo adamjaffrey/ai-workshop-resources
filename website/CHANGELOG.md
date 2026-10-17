@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.95"
-  update_summary: "Add a local interactive component playground"
-  updated_at: "Sat 17 Oct 2026 at 06:33:55 pm AEDT (+11:00)"
+  doc_revision: "26.0.96"
+  update_summary: "Synchronise toggle colours with the circular theme feather"
+  updated_at: "Sat 17 Oct 2026 at 06:39:35 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.94 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 06:39:35 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Synchronise toggle colours with the circular theme feather
+
+### Fixed
+
+- Keep the immediately moving moon slider light until the contracting feather reaches the control, then blend its surface, border and text with the reveal.
+- Read the actual animated radius for colour progress and clear temporary token overrides after completion, interruption or reduced motion.
+- Preserve existing radius easing, 420ms duration, 300px feather and slider movement.
+
+### Validation
+
+- Eleven radius-endpoint, authentication and placeholder tests — passed.
+- Headless Chrome theme regression and paused-animation control-colour checks on both pages and mobile/desktop widths — passed.
+- Sites production build — passed.
 
 ## v26.0.93 — 2026-10-17
 

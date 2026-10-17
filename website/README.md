@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.54"
-  update_summary: "Document the local component playground"
-  updated_at: "Sat 17 Oct 2026 at 06:33:02 pm AEDT (+11:00)"
+  doc_revision: "26.0.55"
+  update_summary: "Synchronise toggle colours with the circular theme feather"
+  updated_at: "Sat 17 Oct 2026 at 06:39:35 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -182,3 +182,5 @@ The playground reuses current login/resource markup, CSS, shared theme helpers a
 Sample frames are sandboxed without same-origin access, form submission, popups or top navigation. Session checks are removed, authentication is simulated, copy actions never touch the clipboard, and links remain in the playground. Login visual state handling reuses the current login script up to its submission handler, then substitutes persistent demonstration states. Keep the tool under `scripts/` and out of production route registration.
 
 Validate with `node website/tests/style-guide-browser-check.mjs`. This checks both agents/themes at mobile and desktop sizes, held login states, copy results, frame widths, navigation containment and production-route exclusion. Headless checks are permitted; do not present them as native mobile-browser testing.
+
+The separate theme toggle layer moves immediately but blends its surface, border and text tokens with the circular feather. Sample the actual animated root-mask radius at the control centre each frame; do not start an independent colour timer. In dark mode the control retains its light colours until the contracting feather reaches it. Clear temporary overrides on completion, interruption and reduced-motion changes.
