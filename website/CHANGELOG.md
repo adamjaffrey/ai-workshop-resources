@@ -3,14 +3,35 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.111"
-  update_summary: "Present playground sections as a scrolling tab row"
-  updated_at: "Sun 18 Oct 2026 at 01:13:43 am AEDT (+11:00)"
+  doc_revision: "26.0.112"
+  update_summary: "Increase separation between popover selectors"
+  updated_at: "Sun 18 Oct 2026 at 01:15:05 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.110 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 01:15:05 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Increase separation between popover selectors
+
+### Changed
+
+- Increase the Coding Agent/Colour Theme column gap from 12px to 20px while retaining flexible columns within the existing popover width.
+
+### Validation
+
+- Headless playground controls and alignment checks — passed.
+- Production build, saved-geometry guard, syntax and whitespace checks — passed.
 
 ## v26.0.109 — 2026-10-18
 
