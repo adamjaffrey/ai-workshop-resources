@@ -3,14 +3,45 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.105"
-  update_summary: "Separate colour samples from their swatch labels"
-  updated_at: "Sun 18 Oct 2026 at 12:20:57 am AEDT (+11:00)"
+  doc_revision: "26.0.106"
+  update_summary: "Refine playground controls, icon sources and error previews"
+  updated_at: "Sun 18 Oct 2026 at 12:44:48 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.104 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 12:44:48 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine playground controls, icon sources and error previews
+
+### Added
+
+- Add icon-family filters, optional source links, accurate Lucide/Lobe licence panels and a source-derived Error States gallery.
+
+### Changed
+
+- Animate the single ellipsis/X options control and inspector chevrons, place Freeze beside More Details, clarify hover controls and tighten mobile control spacing.
+- Curate source-linked icon examples, show selected theme/agent states, identify Unicode glyphs and preserve room around success outlines.
+- Document capture isolation, navigation boundaries and licence/source controls.
+
+### Fixed
+
+- Prevent hidden capture frames from stealing focus or extending the page, and restore visible QR copy examples.
+
+### Validation
+
+- Playground controls/errors, browser matrix and mobile refinements checks — passed in headless Chrome.
+- Production build, saved-geometry checks, syntax and whitespace checks — passed.
 
 ## v26.0.103 — 2026-10-18
 

@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.62"
-  update_summary: "Document mobile popovers and live icon specimens"
-  updated_at: "Sun 18 Oct 2026 at 12:10:27 am AEDT (+11:00)"
+  doc_revision: "26.0.63"
+  update_summary: "Document playground controls, icon sources, licences and errors"
+  updated_at: "Sun 18 Oct 2026 at 12:43:48 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -179,7 +179,7 @@ Start `npm --prefix website run preview:phone`, then visit `/style-guide` on the
 
 The playground reuses current login/resource markup, CSS, shared theme helpers and resource interactions. It provides light/dark and Codex/Claude controls, fixed sample widths, held hover styles, persistent simulated login states, simulated copy success/failure, colour-token swatches, source-derived typography specimens and a docked Style Inspector. The standard H2 is the real neutral login heading; the accent H2 is the real step heading. H4–H6 and general text/disabled-input specimens are omitted while absent from the app. Warning tokens are labelled reserved, with no fabricated warning component.
 
-Sample frames are sandboxed without same-origin access, form submission, popups or top navigation. Session checks are removed, authentication is simulated, copy actions never touch the clipboard, and links remain in the playground. Login visual state handling reuses the current login script up to its submission handler, then substitutes persistent demonstration states. Keep the tool under `scripts/` and out of production route registration.
+Sample frames are sandboxed without same-origin access, form submission or top navigation. Only the icon gallery permits new tabs for explicitly revealed source links. Session checks are removed, authentication is simulated, copy actions never touch the clipboard, and specimen links remain in the playground. Login visual state handling reuses the current login script up to its submission handler, then substitutes persistent demonstration states. Keep the tool under `scripts/` and out of production route registration.
 
 Validate with `node website/tests/style-guide-browser-check.mjs`. This checks both agents/themes at mobile and desktop sizes, held login states, copy results, frame widths, navigation containment and production-route exclusion. Headless checks are permitted; do not present them as native mobile-browser testing.
 
@@ -189,7 +189,7 @@ The separate theme toggle layer moves immediately but blends its surface, border
 
 Use visible native radio groups for the short theme, agent, width, hover and copy-result choices. The longer login-state group also remains visible because repeated one-click state comparisons are the purpose of this tool. There is no universal numeric cutoff: [NN/g](https://www.nngroup.com/articles/dropdown-list/) recommends radios for fewer than five choices, while [USWDS](https://designsystem.digital.gov/components/select/) suggests select menus for roughly seven to fifteen choices when space is limited, and a searchable combo box for longer lists. Treat option count, label length, space and selection frequency together.
 
-The Style Inspector is a read-only display of the selected element’s computed colours, dimensions, type and spacing. It remains fixed to the bottom of the viewport. Hover updates wait 200ms, nested typography metadata resolves to its specimen, unchanged readings are deduplicated, and the details area has a fixed height with internal scrolling. Click and keyboard focus update immediately. Freeze retains the current reading; Resume follows items again. The dock initially occupies one line. Its leading chevron expands the inspection controls and summary; the separately labelled Computed Details chevron expands the full readout. Both chevrons rotate and honour reduced motion.
+The Style Inspector is a read-only display of the selected element’s computed colours, dimensions, type and spacing. It remains fixed to the bottom of the viewport. Hover updates wait 200ms, nested typography metadata resolves to its specimen, unchanged readings are deduplicated, and the details area has a fixed height with internal scrolling. Click and keyboard focus update immediately. Freeze retains the current reading; Resume follows items again. The dock initially occupies one line. Its leading chevron expands the inspection controls and summary; the separately labelled More Details chevron expands the full readout. Both chevrons rotate and honour reduced motion.
 
 The Blocks and Blur tab reuses the current login markup and saved geometry. No Blur removes the placeholder blur temporarily, Blur and Darken shows the selected blur and scrim without the login panel, and Password Panel adds the real panel while retaining the same single background blur. Block strength, background blur and scrim opacity are independent sliders. Their initial and reset values are read from the real app CSS for the selected theme, rather than copied into the tool. Clicking a word, icon or QR block outlines its bounds and reports its dimensions. These settings are local, do not alter production defaults, and never trigger geometry measurement.
 
@@ -199,7 +199,7 @@ Apply one 4px blur filter to the decorative placeholder background. The login pa
 
 ### Mobile Controls and Source Coverage
 
-At widths up to 660px, the four global controls move into a native popover anchored below the floating Lucide Ellipsis button. Lucide X, Escape and outside clicks close it. Focus starts on the heading with no ring; the first Tab reaches Close. The local playground starts in Codex/light before paint without reading or overwriting the live site’s saved agent preference. Navigation wraps compactly. Login-state choices use two independently packed horizontal rows, with visible overflow and no swipe explainer. Reset actions use labelled Lucide Rotate Ccw icon buttons beside section headings. Sliders have 44px-high interaction areas, larger thumbs and inline label/value pairs. Colour swatches form two columns on mobile and display hex values in monospace. Copy-result controls retain 20px of separation from their preview.
+At widths up to 660px, the four global controls move into a native popover that expands from the rounded-square Lucide Ellipsis button. That same button becomes X in the same position; X, Escape and outside clicks close it. Focus starts on the heading with no ring; the first Tab reaches the X control. The local playground starts in Codex/light before paint without reading or overwriting the live site’s saved agent preference. Navigation wraps compactly. Login-state choices use two independently packed horizontal rows, with visible overflow and no swipe explainer. Reset actions use labelled Lucide Rotate Ccw icon buttons beside section headings. Sliders have 44px-high interaction areas, larger thumbs and inline label/value pairs. Colour swatches form two columns on mobile and display hex values in monospace. Copy-result controls retain 20px of separation from their preview.
 
 | Playground Surface | App Source | Synchronisation |
 |---|---|---|
@@ -215,3 +215,5 @@ At widths up to 660px, the four global controls move into a native popover ancho
 The neutral-token audit found every neutral role referenced. Light-mode `--field-bg` now aliases the nearly identical `--content-surface`, removing an unnecessary separate fill. Dark-mode `--field-border` aliases the already identical `--control-border`. Other neutral roles remain distinct for canvas, raised surfaces, text hierarchy and boundary emphasis. No geometry refresh is required for these colour-only changes.
 
 The source-parity browser check compares each typography specimen’s text, font family, size, weight, line height, letter spacing, colour and text transformation with its rendered app source in both themes/agents at desktop/mobile widths. It also checks shared login messages, compact controls, popover heading focus/restoration, spacing, one blur pass and independent scrim opacity. Reload a restarted local preview after editing source modules; these tools are generated from the server’s current imports, not a separate persisted design copy.
+
+The Icons tab captures current app controls, SVGs, images and Unicode glyphs, including selected theme/agent and copy/login states. Icon Family filters show All, Lucide, Lobe, Unicode or Other. Show Sources defaults off and reveals separate Lucide/Lobe source links without making specimens external navigation targets. Licence panels explain Lucide’s ISC licence and Feather-derived MIT notice, and Lobe’s MIT licence. Error States renders all login and copy failures from the same live source messages and computed styles. Isolated capture frames suppress focus and selection side effects and finish transitions before capture; they never change production behaviour.
