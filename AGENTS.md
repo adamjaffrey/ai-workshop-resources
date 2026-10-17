@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.13"
-  update_summary: "Standardise cursors by interaction and retain Uxcel guidance"
-  updated_at: "Sat 17 Oct 2026 at 06:06:18 pm AEDT (+11:00)"
+  doc_revision: "26.0.14"
+  update_summary: "Explicitly prohibit automatically opening Chrome previews"
+  updated_at: "Sat 17 Oct 2026 at 06:06:42 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -29,8 +29,8 @@ metadata:
 
 ## Preview Delivery
 
-- Do not automatically open a browser, tab or preview after a build. Provide the preview link and current local test password so the user can check it themselves.
-- Open a preview only when the user explicitly requests it; use Google Chrome for that request.
+- **Do NOT automatically open Google Chrome for the user.** Do not launch, foreground or open a Chrome window/tab after builds, updates, server restarts or preview handoffs. This also applies to other browsers. Provide the preview link and current local test password in the reply instead; let the user open it themselves.
+- Open a user-facing preview only when the user explicitly asks to open it. A request to build, update, test, start a preview server or provide a preview link is not permission to open Chrome. When explicitly asked to open a preview, use Google Chrome.
 - Never open or present a preview in the Codex sidebar, embedded browser, or preview panel. Do not use `open_in_codex` to show previews.
 - Headless browser validation is permitted and does not count as opening a user-facing preview.
 
