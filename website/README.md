@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.61"
-  update_summary: "Document mobile tools and source-linked specimens"
-  updated_at: "Sat 17 Oct 2026 at 11:37:49 pm AEDT (+11:00)"
+  doc_revision: "26.0.62"
+  update_summary: "Document mobile popovers and live icon specimens"
+  updated_at: "Sun 18 Oct 2026 at 12:10:27 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -189,9 +189,9 @@ The separate theme toggle layer moves immediately but blends its surface, border
 
 Use visible native radio groups for the short theme, agent, width, hover and copy-result choices. The longer login-state group also remains visible because repeated one-click state comparisons are the purpose of this tool. There is no universal numeric cutoff: [NN/g](https://www.nngroup.com/articles/dropdown-list/) recommends radios for fewer than five choices, while [USWDS](https://designsystem.digital.gov/components/select/) suggests select menus for roughly seven to fifteen choices when space is limited, and a searchable combo box for longer lists. Treat option count, label length, space and selection frequency together.
 
-The Style Inspector is a read-only display of the selected element’s computed colours, dimensions, type and spacing. It remains fixed to the bottom of the viewport. Hover updates wait 200ms, nested typography metadata resolves to its specimen, unchanged readings are deduplicated, and the details area has a fixed height with internal scrolling. Click and keyboard focus update immediately. Freeze retains the current reading; Resume follows items again. Show Details reveals the full labelled readout without changing the sample layout.
+The Style Inspector is a read-only display of the selected element’s computed colours, dimensions, type and spacing. It remains fixed to the bottom of the viewport. Hover updates wait 200ms, nested typography metadata resolves to its specimen, unchanged readings are deduplicated, and the details area has a fixed height with internal scrolling. Click and keyboard focus update immediately. Freeze retains the current reading; Resume follows items again. The dock initially occupies one line. Its leading chevron expands the inspection controls and summary; the separately labelled Computed Details chevron expands the full readout. Both chevrons rotate and honour reduced motion.
 
-The Blocks tab reuses the current login markup and saved geometry. No Blur removes the placeholder blur temporarily, Blur and Darken shows the selected blur and scrim without the login panel, and Password Panel adds the real panel while retaining the same single background blur. Block strength, background blur and scrim opacity are independent sliders. Their initial and reset values are read from the real app CSS for the selected theme, rather than copied into the tool. Clicking a word, icon or QR block outlines its bounds and reports its dimensions. These settings are local, do not alter production defaults, and never trigger geometry measurement.
+The Blocks and Blur tab reuses the current login markup and saved geometry. No Blur removes the placeholder blur temporarily, Blur and Darken shows the selected blur and scrim without the login panel, and Password Panel adds the real panel while retaining the same single background blur. Block strength, background blur and scrim opacity are independent sliders. Their initial and reset values are read from the real app CSS for the selected theme, rather than copied into the tool. Clicking a word, icon or QR block outlines its bounds and reports its dimensions. These settings are local, do not alter production defaults, and never trigger geometry measurement.
 
 ### Login Blur During Theme Changes
 
@@ -199,18 +199,19 @@ Apply one 4px blur filter to the decorative placeholder background. The login pa
 
 ### Mobile Controls and Source Coverage
 
-At widths up to 660px, the four global controls move into a native modal opened by a floating Lucide Ellipsis button. Lucide X, Escape and normal modal focus restoration close it. Focus starts on the heading with no ring; native modal containment and keyboard access remain intact. Long login-state choices use a two-row horizontal grid with a visible swipe hint. Copy-result controls retain 20px of separation from their preview.
+At widths up to 660px, the four global controls move into a native popover anchored below the floating Lucide Ellipsis button. Lucide X, Escape and outside clicks close it. Focus starts on the heading with no ring; the first Tab reaches Close. The local playground starts in Codex/light before paint without reading or overwriting the live site’s saved agent preference. Navigation wraps compactly. Login-state choices use two independently packed horizontal rows, with visible overflow and no swipe explainer. Reset actions use labelled Lucide Rotate Ccw icon buttons beside section headings. Sliders have 44px-high interaction areas, larger thumbs and inline label/value pairs. Colour swatches form two columns on mobile and display hex values in monospace. Copy-result controls retain 20px of separation from their preview.
 
 | Playground Surface | App Source | Synchronisation |
 |---|---|---|
 | Login specimen | `workshop-pages.mjs`, `workshop-handler.mjs`, `workshop-theme.mjs` | Imports the actual markup/CSS and shared status/failure renderer; replaces network submission and navigation with held outcomes. |
 | Login status strings | `workshop-login-messages.mjs` | Production responses, browser status handling and the playground use one message authority. Initial button text comes from markup; opening text is shared. |
 | Resource specimen | `workshop-resource-page.mjs`, shared theme/agent/toggle scripts | Uses actual rendered cards, icons, prompts, selectors, QR feedback and footer. Only session checks, navigation and clipboard writes are isolated. |
-| Typography | Rendered login/resource elements selected by a source manifest | Clones real nodes and their ancestor classes, refreshes live text after agent/state changes, and uses app CSS. Layout-only wrappers arrange specimens without defining another font scale. |
+| Typography | Rendered login/resource elements selected by a source manifest | Clones real nodes and their ancestor classes, refreshes live text after agent/state changes, and uses app CSS. Layout-only wrappers arrange specimens without defining another font scale. Footer metadata excludes Log Out and reuses the app’s wrap detection; QR and Copy retain their visible controls and icons. |
+| Icons and Symbols | Running app frames plus installed Lucide definitions | Captures actual SVG/image markup and computed styles inside their controls, including login and copy states. Matches Lucide technical names by SVG geometry; labels Lobe brand logos and extracts Unicode text excerpts and the CSS footer separator. Isolated source frames prevent state capture from disturbing the visible specimens. |
 | Colours | App CSS and colour-bearing markup attributes | Token swatches resolve from shared theme values; a generated declaration inventory exposes literal colours, shadows, outlines, fills and interaction selectors. Usage descriptions are tooling annotations. |
 | Blocks | Saved placeholder markup plus login CSS | Reuses geometry; reads native blur, strength and scrim values. Local controls adjust only the sandbox frame. |
 | Playground chrome | `scripts/style-guide.mjs` | Navigation, labels, radio groups, inspector and local sliders are explicitly tooling UI; they use shared colour tokens but are not represented as app components. |
 
 The neutral-token audit found every neutral role referenced. Light-mode `--field-bg` now aliases the nearly identical `--content-surface`, removing an unnecessary separate fill. Dark-mode `--field-border` aliases the already identical `--control-border`. Other neutral roles remain distinct for canvas, raised surfaces, text hierarchy and boundary emphasis. No geometry refresh is required for these colour-only changes.
 
-The source-parity browser check compares each typography specimen’s text, font family, size, weight, line height, letter spacing, colour and text transformation with its rendered app source in both themes/agents at desktop/mobile widths. It also checks shared login messages, compact controls, modal heading focus/restoration, spacing, one blur pass and independent scrim opacity. Reload a restarted local preview after editing source modules; these tools are generated from the server’s current imports, not a separate persisted design copy.
+The source-parity browser check compares each typography specimen’s text, font family, size, weight, line height, letter spacing, colour and text transformation with its rendered app source in both themes/agents at desktop/mobile widths. It also checks shared login messages, compact controls, popover heading focus/restoration, spacing, one blur pass and independent scrim opacity. Reload a restarted local preview after editing source modules; these tools are generated from the server’s current imports, not a separate persisted design copy.

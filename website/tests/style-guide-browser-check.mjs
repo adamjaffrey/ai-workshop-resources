@@ -10,7 +10,7 @@ try{
 const p=await b.newPage();const errors=[];const writes=[];
 p.on('pageerror',e=>errors.push(e.message));p.on('request',r=>{if(r.method()!=='GET')writes.push(r.url());});
 await p.goto(origin+'/style-guide');
-const choose=async(id,value)=>{const mobile=['theme','agent','width','hover'].includes(id)&&p.viewportSize().width<=660;if(mobile){await p.click('#style-options');assert.equal(await p.locator('#style-dialog').evaluate(e=>e.open),true);assert.equal(await p.locator('#style-dialog-title').evaluate(e=>document.activeElement===e),true);assert.equal(await p.locator('#style-dialog-title').evaluate(e=>getComputedStyle(e).outlineStyle),'none');await p.keyboard.press('Tab');await p.waitForTimeout(200);assert.equal(await p.locator('#close-style-options').evaluate(e=>document.activeElement===e),true);}const input=p.locator('input[name="'+id+'"][value="'+value+'"]');await input.locator('..').click();assert.equal(await input.isChecked(),true);if(mobile){await p.click('#close-style-options');assert.equal(await p.locator('#style-options').evaluate(e=>document.activeElement===e),true);}};
+const choose=async(id,value)=>{const mobile=['theme','agent','width','hover'].includes(id)&&p.viewportSize().width<=660;if(mobile){await p.click('#style-options');assert.equal(await p.locator('#style-dialog').evaluate(e=>e.matches(':popover-open')),true);assert.equal(await p.locator('#style-dialog-title').evaluate(e=>document.activeElement===e),true);assert.equal(await p.locator('#style-dialog-title').evaluate(e=>getComputedStyle(e).outlineStyle),'none');await p.keyboard.press('Tab');await p.waitForTimeout(200);assert.equal(await p.locator('#close-style-options').evaluate(e=>document.activeElement===e),true);}const input=p.locator('input[name="'+id+'"][value="'+value+'"]');await input.locator('..').click();assert.equal(await input.isChecked(),true);if(mobile){await p.click('#close-style-options');assert.equal(await p.locator('#style-options').evaluate(e=>document.activeElement===e),true);}};
 assert.equal(await p.locator('select').count(),0);
 async function verifySourceParity(){await p.click('[data-tab=typography]');await p.waitForTimeout(350);
 const specimens=await p.frameLocator('#type-frame').locator('.type-row').evaluateAll(rows=>rows.map(row=>{const e=row.querySelector('[data-type-sample]'),c=getComputedStyle(e);return {page:row.dataset.sourcePage,selector:row.dataset.sourceSelector,text:e.textContent,style:[c.fontFamily,c.fontSize,c.fontWeight,c.lineHeight,c.letterSpacing,c.color,c.textTransform]};}));
@@ -37,7 +37,7 @@ for(const width of [390,1440]){
   await verifySourceParity();
  }
  assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
- if(width===390){const rail=await p.locator('#state .choice-options').evaluate(e=>({scroll:e.scrollWidth,width:e.clientWidth,rows:getComputedStyle(e).gridTemplateRows.split(' ').length}));assert.ok(rail.scroll>rail.width);assert.equal(rail.rows,2);}
+ if(width===390){const rail=await p.locator('#state .choice-options').evaluate(e=>({scroll:e.scrollWidth,width:e.clientWidth,rows:e.querySelectorAll('.state-row').length}));assert.ok(rail.scroll>rail.width);assert.equal(rail.rows,2);}
 
 }
 await choose('hover','on');await p.waitForTimeout(350);
@@ -55,7 +55,7 @@ await p.click('[data-tab=typography]');assert.equal(p.url(),origin+'/style-guide
 assert.match(await p.frameLocator('#type-frame').locator('output').first().textContent(),/48px/);
 const headingStyles=await p.frameLocator('#type-frame').locator('h2[data-type-sample]').evaluateAll(es=>es.map(e=>{const c=getComputedStyle(e);return {size:c.fontSize,weight:c.fontWeight,colour:c.color};}));assert.equal(headingStyles.length,2);assert.equal(headingStyles[0].size,headingStyles[1].size);assert.equal(headingStyles[0].weight,headingStyles[1].weight);assert.notEqual(headingStyles[0].colour,headingStyles[1].colour);
 // Inspector stays docked and never changes its own geometry while inspecting.
-await p.click('#inspector-details');
+await p.click('#inspector-toggle');await p.click('#inspector-details');
 const type=p.frameLocator('#type-frame');await type.locator('h1').hover();await p.waitForTimeout(260);
 const firstReading=await p.locator('#inspection-summary').textContent();assert.match(firstReading,/h1/);
 await p.click('#freeze-inspector');await type.locator('h2').first().hover();await p.waitForTimeout(260);assert.equal(await p.locator('#inspection-summary').textContent(),firstReading);

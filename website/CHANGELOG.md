@@ -3,14 +3,45 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.103"
-  update_summary: "Style accent links and shorten login errors"
-  updated_at: "Sat 17 Oct 2026 at 11:46:24 pm AEDT (+11:00)"
+  doc_revision: "26.0.104"
+  update_summary: "Refine mobile playground and add source-derived icon specimens"
+  updated_at: "Sun 18 Oct 2026 at 12:14:45 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.102 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 12:14:45 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine mobile playground and add source-derived icon specimens
+
+### Changed
+
+- Wrap mobile section tabs compactly, rename Blocks and Blur, and pack login states into two independent horizontal rows without a swipe explainer.
+- Move reset actions to labelled Lucide icon buttons beside headings; enlarge slider targets and thumbs, separate their groups, and align values with labels.
+- Anchor Style Options as a native popover below the ellipsis control, with heading-first focus, Escape and outside dismissal.
+- Apply the local Codex default before paint without inheriting the live site’s saved Claude accent.
+- Separate footer typography from Log Out, reuse the app’s footer wrap logic, and retain Copy and QR control icons and visible containers.
+- Use compact two-column mobile colour swatches and monospaced hex values.
+- Collapse Style Inspector to one line; provide separate animated chevrons for its controls and computed details, respecting reduced motion.
+- Add Icons and Symbols using actual running-app markup and computed styles, including Lucide names, Lobe logos, image assets, login/copy states and Unicode source excerpts. Isolate capture activity from visible focus, inspection and real clipboard actions.
+- Document the updated controls and icon-source mapping.
+
+### Validation
+
+- Full playground browser matrix — passed source typography parity and interactions across desktop/mobile, both themes and agents.
+- Mobile refinement checks — passed popover focus/restoration, initial accent frames, packed controls, footer/Copy/QR specimens, swatches, sliders, inspector levels and icon size/colour parity in all theme-agent combinations.
+- Local-preview isolation and placeholder unit tests — three passed.
+- Sites production build — passed; saved placeholder geometry reused and local design tools remain outside production routes.
 
 ## v26.0.101 — 2026-10-17
 
