@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.89"
-  update_summary: "Apply consistent cursors across login and resource controls"
-  updated_at: "Sat 17 Oct 2026 at 06:09:48 pm AEDT (+11:00)"
+  doc_revision: "26.0.90"
+  update_summary: "Match the password border and focus ring to the error state"
+  updated_at: "Sat 17 Oct 2026 at 06:11:20 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.88 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 06:11:20 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Match the password border and focus ring to the error state
+
+### Changed
+
+- Turn the password border and focused outline red after an incorrect password, preserving the error through refocus until editing.
+- Restore the selected agent accent to the focused border and outline when the user edits the field; retain neutral borders when normally unfocused.
+- Document error border and focus-ring behaviour alongside existing icon and password text rules.
+
+### Validation
+
+- Headless Chrome — passed red border/ring persistence and edit reset at 320, 390, 768 and 1440px for both themes and both agent accents.
+- Sites production build and placeholder checks — passed.
 
 ## v26.0.87 — 2026-10-17
 

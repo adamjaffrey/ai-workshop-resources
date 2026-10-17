@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.15"
-  update_summary: "Apply consistent cursors across login and resource controls"
-  updated_at: "Sat 17 Oct 2026 at 06:09:48 pm AEDT (+11:00)"
+  doc_revision: "26.0.16"
+  update_summary: "Match the password border and focus ring to the error state"
+  updated_at: "Sat 17 Oct 2026 at 06:11:20 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -45,7 +45,7 @@ metadata:
 
 - Keep checking and success text visually hidden but announced to screen readers. Swap the password-slot Lucide padlock for Loader Circle during checking and Check on success; use green success styling and honour reduced motion.
 - Show only error messages below the input. Reserve two text lines so ordinary status changes do not resize or recentre the panel; allow expansion for accessibility text scaling rather than clipping messages. Keep 12px between label and input, 12px between input and error row, and 8px before the submit button.
-- After an incorrect password, colour the padlock and password bullets red until the user edits the field. Refocusing alone must preserve the error. Editing clears the error and restores the selected blue/orange icon and focus accent. On success, show green bullets during the brief transition, then clear the password before navigation.
+- After an incorrect password, colour the input border, focused outline, padlock and password bullets red until the user edits the field. Refocusing alone must preserve the error. Editing clears the error and restores the selected blue/orange icon, focused border and focus accent. On success, show green bullets during the brief transition, then clear the password before navigation.
 
 ## Focus and Panel Opening
 
