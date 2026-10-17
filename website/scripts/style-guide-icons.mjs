@@ -36,12 +36,12 @@ window.addEventListener('message',async event=>{
   await theme('dark');add(document.querySelector('[data-theme-choice=dark] svg'),'Selected · Dark Mode');await theme(savedTheme);
   const qr=document.querySelector('.qr-copy');
   add(qr?.querySelector('img'),'QR Code');
-  if(qr){qr.setAttribute('data-feedback','');finishCaptureMotion();add(qr.querySelector('.copy-icon'),'QR · Copy Link');await copy(qr,true);add(qr.querySelector('.success-icon'),'QR · Link Copied');await copy(qr,false);addError(qr.querySelector('.copy-label'),'QR Link Copy Failure');setStatus(qr,'');}
+  if(qr){qr.setAttribute('data-feedback','');finishCaptureMotion();add(qr.querySelector('.copy-icon'),'QR · Copy Link');await copy(qr,true);add(qr.querySelector('.success-icon'),'QR · Link Copied');await copy(qr,false);add(qr.querySelector('.error-icon'),'QR · Copy Failed');addError(qr.querySelector('.copy-content'),'QR Link Copy Failure');setStatus(qr,'');}
   await agent('codex');add(document.querySelector('[data-agent=codex] svg'),'Selected · Codex');
   await agent('claude-code');add(document.querySelector('[data-agent="claude-code"] svg'),'Selected · Claude Code');await agent(savedAgent);
   document.querySelectorAll('.symbol svg').forEach(node=>add(node,'Step Icon'));
   const prompt=document.querySelector('.copy');
-  if(prompt){setStatus(prompt,'');add(prompt.querySelector('.copy-icon'),'Prompt · Copy');await copy(prompt,true);add(prompt.querySelector('.success-icon'),'Prompt · Copied');await copy(prompt,false);addError(prompt.closest('article').querySelector('.status'),'Prompt Copy Failure');setStatus(prompt,'');}
+  if(prompt){setStatus(prompt,'');add(prompt.querySelector('.copy-icon'),'Prompt · Copy');await copy(prompt,true);add(prompt.querySelector('.success-icon'),'Prompt · Copied');await copy(prompt,false);add(prompt.querySelector('.error-icon'),'Prompt · Copy Failed');addError(prompt.closest('article').querySelector('.status'),'Prompt Copy Failure');setStatus(prompt,'');}
   add(document.querySelector('footer button svg'),'Log Out');copyFailure=false;
  }
  const seen=new Set(),walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);

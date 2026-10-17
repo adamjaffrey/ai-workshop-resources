@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.106"
-  update_summary: "Refine playground controls, icon sources and error previews"
-  updated_at: "Sun 18 Oct 2026 at 12:44:48 am AEDT (+11:00)"
+  doc_revision: "26.0.107"
+  update_summary: "Clarify copy failures and icon source controls"
+  updated_at: "Sun 18 Oct 2026 at 12:52:08 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.105 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 12:52:08 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Clarify copy failures and icon source controls
+
+### Changed
+
+- Show Lucide X beside Copy Failed for QR and prompt copy failures, using the shared error colour and existing feedback lifecycle.
+- Replace Show Sources with a labelled native checkbox and include both copy-failure icons in the live gallery.
+- Display the bundled Feather-derived MIT notice in an expandable section of the Lucide licence panel.
+
+### Validation
+
+- Headless playground controls/errors and desktop/mobile browser matrix — passed, including source visibility, both failure icons and exact MIT notice.
+- Production build, saved-geometry checks, syntax and whitespace checks — passed.
 
 ## v26.0.104 — 2026-10-18
 
