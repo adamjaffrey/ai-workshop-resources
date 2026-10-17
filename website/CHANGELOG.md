@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.94"
-  update_summary: "Restore gently eased radius motion for theme reveals"
-  updated_at: "Sat 17 Oct 2026 at 06:27:31 pm AEDT (+11:00)"
+  doc_revision: "26.0.95"
+  update_summary: "Add a local interactive component playground"
+  updated_at: "Sat 17 Oct 2026 at 06:33:55 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.93 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 06:33:55 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add a local interactive component playground
+
+### Added
+
+- Add a local-only `/style-guide` route with shared theme/agent switches, viewport presets, held hover, persistent login states and simulated resource actions.
+- Show live colour tokens, typography specimens and computed element colours, dimensions, font settings and spacing; distinguish browser-default headings and proposed components from production styles.
+- Isolate samples in sandboxed frames, block navigation and submissions, and simulate clipboard/authentication operations.
+- Document playground usage and add browser checks for interaction, mobile/desktop layouts and production exclusion.
+
+### Validation
+
+- Playground headless Chrome checks — passed both agents/themes, mobile/desktop, held states, copy feedback, width presets, hover styles and navigation containment.
+- Auth, phone-preview and placeholder unit checks — 11 passed.
+- Desktop/mobile screenshot review and Sites production build — passed.
 
 ## v26.0.92 — 2026-10-17
 

@@ -1,5 +1,6 @@
 // Local-only adapter: never imported by application or production build entrypoints.
 import http from 'node:http';
+import {styleGuidePage} from './style-guide.mjs';
 import {randomBytes} from 'node:crypto';
 import {DatabaseSync} from 'node:sqlite';
 import {readFileSync} from 'node:fs';
@@ -27,6 +28,10 @@ export function createPhonePreview() {
   const server=http.createServer(async(req,res)=>{
     try {
       const url=new URL(req.url,'http://'+req.headers.host);
+      if(req.method==='GET' && url.pathname==='/style-guide') {
+        res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'});
+        res.end(await styleGuidePage());return;
+      }
       if(req.method==='GET'&&assets.has(url.pathname)) {
         res.writeHead(200,{'Content-Type':assets.get(url.pathname),'Cache-Control':'no-store'});
         res.end(readFileSync(new URL('../public'+url.pathname,import.meta.url)));return;

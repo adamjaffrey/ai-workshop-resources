@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.53"
-  update_summary: "Restore gently eased radius motion for theme reveals"
-  updated_at: "Sat 17 Oct 2026 at 06:27:31 pm AEDT (+11:00)"
+  doc_revision: "26.0.54"
+  update_summary: "Document the local component playground"
+  updated_at: "Sat 17 Oct 2026 at 06:33:02 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -172,3 +172,13 @@ On failed submission focus the password field with the caret at its end, without
 `workshop-theme.mjs` is the runtime authority for status colours across login and resources, independent of the selected agent. Success uses deep green in light mode and mint green in dark mode; error uses berry/rose to distinguish it from Claude orange. Warning uses dark mustard/pale gold and is reserved for future caution states, with no current visible warning UI. Information remains neutral through `--info: var(--muted-text)`. Use `--success-ink` or `--warning-ink` for text on those solid fills. Never communicate status by colour alone.
 
 Run `node website/tests/status-colours-browser-check.mjs` to verify success, error and warning foregrounds against the current page, surface, content, field, card, tile, control and hover backgrounds in both themes and agent selections, plus success/warning fill text.
+
+## Local Component Playground
+
+Start `npm --prefix website run preview:phone`, then visit `/style-guide` on the printed local or LAN address. This local-only route requires no password and is not registered in the production handler. The regular site still requires the current local test password printed by the preview server. Do not open a browser automatically.
+
+The playground reuses current login/resource markup, CSS, shared theme helpers and resource interactions. It provides light/dark and Codex/Claude controls, fixed sample widths, held hover styles, persistent simulated login states, simulated copy success/failure, colour-token swatches, computed H1–H6/text specimens and a live element inspector. H4–H6 remain explicitly labelled browser defaults; the text-field and disabled-field examples are specimens, not new production components. Warning examples demonstrate reserved tokens only.
+
+Sample frames are sandboxed without same-origin access, form submission, popups or top navigation. Session checks are removed, authentication is simulated, copy actions never touch the clipboard, and links remain in the playground. Login visual state handling reuses the current login script up to its submission handler, then substitutes persistent demonstration states. Keep the tool under `scripts/` and out of production route registration.
+
+Validate with `node website/tests/style-guide-browser-check.mjs`. This checks both agents/themes at mobile and desktop sizes, held login states, copy results, frame widths, navigation containment and production-route exclusion. Headless checks are permitted; do not present them as native mobile-browser testing.
