@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.43"
-  update_summary: "Pair opposite theme easing with an immediate first-step entrance"
-  updated_at: "Sat 17 Oct 2026 at 02:58:33 pm AEDT (+11:00)"
+  doc_revision: "26.0.44"
+  update_summary: "Use consistent regular weight for every login status"
+  updated_at: "Sat 17 Oct 2026 at 05:26:30 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -139,7 +139,7 @@ Validate empty passwords inline without shaking. Only an incorrect-password resp
 
 Rate-limit feedback uses the actual remaining server window from Retry-After, rounds displayed minutes up, and says less than a minute for the final minute. Disable submission until that time ends, then announce that signing in can be retried. Update announcements only when displayed text changes, avoiding per-second screen-reader chatter.
 
-Login status messages use the existing system font at 14px with a 21px line height, regular weight for checking/errors and semibold for success. Leave 12px below the input border and 16px before the submit button. Centre the 18px status icon against the first line, including when a message wraps.
+Login status messages use the existing system font at 14px with a 21px line height, regular weight (400) for all statuses, including checking, errors, retry information and success; the submit button remains semibold (600). Leave 12px below the input border and 16px before the submit button. Centre the 18px status icon against the first line, including when a message wraps.
 
 ## Theme Transitions
 

@@ -5,7 +5,7 @@ import {handleRequest} from '../lib/workshop-handler.mjs';
 const script=await (await handleRequest(new Request('https://workshop.example/login.js'),{})).text();
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try {
- for(const theme of ['light','dark'])for(const width of [320,1440]){
+ for(const theme of ['light','dark'])for(const width of [320,390,768,1440]){
   const page=await browser.newPage({viewport:{width,height:844},colorScheme:theme});
   let mode='wrong',pending;let requests=0;
   await page.route('https://workshop.example/**',async route=>{
@@ -28,6 +28,8 @@ try {
   const hasShake=()=>page.locator('#access-form').evaluate(e=>e.classList.contains('shake'));
   const state=async(kind,text)=>{
    await page.waitForFunction(({kind,text})=>{const e=document.querySelector('#gate-error');return e.classList.contains('is-'+kind)&&e.textContent===text;},{kind,text});
+   assert.equal(await status.evaluate(e=>getComputedStyle(e).fontWeight),'400');
+   assert.equal(await button.evaluate(e=>getComputedStyle(e).fontWeight),'600');
    if(kind!=='info')assert.equal(await status.locator('[data-status-icon="'+kind+'"]').isVisible(),true);
   };
   await button.click();await state('error','Enter your workshop password.');assert.equal(requests,0);assert.equal(await hasShake(),false);
