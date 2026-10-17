@@ -3,14 +3,18 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.22"
-  update_summary: "Archive blur testing and make geometry refresh manual-only"
-  updated_at: "Sat 17 Oct 2026 at 12:20:55 pm AEDT (+11:00)"
+  doc_revision: "26.0.23"
+  update_summary: "Define independent website tracking and version ownership"
+  updated_at: "Sat 17 Oct 2026 at 12:44:42 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Workshop Website Access
+
+## Project Tracking
+
+This directory is the website project root. [VERSION.txt](VERSION.txt) is its sole artefact-version authority; [CHANGELOG.md](CHANGELOG.md) records website builds and [BACKLOG.md](BACKLOG.md) records unfinished website work. The changelog was moved from the repository root without changing historical entries. README revisions are independent of website builds and skill revisions. Documentation-only reorganisation does not increment the website version.
 
 The server verifies the shared password before returning workshop content. Sessions expire seven days after login without extending on use. The persistent Secure, HttpOnly, SameSite cookie survives tab and browser closure, unless the user clears cookies or uses private browsing. Logging out revokes the current session immediately; changing the server verifier invalidates all existing sessions.
 
