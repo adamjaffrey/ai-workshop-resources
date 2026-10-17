@@ -52,11 +52,14 @@ test('cross-origin writes and oversized bodies are rejected',async()=>{
 });
 test('persisted attempts throttle even across handler calls, then reset next window',async()=>{
  const e=env();for(let i=0;i<50;i++)assert.equal((await handleRequest(post('/auth/login',''),e,1000)).status,401);
- const r=await handleRequest(post(),e,1000);assert.equal(r.status,429);assert.equal(r.headers.get('retry-after'),'900');
+ const r=await handleRequest(post(),e,1000);assert.equal(r.status,429);assert.equal(r.headers.get('retry-after'),'899');
  assert.equal((await handleRequest(post(),e,901000)).status,200);
 });
 test('missing configuration and database failure fail closed',async()=>{
- assert.equal((await handleRequest(get(),{})).status,503);
+ const unavailable=await handleRequest(get(),{});assert.equal(unavailable.status,503);
+ assert.match(unavailable.headers.get('content-type'),/text\/html/);
+ const html=await unavailable.text();assert.match(html,/workshop-password/);assert.match(html,/Workshop access is temporarily unavailable/);
+ assert.doesNotMatch(html,/system-blueprint-creator/);
  const e=env();e.DB.prepare=()=>{throw Error('database down')};
  const r=await handleRequest(post(),e);assert.equal(r.status,503);assert.doesNotMatch(await r.text(),/system-blueprint-creator/);
 });

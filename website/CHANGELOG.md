@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.68"
-  update_summary: "Prevent button text selection and add held-press feedback"
-  updated_at: "Sat 17 Oct 2026 at 01:59:24 pm AEDT (+11:00)"
+  doc_revision: "26.0.69"
+  update_summary: "Clarify login states with Lucide icons and friendly errors"
+  updated_at: "Sat 17 Oct 2026 at 02:05:15 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.67 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 02:05:15 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Clarify login states with Lucide icons and friendly errors
+
+### Changed
+
+- Show neutral checking feedback with a rotating Lucide Loader Circle, green success with a Check, and red errors with a Circle X; respect reduced-motion preferences.
+- Validate empty passwords inline and reserve shaking for incorrect passwords. Keep network and service failures distinct from invalid field values.
+- Replace technical exceptions with friendly messages and preserve the styled login page during service outages where possible.
+- Return the actual remaining rate-limit window, update the retry message and re-enable submission when the wait ends.
+- Document login feedback and icon conventions.
+
+### Validation
+
+- Authentication, placeholder and preview-isolation source tests — 11 passed.
+- Login-state Chrome checks — passed loading colours, icons, reduced motion, empty/wrong passwords, network/service/malformed errors, retry countdown and success across mobile/desktop and both themes.
+- Login focus/keyboard/scroll regression and agent-preference Chrome checks — passed.
+- Sites production build and PVS validation — passed.
 
 ## v26.0.66 — 2026-10-17
 

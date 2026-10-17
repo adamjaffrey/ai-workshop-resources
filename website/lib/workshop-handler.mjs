@@ -72,7 +72,15 @@ export async function handleRequest(request, env, now = Date.now()) {
   if (!['GET','HEAD','POST'].includes(request.method)) return reply('Method not allowed',405,{'Allow':'GET, HEAD, POST'});
   if (path==='/robots.txt') return reply('User-agent: *\nDisallow: /\n',200,{'Content-Type':'text/plain'});
   if (path==='/login.js' && request.method!=='POST') return reply(loginScript,200,{'Content-Type':'text/javascript; charset=utf-8'});
-  if (!env.DB || !validVerifier(env.WORKSHOP_PASSWORD_VERIFIER)) return reply('Workshop access is temporarily unavailable. Please try again later.',503);
+  const unavailable = () => {
+    const message = 'Workshop access is temporarily unavailable. Please try again later.';
+    if (request.method === 'POST' || path === '/auth/session') return json({error:message},503);
+    const page = loginPage.replace('class="gate-error"', 'class="gate-error is-error"')
+      .replace('data-status-icon="error" hidden', 'data-status-icon="error"')
+      .replace('<span></span></p>', '<span>' + message + '</span></p>');
+    return reply(page.replaceAll('__NONCE__',nonce),503,{'Content-Type':'text/html; charset=utf-8'});
+  };
+  if (!env.DB || !validVerifier(env.WORKSHOP_PASSWORD_VERIFIER)) return unavailable();
   try {
     const version=sha(env.WORKSHOP_PASSWORD_VERIFIER);
     if (request.method==='POST') {
@@ -87,7 +95,10 @@ export async function handleRequest(request, env, now = Date.now()) {
       // Remove expired records without a scheduled job or schema mutation.
       await env.DB.prepare('DELETE FROM workshop_sessions WHERE expires_at <= ?').bind(now).run();
       await env.DB.prepare('DELETE FROM workshop_attempts WHERE expires_at <= ?').bind(now).run();
-      if(await limited(request,env.DB,env.WORKSHOP_PASSWORD_VERIFIER,now)) return json({error:'Too many attempts. Please wait 15 minutes and try again.'},429,{'Retry-After':String(ATTEMPT_WINDOW)});
+      if(await limited(request,env.DB,env.WORKSHOP_PASSWORD_VERIFIER,now)) {
+        const retryAfter = Math.ceil((ATTEMPT_WINDOW*1000 - now % (ATTEMPT_WINDOW*1000))/1000);
+        return json({error:'Too many attempts. Please try again later.'},429,{'Retry-After':String(retryAfter)});
+      }
       let raw;
       try { raw=await bodyText(request); } catch { return json({error:'Request too large.'},413); }
       const password=new URLSearchParams(raw).get('password');
@@ -108,7 +119,7 @@ export async function handleRequest(request, env, now = Date.now()) {
     return reply(page.replaceAll('__NONCE__',nonce),200,{'Content-Type':'text/html; charset=utf-8',...(!session?{'Set-Cookie':cookie('',now,0)}:{})});
   } catch {
     // Fail closed. Do not log requests, passwords, verifier values or cookies.
-    return reply('Workshop access is temporarily unavailable. Please try again later.',503);
+    return unavailable();
   }
 }
 
@@ -142,21 +153,73 @@ document.addEventListener('DOMContentLoaded',syncThemeTabStop);
 theme.addEventListener('focusin',syncThemeTabStop);
 new MutationObserver(syncThemeTabStop).observe(theme,{subtree:true,attributes:true,attributeFilter:['aria-pressed']});
 let busy=false;
-form.addEventListener('submit',async event=>{
-  event.preventDefault(); if(busy)return; busy=true; button.disabled=true;
-  message.textContent='Checking…'; password.removeAttribute('aria-invalid');
-  try {
-    const response=await fetch('/auth/login',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json'},body:new URLSearchParams({password:password.value})});
-    const result=await response.json();
-    if(!response.ok)throw new Error(result.error||'Unable to sign in. Please try again.');
-    password.value='';password.readOnly=true;
-    form.classList.add('is-success'); error.classList.add('is-success');error.querySelector('svg').removeAttribute('hidden');
-    message.textContent='Access granted';button.textContent='Opening Resources…';
-    setTimeout(()=>location.replace('/'),900);
-  } catch(failure) {
-    message.textContent=failure.message==='Failed to fetch'?'Unable to connect. Please try again.':failure.message;
-    form.classList.remove('shake');void form.offsetWidth;form.classList.add('shake');
-    password.setAttribute('aria-invalid','true');password.focus();password.select();busy=false;button.disabled=false;
+let retryUntil=0;
+let retryTimer;
+const genericFailure='Unable to sign in. Please try again.';
+const serviceFailure='Workshop access is temporarily unavailable. Please try again later.';
+function setStatus(state,text) {
+  error.classList.remove('is-loading','is-success','is-error','is-info');
+  error.classList.add('is-'+state);
+  if(message.textContent!==text) message.textContent=text;
+  error.querySelectorAll('[data-status-icon]').forEach(icon=>icon.toggleAttribute('hidden',icon.dataset.statusIcon!==state));
+  form.classList.toggle('is-success',state==='success');
+}
+function release() {
+  busy=false; button.disabled=false; button.removeAttribute('aria-busy');
+}
+function showFailure(text,invalid=false,shake=false) {
+  setStatus('error',text);
+  if(invalid) {
+    password.setAttribute('aria-invalid','true');password.focus();password.select();
   }
+  if(shake) { void form.offsetWidth;form.classList.add('shake'); }
+  release();
+}
+function updateRetry() {
+  const seconds=Math.max(0,Math.ceil((retryUntil-Date.now())/1000));
+  if(!seconds) {
+    clearInterval(retryTimer);retryUntil=0;button.disabled=false;
+    setStatus('info','You can try signing in again.');return;
+  }
+  const minutes=Math.ceil(seconds/60);
+  const duration=seconds<60?'less than a minute':minutes+' '+(minutes===1?'minute':'minutes');
+  setStatus('error','Too many attempts. Please try again in '+duration+'.');
+  button.disabled=true;
+}
+password.addEventListener('input',()=>{
+  password.removeAttribute('aria-invalid');form.classList.remove('shake');
+  if(!busy&&!retryUntil) setStatus('info','');
+});
+form.addEventListener('submit',async event=>{
+  event.preventDefault();if(busy||retryUntil>Date.now())return;
+  form.classList.remove('shake');password.removeAttribute('aria-invalid');
+  if(!password.value) { showFailure('Enter your workshop password.',true);return; }
+  busy=true;button.disabled=true;button.setAttribute('aria-busy','true');
+  setStatus('loading','Checking password…');
+  let response;
+  try {
+    response=await fetch('/auth/login',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json'},body:new URLSearchParams({password:password.value})});
+  } catch {
+    showFailure('Unable to connect. Check your connection and try again.');return;
+  }
+  if(response.status===401) {
+    showFailure('That password isn’t correct. Please try again.',true,true);return;
+  }
+  if(response.status===429) {
+    const retryHeader=response.headers.get('Retry-After');
+    const seconds=Number(retryHeader);
+    const delay=retryHeader && Number.isFinite(seconds)&&seconds>0?seconds*1000:Date.parse(retryHeader)-Date.now();
+    if(!Number.isFinite(delay)||delay<=0) {showFailure('Too many attempts. Please try again later.');return;}
+    release();retryUntil=Date.now()+delay;updateRetry();
+    clearInterval(retryTimer);retryTimer=setInterval(updateRetry,1000);return;
+  }
+  if(!response.ok) {showFailure(response.status>=500?serviceFailure:genericFailure);return;}
+  let result;
+  try {result=await response.json();} catch {showFailure(genericFailure);return;}
+  if(result?.ok!==true) {showFailure(genericFailure);return;}
+  password.value='';password.readOnly=true;
+  setStatus('success','Access granted.');button.removeAttribute('aria-busy');
+  button.textContent='Opening Resources…';
+  setTimeout(()=>location.replace('/'),900);
 });
 `;
