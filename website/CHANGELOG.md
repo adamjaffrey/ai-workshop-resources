@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.80"
-  update_summary: "Reverse the dark-mode reveal into the moon button"
-  updated_at: "Sat 17 Oct 2026 at 02:52:33 pm AEDT (+11:00)"
+  doc_revision: "26.0.81"
+  update_summary: "Pair opposite theme easing with an immediate first-step entrance"
+  updated_at: "Sat 17 Oct 2026 at 02:58:33 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.79 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 02:58:33 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Pair opposite theme easing with an immediate first-step entrance
+
+### Changed
+
+- Use a fast-start, slow-finish sun reveal and its exact time-reversed moon contraction, preserving 420ms duration, 300px feathering and destination origins.
+- Animate Step 1 and its card together on initial load regardless of viewport position, retaining card-triggered reveals for subsequent steps and immediate visibility under reduced motion.
+
+### Validation
+
+- Theme-transition Chrome checks — passed asymmetric easing with reversed night playback, origins, mobile/desktop layouts, initial preferences and reduced motion.
+- Footer/reveal Chrome checks — passed first-pair animation below the fold on a short mobile viewport, later scroll triggers and responsive layouts at five widths.
+- Sites production build and placeholder checks — passed.
 
 ## v26.0.78 — 2026-10-17
 

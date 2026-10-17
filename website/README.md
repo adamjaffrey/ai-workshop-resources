@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.42"
-  update_summary: "Reverse the dark-mode reveal into the moon button"
-  updated_at: "Sat 17 Oct 2026 at 02:52:33 pm AEDT (+11:00)"
+  doc_revision: "26.0.43"
+  update_summary: "Pair opposite theme easing with an immediate first-step entrance"
+  updated_at: "Sat 17 Oct 2026 at 02:58:33 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -125,7 +125,7 @@ Both toggles use `createWorkshopToggle` from `website/lib/workshop-toggle.mjs` a
 
 Keep the version and complete copyright notice as separate nonbreaking groups. Allow wrapping only between those groups, hiding the decorative bullet and its horizontal spacing when wrapped. Keep Log Out right-aligned and vertically centred when alongside the text; on narrow screens allow its form to move to a separate row, left-aligned with the text. Use the installed Lucide Log Out icon.
 
-Reveal each step marker and linked card together once the card enters the viewport by 48px, observing the card rather than the whole step row. Honour reduced-motion preferences by showing content immediately. Mobile step connector lines are consistently 120px wide.
+Animate the first step marker and card together on page load regardless of their viewport position. Reveal subsequent pairs once their card enters the viewport by 48px, observing the card rather than the whole step row. Honour reduced-motion preferences by showing content immediately. Mobile step connector lines are consistently 120px wide.
 
 ## Button Interaction
 
@@ -143,7 +143,7 @@ Login status messages use the existing system font at 14px with a 21px line heig
 
 ## Theme Transitions
 
-Use a 420ms circular reveal with a 300px feathered mask edge and pronounced ease-in/ease-out (`cubic-bezier(.65,0,.35,1)`) from the centre of the destination sun/moon button for explicit light/dark changes on both pages. Light mode expands the incoming light snapshot from the sun; dark mode reverses the same animation on the outgoing light snapshot, contracting it into the moon, with a 280ms soft-colour fallback when View Transitions are unavailable. Agent selection uses an eased colour blend synchronised with slider arrival at exactly 160ms, derived from shared toggle timing for both agent and day/night selectors; use 60ms each for rebound, return and settling (340ms total), retaining existing distances and easing. Animate only changed colours and theme-dependent brand treatment, preserving independent press and reveal animations. Rapid changes resolve to the latest preference. Apply saved theme and agent colours immediately before initial paint with no decorative transition. Skip or cancel transitions when reduced motion is enabled.
+Use a 420ms circular reveal with a 300px feathered mask edge and ease-out (`cubic-bezier(.22,1,.36,1)`) for light mode and its exact time-reversed ease-in for dark mode from the centre of the destination sun/moon button for explicit light/dark changes on both pages. Light mode expands the incoming light snapshot from the sun; dark mode reverses the same animation on the outgoing light snapshot, contracting it into the moon, with a 280ms soft-colour fallback when View Transitions are unavailable. Agent selection uses an eased colour blend synchronised with slider arrival at exactly 160ms, derived from shared toggle timing for both agent and day/night selectors; use 60ms each for rebound, return and settling (340ms total), retaining existing distances and easing. Animate only changed colours and theme-dependent brand treatment, preserving independent press and reveal animations. Rapid changes resolve to the latest preference. Apply saved theme and agent colours immediately before initial paint with no decorative transition. Skip or cancel transitions when reduced motion is enabled.
 
 During successful login, keep the green input border, full outer ring and padlock visible regardless of input focus until navigation completes. The submit button also uses semantic success green, with white text in light mode and dark text in dark mode for contrast.
 

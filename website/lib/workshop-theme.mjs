@@ -47,7 +47,7 @@ html, body { overflow-x: hidden; }
 :root.theme-reveal[data-theme="dark"]::view-transition-old(root) { z-index: 2;
   -webkit-mask-image: radial-gradient(circle at var(--reveal-x) var(--reveal-y), #000 max(0px, calc(var(--theme-radius) - 300px)), transparent var(--theme-radius));
   mask-image: radial-gradient(circle at var(--reveal-x) var(--reveal-y), #000 max(0px, calc(var(--theme-radius) - 300px)), transparent var(--theme-radius));
-  animation: theme-circle 420ms cubic-bezier(.65,0,.35,1) both; }
+  animation: theme-circle 420ms cubic-bezier(.22,1,.36,1) both; }
 :root.theme-reveal[data-theme="dark"]::view-transition-old(root) { animation-direction: reverse; }
 :root.theme-reveal::view-transition { pointer-events: none; }
 @keyframes theme-circle {
