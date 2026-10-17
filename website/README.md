@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.45"
-  update_summary: "Standardise focus placement and keyboard-only control rings"
-  updated_at: "Sat 17 Oct 2026 at 05:32:24 pm AEDT (+11:00)"
+  doc_revision: "26.0.46"
+  update_summary: "Ease visible theme coverage and add QR link copying"
+  updated_at: "Sat 17 Oct 2026 at 05:48:31 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -119,7 +119,7 @@ For an explicit manual theme check, generate the resources preview and archived 
 
 The QR card, prompt panels and their feedback surfaces share `--content-surface`: #F8F9FA in light mode and the existing dark surface in dark mode. The QR image retains its white background. Change this variable to keep these surfaces in sync without changing password panels or button fills.
 
-Both toggles use `createWorkshopToggle` from `website/lib/workshop-toggle.mjs` and the shared `.segmented-toggle` styles. Their outer height is 50px, with 40px buttons and shared padding and borders. Clicking either half, the centre gap or the outer track padding reverses the current state, including the selected half. The single animation controller owns a 160ms held stretch and a 360ms release animation with constant-speed travel to the overshoot, immediate direction reversal, slight squash at impact and a sharp linear first rebound followed by eased final settling; edits there affect both controls. Holding either half stretches the indicator without changing state. Added width is capped at 6px (and 14%) through the shared controller so wider app labels do not exaggerate the deformation; held translation is 4px and vertical compression is 6%. Releasing activates the other state. Space and Enter follow the same held/released sequence, and cancelled presses restore the indicator. Reduced motion cancels the animation and moves directly to the selected state.
+Both toggles use `createWorkshopToggle` from `website/lib/workshop-toggle.mjs` and the shared `.segmented-toggle` styles. Their outer height is 50px, with 40px buttons and shared padding and borders. Clicking either half, the centre gap or the outer track padding reverses the current state, including the selected half. The single animation controller owns a 160ms held stretch and a 340ms release animation with constant-speed travel to the overshoot, immediate direction reversal, slight squash at impact and a sharp linear first rebound followed by eased final settling; edits there affect both controls. Holding either half stretches the indicator without changing state. Added width is capped at 6px (and 14%) through the shared controller so wider app labels do not exaggerate the deformation; held translation is 4px and vertical compression is 6%. Releasing activates the other state. Space and Enter follow the same held/released sequence, and cancelled presses restore the indicator. Reduced motion cancels the animation and moves directly to the selected state.
 
 ## Footer and Step Motion
 
@@ -152,3 +152,9 @@ Contain horizontal page overflow at both the root and body, using clipping with 
 ## Focus Policy
 
 The shared controller tracks pointer input versus Tab navigation, preserving real focus while limiting non-text-entry rings to keyboard navigation. Text inputs keep their focused styling for all input methods. Both selectors transfer focus to the selected mode. `window.workshopFocusPanel(panel)` focuses a panel’s labelled heading invisibly; login invokes it directly and native dialog/popover opening events invoke it automatically. Custom panels must call it on opening. See `AGENTS.md` for the complete policy.
+
+## Theme Reveal and QR Sharing
+
+Explicit theme changes retain a 420ms duration and 300px feather. `workshop-reveal.mjs` samples the visible viewport and inverts the feathered mask coverage, so the existing easing controls average visible colour change instead of radius. Night mode reverses the light-mask frames, originating at the selected moon; day mode originates at the selected sun. Saved preferences apply before paint without motion, and reduced-motion and soft-transition fallbacks remain available.
+
+The QR encodes `https://ai-workshop-resources.adamjaffrey.chatgpt.site/`, verified against the existing Sites project. Its button displays the installed Lucide Copy icon and Copy Link label on hover or keyboard focus, copies that same URL with a legacy clipboard fallback, and reports success or failure. Keep the 540px image and 48px white quiet zone. All enabled buttons and selector tracks use the pointer cursor.

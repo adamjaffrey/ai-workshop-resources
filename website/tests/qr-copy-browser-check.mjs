@@ -1,0 +1,32 @@
+import assert from 'node:assert/strict';
+import {once} from 'node:events';
+import {chromium} from 'playwright';
+import {createPhonePreview} from '../scripts/phone-preview.mjs';
+const {server,password}=createPhonePreview();server.listen(0,'127.0.0.1');await once(server,'listening');
+const browser=await chromium.launch({channel:'chrome',headless:true});
+try {
+ const page=await browser.newPage({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
+ const origin='http://127.0.0.1:'+server.address().port;
+ await page.goto(origin);
+ const cursors=async()=>assert.deepEqual(await page.locator('button:visible:enabled, .segmented-toggle:visible').evaluateAll(es=>es.filter(e=>getComputedStyle(e).cursor!=='pointer').map(e=>e.outerHTML)),[]);
+ await cursors();
+ await page.locator('#workshop-password').fill(password);
+ await page.getByRole('button',{name:'Unlock Resources',exact:true}).click();
+ await page.locator('#access-gate').waitFor({state:'detached'});
+ await cursors();
+ const qr=page.locator('.qr-copy');
+ assert.equal(await qr.locator('img').getAttribute('src'),'/assets/workshop-resources-qr.png');
+ assert.equal(await qr.locator('.qr-copy-overlay').evaluate(e=>getComputedStyle(e).opacity),'0');
+ await qr.hover();assert.equal(await qr.locator('.qr-copy-overlay').evaluate(e=>getComputedStyle(e).opacity),'1');
+ await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async text=>window.copiedURL=text}}));
+ await qr.click();assert.equal(await page.evaluate(()=>window.copiedURL),'https://ai-workshop-resources.adamjaffrey.chatgpt.site/');
+ await page.getByText('Link Copied',{exact:true}).waitFor();
+ assert.equal(page.url(),origin+'/');
+ await page.evaluate(()=>{Object.defineProperty(navigator,'clipboard',{configurable:true,value:undefined});document.execCommand=command=>{window.fallbackURL=document.activeElement.value;return command==='copy';};});
+ await qr.click();assert.equal(await page.evaluate(()=>window.fallbackURL),'https://ai-workshop-resources.adamjaffrey.chatgpt.site/');
+ assert.equal(await qr.evaluate(e=>document.activeElement===e),true);
+ await page.evaluate(()=>document.execCommand=()=>false);await qr.click();await page.getByText('Copy Failed',{exact:true}).waitFor();
+ await page.setViewportSize({width:390,height:844});await cursors();
+ assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+ console.log('QR Copy Link, fallback, error feedback, focus and pointer cursors passed');
+} finally {await browser.close();server.close();}

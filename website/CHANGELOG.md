@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.83"
-  update_summary: "Standardise focus placement and keyboard-only control rings"
-  updated_at: "Sat 17 Oct 2026 at 05:32:24 pm AEDT (+11:00)"
+  doc_revision: "26.0.84"
+  update_summary: "Ease visible theme coverage and add QR link copying"
+  updated_at: "Sat 17 Oct 2026 at 05:48:31 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.82 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 05:48:31 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Ease visible theme coverage and add QR link copying
+
+### Changed
+
+- Apply theme easing to visible feathered viewport coverage while preserving inverse night motion, selected-mode origins and reduced-motion handling.
+- Show pointer cursors on all enabled buttons and selector tracks.
+- Replace QR navigation with a Lucide Copy Link hover/focus action, clipboard fallback and success/failure feedback.
+- Update and independently decode the QR for the verified Sites URL; refresh saved background geometry.
+
+### Validation
+
+- Coverage tests and ten authentication/placeholder tests — passed.
+- Chrome theme-transition, QR-copy/cursor and desktop/mobile focus checks — passed.
+- QR decoding and visual hover-state inspection — passed.
+- Sites production build — passed.
 
 ## v26.0.81 — 2026-10-17
 

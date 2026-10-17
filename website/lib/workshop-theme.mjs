@@ -1,3 +1,4 @@
+import {revealRadii} from './workshop-reveal.mjs';
 import {toggleScript} from './workshop-toggle.mjs';
 import {agentScript} from './workshop-agent.mjs';
 // Shared theme for the server-rendered login and resource pages.
@@ -47,12 +48,11 @@ html, body { overflow-x: hidden; }
 :root.theme-reveal[data-theme="dark"]::view-transition-old(root) { z-index: 2;
   -webkit-mask-image: radial-gradient(circle at var(--reveal-x) var(--reveal-y), #000 max(0px, calc(var(--theme-radius) - 300px)), transparent var(--theme-radius));
   mask-image: radial-gradient(circle at var(--reveal-x) var(--reveal-y), #000 max(0px, calc(var(--theme-radius) - 300px)), transparent var(--theme-radius));
-  animation: theme-circle 420ms cubic-bezier(.22,1,.36,1) both; }
+  animation: theme-circle 420ms linear both; }
 :root.theme-reveal[data-theme="dark"]::view-transition-old(root) { animation-direction: reverse; }
 :root.theme-reveal::view-transition { pointer-events: none; }
 @keyframes theme-circle {
-  from { --theme-radius: 0px; }
-  to { --theme-radius: var(--reveal-radius); }
+  ${Array.from({length: 101}, (_, i) => `${i}% { --theme-radius: var(--reveal-r${i}); }`).join('\n')}
 }
 @media (prefers-reduced-motion: reduce) {
   :root.theme-reveal[data-theme]::view-transition-new(root),
@@ -64,6 +64,8 @@ html, body { overflow-x: hidden; }
 :root[data-focus-input="keyboard"] :is(button, a[href], [tabindex]):focus:not(pre):not([data-panel-heading]) { outline: 3px solid var(--icon-ink); outline-offset: 3px; }
 [data-panel-heading]:focus { outline: none !important; box-shadow: none !important; }
 /* Button labels are controls; document and prompt text remain selectable. */
+button:enabled, [role="button"], a[href] { cursor: pointer; }
+button:disabled { cursor: default; }
 button, button * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 button:not(.segmented-toggle button) { transition: scale 120ms ease-out; }
 button:enabled:is(:active, .is-held):not(.segmented-toggle button) { scale: .97; }
@@ -182,6 +184,7 @@ const script = `(() => {
     root.style.setProperty('--reveal-x', x + 'px');
     root.style.setProperty('--reveal-y', y + 'px');
     root.style.setProperty('--reveal-radius', (radius + 300) + 'px');
+    (${revealRadii.toString()})(innerWidth, innerHeight, x, y).forEach((r, i) => root.style.setProperty('--reveal-r' + i, r + 'px'));
     root.classList.add('theme-reveal');
     reveal = document.startViewTransition(() => apply(false, theme));
     reveal.ready.catch(() => {}); // A skipped snapshot still commits the requested theme.
@@ -189,6 +192,7 @@ const script = `(() => {
     if (request === revealRequest) {
       root.classList.remove('theme-reveal');
       ['--reveal-x', '--reveal-y', '--reveal-radius'].forEach(property => root.style.removeProperty(property));
+      for (let i = 0; i <= 100; i++) root.style.removeProperty('--reveal-r' + i);
       reveal = undefined;
     }
   }
