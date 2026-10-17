@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.110"
-  update_summary: "Compact style options and add back-to-top navigation"
-  updated_at: "Sun 18 Oct 2026 at 01:11:39 am AEDT (+11:00)"
+  doc_revision: "26.0.111"
+  update_summary: "Present playground sections as a scrolling tab row"
+  updated_at: "Sun 18 Oct 2026 at 01:13:43 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.109 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 01:13:43 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Present playground sections as a scrolling tab row
+
+### Changed
+
+- Replace boxed section buttons with a single horizontally scrolling tab row and an accent underline for the active section.
+- Add linked tab/panel semantics, a single keyboard tab stop and Arrow/Home/End navigation.
+
+### Validation
+
+- Headless playground checks — passed, including mobile horizontal overflow, active selection and keyboard navigation.
+- Production build, geometry guard, syntax and whitespace checks — passed.
 
 ## v26.0.108 — 2026-10-18
 
