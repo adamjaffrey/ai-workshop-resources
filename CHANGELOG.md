@@ -3,14 +3,44 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.54"
-  update_summary: "Archive blur testing and make block refreshes manual-only"
-  updated_at: "Sat 17 Oct 2026 at 12:21:50 pm AEDT (+11:00)"
+  doc_revision: "26.0.55"
+  update_summary: "Align login styling and fix keyboard focus and mobile visibility"
+  updated_at: "Sat 17 Oct 2026 at 12:29:43 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.54 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 12:29:43 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Align login styling and fix keyboard focus and mobile visibility
+
+### Changed
+
+- Align the login panel with shared site accent colours, heading typography, body copy and card corners.
+- Remove the session-expiry sentence from login copy and record the fixed seven-day expiry in repository instructions.
+
+### Fixed
+
+- Focus the heading invisibly on initial load, followed by one theme-toggle Tab stop, the password field and the unlock button on desktop and mobile.
+- Fit the scrollable login overlay to the visual viewport and keep the password field visible when the mobile keyboard reduces available space.
+- Disable the actual submit button during authentication instead of the first theme button.
+
+### Validation
+
+- Authentication and placeholder source tests — 10 passed; saved background geometry unchanged.
+- Chrome login regression checks — passed at 320, 390, 768 and 1440 pixels in both themes, including focus order, keyboard theme switching, simulated visual-viewport shrink/pan, failed-login recovery and overflow.
+- Rendered desktop/mobile screenshots — visually inspected; physical mobile keyboards remain unverified.
+- Sites production build — passed; generated server bundle contains the updated login behaviour.
 
 ## v26.0.53 — 2026-10-17
 

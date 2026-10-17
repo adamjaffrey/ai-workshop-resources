@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.3"
-  update_summary: "Make block measurement and blur testing manual-only"
-  updated_at: "Sat 17 Oct 2026 at 12:21:20 pm AEDT (+11:00)"
+  doc_revision: "26.0.4"
+  update_summary: "Document login focus and fixed seven-day session expiry"
+  updated_at: "Sat 17 Oct 2026 at 12:28:41 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -24,6 +24,12 @@ metadata:
 - Never open or present a preview in the Codex sidebar, embedded browser, or preview panel. Do not use `open_in_codex` to show previews.
 - On macOS, use `open -a "Google Chrome"` with the preview's absolute file path or local server URL.
 - If opening Chrome is unavailable, provide the preview path or URL with instructions to open it in Chrome; do not substitute a sidebar preview.
+
+## Website Login
+
+- Sessions expire seven days after login, without extending on use. Keep this implementation detail in repository documentation, not the login page copy.
+- On initial load, focus the login heading with no visible focus ring. Tab order is the day/night toggle as one stop, password field, then unlock button on desktop and mobile.
+- Keep the password input visible above the mobile keyboard and allow the login panel to scroll when the visible viewport is short.
 
 ## Blur Placeholder Geometry
 

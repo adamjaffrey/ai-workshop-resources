@@ -115,9 +115,32 @@ export async function handleRequest(request, env, now = Date.now()) {
 const loginScript = `
 const form=document.getElementById('access-form');
 const password=document.getElementById('workshop-password');
-const button=form.querySelector('button');
+const button=form.querySelector('button[type="submit"]');
 const error=document.getElementById('gate-error');
 const message=error.querySelector('span');
+// Focus the heading without opening a software keyboard or scrolling the page.
+document.getElementById('gate-title').focus({preventScroll:true});
+const gate=document.getElementById('access-gate');
+const viewport=window.visualViewport;
+function fitViewport() {
+  gate.style.setProperty('--gate-height',(viewport?.height ?? innerHeight)+'px');
+  gate.style.setProperty('--gate-top',(viewport?.offsetTop ?? 0)+'px');
+  if(document.activeElement===password) password.scrollIntoView({block:'nearest',behavior:'instant'});
+}
+viewport?.addEventListener('resize',fitViewport);
+viewport?.addEventListener('scroll',fitViewport);
+window.addEventListener('resize',fitViewport);
+password.addEventListener('focus',()=>requestAnimationFrame(fitViewport));
+fitViewport();
+// The two halves are one Tab stop; either half still works with pointer input.
+const theme=form.querySelector('.theme-toggle');
+function syncThemeTabStop() {
+  const target=theme.contains(document.activeElement) ? document.activeElement : theme.querySelector('[aria-pressed="true"]');
+  theme.querySelectorAll('button').forEach(item=>item.tabIndex=item===target?0:-1);
+}
+document.addEventListener('DOMContentLoaded',syncThemeTabStop);
+theme.addEventListener('focusin',syncThemeTabStop);
+new MutationObserver(syncThemeTabStop).observe(theme,{subtree:true,attributes:true,attributeFilter:['aria-pressed']});
 let busy=false;
 form.addEventListener('submit',async event=>{
   event.preventDefault(); if(busy)return; busy=true; button.disabled=true;
