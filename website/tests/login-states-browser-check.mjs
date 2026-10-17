@@ -35,14 +35,14 @@ try {
    if(kind==='error')assert.equal(await status.locator('[data-status-icon="error"]').isVisible(),true);
    else {assert.equal(await status.locator('span').textContent(),'');if(kind!=='info')assert.equal(await page.locator('[data-input-icon="'+kind+'"]').isVisible(),true);}
   };
-  await button.click();await state('error','Enter your workshop password.');assert.equal(requests,0);assert.equal(await hasShake(),false);
+  await button.click();await state('error','Enter your password.');assert.equal(requests,0);assert.equal(await hasShake(),false);
   mode='pending';await submit();await state('loading','Checking password…');
   assert.equal(await status.evaluate(e=>getComputedStyle(e).color),theme==='light'?'rgb(91, 96, 102)':'rgb(183, 190, 200)');
   assert.match(await page.locator('[data-input-icon="loading"]').evaluate(e=>getComputedStyle(e).animationName),/login-spin/);
   await page.emulateMedia({reducedMotion:'reduce'});
   assert.equal(await page.locator('[data-input-icon="loading"]').evaluate(e=>getComputedStyle(e).animationName),'none');
   await page.emulateMedia({reducedMotion:'no-preference'});mode='wrong';pending();
-  await state('error','Incorrect password. Please try again.');assert.equal(await hasShake(),true);assert.equal(await input.getAttribute('aria-invalid'),'true');
+  await state('error','Incorrect password. Try again.');assert.equal(await hasShake(),true);assert.equal(await input.getAttribute('aria-invalid'),'true');
   assert.equal(await status.evaluate(e=>getComputedStyle(e).color),theme==='light'?'rgb(162, 13, 96)':'rgb(255, 133, 178)');
   const lock=page.locator('[data-input-icon="lock"]');
   const red=theme==='light'?'rgb(162, 13, 96)':'rgb(255, 133, 178)';
@@ -51,15 +51,15 @@ try {
   await input.click();assert.equal(await input.getAttribute('aria-invalid'),'true');
   assert.equal(await lock.evaluate(e=>getComputedStyle(e).color),red);
   assert.equal(await input.evaluate(e=>getComputedStyle(e).color),red);
-  mode='wrong';await submit();await state('error','Incorrect password. Please try again.');
+  mode='wrong';await submit();await state('error','Incorrect password. Try again.');
   await input.fill('new input');await page.waitForTimeout(180);assert.notEqual(await lock.evaluate(e=>getComputedStyle(e).color),red);
-  mode='wrong';await submit();await state('error','Incorrect password. Please try again.');
+  mode='wrong';await submit();await state('error','Incorrect password. Try again.');
   await button.focus();await page.keyboard.press('Shift+Tab');assert.equal(await input.getAttribute('aria-invalid'),'true');
-  for(const [next,text] of [['network','Unable to connect. Check your connection and retry.'],['service','Sign-in is unavailable. Please try again later.'],['malformed','Unable to sign in. Please try again.'],['unexpected','Unable to sign in. Please try again.']]){
+  for(const [next,text] of [['network','Connection failed. Check your internet.'],['service','Sign-in unavailable. Try later.'],['malformed','Sign-in failed. Try again.'],['unexpected','Sign-in failed. Try again.']]){
    mode=next;await submit();await state('error',text);assert.equal(await hasShake(),false);assert.equal(await input.getAttribute('aria-invalid'),null);assert.equal(await button.isEnabled(),true);
   }
-  mode='limited';await submit();await state('error','Too many attempts. Try again in less than a minute.');assert.equal(await button.isDisabled(),true);assert.equal(await hasShake(),false);assert.equal(await input.getAttribute('aria-invalid'),null);
-  await state('info','You can try signing in again.');assert.equal(await button.isEnabled(),true);
+  mode='limited';await submit();await state('error','Too many attempts. Retry in less than a minute.');assert.equal(await button.isDisabled(),true);assert.equal(await hasShake(),false);assert.equal(await input.getAttribute('aria-invalid'),null);
+  await state('info','You can try again.');assert.equal(await button.isEnabled(),true);
   mode='success';await submit();await state('success','Access granted.');assert.equal(await button.textContent(),'Opening Resources…');
   assert.equal(await status.evaluate(e=>getComputedStyle(e).color),theme==='light'?'rgb(20, 108, 62)':'rgb(117, 214, 163)');
   assert.equal(await status.locator('[data-status-icon="error"]').isVisible(),false);

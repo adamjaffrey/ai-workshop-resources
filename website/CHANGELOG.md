@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.102"
-  update_summary: "Link playground specimens to app sources and improve mobile use"
-  updated_at: "Sat 17 Oct 2026 at 11:40:43 pm AEDT (+11:00)"
+  doc_revision: "26.0.103"
+  update_summary: "Style accent links and shorten login errors"
+  updated_at: "Sat 17 Oct 2026 at 11:46:24 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.101 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 11:46:24 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Style accent links and shorten login errors
+
+### Changed
+
+- Give text links shared theme-aware accent colours, an underline and a subtle hover tint; honour reduced motion.
+- Shorten shared login error and retry messages while retaining the reserved status space.
+- Explain Natural and Hold Hover beside the playground control.
+
+### Validation
+
+- Login-state and playground browser matrices — passed.
+- Shared link styles across both themes and agents, hover and reduced motion — passed.
+- Auth and local-preview isolation tests — nine passed.
+- Production build — passed; saved placeholder geometry reused.
 
 ## v26.0.100 — 2026-10-17
 

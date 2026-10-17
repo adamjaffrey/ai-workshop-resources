@@ -137,7 +137,7 @@ export async function styleGuidePage(){
  ${radios('theme','Colour Theme',[['light','Light'],['dark','Dark']])}
  ${radios('agent','Coding Agent',[['codex','Codex'],['claude-code','Claude Code']])}
  ${radios('width','Sample Width',[['fluid','Fit'],['320','320px'],['390','390px'],['768','768px'],['1440','1440px']])}
- ${radios('hover','Hover Preview',[['off','Natural'],['on','Hold Hover']])}
+ <div>${radios('hover','Hover Preview',[['off','Natural'],['on','Hold Hover']])}<p class="inspector-hint">Hold Hover shows specimen hover styles without a mouse. Natural follows your pointer.</p></div>
  </div></div>
  <main class="wrap"><nav aria-label="Playground Sections">${['Components','Typography','Colours','Blocks'].map((s,i)=>`<button type="button" data-tab="${s.toLowerCase()}" aria-pressed="${!i}">${s}</button>`).join('')}</nav>
  <p class="notice" id="notice" role="status">Use Tab to inspect real keyboard focus. Fixed-width samples scroll horizontally on smaller screens.</p>

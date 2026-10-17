@@ -35,6 +35,10 @@ const styles = `
   --selection-text: #fff; --gate-overlay: rgb(0 0 0 / 55%); color-scheme: dark;
 }
 :root[data-selected-agent="claude-code"] { --agent-accent: #D97757; }
+/* Shared text-link treatment, including visited links. */
+a[href], a[href]:visited { color: var(--link); text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; transition: background-color 160ms cubic-bezier(.2,0,.2,1); }
+a[href]:hover { background-color: color-mix(in srgb, var(--agent-accent) 10%, transparent); text-decoration-thickness: 2px; }
+@media (prefers-reduced-motion: reduce) { a[href] { transition: none; } }
 /* Contain viewport-wide motion at the root as well as the body (including Safari). */
 html, body { overflow-x: hidden; }
 @supports (overflow: clip) { html, body { overflow-x: clip; } }
