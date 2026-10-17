@@ -47,6 +47,18 @@ try {
   mode='success';await submit();await state('success','Access granted.');assert.equal(await button.textContent(),'Opening Resources…');
   assert.equal(await status.evaluate(e=>getComputedStyle(e).color),theme==='light'?'rgb(22, 115, 66)':'rgb(117, 214, 163)');
   assert.equal(await status.locator('[data-status-icon="error"]').isVisible(),false);
+  const checkSuccessColours=async()=>{
+   const green=theme==='light'?'rgb(22, 115, 66)':'rgb(117, 214, 163)';
+   const styles=await page.locator('.password-field').evaluate(e=>{const c=getComputedStyle(e);return{outline:c.outlineColor,width:c.outlineWidth,style:c.outlineStyle,border:c.borderColor,lock:getComputedStyle(e.querySelector('svg')).color};});
+   assert.deepEqual(styles,{outline:green,width:'3px',style:'solid',border:green,lock:green});
+   assert.equal(await button.evaluate(e=>getComputedStyle(e).backgroundColor),green);
+   assert.equal(await button.evaluate(e=>getComputedStyle(e).color),theme==='light'?'rgb(255, 255, 255)':'rgb(16, 18, 22)');
+  };
+  // Mouse submission moves focus off the input; success still needs a full ring.
+  await input.evaluate(e=>e.blur());await checkSuccessColours();
+  await page.reload();await input.fill('example');await input.press('Enter');
+  await state('success','Access granted.');await checkSuccessColours();
+
   await page.close();
  }
  console.log('PASS: empty input, neutral spinner/reduced motion, incorrect-only shake, network/service/malformed failures, retry countdown and success in both themes at mobile/desktop widths');

@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.71"
-  update_summary: "Soften theme transitions and remove the held-button border"
-  updated_at: "Sat 17 Oct 2026 at 02:12:49 pm AEDT (+11:00)"
+  doc_revision: "26.0.72"
+  update_summary: "Preserve the login success ring and turn the submit button green"
+  updated_at: "Sat 17 Oct 2026 at 02:14:10 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.70 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 02:14:10 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Preserve the login success ring and turn the submit button green
+
+### Fixed
+
+- Preserve the full green input outline after a successful mouse submission, even when focus has left the password field; retain green border and padlock.
+
+### Changed
+
+- Turn the successful submit button semantic green with theme-appropriate contrasting text during the opening transition.
+
+### Validation
+
+- Login-state Chrome checks — passed mouse and keyboard success-ring, padlock and button colour assertions on mobile and desktop in both themes.
+- Sites production build and placeholder checks — passed.
 
 ## v26.0.69 — 2026-10-17
 
