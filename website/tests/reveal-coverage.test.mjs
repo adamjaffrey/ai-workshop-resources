@@ -10,7 +10,7 @@ test('visible feathered coverage follows easing across viewport shapes and origi
     // Independent denser sampling of the actual gradient at known bezier points.
     for(const u of [.1,.25,.5,.75]) {
       const time=3*(1-u)**2*u*.22+3*(1-u)*u*u*.36+u**3;
-      const expected=1-(1-u)**3;
+      const expected=.8*(1-(1-u)**3)+.2*time;
       const frame=time*100,lower=Math.floor(frame);
       const radius=radii[lower]+(radii[lower+1]-radii[lower])*(frame-lower);
       let coverage=0;

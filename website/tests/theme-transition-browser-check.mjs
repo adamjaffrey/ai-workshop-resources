@@ -20,6 +20,7 @@ try {
    await page.waitForFunction(()=>document.getAnimations().some(a=>a.animationName==='theme-circle'));
    const circle=await page.evaluate(()=>{
     const a=document.getAnimations().find(a=>a.animationName==='theme-circle');
+    if (getComputedStyle(document.documentElement,'::view-transition-old(theme-control)').display !== 'none') throw new Error('Old snapshot hides the moving toggle');
     const root=document.documentElement;
     const pseudo=root.dataset.theme==='dark'?'::view-transition-old(root)':'::view-transition-new(root)';
     const target=document.querySelector('.theme-toggle:not(.ph-static) [data-theme-choice="'+root.dataset.theme+'"]');

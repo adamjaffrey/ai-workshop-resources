@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.46"
-  update_summary: "Ease visible theme coverage and add QR link copying"
-  updated_at: "Sat 17 Oct 2026 at 05:48:31 pm AEDT (+11:00)"
+  doc_revision: "26.0.47"
+  update_summary: "Refine QR feedback and remove theme toggle motion delays"
+  updated_at: "Sat 17 Oct 2026 at 05:55:21 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -155,6 +155,6 @@ The shared controller tracks pointer input versus Tab navigation, preserving rea
 
 ## Theme Reveal and QR Sharing
 
-Explicit theme changes retain a 420ms duration and 300px feather. `workshop-reveal.mjs` samples the visible viewport and inverts the feathered mask coverage, so the existing easing controls average visible colour change instead of radius. Night mode reverses the light-mask frames, originating at the selected moon; day mode originates at the selected sun. Saved preferences apply before paint without motion, and reduced-motion and soft-transition fallbacks remain available.
+Explicit theme changes retain a 420ms duration and 300px feather. `workshop-reveal.mjs` samples the visible viewport and inverts the feathered mask coverage, so easing controls average visible colour change instead of radius. Blend 80% of the original easing with 20% linear progress to avoid a lingering edge at the end of day mode and start of night mode. Sorted sample distances and prefix sums keep this setup inexpensive. Render the theme toggle in its own transition layer, with no old-control snapshot, so the root reveal cannot conceal its 340ms slide and rebound. Night mode reverses the light-mask frames, originating at the selected moon; day mode originates at the selected sun. Saved preferences apply before paint without motion, and reduced-motion and soft-transition fallbacks remain available.
 
-The QR encodes `https://ai-workshop-resources.adamjaffrey.chatgpt.site/`, verified against the existing Sites project. Its button displays the installed Lucide Copy icon and Copy Link label on hover or keyboard focus, copies that same URL with a legacy clipboard fallback, and reports success or failure. Keep the 540px image and 48px white quiet zone. All enabled buttons and selector tracks use the pointer cursor.
+The QR encodes `https://ai-workshop-resources.adamjaffrey.chatgpt.site/`, verified against the existing Sites project. Its button displays the installed Lucide Copy icon and Copy Link label on hover or keyboard focus, copies that same URL with a legacy clipboard fallback, and reports success or failure. Keep the overlay exactly inside the QR image; place the caption gap outside the button. Share the prompt-copy feedback lifecycle: green Lucide Check and text, 180ms ease-out entrance, 5000ms success hold (12000ms for failure), then 650ms ease-in-out exit; reduced motion skips the animation. Keep the 540px image and 48px white quiet zone. All enabled buttons and selector tracks use the pointer cursor.

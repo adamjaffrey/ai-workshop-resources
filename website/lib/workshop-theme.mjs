@@ -50,6 +50,12 @@ html, body { overflow-x: hidden; }
   mask-image: radial-gradient(circle at var(--reveal-x) var(--reveal-y), #000 max(0px, calc(var(--theme-radius) - 300px)), transparent var(--theme-radius));
   animation: theme-circle 420ms linear both; }
 :root.theme-reveal[data-theme="dark"]::view-transition-old(root) { animation-direction: reverse; }
+/* Keep the live control above the root's old-light snapshot in both directions. */
+.theme-toggle:not(.ph-static) { view-transition-name: theme-control; }
+:root.theme-reveal::view-transition-group(theme-control),
+:root.theme-reveal::view-transition-new(theme-control) { animation: none; }
+:root.theme-reveal::view-transition-old(theme-control) { display: none; }
+:root.theme-reveal::view-transition-group(theme-control) { z-index: 3; }
 :root.theme-reveal::view-transition { pointer-events: none; }
 @keyframes theme-circle {
   ${Array.from({length: 101}, (_, i) => `${i}% { --theme-radius: var(--reveal-r${i}); }`).join('\n')}
@@ -153,11 +159,14 @@ const script = `(() => {
       animation.onfinish = () => themeAnimations.delete(animation);
     });
   };
-  function apply(animate = false, theme = preference || (system.matches ? 'dark' : 'light')) {
+  function selectThemeControls(theme) {
+    document.querySelectorAll('[data-theme-choice]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.themeChoice === theme)));
+    indicators.forEach(move => move());
+  }
+  function apply(animate = false, theme = preference || (system.matches ? 'dark' : 'light'), selectControls = true) {
     const change = () => {
       document.documentElement.dataset.theme = theme;
-      document.querySelectorAll('[data-theme-choice]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.themeChoice === theme)));
-      indicators.forEach(move => move());
+      if (selectControls) selectThemeControls(theme);
     };
     if (animate && document.documentElement.dataset.theme !== theme) window.workshopColourTransition(change);
     else change();
@@ -177,6 +186,7 @@ const script = `(() => {
       return;
     }
     cancelThemeAnimations();
+    selectThemeControls(theme);
     const destination = button.closest('.theme-toggle').querySelector('[data-theme-choice="' + theme + '"]');
     const bounds = destination.getBoundingClientRect();
     const x = bounds.left + bounds.width / 2, y = bounds.top + bounds.height / 2;
@@ -186,7 +196,7 @@ const script = `(() => {
     root.style.setProperty('--reveal-radius', (radius + 300) + 'px');
     (${revealRadii.toString()})(innerWidth, innerHeight, x, y).forEach((r, i) => root.style.setProperty('--reveal-r' + i, r + 'px'));
     root.classList.add('theme-reveal');
-    reveal = document.startViewTransition(() => apply(false, theme));
+    reveal = document.startViewTransition(() => apply(false, theme, false));
     reveal.ready.catch(() => {}); // A skipped snapshot still commits the requested theme.
     await reveal.finished.catch(() => {});
     if (request === revealRequest) {

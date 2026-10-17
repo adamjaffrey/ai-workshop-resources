@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.84"
-  update_summary: "Ease visible theme coverage and add QR link copying"
-  updated_at: "Sat 17 Oct 2026 at 05:48:31 pm AEDT (+11:00)"
+  doc_revision: "26.0.85"
+  update_summary: "Refine QR feedback and remove theme toggle motion delays"
+  updated_at: "Sat 17 Oct 2026 at 05:55:21 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.83 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 05:55:21 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine QR feedback and remove theme toggle motion delays
+
+### Fixed
+
+- Keep the QR overlay inside its image bounds and reuse prompt-copy success styling, Lucide Check and animation timings.
+- Separate the moving theme toggle from the old page snapshot and start its selection immediately.
+- Accelerate feathered coverage calculations and temper the easing endpoints with 20% linear progress; preserve inverse 420ms day/night motion.
+
+### Validation
+
+- Eleven coverage, authentication and placeholder tests — passed.
+- Chrome theme-transition, QR bounds/copy/feedback and button-interaction checks — passed.
+- Visual QR inspection and Sites production build — passed.
 
 ## v26.0.82 — 2026-10-17
 
