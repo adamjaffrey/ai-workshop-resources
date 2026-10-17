@@ -50,7 +50,7 @@ try {
  }
  await qr.scrollIntoViewIfNeeded();
  await page.evaluate(()=>document.execCommand=()=>false);await qr.click();await page.getByText('Copy Failed',{exact:true}).waitFor();
- await page.setViewportSize({width:390,height:844});await cursors();
+ for(const width of [1440,390]){await page.setViewportSize({width,height:844});for(const selector of width===1440?['.qr-copy','[data-copy]']:['[data-copy]']){const button=page.locator(selector).first();await button.click();await page.waitForTimeout(220);assert.equal(await button.locator('.copy-label').textContent(),'Copy Failed');assert.equal(await button.locator('.error-icon').isVisible(),true);assert.equal(await button.locator('.copy-icon').isVisible(),false);assert.equal(await button.locator('.success-icon').isVisible(),false);assert.equal(await button.locator('.error-icon').evaluate(e=>getComputedStyle(e).color),await button.evaluate(e=>getComputedStyle(e).color));}}await cursors();
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  console.log('QR Copy Link, fallback, error feedback, focus and pointer cursors passed');
 } finally {await browser.close();server.close();}

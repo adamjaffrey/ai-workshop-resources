@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.107"
-  update_summary: "Clarify copy failures and icon source controls"
-  updated_at: "Sun 18 Oct 2026 at 12:52:08 am AEDT (+11:00)"
+  doc_revision: "26.0.108"
+  update_summary: "Use accurate component and Unicode specimen names"
+  updated_at: "Sun 18 Oct 2026 at 12:56:29 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.106 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 12:56:29 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Use accurate component and Unicode specimen names
+
+### Changed
+
+- Label the footer character Bullet, name the displayed Unicode symbols and retain their code points.
+- Identify prompt text and action specimens by their actual roles; restrict Lobe attribution to recognised brand icons.
+
+### Validation
+
+- Audit component, typography, colour, block, icon and error labels against their sources — completed.
+- Real app clipboard-failure checks — passed for QR and prompt controls on desktop and prompt controls on mobile, including X icons and Copy Failed labels.
+- Playground controls/errors checks, production build, geometry guard, syntax and whitespace checks — passed.
 
 ## v26.0.105 — 2026-10-18
 
