@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.55"
-  update_summary: "Align login styling and fix keyboard focus and mobile visibility"
-  updated_at: "Sat 17 Oct 2026 at 12:29:43 pm AEDT (+11:00)"
+  doc_revision: "26.0.56"
+  update_summary: "Align login typography and spacing with the resource page"
+  updated_at: "Sat 17 Oct 2026 at 12:39:59 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.55 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 12:39:59 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Align login typography and spacing with the resource page
+
+### Changed
+
+- Place “Workshop access” beside the day/night toggle, vertically centred, and remove Wavelength from the pre-header.
+- Title-case “Your Workshop Resources” and reuse the resource page's H2 style: 32px on desktop and 28px on mobile, with shared weight, tracking and line height.
+- Reuse shared pre-header and body classes; align button and feedback typography with existing control and status styles.
+- Use a 24px toolbar gap, 12px heading-to-copy gap, 24px copy-to-label gap, 8px label-to-field gap and the main page's responsive 32px/24px card padding. Reserve feedback space below the password field.
+
+### Validation
+
+- Authentication and placeholder source tests — 10 passed; background geometry unchanged.
+- Chrome login regression checks — passed at four widths in both themes, including heading focus, Tab order, keyboard simulation and error recovery.
+- Live phone-preview measurements — passed vertical centring and spacing checks at 320, 390, 768 and 1440px; desktop/mobile screenshots visually inspected.
+- Sites production build — passed.
 
 ## v26.0.54 — 2026-10-17
 
