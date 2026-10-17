@@ -43,9 +43,9 @@ try {
   assert.equal(await page.locator('[data-input-icon="loading"]').evaluate(e=>getComputedStyle(e).animationName),'none');
   await page.emulateMedia({reducedMotion:'no-preference'});mode='wrong';pending();
   await state('error','Incorrect password. Please try again.');assert.equal(await hasShake(),true);assert.equal(await input.getAttribute('aria-invalid'),'true');
-  assert.equal(await status.evaluate(e=>getComputedStyle(e).color),theme==='light'?'rgb(180, 20, 82)':'rgb(255, 133, 178)');
+  assert.equal(await status.evaluate(e=>getComputedStyle(e).color),theme==='light'?'rgb(162, 13, 96)':'rgb(255, 133, 178)');
   const lock=page.locator('[data-input-icon="lock"]');
-  const red=theme==='light'?'rgb(180, 20, 82)':'rgb(255, 133, 178)';
+  const red=theme==='light'?'rgb(162, 13, 96)':'rgb(255, 133, 178)';
   assert.deepEqual(await input.evaluate(e=>[e.selectionStart,e.selectionEnd]),[7,7]);
   assert.equal(await lock.evaluate(e=>getComputedStyle(e).color),red);
   await input.click();assert.equal(await input.getAttribute('aria-invalid'),'true');
@@ -61,11 +61,11 @@ try {
   mode='limited';await submit();await state('error','Too many attempts. Try again in less than a minute.');assert.equal(await button.isDisabled(),true);assert.equal(await hasShake(),false);assert.equal(await input.getAttribute('aria-invalid'),null);
   await state('info','You can try signing in again.');assert.equal(await button.isEnabled(),true);
   mode='success';await submit();await state('success','Access granted.');assert.equal(await button.textContent(),'Opening Resources…');
-  assert.equal(await status.evaluate(e=>getComputedStyle(e).color),theme==='light'?'rgb(22, 115, 66)':'rgb(117, 214, 163)');
+  assert.equal(await status.evaluate(e=>getComputedStyle(e).color),theme==='light'?'rgb(20, 108, 62)':'rgb(117, 214, 163)');
   assert.equal(await status.locator('[data-status-icon="error"]').isVisible(),false);
   const checkSuccessColours=async()=>{
-   await page.waitForTimeout(180);
-   const green=theme==='light'?'rgb(22, 115, 66)':'rgb(117, 214, 163)';
+   await page.locator('.password-field').evaluate(async e=>{await Promise.all(e.getAnimations({subtree:true}).map(a=>a.finished.catch(()=>{})));});
+   const green=theme==='light'?'rgb(20, 108, 62)':'rgb(117, 214, 163)';
    const styles=await page.locator('.password-field').evaluate(e=>{const c=getComputedStyle(e);return{outline:c.outlineColor,width:c.outlineWidth,style:c.outlineStyle,border:c.borderColor,lock:getComputedStyle(e.querySelector('svg')).color};});
    assert.deepEqual(styles,{outline:green,width:'3px',style:'solid',border:green,lock:green});
    assert.equal(await input.evaluate(e=>getComputedStyle(e).color),green);

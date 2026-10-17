@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.92"
-  update_summary: "Unify copy-failure feedback with the shared error colour"
-  updated_at: "Sat 17 Oct 2026 at 06:21:31 pm AEDT (+11:00)"
+  doc_revision: "26.0.93"
+  update_summary: "Define contrasting semantic status palettes"
+  updated_at: "Sat 17 Oct 2026 at 06:25:33 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.91 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 06:25:33 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Define contrasting semantic status palettes
+
+### Changed
+
+- Deepen light-mode success green and shift light-mode errors towards berry to separate them from Claude orange; share each role across both agents and pages.
+- Define theme-specific mustard/gold warning tokens for future use and a neutral information alias.
+- Document palette ownership and contrast checks; wait for actual success transitions in the login test rather than a fixed delay.
+
+### Validation
+
+- Status-colour headless Chrome checks — passed both pages, themes and agents, including surface and fill contrast.
+- Login-state headless Chrome checks — passed four viewport widths and both themes.
+- Auth and placeholder unit tests — 10 passed.
+- Sites production build — passed.
+- Resource layout checks — passed nine widths; the subsequent existing copy-width assertion failed before colour verification.
 
 ## v26.0.90 — 2026-10-17
 

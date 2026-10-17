@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.51"
-  update_summary: "Distinguish error colours and soften login state transitions"
-  updated_at: "Sat 17 Oct 2026 at 06:19:03 pm AEDT (+11:00)"
+  doc_revision: "26.0.52"
+  update_summary: "Define shared status colours for both themes"
+  updated_at: "Sat 17 Oct 2026 at 06:24:57 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -163,6 +163,12 @@ After a wrong password, keep the padlock and password bullets red until the user
 
 Prompt-copy buttons show Prompt Copied on success. When QR feedback expires without hover or keyboard focus, its text and obscuring background exit together over 650ms with ease-in-out. While hovered or keyboard-focused, keep the background and reset the animated success text to Copy Link. Avoid a second background fade after feedback completes.
 
-Login recovery and success colours use 160ms cubic-bezier(.2,0,.2,1) fades, matching the agent-accent arrival duration; spinner/check entrances also fade over 160ms. Incorrect-password styling enters immediately. Reduced motion removes these transitions. Keep error colours cooler than Claude orange: #B41452 in light mode and #FF85B2 in dark mode. Error text and the X remain independent non-colour indicators.
+Login recovery and success colours use 160ms cubic-bezier(.2,0,.2,1) fades, matching the agent-accent arrival duration; spinner/check entrances also fade over 160ms. Incorrect-password styling enters immediately. Reduced motion removes these transitions. Keep error colours cooler than Claude orange: #A20D60 in light mode and #FF85B2 in dark mode. Error text and the X remain independent non-colour indicators.
 
 On failed submission focus the password field with the caret at its end, without automatically selecting its contents. Preserve deliberate user text selection. Normalise standard/WebKit autofill with the field surface and explicit state-dependent text-fill colour so browser tint does not create an inner rectangular patch or hide red/green bullets.
+
+## Semantic Status Colours
+
+`workshop-theme.mjs` is the runtime authority for status colours across login and resources, independent of the selected agent. Success uses deep green in light mode and mint green in dark mode; error uses berry/rose to distinguish it from Claude orange. Warning uses dark mustard/pale gold and is reserved for future caution states, with no current visible warning UI. Information remains neutral through `--info: var(--muted-text)`. Use `--success-ink` or `--warning-ink` for text on those solid fills. Never communicate status by colour alone.
+
+Run `node website/tests/status-colours-browser-check.mjs` to verify success, error and warning foregrounds against the current page, surface, content, field, card, tile, control and hover backgrounds in both themes and agent selections, plus success/warning fill text.

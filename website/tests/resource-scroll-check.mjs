@@ -55,7 +55,7 @@ for (const agent of ['codex', 'claude-code']) {
     assert.equal(afterCopy.promptY, beforeCopy.promptY);
     assert.equal(afterCopy.panelHeight, beforeCopy.panelHeight);
     assert.equal(afterCopy.cardHeight, beforeCopy.cardHeight);
-    assert.equal(afterCopy.border, 'rgb(22, 115, 66)');
+    assert.equal(afterCopy.border, 'rgb(20, 108, 62)');
     const card = button.locator('xpath=ancestor::article');
     assert.equal(await button.locator('.copy-label').textContent(), 'Copied');
     assert.equal(await page.evaluate(() => window.copiedPrompt), await card.locator('code').textContent());
