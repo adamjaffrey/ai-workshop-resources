@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.108"
-  update_summary: "Use accurate component and Unicode specimen names"
-  updated_at: "Sun 18 Oct 2026 at 12:56:29 am AEDT (+11:00)"
+  doc_revision: "26.0.109"
+  update_summary: "Explain and separate the Feather licence notice"
+  updated_at: "Sun 18 Oct 2026 at 01:00:14 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.107 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 01:00:14 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Explain and separate the Feather licence notice
+
+### Changed
+
+- Add 24px of space after the Lucide licence link and explain why Feather’s original MIT notice accompanies the derived icons.
+- Keep the full notice expandable below the explanation with a 12px gap.
+
+### Validation
+
+- Headless playground controls and licence disclosure checks — passed.
+- Production build, saved-geometry guard, syntax and whitespace checks — passed.
 
 ## v26.0.106 — 2026-10-18
 
