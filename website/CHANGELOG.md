@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.86"
-  update_summary: "Move login progress into the input icon and reserve error space"
-  updated_at: "Sat 17 Oct 2026 at 05:58:34 pm AEDT (+11:00)"
+  doc_revision: "26.0.87"
+  update_summary: "Synchronise QR reset feedback and clarify prompt copy labels"
+  updated_at: "Sat 17 Oct 2026 at 06:02:32 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.85 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 06:02:32 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Synchronise QR reset feedback and clarify prompt copy labels
+
+### Changed
+
+- Show Prompt Copied on all three prompt-copy buttons.
+- Fade QR success text and background together when no longer hovered; keep the obscured Copy Link state while hovered or keyboard-focused.
+- Preserve existing theme motion pending review of a simpler radius-based approach.
+
+### Validation
+
+- Ten authentication and placeholder tests — passed.
+- Chrome QR reset checks for hovered and non-hovered states, all three prompt labels and button interaction regressions — passed.
+- Sites production build — passed.
 
 ## v26.0.84 — 2026-10-17
 

@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.48"
-  update_summary: "Move login progress into the input icon and reserve error space"
-  updated_at: "Sat 17 Oct 2026 at 05:58:34 pm AEDT (+11:00)"
+  doc_revision: "26.0.49"
+  update_summary: "Synchronise QR reset feedback and clarify prompt copy labels"
+  updated_at: "Sat 17 Oct 2026 at 06:02:32 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -160,3 +160,5 @@ Explicit theme changes retain a 420ms duration and 300px feather. `workshop-reve
 The QR encodes `https://ai-workshop-resources.adamjaffrey.chatgpt.site/`, verified against the existing Sites project. Its button displays the installed Lucide Copy icon and Copy Link label on hover or keyboard focus, copies that same URL with a legacy clipboard fallback, and reports success or failure. Keep the overlay exactly inside the QR image; place the caption gap outside the button. Share the prompt-copy feedback lifecycle: green Lucide Check and text, 180ms ease-out entrance, 5000ms success hold (12000ms for failure), then 650ms ease-in-out exit; reduced motion skips the animation. Keep the 540px image and 48px white quiet zone. All enabled buttons and selector tracks use the pointer cursor.
 
 After a wrong password, keep the padlock red until typing, focus, or pointer/touch activation of the field resets it to blue. Set the red state after programmatic error-recovery focus so it is not immediately cleared. Normal input icons and focus rings use theme-adjusted Codex blue regardless of agent choice; other branded controls retain the selected agent accent.
+
+Prompt-copy buttons show Prompt Copied on success. When QR feedback expires without hover or keyboard focus, its text and obscuring background exit together over 650ms with ease-in-out. While hovered or keyboard-focused, keep the background and reset the animated success text to Copy Link. Avoid a second background fade after feedback completes.

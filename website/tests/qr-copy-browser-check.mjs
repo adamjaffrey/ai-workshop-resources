@@ -37,6 +37,18 @@ try {
  assert.equal(await qr.locator('.copy-content').evaluate(e=>e.getAnimations()[0].effect.getTiming().duration),650);
  await page.waitForTimeout(700);
  assert.equal(await qr.locator('.copy-label').textContent(),'Copy Link');
+ // With the pointer gone, text and background share one exit animation.
+ await qr.click();await page.mouse.move(0,0);
+ await page.waitForTimeout(5050);
+ const exit=await qr.locator('.qr-copy-overlay').evaluate(e=>{const a=e.getAnimations()[0];return {duration:a.effect.getTiming().duration,easing:a.effect.getTiming().easing,opacity:getComputedStyle(e).opacity};});
+ assert.equal(exit.duration,650);assert.equal(exit.easing,'ease-in-out');assert.ok(Number(exit.opacity)<1);
+ assert.equal(await qr.locator('.copy-content').evaluate(e=>e.getAnimations().length),0);
+ await page.waitForTimeout(700);
+ assert.equal(await qr.locator('.qr-copy-overlay').evaluate(e=>getComputedStyle(e).opacity),'0');
+ for (const button of await page.locator('[data-copy]').all()) {
+   await button.click();assert.equal(await button.locator('.copy-label').textContent(),'Prompt Copied');
+ }
+ await qr.scrollIntoViewIfNeeded();
  await page.evaluate(()=>document.execCommand=()=>false);await qr.click();await page.getByText('Copy Failed',{exact:true}).waitFor();
  await page.setViewportSize({width:390,height:844});await cursors();
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
