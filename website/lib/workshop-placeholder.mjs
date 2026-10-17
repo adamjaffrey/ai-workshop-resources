@@ -8,10 +8,6 @@ export function placeholderFromPage(_page, layoutRevision = placeholderLayoutRev
 }
 export const placeholderStyles = `
 .page-placeholder { --ph-strength:40%; --ph-blur:4px; --ph-surface:var(--page); pointer-events:none; user-select:none; filter:blur(var(--ph-blur)); }
-/* Bake both blur passes into the background before View Transition capture.
-   Local review modes retain their independent base-blur control. */
-body.is-locked:not([data-review]):has(.access-gate:not([hidden])) .page-placeholder,
-body[data-review="panel"] .page-placeholder { filter:blur(var(--ph-blur)) blur(7px); }
 .page-placeholder article { --ph-surface:var(--card-bg); }
 .page-placeholder .code-wrap, .page-placeholder .qr-card { --ph-surface:var(--content-surface); }
 .page-placeholder .copy, .page-placeholder .theme-toggle button { --ph-surface:var(--surface); }

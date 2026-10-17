@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.100"
-  update_summary: "Bake login blur into the background before theme transitions"
-  updated_at: "Sat 17 Oct 2026 at 10:41:06 pm AEDT (+11:00)"
+  doc_revision: "26.0.101"
+  update_summary: "Use one background blur pass on the login page"
+  updated_at: "Sat 17 Oct 2026 at 11:02:25 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.99 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 11:02:25 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Use one background blur pass on the login page
+
+### Changed
+
+- Remove the additional 7px login blur, retaining one 4px blur on the decorative background and no panel backdrop filter.
+- Align local blur-tool descriptions and documentation with the single-pass treatment; retain saved geometry.
+
+### Validation
+
+- Ten authentication and placeholder tests — passed.
+- Headless login transition continuity at desktop/mobile sizes in both directions — passed.
+- Local style-guide browser checks — passed.
+- Local production build — passed.
 
 ## v26.0.98 — 2026-10-17
 

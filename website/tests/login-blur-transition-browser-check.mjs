@@ -23,10 +23,10 @@ try {
    for(const progress of [.25,.75]){
     await page.evaluate(p=>circle.currentTime=circle.effect.getTiming().duration*p,progress);
     const styles=await page.evaluate(()=>({background:getComputedStyle(document.querySelector('.page-placeholder')).filter,gate:getComputedStyle(document.querySelector('.access-gate')).backdropFilter}));
-    assert.equal(styles.background,'blur(4px) blur(7px)');assert.equal(styles.gate,'none');
+    assert.equal(styles.background,'blur(4px)');assert.equal(styles.gate,'none');
    }
    await page.evaluate(()=>circle.finish());await page.waitForFunction(()=>!document.documentElement.classList.contains('theme-reveal'));
   }
  }
- console.log('PASS: login blur snapshot continuity in both directions and desktop/mobile sizes; both blur passes remain active during transitions');
+ console.log('PASS: login blur snapshot continuity in both directions and desktop/mobile sizes; the single blur pass remains active during transitions');
 } finally {await browser.close();server.close();}

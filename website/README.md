@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.59"
-  update_summary: "Bake login blur into the background before theme transitions"
-  updated_at: "Sat 17 Oct 2026 at 10:41:06 pm AEDT (+11:00)"
+  doc_revision: "26.0.60"
+  update_summary: "Use one background blur pass on the login page"
+  updated_at: "Sat 17 Oct 2026 at 11:02:25 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -50,7 +50,7 @@ The interactive block-strength and blur controls are available in the local play
 
 To run the optional test, use `npm --prefix website run test:blur-preview` from the repository root. This generates the resources fixture and archived login fixture, then runs the geometry, slider and placeholder browser checks in Chrome. It does not remeasure block geometry. For a manual visual session without browser checks, run `node website/_archive/preview-login.mjs`, then explicitly open `website/_archive/login-design-preview.html` in Chrome. The archived generator is tracked; its generated HTML and screenshots are ignored by Git and excluded from deployment. The form is disabled and contains no credentials or protected workshop content.
 
-Switch between No blur, Blur only and Password panel. Block strength ranges from 0% to 100%, initially 40%. Background blur ranges from 0px to 20px in 0.5px steps, initially 4px. Both sliders update independently and can be adjusted together. No blur temporarily removes the background blur while retaining its slider value; switching back restores that value. Password panel retains an additional 7px blur pass applied directly to the placeholder background. Slider changes are local to the preview, reset when reloaded, and do not persist production settings.
+Switch between No blur, Blur only and Password panel. Block strength ranges from 0% to 100%, initially 40%. Background blur ranges from 0px to 20px in 0.5px steps, initially 4px. Both sliders update independently and can be adjusted together. No blur temporarily removes the background blur while retaining its slider value; switching back restores that value. Password panel uses the same single background blur without adding another pass. Slider changes are local to the preview, reset when reloaded, and do not persist production settings.
 
 Run `node website/scripts/preview-resources.mjs` from the repository root to generate `website/outputs/workshop-resources-preview.html`. Share its path for the user to open; do not launch Chrome automatically. Images and the font are embedded so previews work when moved. The resources preview retains the agent selector and copy controls but omits session checks and disables logout. The disabled footer button preserves its layout for block measurement. Keep design iterations local until publishing is approved.
 
@@ -191,8 +191,8 @@ Use visible native radio groups for the short theme, agent, width, hover and cop
 
 The Style Inspector is a read-only display of the selected element’s computed colours, dimensions, type and spacing. It remains fixed to the bottom of the viewport. Hover updates wait 200ms, nested typography metadata resolves to its specimen, unchanged readings are deduplicated, and the details area has a fixed height with internal scrolling. Click and keyboard focus update immediately. Freeze retains the current reading; Resume follows items again. Show Details reveals the full labelled readout without changing the sample layout.
 
-The Blocks tab reuses the current login markup and saved geometry. No Blur removes the placeholder blur temporarily, Blur Only shows the selected blur without the login panel, and Password Panel adds the real panel and the additional 7px background blur pass. Block strength and background blur remain independent sliders, defaulting to 40% and 4px; reset restores those values. Clicking a word, icon or QR block outlines its bounds and reports its dimensions. These settings are local, do not alter production defaults, and never trigger geometry measurement.
+The Blocks tab reuses the current login markup and saved geometry. No Blur removes the placeholder blur temporarily, Blur Only shows the selected blur without the login panel, and Password Panel adds the real panel while retaining the same single background blur. Block strength and background blur remain independent sliders, defaulting to 40% and 4px; reset restores those values. Clicking a word, icon or QR block outlines its bounds and reports its dimensions. These settings are local, do not alter production defaults, and never trigger geometry measurement.
 
 ### Login Blur During Theme Changes
 
-Apply the normal 4px placeholder blur and the additional 7px login blur as sequential filters on the decorative background while the login panel is present. Keep the overlay tint on the access gate, but do not use its backdrop-filter for this blur: theme snapshots must capture the already-blurred background without depending on backdrop compositing. The local Blocks tool retains No Blur and Blur Only modes; Password Panel adds the second blur pass. Reuse saved geometry because this changes rendering, not layout. Run `node website/tests/login-blur-transition-browser-check.mjs` for screenshot continuity and filter-state checks in both directions at desktop/mobile widths. Native iPhone behaviour still needs device verification.
+Apply one 4px blur filter to the decorative placeholder background. The login panel adds no second blur. Keep the overlay tint on the access gate, but do not use backdrop-filter: theme snapshots must capture the already-blurred background without depending on backdrop compositing. The local Blocks tool retains No Blur and Blur Only modes; Password Panel uses the same single blur pass. Reuse saved geometry because this changes rendering, not layout. Run `node website/tests/login-blur-transition-browser-check.mjs` for screenshot continuity and filter-state checks in both directions at desktop/mobile widths. The user confirmed the previous background-filter approach resolved the iPhone flicker.
