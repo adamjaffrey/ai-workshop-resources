@@ -1,3 +1,4 @@
+// Optional browser fixture: first run node website/_archive/preview-login.mjs.
 // Generate both standalone previews before running. Uses installed Chrome.
 import assert from 'node:assert/strict';
 const {chromium} = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -7,7 +8,7 @@ const page = await context.newPage();
 const errors = [];
 page.on('pageerror', error => errors.push(error.message));
 const resource = new URL('../outputs/workshop-resources-preview.html', import.meta.url).href;
-const login = new URL('../outputs/login-design-preview.html', import.meta.url).href;
+const login = new URL('../_archive/login-design-preview.html', import.meta.url).href;
 const theme = () => page.locator('html').getAttribute('data-theme');
 const choose = async mode => { if (await theme() !== mode) await page.getByRole('button', {name: mode === 'dark' ? 'Dark mode' : 'Light mode', exact: true}).click(); };
 const selectAgent = async agent => { const button = page.locator(`[data-agent="${agent}"]`); if (await button.getAttribute('aria-pressed') !== 'true') await button.click(); };

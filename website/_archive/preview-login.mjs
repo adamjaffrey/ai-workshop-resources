@@ -1,4 +1,4 @@
-// Generate a standalone design preview. Never imported by the production Worker.
+// Archived optional blur/strength testing tool. Generate only when explicitly needed. Never imported by the production Worker.
 import {mkdir, readFile, writeFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import {loginPage} from '../lib/workshop-pages.mjs';
@@ -22,7 +22,7 @@ for (const [name, mime] of [['wavelength-worm.png', 'image/png'], ['MarkPro-Bold
   const bytes = await readFile(new URL('../public/assets/' + name, import.meta.url));
   html = html.replaceAll('/assets/' + name, `data:${mime};base64,${bytes.toString('base64')}`);
 }
-const directory=new URL('../outputs/',import.meta.url);
+const directory=new URL('./',import.meta.url);
 await mkdir(directory,{recursive:true});
 const target=new URL('login-design-preview.html',directory);
 await writeFile(target,html);

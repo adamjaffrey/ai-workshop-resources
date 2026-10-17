@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.21"
-  update_summary: "Set the background blur default to 4px"
-  updated_at: "Sat 17 Oct 2026 at 02:09:30 am AEDT (+11:00)"
+  doc_revision: "26.0.22"
+  update_summary: "Archive blur testing and make geometry refresh manual-only"
+  updated_at: "Sat 17 Oct 2026 at 12:20:55 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -34,7 +34,9 @@ This protects content delivered by this website. The linked public GitHub reposi
 
 ## Local Design Review
 
-Run `node website/scripts/measure-placeholder.mjs --if-needed` followed by `node website/scripts/preview-login.mjs` from the repository root, then open `website/outputs/login-design-preview.html` directly in Chrome. The first command reuses valid measurements without launching Chrome; the second regenerates the standalone HTML. No server is needed. The form is disabled, and the preview contains no credentials or protected workshop content. Output files are ignored by Git and excluded from deployment.
+The block-strength and blur testing tool is archived under `website/_archive/` and is a manual test only. It is not generated, opened or tested by normal development/build startup. Production remains at 40% block strength and 4px background blur.
+
+To run the optional test, use `npm --prefix website run test:blur-preview` from the repository root. This generates the resources fixture and archived login fixture, then runs the geometry, slider and placeholder browser checks in Chrome. It does not remeasure block geometry. For a manual visual session without browser checks, run `node website/_archive/preview-login.mjs`, then explicitly open `website/_archive/login-design-preview.html` in Chrome. The archived generator is tracked; its generated HTML and screenshots are ignored by Git and excluded from deployment. The form is disabled and contains no credentials or protected workshop content.
 
 Switch between No blur, Blur only and Password panel. Block strength ranges from 0% to 100%, initially 40%. Background blur ranges from 0px to 20px in 0.5px steps, initially 4px. Both sliders update independently and can be adjusted together. No blur temporarily removes the background blur while retaining its slider value; switching back restores that value. Password panel retains its additional 7px backdrop blur. Slider changes are local to the preview, reset when reloaded, and do not persist production settings.
 
@@ -66,7 +68,9 @@ Run `node website/scripts/preview-resources.mjs` from the repository root to gen
 
 Website changes that preserve layout reuse the existing geometry. Colour, strength, blur, interaction timing, authentication, documentation and preview controls do not require remeasurement unless they also change resting dimensions or positions. Layout changes include structure, spacing, fonts, text metrics, wrapping, breakpoints, changed word geometry, icon dimensions and QR bounds/padding.
 
-For a layout change, increment `placeholderLayoutRevision` in `website/lib/workshop-layout.mjs`. Development/build startup runs `measure-placeholder.mjs --if-needed`, which measures only when that revision differs from the generated geometry or the geometry is missing. Without a layout change, it skips measurement and regenerates the preview HTML from the existing blocks. After edits in an already-running development session, run the same conditional measurement command and regenerate the preview HTML, then reload Chrome. The direct measurement command without `--if-needed` forces regeneration and should be reserved for an actual geometry update.
+Block measurement is manual-only. When explicitly asked to refresh block positions, run `npm --prefix website run blocks:measure` from the repository root, then optionally run `npm --prefix website run test:blur-preview` to check the result. The measurement command refreshes the saved geometry even if the layout revision is unchanged.
+
+For a layout change, increment `placeholderLayoutRevision` in `website/lib/workshop-layout.mjs` to mark existing measurements stale. Normal development/build startup never launches measurement or the blur tester; it reuses saved geometry and refreshes only the resources preview. A stale layout revision fails the existing renderer/check guard with an instruction to run the manual measurement command, rather than silently remeasuring. Non-layout changes require neither a revision increment nor measurement. Commit manually refreshed geometry with the corresponding layout change.
 
 `website/scripts/measure-placeholder.mjs` uses installed Google Chrome through the Playwright development dependency and saves anonymous markup in `website/lib/workshop-placeholder.generated.json`. The stored source fingerprint records provenance only; it does not invalidate measurements for unrelated source changes. The renderer rejects a mismatched layout revision. Measurement runs during preparation, never in a visitor's browser. `workshop-resource-page.mjs` owns the resource template independently of the login renderer. Original text, links, scripts and action attributes are excluded from the login markup, which remains inert and hidden from assistive technology.
 
@@ -93,7 +97,7 @@ The initial theme follows the operating system. An explicit choice is stored und
 
 Dark mode uses near-black neutral surfaces, off-white text, lighter secondary text, and cards and icon tiles mixed with the selected agent accent. Accent button branding stays unchanged, the monochrome logo becomes white, and QR pixels retain their white background.
 
-Generate both standalone previews, then run `node website/tests/theme-browser-check.mjs` with Playwright available, or set `PLAYWRIGHT_MODULE` to its absolute module location. The checks use installed Chrome and cover both agents, four viewport widths, preference persistence, keyboard access, copy behaviour, text contrast, password styling, storage denial, nonce policy and reduced motion. Open user-facing previews in Chrome.
+For an explicit manual theme check, generate the resources preview and archived login fixture first, then run `node website/tests/theme-browser-check.mjs` with Playwright available, or set `PLAYWRIGHT_MODULE` to its absolute module location. The checks use installed Chrome and cover both agents, four viewport widths, preference persistence, keyboard access, copy behaviour, text contrast, password styling, storage denial, nonce policy and reduced motion. Open user-facing previews in Chrome.
 
 The QR card, prompt panels and their feedback surfaces share `--content-surface`: #F8F9FA in light mode and the existing dark surface in dark mode. The QR image retains its white background. Change this variable to keep these surfaces in sync without changing password panels or button fills.
 

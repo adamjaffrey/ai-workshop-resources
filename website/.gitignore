@@ -61,3 +61,7 @@ next-env.d.ts
 
 # Local Worker secrets
 .dev.vars*
+
+# Generated optional archived preview; retain its generator in Git.
+/_archive/*.html
+/_archive/*.png

@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.2"
-  update_summary: "Require block remeasurement only when layout geometry changes"
-  updated_at: "Sat 17 Oct 2026 at 02:03:31 am AEDT (+11:00)"
+  doc_revision: "26.0.3"
+  update_summary: "Make block measurement and blur testing manual-only"
+  updated_at: "Sat 17 Oct 2026 at 12:21:20 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -30,5 +30,6 @@ metadata:
 - Follow the block sizing, colour and preview rules in `website/README.md`, under “Block Geometry Rules”.
 - Website changes that preserve the existing layout do not require block remeasurement. Reuse `website/lib/workshop-placeholder.generated.json` for colour, blend strength, blur, interaction/animation timing, authentication, documentation and preview-control changes that do not alter resting geometry.
 - Only layout changes require remeasurement: changes to structure, positions, dimensions, spacing, fonts, font weight/size, letter spacing, line height, wrapping, breakpoints, word geometry, icon-set dimensions or the QR pattern bounds/white padding. Treat text or asset changes as layout changes when they alter those measurements. A version-label change with identical geometry does not require remeasurement.
-- For a layout change, increment `placeholderLayoutRevision` in `website/lib/workshop-layout.mjs`, then run the normal development/build command or `node website/scripts/measure-placeholder.mjs --if-needed` from the repository root. Commit the refreshed geometry with the layout change. This revision is a cache key, not an artefact version.
-- Do not remeasure merely because source code changed or to refresh a source fingerprint. Development/build startup checks the layout revision and skips Chrome measurement when the current geometry is reusable. Regenerating the standalone preview HTML is separate and does not require remeasurement.
+- Block measurement and the archived blur/strength tester are manual-only. Do not run either during normal development or builds. When the user explicitly asks to update block positions, run `npm --prefix website run blocks:measure`; run `npm --prefix website run test:blur-preview` only for an explicitly requested manual test.
+- For a layout change, increment `placeholderLayoutRevision` in `website/lib/workshop-layout.mjs` to mark saved geometry stale. The existing stale-layout guard reports that a manual refresh is required; it must not launch measurement automatically. Commit manually refreshed geometry with the corresponding layout change. This revision is a cache key, not an artefact version.
+- Do not remeasure merely because source code changed or to refresh a source fingerprint. Development/build startup uses saved geometry and never launches Chrome measurement. The tester is archived under `website/_archive/` and runs only through its explicit manual command. Generating its HTML is separate from remeasurement.

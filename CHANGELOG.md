@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.53"
-  update_summary: "Make QR corners concentric with the outer card"
-  updated_at: "Sat 17 Oct 2026 at 02:20:05 am AEDT (+11:00)"
+  doc_revision: "26.0.54"
+  update_summary: "Archive blur testing and make block refreshes manual-only"
+  updated_at: "Sat 17 Oct 2026 at 12:21:50 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.53 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 12:21:50 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Archive blur testing and make block refreshes manual-only
+
+### Changed
+
+- Move the blur/strength preview generator and local generated artefacts into `website/_archive/` and remove automatic tester generation from development/build startup.
+- Add explicit `blocks:measure` and `test:blur-preview` commands; normal builds never launch geometry measurement or the archived tester.
+- Preserve saved geometry and production 40% strength/4px blur defaults; retain stale-layout checks that request a manual refresh.
+- Update repository instructions and the website README with the manual-only workflow and keep archived HTML/screenshots out of Git.
+
+### Validation
+
+- Archived generator syntax and recovery checks — passed; no live tester remains at its former script/output paths.
+- Manual blur-preview command — passed word geometry, cap-height, icon, QR-padding, slider, theme and responsive-layout checks.
+- Sites production build and placeholder source checks — passed without running measurement or the archived tester.
 
 ## v26.0.52 — 2026-10-17
 

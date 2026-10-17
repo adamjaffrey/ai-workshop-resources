@@ -1,3 +1,4 @@
+// Optional browser fixture: first run node website/_archive/preview-login.mjs.
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
 const browser = await chromium.launch({channel: 'chrome', headless: true});
@@ -22,7 +23,7 @@ try {
       }
       return words;
     });
-    await page.goto(new URL('../outputs/login-design-preview.html', import.meta.url).href);
+    await page.goto(new URL('../_archive/login-design-preview.html', import.meta.url).href);
     assert.equal(await page.locator('#block-strength').inputValue(), '40');
     assert.equal(await page.locator('#blur-amount').inputValue(), '4');
     await page.locator('#blur-amount').fill('8.5');
@@ -95,6 +96,6 @@ try {
       await page.locator('#block-strength').dispatchEvent('input');
     }
     await page.evaluate(() => document.documentElement.dataset.theme = 'light');
-    if(width===1440){await page.getByRole('button',{name:'Blur only',exact:true}).click();await page.screenshot({path:new URL('../outputs/word-blocks.png',import.meta.url).pathname});}
+    if(width===1440){await page.getByRole('button',{name:'Blur only',exact:true}).click();await page.screenshot({path:new URL('../_archive/word-blocks.png',import.meta.url).pathname});}
   }
 } finally {await browser.close();}
