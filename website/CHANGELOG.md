@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.58"
-  update_summary: "Lock background scrolling and refine login and pre-header copy"
-  updated_at: "Sat 17 Oct 2026 at 12:50:17 pm AEDT (+11:00)"
+  doc_revision: "26.0.59"
+  update_summary: "Extend locked-page scroll containment across browser fallbacks"
+  updated_at: "Sat 17 Oct 2026 at 12:57:06 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.57 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 12:57:06 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Extend locked-page scroll containment across browser fallbacks
+
+### Fixed
+
+- Apply a server-rendered root scroll-lock class without depending on CSS `:has()`, and explicitly size the fixed body to the viewport.
+- Prevent panel-edge overscroll and provide a legacy viewport-height fallback while preserving panel scrolling and normal scrolling after unlock.
+
+### Validation
+
+- Authentication and placeholder source tests — 10 passed.
+- Chrome login checks — passed at four widths in both themes, including desktop wheel, Page Down, End, programmatic background-scroll attempts, keyboard-sized viewport scrolling, absence of VisualViewport and unlocked-document scrolling.
+- Sites production build — passed; Safari and Firefox engines are unavailable locally and remain unverified.
 
 ## v26.0.56 — 2026-10-17
 

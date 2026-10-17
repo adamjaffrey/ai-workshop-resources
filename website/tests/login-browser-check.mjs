@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
-import {loginPage} from '../lib/workshop-pages.mjs';
+import {loginPage,resourcePage} from '../lib/workshop-pages.mjs';
 import {handleRequest} from '../lib/workshop-handler.mjs';
 const script=await (await handleRequest(new Request('https://workshop.example/login.js'),{})).text();
 const browser=await chromium.launch({channel:'chrome',headless:true});
@@ -19,6 +19,14 @@ try {
     assert.equal(await page.evaluate(()=>document.activeElement.id),'gate-title');
     assert.equal(await page.locator('#gate-title').evaluate(el=>getComputedStyle(el).outlineStyle),'none');
     assert.equal(await page.locator('#gate-description').textContent(),'Enter your workshop password to unlock the tools for your next build.');
+    // The root stays locked before keyboard activation, including desktop input.
+    assert.equal(await page.locator('html').evaluate(el=>getComputedStyle(el).overflowY),'hidden');
+    await page.mouse.move(width/2,100);
+    await page.mouse.wheel(0,800);
+    await page.keyboard.press('PageDown');
+    await page.keyboard.press('End');
+    await page.evaluate(()=>window.scrollTo(0,1000));
+    assert.equal(await page.evaluate(()=>window.scrollY),0);
     await page.keyboard.press('Tab');
     assert.equal(await page.evaluate(()=>document.activeElement.dataset.themeChoice),theme);
     await page.keyboard.press('Space');
@@ -58,5 +66,21 @@ try {
     assert.deepEqual(errors,[]);
     await page.close();
   }
+  // Browsers without VisualViewport still get a sized, scrollable gate.
+  const fallback=await browser.newPage({viewport:{width:390,height:300}});
+  await fallback.addInitScript(()=>Object.defineProperty(window,'visualViewport',{value:undefined}));
+  await fallback.route('https://workshop.example/**',route=>route.fulfill({contentType:route.request().url().endsWith('/login.js')?'text/javascript':'text/html',body:route.request().url().endsWith('/login.js')?script:loginPage}));
+  await fallback.goto('https://workshop.example/');
+  assert.equal(await fallback.locator('#access-gate').evaluate(el=>el.clientHeight),300);
+  await fallback.mouse.move(195,150);await fallback.mouse.wheel(0,400);await fallback.waitForTimeout(150);
+  assert.ok(await fallback.locator('#access-gate').evaluate(el=>el.scrollTop>0));
+  assert.equal(await fallback.evaluate(()=>window.scrollY),0);
+  await fallback.close();
+  // Successful login navigates to a fresh, unlocked document with normal scrolling.
+  const unlocked=await browser.newPage({viewport:{width:390,height:844}});
+  await unlocked.setContent(resourcePage.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g,''));
+  await unlocked.evaluate(()=>window.scrollTo(0,400));
+  assert.ok(await unlocked.evaluate(()=>window.scrollY>0));
+  await unlocked.close();
   console.log('PASS: desktop/mobile initial heading focus, single theme Tab stop, keyboard toggle, password/submit order, viewport keyboard simulation, error recovery, themes and overflow');
 } finally {await browser.close();}
