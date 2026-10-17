@@ -41,18 +41,22 @@ html, body { overflow-x: hidden; }
 /* Only explicit theme changes create a circular snapshot reveal. */
 :root.theme-reveal::view-transition-old(root),
 :root.theme-reveal::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
-:root.theme-reveal::view-transition-old(root) { z-index: 1; }
-:root.theme-reveal::view-transition-new(root) { z-index: 2;
+:root.theme-reveal::view-transition-old(root),
+:root.theme-reveal::view-transition-new(root) { z-index: 1; }
+:root.theme-reveal[data-theme="light"]::view-transition-new(root),
+:root.theme-reveal[data-theme="dark"]::view-transition-old(root) { z-index: 2;
   -webkit-mask-image: radial-gradient(circle at var(--reveal-x) var(--reveal-y), #000 max(0px, calc(var(--theme-radius) - 300px)), transparent var(--theme-radius));
   mask-image: radial-gradient(circle at var(--reveal-x) var(--reveal-y), #000 max(0px, calc(var(--theme-radius) - 300px)), transparent var(--theme-radius));
   animation: theme-circle 420ms cubic-bezier(.65,0,.35,1) both; }
+:root.theme-reveal[data-theme="dark"]::view-transition-old(root) { animation-direction: reverse; }
 :root.theme-reveal::view-transition { pointer-events: none; }
 @keyframes theme-circle {
   from { --theme-radius: 0px; }
   to { --theme-radius: var(--reveal-radius); }
 }
 @media (prefers-reduced-motion: reduce) {
-  :root.theme-reveal::view-transition-new(root) { animation: none; }
+  :root.theme-reveal[data-theme]::view-transition-new(root),
+  :root.theme-reveal[data-theme]::view-transition-old(root) { animation: none; }
 }
 /* Button labels are controls; document and prompt text remain selectable. */
 button, button * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }

@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.79"
-  update_summary: "Ease the theme reveal from the destination mode icon"
-  updated_at: "Sat 17 Oct 2026 at 02:47:09 pm AEDT (+11:00)"
+  doc_revision: "26.0.80"
+  update_summary: "Reverse the dark-mode reveal into the moon button"
+  updated_at: "Sat 17 Oct 2026 at 02:52:33 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.78 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 02:52:33 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Reverse the dark-mode reveal into the moon button
+
+### Changed
+
+- Make dark mode contract the outgoing light snapshot into the moon button, reversing the light-mode expansion from the sun.
+- Preserve shared easing, 420ms duration, 300px feathering and reduced-motion behaviour.
+
+### Validation
+
+- Theme-transition Chrome checks — passed inverse direction, destination origin, desktop/mobile layouts, rapid changes, initial load and reduced motion.
+- Reversed mobile reveal midpoint — visually reviewed.
+- Sites production build and placeholder checks — passed.
 
 ## v26.0.77 — 2026-10-17
 
