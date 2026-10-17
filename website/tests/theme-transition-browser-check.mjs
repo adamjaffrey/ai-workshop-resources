@@ -38,7 +38,7 @@ try {
     return a.effect.getKeyframes().map(f=>f.offset*a.effect.getTiming().duration);
    });
    assert.ok(Math.abs(travel[1]-160)<.001);
-   for(const [i,expected] of [[2,64.8],[3,57.6],[4,72]])assert.ok(Math.abs(travel[i]-travel[i-1]-expected)<.001);
+   for(const [i,expected] of [[2,60],[3,60],[4,60]])assert.ok(Math.abs(travel[i]-travel[i-1]-expected)<.001);
    await page.waitForTimeout(40);const middle=await card.evaluate(e=>getComputedStyle(e).backgroundColor);await page.waitForTimeout(250);const after=await card.evaluate(e=>getComputedStyle(e).backgroundColor);
    assert.notEqual(before,middle);assert.notEqual(after,middle);
    await page.reload();assert.equal(await page.locator('html').getAttribute('data-selected-agent'),'claude-code');assert.equal(await card.evaluate(e=>e.getAnimations().filter(a=>a.effect.getKeyframes().some(f=>'backgroundColor' in f)).length),0);

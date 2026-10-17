@@ -1,6 +1,6 @@
 // One press, hold and release controller for both segmented toggles.
-// Preserve the existing 64.8ms rebound, 57.6ms return and 72ms settle.
-export const toggleTiming = {arrival: 160, rebound: 64.8, return: 57.6, settle: 72};
+// Shared 340ms motion: 160ms travel, then three 60ms rebound/settling phases.
+export const toggleTiming = {arrival: 160, rebound: 60, return: 60, settle: 60};
 toggleTiming.duration = toggleTiming.arrival + toggleTiming.rebound + toggleTiming.return + toggleTiming.settle;
 export const toggleScript = `window.createWorkshopToggle = function(toggle) {
     const reducedMotionQuery = matchMedia('(prefers-reduced-motion: reduce)');

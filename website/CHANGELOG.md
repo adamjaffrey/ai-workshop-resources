@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.76"
-  update_summary: "Widen the circular reveal feather to 140 pixels"
-  updated_at: "Sat 17 Oct 2026 at 02:36:00 pm AEDT (+11:00)"
+  doc_revision: "26.0.77"
+  update_summary: "Round shared slider rebound and settling phases to 60ms"
+  updated_at: "Sat 17 Oct 2026 at 02:38:42 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.75 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 02:38:42 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Round shared slider rebound and settling phases to 60ms
+
+### Changed
+
+- Use 160ms travel followed by 60ms rebound, 60ms return and 60ms settling for both agent and day/night sliders: 340ms total.
+- Preserve movement distances and easing, the 160ms accent blend and the 140px feathered theme reveal.
+
+### Validation
+
+- Theme-transition Chrome checks — passed, including exact slider phase timings, accent blending, saved preferences, reduced motion and fallback.
+- Sites production build and placeholder checks — passed.
 
 ## v26.0.74 — 2026-10-17
 
