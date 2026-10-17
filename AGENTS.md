@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.7"
-  update_summary: "Require title case across interface headings and labels"
-  updated_at: "Sat 17 Oct 2026 at 01:27:54 pm AEDT (+11:00)"
+  doc_revision: "26.0.8"
+  update_summary: "Adopt CMOS 18 title case and centred footer alignment"
+  updated_at: "Sat 17 Oct 2026 at 01:35:01 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -47,8 +47,33 @@ metadata:
 
 - Default the selected coding agent to Codex. Persist an explicit Codex or Claude Code choice across login, logout and reload, and apply it before paint on both pages.
 - Derive branded colours from the shared agent accent: Codex #0285FF or Claude Code #D97757. Keep neutral surfaces and semantic error/success colours distinct.
-- Use title case for all headings, step subtitles, button labels (including state text and accessible names), input/control labels and raw all-caps labels. CSS may display those labels in uppercase. Preserve normal sentence case for body copy and status messages, and exact casing for brands and code identifiers. Keep Log Out at the bottom right of the resources footer.
+- Keep the footer action on the right, vertically centred alongside the copyright and version text, including when that text wraps.
 - Use the installed Lucide icon definitions for functional interface icons. Agent brand logos remain their existing separate assets.
+
+## Title Case
+
+Use **The Chicago Manual of Style, 18th edition (CMOS 18)** as the website's title-case standard, specifically paragraphs 8.160–8.162. Consult the [official title-case Q&A](https://www.chicagomanualofstyle.org/qanda/data/faq/topics/CapitalizationTitles.html) and [18th-edition changes](https://www.chicagomanualofstyle.org/help-tools/what-s-new.html) when a grammatical role or compound is ambiguous.
+
+### Categories
+
+Apply this standard to:
+
+- Browser/page titles and all visible page, dialog, section and card headings.
+- Subheadings, step subtitles, pre-headings and heading-like captions.
+- Button and action labels, including temporary states, icon-button tooltips and equivalent accessible names.
+- Input-field labels, selector/toggle labels, control-group labels and prompt-panel header labels.
+- Raw text for labels displayed in all caps by CSS, including textual wordmarks where official brand styling permits.
+
+### Rules
+
+- Capitalise the first and last words of each title or subtitle, and the first word after a colon introducing a subtitle.
+- Capitalise nouns, pronouns, verbs, adjectives, adverbs and subordinate conjunctions. Determine a word's grammatical role rather than lowercasing every short word; adverbial particles in phrasal verbs remain capitalised.
+- Within a title, lowercase articles (`a`, `an`, `the`) and the coordinating conjunctions `and`, `but`, `for`, `or` and `nor`.
+- Lowercase prepositions of four letters or fewer; capitalise prepositions of five letters or more, as specified in CMOS 18. Lowercase `to` when it marks an infinitive, and lowercase `as` in any grammatical function, subject to the first/last-word rule.
+- Apply CMOS 18's compound rules to hyphenated terms: capitalise the first element and subsequent principal elements, including those following a prefix, while retaining lowercase articles, short prepositions and coordinating conjunctions where required. Capitalise the second element of spelled-out hyphenated numbers and fractions. Preserve established proper-name styling.
+- Preserve the official casing of brands, acronyms, technical identifiers and name particles; retain specialised conventional lowercase forms where CMOS requires them. Do not alter commands, code, filenames or skill slugs to satisfy title casing.
+- Store correctly cased source text. Use CSS uppercase only as a visual treatment; do not use CSS capitalisation or a blanket short-word list as a substitute for a grammatical audit. Audit dynamic label states and both agent choices as well as initial text.
+- Keep body paragraphs, explanatory copy, full-sentence accessibility descriptions, status/error messages and code content outside these title-case categories unless they independently serve as headings or control labels. Record categories and rules here, not an inventory of individual interface strings.
 
 ## Blur Placeholder Geometry
 

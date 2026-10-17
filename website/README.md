@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.25"
-  update_summary: "Document shared agent accents and Lucide login icons"
-  updated_at: "Sat 17 Oct 2026 at 01:14:58 pm AEDT (+11:00)"
+  doc_revision: "26.0.26"
+  update_summary: "Clarify vertically centred footer action alignment"
+  updated_at: "Sat 17 Oct 2026 at 01:35:01 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -105,7 +105,7 @@ In light mode, all three step cards use 4% of the selected accent mixed with 96%
 
 `website/lib/workshop-agent.mjs` owns the `workshop-selected-agent` preference. It applies Codex by default before paint, remembers Claude Code or Codex across navigation and logout, and synchronises changes between tabs. Storage denial preserves switching for the current page; unsupported stored values fall back to Codex. Both pages derive branded text, focus rings, links, icon ink, button fills and card tints from the shared `--agent-accent` in `workshop-theme.mjs`. Neutral chrome, white QR backgrounds and semantic error/success colours retain their independent roles.
 
-The functional login icons are Lucide Sun, Moon, Lock and Check, matching `node_modules/lucide-react/dist/esm/icons/{sun,moon,lock,check}.mjs`. They use decorative inline SVG with current-colour strokes and the existing Lucide licence. The resource footer places version/copyright at the left and the title-cased Log Out button at the bottom right.
+The functional login icons are Lucide Sun, Moon, Lock and Check, matching `node_modules/lucide-react/dist/esm/icons/{sun,moon,lock,check}.mjs`. They use decorative inline SVG with current-colour strokes and the existing Lucide licence. The resource footer places version/copyright at the left and the title-cased Log Out button at the right, vertically centred alongside that text.
 
 ## Colour Themes
 

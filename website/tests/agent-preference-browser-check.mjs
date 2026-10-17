@@ -22,9 +22,9 @@ try{
  for(const width of [320,390,768,1440]){
   await page.setViewportSize({width,height:844});
   const boxes=await page.locator('footer').evaluate(e=>{
-   const f=e.getBoundingClientRect(),b=e.querySelector('button').getBoundingClientRect();return{right:f.right-b.right,bottom:f.bottom-b.bottom,overflow:document.documentElement.scrollWidth>innerWidth};
+   const f=e.getBoundingClientRect(),b=e.querySelector('button').getBoundingClientRect(),t=e.querySelector('span').getBoundingClientRect();return{right:f.right-b.right,centres:(t.top+t.height/2)-(b.top+b.height/2),overflow:document.documentElement.scrollWidth>innerWidth};
   });
-  assert.ok(Math.abs(boxes.right)<1&&Math.abs(boxes.bottom)<1);assert.equal(boxes.overflow,false);
+  assert.ok(Math.abs(boxes.right)<1&&Math.abs(boxes.centres)<1);assert.equal(boxes.overflow,false);
  }
  await page.getByRole('button',{name:'Claude Code',exact:true}).click();assert.equal(await agent(),'claude-code');
  assert.match(await page.locator('#system-blueprint-creator').textContent(),/--agent claude-code/);

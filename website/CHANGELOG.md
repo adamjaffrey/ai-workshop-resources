@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.62"
-  update_summary: "Complete the interface title-case audit"
-  updated_at: "Sat 17 Oct 2026 at 01:27:54 pm AEDT (+11:00)"
+  doc_revision: "26.0.63"
+  update_summary: "Adopt CMOS 18 title case and centre the footer action"
+  updated_at: "Sat 17 Oct 2026 at 01:36:05 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.61 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 01:36:05 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Adopt CMOS 18 title case and centre the footer action
+
+### Changed
+
+- Audit headings, raw uppercase labels, subtitles, control labels, button text and dynamic states against CMOS 18; lowercase the four-letter preposition in all prompt-panel headers for both agent choices.
+- Record only title-case categories and grammatical rules in repository instructions, with official CMOS references and preservation rules for brands and technical identifiers.
+- Vertically centre the right-aligned footer action against the copyright/version block, including wrapped text on mobile.
+- Refresh visible block geometry for the prompt-header text change.
+
+### Validation
+
+- Authentication and placeholder source tests — 10 passed.
+- Agent-preference browser checks — passed both themes, login/logout/reload, agent-dependent labels and footer right-edge/vertical-centre alignment at 320, 390, 768 and 1440px.
+- Interface source audit — completed using CMOS 18 official guidance; unchanged short pronouns, verbs and adverbial particles retain capitals.
+- Sites production build — passed.
 
 ## v26.0.60 — 2026-10-17
 
