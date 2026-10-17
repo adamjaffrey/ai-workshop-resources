@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.99"
-  update_summary: "Accelerate mobile themes and reveal pairs from their step text"
-  updated_at: "Sat 17 Oct 2026 at 08:25:25 pm AEDT (+11:00)"
+  doc_revision: "26.0.100"
+  update_summary: "Bake login blur into the background before theme transitions"
+  updated_at: "Sat 17 Oct 2026 at 10:41:06 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.98 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 10:41:06 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Bake login blur into the background before theme transitions
+
+### Changed
+
+- Apply both existing login blur passes directly to the decorative background so theme snapshots do not depend on the access gate’s backdrop filter.
+- Preserve overlay tint, saved block geometry, animation settings and independent local blur-tool modes.
+- Update the local tool’s explanation of the additional blur pass.
+
+### Validation
+
+- Ten authentication and placeholder tests — passed.
+- Headless Chrome before/during snapshot comparisons and filter-state checks in both theme directions at mobile/desktop sizes — passed.
+- Local playground and theme-transition browser regressions — passed.
+- Sites production build — passed. Original device-specific flicker was not reproduced in Chrome; native iPhone recheck remains necessary.
 
 ## v26.0.97 — 2026-10-17
 
