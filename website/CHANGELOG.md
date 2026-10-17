@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.87"
-  update_summary: "Synchronise QR reset feedback and clarify prompt copy labels"
-  updated_at: "Sat 17 Oct 2026 at 06:02:32 pm AEDT (+11:00)"
+  doc_revision: "26.0.88"
+  update_summary: "Compact login errors and retain password feedback until editing"
+  updated_at: "Sat 17 Oct 2026 at 06:05:22 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.86 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 06:05:22 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Compact login errors and retain password feedback until editing
+
+### Changed
+
+- Reduce the reserved error area to two lines with tighter margins, reducing the default field-to-button gap from 95px to 62px; shorten longer messages to fit supported narrow layouts.
+- Preserve incorrect-password text, red padlock and red bullets until editing; focus alone no longer clears error styling.
+- Restore the selected blue/orange accent for the normal padlock and input focus ring.
+- Show green password bullets during successful opening and clear the input immediately before navigation.
+- Update repository instructions and login feedback documentation.
+
+### Validation
+
+- Authentication and placeholder source tests — 10 passed.
+- Login-state Chrome checks — passed at four widths in both themes, including stable panel height, edit-only reset and red/green password text.
+- Login focus/scroll and agent-preference Chrome regressions — passed.
+- Sites production build — passed.
 
 ## v26.0.85 — 2026-10-17
 

@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.11"
-  update_summary: "Move login progress into the input icon and reserve error space"
-  updated_at: "Sat 17 Oct 2026 at 05:58:34 pm AEDT (+11:00)"
+  doc_revision: "26.0.12"
+  update_summary: "Compact login errors and retain password feedback until editing"
+  updated_at: "Sat 17 Oct 2026 at 06:05:22 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -44,8 +44,8 @@ metadata:
 - Keep the password input visible above the mobile keyboard and allow the login panel to scroll when the visible viewport is short.
 
 - Keep checking and success text visually hidden but announced to screen readers. Swap the password-slot Lucide padlock for Loader Circle during checking and Check on success; use green success styling and honour reduced motion.
-- Show only error messages below the input. Reserve three text lines so ordinary status changes do not resize or recentre the panel; allow expansion for accessibility text scaling rather than clipping messages. Keep 12px between label and input, and 16px between input and error row.
-- After an incorrect password, colour the padlock red until the user types or refocuses/clicks/taps the input. Restore the blue icon and blue input focus ring; this input treatment is independent of the selected agent accent.
+- Show only error messages below the input. Reserve two text lines so ordinary status changes do not resize or recentre the panel; allow expansion for accessibility text scaling rather than clipping messages. Keep 12px between label and input, 12px between input and error row, and 8px before the submit button.
+- After an incorrect password, colour the padlock and password bullets red until the user edits the field. Refocusing alone must preserve the error. Editing clears the error and restores the selected blue/orange icon and focus accent. On success, show green bullets during the brief transition, then clear the password before navigation.
 
 ## Focus and Panel Opening
 

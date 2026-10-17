@@ -11,7 +11,7 @@ try {
     await page.route('https://workshop.example/**',route=>{
       const path=new URL(route.request().url()).pathname;
       if(path==='/login.js')return route.fulfill({contentType:'text/javascript',body:script});
-      if(path==='/auth/login')return route.fulfill({status:401,contentType:'application/json',body:JSON.stringify({error:'That password isn’t correct. Please try again.'})});
+      if(path==='/auth/login')return route.fulfill({status:401,contentType:'application/json',body:JSON.stringify({error:'Incorrect password. Please try again.'})});
       if(path==='/')return route.fulfill({contentType:'text/html',body:loginPage});
       return route.fulfill({status:404,body:''});
     });
@@ -60,7 +60,7 @@ try {
     assert.equal(await page.locator('.page-placeholder').evaluate(el=>el.getBoundingClientRect().top),backgroundTop);
     await page.locator('#workshop-password').fill('wrong-password');
     await page.keyboard.press('Enter');
-    await page.getByText('That password isn’t correct. Please try again.').waitFor();
+    await page.getByText('Incorrect password. Please try again.').waitFor();
     assert.equal(await page.locator('.gate-submit').isDisabled(),false);
     assert.equal(await page.evaluate(()=>document.activeElement.id),'workshop-password');
     await page.evaluate(()=>{delete visualViewport.height;delete visualViewport.offsetTop;visualViewport.dispatchEvent(new Event('resize'));document.getElementById('gate-title').focus({preventScroll:true});});

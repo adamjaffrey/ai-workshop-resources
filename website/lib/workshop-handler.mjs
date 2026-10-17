@@ -73,7 +73,7 @@ export async function handleRequest(request, env, now = Date.now()) {
   if (path==='/robots.txt') return reply('User-agent: *\nDisallow: /\n',200,{'Content-Type':'text/plain'});
   if (path==='/login.js' && request.method!=='POST') return reply(loginScript,200,{'Content-Type':'text/javascript; charset=utf-8'});
   const unavailable = () => {
-    const message = 'Workshop access is temporarily unavailable. Please try again later.';
+    const message = 'Sign-in is unavailable. Please try again later.';
     if (request.method === 'POST' || path === '/auth/session') return json({error:message},503);
     const page = loginPage.replace('class="gate-error"', 'class="gate-error is-error"')
       .replace('data-status-icon="error" hidden', 'data-status-icon="error"')
@@ -102,7 +102,7 @@ export async function handleRequest(request, env, now = Date.now()) {
       let raw;
       try { raw=await bodyText(request); } catch { return json({error:'Request too large.'},413); }
       const password=new URLSearchParams(raw).get('password');
-      if(!password || Buffer.byteLength(password)>1024 || !verify(password,env.WORKSHOP_PASSWORD_VERIFIER)) return json({error:'That password isn’t correct. Please try again.'},401);
+      if(!password || Buffer.byteLength(password)>1024 || !verify(password,env.WORKSHOP_PASSWORD_VERIFIER)) return json({error:'Incorrect password. Please try again.'},401);
       const token=randomBytes(32).toString('hex');
       const expires=now+SESSION_SECONDS*1000;
       const previous=tokenFrom(request);
@@ -157,7 +157,7 @@ let busy=false;
 let retryUntil=0;
 let retryTimer;
 const genericFailure='Unable to sign in. Please try again.';
-const serviceFailure='Workshop access is temporarily unavailable. Please try again later.';
+const serviceFailure='Sign-in is unavailable. Please try again later.';
 function setStatus(state,text) {
   error.classList.remove('is-loading','is-success','is-error','is-info');
   error.classList.add('is-'+state);
@@ -188,15 +188,13 @@ function updateRetry() {
   }
   const minutes=Math.ceil(seconds/60);
   const duration=seconds<60?'less than a minute':minutes+' '+(minutes===1?'minute':'minutes');
-  setStatus('error','Too many attempts. Please try again in '+duration+'.');
+  setStatus('error','Too many attempts. Try again in '+duration+'.');
   button.disabled=true;
 }
 function resetPasswordError() {
   if(busy)return;
   password.removeAttribute('aria-invalid');form.classList.remove('shake','is-password-error');
 }
-password.addEventListener('focus',resetPasswordError);
-password.addEventListener('pointerdown',resetPasswordError);
 password.addEventListener('input',()=>{
   resetPasswordError();
   if(!busy&&!retryUntil) setStatus('info','');
@@ -211,10 +209,10 @@ form.addEventListener('submit',async event=>{
   try {
     response=await fetch('/auth/login',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json'},body:new URLSearchParams({password:password.value})});
   } catch {
-    showFailure('Unable to connect. Check your connection and try again.');return;
+    showFailure('Unable to connect. Check your connection and retry.');return;
   }
   if(response.status===401) {
-    showFailure('That password isn’t correct. Please try again.',true,true);return;
+    showFailure('Incorrect password. Please try again.',true,true);return;
   }
   if(response.status===429) {
     const retryHeader=response.headers.get('Retry-After');
@@ -228,9 +226,9 @@ form.addEventListener('submit',async event=>{
   let result;
   try {result=await response.json();} catch {showFailure(genericFailure);return;}
   if(result?.ok!==true) {showFailure(genericFailure);return;}
-  password.value='';password.readOnly=true;
+  password.setSelectionRange(password.value.length,password.value.length);password.readOnly=true;
   setStatus('success','Access granted.');button.removeAttribute('aria-busy');
   button.textContent='Opening Resources…';
-  setTimeout(()=>location.replace('/'),900);
+  setTimeout(()=>{password.value='';location.replace('/');},900);
 });
 `;

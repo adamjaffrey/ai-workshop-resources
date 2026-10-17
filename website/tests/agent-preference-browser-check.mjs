@@ -34,8 +34,8 @@ try{
  for(const theme of ['light','dark']){
   if(await page.locator('html').getAttribute('data-theme')!==theme)await page.locator('[data-theme-choice="'+theme+'"]').click();
   assert.equal(await page.locator('.gate-submit').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(217, 119, 87)');
-  const ink=await page.locator('.password-field').evaluate(e=>getComputedStyle(e).getPropertyValue('--password-ink').trim());
-  assert.ok(ink.includes('#0285ff')||ink.includes('2, 133, 255'));
+  const ink=await page.locator('.gate-toolbar .eyebrow').evaluate(e=>getComputedStyle(e).color);
+  assert.equal(await page.locator('[data-input-icon="lock"]').evaluate(e=>getComputedStyle(e).color),ink);
   assert.equal(await page.locator('[data-input-icon="lock"]').isVisible(),true);
  }
  await page.reload();assert.equal(await agent(),'claude-code');await login();

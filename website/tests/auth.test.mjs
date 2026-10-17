@@ -58,7 +58,7 @@ test('persisted attempts throttle even across handler calls, then reset next win
 test('missing configuration and database failure fail closed',async()=>{
  const unavailable=await handleRequest(get(),{});assert.equal(unavailable.status,503);
  assert.match(unavailable.headers.get('content-type'),/text\/html/);
- const html=await unavailable.text();assert.match(html,/workshop-password/);assert.match(html,/Workshop access is temporarily unavailable/);
+ const html=await unavailable.text();assert.match(html,/workshop-password/);assert.match(html,/Sign-in is unavailable/);
  assert.doesNotMatch(html,/system-blueprint-creator/);
  const e=env();e.DB.prepare=()=>{throw Error('database down')};
  const r=await handleRequest(post(),e);assert.equal(r.status,503);assert.doesNotMatch(await r.text(),/system-blueprint-creator/);

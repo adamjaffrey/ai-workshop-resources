@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.49"
-  update_summary: "Synchronise QR reset feedback and clarify prompt copy labels"
-  updated_at: "Sat 17 Oct 2026 at 06:02:32 pm AEDT (+11:00)"
+  doc_revision: "26.0.50"
+  update_summary: "Compact login errors and retain password feedback until editing"
+  updated_at: "Sat 17 Oct 2026 at 06:05:22 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -133,13 +133,13 @@ Disable text selection and iOS touch callouts only within buttons and their desc
 
 ## Login Feedback
 
-Use a fixed 18px input icon slot: blue Lucide Lock at rest, CSS-rotated Loader Circle while checking, and green Check on success. Reduced motion keeps the spinner static. Checking and success messages remain in a visually hidden live region; only errors appear below the field, with the semantic red Lucide X. Keep status text in sentence case and button labels in CMOS title case.
+Use a fixed 18px input icon slot: agent-accent Lucide Lock at rest, CSS-rotated Loader Circle while checking, and green Check on success. Reduced motion keeps the spinner static. Checking and success messages remain in a visually hidden live region; only errors appear below the field, with the semantic red Lucide X. Keep status text in sentence case and button labels in CMOS title case.
 
 Validate empty passwords inline without shaking. Only an incorrect-password response marks the supplied password invalid and shakes the panel; connection, service and request failures must not imply a password mistake. Do not expose raw server or browser exceptions. Service outages render a styled login page where possible and return structured failures for login requests.
 
 Rate-limit feedback uses the actual remaining server window from Retry-After, rounds displayed minutes up, and says less than a minute for the final minute. Disable submission until that time ends, then announce that signing in can be retried. Update announcements only when displayed text changes, avoiding per-second screen-reader chatter.
 
-Login status messages use the existing system font at 14px with a 21px line height, regular weight (400) for all statuses, including checking, errors, retry information and success; the submit button remains semibold (600). Leave 12px between label and field, 16px below the input border and 16px before the submit button. Reserve three lines (63px at default text size) for errors in every state; permit growth for text scaling instead of clipping. Centre the 18px status icon against the first line, including when a message wraps.
+Login status messages use the existing system font at 14px with a 21px line height, regular weight (400) for all statuses, including checking, errors, retry information and success; the submit button remains semibold (600). Leave 12px between label and field, 12px below the input border and 8px before the submit button. Reserve two lines (42px at default text size) for errors in every state; permit growth for text scaling instead of clipping. Centre the 18px status icon against the first line, including when a message wraps.
 
 ## Theme Transitions
 
@@ -159,6 +159,6 @@ Explicit theme changes retain a 420ms duration and 300px feather. `workshop-reve
 
 The QR encodes `https://ai-workshop-resources.adamjaffrey.chatgpt.site/`, verified against the existing Sites project. Its button displays the installed Lucide Copy icon and Copy Link label on hover or keyboard focus, copies that same URL with a legacy clipboard fallback, and reports success or failure. Keep the overlay exactly inside the QR image; place the caption gap outside the button. Share the prompt-copy feedback lifecycle: green Lucide Check and text, 180ms ease-out entrance, 5000ms success hold (12000ms for failure), then 650ms ease-in-out exit; reduced motion skips the animation. Keep the 540px image and 48px white quiet zone. All enabled buttons and selector tracks use the pointer cursor.
 
-After a wrong password, keep the padlock red until typing, focus, or pointer/touch activation of the field resets it to blue. Set the red state after programmatic error-recovery focus so it is not immediately cleared. Normal input icons and focus rings use theme-adjusted Codex blue regardless of agent choice; other branded controls retain the selected agent accent.
+After a wrong password, keep the padlock and password bullets red until the user edits the field. Refocusing or clicking alone preserves the error and its message. Editing clears the error and restores the selected agent accent to the icon and focus ring. On success the bullets turn green for the opening transition; clear the input immediately before navigation. Keep user-facing errors concise enough for the two-line reserve at supported viewport sizes, while allowing growth for accessibility text scaling.
 
 Prompt-copy buttons show Prompt Copied on success. When QR feedback expires without hover or keyboard focus, its text and obscuring background exit together over 650ms with ease-in-out. While hovered or keyboard-focused, keep the background and reset the animated success text to Copy Link. Avoid a second background fade after feedback completes.

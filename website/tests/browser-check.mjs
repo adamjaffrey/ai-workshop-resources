@@ -12,7 +12,7 @@ await page.goto('http://127.0.0.1:8787/');
 assert.equal(await page.locator('#workshop-content').count(),0);
 await page.screenshot({path:'/tmp/workshop-secure-login.png',fullPage:true});
 await page.locator('#workshop-password').fill('wrong-password');await page.getByRole('button',{name:'Unlock Resources'}).click();
-await page.getByText('That password isn’t correct. Please try again.').waitFor();
+await page.getByText('Incorrect password. Please try again.').waitFor();
 await page.locator('#workshop-password').fill('test-only-long-workshop-password');await page.getByRole('button',{name:'Unlock Resources'}).click();
 await page.getByText('Access granted').waitFor();
 await page.locator('#workshop-content').waitFor();
