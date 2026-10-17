@@ -3,14 +3,46 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.101"
-  update_summary: "Use one background blur pass on the login page"
-  updated_at: "Sat 17 Oct 2026 at 11:02:25 pm AEDT (+11:00)"
+  doc_revision: "26.0.102"
+  update_summary: "Link playground specimens to app sources and improve mobile use"
+  updated_at: "Sat 17 Oct 2026 at 11:40:43 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.100 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 11:40:43 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Link playground specimens to app sources and improve mobile use
+
+### Changed
+
+- Put mobile global controls behind a floating Lucide Ellipsis button and accessible native dialog with Lucide X; arrange long state lists in a two-row horizontal rail and separate copy controls from their preview.
+- Replace invented typography with real rendered app nodes, including standard login and accent step H2 variants, and synchronise agent-dependent text and source-state changes.
+- Share login messages, temporary button wording and failure rendering between production and the playground; remove unsupported text-field and heading specimens.
+- Label colour roles and generate an inventory from real CSS and colour-bearing markup; distinguish playground controls from app specimens.
+- Consolidate light input/content fills and alias identical dark field/control borders while preserving semantic roles.
+- Read block defaults from app CSS and add independent local scrim opacity alongside the existing single blur. Rename the combined mode Blur and Darken.
+- Document source fidelity and source-parity validation in repository instructions and the website README.
+- Prevent a delayed native panel-opening event from resetting focus after the user has already pressed Tab.
+
+### Validation
+
+- Playground browser checks — passed rendered text/font/colour parity in eight viewport/theme/agent combinations, held messages, modal focus/restoration, rail layout, copy spacing, single blur, scrim control and source-change propagation.
+- Production login-state browser checks — passed four widths and both themes.
+- Production focus checks — passed heading-first opening, keyboard rings, selector focus and dialog/popover navigation.
+- Status-colour contrast checks — passed both pages, themes and agents.
+- Auth, preview isolation and placeholder unit checks — 11 passed.
+- Sites production build — passed; saved placeholder geometry reused.
 
 ## v26.0.99 — 2026-10-17
 

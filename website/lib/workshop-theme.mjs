@@ -12,7 +12,7 @@ const styles = `
   --agent-accent: #0285FF; --agent-ink: #fff; --page: #f3f3f3; --surface: #fff; --content-surface: #f8f9fa; --text: #1a1a1a;
   --muted-text: #5b6066; --border: #dedede; --panel-border: #d5d9dd;
   --control-border: #c7ccd1; --control-bg: #e9e9e9; --control-text: #454545;
-  --hover: #e9edf0; --field-bg: #fafafa; --field-border: #bfc4c9;
+  --hover: #e9edf0; --field-bg: var(--content-surface); --field-border: #bfc4c9;
   --success: #146c3e; --success-ink: #fff; --error: #a20d60; --warning: #755600; --warning-ink: #fff; --info: var(--muted-text); --link: var(--icon-ink);
   --icon-ink: color-mix(in srgb, var(--agent-accent) 80%, black);
   --card-bg: color-mix(in srgb, var(--agent-accent) 4%, white);
@@ -26,7 +26,7 @@ const styles = `
   --page: #101216; --surface: #191d23; --content-surface: var(--surface); --text: #f3f4f6; --muted-text: #b7bec8;
   --border: #363d48; --panel-border: #414b59; --control-border: #566171;
   --control-bg: #252b34; --control-text: #c4cbd5; --hover: #303946;
-  --field-bg: #11151b; --field-border: #566171; --success: #75d6a3; --success-ink: #101216; --error: #ff85b2; --warning: #e5c15c; --warning-ink: #101216;
+  --field-bg: #11151b; --field-border: var(--control-border); --success: #75d6a3; --success-ink: #101216; --error: #ff85b2; --warning: #e5c15c; --warning-ink: #101216;
   --link: var(--icon-ink); --icon-ink: color-mix(in srgb, var(--agent-accent) 55%, white);
   --card-bg: color-mix(in srgb, var(--agent-accent) 12%, #171b21);
   --tile-bg: color-mix(in srgb, var(--agent-accent) 24%, #171b21);
@@ -125,6 +125,7 @@ const script = `(() => {
     const target = event.target.closest('button, a[href], pre[tabindex]');
     if (target && !target.disabled) target.focus({preventScroll: true});
   }, true);
+  const focusedPanels = new WeakSet();
   window.workshopFocusPanel = panel => {
     const labelled = document.getElementById((panel.getAttribute('aria-labelledby') || '').split(' ')[0]);
     const heading = labelled && panel.contains(labelled) ? labelled : panel.querySelector('h1,h2,h3,h4,h5,h6');
@@ -132,9 +133,12 @@ const script = `(() => {
     heading.setAttribute('data-panel-heading', '');
     heading.tabIndex = -1;
     heading.focus({preventScroll: true});
+    focusedPanels.add(panel);
   };
   document.addEventListener('toggle', event => {
-    if (event.newState === 'open' && event.target.matches('dialog, [popover]')) window.workshopFocusPanel(event.target);
+    if (!event.target.matches('dialog, [popover]')) return;
+    if (event.newState === 'open' && !focusedPanels.has(event.target)) window.workshopFocusPanel(event.target);
+    if (event.newState === 'closed') focusedPanels.delete(event.target);
   }, true);
   const system = matchMedia('(prefers-color-scheme: dark)');
   let preference;

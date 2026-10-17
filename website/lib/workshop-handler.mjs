@@ -1,4 +1,5 @@
 import { randomBytes, createHash, createHmac, scryptSync, timingSafeEqual } from 'node:crypto';
+import {loginMessages, loginRetryMessage, loginControlLabels} from './workshop-login-messages.mjs';
 import { loginPage, resourcePage } from './workshop-pages.mjs';
 
 export const SESSION_SECONDS = 7 * 24 * 60 * 60;
@@ -73,7 +74,7 @@ export async function handleRequest(request, env, now = Date.now()) {
   if (path==='/robots.txt') return reply('User-agent: *\nDisallow: /\n',200,{'Content-Type':'text/plain'});
   if (path==='/login.js' && request.method!=='POST') return reply(loginScript,200,{'Content-Type':'text/javascript; charset=utf-8'});
   const unavailable = () => {
-    const message = 'Sign-in is unavailable. Please try again later.';
+    const message = loginMessages.service;
     if (request.method === 'POST' || path === '/auth/session') return json({error:message},503);
     const page = loginPage.replace('class="gate-error"', 'class="gate-error is-error"')
       .replace('data-status-icon="error" hidden', 'data-status-icon="error"')
@@ -97,12 +98,12 @@ export async function handleRequest(request, env, now = Date.now()) {
       await env.DB.prepare('DELETE FROM workshop_attempts WHERE expires_at <= ?').bind(now).run();
       if(await limited(request,env.DB,env.WORKSHOP_PASSWORD_VERIFIER,now)) {
         const retryAfter = Math.ceil((ATTEMPT_WINDOW*1000 - now % (ATTEMPT_WINDOW*1000))/1000);
-        return json({error:'Too many attempts. Please try again later.'},429,{'Retry-After':String(retryAfter)});
+        return json({error:loginMessages.limitedLater},429,{'Retry-After':String(retryAfter)});
       }
       let raw;
       try { raw=await bodyText(request); } catch { return json({error:'Request too large.'},413); }
       const password=new URLSearchParams(raw).get('password');
-      if(!password || Buffer.byteLength(password)>1024 || !verify(password,env.WORKSHOP_PASSWORD_VERIFIER)) return json({error:'Incorrect password. Please try again.'},401);
+      if(!password || Buffer.byteLength(password)>1024 || !verify(password,env.WORKSHOP_PASSWORD_VERIFIER)) return json({error:loginMessages.wrong},401);
       const token=randomBytes(32).toString('hex');
       const expires=now+SESSION_SECONDS*1000;
       const previous=tokenFrom(request);
@@ -124,6 +125,9 @@ export async function handleRequest(request, env, now = Date.now()) {
 }
 
 const loginScript = `
+const loginMessages=${JSON.stringify(loginMessages)};
+const loginControlLabels=${JSON.stringify(loginControlLabels)};
+const loginRetryMessage=${loginRetryMessage.toString()};
 const form=document.getElementById('access-form');
 const password=document.getElementById('workshop-password');
 const button=form.querySelector('button[type="submit"]');
@@ -156,8 +160,8 @@ new MutationObserver(syncThemeTabStop).observe(theme,{subtree:true,attributes:tr
 let busy=false;
 let retryUntil=0;
 let retryTimer;
-const genericFailure='Unable to sign in. Please try again.';
-const serviceFailure='Sign-in is unavailable. Please try again later.';
+const genericFailure=loginMessages.generic;
+const serviceFailure=loginMessages.service;
 function setStatus(state,text) {
   error.classList.remove('is-loading','is-success','is-error','is-info');
   error.classList.add('is-'+state);
@@ -172,10 +176,10 @@ function setStatus(state,text) {
 function release() {
   busy=false; button.disabled=false; button.removeAttribute('aria-busy');
 }
-function showFailure(text,invalid=false,shake=false) {
+function showFailure(text,invalid=false,shake=false,focusInput=true) {
   setStatus('error',text);
   if(invalid) {
-    password.focus();password.setSelectionRange(password.value.length,password.value.length);password.setAttribute('aria-invalid','true');
+    if(focusInput){password.focus();password.setSelectionRange(password.value.length,password.value.length);}password.setAttribute('aria-invalid','true');
   }
   if(shake) { form.classList.add('is-password-error');void form.offsetWidth;form.classList.add('shake'); }
   release();
@@ -184,11 +188,11 @@ function updateRetry() {
   const seconds=Math.max(0,Math.ceil((retryUntil-Date.now())/1000));
   if(!seconds) {
     clearInterval(retryTimer);retryUntil=0;button.disabled=false;
-    setStatus('info','You can try signing in again.');return;
+    setStatus('info',loginMessages.retryReady);return;
   }
   const minutes=Math.ceil(seconds/60);
   const duration=seconds<60?'less than a minute':minutes+' '+(minutes===1?'minute':'minutes');
-  setStatus('error','Too many attempts. Try again in '+duration+'.');
+  setStatus('error',loginRetryMessage(duration));
   button.disabled=true;
 }
 function resetPasswordError() {
@@ -202,23 +206,23 @@ password.addEventListener('input',()=>{
 form.addEventListener('submit',async event=>{
   event.preventDefault();if(busy||retryUntil>Date.now())return;
   form.classList.remove('shake','is-password-error');password.removeAttribute('aria-invalid');
-  if(!password.value) { showFailure('Enter your workshop password.',true);return; }
+  if(!password.value) { showFailure(loginMessages.empty,true);return; }
   busy=true;button.disabled=true;button.setAttribute('aria-busy','true');
-  setStatus('loading','Checking password…');
+  setStatus('loading',loginMessages.loading);
   let response;
   try {
     response=await fetch('/auth/login',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json'},body:new URLSearchParams({password:password.value})});
   } catch {
-    showFailure('Unable to connect. Check your connection and retry.');return;
+    showFailure(loginMessages.network);return;
   }
   if(response.status===401) {
-    showFailure('Incorrect password. Please try again.',true,true);return;
+    showFailure(loginMessages.wrong,true,true);return;
   }
   if(response.status===429) {
     const retryHeader=response.headers.get('Retry-After');
     const seconds=Number(retryHeader);
     const delay=retryHeader && Number.isFinite(seconds)&&seconds>0?seconds*1000:Date.parse(retryHeader)-Date.now();
-    if(!Number.isFinite(delay)||delay<=0) {showFailure('Too many attempts. Please try again later.');return;}
+    if(!Number.isFinite(delay)||delay<=0) {showFailure(loginMessages.limitedLater);return;}
     release();retryUntil=Date.now()+delay;updateRetry();
     clearInterval(retryTimer);retryTimer=setInterval(updateRetry,1000);return;
   }
@@ -227,8 +231,8 @@ form.addEventListener('submit',async event=>{
   try {result=await response.json();} catch {showFailure(genericFailure);return;}
   if(result?.ok!==true) {showFailure(genericFailure);return;}
   password.setSelectionRange(password.value.length,password.value.length);password.readOnly=true;
-  setStatus('success','Access granted.');button.removeAttribute('aria-busy');
-  button.textContent='Opening Resources…';
+  setStatus('success',loginMessages.success);button.removeAttribute('aria-busy');
+  button.textContent=loginControlLabels.opening;
   setTimeout(()=>{password.value='';location.replace('/');},900);
 });
 `;

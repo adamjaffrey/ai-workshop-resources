@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.60"
-  update_summary: "Use one background blur pass on the login page"
-  updated_at: "Sat 17 Oct 2026 at 11:02:25 pm AEDT (+11:00)"
+  doc_revision: "26.0.61"
+  update_summary: "Document mobile tools and source-linked specimens"
+  updated_at: "Sat 17 Oct 2026 at 11:37:49 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -177,7 +177,7 @@ Run `node website/tests/status-colours-browser-check.mjs` to verify success, err
 
 Start `npm --prefix website run preview:phone`, then visit `/style-guide` on the printed local or LAN address. This local-only route requires no password and is not registered in the production handler. The regular site still requires the current local test password printed by the preview server. Do not open a browser automatically.
 
-The playground reuses current login/resource markup, CSS, shared theme helpers and resource interactions. It provides light/dark and Codex/Claude controls, fixed sample widths, held hover styles, persistent simulated login states, simulated copy success/failure, colour-token swatches, computed H1–H6/text specimens and a docked Style Inspector. H4–H6 remain explicitly labelled browser defaults; the text-field and disabled-field examples are specimens, not new production components. Warning examples demonstrate reserved tokens only.
+The playground reuses current login/resource markup, CSS, shared theme helpers and resource interactions. It provides light/dark and Codex/Claude controls, fixed sample widths, held hover styles, persistent simulated login states, simulated copy success/failure, colour-token swatches, source-derived typography specimens and a docked Style Inspector. The standard H2 is the real neutral login heading; the accent H2 is the real step heading. H4–H6 and general text/disabled-input specimens are omitted while absent from the app. Warning tokens are labelled reserved, with no fabricated warning component.
 
 Sample frames are sandboxed without same-origin access, form submission, popups or top navigation. Session checks are removed, authentication is simulated, copy actions never touch the clipboard, and links remain in the playground. Login visual state handling reuses the current login script up to its submission handler, then substitutes persistent demonstration states. Keep the tool under `scripts/` and out of production route registration.
 
@@ -191,8 +191,26 @@ Use visible native radio groups for the short theme, agent, width, hover and cop
 
 The Style Inspector is a read-only display of the selected element’s computed colours, dimensions, type and spacing. It remains fixed to the bottom of the viewport. Hover updates wait 200ms, nested typography metadata resolves to its specimen, unchanged readings are deduplicated, and the details area has a fixed height with internal scrolling. Click and keyboard focus update immediately. Freeze retains the current reading; Resume follows items again. Show Details reveals the full labelled readout without changing the sample layout.
 
-The Blocks tab reuses the current login markup and saved geometry. No Blur removes the placeholder blur temporarily, Blur Only shows the selected blur without the login panel, and Password Panel adds the real panel while retaining the same single background blur. Block strength and background blur remain independent sliders, defaulting to 40% and 4px; reset restores those values. Clicking a word, icon or QR block outlines its bounds and reports its dimensions. These settings are local, do not alter production defaults, and never trigger geometry measurement.
+The Blocks tab reuses the current login markup and saved geometry. No Blur removes the placeholder blur temporarily, Blur and Darken shows the selected blur and scrim without the login panel, and Password Panel adds the real panel while retaining the same single background blur. Block strength, background blur and scrim opacity are independent sliders. Their initial and reset values are read from the real app CSS for the selected theme, rather than copied into the tool. Clicking a word, icon or QR block outlines its bounds and reports its dimensions. These settings are local, do not alter production defaults, and never trigger geometry measurement.
 
 ### Login Blur During Theme Changes
 
-Apply one 4px blur filter to the decorative placeholder background. The login panel adds no second blur. Keep the overlay tint on the access gate, but do not use backdrop-filter: theme snapshots must capture the already-blurred background without depending on backdrop compositing. The local Blocks tool retains No Blur and Blur Only modes; Password Panel uses the same single blur pass. Reuse saved geometry because this changes rendering, not layout. Run `node website/tests/login-blur-transition-browser-check.mjs` for screenshot continuity and filter-state checks in both directions at desktop/mobile widths. The user confirmed the previous background-filter approach resolved the iPhone flicker.
+Apply one 4px blur filter to the decorative placeholder background. The login panel adds no second blur. Keep the overlay tint on the access gate, but do not use backdrop-filter: theme snapshots must capture the already-blurred background without depending on backdrop compositing. The local Blocks tool has No Blur and Blur and Darken modes; Password Panel uses the same single blur pass. Reuse saved geometry because this changes rendering, not layout. Run `node website/tests/login-blur-transition-browser-check.mjs` for screenshot continuity and filter-state checks in both directions at desktop/mobile widths. The user confirmed the previous background-filter approach resolved the iPhone flicker.
+
+### Mobile Controls and Source Coverage
+
+At widths up to 660px, the four global controls move into a native modal opened by a floating Lucide Ellipsis button. Lucide X, Escape and normal modal focus restoration close it. Focus starts on the heading with no ring; native modal containment and keyboard access remain intact. Long login-state choices use a two-row horizontal grid with a visible swipe hint. Copy-result controls retain 20px of separation from their preview.
+
+| Playground Surface | App Source | Synchronisation |
+|---|---|---|
+| Login specimen | `workshop-pages.mjs`, `workshop-handler.mjs`, `workshop-theme.mjs` | Imports the actual markup/CSS and shared status/failure renderer; replaces network submission and navigation with held outcomes. |
+| Login status strings | `workshop-login-messages.mjs` | Production responses, browser status handling and the playground use one message authority. Initial button text comes from markup; opening text is shared. |
+| Resource specimen | `workshop-resource-page.mjs`, shared theme/agent/toggle scripts | Uses actual rendered cards, icons, prompts, selectors, QR feedback and footer. Only session checks, navigation and clipboard writes are isolated. |
+| Typography | Rendered login/resource elements selected by a source manifest | Clones real nodes and their ancestor classes, refreshes live text after agent/state changes, and uses app CSS. Layout-only wrappers arrange specimens without defining another font scale. |
+| Colours | App CSS and colour-bearing markup attributes | Token swatches resolve from shared theme values; a generated declaration inventory exposes literal colours, shadows, outlines, fills and interaction selectors. Usage descriptions are tooling annotations. |
+| Blocks | Saved placeholder markup plus login CSS | Reuses geometry; reads native blur, strength and scrim values. Local controls adjust only the sandbox frame. |
+| Playground chrome | `scripts/style-guide.mjs` | Navigation, labels, radio groups, inspector and local sliders are explicitly tooling UI; they use shared colour tokens but are not represented as app components. |
+
+The neutral-token audit found every neutral role referenced. Light-mode `--field-bg` now aliases the nearly identical `--content-surface`, removing an unnecessary separate fill. Dark-mode `--field-border` aliases the already identical `--control-border`. Other neutral roles remain distinct for canvas, raised surfaces, text hierarchy and boundary emphasis. No geometry refresh is required for these colour-only changes.
+
+The source-parity browser check compares each typography specimen’s text, font family, size, weight, line height, letter spacing, colour and text transformation with its rendered app source in both themes/agents at desktop/mobile widths. It also checks shared login messages, compact controls, modal heading focus/restoration, spacing, one blur pass and independent scrim opacity. Reload a restarted local preview after editing source modules; these tools are generated from the server’s current imports, not a separate persisted design copy.

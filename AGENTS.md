@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.21"
-  update_summary: "Accelerate mobile themes and reveal pairs from their step text"
-  updated_at: "Sat 17 Oct 2026 at 08:25:25 pm AEDT (+11:00)"
+  doc_revision: "26.0.22"
+  update_summary: "Require source-linked playground specimens"
+  updated_at: "Sat 17 Oct 2026 at 11:37:49 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -147,3 +147,11 @@ Apply this standard to:
 - Refresh saved block positions with `npm --prefix website run blocks:measure` when an authorised layout change requires it; no separate user approval is needed. Do not measure for non-layout changes or automatically during development/build startup. Run the archived `test:blur-preview` only when explicitly requested.
 - For a layout change affecting visible background blocks, increment `placeholderLayoutRevision` in `website/lib/workshop-layout.mjs` to mark saved geometry stale. The existing stale-layout guard reports that a manual refresh is required; it must not launch measurement automatically. Refresh and commit geometry with the corresponding layout change. This revision is a cache key, not an artefact version.
 - Do not remeasure merely because source code changed or to refresh a source fingerprint. Development/build startup uses saved geometry and never launches Chrome measurement. The tester is archived under `website/_archive/` and runs only through its explicit manual command. Generating its HTML is separate from remeasurement.
+
+## Playground Source Fidelity
+
+- Keep local playground app specimens linked to real application markup, styles, icons, messages and state renderers. Do not maintain optical copies, independently authored specimen strings, separate typography scales or duplicated status colours.
+- Read dynamic typography content from the rendered source examples, including agent-specific labels and prompts. Label each specimen’s source page and selector. Do not present absent elements or reserved tokens as established app components.
+- Use `website/lib/workshop-login-messages.mjs` for login status messages and temporary button wording; both production and the playground consume it. Keep preview outcomes simulated and prevent navigation or real clipboard/authentication writes.
+- Read blur, strength and scrim defaults from app CSS. Local sliders must never change production settings or trigger block remeasurement.
+- Distinguish the playground’s own testing/navigation controls and explanatory annotations from app specimens. Keep source-parity checks for rendered text and computed typography across mobile/desktop, both agents and both themes when modifying the playground or specimen sources.
