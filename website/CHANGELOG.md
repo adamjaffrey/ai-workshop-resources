@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.91"
-  update_summary: "Distinguish error colours and soften login state transitions"
-  updated_at: "Sat 17 Oct 2026 at 06:19:03 pm AEDT (+11:00)"
+  doc_revision: "26.0.92"
+  update_summary: "Unify copy-failure feedback with the shared error colour"
+  updated_at: "Sat 17 Oct 2026 at 06:21:31 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.90 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 06:21:31 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Unify copy-failure feedback with the shared error colour
+
+### Changed
+
+- Apply the shared error token to failed prompt/QR copy labels, icons and applicable borders, then clear the failure state on reset or success.
+- Document one error-colour authority per light/dark theme, shared by both agents and both pages.
+
+### Validation
+
+- Runtime source audit — only workshop-theme.mjs defines the error token and colour literals.
+- Headless Chrome — passed login error colours, prompt/QR copy failures and reset in all light/dark and Codex/Claude combinations.
+- Sites production build and placeholder checks — passed.
 
 ## v26.0.89 — 2026-10-17
 
