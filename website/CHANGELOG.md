@@ -3,14 +3,35 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.104"
-  update_summary: "Refine mobile playground and add source-derived icon specimens"
-  updated_at: "Sun 18 Oct 2026 at 12:14:45 am AEDT (+11:00)"
+  doc_revision: "26.0.105"
+  update_summary: "Separate colour samples from their swatch labels"
+  updated_at: "Sun 18 Oct 2026 at 12:20:57 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.103 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 12:20:57 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Separate colour samples from their swatch labels
+
+### Changed
+
+- Add a subtle 1px line below each colour sample using the same shared border token as its swatch card.
+
+### Validation
+
+- Browser inspection — divider matches the swatch outline in light and dark mode.
+- Syntax, whitespace and production build checks — passed.
 
 ## v26.0.102 — 2026-10-18
 
