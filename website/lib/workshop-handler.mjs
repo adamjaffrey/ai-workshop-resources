@@ -175,7 +175,7 @@ function release() {
 function showFailure(text,invalid=false,shake=false) {
   setStatus('error',text);
   if(invalid) {
-    password.focus();password.select();password.setAttribute('aria-invalid','true');
+    password.focus();password.setSelectionRange(password.value.length,password.value.length);password.setAttribute('aria-invalid','true');
   }
   if(shake) { form.classList.add('is-password-error');void form.offsetWidth;form.classList.add('shake'); }
   release();

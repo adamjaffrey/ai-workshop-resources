@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.90"
-  update_summary: "Match the password border and focus ring to the error state"
-  updated_at: "Sat 17 Oct 2026 at 06:11:20 pm AEDT (+11:00)"
+  doc_revision: "26.0.91"
+  update_summary: "Distinguish error colours and soften login state transitions"
+  updated_at: "Sat 17 Oct 2026 at 06:19:03 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.89 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 06:19:03 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Distinguish error colours and soften login state transitions
+
+### Changed
+
+- Use cooler crimson/rose semantic error colours to distinguish errors from Claude orange in both themes.
+- Stop automatically selecting the password on failure; retain focus with an end caret and preserve deliberate text selection.
+- Normalise browser autofill backgrounds and state-dependent text colours to prevent inset blue patches while preserving error/success bullets.
+- Add 160ms recovery/success colour fades and spinner/check entrances, matching agent-accent timing. Keep incorrect-password feedback immediate and respect reduced motion.
+
+### Validation
+
+- Login-state Chrome checks — passed at four widths in both themes, including selection collapse, new error colours and success fade completion.
+- Targeted Chrome checks — passed intermediate recovery colours, immediate error entry, reduced motion and forced autofill backgrounds/text colours for both themes and agents.
+- Authentication and placeholder tests — 10 passed; agent-preference regression — passed.
+- Headless visual review, Sites production build and PVS validation — passed.
 
 ## v26.0.88 — 2026-10-17
 

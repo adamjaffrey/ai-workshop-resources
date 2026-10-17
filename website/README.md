@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.50"
-  update_summary: "Compact login errors and retain password feedback until editing"
-  updated_at: "Sat 17 Oct 2026 at 06:05:22 pm AEDT (+11:00)"
+  doc_revision: "26.0.51"
+  update_summary: "Distinguish error colours and soften login state transitions"
+  updated_at: "Sat 17 Oct 2026 at 06:19:03 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -162,3 +162,7 @@ The QR encodes `https://ai-workshop-resources.adamjaffrey.chatgpt.site/`, verifi
 After a wrong password, keep the padlock and password bullets red until the user edits the field. Refocusing or clicking alone preserves the error and its message. Editing clears the error and restores the selected agent accent to the icon and focus ring. On success the bullets turn green for the opening transition; clear the input immediately before navigation. Keep user-facing errors concise enough for the two-line reserve at supported viewport sizes, while allowing growth for accessibility text scaling.
 
 Prompt-copy buttons show Prompt Copied on success. When QR feedback expires without hover or keyboard focus, its text and obscuring background exit together over 650ms with ease-in-out. While hovered or keyboard-focused, keep the background and reset the animated success text to Copy Link. Avoid a second background fade after feedback completes.
+
+Login recovery and success colours use 160ms cubic-bezier(.2,0,.2,1) fades, matching the agent-accent arrival duration; spinner/check entrances also fade over 160ms. Incorrect-password styling enters immediately. Reduced motion removes these transitions. Keep error colours cooler than Claude orange: #B41452 in light mode and #FF85B2 in dark mode. Error text and the X remain independent non-colour indicators.
+
+On failed submission focus the password field with the caret at its end, without automatically selecting its contents. Preserve deliberate user text selection. Normalise standard/WebKit autofill with the field surface and explicit state-dependent text-fill colour so browser tint does not create an inner rectangular patch or hide red/green bullets.
