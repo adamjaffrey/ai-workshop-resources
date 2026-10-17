@@ -58,6 +58,11 @@ html, body { overflow-x: hidden; }
   :root.theme-reveal[data-theme]::view-transition-new(root),
   :root.theme-reveal[data-theme]::view-transition-old(root) { animation: none; }
 }
+/* Pointer focus remains real, but navigation rings belong to keyboard Tab use. */
+:root:not([data-focus-input="keyboard"]) :focus:not(input):not(textarea):not([contenteditable="true"]) { outline: none; }
+:root:not([data-focus-input="keyboard"]) .code-wrap:has(pre:focus)::after { outline: none; }
+:root[data-focus-input="keyboard"] :is(button, a[href], [tabindex]):focus:not(pre):not([data-panel-heading]) { outline: 3px solid var(--icon-ink); outline-offset: 3px; }
+[data-panel-heading]:focus { outline: none !important; box-shadow: none !important; }
 /* Button labels are controls; document and prompt text remain selectable. */
 button, button * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 button:not(.segmented-toggle button) { transition: scale 120ms ease-out; }
@@ -94,6 +99,27 @@ button:enabled:is(:active, .is-held):not(.segmented-toggle button) { scale: .97;
 // Runs in the head before paint; storage denial must never prevent using the page.
 const script = `(() => {
   const key = 'workshop-colour-theme';
+  document.documentElement.dataset.focusInput = 'pointer';
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Tab') document.documentElement.dataset.focusInput = 'keyboard';
+  }, true);
+  document.addEventListener('pointerdown', event => {
+    document.documentElement.dataset.focusInput = 'pointer';
+    if (!event.isPrimary || event.button !== 0) return;
+    const target = event.target.closest('button, a[href], pre[tabindex]');
+    if (target && !target.disabled) target.focus({preventScroll: true});
+  }, true);
+  window.workshopFocusPanel = panel => {
+    const labelled = document.getElementById((panel.getAttribute('aria-labelledby') || '').split(' ')[0]);
+    const heading = labelled && panel.contains(labelled) ? labelled : panel.querySelector('h1,h2,h3,h4,h5,h6');
+    if (!heading) return;
+    heading.setAttribute('data-panel-heading', '');
+    heading.tabIndex = -1;
+    heading.focus({preventScroll: true});
+  };
+  document.addEventListener('toggle', event => {
+    if (event.newState === 'open' && event.target.matches('dialog, [popover]')) window.workshopFocusPanel(event.target);
+  }, true);
   const system = matchMedia('(prefers-color-scheme: dark)');
   let preference;
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');

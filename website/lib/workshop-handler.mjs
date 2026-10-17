@@ -130,7 +130,7 @@ const button=form.querySelector('button[type="submit"]');
 const error=document.getElementById('gate-error');
 const message=error.querySelector('span');
 // Focus the heading without opening a software keyboard or scrolling the page.
-document.getElementById('gate-title').focus({preventScroll:true});
+window.workshopFocusPanel(document.getElementById('access-gate'));
 const gate=document.getElementById('access-gate');
 const viewport=window.visualViewport;
 function fitViewport() {

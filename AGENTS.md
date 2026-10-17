@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.9"
-  update_summary: "Left-align the footer action when it wraps below the text"
-  updated_at: "Sat 17 Oct 2026 at 01:43:09 pm AEDT (+11:00)"
+  doc_revision: "26.0.10"
+  update_summary: "Standardise focus placement and keyboard-only control rings"
+  updated_at: "Sat 17 Oct 2026 at 05:32:24 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -42,6 +42,17 @@ metadata:
 - Sessions expire seven days after login, without extending on use. Keep this implementation detail in repository documentation, not the login page copy.
 - On initial load, focus the login heading with no visible focus ring. Tab order is the day/night toggle as one stop, password field, then unlock button on desktop and mobile.
 - Keep the password input visible above the mobile keyboard and allow the login panel to scroll when the visible viewport is short.
+
+## Focus and Panel Opening
+
+- Keep real focus on the appropriate control for every interaction type. Do not blur controls or remove keyboard access merely to hide a ring.
+- Text-entry fields, including passwords, retain visible focused styling for pointer, touch and keyboard use.
+- Buttons, toggles, links and other non-text-entry controls show a focus ring only during keyboard navigation initiated by Tab or Shift+Tab. Preserve that indicator through keyboard activation and focus transfer; click or tap switches back to ring-free pointer focus.
+- After a segmented selector changes, focus the newly selected mode for mouse, touch and keyboard activation, including activation from track padding or gaps. Apply the same rule to agent and day/night selectors.
+- On opening any modal, dialog or popover panel, focus its descriptive heading with `tabindex="-1"` and prevent scrolling. The heading must never display a focus ring, regardless of input method. Do not initially focus a text field or open the software keyboard.
+- The first Tab after heading focus must reach the first visible, enabled interactive element in logical DOM order and display its keyboard focus ring. Preserve the login order: day/night selector as one stop, password, then unlock.
+- Use the shared panel-heading focus helper for custom panels and the shared opening handling for native dialogs/popovers. Every such panel must have an accessible heading. Preserve native modal containment and focus restoration to the invoking control when a panel closes.
+- Validate initial/opening focus, Tab/Shift+Tab navigation, keyboard activation, pointer/touch ring suppression, input focus and selector destination focus on desktop and mobile layouts when modifying these flows.
 
 ## Website Appearance
 

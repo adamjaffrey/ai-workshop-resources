@@ -29,7 +29,7 @@ try {
  await page.locator('pre').first().evaluate(e=>{const r=document.createRange();r.selectNodeContents(e);getSelection().removeAllRanges();getSelection().addRange(r);});
  assert.ok((await page.evaluate(()=>getSelection().toString())).length>20);
  await page.evaluate(()=>getSelection().removeAllRanges());
- await page.emulateMedia({reducedMotion:'reduce'});await copy.focus();await page.keyboard.down('Space');
+ await page.emulateMedia({reducedMotion:'reduce'});await page.keyboard.press('Tab');await copy.focus();await page.keyboard.down('Space');
  assert.equal(await copy.evaluate(e=>getComputedStyle(e).scale),'none');
  assert.equal(await copy.evaluate(e=>getComputedStyle(e).boxShadow),'none');
  assert.notEqual(await copy.evaluate(e=>getComputedStyle(e).outlineStyle),'none');

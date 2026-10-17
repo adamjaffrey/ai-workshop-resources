@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.82"
-  update_summary: "Use consistent regular weight for every login status"
-  updated_at: "Sat 17 Oct 2026 at 05:26:30 pm AEDT (+11:00)"
+  doc_revision: "26.0.83"
+  update_summary: "Standardise focus placement and keyboard-only control rings"
+  updated_at: "Sat 17 Oct 2026 at 05:32:24 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.81 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 05:32:24 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Standardise focus placement and keyboard-only control rings
+
+### Changed
+
+- Track Tab navigation separately from pointer input so controls retain real focus without click/tap rings; preserve visible text-input focus.
+- Transfer both selectors’ focus to the selected mode without cancelling their movement.
+- Share invisible heading focus across login and native dialog/popover openings, with a helper for future custom panels.
+- Record all focus, first-Tab, input and panel-opening rules in repository instructions.
+
+### Validation
+
+- Focus Chrome checks — passed desktop/mobile keyboard, mouse, touch, selector gaps, input focus, login headings and native dialog/popover openings.
+- Login, button-interaction, agent-preference and theme-transition browser regressions — passed.
+- Sites production build and placeholder checks — passed.
 
 ## v26.0.80 — 2026-10-17
 

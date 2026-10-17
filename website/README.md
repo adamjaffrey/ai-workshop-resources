@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.44"
-  update_summary: "Use consistent regular weight for every login status"
-  updated_at: "Sat 17 Oct 2026 at 05:26:30 pm AEDT (+11:00)"
+  doc_revision: "26.0.45"
+  update_summary: "Standardise focus placement and keyboard-only control rings"
+  updated_at: "Sat 17 Oct 2026 at 05:32:24 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -148,3 +148,7 @@ Use a 420ms circular reveal with a 300px feathered mask edge and ease-out (`cubi
 During successful login, keep the green input border, full outer ring and padlock visible regardless of input focus until navigation completes. The submit button also uses semantic success green, with white text in light mode and dark text in dark mode for contrast.
 
 Contain horizontal page overflow at both the root and body, using clipping with a hidden-overflow fallback. Preserve vertical document scrolling after login and the login panel’s own scroll handling.
+
+## Focus Policy
+
+The shared controller tracks pointer input versus Tab navigation, preserving real focus while limiting non-text-entry rings to keyboard navigation. Text inputs keep their focused styling for all input methods. Both selectors transfer focus to the selected mode. `window.workshopFocusPanel(panel)` focuses a panel’s labelled heading invisibly; login invokes it directly and native dialog/popover opening events invoke it automatically. Custom panels must call it on opening. See `AGENTS.md` for the complete policy.

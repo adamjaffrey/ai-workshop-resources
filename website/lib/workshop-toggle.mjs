@@ -21,6 +21,7 @@ export const toggleScript = `window.createWorkshopToggle = function(toggle) {
       const previous = snapshot();
       clearTimeout(releaseTimer);
       held = undefined;
+      if (toggle.contains(document.activeElement) && document.activeElement !== selected) selected.focus({preventScroll: true});
       toggleAnimation?.cancel();
       const left = selected.offsetLeft, width = selected.offsetWidth;
       indicator.style.left = left + 'px';
