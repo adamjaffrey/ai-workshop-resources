@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.112"
-  update_summary: "Increase separation between popover selectors"
-  updated_at: "Sun 18 Oct 2026 at 01:15:05 am AEDT (+11:00)"
+  doc_revision: "26.0.113"
+  update_summary: "Keep agent choices together in the options popover"
+  updated_at: "Sun 18 Oct 2026 at 01:18:21 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.111 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 01:18:21 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Keep agent choices together in the options popover
+
+### Fixed
+
+- Give the agent selector its intrinsic width and prevent Codex and Claude Code from wrapping onto separate rows.
+- Retain the 20px column gap and compact selector padding/type below 360px to keep choices inside the panel.
+
+### Validation
+
+- Headless playground checks — passed, including same-row agent choices and selector bounds at 320px and 390px.
+- Production build, geometry guard, syntax and whitespace checks — passed.
 
 ## v26.0.110 — 2026-10-18
 
