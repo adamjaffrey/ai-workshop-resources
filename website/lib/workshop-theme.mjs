@@ -1,4 +1,4 @@
-import {revealRadii} from './workshop-reveal.mjs';
+import {revealRadiusRange} from './workshop-reveal.mjs';
 import {toggleScript} from './workshop-toggle.mjs';
 import {agentScript} from './workshop-agent.mjs';
 // Shared theme for the server-rendered login and resource pages.
@@ -48,7 +48,7 @@ html, body { overflow-x: hidden; }
 :root.theme-reveal[data-theme="dark"]::view-transition-old(root) { z-index: 2;
   -webkit-mask-image: radial-gradient(circle at var(--reveal-x) var(--reveal-y), #000 max(0px, calc(var(--theme-radius) - 300px)), transparent var(--theme-radius));
   mask-image: radial-gradient(circle at var(--reveal-x) var(--reveal-y), #000 max(0px, calc(var(--theme-radius) - 300px)), transparent var(--theme-radius));
-  animation: theme-circle 420ms linear both; }
+  animation: theme-circle 420ms cubic-bezier(.25,.35,.75,.85) both; }
 :root.theme-reveal[data-theme="dark"]::view-transition-old(root) { animation-direction: reverse; }
 /* Keep the live control above the root's old-light snapshot in both directions. */
 .theme-toggle:not(.ph-static) { view-transition-name: theme-control; }
@@ -58,7 +58,8 @@ html, body { overflow-x: hidden; }
 :root.theme-reveal::view-transition-group(theme-control) { z-index: 3; }
 :root.theme-reveal::view-transition { pointer-events: none; }
 @keyframes theme-circle {
-  ${Array.from({length: 101}, (_, i) => `${i}% { --theme-radius: var(--reveal-r${i}); }`).join('\n')}
+  from { --theme-radius: var(--reveal-start); }
+  to { --theme-radius: var(--reveal-radius); }
 }
 @media (prefers-reduced-motion: reduce) {
   :root.theme-reveal[data-theme]::view-transition-new(root),
@@ -195,19 +196,18 @@ const script = `(() => {
     const destination = button.closest('.theme-toggle').querySelector('[data-theme-choice="' + theme + '"]');
     const bounds = destination.getBoundingClientRect();
     const x = bounds.left + bounds.width / 2, y = bounds.top + bounds.height / 2;
-    const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    const range = (${revealRadiusRange.toString()})(innerWidth, innerHeight, x, y);
     root.style.setProperty('--reveal-x', x + 'px');
     root.style.setProperty('--reveal-y', y + 'px');
-    root.style.setProperty('--reveal-radius', (radius + 300) + 'px');
-    (${revealRadii.toString()})(innerWidth, innerHeight, x, y).forEach((r, i) => root.style.setProperty('--reveal-r' + i, r + 'px'));
+    root.style.setProperty('--reveal-start', range.start + 'px');
+    root.style.setProperty('--reveal-radius', range.end + 'px');
     root.classList.add('theme-reveal');
     reveal = document.startViewTransition(() => apply(false, theme, false));
     reveal.ready.catch(() => {}); // A skipped snapshot still commits the requested theme.
     await reveal.finished.catch(() => {});
     if (request === revealRequest) {
       root.classList.remove('theme-reveal');
-      ['--reveal-x', '--reveal-y', '--reveal-radius'].forEach(property => root.style.removeProperty(property));
-      for (let i = 0; i <= 100; i++) root.style.removeProperty('--reveal-r' + i);
+      ['--reveal-x', '--reveal-y', '--reveal-start', '--reveal-radius'].forEach(property => root.style.removeProperty(property));
       reveal = undefined;
     }
   }

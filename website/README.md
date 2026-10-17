@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.52"
-  update_summary: "Define shared status colours for both themes"
-  updated_at: "Sat 17 Oct 2026 at 06:24:57 pm AEDT (+11:00)"
+  doc_revision: "26.0.53"
+  update_summary: "Restore gently eased radius motion for theme reveals"
+  updated_at: "Sat 17 Oct 2026 at 06:27:31 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -143,7 +143,7 @@ Login status messages use the existing system font at 14px with a 21px line heig
 
 ## Theme Transitions
 
-Use a 420ms circular reveal with a 300px feathered mask edge and ease-out (`cubic-bezier(.22,1,.36,1)`) for light mode and its exact time-reversed ease-in for dark mode from the centre of the destination sun/moon button for explicit light/dark changes on both pages. Light mode expands the incoming light snapshot from the sun; dark mode reverses the same animation on the outgoing light snapshot, contracting it into the moon, with a 280ms soft-colour fallback when View Transitions are unavailable. Agent selection uses an eased colour blend synchronised with slider arrival at exactly 160ms, derived from shared toggle timing for both agent and day/night selectors; use 60ms each for rebound, return and settling (340ms total), retaining existing distances and easing. Animate only changed colours and theme-dependent brand treatment, preserving independent press and reveal animations. Rapid changes resolve to the latest preference. Apply saved theme and agent colours immediately before initial paint with no decorative transition. Skip or cancel transitions when reduced motion is enabled.
+Use a 420ms circular reveal with a 300px feathered mask edge and gentle radius ease-out (`cubic-bezier(.25,.35,.75,.85)`) for light mode and its exact time-reversed ease-in for dark mode from the centre of the destination sun/moon button for explicit light/dark changes on both pages. Light mode expands the incoming light snapshot from the sun; dark mode reverses the same animation on the outgoing light snapshot, contracting it into the moon, with a 280ms soft-colour fallback when View Transitions are unavailable. Agent selection uses an eased colour blend synchronised with slider arrival at exactly 160ms, derived from shared toggle timing for both agent and day/night selectors; use 60ms each for rebound, return and settling (340ms total), retaining existing distances and easing. Animate only changed colours and theme-dependent brand treatment, preserving independent press and reveal animations. Rapid changes resolve to the latest preference. Apply saved theme and agent colours immediately before initial paint with no decorative transition. Skip or cancel transitions when reduced motion is enabled.
 
 During successful login, keep the green input border, full outer ring and check visible regardless of input focus until navigation completes. The submit button also uses semantic success green, with white text in light mode and dark text in dark mode for contrast.
 
@@ -155,7 +155,7 @@ The shared controller tracks pointer input versus Tab navigation, preserving rea
 
 ## Theme Reveal and QR Sharing
 
-Explicit theme changes retain a 420ms duration and 300px feather. `workshop-reveal.mjs` samples the visible viewport and inverts the feathered mask coverage, so easing controls average visible colour change instead of radius. Blend 80% of the original easing with 20% linear progress to avoid a lingering edge at the end of day mode and start of night mode. Sorted sample distances and prefix sums keep this setup inexpensive. Render the theme toggle in its own transition layer, with no old-control snapshot, so the root reveal cannot conceal its 340ms slide and rebound. Night mode reverses the light-mask frames, originating at the selected moon; day mode originates at the selected sun. Saved preferences apply before paint without motion, and reduced-motion and soft-transition fallbacks remain available.
+Explicit theme changes retain a 420ms duration and 300px feather. Animate the radius directly between two endpoints using `cubic-bezier(.25,.35,.75,.85)`, with finite speed at both ends to avoid a lingering tail. `workshop-reveal.mjs` samples the visible viewport only to trim endpoints at 0.01% and 99.99% average mask coverage. Do not remap intermediate radius values to viewport coverage; this keeps the circular wave continuous. On completion, the snapshot gives way to the exact final theme. Render the theme toggle in its own transition layer, with no old-control snapshot, so the root reveal cannot conceal its 340ms slide and rebound. Night mode reverses the light-mask frames, originating at the selected moon; day mode originates at the selected sun. Saved preferences apply before paint without motion, and reduced-motion and soft-transition fallbacks remain available.
 
 The QR encodes `https://ai-workshop-resources.adamjaffrey.chatgpt.site/`, verified against the existing Sites project. Its button displays the installed Lucide Copy icon and Copy Link label on hover or keyboard focus, copies that same URL with a legacy clipboard fallback, and reports success or failure. Keep the overlay exactly inside the QR image; place the caption gap outside the button. Share the prompt-copy feedback lifecycle: green Lucide Check and text, 180ms ease-out entrance, 5000ms success hold (12000ms for failure), then 650ms ease-in-out exit; reduced motion skips the animation. Keep the 540px image and 48px white quiet zone. All enabled buttons and selector tracks use the pointer cursor.
 

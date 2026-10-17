@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.93"
-  update_summary: "Define contrasting semantic status palettes"
-  updated_at: "Sat 17 Oct 2026 at 06:25:33 pm AEDT (+11:00)"
+  doc_revision: "26.0.94"
+  update_summary: "Restore gently eased radius motion for theme reveals"
+  updated_at: "Sat 17 Oct 2026 at 06:27:31 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.92 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 06:27:31 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Restore gently eased radius motion for theme reveals
+
+### Changed
+
+- Replace intermediate viewport-coverage remapping with a continuous radius animation and gentle easing.
+- Trim nearly invisible endpoint travel while retaining the 300px feather, inverse 420ms day/night reveals and selected-mode origins.
+- Preserve the separate toggle animation, initial-load behaviour, rapid-toggle handling and reduced-motion fallback.
+
+### Validation
+
+- Eleven endpoint, authentication and placeholder tests — passed.
+- Headless Chrome theme checks on login/main pages and mobile/desktop widths, two-keyframe interpolation, inverse direction, rapid toggles, initial preferences, reduced motion and fallback — passed.
+- Sites production build — passed.
 
 ## v26.0.91 — 2026-10-17
 
