@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.8"
-  update_summary: "Adopt CMOS 18 title case and centred footer alignment"
-  updated_at: "Sat 17 Oct 2026 at 01:35:01 pm AEDT (+11:00)"
+  doc_revision: "26.0.9"
+  update_summary: "Left-align the footer action when it wraps below the text"
+  updated_at: "Sat 17 Oct 2026 at 01:43:09 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -47,7 +47,7 @@ metadata:
 
 - Default the selected coding agent to Codex. Persist an explicit Codex or Claude Code choice across login, logout and reload, and apply it before paint on both pages.
 - Derive branded colours from the shared agent accent: Codex #0285FF or Claude Code #D97757. Keep neutral surfaces and semantic error/success colours distinct.
-- Keep the footer action on the right, vertically centred alongside the copyright and version text, including when that text wraps.
+- Keep the footer action on the right, vertically centred when alongside the copyright and version text. When the action wraps onto its own row, left-align it with the footer text.
 - Use the installed Lucide icon definitions for functional interface icons. Agent brand logos remain their existing separate assets.
 
 ## Title Case

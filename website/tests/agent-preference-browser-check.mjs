@@ -22,7 +22,7 @@ try{
  for(const width of [320,390,768,1440]){
   await page.setViewportSize({width,height:844});
   const boxes=await page.locator('footer').evaluate(e=>{
-   const f=e.getBoundingClientRect(),b=e.querySelector('button').getBoundingClientRect(),t=e.querySelector('span').getBoundingClientRect();return{right:f.right-b.right,centres:b.top>=t.bottom?0:(t.top+t.height/2)-(b.top+b.height/2),overflow:document.documentElement.scrollWidth>innerWidth};
+   const f=e.getBoundingClientRect(),b=e.querySelector('button').getBoundingClientRect(),t=e.querySelector('span').getBoundingClientRect();return{right:b.top>=t.bottom?b.left-f.left:f.right-b.right,centres:b.top>=t.bottom?0:(t.top+t.height/2)-(b.top+b.height/2),overflow:document.documentElement.scrollWidth>innerWidth};
   });
   assert.ok(Math.abs(boxes.right)<1&&Math.abs(boxes.centres)<1);assert.equal(boxes.overflow,false);
  }

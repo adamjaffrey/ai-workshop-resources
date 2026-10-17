@@ -14,6 +14,11 @@ try {
   await page.waitForTimeout(100);
   assert.equal(await row.evaluate(e=>e.classList.contains('is-revealed')),true,`missing reveal at ${width}`);
   await page.waitForTimeout(800);
+  const alignment=await page.locator('footer').evaluate(e=>{
+   const f=e.getBoundingClientRect(),t=e.querySelector('.footer-meta').getBoundingClientRect(),b=e.querySelector('button').getBoundingClientRect();
+   return b.top>=t.bottom?b.left-t.left:f.right-b.right;
+  });
+  assert.ok(Math.abs(alignment)<1,`footer action alignment at ${width}`);
   const footer=await page.locator('.footer-meta').evaluate(e=>{
    const parts=[...e.children];const rects=parts.map(x=>x.getBoundingClientRect());
    return {wrapped:e.classList.contains('is-wrapped'),differentLine:Math.abs(rects[0].top-rects[1].top)>2,separator:getComputedStyle(parts[1],'::before').content,nowrap:parts.every(x=>getComputedStyle(x).whiteSpace==='nowrap'),overflow:document.documentElement.scrollWidth>innerWidth};

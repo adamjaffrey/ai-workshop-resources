@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.64"
-  update_summary: "Refine footer wrapping and card-driven step reveals"
-  updated_at: "Sat 17 Oct 2026 at 01:40:44 pm AEDT (+11:00)"
+  doc_revision: "26.0.65"
+  update_summary: "Left-align the footer action when it wraps below the text"
+  updated_at: "Sat 17 Oct 2026 at 01:43:09 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.63 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 01:43:09 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Left-align the footer action when it wraps below the text
+
+### Fixed
+
+- Left-align Log Out with the footer text when its form wraps onto a separate row, preserving right alignment when both fit alongside each other.
+- Document the responsive alignment rule and check both arrangements in browser validation.
+
+### Validation
+
+- Footer/reveal Chrome checks — passed at five desktop/mobile widths.
+- Agent-preference Chrome checks — passed, including responsive footer alignment and authentication flows.
+- Sites production build and placeholder checks — passed.
 
 ## v26.0.62 — 2026-10-17
 

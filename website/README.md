@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.27"
-  update_summary: "Refine footer wrapping and card-driven step reveals"
-  updated_at: "Sat 17 Oct 2026 at 01:40:44 pm AEDT (+11:00)"
+  doc_revision: "26.0.28"
+  update_summary: "Left-align the footer action when it wraps below the text"
+  updated_at: "Sat 17 Oct 2026 at 01:43:09 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -123,6 +123,6 @@ Both toggles use `createWorkshopToggle` from `website/lib/workshop-toggle.mjs` a
 
 ## Footer and Step Motion
 
-Keep the version and complete copyright notice as separate nonbreaking groups. Allow wrapping only between those groups, hiding the decorative bullet and its horizontal spacing when wrapped. Keep Log Out right-aligned and vertically centred when alongside the text; on narrow screens allow its form to move to a separate row. Use the installed Lucide Log Out icon.
+Keep the version and complete copyright notice as separate nonbreaking groups. Allow wrapping only between those groups, hiding the decorative bullet and its horizontal spacing when wrapped. Keep Log Out right-aligned and vertically centred when alongside the text; on narrow screens allow its form to move to a separate row, left-aligned with the text. Use the installed Lucide Log Out icon.
 
 Reveal each step marker and linked card together once the card enters the viewport by 48px, observing the card rather than the whole step row. Honour reduced-motion preferences by showing content immediately. Mobile step connector lines are consistently 112px wide.
