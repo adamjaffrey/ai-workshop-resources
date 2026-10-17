@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.6"
-  update_summary: "Define preview handoffs and persistent website accent rules"
-  updated_at: "Sat 17 Oct 2026 at 01:14:58 pm AEDT (+11:00)"
+  doc_revision: "26.0.7"
+  update_summary: "Require title case across interface headings and labels"
+  updated_at: "Sat 17 Oct 2026 at 01:27:54 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -47,7 +47,7 @@ metadata:
 
 - Default the selected coding agent to Codex. Persist an explicit Codex or Claude Code choice across login, logout and reload, and apply it before paint on both pages.
 - Derive branded colours from the shared agent accent: Codex #0285FF or Claude Code #D97757. Keep neutral surfaces and semantic error/success colours distinct.
-- Use title case for button labels and raw pre-heading text; CSS may display pre-headings in uppercase. Keep Log Out at the bottom right of the resources footer.
+- Use title case for all headings, step subtitles, button labels (including state text and accessible names), input/control labels and raw all-caps labels. CSS may display those labels in uppercase. Preserve normal sentence case for body copy and status messages, and exact casing for brands and code identifiers. Keep Log Out at the bottom right of the resources footer.
 - Use the installed Lucide icon definitions for functional interface icons. Agent brand logos remain their existing separate assets.
 
 ## Blur Placeholder Geometry
