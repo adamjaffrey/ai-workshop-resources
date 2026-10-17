@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.55"
-  update_summary: "Synchronise toggle colours with the circular theme feather"
-  updated_at: "Sat 17 Oct 2026 at 06:39:35 pm AEDT (+11:00)"
+  doc_revision: "26.0.56"
+  update_summary: "Document faster playground controls and block inspection"
+  updated_at: "Sat 17 Oct 2026 at 06:47:21 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -46,7 +46,7 @@ This protects content delivered by this website. The linked public GitHub reposi
 
 ## Local Design Review
 
-The block-strength and blur testing tool is archived under `website/_archive/` and is a manual test only. It is not generated, opened or tested by normal development/build startup. Production remains at 40% block strength and 4px background blur.
+The interactive block-strength and blur controls are available in the local playground’s Blocks tab at `/style-guide`. The original standalone generator remains archived under `website/_archive/` as a manual test only. It is not generated, opened or tested by normal development/build startup. Production remains at 40% block strength and 4px background blur.
 
 To run the optional test, use `npm --prefix website run test:blur-preview` from the repository root. This generates the resources fixture and archived login fixture, then runs the geometry, slider and placeholder browser checks in Chrome. It does not remeasure block geometry. For a manual visual session without browser checks, run `node website/_archive/preview-login.mjs`, then explicitly open `website/_archive/login-design-preview.html` in Chrome. The archived generator is tracked; its generated HTML and screenshots are ignored by Git and excluded from deployment. The form is disabled and contains no credentials or protected workshop content.
 
@@ -177,10 +177,18 @@ Run `node website/tests/status-colours-browser-check.mjs` to verify success, err
 
 Start `npm --prefix website run preview:phone`, then visit `/style-guide` on the printed local or LAN address. This local-only route requires no password and is not registered in the production handler. The regular site still requires the current local test password printed by the preview server. Do not open a browser automatically.
 
-The playground reuses current login/resource markup, CSS, shared theme helpers and resource interactions. It provides light/dark and Codex/Claude controls, fixed sample widths, held hover styles, persistent simulated login states, simulated copy success/failure, colour-token swatches, computed H1–H6/text specimens and a live element inspector. H4–H6 remain explicitly labelled browser defaults; the text-field and disabled-field examples are specimens, not new production components. Warning examples demonstrate reserved tokens only.
+The playground reuses current login/resource markup, CSS, shared theme helpers and resource interactions. It provides light/dark and Codex/Claude controls, fixed sample widths, held hover styles, persistent simulated login states, simulated copy success/failure, colour-token swatches, computed H1–H6/text specimens and a docked Style Inspector. H4–H6 remain explicitly labelled browser defaults; the text-field and disabled-field examples are specimens, not new production components. Warning examples demonstrate reserved tokens only.
 
 Sample frames are sandboxed without same-origin access, form submission, popups or top navigation. Session checks are removed, authentication is simulated, copy actions never touch the clipboard, and links remain in the playground. Login visual state handling reuses the current login script up to its submission handler, then substitutes persistent demonstration states. Keep the tool under `scripts/` and out of production route registration.
 
 Validate with `node website/tests/style-guide-browser-check.mjs`. This checks both agents/themes at mobile and desktop sizes, held login states, copy results, frame widths, navigation containment and production-route exclusion. Headless checks are permitted; do not present them as native mobile-browser testing.
 
 The separate theme toggle layer moves immediately but blends its surface, border and text tokens with the circular feather. Sample the actual animated root-mask radius at the control centre each frame; do not start an independent colour timer. In dark mode the control retains its light colours until the contracting feather reaches it. Clear temporary overrides on completion, interruption and reduced-motion changes.
+
+### Playground Controls and Inspection
+
+Use visible native radio groups for the short theme, agent, width, hover and copy-result choices. The longer login-state group also remains visible because repeated one-click state comparisons are the purpose of this tool. There is no universal numeric cutoff: [NN/g](https://www.nngroup.com/articles/dropdown-list/) recommends radios for fewer than five choices, while [USWDS](https://designsystem.digital.gov/components/select/) suggests select menus for roughly seven to fifteen choices when space is limited, and a searchable combo box for longer lists. Treat option count, label length, space and selection frequency together.
+
+The Style Inspector is a read-only display of the selected element’s computed colours, dimensions, type and spacing. It remains fixed to the bottom of the viewport. Hover updates wait 200ms, nested typography metadata resolves to its specimen, unchanged readings are deduplicated, and the details area has a fixed height with internal scrolling. Click and keyboard focus update immediately. Freeze retains the current reading; Resume follows items again. Show Details reveals the full labelled readout without changing the sample layout.
+
+The Blocks tab reuses the current login markup and saved geometry. No Blur removes the placeholder blur temporarily, Blur Only shows the selected blur without the login panel, and Password Panel adds the real panel and its backdrop blur. Block strength and background blur remain independent sliders, defaulting to 40% and 4px; reset restores those values. Clicking a word, icon or QR block outlines its bounds and reports its dimensions. These settings are local, do not alter production defaults, and never trigger geometry measurement.

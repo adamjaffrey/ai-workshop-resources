@@ -3,14 +3,43 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.96"
-  update_summary: "Synchronise toggle colours with the circular theme feather"
-  updated_at: "Sat 17 Oct 2026 at 06:39:35 pm AEDT (+11:00)"
+  doc_revision: "26.0.97"
+  update_summary: "Improve playground controls and restore block review"
+  updated_at: "Sat 17 Oct 2026 at 06:48:33 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.95 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 06:48:33 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Improve playground controls and restore block review
+
+### Changed
+
+- Replace playground dropdowns with visible native radio groups for one-click selection, including frequently compared login states.
+- Explain and dock the Style Inspector, reserve its readout dimensions, debounce hover updates, normalise nested typography targets and add Freeze/Resume.
+- Document choice-control guidance and local inspection behaviour.
+
+### Added
+
+- Restore No Blur, Blur Only and Password Panel controls in a Blocks tab with independent strength/blur sliders, reset and clickable block bounds.
+- Reuse saved placeholder geometry without measurement or production setting changes.
+
+### Validation
+
+- Playground browser checks — passed both agents/themes at mobile/desktop sizes, radio selection, inspector docking/freezing, block selection, blur settings and navigation containment.
+- Preview isolation and saved-placeholder unit checks — 3 passed.
+- Desktop/mobile screenshot review and Sites production build — passed.
 
 ## v26.0.94 — 2026-10-17
 
