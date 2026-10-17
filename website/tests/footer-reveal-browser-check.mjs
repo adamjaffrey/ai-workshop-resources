@@ -5,9 +5,8 @@ try {
  const page=await browser.newPage({viewport:{width:390,height:320},reducedMotion:'no-preference'});
  const url=new URL('../outputs/workshop-resources-preview.html',import.meta.url).href;
  await page.goto(url);
- await page.waitForFunction(()=>document.querySelector('.step-row').classList.contains('is-revealed'));
- const first=await page.locator('.step-row').first().evaluate(e=>({below:e.querySelector('article').getBoundingClientRect().top>innerHeight,animated:[...e.children].every(child=>child.getAnimations().length>0)}));
- assert.equal(first.below,true);assert.equal(first.animated,true);
+ await page.waitForTimeout(250);
+ assert.equal(await page.locator('.step-row.is-revealed').count(),0,'offscreen first pair must wait');
  for(const width of [320,390,660,768,1440]) {
   await page.setViewportSize({width,height:844});await page.goto(url);await page.evaluate(()=>document.fonts.ready);
   const row=page.locator('.step-row').nth(1);
@@ -33,5 +32,5 @@ try {
  }
  await page.emulateMedia({reducedMotion:'reduce'});await page.goto(url);
  assert.equal(await page.locator('.step-marker').last().evaluate(e=>getComputedStyle(e).opacity),'1');
- console.log('PASS: first step/card animate on load below the fold, later card-driven paired reveals, reduced motion, footer wrap/separator, no overflow, and mobile lines at five widths');
+ console.log('PASS: offscreen first pair waits, card-driven paired reveals, reduced motion, footer wrap/separator, no overflow, and mobile lines at five widths');
 }finally{await browser.close();}

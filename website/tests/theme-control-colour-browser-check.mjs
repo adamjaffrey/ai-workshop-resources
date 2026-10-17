@@ -16,7 +16,7 @@ try {
     await page.waitForFunction(()=>document.getAnimations().some(a=>a.animationName==='theme-circle'));
     await page.evaluate(()=>{window.circle=document.getAnimations().find(a=>a.animationName==='theme-circle');circle.pause();});
     const samples=[];
-    for(const time of [0,210,419]) {
+    for(const time of [0,(width<=660?360:420)*.5,(width<=660?360:420)-1]) {
      await page.evaluate(time=>circle.currentTime=time,time);
      await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
      samples.push(await page.locator('.theme-toggle:not(.ph-static)').evaluate(e=>parseFloat(e.style.getPropertyValue('--theme-control-previous'))));

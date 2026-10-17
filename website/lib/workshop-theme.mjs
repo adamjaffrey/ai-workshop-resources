@@ -39,6 +39,8 @@ const styles = `
 html, body { overflow-x: hidden; }
 @supports (overflow: clip) { html, body { overflow-x: clip; } }
 @property --theme-radius { syntax: '<length>'; inherits: false; initial-value: 0px; }
+:root { --theme-reveal-duration: 420ms; }
+@media (max-width: 660px) { :root { --theme-reveal-duration: 360ms; } }
 /* Only explicit theme changes create a circular snapshot reveal. */
 :root.theme-reveal::view-transition-old(root),
 :root.theme-reveal::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
@@ -48,7 +50,7 @@ html, body { overflow-x: hidden; }
 :root.theme-reveal[data-theme="dark"]::view-transition-old(root) { z-index: 2;
   -webkit-mask-image: radial-gradient(circle at var(--reveal-x) var(--reveal-y), #000 max(0px, calc(var(--theme-radius) - 300px)), transparent var(--theme-radius));
   mask-image: radial-gradient(circle at var(--reveal-x) var(--reveal-y), #000 max(0px, calc(var(--theme-radius) - 300px)), transparent var(--theme-radius));
-  animation: theme-circle 420ms cubic-bezier(.25,.35,.75,.85) both; }
+  animation: theme-circle var(--theme-reveal-duration) cubic-bezier(.25,.35,.75,.85) both; }
 :root.theme-reveal[data-theme="dark"]::view-transition-old(root) { animation-direction: reverse; }
 /* Keep the live control above the root's old-light snapshot in both directions. */
 .theme-toggle:not(.ph-static) { view-transition-name: theme-control; }

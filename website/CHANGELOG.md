@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.97"
-  update_summary: "Improve playground controls and restore block review"
-  updated_at: "Sat 17 Oct 2026 at 06:48:33 pm AEDT (+11:00)"
+  doc_revision: "26.0.98"
+  update_summary: "Tune mobile theme timing and reveal visible card pairs in sequence"
+  updated_at: "Sat 17 Oct 2026 at 08:20:49 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.96 — 2026-10-17
+
+**Built at:** Sat 17 Oct 2026 at 08:20:49 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Tune mobile theme timing and reveal visible card pairs in sequence
+
+### Changed
+
+- Shorten circular theme transitions to 360ms at widths up to 660px; retain 420ms desktop timing and feather-following slider colours.
+- Reveal initial step/card pairs only when at least 10px of their step text or card is visible, with 120ms between starts.
+- Apply a 40px card-only scroll trigger to all remaining pairs, including offscreen first cards, for any card count.
+- Preserve reduced-motion handling and record the rules in repository instructions.
+
+### Validation
+
+- Eleven radius, authentication and placeholder tests — passed.
+- Headless Chrome initial visibility/stagger checks at nine viewport sizes, step-only/sliver cases, 40px triggers, five-card fixture and reduced motion — passed.
+- Footer checks at five widths, theme checks across the mobile breakpoint and feather-following colour checks — passed.
+- Sites production build — passed.
 
 ## v26.0.95 — 2026-10-17
 
