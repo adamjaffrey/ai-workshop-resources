@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.12"
-  update_summary: "Compact login errors and retain password feedback until editing"
-  updated_at: "Sat 17 Oct 2026 at 06:05:22 pm AEDT (+11:00)"
+  doc_revision: "26.0.13"
+  update_summary: "Standardise cursors by interaction and retain Uxcel guidance"
+  updated_at: "Sat 17 Oct 2026 at 06:06:18 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -57,6 +57,16 @@ metadata:
 - The first Tab after heading focus must reach the first visible, enabled interactive element in logical DOM order and display its keyboard focus ring. Preserve the login order: day/night selector as one stop, password, then unlock.
 - Use the shared panel-heading focus helper for custom panels and the shared opening handling for native dialogs/popovers. Every such panel must have an accessible heading. Preserve native modal containment and focus restoration to the invoking control when a panel closes.
 - Validate initial/opening focus, Tab/Shift+Tab navigation, keyboard activation, pointer/touch ring suppression, input focus and selector destination focus on desktop and mobile layouts when modifying these flows.
+
+## Cursor Behaviour
+
+Follow [Uxcel: Types of Cursors & When to Use Them](https://uxcel.com/lessons/basics-834) as the reference for future cursor decisions. Match the cursor to the action available at the hovered location.
+
+- Use `cursor: pointer` (hand) for all enabled buttons, toggles, links and other clickable or activatable elements. Apply it across the complete hit target, including icons, labels, selector tracks, padding and gaps; the cursor must change immediately on hover.
+- Use `cursor: not-allowed` for disabled, blocked or unavailable controls, including controls marked `aria-disabled="true"`. This state takes precedence over pointer or text cursors. Cursor styling does not disable an action: also enforce the blocked behaviour and appropriate disabled semantics.
+- Use `cursor: text` (I-beam) for selectable text and text-entry/editing fields, including body copy, prompt/code text, password inputs and textareas. Text and icons inside clickable controls inherit the control's hand cursor; they are part of the action, not independent text-selection targets.
+- Use the default arrow for noninteractive, nonselectable surfaces. For specialised interactions such as dragging, resizing or precision selection, follow the reference's action-specific cursor guidance.
+- Preserve these distinctions in normal, hover, focus and disabled states. Do not use `pointer-events: none` merely to style a disabled control if it prevents the intended not-allowed cursor from appearing.
 
 ## Website Appearance
 
