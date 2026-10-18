@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.140"
-  update_summary: "Add slower rainbow sweeps, particle bursts and a moving halo"
-  updated_at: "Mon 19 Oct 2026 at 01:31:59 am AEDT (+11:00)"
+  doc_revision: "26.0.141"
+  update_summary: "Add discovery tuning controls and gravity sparkles"
+  updated_at: "Mon 19 Oct 2026 at 01:43:50 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.139 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 01:43:50 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add discovery tuning controls and gravity sparkles
+
+### Changed
+
+- Keep the existing rainbow sheen and expose specimen-only duration, sweep gap, particle density and halo-strength sliders with canonical defaults and reset.
+- Replace outward bursts with independently twinkling points that gather and grow near the pointer; keep concealed letters hidden until activation and preserve the complete target.
+- Explain Locked in the dedicated Playground tab and document both visual references. Use shared original CSS/JavaScript without adding dependencies.
+
+### Validation
+
+- Verify dedicated Playground/app parity at 320, 390, 768 and 1440px for both themes and agents, tuning isolation, reset and pointer gravity.
+- Check rendered sheen, sparkle field, halo, discovery gating, touch, focus restoration and reduced motion; run the required general Playground source-parity suite.
+- `npm --prefix website run build` — passed with saved placeholder geometry. Physical-device Safari remains a manual preview check.
 
 ## v26.0.138 — 2026-10-19
 

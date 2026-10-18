@@ -1,6 +1,8 @@
 // Original implementation inspired by Magic UI Aurora Text/Shine Border and Aceternity Sparkles.
 // Reference links and rationale are recorded in website/README.md; no third-party code copied.
-const particles = Array.from({length:24},(_,i)=>{const angle=(i%8)*Math.PI/4,group=Math.floor(i/8);return `<span class="perspective-particle" style="--x:${22+group*28}%;--y:${[50,35,60][group]}%;--dx:${(Math.cos(angle)*(14+group*4)).toFixed(2)}px;--dy:${(Math.sin(angle)*14).toFixed(2)}px;--delay:${group*.35+(i%3)*.09}s;--hue:${i*47%360}"></span>`;}).join('');
+export const perspectiveDefaults = Object.freeze({duration:4500,gap:2000,intensity:100,halo:100});
+const scatter = (i,seed) => ((Math.sin((i+1)*seed)*43758.5453)%1+1)%1*100;
+const particles = Array.from({length:96},(_,i)=>`<span class="perspective-particle" style="--x:${scatter(i,12.9898)}%;--y:${scatter(i,78.233)}%;--size:${1+(i%5)*.35}px;--delay:${-(i%17)*.23}s;--twinkle:${1.6+(i%7)*.31}s"></span>`).join('');
 export const eggMarkup = `<section class="perspective" data-state="locked" aria-label="A Different Perspective">
 <p class="perspective-fragment perspective-day">Look at things a little differently</p>
 <span class="perspective-join"><span class="perspective-ellipsis">…</span><button class="perspective-discover" type="button" hidden aria-label="Discover Another Perspective"><span class="perspective-particles" aria-hidden="true">${particles}</span></button></span>
@@ -27,21 +29,22 @@ export const eggCSS = `
 /* Animate the actual text silhouette: a shared sweep for all wrapped lines. */
 .perspective-fragment::after { content:attr(data-sheen-text); position:absolute; inset:0; pointer-events:none; user-select:none; visibility:visible; color:transparent; background:linear-gradient(135deg,transparent 25%,#ff4f9b 34%,#ffb642 41%,#6de29f 48%,#4bc7ff 55%,#9275ff 62%,#ef72dd 69%,transparent 78%); background-size:300% 100%; background-position:150% 0; background-clip:text; -webkit-background-clip:text; opacity:0; }
 .perspective { --egg-sheen:color-mix(in srgb,var(--agent-accent) 60%,var(--text)); }
-:root[data-theme="light"] .perspective[data-sheening] .perspective-day::after { animation:perspective-sheen 4500ms linear; }
-:root[data-theme="dark"] .perspective[data-sheening] .perspective-night::after { animation:perspective-sheen 4500ms linear reverse; }
+:root[data-theme="light"] .perspective[data-sheening] .perspective-day::after { animation:perspective-sheen var(--perspective-duration,4500ms) linear; }
+:root[data-theme="dark"] .perspective[data-sheening] .perspective-night::after { animation:perspective-sheen var(--perspective-duration,4500ms) linear reverse; }
 @keyframes perspective-sheen { 0% { background-position:150% 0; opacity:0; } 15%,85% { opacity:.85; } 100% { background-position:-50% 0; opacity:0; } }
-/* Abstract light bursts live on the target, never on the concealed glyphs. */
+/* Independent twinkling points; the concealed glyphs never supply the cue. */
 .perspective-particles { position:absolute; inset:0; pointer-events:none; opacity:0; overflow:hidden; }
-.perspective-particle { position:absolute; left:var(--x); top:var(--y); width:3px; height:3px; border-radius:50%; background:hsl(var(--hue) 95% 65%); box-shadow:0 0 5px 1px hsl(var(--hue) 95% 65% / .7); opacity:0; }
+.perspective-particle { position:absolute; left:var(--x); top:var(--y); width:var(--size); height:var(--size); border-radius:50%; background:color-mix(in srgb,var(--agent-accent) 65%,var(--text)); box-shadow:0 0 4px color-mix(in srgb,var(--agent-accent) 65%,transparent); opacity:0; transform:translate(var(--pull-x,0px),var(--pull-y,0px)) scale(var(--pull-scale,1)); transition:transform 500ms cubic-bezier(.2,.65,.3,1); }
+.perspective-particle[hidden] { display:none; }
 .perspective[data-state="ready"]:is([data-sparkling],[data-hovering],[data-keyboard-hint]) .perspective-particles { opacity:1; }
-.perspective[data-state="ready"]:is([data-sparkling],[data-hovering],[data-keyboard-hint]) .perspective-particle { animation:perspective-burst 2.4s ease-out var(--delay) infinite; }
-@keyframes perspective-burst { 0% { opacity:0; transform:translate(0,0) scale(.2); } 15% { opacity:1; transform:translate(calc(var(--dx) * .15),calc(var(--dy) * .15)) scale(1.25); } 55% { opacity:.65; transform:translate(calc(var(--dx) * .65),calc(var(--dy) * .65)) scale(.85); } 100% { opacity:0; transform:translate(var(--dx),var(--dy)) scale(.1); } }
+.perspective[data-state="ready"]:is([data-sparkling],[data-hovering],[data-keyboard-hint]) .perspective-particle { animation:perspective-twinkle var(--twinkle) ease-in-out var(--delay) infinite; }
+@keyframes perspective-twinkle { 0%,100% { opacity:.08; } 50% { opacity:.85; } }
 .perspective[data-state="complete"] .perspective-fragment::after { visibility:hidden; }
-.perspective-dialog { box-sizing:border-box; width:min(440px,calc(100% - 48px)); max-width:440px; max-height:calc(100dvh - 48px); padding:28px; border:2px solid transparent; border-radius:20px; background:linear-gradient(var(--surface),var(--surface)) padding-box,conic-gradient(from var(--perspective-halo-angle),#ff4f9b,#ffb642,#6de29f,#4bc7ff,#9275ff,#ff4f9b) border-box; color:var(--text); overflow:auto; box-shadow:-14px -10px 48px #a855f799,16px -6px 46px #16bfff88,0 18px 52px #ff4f9b99; }
+.perspective-dialog { box-sizing:border-box; width:min(440px,calc(100% - 48px)); max-width:440px; max-height:calc(100dvh - 48px); padding:28px; border:2px solid transparent; border-radius:20px; background:linear-gradient(var(--surface),var(--surface)) padding-box,conic-gradient(from var(--perspective-halo-angle),#ff4f9b,#ffb642,#6de29f,#4bc7ff,#9275ff,#ff4f9b) border-box; color:var(--text); overflow:auto; box-shadow:-14px -10px 48px rgb(168 85 247 / calc(.6 * var(--perspective-halo,1))),16px -6px 46px rgb(22 191 255 / calc(.53 * var(--perspective-halo,1))),0 18px 52px rgb(255 79 155 / calc(.6 * var(--perspective-halo,1))); }
 @property --perspective-halo-angle { syntax:"<angle>"; initial-value:0deg; inherits:false; }
 .perspective-dialog[open] { animation:perspective-halo-turn 8s linear infinite,perspective-halo-breathe 4s ease-in-out infinite alternate; }
 @keyframes perspective-halo-turn { to { --perspective-halo-angle:360deg; } }
-@keyframes perspective-halo-breathe { from { box-shadow:-14px -10px 48px #a855f799,16px -6px 46px #16bfff88,0 18px 52px #ff4f9b99; } to { box-shadow:12px -14px 58px #ff4f9bb3,-18px 8px 56px #16bfff99,8px 18px 62px #a855f7aa; } }
+@keyframes perspective-halo-breathe { from { box-shadow:-14px -10px 48px rgb(168 85 247 / calc(.6 * var(--perspective-halo,1))),16px -6px 46px rgb(22 191 255 / calc(.53 * var(--perspective-halo,1))),0 18px 52px rgb(255 79 155 / calc(.6 * var(--perspective-halo,1))); } to { box-shadow:12px -14px 58px rgb(255 79 155 / calc(.7 * var(--perspective-halo,1))),-18px 8px 56px rgb(22 191 255 / calc(.6 * var(--perspective-halo,1))),8px 18px 62px rgb(168 85 247 / calc(.67 * var(--perspective-halo,1))); } }
 .perspective-dialog::backdrop { background:var(--gate-overlay); backdrop-filter:blur(4px); }
 .perspective-dialog h2 { font-size:24px; line-height:1.2; margin:0 0 20px; }
 .perspective-dialog p { font-size:16px; line-height:1.5; color:var(--muted-text); margin:0 0 20px; }
@@ -51,13 +54,14 @@ body:has(.perspective-dialog[open]) { overflow:hidden; }
 /* Float the existing resource control; the header keeps its original height. */
 body:has(.perspective) .page-toolbar { min-height:54px; padding-right:110px; }
 body:has(.perspective) .page-toolbar > .theme-toggle { position:fixed; top:max(16px,env(safe-area-inset-top)); right:max(24px,calc((100vw - 960px)/2)); z-index:30; box-shadow:var(--floating-control-shadow); }
-@media(prefers-reduced-motion:reduce) { .perspective-fragment::after,.perspective-dialog[open],.perspective-particle { animation:none!important; } .perspective[data-state="ready"] .perspective-particles { opacity:.6; } .perspective[data-state="ready"] .perspective-particle { opacity:.7; transform:translate(var(--dx),var(--dy)); } }
+@media(prefers-reduced-motion:reduce) { .perspective-fragment::after,.perspective-dialog[open],.perspective-particle { animation:none!important; } .perspective[data-state="ready"] .perspective-particles { opacity:.6; } .perspective[data-state="ready"] .perspective-particle { opacity:.7; transform:none; } }
 
 `;
-export function initPerspective() {
+export function initPerspective(defaults) {
  const root=document.documentElement, area=document.querySelector('.perspective');
  if(!area)return;
  const day=area.querySelector('.perspective-day'),night=area.querySelector('.perspective-night'),button=area.querySelector('button'),dialog=document.querySelector('.perspective-dialog');
+ const config={...defaults},points=[...button.querySelectorAll('.perspective-particle')];
  const motion=matchMedia('(prefers-reduced-motion: reduce)');
  for(const fragment of [day,night])fragment.dataset.sheenText=fragment.textContent;
  let seen=new Set(),candidate=null,since=0,state='locked',cycle=0,sequence=0,hovering=false,held=false;
@@ -69,6 +73,11 @@ export function initPerspective() {
  function setState(next){state=next;area.dataset.state=next;}
  function positionTarget(){if(state==='complete'){button.removeAttribute('style');return;}const fragment=root.dataset.theme==='dark'?day:night;const r=fragment.getBoundingClientRect(),a=area.getBoundingClientRect();Object.assign(button.style,{left:(r.left-a.left)+'px',right:'auto',top:(r.top-a.top-10)+'px',width:r.width+'px',height:Math.max(44,r.height+20)+'px',transform:'none'});}
  function sync(){const all=state==='revealing'||state==='complete';day.setAttribute('aria-hidden',String(!all&&root.dataset.theme==='dark'));night.setAttribute('aria-hidden',String(!all&&root.dataset.theme!=='dark'));positionTarget();}
+ function configure(next={}){const before=JSON.stringify(config);for(const [key,min,max] of [['duration',1500,12000],['gap',0,10000],['intensity',0,200],['halo',0,200]]){if(Number.isFinite(next[key]))config[key]=Math.min(max,Math.max(min,next[key]));}area.style.setProperty('--perspective-duration',config.duration+'ms');dialog.style.setProperty('--perspective-halo',config.halo/100);points.forEach((point,i)=>point.hidden=i>=Math.round(config.intensity*.48));if(state==='ready'&&before!==JSON.stringify(config)){clearTimers();area.removeAttribute('data-sheening');area.removeAttribute('data-sparkling');cycle=performance.now()+100;}return {...config};}
+ function gravity(event){if(state!=='ready'||motion.matches)return;const r=button.getBoundingClientRect();points.forEach(point=>{const x=parseFloat(point.style.getPropertyValue('--x'))/100*r.width,y=parseFloat(point.style.getPropertyValue('--y'))/100*r.height,dx=event.clientX-r.left-x,dy=event.clientY-r.top-y,influence=Math.max(0,1-Math.hypot(dx,dy)/140);point.style.setProperty('--pull-x',dx*influence*.38+'px');point.style.setProperty('--pull-y',dy*influence*.38+'px');point.style.setProperty('--pull-scale',1+influence*.9);});}
+ button.addEventListener('pointermove',gravity);
+ button.addEventListener('pointerleave',()=>points.forEach(point=>{for(const key of ['--pull-x','--pull-y','--pull-scale'])point.style.removeProperty(key);}));
+ configure();
  function sparkle(){area.setAttribute('data-sparkling','');later(()=>area.removeAttribute('data-sparkling'),3000);}
  function sheen(complete=false){
   const token=++sequence;clearTimers();area.removeAttribute('data-sheening');area.removeAttribute('data-sparkling');void area.offsetWidth;
@@ -77,9 +86,9 @@ export function initPerspective() {
    area.removeAttribute('data-hovering');area.removeAttribute('data-keyboard-hint');
    setState('revealing');sync();button.hidden=true;
    const other=root.dataset.theme==='dark'?day:night;
-   if(!motion.matches){other.animate([{opacity:0,clipPath:root.dataset.theme==='dark'?'inset(0 0 0 100%)':'inset(0 100% 0 0)'},{opacity:1,clipPath:'inset(0 0 0 0)'}],{delay:4500,duration:1800,fill:'both',easing:'ease-in-out'});}
-   later(()=>{if(token!==sequence)return;setState('complete');sync();area.removeAttribute('data-sheening');later(()=>{dialog.showModal();window.workshopFocusPanel?.(dialog);},2000);},motion.matches?0:6300);
-  } else {later(()=>{if(token===sequence)sparkle();},motion.matches?0:3500);later(()=>{if(token===sequence)area.removeAttribute('data-sheening');},4500);}
+   if(!motion.matches){other.animate([{opacity:0,clipPath:root.dataset.theme==='dark'?'inset(0 0 0 100%)':'inset(0 100% 0 0)'},{opacity:1,clipPath:'inset(0 0 0 0)'}],{delay:config.duration,duration:1800,fill:'both',easing:'ease-in-out'});}
+   later(()=>{if(token!==sequence)return;setState('complete');sync();area.removeAttribute('data-sheening');later(()=>{dialog.showModal();window.workshopFocusPanel?.(dialog);},2000);},motion.matches?0:config.duration+1800);
+  } else {later(()=>{if(token===sequence)sparkle();},motion.matches?0:config.duration*.78);later(()=>{if(token===sequence)area.removeAttribute('data-sheening');},config.duration);}
  }
  button.addEventListener('pointerenter',()=>{hovering=true;if(state==='ready')area.setAttribute('data-hovering','');});button.addEventListener('pointerleave',()=>{hovering=false;area.removeAttribute('data-hovering');});
  button.addEventListener('focus',()=>{if(state==='ready'&&root.dataset.focusInput==='keyboard')area.setAttribute('data-keyboard-hint','');});button.addEventListener('blur',()=>area.removeAttribute('data-keyboard-hint'));
@@ -95,7 +104,7 @@ export function initPerspective() {
     if(now-since>=1000){seen.add(theme);if(seen.has('light')&&seen.has('dark')){setState('ready');button.hidden=false;cycle=now+700;}}
    }else{candidate=null;since=0;}
   }
-  if(state==='ready'&&visible()&&stable()&&now>=cycle&&!hovering){sheen();cycle=now+6500;}
+  if(state==='ready'&&visible()&&stable()&&now>=cycle&&!hovering){sheen();cycle=now+config.duration+config.gap;}
   if(!visible()&&state==='ready'){clearTimers();area.removeAttribute('data-sheening');area.removeAttribute('data-sparkling');}
   sync();
  }
@@ -103,6 +112,6 @@ export function initPerspective() {
  setInterval(tick,100);tick();
  motion.addEventListener('change',()=>{if(motion.matches){area.getAnimations({subtree:true}).forEach(a=>{if(a.effect?.getTiming().iterations===Infinity)a.cancel();else a.finish();});area.removeAttribute('data-sheening');}});
  // Shared state renderer for isolated Playground fixtures; no parallel UI implementation.
- window.workshopPerspective={get state(){return state;},get seen(){return [...seen];},preview(next){held=next!=='live';seen=new Set();candidate=null;clearTimers();sequence++;dialog.close();area.removeAttribute('data-sheening');area.removeAttribute('data-sparkling');setState(next==='success'?'complete':next==='live'?'locked':next);button.hidden=next==='locked'||next==='live';if(next==='ready'){seen=new Set(['light','dark']);cycle=performance.now()+500;}if(next==='success'){dialog.showModal();window.workshopFocusPanel?.(dialog);}sync();},sheen};
+ window.workshopPerspective={configure,get config(){return {...config};},get state(){return state;},get seen(){return [...seen];},preview(next){held=next!=='live';seen=new Set();candidate=null;clearTimers();sequence++;dialog.close();area.removeAttribute('data-sheening');area.removeAttribute('data-sparkling');setState(next==='success'?'complete':next==='live'?'locked':next);button.hidden=next==='locked'||next==='live';if(next==='ready'){seen=new Set(['light','dark']);cycle=performance.now()+500;}if(next==='success'){dialog.showModal();window.workshopFocusPanel?.(dialog);}sync();},sheen};
 }
-export function withPerspective(html){return html.replace('</head>',`<style>${eggCSS}</style></head>`).replace('    <footer>',eggMarkup+'\n    <footer>').replace('</body>',`<script nonce="__NONCE__">(${initPerspective.toString()})();</script></body>`);}
+export function withPerspective(html){return html.replace('</head>',`<style>${eggCSS}</style></head>`).replace('    <footer>',eggMarkup+'\n    <footer>').replace('</body>',`<script nonce="__NONCE__">(${initPerspective.toString()})(${JSON.stringify(perspectiveDefaults)});</script></body>`);}
