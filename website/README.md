@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.70"
-  update_summary: "Document shared hosted sessions and anonymous local playground access"
-  updated_at: "Sun 18 Oct 2026 at 07:45:54 pm AEDT (+11:00)"
+  doc_revision: "26.0.71"
+  update_summary: "Document responsive specimens and calmer initial reveals"
+  updated_at: "Sun 18 Oct 2026 at 09:13:36 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -125,7 +125,7 @@ Both toggles use `createWorkshopToggle` from `website/lib/workshop-toggle.mjs` a
 
 Keep the version and complete copyright notice as separate nonbreaking groups. Allow wrapping only between those groups, hiding the decorative bullet and its horizontal spacing when wrapped. Keep Log Out right-aligned and vertically centred when alongside the text; on narrow screens allow its form to move to a separate row, left-aligned with the text. Use the installed Lucide Log Out icon.
 
-On initial load, snapshot the viewport after fonts and prompt content establish layout. Reveal any pair with at least 10px of its step text or card visible, in DOM order with 120ms between starts. All other pairs, including the first when offscreen, wait until the point 40px below the top of their step text enters the viewport; observe `.step-copy` on desktop and mobile so stacked pairs reveal before the card edge arrives. Apply this once-only initial exception to any number of cards on desktop and mobile. Later scrolling and resizing use only the step-text threshold. Honour reduced-motion preferences by showing content immediately. Mobile step connector lines are consistently 120px wide.
+On initial load, snapshot the viewport after fonts and prompt content establish layout. Reveal any pair with at least 10px of its step text or card visible, in DOM order with 120ms between starts. Initial pairs rise 16px with a 420ms opacity fade and 480ms eased transform, avoiding simultaneous opposing horizontal entrances. Later reveals retain their horizontal movement. All other pairs, including the first when offscreen, wait until the point 40px below the top of their step text enters the viewport; observe `.step-copy` on desktop and mobile so stacked pairs reveal before the card edge arrives. Apply this once-only initial exception to any number of cards on desktop and mobile. Later scrolling and resizing use only the step-text threshold. Honour reduced-motion preferences by showing content immediately. Mobile step connector lines are consistently 120px wide.
 
 ## Button Interaction
 
@@ -224,6 +224,8 @@ The source-parity browser check compares each typography specimen’s text, font
 
 The Icons tab captures current app controls, SVGs, images and Unicode glyphs, including selected theme/agent and copy/login states. Icon Family filters show All, Lucide, Lobe, Unicode or Other. Show Sources defaults off and reveals separate Lucide/Lobe source links without making specimens external navigation targets. Licence panels explain Lucide’s ISC licence and Feather-derived MIT notice, and Lobe’s MIT licence. Error States renders all login and copy failures from the same live source messages and computed styles. Isolated capture frames suppress focus and selection side effects and finish transitions before capture; they never change production behaviour.
 
-Interactive login, resource and block previews have an inline height cap of 70dvh. Expand Preview opens the existing preview in a native modal dialog without moving or reloading its iframe. Lucide Maximize 2 and Minimize 2 identify expand/contract actions. Relevant state controls and shared Style Options remain available inside the dialog; their collapsible sections preserve room on short screens. Closing or Escape restores page position and focus to the invoking control. Background scrolling is locked only while expanded. Typography, Icons and Error States instead measure their full content height and scroll with the playground page. Validate with `node website/tests/playground-expanded-preview-check.mjs`.
+Interactive login, resource and block previews use 70% of the viewport space remaining after the initially measured sticky toolbar, inspector and 32px breathing room, capped at 760px. Measure once after fonts load; opening controls does not resize the embedded preview. Expand Preview opens the existing preview in a native modal dialog without moving or reloading its iframe. Lucide Maximize 2 and Minimize 2 identify expand/contract actions. Relevant state controls and shared Style Options remain available inside the dialog; their collapsible sections preserve room on short screens. Closing or Escape restores page position and focus to the invoking control. Background scrolling is locked only while expanded. Typography, Icons and Error States instead measure their full content height and scroll with the playground page. Validate with `node website/tests/playground-expanded-preview-check.mjs`.
 
 App interface changes must update affected playground specimens, adapters and parity checks in the same change, following the mandatory contract in `AGENTS.md`. Validate against independently rendered main-app pages as well as the specimen source frames; shared imports alone do not prove rendered parity.
+
+Typography examples follow source DOM order within each source page. Copy controls show one resting state; the Icons view shows their live captured variants. The login error typography specimen holds the actual incorrect-password renderer output. Error States captures failures in their login form, QR button or prompt-copy button/status context. The toolbar uses Screen Width, and changing its radio controls preserves scroll position and focus.

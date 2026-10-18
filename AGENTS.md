@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.28"
-  update_summary: "Standardise build and publication handoffs"
-  updated_at: "Sun 18 Oct 2026 at 08:34:42 pm AEDT (+11:00)"
+  doc_revision: "26.0.29"
+  update_summary: "Preserve calm initial reveals and responsive footer priorities"
+  updated_at: "Sun 18 Oct 2026 at 09:13:36 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -82,7 +82,7 @@ Follow [Uxcel: Types of Cursors & When to Use Them](https://uxcel.com/lessons/ba
 
 - Default the selected coding agent to Codex. Persist an explicit Codex or Claude Code choice across login, logout and reload, and apply it before paint on both pages.
 - Derive branded colours from the shared agent accent: Codex #0285FF or Claude Code #D97757. Keep neutral surfaces and semantic error/success colours distinct.
-- Keep the footer action on the right, vertically centred when alongside the copyright and version text. When the action wraps onto its own row, left-align it with the footer text.
+- Keep the footer action on the right, vertically centred when alongside the copyright and version text. Prefer a single row; next wrap version and copyright at their divider while retaining the right-aligned action. Only when the intact copyright and action cannot fit side-by-side, put the action below and left-align everything. Omit the divider and adjacent spacing whenever the text wraps.
 - Define success, error, warning and information roles centrally in `website/lib/workshop-theme.mjs`, shared by both agents and both pages. Use theme-specific success/error/warning colours and contrasting success/warning fill text. Keep information neutral through `--info`, aliased to `--muted-text`. Warning is reserved for future caution states; do not introduce warning UI without a product need. Check status foregrounds against page, card, field, tinted and hover surfaces when changing the palette. Pair status colours with text or icons.
 - Source every error colour on both pages from `var(--error)` in `website/lib/workshop-theme.mjs`. Define it once per light/dark theme; Codex and Claude share those values. Error text, icons, borders, focus rings, password text/autofill and copy-failure controls must reference or inherit that token, with no per-agent overrides or hard-coded component colours.
 - Use the installed Lucide icon definitions for functional interface icons. Agent brand logos remain their existing separate assets.
@@ -118,7 +118,7 @@ Preserve the approved behaviour in `website/lib/workshop-theme.mjs`, `website/li
 
 - Apply the same rules to every step/card pair, regardless of its index or the number of cards, on desktop and mobile.
 - On initial page load, after fonts and prompt content establish layout, take a single viewport visibility snapshot. A pair qualifies if at least 10px vertically of its card or step text is visible inside the viewport. A tiny sliver under 10px does not qualify. Do not always reveal the first pair.
-- Reveal qualifying initial pairs in DOM order with 120ms between animation starts. Animate each step marker and linked card together using the existing slide/fade treatment; do not wait for the preceding animation to finish.
+- Reveal qualifying initial pairs in DOM order with 120ms between animation starts. Animate each initial step marker and linked card together with a 16px upward entrance, 420ms opacity fade and 480ms transform using `cubic-bezier(.2,.7,.2,1)`. Avoid opposing horizontal motion for initial visible pairs; retain the later scroll-triggered horizontal entrance. Keep pre-reveal positioning transition-free; do not wait for the preceding animation to finish.
 - Pairs outside the initial group wait until the point 40px below the top of their step text is inside the viewport. Observe `.step-copy` with a 40px bottom inset on both desktop and mobile, revealing the marker and card together. This intentionally reveals stacked cards before their own top edge arrives. Fall back to observing the card only if a future pair has no step-text element. Resizing or scrolling later must not reapply the initial step-text exception.
 - Reveal each pair once. Honour reduced motion by showing content immediately and cancelling queued reveals; without IntersectionObserver, keep the content visible.
 - Validate short/tall phone, tablet and desktop viewports, breakpoint boundaries, step-text-only initial visibility, tiny slivers, multiple initial cards, later step-text thresholds and additional-card fixtures.

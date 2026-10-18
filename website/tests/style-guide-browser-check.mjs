@@ -3,7 +3,7 @@ import {chromium} from 'playwright';
 import {createPhonePreview} from '../scripts/phone-preview.mjs';
 import {loginMessages} from '../lib/workshop-login-messages.mjs';
 import {handleRequest} from '../lib/workshop-handler.mjs';
-const {server}=createPhonePreview();await new Promise(r=>server.listen(0,'127.0.0.1',r));
+const {server,password}=createPhonePreview();await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const origin='http://127.0.0.1:'+server.address().port;
 const b=await chromium.launch({channel:'chrome',headless:true});
 try{
@@ -14,13 +14,15 @@ const choose=async(id,value)=>{const mobile=['theme','agent','width','hover'].in
 assert.equal(await p.locator('select').count(),0);
 async function verifySourceParity(){await p.click('[data-tab=typography]');await p.waitForTimeout(350);
 const specimens=await p.frameLocator('#type-frame').locator('.type-row').evaluateAll(rows=>rows.map(row=>{const e=row.querySelector('[data-type-sample]'),c=getComputedStyle(e);return {page:row.dataset.sourcePage,selector:row.dataset.sourceSelector,text:e.textContent,style:[c.fontFamily,c.fontSize,c.fontWeight,c.lineHeight,c.letterSpacing,c.color,c.textTransform]};}));
-for(const specimen of specimens){const actual=await (specimen.page==='login'?login:resources).locator(specimen.selector).first().evaluate(e=>{const c=getComputedStyle(e);return{text:e.textContent,style:[c.fontFamily,c.fontSize,c.fontWeight,c.lineHeight,c.letterSpacing,c.color,c.textTransform]};});assert.deepEqual({text:specimen.text,style:specimen.style},actual,specimen.page+' '+specimen.selector);}
+for(const specimen of specimens){if(specimen.selector==='#gate-error')await actualLogin.evaluate(text=>showFailure(text,true,false,false),loginMessages.wrong);const actual=await (specimen.page==='login'?actualLogin:actualResources).locator(specimen.selector).first().evaluate(e=>{const c=getComputedStyle(e);return{text:e.textContent,style:[c.fontFamily,c.fontSize,c.fontWeight,c.lineHeight,c.letterSpacing,c.color,c.textTransform]};});assert.deepEqual({text:specimen.text,style:specimen.style},actual,specimen.page+' '+specimen.selector);if(specimen.selector==='#gate-error')await actualLogin.evaluate(()=>{resetPasswordError();setStatus('info','');});}
 await p.click('[data-tab=components]');}
 
+const actualLogin=await b.newPage();await actualLogin.goto(origin+'/');
+const mainContext=await b.newContext();await mainContext.request.post(origin+'/auth/login',{headers:{origin,accept:'application/json'},form:{password}});const actualResources=await mainContext.newPage();await actualResources.goto(origin+'/');
 const login=p.frameLocator('#login-frame'),resources=p.frameLocator('#resources-frame');
 await login.locator('#workshop-password').waitFor();
-for(const width of [390,1440]){
- await p.setViewportSize({width,height:900});
+for(const width of [320,390,768,1440]){
+ await p.setViewportSize({width,height:900});for(const page of [actualLogin,actualResources])await page.setViewportSize({width:await resources.locator('body').evaluate(()=>innerWidth),height:900});
  for(const theme of ['light','dark'])for(const agent of ['codex','claude-code']){
   await choose('theme',theme);await choose('agent',agent);await p.waitForTimeout(500);
   assert.equal(await login.locator('html').getAttribute('data-theme'),theme);
@@ -34,7 +36,7 @@ for(const width of [390,1440]){
    if(state==='retryReady')assert.equal(await login.locator('#login-announcement').textContent(),loginMessages.retryReady);
    if(state==='loading')assert.equal(await login.locator('[data-input-icon=loading]').isVisible(),true);
   }
-  await verifySourceParity();
+  for(const page of [actualLogin,actualResources])await page.evaluate(({theme,agent})=>{window.dispatchEvent(new StorageEvent('storage',{key:'workshop-colour-theme',newValue:theme}));window.workshopAgent?.select(agent);document.getAnimations().forEach(a=>{if(a.effect?.getTiming().iterations!==Infinity)try{a.finish();}catch{}});},{theme,agent});await p.waitForTimeout(200);await verifySourceParity();
  }
  assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
  if(width===390){const rail=await p.locator('#state .choice-options').evaluate(e=>({scroll:e.scrollWidth,width:e.clientWidth,rows:e.querySelectorAll('.state-row').length}));assert.ok(rail.scroll>rail.width);assert.equal(rail.rows,2);}
@@ -52,7 +54,7 @@ await choose('copy','success');await resources.locator('[data-copy]').first().cl
 assert.equal(await resources.locator('[data-copy]').first().getAttribute('data-copied'),'true');
 await resources.locator('footer button').click();assert.equal(p.url(),origin+'/playground');
 await p.click('[data-tab=typography]');assert.equal(p.url(),origin+'/playground');
-assert.match(await p.frameLocator('#type-frame').locator('output').first().textContent(),/48px/);
+assert.match(await p.frameLocator('#type-frame').locator('[data-source-selector="h1"] output').textContent(),/48px/);
 await p.waitForTimeout(400);
 const headingStyles=await p.frameLocator('#type-frame').locator('h2[data-type-sample]').evaluateAll(es=>es.map(e=>{const c=getComputedStyle(e);return {size:c.fontSize,weight:c.fontWeight,colour:c.color};}));assert.equal(headingStyles.length,2);assert.equal(headingStyles[0].size,headingStyles[1].size);assert.equal(headingStyles[0].weight,headingStyles[1].weight);assert.notEqual(headingStyles[0].colour,headingStyles[1].colour);
 // Inspector stays docked and never changes its own geometry while inspecting.
@@ -64,7 +66,7 @@ await p.click('#freeze-inspector');await type.locator('h2').first().hover();awai
 assert.match(await p.locator('#inspection-summary').textContent(),/h2/);
 const dock=await p.locator('.inspector-dock').boundingBox();assert.ok(Math.abs(dock.y+dock.height-900)<2);
 // Same semantic specimen, even when crossing its generated metadata.
-await type.locator('.type-row').nth(1).locator('output').hover();await p.waitForTimeout(260);assert.match(await p.locator('#inspection-summary').textContent(),/h2/);
+await type.locator('[data-source-selector=".step-title"] output').hover();await p.waitForTimeout(260);assert.match(await p.locator('#inspection-summary').textContent(),/h2/);
 await p.click('#inspector-details');
 await p.click('[data-tab=blocks]');const blocks=p.frameLocator('#blocks-frame');
 await choose('review','clear');await blocks.locator('.ph-word').first().click();

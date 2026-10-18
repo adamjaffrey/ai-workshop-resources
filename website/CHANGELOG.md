@@ -3,14 +3,45 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.123"
-  update_summary: "Refine Playground navigation and login backgrounds"
-  updated_at: "Sun 18 Oct 2026 at 08:34:42 pm AEDT (+11:00)"
+  doc_revision: "26.0.124"
+  update_summary: "Refine Playground usability and responsive page behaviour"
+  updated_at: "Sun 18 Oct 2026 at 09:13:36 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.122 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 09:13:36 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine Playground usability and responsive page behaviour
+
+### Changed
+
+- Keep the breadcrumb at 14px with a regular Resources link and semibold current page; retain the installed Lucide chevron.
+- Align desktop style controls, rename Screen Width, disclose hover help compactly, preserve scroll during radio activation and place login control groups side-by-side.
+- Order typography and icon specimens by source DOM order, show compact resting copy examples, provide a real rendered login error sample and use monospace selectors.
+- Preserve emoji presentation, separate licence explanations and render errors alongside their source controls with responsive capture sizing.
+- Size embedded previews once against initially available viewport space after the sticky toolbar and inspector; tighten tab spacing without resizing previews when controls open.
+- Prefer wrapped footer metadata beside Log Out before stacking the action, preserving intact version/copyright strings and hiding wrapped separators.
+- Give initially visible step/card pairs a short vertical fade instead of opposing sideways entrances, retaining stagger, later reveal thresholds and reduced motion.
+
+### Validation
+
+- Independent app/Playground typography parity and held states at 320, 390, 768 and 1440px, both themes and agents — passed.
+- Toolbar alignment, pointer scroll stability, stable preview sizing, breadcrumb styling, emoji and in-context errors without overflow across all required combinations — passed.
+- Initial reveal checks at nine sizes, vertical motion, five-card fixture and reduced motion — passed.
+- Footer tiers, divider removal, intact text and alignment across five widths — passed.
+- Expanded preview controls, focus restoration and reference gallery sizing — passed.
+- Authentication, placeholder tests and production build — passed.
 
 ## v26.0.121 — 2026-10-18
 

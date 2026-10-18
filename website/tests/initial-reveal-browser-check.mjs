@@ -22,8 +22,12 @@ try {
   for(const row of result.rows)assert.equal(row.actual,row.expected,`${width}x${height} initial visibility`);
   for(let i=1;i<result.events.length;i++)assert.ok(result.events[i].time-result.events[i-1].time>=80,'initial pairs must stagger');
  }
+ // Initial visible pairs move vertically, never sideways or beyond their resting position.
+ await page.setViewportSize({width:1440,height:1600});await page.goto(url);
+ for(let sample=0;sample<8;sample++){await page.waitForTimeout(80);const offsets=await page.locator('.reveal-initial > *').evaluateAll(es=>es.map(e=>{const c=getComputedStyle(e);const m=c.transform==='none'?new DOMMatrix():new DOMMatrix(c.transform);return [m.m41,m.m42];}));for(const [x,y] of offsets){assert.equal(x,0);assert.ok(y>=0&&y<=16);}}
  // A step heading alone in the initial viewport reveals its offscreen card.
  await page.setViewportSize({width:390,height:844});await page.goto(url);
+ await page.waitForTimeout(1000);
  const stepTop=await page.locator('.step-copy').first().evaluate(e=>e.getBoundingClientRect().top);
  await page.setViewportSize({width:390,height:Math.ceil(stepTop+20)});await page.goto(url);await page.waitForTimeout(250);
  assert.equal(await page.locator('.step-row').first().evaluate(e=>e.classList.contains('is-revealed')&&e.querySelector('article').getBoundingClientRect().top>=innerHeight),true);

@@ -26,6 +26,7 @@ try {
    const parts=[...e.children];const rects=parts.map(x=>x.getBoundingClientRect());
    return {wrapped:e.classList.contains('is-wrapped'),differentLine:Math.abs(rects[0].top-rects[1].top)>2,separator:getComputedStyle(parts[1],'::before').content,nowrap:parts.every(x=>getComputedStyle(x).whiteSpace==='nowrap'),overflow:document.documentElement.scrollWidth>innerWidth};
   });
+  const stacked=await page.locator('footer').evaluate(e=>e.classList.contains('is-stacked'));if(width===320){assert.equal(stacked,true);assert.equal(footer.wrapped,true);}if(width===390){assert.equal(stacked,false);assert.equal(footer.wrapped,true);}if(width===1440){assert.equal(stacked,false);assert.equal(footer.wrapped,false);}
   assert.equal(footer.wrapped,footer.differentLine);assert.equal(footer.nowrap,true);assert.equal(footer.overflow,false);
   assert.equal(footer.separator,footer.wrapped?'none':'"•"');
   if(width<=660)assert.equal(await page.locator('.step-connector').first().evaluate(e=>e.getBoundingClientRect().width),120);
