@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.143"
-  update_summary: "Carry one rainbow wave into locally attracted sparkles"
-  updated_at: "Mon 19 Oct 2026 at 02:09:33 am AEDT (+11:00)"
+  doc_revision: "26.0.144"
+  update_summary: "Add radial particle attraction and pointer-only halo tuning"
+  updated_at: "Mon 19 Oct 2026 at 02:17:46 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.142 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 02:17:46 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add radial particle attraction and pointer-only halo tuning
+
+### Changed
+
+- Gather nearby particles onto a 28px ring around the pointer instead of collapsing them onto its centre, preserving local visibility and rainbow drift.
+- Add a specimen-only Halo Follow Strength slider from 0–200%, with a 100% default and shared reset.
+- Remove autonomous halo colour and border animation. Smoothly derive colour, angle and displacement from the pointer and hold them still after settling.
+- Preserve a static centred halo at 0% follow strength and under reduced motion.
+
+### Validation
+
+- Website build, version and absence of autonomous halo animation — passed.
+- Ring convergence, local particle visibility, continuous wave and pointer-only colour/position settling — passed.
+- Playground/app parity across four widths, both themes and agents; slider, reset and pointer outside the iframe — passed.
+- Rendered sheen, touch, hidden-tab, theme fallback and reduced motion — passed.
+- General Playground source-parity suite — passed. Physical-device Safari remains unverified.
 
 ## v26.0.141 — 2026-10-19
 

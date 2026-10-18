@@ -21,7 +21,7 @@ for(const width of [320,390,1440])for(const theme of ['light','dark']){
  await p.mouse.move(hit.x+hit.width-2,hit.y+hit.height/2);assert.equal(await p.evaluate(({x,y})=>getComputedStyle(document.elementFromPoint(x,y)).cursor,{x:hit.x+hit.width-2,y:hit.y+hit.height/2}),'pointer');
 }
 await p.evaluate(()=>window.workshopPerspective.preview('success'));
-await p.waitForTimeout(100);const shadow=await p.locator('.perspective-dialog').evaluate(e=>getComputedStyle(e).boxShadow);await p.waitForTimeout(500);assert.notEqual(await p.locator('.perspective-dialog').evaluate(e=>getComputedStyle(e).boxShadow),shadow,'halo moves continuously');assert.equal(await p.locator('.perspective-dialog button').textContent(),'Done');await p.screenshot({path:'/tmp/perspective-rainbow-dialog.png'});
+await p.waitForTimeout(2500);const shadow=await p.locator('.perspective-dialog').evaluate(e=>getComputedStyle(e).boxShadow);await p.waitForTimeout(500);assert.equal(await p.locator('.perspective-dialog').evaluate(e=>getComputedStyle(e).boxShadow),shadow,'halo stays still when pointer stops');assert.equal(await p.locator('.perspective-dialog button').textContent(),'Done');await p.screenshot({path:'/tmp/perspective-rainbow-dialog.png'});
 await p.emulateMedia({reducedMotion:'reduce'});assert.equal(await p.locator('.perspective-dialog').evaluate(e=>getComputedStyle(e).animationName),'none');
 console.log('PASS: rendered sheen pixels, twinkling particle field and full-fragment target bounds at phone/desktop widths in both themes');
 }finally{await b.close();await new Promise(r=>server.close(r));}
