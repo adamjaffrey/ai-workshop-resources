@@ -13,7 +13,7 @@ const styles = `
   --muted-text: #5b6066; --border: #dedede; --panel-border: #d5d9dd;
   --control-border: #c7ccd1; --control-bg: #e9e9e9; --control-text: #454545;
   --hover: #e9edf0; --field-bg: var(--content-surface); --field-border: #bfc4c9;
-  --success: #146c3e; --success-ink: #fff; --error: #960d73; --warning: #755600; --warning-ink: #fff; --info: var(--muted-text); --link: var(--icon-ink);
+  --success: #146c3e; --success-ink: #fff; --error: #85009b; --warning: #755600; --warning-ink: #fff; --info: var(--muted-text); --link: var(--icon-ink);
   --icon-ink: color-mix(in srgb, var(--agent-accent) 80%, black);
   --card-bg: color-mix(in srgb, var(--agent-accent) 4%, white);
   --tile-bg: color-mix(in srgb, var(--agent-accent) 16%, white);

@@ -26,6 +26,7 @@ try {
   const input=page.locator('#workshop-password'),button=page.locator('.gate-submit'),status=page.locator('#gate-error');
   const submit=async()=>{await input.fill('example');await button.click();};
   const initial=await page.locator('#access-form').boundingBox();
+  assert.deepEqual(await status.evaluate(e=>{const c=getComputedStyle(e);return [c.marginTop,c.marginBottom];}),['12px','16px']);
   const hasShake=()=>page.locator('#access-form').evaluate(e=>e.classList.contains('shake'));
   const state=async(kind,text)=>{
    await page.waitForFunction(({kind,text})=>{const e=document.querySelector('#gate-error');return e.classList.contains('is-'+kind)&&(kind==='error'?e.textContent:document.querySelector('#login-announcement').textContent)===text;},{kind,text});
@@ -43,9 +44,9 @@ try {
   assert.equal(await page.locator('[data-input-icon="loading"]').evaluate(e=>getComputedStyle(e).animationName),'none');
   await page.emulateMedia({reducedMotion:'no-preference'});mode='wrong';pending();
   await state('error','Incorrect password. Try again.');assert.equal(await hasShake(),true);assert.equal(await input.getAttribute('aria-invalid'),'true');
-  assert.equal(await status.evaluate(e=>getComputedStyle(e).color),theme==='light'?'rgb(150, 13, 115)':'rgb(255, 141, 206)');
+  assert.equal(await status.evaluate(e=>getComputedStyle(e).color),theme==='light'?'rgb(133, 0, 155)':'rgb(255, 141, 206)');
   const lock=page.locator('[data-input-icon="lock"]');
-  const red=theme==='light'?'rgb(150, 13, 115)':'rgb(255, 141, 206)';
+  const red=theme==='light'?'rgb(133, 0, 155)':'rgb(255, 141, 206)';
   assert.deepEqual(await input.evaluate(e=>[e.selectionStart,e.selectionEnd]),[7,7]);
   assert.equal(await lock.evaluate(e=>getComputedStyle(e).color),red);
   await input.click();assert.equal(await input.getAttribute('aria-invalid'),'true');

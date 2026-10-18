@@ -3,14 +3,44 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.118"
-  update_summary: "Refine touch QR copying, focus rings and expanded preview controls"
-  updated_at: "Sun 18 Oct 2026 at 12:46:40 pm AEDT (+11:00)"
+  doc_revision: "26.0.119"
+  update_summary: "Improve login error spacing and touch preview affordances"
+  updated_at: "Sun 18 Oct 2026 at 12:57:06 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.117 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 12:57:06 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Improve login error spacing and touch preview affordances
+
+### Changed
+
+- Increase the reserved error-to-button gap to 16px while retaining 12px above the error row and stable login-state geometry.
+- Move the shared light-mode error token to cooler plum-magenta #85009B; preserve the dark-mode token.
+- Add right/bottom overflow fades to playground controls only while further content remains, including expanded groups and section tabs.
+- Update repository spacing guidance and touch-preview explanations.
+
+### Fixed
+
+- Track initiating pointer/touch input so Safari mouse-style click events retain the QR two-tap behaviour without delaying mouse or keyboard copying.
+
+### Validation
+
+- QR touch regression, including Safari-style events and a 768px specimen in a narrow touch host — passed; physical iPhone confirmation remains with the user.
+- Login states, semantic colour contrast, desktop QR copying and playground controls/error checks — passed.
+- Overflow fade, expanded-preview and source-parity browser checks — passed.
+- Production build and saved-placeholder checks — passed; no background geometry change.
 
 ## v26.0.116 — 2026-10-18
 
