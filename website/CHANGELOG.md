@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.122"
-  update_summary: "Host the playground behind the shared app session"
-  updated_at: "Sun 18 Oct 2026 at 07:45:54 pm AEDT (+11:00)"
+  doc_revision: "26.0.123"
+  update_summary: "Refine Playground navigation and login backgrounds"
+  updated_at: "Sun 18 Oct 2026 at 08:34:42 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.121 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 08:34:42 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine Playground navigation and login backgrounds
+
+### Changed
+
+- Put an accessible Resources / Playground breadcrumb above the pre-header, with the shared Lucide chevron and accent link styling.
+- Use a blank canvas for Playground login while preserving shared panel styles, blur and dimming; retain measured blocks for main-app login.
+- Add a login-destination specimen selector using the canonical app backgrounds.
+- Require build version, commit, local links and current test password in update handoffs, plus both hosted links after publication.
+
+### Validation
+
+- Authentication and saved-placeholder tests — passed.
+- App/playground source-parity browser checks — passed.
+- Breadcrumb, focus and background parity at four widths, both themes and agents — passed.
+- Production build — passed.
 
 ## v26.0.120 — 2026-10-18
 

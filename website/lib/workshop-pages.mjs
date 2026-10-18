@@ -6,3 +6,6 @@ const loginTemplate = withTheme("<!doctype html>\n<html lang=\"en-AU\" class=\"i
 export {resourcePage} from './workshop-resource-page.mjs';
 
 export const loginPage = synchroniseLoginLayout(loginTemplate, resourcePage);
+
+// Share every panel style and behaviour; only the destination backdrop differs.
+export const playgroundLoginPage = synchroniseLoginLayout(loginTemplate, resourcePage, {blankBackground:true});

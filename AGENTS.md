@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.27"
-  update_summary: "Protect hosted playground access while keeping local previews password-free"
-  updated_at: "Sun 18 Oct 2026 at 07:45:54 pm AEDT (+11:00)"
+  doc_revision: "26.0.28"
+  update_summary: "Standardise build and publication handoffs"
+  updated_at: "Sun 18 Oct 2026 at 08:34:42 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -37,7 +37,17 @@ metadata:
 - Every preview-link handoff must put the clickable URL beside a clearly labelled, copyable fenced code block containing the current local test password. Use concise visual labels such as “🔗 Preview” and “🔑 Test Password” to distinguish them. Read the active server's password; never reuse a password from an earlier preview process. Never put production credentials in a handoff. If a preview has no password, explicitly say so.
 - Use modest formatting, short sections and helpful icons in user-facing handoffs so links, credentials, results and limits are easy to identify.
 
+### Required Update Handoff
+
+- Every completed update response must show the current website artefact version and the short Git commit hash. Distinguish a new build from a documentation-only update, which retains the current artefact version. State whether the commit is local or pushed and whether Sites was published; never imply an unperformed action.
+- Use a compact first line such as **Build:** `v26.0.121` · **Commit:** `abc1234` (local). Follow with **Local Preview** and clearly labelled clickable links for **Main App** and **Playground**. Explicitly identify the local Playground as password-free.
+- Immediately below the local links, show **🔑 Local App Test Password** and a fenced `text` code block containing the active preview server's current test password. Read it from the active process's output before the handoff; restart and verify the server when necessary. Never invent or reuse a stale credential. If local preview is unavailable, explain that limitation rather than presenting an unverified link or password.
+- Whenever publishing to Sites succeeds, also include **Live on Sites**, with separate clickable **Main App** and **Playground** links. Explain that they share the existing login session when relevant. Never include the production password. Keep local preview and hosted links visually separate.
+- Keep the change summary and verification concise above these details. Use modest icons and descriptive anchor text; do not open the links automatically.
+
 ## Website Login
+
+- Use the blank shared page canvas behind Playground login, retaining the shared login panel, blur styling and dimming. Only main-app login uses the measured blurred blocks. Keep both destinations inspectable from the Playground login specimen.
 
 - Sessions expire seven days after login, without extending on use. Keep this implementation detail in repository documentation, not the login page copy.
 - On initial load, focus the login heading with no visible focus ring. Tab order is the day/night toggle as one stop, password field, then unlock button on desktop and mobile.

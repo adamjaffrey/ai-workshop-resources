@@ -1,6 +1,6 @@
 import { randomBytes, createHash, createHmac, scryptSync, timingSafeEqual } from 'node:crypto';
 import {loginMessages, loginRetryMessage, loginControlLabels} from './workshop-login-messages.mjs';
-import { loginPage, resourcePage } from './workshop-pages.mjs';
+import { loginPage, playgroundLoginPage, resourcePage } from './workshop-pages.mjs';
 
 export const SESSION_SECONDS = 7 * 24 * 60 * 60;
 export const COOKIE = '__Host-workshop_session';
@@ -121,7 +121,7 @@ export async function handleRequest(request, env, now = Date.now(), options = {}
       return reply(html.replaceAll('__SESSION_EXPIRES__',String(session.expires_at)),200,{'Content-Type':'text/html; charset=utf-8','Content-Security-Policy':"default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"});
     }
     if(!['/','/index.html','/playground'].includes(path)) return reply('Not found',404);
-    const page=session?resourcePage.replace('__SESSION_EXPIRES__',String(session.expires_at)):loginPage;
+    const page=session?resourcePage.replace('__SESSION_EXPIRES__',String(session.expires_at)):(path==='/playground'?playgroundLoginPage:loginPage);
     return reply(page.replaceAll('__NONCE__',nonce),200,{'Content-Type':'text/html; charset=utf-8',...(!session?{'Set-Cookie':cookie('',now,0)}:{})});
   } catch {
     // Fail closed. Do not log requests, passwords, verifier values or cookies.

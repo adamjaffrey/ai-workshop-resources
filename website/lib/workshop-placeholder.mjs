@@ -21,11 +21,11 @@ export const placeholderStyles = `
 .ph-word:not(.ph-code-word)::before { content:''; position:absolute; inset:auto 0 var(--ph-bottom); height:var(--ph-cap); border-radius:1px; background:color-mix(in srgb,currentColor var(--ph-strength),var(--ph-surface)); }
 `;
 
-export function synchroniseLoginLayout(login, resources) {
+export function synchroniseLoginLayout(login, resources, {blankBackground=false}={}) {
   const resourceStyles = resources.match(/<style>[\s\S]*?<\/style>/)?.[0];
   if (!resourceStyles) throw new Error('Resource styles missing');
   const gateStyles = login.match(/<style>([\s\S]*?)<\/style>/)?.[1];
   if (!gateStyles) throw new Error('Login panel styles missing');
   return login.replace(/<style>[\s\S]*?<\/style>/, resourceStyles + `<style>${gateStyles}${placeholderStyles}</style>`)
-    .replace(/<main\b[^>]*>[\s\S]*?<\/main>/, placeholderFromPage(resources));
+    .replace(/<main\b[^>]*>[\s\S]*?<\/main>/, blankBackground ? '<main class="page-placeholder" aria-hidden="true"></main>' : placeholderFromPage(resources));
 }
