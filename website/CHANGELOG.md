@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.154"
-  update_summary: "Use symmetric margins for the mobile selector trigger"
-  updated_at: "Mon 19 Oct 2026 at 03:21:08 am AEDT (+11:00)"
+  doc_revision: "26.0.155"
+  update_summary: "Extend the reading pause and soften particle fades"
+  updated_at: "Mon 19 Oct 2026 at 03:26:42 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.153 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 03:26:42 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Extend the reading pause and soften particle fades
+
+### Changed
+
+- Wait four seconds after discovery activation before opening the success dialog, retaining the immediate 800ms reveal and 1800ms sheen.
+- Double particle-edge feathering to 36px, capped at half the field dimension for narrow mobile regions; apply the same shared rendering in the Playground.
+
+### Validation
+
+- Perspective edge and sheen browser checks — passed; popup remains closed after three seconds, then opens, and particle masks render at mobile/desktop widths in both themes.
+- `node website/tests/style-guide-browser-check.mjs` — passed.
+- `node --test website/tests/auth.test.mjs` — nine checks passed, including protected hosted Playground access.
+- Sites build helper — passed; generated v26.0.153 display, four-second timer and wider mask verified in the artefact.
+- Both-theme screenshots reviewed; physical iPhone Safari remains unverified.
 
 ## v26.0.152 — 2026-10-19
 

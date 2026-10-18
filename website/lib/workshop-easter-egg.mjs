@@ -32,7 +32,7 @@ export const eggCSS = `
 .perspective-ellipsis { position:relative; display:inline-block; }
 .perspective[data-sheening] .perspective-ellipsis::after,:root[data-theme="light"] .perspective[data-sheening] .perspective-day::after,:root[data-theme="dark"] .perspective[data-sheening] .perspective-night::after { opacity:1; }
 /* Independent twinkling points; the concealed glyphs never supply the cue. */
-.perspective-particles { position:absolute; inset:0; pointer-events:none; opacity:0; overflow:visible; --particle-mask:linear-gradient(to right,transparent,#000 18px,#000 calc(100% - 18px),transparent),linear-gradient(to bottom,transparent,#000 18px,#000 calc(100% - 18px),transparent); -webkit-mask-image:var(--particle-mask); mask-image:var(--particle-mask); -webkit-mask-composite:source-in; mask-composite:intersect; }
+.perspective-particles { position:absolute; inset:0; pointer-events:none; opacity:0; overflow:visible; --particle-mask:linear-gradient(to right,transparent,#000 min(36px,50%),#000 max(calc(100% - 36px),50%),transparent),linear-gradient(to bottom,transparent,#000 min(36px,50%),#000 max(calc(100% - 36px),50%),transparent); -webkit-mask-image:var(--particle-mask); mask-image:var(--particle-mask); -webkit-mask-composite:source-in; mask-composite:intersect; }
 .perspective-particle { position:absolute; left:var(--x); top:var(--y); width:var(--size); height:var(--size); border-radius:50%; background:var(--particle-colour,var(--agent-accent)); box-shadow:0 0 5px var(--particle-colour,var(--agent-accent)); opacity:0; transform:translate(var(--pull-x,0px),var(--pull-y,0px)) scale(var(--pull-scale,1)); will-change:transform,opacity; }
 .perspective-particle[hidden] { display:none; }
 .perspective[data-state="ready"] .perspective-particles { opacity:1; }
@@ -116,7 +116,7 @@ export function initPerspective(defaults) {
    if(!motion.matches){other.animate([{opacity:0,clipPath:root.dataset.theme==='dark'?'inset(0 0 0 100%)':'inset(0 100% 0 0)'},{opacity:1,clipPath:'inset(0 0 0 0)'}],{duration:800,fill:'both',easing:'ease-out'});}
    later(()=>{if(token!==sequence)return;setState('complete');sync();},motion.matches?0:800);
    later(()=>{area.removeAttribute('data-sheening');area.removeAttribute('data-celebrating');},1800);
-   later(()=>{if(token!==sequence)return;dialog.showModal();window.workshopFocusPanel?.(dialog);},2000);
+   later(()=>{if(token!==sequence)return;dialog.showModal();window.workshopFocusPanel?.(dialog);},4000);
   } else {later(()=>{if(token===sequence)area.removeAttribute('data-sheening');},config.duration);}
  }
  button.addEventListener('pointerenter',event=>{const r=button.getBoundingClientRect();pointer={x:event.clientX-r.left,y:event.clientY-r.top};hovering=true;if(state==='ready')area.setAttribute('data-hovering','');});button.addEventListener('pointerleave',()=>{hovering=false;area.removeAttribute('data-hovering');});
