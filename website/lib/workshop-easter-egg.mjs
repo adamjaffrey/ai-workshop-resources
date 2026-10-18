@@ -21,17 +21,18 @@ export const eggCSS = `
 :root[data-theme="dark"] .perspective-day { visibility:hidden; }
 :root[data-theme="dark"] .perspective-night { visibility:visible; }
 .perspective[data-state="revealing"] .perspective-fragment,.perspective[data-state="complete"] .perspective-fragment { visibility:visible; }
-.perspective-discover { position:absolute; left:100%; top:50%; transform:translateY(-50%); width:44px; height:44px; padding:12px; border:0; border-radius:24px; background:transparent; color:var(--muted-text); z-index:2; }
+.perspective-discover { position:absolute; left:100%; top:50%; transform:translateY(-50%); width:44px; height:44px; padding:0; border:0; border-radius:0; appearance:none; -webkit-appearance:none; -webkit-tap-highlight-color:transparent; box-shadow:none; background:transparent; color:var(--muted-text); z-index:2; }
 :root[data-theme="dark"] .perspective-discover { left:auto; right:100%; }
 .perspective[data-state="complete"] .perspective-join { position:static; }
 .perspective[data-state="complete"] .perspective-discover { top:100%; left:50%; right:auto; transform:translateX(-50%); }
+.perspective-discover:enabled:is(:active,.is-held) { scale:1; }
 .perspective-discover[hidden] { display:none; }
 /* All glyphs crop the same area-sized colour field, including the ellipsis. */
 .perspective-fragment::after,.perspective-ellipsis::after { content:attr(data-sheen-text); position:absolute; inset:0; pointer-events:none; user-select:none; visibility:visible; color:transparent; background-image:var(--wave-paint,none); background-size:var(--wave-width) var(--wave-height); background-position:var(--wave-offset-x) var(--wave-offset-y); background-repeat:no-repeat; background-clip:text; -webkit-background-clip:text; opacity:0; }
 .perspective-ellipsis { position:relative; display:inline-block; }
 .perspective[data-sheening] .perspective-ellipsis::after,:root[data-theme="light"] .perspective[data-sheening] .perspective-day::after,:root[data-theme="dark"] .perspective[data-sheening] .perspective-night::after { opacity:1; }
 /* Independent twinkling points; the concealed glyphs never supply the cue. */
-.perspective-particles { position:absolute; inset:0; pointer-events:none; opacity:0; overflow:hidden; border-radius:24px; }
+.perspective-particles { position:absolute; inset:0; pointer-events:none; opacity:0; overflow:visible; --particle-mask:linear-gradient(to right,transparent,#000 18px,#000 calc(100% - 18px),transparent),linear-gradient(to bottom,transparent,#000 18px,#000 calc(100% - 18px),transparent); -webkit-mask-image:var(--particle-mask); mask-image:var(--particle-mask); -webkit-mask-composite:source-in; mask-composite:intersect; }
 .perspective-particle { position:absolute; left:var(--x); top:var(--y); width:var(--size); height:var(--size); border-radius:50%; background:var(--particle-colour,var(--agent-accent)); box-shadow:0 0 5px var(--particle-colour,var(--agent-accent)); opacity:0; transform:translate(var(--pull-x,0px),var(--pull-y,0px)) scale(var(--pull-scale,1)); will-change:transform,opacity; }
 .perspective-particle[hidden] { display:none; }
 .perspective[data-state="ready"] .perspective-particles { opacity:1; }
@@ -71,7 +72,7 @@ export function initPerspective(defaults) {
  const visible=()=>{const r=area.getBoundingClientRect();return !document.hidden&&r.top>=0&&r.bottom<=innerHeight&&r.left>=0&&r.right<=innerWidth;};
  const stable=()=>!window.workshopThemeBusy?.();
  function setState(next){state=next;area.dataset.state=next;}
- function positionTarget(){if(state==='complete'){const a=area.getBoundingClientRect();Object.assign(button.style,{left:'0px',right:'auto',top:'-10px',width:a.width+'px',height:Math.max(44,a.height+20)+'px',transform:'none'});button.setAttribute('aria-label','Reopen Discovery Message');return;}button.setAttribute('aria-label','Discover Another Perspective');const fragment=root.dataset.theme==='dark'?day:night;const r=fragment.getBoundingClientRect(),a=area.getBoundingClientRect(),height=Math.max(config.hoverHeight,r.height+20);Object.assign(button.style,{left:(r.left-a.left)+'px',right:'auto',top:(r.top-a.top+(r.height-height)/2)+'px',width:r.width+'px',height:height+'px',transform:'none'});}
+ function positionTarget(){if(state==='complete'){const a=area.getBoundingClientRect();Object.assign(button.style,{left:'0px',right:'auto',top:'-10px',width:a.width+'px',height:Math.max(44,a.height+20)+'px',transform:'none'});button.setAttribute('aria-label','Reopen Discovery Message');return;}button.setAttribute('aria-label','Discover Another Perspective');const fragment=root.dataset.theme==='dark'?day:night;const r=fragment.getBoundingClientRect(),a=area.getBoundingClientRect(),height=Math.max(config.hoverHeight,r.height+20),padding=(height-r.height)/2,range=document.createRange();range.selectNodeContents(fragment);const text=range.getBoundingClientRect();Object.assign(button.style,{left:(text.left-a.left-padding)+'px',right:'auto',top:(r.top-a.top-padding)+'px',width:(text.width+padding*2)+'px',height:height+'px',transform:'none'});}
  function sync(){const all=state==='revealing'||state==='complete';day.setAttribute('aria-hidden',String(!all&&root.dataset.theme==='dark'));night.setAttribute('aria-hidden',String(!all&&root.dataset.theme!=='dark'));positionTarget();}
  function configure(next={}){const before=JSON.stringify(config);for(const [key,min,max] of [['duration',1500,24000],['gap',0,20000],['intensity',0,400],['halo',0,400],['gravity',0,400],['particleDuration',500,24000],['ringRadius',8,128],['hoverHeight',48,360]]){if(Number.isFinite(next[key]))config[key]=Math.min(max,Math.max(min,next[key]));}area.style.setProperty('--hover-height',config.hoverHeight+'px');area.style.setProperty('--particle-radius',config.ringRadius+'px');area.style.setProperty('--perspective-duration',config.duration+'ms');dialog.style.setProperty('--perspective-halo',config.halo/100);points.forEach((point,i)=>point.hidden=i>=Math.round(config.intensity*.48));if(state==='ready'&&before!==JSON.stringify(config)){clearTimers();area.removeAttribute('data-sheening');area.removeAttribute('data-sparkling');cycle=performance.now()+100;}return {...config};}
  button.addEventListener('pointermove',event=>{const r=button.getBoundingClientRect();pointer={x:event.clientX-r.left,y:event.clientY-r.top};});
@@ -80,17 +81,17 @@ export function initPerspective(defaults) {
  const palette=[[255,79,155],[255,182,66],[109,226,159],[75,199,255],[146,117,255],[239,114,221]];
  function waveSample(q,centre,band){const u=(q-centre)/band+.5;if(u<0||u>1)return null;const v=Math.max(0,Math.min(1,(u-.12)/.76))*(palette.length-1),i=Math.min(palette.length-2,Math.floor(v)),mix=v-i;return {u,colour:palette[i].map((n,k)=>Math.round(n+(palette[i+1][k]-n)*mix)),alpha:Math.sin(Math.PI*u)**2};}
  function waveGeometry(w,now,box){const band=Math.max(80,box.width*.55),extent=box.width+box.height,centre=-band/2+(now-w.start)/w.sweep*(extent+band);return {band,centre};}
- function paintWave(w,now,box){const {band,centre}=waveGeometry(w,now,box),stops=['transparent '+((centre-band/2)/Math.SQRT2)+'px',...palette.map((rgb,i)=>'rgb('+rgb.join(' ')+') '+((centre-band/2+band*(.12+i*.152))/Math.SQRT2)+'px'),'transparent '+((centre+band/2)/Math.SQRT2)+'px'];area.style.setProperty('--wave-paint','linear-gradient('+(w.dark?225:135)+'deg,'+stops.join(',')+')');area.style.setProperty('--wave-width',box.width+'px');area.style.setProperty('--wave-height',box.height+'px');for(const el of [day,night,area.querySelector('.perspective-ellipsis')]){const r=el.getBoundingClientRect();el.style.setProperty('--wave-offset-x',-(r.left-box.left)+'px');el.style.setProperty('--wave-offset-y',-(r.top-box.top)+'px');}}
+ function paintWave(w,now,box){const {band,centre}=waveGeometry(w,now,box),stops=['transparent '+((centre-band/2)/Math.SQRT2)+'px',...palette.map((rgb,i)=>'rgb('+rgb.join(' ')+') '+((centre-band/2+band*(.12+i*.152))/Math.SQRT2)+'px'),'transparent '+((centre+band/2)/Math.SQRT2)+'px'];area.style.setProperty('--wave-paint','linear-gradient('+(w.dark?315:135)+'deg,'+stops.join(',')+')');area.style.setProperty('--wave-width',box.width+'px');area.style.setProperty('--wave-height',box.height+'px');for(const el of [day,night,area.querySelector('.perspective-ellipsis')]){const r=el.getBoundingClientRect();el.style.setProperty('--wave-offset-x',-(r.left-box.left)+'px');el.style.setProperty('--wave-offset-y',-(r.top-box.top)+'px');}}
  function frame(now){
   const dt=Math.min(50,now-lastFrame||16),ease=1-Math.exp(-dt/220);lastFrame=now;
   if(!document.hidden&&!motion.matches){
 
    waves=waves.filter(w=>now-w.start<w.sweep+w.life);
-   const a=area.getBoundingClientRect(),targetBox=button.hidden?a:button.getBoundingClientRect(),top=Math.min(a.top,targetBox.top),box={left:a.left,top,width:a.width,height:Math.max(a.bottom,targetBox.bottom)-top},latest=waves.at(-1);if(latest&&area.hasAttribute('data-sheening'))paintWave(latest,now,box);
+   const a=area.getBoundingClientRect(),targetBox=button.hidden?a:button.getBoundingClientRect(),top=Math.min(a.top,targetBox.top),left=Math.min(a.left,targetBox.left),box={left,top,width:Math.max(a.right,targetBox.right)-left,height:Math.max(a.bottom,targetBox.bottom)-top},latest=waves.at(-1);if(latest&&area.hasAttribute('data-sheening'))paintWave(latest,now,box);
    if(state==='ready'&&visible()){
     const r=button.getBoundingClientRect(),hint=hovering||area.hasAttribute('data-keyboard-hint');
     for(const f of floats){if(f.el.hidden)continue;const t=now/1000,driftX=Math.sin(t*.48+f.phase)*7+Math.sin(t*.21+f.phase*2)*4,driftY=Math.cos(t*.39+f.phase)*6;let glow=0;
-     for(const w of waves){if(now-w.start>w.sweep)continue;const {centre,band}=waveGeometry(w,now,box),x=r.left-box.left+f.x*r.width+driftX+f.pullX,y=r.top-box.top+f.y*r.height+driftY+f.pullY,sample=waveSample((w.dark?box.width-x:x)+y,centre,band);if(sample&&sample.alpha>.002){f.chargedAt=now;if(!f.colour||sample.u>.2+(f.phase%1)*.6)f.colour=sample.colour;glow=Math.max(glow,sample.alpha);}}
+     for(const w of waves){if(now-w.start>w.sweep)continue;const {centre,band}=waveGeometry(w,now,box),x=r.left-box.left+f.x*r.width+driftX+f.pullX,y=r.top-box.top+f.y*r.height+driftY+f.pullY,sample=waveSample(w.dark?box.width-x+box.height-y:x+y,centre,band);if(sample&&sample.alpha>.002){f.chargedAt=now;if(!f.colour||sample.u>.2+(f.phase%1)*.6)f.colour=sample.colour;glow=Math.max(glow,sample.alpha);}}
      const age=now-f.chargedAt;if(age<config.particleDuration)glow=Math.max(glow,.8*Math.pow(1-age/config.particleDuration,1.5));
      if(f.colour)f.el.style.setProperty('--particle-colour','rgb('+f.colour.join(' ')+')');
      const attractor=pointer||(hint?{x:r.width/2,y:r.height/2}:null),dx=attractor?attractor.x-f.x*r.width-driftX:0,dy=attractor?attractor.y-f.y*r.height-driftY:0,local=attractor?Math.exp(-(dx*dx+dy*dy)/(75*75)):0,influence=Math.min(1,local*config.gravity/100);
@@ -107,14 +108,14 @@ export function initPerspective(defaults) {
  configure();
  function sheen(complete=false){
   const token=++sequence;clearTimers();if(complete){waves=[];area.setAttribute('data-celebrating','');}area.removeAttribute('data-sheening');area.removeAttribute('data-sparkling');void area.offsetWidth;
-  if(!motion.matches){area.setAttribute('data-sheening','');waves.push({start:performance.now(),sweep:complete?900:config.duration,life:config.particleDuration,dark:root.dataset.theme==='dark'});}
+  if(!motion.matches){area.setAttribute('data-sheening','');waves.push({start:performance.now(),sweep:complete?1800:config.duration,life:config.particleDuration,dark:root.dataset.theme==='dark'});}
   if(complete){
    area.removeAttribute('data-hovering');area.removeAttribute('data-keyboard-hint');
    setState('revealing');sync();button.hidden=true;
    const other=root.dataset.theme==='dark'?day:night;
-   if(!motion.matches){other.animate([{opacity:0,clipPath:root.dataset.theme==='dark'?'inset(0 0 0 100%)':'inset(0 100% 0 0)'},{opacity:1,clipPath:'inset(0 0 0 0)'}],{duration:180,fill:'both',easing:'ease-out'});}
-   later(()=>{if(token!==sequence)return;setState('complete');sync();},motion.matches?0:180);
-   later(()=>{area.removeAttribute('data-sheening');area.removeAttribute('data-celebrating');},900);
+   if(!motion.matches){other.animate([{opacity:0,clipPath:root.dataset.theme==='dark'?'inset(0 0 0 100%)':'inset(0 100% 0 0)'},{opacity:1,clipPath:'inset(0 0 0 0)'}],{duration:800,fill:'both',easing:'ease-out'});}
+   later(()=>{if(token!==sequence)return;setState('complete');sync();},motion.matches?0:800);
+   later(()=>{area.removeAttribute('data-sheening');area.removeAttribute('data-celebrating');},1800);
    later(()=>{if(token!==sequence)return;dialog.showModal();window.workshopFocusPanel?.(dialog);},2000);
   } else {later(()=>{if(token===sequence)area.removeAttribute('data-sheening');},config.duration);}
  }

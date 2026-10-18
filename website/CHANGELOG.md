@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.152"
-  update_summary: "Trigger the mobile selector morph one control height away"
-  updated_at: "Mon 19 Oct 2026 at 03:07:24 am AEDT (+11:00)"
+  doc_revision: "26.0.153"
+  update_summary: "Soften particle boundaries and slow the discovery reveal"
+  updated_at: "Mon 19 Oct 2026 at 03:18:03 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.151 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 03:18:03 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Soften particle boundaries and slow the discovery reveal
+
+### Changed
+
+- Feather particle edges and corners with intersecting alpha masks, measuring the actual concealed text width and applying equal horizontal and vertical padding.
+- Remove native appearance, tap highlights and press scaling from the transparent target to address mobile corner artefacts.
+- Direct the dark-mode sheen towards the top left and match particle colour sampling to that direction.
+- Start discovery immediately with an 800ms reveal and 1800ms sheen, preserving the two-second popup delay and reopening from the revealed sentence.
+
+### Validation
+
+- Perspective sheen, flow, edge and Playground browser checks — passed, including actual text bounds, shared colour field, touch reveal timing, modal reopening and 16 width/theme/agent parity combinations.
+- `node website/tests/style-guide-browser-check.mjs` — passed.
+- `npm --prefix website run build` — passed; generated version and changed animation/mask source verified in the artefact.
+- Screenshots reviewed in both themes; physical iPhone Safari corner rendering remains unverified.
 
 ## v26.0.150 — 2026-10-19
 
