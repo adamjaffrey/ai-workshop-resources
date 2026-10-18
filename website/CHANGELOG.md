@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.119"
-  update_summary: "Improve login error spacing and touch preview affordances"
-  updated_at: "Sun 18 Oct 2026 at 12:57:06 pm AEDT (+11:00)"
+  doc_revision: "26.0.120"
+  update_summary: "Neutralise login icons and handle QR touch activation directly"
+  updated_at: "Sun 18 Oct 2026 at 01:27:12 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.118 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 01:27:12 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Neutralise login icons and handle QR touch activation directly
+
+### Changed
+
+- Use shared neutral muted text for resting password padlocks and checking spinners in both agent modes and themes; preserve semantic error/success overrides and accented input focus.
+- Align repository instructions and login documentation with neutral icons.
+
+### Fixed
+
+- Activate no-hover QR previews from deliberate touch releases, suppress duplicate compatibility clicks, reject moved/cancelled touches and preserve preview state across touch-related blur.
+- Retain immediate mouse/keyboard copy and the first-tap settling guard.
+
+### Validation
+
+- QR touch checks including Safari-style events, intervening blur and a 768px specimen on a narrow touch viewport — passed; physical iPhone verification remains with the user.
+- Desktop QR copying, login states across mobile/desktop and neutral checking icons in both agents/themes — passed.
+- Playground source-parity checks and production build — passed.
 
 ## v26.0.117 — 2026-10-18
 

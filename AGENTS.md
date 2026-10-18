@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.24"
-  update_summary: "Separate login error messages from the submit button"
-  updated_at: "Sun 18 Oct 2026 at 12:56:42 pm AEDT (+11:00)"
+  doc_revision: "26.0.25"
+  update_summary: "Keep resting and checking password icons neutral"
+  updated_at: "Sun 18 Oct 2026 at 01:26:13 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -43,9 +43,9 @@ metadata:
 - On initial load, focus the login heading with no visible focus ring. Tab order is the day/night toggle as one stop, password field, then unlock button on desktop and mobile.
 - Keep the password input visible above the mobile keyboard and allow the login panel to scroll when the visible viewport is short.
 
-- Keep checking and success text visually hidden but announced to screen readers. Swap the password-slot Lucide padlock for Loader Circle during checking and Check on success; use green success styling and honour reduced motion.
+- Keep checking and success text visually hidden but announced to screen readers. Use neutral muted-text colour for the resting Lucide padlock and checking Loader Circle; swap to Check on success; use green success styling and honour reduced motion.
 - Show only error messages below the input. Reserve one text line so ordinary status changes do not resize or recentre the panel; allow expansion for accessibility text scaling rather than clipping messages. Keep 12px between label and input, 12px between input and error row, and 16px before the submit button.
-- After an incorrect password, colour the input border, focused outline, padlock and password bullets red until the user edits the field. Refocusing alone must preserve the error. Editing clears the error and restores the selected blue/orange icon, focused border and focus accent. On success, show green bullets during the brief transition, then clear the password before navigation.
+- After an incorrect password, colour the input border, focused outline, padlock and password bullets red until the user edits the field. Refocusing alone must preserve the error. Editing clears the error and restores the neutral padlock and selected blue/orange focused border and focus accent. On success, show green bullets during the brief transition, then clear the password before navigation.
 
 ## Focus and Panel Opening
 

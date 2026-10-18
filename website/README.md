@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.67"
-  update_summary: "Clarify touch detection and login error spacing"
-  updated_at: "Sun 18 Oct 2026 at 12:56:42 pm AEDT (+11:00)"
+  doc_revision: "26.0.68"
+  update_summary: "Document neutral login icons and direct touch QR activation"
+  updated_at: "Sun 18 Oct 2026 at 01:26:13 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -135,11 +135,11 @@ Scrollable playground control groups fade at the right or bottom edge only while
 
 ## QR Touch Preview
 
-On touch input when the primary device cannot hover, the first tap reveals Copy Link and a second deliberate tap copies. Ignore repeat taps within 300ms of revealing the overlay. Tapping outside or leaving focus dismisses the preview. Detect touch from the initiating pointer/touch event because Safari may emit a mouse-style click. Mouse and keyboard activation remain immediate. Other controls retain single-tap activation because their hover styling does not conceal an action.
+On touch input when the primary device cannot hover, the first tap reveals Copy Link and a second deliberate tap copies. Ignore repeat taps within 300ms of revealing the overlay. Tapping outside or leaving keyboard focus dismisses the preview; touch-related blur does not reset it. Handle valid touch releases directly, reject drag/cancel gestures and suppress compatibility clicks because Safari hover synthesis can omit or mislabel clicks. Mouse and keyboard activation remain immediate. Other controls retain single-tap activation because their hover styling does not conceal an action.
 
 ## Login Feedback
 
-Use a fixed 18px input icon slot: agent-accent Lucide Lock at rest, CSS-rotated Loader Circle while checking, and green Check on success. Reduced motion keeps the spinner static. Checking and success messages remain in a visually hidden live region; only errors appear below the field, with the semantic red Lucide X. Keep status text in sentence case and button labels in CMOS title case.
+Use a fixed 18px input icon slot: neutral muted-text Lucide Lock at rest and CSS-rotated Loader Circle while checking, and green Check on success. Reduced motion keeps the spinner static. Checking and success messages remain in a visually hidden live region; only errors appear below the field, with the semantic red Lucide X. Keep status text in sentence case and button labels in CMOS title case.
 
 Validate empty passwords inline without shaking. Only an incorrect-password response marks the supplied password invalid and shakes the panel; connection, service and request failures must not imply a password mistake. Do not expose raw server or browser exceptions. Service outages render a styled login page where possible and return structured failures for login requests.
 

@@ -39,6 +39,8 @@ try {
   await button.click();await state('error','Enter your password.');assert.equal(requests,0);assert.equal(await hasShake(),false);
   mode='pending';await submit();await state('loading','Checking password…');
   assert.equal(await status.evaluate(e=>getComputedStyle(e).color),theme==='light'?'rgb(91, 96, 102)':'rgb(183, 190, 200)');
+  for(const agent of ['codex','claude-code']){await page.locator('html').evaluate((e,a)=>e.dataset.selectedAgent=a,agent);assert.equal(await page.locator('[data-input-icon=loading]').evaluate(e=>getComputedStyle(e).color),theme==='light'?'rgb(91, 96, 102)':'rgb(183, 190, 200)');}
+  await page.locator('html').evaluate(e=>e.dataset.selectedAgent='codex');
   assert.match(await page.locator('[data-input-icon="loading"]').evaluate(e=>getComputedStyle(e).animationName),/login-spin/);
   await page.emulateMedia({reducedMotion:'reduce'});
   assert.equal(await page.locator('[data-input-icon="loading"]').evaluate(e=>getComputedStyle(e).animationName),'none');

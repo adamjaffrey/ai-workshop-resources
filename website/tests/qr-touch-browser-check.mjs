@@ -13,7 +13,7 @@ try {
  assert.equal(await page.evaluate(()=>matchMedia('(hover: none)').matches),true);
  await qr.tap();assert.equal(await count(),0);assert.equal(await qr.locator('.qr-copy-overlay').evaluate(e=>getComputedStyle(e).opacity),'1');
  await qr.tap();assert.equal(await count(),0,'rapid second tap is ignored');
- await page.waitForTimeout(320);await qr.tap();assert.equal(await count(),1);
+ await qr.dispatchEvent('blur');assert.equal(await qr.getAttribute('data-touch-preview'),'');await page.waitForTimeout(320);await qr.tap();assert.equal(await count(),1);
  await page.waitForTimeout(5100);assert.equal(await qr.locator('.qr-copy-overlay').evaluate(e=>getComputedStyle(e).opacity),'0');
  await qr.tap();await page.locator('h1').tap();assert.equal(await qr.getAttribute('data-touch-preview'),null);
  await qr.tap();assert.equal(await count(),1);await qr.press('Enter');assert.equal(await count(),2,'keyboard activation remains immediate');
