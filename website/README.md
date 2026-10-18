@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.73"
-  update_summary: "Document the perspective discovery and persistent theme control"
-  updated_at: "Mon 19 Oct 2026 at 12:55:49 am AEDT (+11:00)"
+  doc_revision: "26.0.74"
+  update_summary: "Document concealed-text shimmer and the Discovery playground tab"
+  updated_at: "Mon 19 Oct 2026 at 01:20:41 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -239,10 +239,10 @@ The resources page keeps its existing day/night control fixed within the viewpor
 
 During each page visit, the whole inscription must remain within the viewport for one continuous second in each settled theme while the tab is visible. Theme transitions, including the colour fallback, do not count towards this dwell. Switching themes away from the inscription cannot unlock it. Reloading resets progress. The controller reads the shared theme controller’s busy state instead of guessing its animation duration.
 
-Once eligible, a 45-degree sheen crosses the visible fragment as one unit towards the ellipsis, normally every 9.5 seconds while visible. Its arrival reveals the installed Lucide Sparkles icon for two seconds with staggered brightness changes. The target remains available between appearances. Hover immediately reveals and animates it; keyboard focus shows it and the shared focus ring. Its 44px hit target sits across the ellipsis from the current fragment. Activating it immediately restarts the sheen and reveals the other fragment, holds the complete message for three seconds, then opens the success dialog. After dismissal the return target sits beneath the completed inscription to avoid overlapping its text. Reduced motion uses a static eligible icon and immediate text reveal.
+Once eligible, a 45-degree sheen crosses the visible fragment as one unit towards the ellipsis, normally every 9.5 seconds while visible. The sweep uses an agent-accent/text blend so it remains discernible in both themes. Its arrival briefly illuminates scattered portions of the concealed fragment for two seconds; there is no Sparkles icon. The entire concealed fragment is the persistent eligible click/tap target, with at least 44px height. Hover immediately shimmers its concealed words; keyboard focus shows the shared ring and text cue. Activating it immediately restarts the sheen and reveals the other fragment, holds the complete message for three seconds, then opens the success dialog. After dismissal the return target sits beneath the completed inscription to avoid overlapping its text. Reduced motion uses a faint static concealed-text hint and immediate reveal.
 
 The success dialog uses a multicolour outer glow and the existing readable surface, native modal containment, heading focus, Escape dismissal and focus restoration. It invites participants to ask Adam what else is hiding. No essential workshop resource is gated by this discovery.
 
-The Playground consumes the canonical module. Components includes Natural Discovery, Locked, Eligible Sparkles, Full Sentence and Success Dialog controls. Typography includes both fragments, the ellipsis and dialog text; Icons, Status States, Focus and Selection and the generated colour rules include their relevant source specimens. Captured success dialogs are held nonmodally in isolated catalogue frames to avoid moving the user’s focus; the interactive Components specimen exercises the real modal. Playground controls supply fixtures through the shared renderer, not independent markup or state logic.
+The Playground’s dedicated Perspective Discovery tab consumes the canonical module and groups Natural Discovery, Locked, Eligible Text Shimmer, Full Sentence and Success Dialog controls with the real typography, animations, target and modal. Its isolated specimen hides unrelated app content but retains the original discovery markup, CSS and state renderer. Eligible Text Shimmer repeats the actual sheen; it does not freeze before the animation. The general resource-page specimen still shows the complete app naturally. Discovery-specific standalone typography, icon, focus and status entries have moved out of the other catalogues; shared generated colour rules remain inspectable.
 
-Validate with `node website/tests/perspective-browser-check.mjs`, `node website/tests/perspective-edge-browser-check.mjs` and `node website/tests/style-guide-browser-check.mjs`, plus the existing theme-transition, theme-control-colour and Playground focus checks. Touch checks use browser emulation; physical-device Safari still requires user testing through the LAN preview.
+Validate with `node website/tests/perspective-browser-check.mjs`, `node website/tests/perspective-edge-browser-check.mjs`, `node website/tests/perspective-sheen-browser-check.mjs`, `node website/tests/perspective-playground-browser-check.mjs` and `node website/tests/style-guide-browser-check.mjs`, plus the existing theme-transition, theme-control-colour and Playground focus checks. Touch checks use browser emulation; physical-device Safari still requires user testing through the LAN preview.

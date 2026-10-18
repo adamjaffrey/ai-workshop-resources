@@ -50,14 +50,6 @@ window.addEventListener('message',async event=>{
   window.demoLogin('neutral');finishCaptureMotion();
  }else{
   for(const [selector,label,ring] of [['.intro','Body Text Selection',false],['pre','Prompt Text · Keyboard Focus',true],['.copy','Copy Prompt · Keyboard Focus',true],['.qr-copy','QR Link · Keyboard Focus',true],['footer button','Log Out · Keyboard Focus',true],['.theme-toggle [aria-pressed=true]','Colour Theme · Keyboard Focus',true],['.controls [aria-pressed=true]','Coding Agent · Keyboard Focus',true]])captureFocus(document.querySelector(selector),label,ring);
-  window.workshopPerspective.preview('ready');
-  captureFocus(document.querySelector('.perspective-discover'),'Perspective Discovery · Keyboard Focus');
-  add(document.querySelector('.perspective-discover svg'),'Eligible · Perspective Discovery');
-  window.workshopPerspective.preview('complete');
-  document.querySelector('.perspective-dialog').setAttribute('open','');
-  addError(document.querySelector('.perspective-dialog'),'Perspective Discovery Success');
-  document.querySelector('.perspective-dialog').removeAttribute('open');
-  window.workshopPerspective.preview('locked');
   parent.postMessage({guide:'focus-catalog-data',requestId:event.data.requestId,page,focusItems},'*');
   const savedTheme=document.documentElement.dataset.theme,savedAgent=window.workshopAgent.current;
   const theme=async value=>{window.dispatchEvent(new StorageEvent('storage',{key:'workshop-colour-theme',newValue:value}));await yieldCapture();finishCaptureMotion();};

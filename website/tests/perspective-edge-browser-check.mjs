@@ -14,9 +14,9 @@ try{
  // Fallback theme transitions must settle before their one-second dwell starts.
  await p.evaluate(()=>{document.startViewTransition=undefined;});await p.locator('.perspective').scrollIntoViewIfNeeded();await p.waitForTimeout(1200);await p.locator('[data-theme-choice=light]').tap();await p.waitForTimeout(900);assert.equal(await p.evaluate(()=>window.workshopPerspective.state),'locked');await p.waitForFunction(()=>window.workshopPerspective.state==='ready');
  // Playground uses the real state renderer and retains the same geometry and icon.
- console.log('Fallback dwell passed');const guide=await c.newPage();guide.setDefaultTimeout(20000);await guide.goto(origin+'/playground');const frame=guide.frameLocator('#resources-frame');await guide.locator('input[name=egg][value=ready]').locator('..').click();await frame.locator('.perspective-discover').waitFor({state:'visible'});assert.equal(await frame.locator('.perspective').getAttribute('data-state'),'ready');
+ console.log('Fallback dwell passed');const guide=await c.newPage();guide.setDefaultTimeout(20000);await guide.goto(origin+'/playground');await guide.locator('[data-tab=discovery]').click();const frame=guide.frameLocator('#discovery-frame');await guide.locator('input[name=egg][value=ready]').locator('..').click();await frame.locator('.perspective-discover').waitFor({state:'visible'});assert.equal(await frame.locator('.perspective').getAttribute('data-state'),'ready');
  const read=e=>{const s=getComputedStyle(e);return {text:e.textContent,font:s.fontFamily,size:s.fontSize,line:s.lineHeight,colour:s.color};};
  await p.evaluate(()=>window.workshopPerspective.preview('ready'));for(const selector of ['.perspective-day','.perspective-night','.perspective-ellipsis'])assert.deepEqual(await frame.locator(selector).evaluate(read),await p.locator(selector).evaluate(read));
- assert.equal(await frame.locator('.perspective-discover svg').innerHTML(),await p.locator('.perspective-discover svg').innerHTML());
- console.log('PASS: touch, hidden tab, rapid toggles, fallback dwell, reload reset and independent Playground quote/icon parity');
+ assert.equal(await frame.locator('.perspective-discover svg').count(),0);assert.equal(await p.locator('.perspective-discover svg').count(),0);
+ console.log('PASS: touch, hidden tab, rapid toggles, fallback dwell, reload reset and independent Playground quote/target parity');
 }finally{await b.close();await new Promise(r=>server.close(r));}

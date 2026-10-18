@@ -3,14 +3,47 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.138"
-  update_summary: "Add the two-theme perspective discovery"
-  updated_at: "Mon 19 Oct 2026 at 12:57:03 am AEDT (+11:00)"
+  doc_revision: "26.0.139"
+  update_summary: "Replace the discovery icon with concealed-text shimmer"
+  updated_at: "Mon 19 Oct 2026 at 01:21:18 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.137 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 01:21:18 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Replace the discovery icon with concealed-text shimmer
+
+### Changed
+
+- Replace the Sparkles icon with intermittent glimmers across the concealed sentence fragment, and make its whole area the eligible click/tap target in either theme.
+- Increase sheen contrast, preserve a single sweep across wrapped lines and show a static concealed-text hint for reduced motion.
+- Group discovery controls and their canonical app specimen in a dedicated Perspective Discovery Playground tab, including natural viewing, eligible animation and success-dialog states.
+- Update source-derived catalogues, documentation and parity coverage; retain saved backdrop geometry because resting app layout is unchanged.
+
+### Fixed
+
+- Run the actual text sheen in the eligible Playground preview instead of holding the state before the sweep.
+
+### Validation
+
+- `npm --prefix website run build` — passed; built app and Playground contain v26.0.137, text glimmer and the dedicated tab.
+- `node website/tests/perspective-browser-check.mjs` — passed across four widths and both agents, including hover, full reveal, modal focus and reduced motion.
+- `node website/tests/perspective-edge-browser-check.mjs` — passed; touch, eligibility timing and dedicated-tab source parity.
+- `node website/tests/perspective-sheen-browser-check.mjs` — passed; rendered pixels change during the sheen, concealed words glimmer, and the full hidden-fragment target has pointer behaviour at phone/desktop widths in both themes.
+- `node website/tests/perspective-playground-browser-check.mjs` — passed; dedicated tab matches independent app typography, colours and target dimensions across 16 viewport/theme/agent combinations, plus success dialog.
+- `node website/tests/style-guide-browser-check.mjs` — passed; existing Playground source parity and interaction coverage.
+- Physical-device Safari remains unverified; mobile checks use Chrome touch emulation.
 
 ## v26.0.136 — 2026-10-19
 
