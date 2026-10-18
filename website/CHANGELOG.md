@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.128"
-  update_summary: "Add the hidden version-number Playground shortcut"
-  updated_at: "Sun 18 Oct 2026 at 10:21:30 pm AEDT (+11:00)"
+  doc_revision: "26.0.129"
+  update_summary: "Open Playground separately and preserve the Resources tab"
+  updated_at: "Sun 18 Oct 2026 at 10:23:32 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.127 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 10:23:32 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Open Playground separately and preserve the Resources tab
+
+### Changed
+
+- Open the hidden version-number shortcut with `_blank` and `noopener,noreferrer`, keeping the main Resources tab open.
+- Record the new-tab behaviour in repository instructions and verify popup isolation alongside the existing gesture checks.
+
+### Validation
+
+- Production build with provisional v26.0.127 — passed.
+- Four-width touch/mouse shortcut checks including separate-tab navigation, preserved Resources, no opener and sandbox containment — passed.
+- App/Playground source-parity matrix across both themes and agents — passed.
 
 ## v26.0.126 — 2026-10-18
 

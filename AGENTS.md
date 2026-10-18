@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.32"
-  update_summary: "Clarify artefact handoffs and hidden Playground navigation"
-  updated_at: "Sun 18 Oct 2026 at 10:20:05 pm AEDT (+11:00)"
+  doc_revision: "26.0.33"
+  update_summary: "Open the hidden Playground shortcut in a separate tab"
+  updated_at: "Sun 18 Oct 2026 at 10:22:25 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -162,7 +162,7 @@ Apply this standard to:
 
 ## Hidden Playground Shortcut
 
-- Three taps or primary-button clicks on the footer version number within three seconds open `/playground`. Only the version text activates it; other clicks, leaving the window or changing visibility reset the sequence. Keep it an ordinary text span: no Tab stop, programmatic focusability, focus ring, button/link role, action-specific screen-reader label, tooltip, hover treatment or visible affordance. Screen readers should read only the existing version text. This intentionally undisclosed shortcut is an exception to the normal pointer-cursor rule. It does not grant access or bypass authentication.
+- Three taps or primary-button clicks on the footer version number within three seconds open `/playground` in a new tab/window using `_blank` with `noopener,noreferrer`, leaving Resources open. Only the version text activates it; other clicks, leaving the window or changing visibility reset the sequence. Keep it an ordinary text span: no Tab stop, programmatic focusability, focus ring, button/link role, action-specific screen-reader label, tooltip, hover treatment or visible affordance. Screen readers should read only the existing version text. This intentionally undisclosed shortcut is an exception to the normal pointer-cursor rule. It does not grant access or bypass authentication.
 - Playground specimens exercise the same gesture handler but cancel navigation and report the simulated activation.
 
 ## Playground Source Fidelity

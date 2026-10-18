@@ -11,7 +11,7 @@ export const playgroundShortcutScript = `
   if(!count||now-started>3000){count=0;started=now;}
   if(++count!==3)return;
   reset();
-  if(document.dispatchEvent(new CustomEvent('workshop:open-playground',{cancelable:true})))location.assign('/playground');
+  if(document.dispatchEvent(new CustomEvent('workshop:open-playground',{cancelable:true})))window.open('/playground','_blank','noopener,noreferrer');
  });
  version.addEventListener('pointerdown',event=>{if(count&&performance.now()-started<=3000)event.preventDefault();});
  window.addEventListener('blur',reset);
