@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.30"
-  update_summary: "Require descriptive icon names and Lucide-first sourcing"
-  updated_at: "Sun 18 Oct 2026 at 10:09:35 pm AEDT (+11:00)"
+  doc_revision: "26.0.31"
+  update_summary: "Require approval before introducing non-Lucide icons"
+  updated_at: "Sun 18 Oct 2026 at 10:13:53 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -85,7 +85,7 @@ Follow [Uxcel: Types of Cursors & When to Use Them](https://uxcel.com/lessons/ba
 - Keep the footer action on the right, vertically centred when alongside the copyright and version text. Prefer a single row; next wrap version and copyright at their divider while retaining the right-aligned action. Only when the intact copyright and action cannot fit side-by-side, put the action below and left-align everything. Omit the divider and adjacent spacing whenever the text wraps.
 - Define success, error, warning and information roles centrally in `website/lib/workshop-theme.mjs`, shared by both agents and both pages. Use theme-specific success/error/warning colours and contrasting success/warning fill text. Keep information neutral through `--info`, aliased to `--muted-text`. Warning is reserved for future caution states; do not introduce warning UI without a product need. Check status foregrounds against page, card, field, tinted and hover surfaces when changing the palette. Pair status colours with text or icons.
 - Source every error colour on both pages from `var(--error)` in `website/lib/workshop-theme.mjs`. Define it once per light/dark theme; Codex and Claude share those values. Error text, icons, borders, focus rings, password text/autofill and copy-failure controls must reference or inherit that token, with no per-agent overrides or hard-coded component colours.
-- Source new interface icons from the installed Lucide Icons definitions. Use another library only in the rare case that Lucide has no suitable icon; document why, retain its official source and licence, and include it in the Playground. Existing Lobe Icons agent logos and the Wavelength brand asset remain valid exceptions.
+- New interface icons MUST come from the installed Lucide Icons definitions. Only when Lucide has no suitable icon may an agent propose an alternative; obtain Adam’s explicit approval before adding or using it. Document the suitability gap and, after approval, retain the alternative’s official source, licence and Playground representation. The two existing Lobe Icons agent logos have standing approval and require neither renewed approval nor repeated reminders. The existing Wavelength brand asset remains approved. Do not interpret this standing approval as permission for additional Lobe icons.
 - Give every SVG icon a descriptive, stable `data-icon-use` identifying its purpose, plus `data-icon-name` for its official library name and `data-icon-provider` for its origin. Repeated uses may share a purpose name where they perform the same function. Preserve official Lucide and Lobe names independently of usage names; show both in the Playground and retain the original source links. Apply this to app and Playground tooling icons. Do not add redundant screen-reader labels to decorative icons whose controls already have accessible names.
 
 ## Theme and Slider Animation
