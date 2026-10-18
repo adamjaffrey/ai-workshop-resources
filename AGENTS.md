@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.39"
-  update_summary: "Include focus and selection in Playground source parity"
-  updated_at: "Mon 19 Oct 2026 at 12:16:38 am AEDT (+11:00)"
+  doc_revision: "26.0.40"
+  update_summary: "Require bulleted app links with north-east arrows in replies"
+  updated_at: "Mon 19 Oct 2026 at 01:58:46 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -46,6 +46,7 @@ metadata:
 - Follow that list with **🔗 Local Preview** and clearly labelled clickable **Main App** and **Playground** links; identify the local Playground as password-free.
 - Immediately below the local links, show **🔑 Local App Test Password** and a fenced `text` code block containing the active preview server's current test password. Read it from the active process's output before the handoff; restart and verify the server when necessary. Never invent or reuse a stale credential. If local preview is unavailable, explain that limitation rather than presenting an unverified link or password.
 - Whenever publishing to Sites succeeds, also include **🌐 Live on Sites**, with separate clickable **Main App** and **Playground** links. Explain that they share the existing login session when relevant. Never include the production password. Keep local preview and hosted links visually separate.
+- In all future chat responses containing app links, present each link as its own bullet item and include a north-east arrow in the anchor text, for example `[Main App ↗](URL)` and `[Playground ↗](URL)`. Apply this to local previews and hosted Sites links; never combine app links inline.
 - Keep the change summary and verification concise above these details. Use modest icons and descriptive anchor text; do not open the links automatically.
 
 ## Website Login

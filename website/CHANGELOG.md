@@ -3,14 +3,44 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.141"
-  update_summary: "Add discovery tuning controls and gravity sparkles"
-  updated_at: "Mon 19 Oct 2026 at 01:43:50 am AEDT (+11:00)"
+  doc_revision: "26.0.142"
+  update_summary: "Unify the Easter Egg sweep, drifting particles and pointer halo"
+  updated_at: "Mon 19 Oct 2026 at 02:02:07 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.140 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 02:02:07 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Unify the Easter Egg sweep, drifting particles and pointer halo
+
+### Changed
+
+- Set the rainbow sweep to four seconds, include the ellipsis and progressively illuminate drifting particles outwards into the concealed half in either theme.
+- Keep particle lifetimes independent of sweep cadence so tails overlap, with smooth pointer attraction and no hover pause for sweeps.
+- Add gravity strength and particle duration sliders to the shared specimen controls.
+- Cycle the rainbow border and glow through richer colours and smoothly follow the screen pointer while keeping the dialog stationary.
+- Rename the dedicated tab to Easter Egg and reduce its standard specimen height to 420px, with 520px for the held success dialog.
+- Require bulleted app links with north-east arrows in future handoffs through the repository instructions.
+
+### Validation
+
+- Website build and built version/control checks — passed.
+- Directional emergence, ellipsis sheen, free drift, overlapping tails and pointer halo browser checks — passed.
+- Discovery gating, touch, hidden-tab, theme fallback, focus restoration and reduced-motion browser checks — passed.
+- Dedicated specimen parity across four widths, both themes and both agents, six tuning controls and reset — passed.
+- Required general Playground source-parity suite and visual halo review — passed. Physical-device Safari remains unverified.
+- Refreshed LAN main app and Playground endpoints — HTTP 200.
 
 ## v26.0.139 — 2026-10-19
 

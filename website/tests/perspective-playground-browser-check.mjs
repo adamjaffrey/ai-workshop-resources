@@ -14,15 +14,15 @@ try{
   const dims=e=>{const r=e.getBoundingClientRect();return [r.width,r.height];};assert.deepEqual(await f.locator('.perspective-discover').evaluate(dims),await app.locator('.perspective-discover').evaluate(dims));
  }
  await guide.locator('input[name=egg][value=success]').locator('..').click();await f.locator('.perspective-dialog').waitFor({state:'visible'});await app.evaluate(()=>window.workshopPerspective.preview('success'));for(const selector of ['#perspective-title','.perspective-dialog p','.perspective-dialog button'])assert.deepEqual(await f.locator(selector).first().evaluate(read),await app.locator(selector).first().evaluate(read));
- for(const [key,value] of Object.entries({duration:8000,gap:750,intensity:150,halo:25})){await guide.locator('#perspective-'+key).evaluate((el,value)=>{el.value=value;el.dispatchEvent(new Event('input',{bubbles:true}));},value);}
+ for(const [key,value] of Object.entries({duration:8000,gap:750,intensity:150,halo:25,gravity:150,particleDuration:6000})){await guide.locator('#perspective-'+key).evaluate((el,value)=>{el.value=value;el.dispatchEvent(new Event('input',{bubbles:true}));},value);}
  await guide.waitForTimeout(300);
- assert.deepEqual(await f.locator('body').evaluate(()=>window.workshopPerspective.config),{duration:8000,gap:750,intensity:150,halo:25});
- assert.deepEqual(await app.evaluate(()=>window.workshopPerspective.config),{duration:4500,gap:2000,intensity:100,halo:100});
+ assert.deepEqual(await f.locator('body').evaluate(()=>window.workshopPerspective.config),{duration:8000,gap:750,intensity:150,halo:25,gravity:150,particleDuration:6000});
+ assert.deepEqual(await app.evaluate(()=>window.workshopPerspective.config),{duration:4000,gap:2000,intensity:100,halo:100,gravity:100,particleDuration:4000});
  assert.equal(await f.locator('.perspective-particle:not([hidden])').count(),72);
  assert.equal(await f.locator('.perspective-dialog').evaluate(e=>e.style.getPropertyValue('--perspective-halo')),'0.25');
  await guide.locator('#perspective-reset').click();await guide.waitForTimeout(300);
  assert.deepEqual(await f.locator('body').evaluate(()=>window.workshopPerspective.config),await app.evaluate(()=>window.workshopPerspective.config));
  await guide.locator('input[name=egg][value=ready]').locator('..').click();await f.locator('.perspective-discover').hover();await guide.waitForTimeout(600);
- assert.ok(await f.locator('.perspective-particle').evaluateAll(points=>points.some(p=>parseFloat(p.style.getPropertyValue('--pull-scale'))>1.1)),'nearby sparkles respond to pointer gravity');
+ assert.ok(await f.locator('.perspective-particle').evaluateAll(points=>points.some(p=>new DOMMatrixReadOnly(getComputedStyle(p).transform).a>1.1)),'nearby sparkles respond to pointer gravity');
  console.log('PASS: dedicated Discovery tab matches independent app typography, colours and target geometry in 16 width/theme/agent combinations, plus success dialog');
 }finally{await b.close();await new Promise(r=>server.close(r));}

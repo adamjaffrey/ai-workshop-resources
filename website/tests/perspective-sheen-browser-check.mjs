@@ -16,7 +16,7 @@ for(const width of [320,390,1440])for(const theme of ['light','dark']){
  assert.equal(await p.locator(selector).evaluate(e=>getComputedStyle(e,'::after').animationName),'perspective-sheen');
  const active=await p.locator('.perspective').screenshot();assert.notDeepEqual(active,rest,'sheen changes rendered pixels');
  if(width===390)await p.locator('.perspective').screenshot({path:'/tmp/perspective-sheen-'+theme+'.png'});
- await p.locator('.perspective-discover').hover();await p.waitForTimeout(650);assert.equal(await p.locator(hidden).evaluate(e=>getComputedStyle(e,'::after').opacity),'0');assert.equal(await p.locator('.perspective-particle').first().evaluate(e=>getComputedStyle(e).animationName),'perspective-twinkle');assert.equal(await p.locator('.perspective-particle').count(),96);assert.ok(await p.locator('.perspective-particle').first().evaluate(e=>new DOMMatrixReadOnly(getComputedStyle(e).transform).a>.4),'particles expand into visible sparks');
+ await p.locator('.perspective-discover').hover();await p.waitForTimeout(650);assert.equal(await p.locator(hidden).evaluate(e=>getComputedStyle(e,'::after').opacity),'0');assert.equal(await p.locator('.perspective-particle').count(),96);assert.ok(await p.locator('.perspective-particle').first().evaluate(e=>new DOMMatrixReadOnly(getComputedStyle(e).transform).a>.4),'particles expand into visible sparks');
  assert.equal(await p.locator('.perspective-discover svg').count(),0);
  if(width===390)await p.locator('.perspective').screenshot({path:'/tmp/perspective-glimmer-'+theme+'.png'});
  await p.mouse.move(hit.x+hit.width-2,hit.y+hit.height/2);assert.equal(await p.evaluate(({x,y})=>getComputedStyle(document.elementFromPoint(x,y)).cursor,{x:hit.x+hit.width-2,y:hit.y+hit.height/2}),'pointer');

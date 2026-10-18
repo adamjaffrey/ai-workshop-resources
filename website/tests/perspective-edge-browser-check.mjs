@@ -8,7 +8,7 @@ try{
  await p.evaluate(()=>Object.defineProperty(document,'hidden',{configurable:true,get:()=>true}));await p.waitForTimeout(1200);assert.deepEqual(await p.evaluate(()=>window.workshopPerspective.seen),[]);
  console.log('Hidden-tab check passed');await p.evaluate(()=>delete document.hidden);await p.waitForFunction(()=>window.workshopPerspective.seen.includes('light'));assert.deepEqual(await p.evaluate(()=>window.workshopPerspective.seen),['light']);
  await p.locator('[data-theme-choice=dark]').tap();await p.waitForTimeout(450);await p.locator('[data-theme-choice=light]').tap();await p.waitForTimeout(700);assert.equal(await p.evaluate(()=>window.workshopPerspective.state),'locked');
- await p.locator('[data-theme-choice=dark]').tap();await p.waitForFunction(()=>window.workshopPerspective.state==='ready');await p.waitForFunction(()=>document.querySelector('.perspective').hasAttribute('data-sparkling'));
+ await p.locator('[data-theme-choice=dark]').tap();await p.waitForFunction(()=>window.workshopPerspective.state==='ready');await p.waitForFunction(()=>[...document.querySelectorAll('.perspective-particle:not([hidden])')].some(p=>Number(p.style.opacity)>.1));
  await p.locator('.perspective-discover').tap();await p.locator('.perspective-dialog').waitFor({state:'visible'});assert.equal(await p.evaluate(()=>document.activeElement.id),'perspective-title');await p.getByRole('button',{name:'Done'}).tap();await p.waitForFunction(()=>!document.querySelector('.perspective-dialog').open);
  console.log('Touch reveal passed');await p.reload();assert.equal(await p.evaluate(()=>window.workshopPerspective.state),'locked');
  // Fallback theme transitions must settle before their one-second dwell starts.
