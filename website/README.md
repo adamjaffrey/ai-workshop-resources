@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.64"
-  update_summary: "Reserve one accessible line for concise login errors"
-  updated_at: "Sun 18 Oct 2026 at 11:52:35 am AEDT (+11:00)"
+  doc_revision: "26.0.65"
+  update_summary: "Document expanded previews and single-scroll reference galleries"
+  updated_at: "Sun 18 Oct 2026 at 12:39:09 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -199,7 +199,7 @@ Apply one 4px blur filter to the decorative placeholder background. The login pa
 
 ### Mobile Controls and Source Coverage
 
-At widths up to 660px, the four global controls move into a native popover that expands from the rounded-square Lucide Ellipsis button. That same button becomes X in the same position; X, Escape and outside clicks close it. Focus starts on the heading with no ring; the first Tab reaches the X control. The local playground starts in Codex/light before paint without reading or overwriting the live site’s saved agent preference. Navigation wraps compactly. Login-state choices use two independently packed horizontal rows, with visible overflow and no swipe explainer. Reset actions use labelled Lucide Rotate Ccw icon buttons beside section headings. Sliders have 44px-high interaction areas, larger thumbs and inline label/value pairs. Colour swatches form two columns on mobile and display hex values in monospace. Copy-result controls retain 20px of separation from their preview.
+At widths up to 660px, the four global controls move into a native popover that expands from the rounded-square Lucide Ellipsis button. That same button becomes X in the same position; X, Escape and outside clicks close it. Focus starts on the heading with no ring; the first Tab reaches the X control. The local playground starts in Codex/light before paint without reading or overwriting the live site’s saved agent preference. Section tabs remain in one horizontally scrolling row. Login-state choices use two independently packed horizontal rows, with visible overflow and no swipe explainer. Reset actions use labelled Lucide Rotate Ccw icon buttons beside section headings. Sliders have 44px-high interaction areas, larger thumbs and inline label/value pairs. Colour swatches form two columns on mobile and display hex values in monospace. Copy-result controls retain 20px of separation from their preview.
 
 | Playground Surface | App Source | Synchronisation |
 |---|---|---|
@@ -217,3 +217,5 @@ The neutral-token audit found every neutral role referenced. Light-mode `--field
 The source-parity browser check compares each typography specimen’s text, font family, size, weight, line height, letter spacing, colour and text transformation with its rendered app source in both themes/agents at desktop/mobile widths. It also checks shared login messages, compact controls, popover heading focus/restoration, spacing, one blur pass and independent scrim opacity. Reload a restarted local preview after editing source modules; these tools are generated from the server’s current imports, not a separate persisted design copy.
 
 The Icons tab captures current app controls, SVGs, images and Unicode glyphs, including selected theme/agent and copy/login states. Icon Family filters show All, Lucide, Lobe, Unicode or Other. Show Sources defaults off and reveals separate Lucide/Lobe source links without making specimens external navigation targets. Licence panels explain Lucide’s ISC licence and Feather-derived MIT notice, and Lobe’s MIT licence. Error States renders all login and copy failures from the same live source messages and computed styles. Isolated capture frames suppress focus and selection side effects and finish transitions before capture; they never change production behaviour.
+
+Interactive login, resource and block previews have an inline height cap of 70dvh. Expand Preview opens the existing preview in a native modal dialog without moving or reloading its iframe. Lucide Maximize 2 and Minimize 2 identify expand/contract actions. Relevant state controls and shared Style Options remain available inside the dialog; their collapsible sections preserve room on short screens. Closing or Escape restores page position and focus to the invoking control. Background scrolling is locked only while expanded. Typography, Icons and Error States instead measure their full content height and scroll with the playground page. Validate with `node website/tests/playground-expanded-preview-check.mjs`.

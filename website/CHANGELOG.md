@@ -3,14 +3,43 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.116"
-  update_summary: "Align heading actions and label reset controls"
-  updated_at: "Sun 18 Oct 2026 at 11:55:28 am AEDT (+11:00)"
+  doc_revision: "26.0.117"
+  update_summary: "Expand interactive previews and simplify gallery scrolling"
+  updated_at: "Sun 18 Oct 2026 at 12:39:58 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.115 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 12:39:58 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Expand interactive previews and simplify gallery scrolling
+
+### Added
+
+- Add Lucide expand/contract controls for login, resource and block previews, using native full-screen dialogs with shared state and style controls.
+- Preserve iframe instances, selected outcomes, page position and keyboard focus through expansion and contraction; lock background scrolling while modal.
+
+### Changed
+
+- Cap inline interactive previews at 70dvh and size expanded previews to the available visual viewport.
+- Let Typography, Icons, Error States and the colour-rule list grow with their content so their reference galleries use the playground page scroll.
+- Document the modal controls and reference scrolling workflow.
+
+### Validation
+
+- Expanded-preview browser checks — passed on mobile and desktop, including inline caps, retained iframe state, controls, focus, Escape and scroll restoration.
+- Existing playground controls and source-parity/browser matrix — passed; mobile screenshots visually inspected.
+- Production build, geometry guard, syntax and whitespace checks — passed.
 
 ## v26.0.114 — 2026-10-18
 
