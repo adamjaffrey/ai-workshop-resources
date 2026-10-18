@@ -64,7 +64,7 @@ await resources.locator('footer button').click();assert.equal(p.url(),origin+'/p
 await p.click('[data-tab=typography]');assert.equal(p.url(),origin+'/playground');
 assert.match(await p.frameLocator('#type-frame').locator('[data-source-selector="h1"] output').textContent(),/48px/);
 await p.waitForTimeout(400);
-const headingStyles=await p.frameLocator('#type-frame').locator('h2[data-type-sample]').evaluateAll(es=>es.map(e=>{const c=getComputedStyle(e);return {size:c.fontSize,weight:c.fontWeight,colour:c.color};}));assert.equal(headingStyles.length,2);assert.equal(headingStyles[0].size,headingStyles[1].size);assert.equal(headingStyles[0].weight,headingStyles[1].weight);assert.notEqual(headingStyles[0].colour,headingStyles[1].colour);
+const headingStyles=await p.frameLocator('#type-frame').locator('.type-row:not([data-source-selector="#perspective-title"]) h2[data-type-sample]').evaluateAll(es=>es.map(e=>{const c=getComputedStyle(e);return {size:c.fontSize,weight:c.fontWeight,colour:c.color};}));assert.equal(headingStyles.length,2);assert.equal(headingStyles[0].size,headingStyles[1].size);assert.equal(headingStyles[0].weight,headingStyles[1].weight);assert.notEqual(headingStyles[0].colour,headingStyles[1].colour);
 // Inspector stays docked and never changes its own geometry while inspecting.
 await p.click('#inspector-toggle');await p.click('#inspector-details');
 const type=p.frameLocator('#type-frame');await type.locator('h1').hover();await p.waitForTimeout(260);

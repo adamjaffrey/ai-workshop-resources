@@ -32,7 +32,7 @@ window.addEventListener('message',async event=>{
  const page=event.data.page,items=[],errors=[],typographyFeedback=[],agentTypography=[],buttonVariants=[],focusItems=[];
  const captureButton=(node,kind,state)=>{const c=getComputedStyle(node.querySelector('.copy-label')||node);buttonVariants.push({kind,state,html:iconSnapshot(node,page,state,true).html,typography:[c.fontFamily,c.fontSize,c.fontWeight,c.lineHeight,c.color]});};
  const captureFocus=(node,label,ring=true)=>{
-  const root=node.closest('.password-field')||node.closest('.qr-card')||node.closest('.code-wrap')||node.closest('.segmented-toggle')||node;
+  const root=node.closest('.password-field')||node.closest('.qr-card')||node.closest('.code-wrap')||node.closest('.segmented-toggle')||node.closest('.perspective')||node;
   const clone=root.cloneNode(true),originals=[root,...root.querySelectorAll('*')],copies=[clone,...clone.querySelectorAll('*')];
   copies[originals.indexOf(node)].setAttribute('data-focus-target','');
   originals.forEach((n,i)=>{if(n instanceof HTMLInputElement)copies[i].setAttribute('value',n.value);});
@@ -42,7 +42,7 @@ window.addEventListener('message',async event=>{
   const selection=getComputedStyle(node,'::selection');focusItems.push({page,label,ring,html,selector:sourceSelector(node),selection:[selection.backgroundColor,selection.color],selectable:node.matches('input,pre,.intro'),selectionText:node.matches('input')?'••••••••':node.textContent.trim().slice(0,90)});
  };
  const add=(node,state)=>{if(!node)throw Error('Missing icon source: '+page+' '+state);items.push(iconSnapshot(node,page,state));};
- const addError=(node,state)=>{if(!node)throw Error('Missing error source: '+page+' '+state);const item=iconSnapshot(node,page,state,true),template=document.createElement('template');template.innerHTML=node.matches('.gate-panel,.code-wrap')?node.outerHTML:item.html;const root=template.content.firstElementChild;if(node.matches('.gate-panel')){root.querySelector('input').setAttribute('value',node.querySelector('input').value);}if(node.matches('.gate-panel'))root.classList.add('full-login-context');Object.assign(root.style,{position:node.matches('.qr-copy,.code-wrap')?'relative':'static',maxWidth:'100%',height:'auto',maxHeight:'none',margin:'0'});if(node.matches('.code-wrap'))root.style.width=item.width+'px';errors.push({...item,html:root.outerHTML,text:node.textContent.trim()});};
+ const addError=(node,state)=>{if(!node)throw Error('Missing error source: '+page+' '+state);const item=iconSnapshot(node,page,state,true),template=document.createElement('template');template.innerHTML=node.matches('.gate-panel,.code-wrap,.perspective-dialog')?node.outerHTML:item.html;const root=template.content.firstElementChild;if(node.matches('.gate-panel')){root.querySelector('input').setAttribute('value',node.querySelector('input').value);}if(node.matches('.gate-panel'))root.classList.add('full-login-context');Object.assign(root.style,{position:node.matches('.qr-copy,.code-wrap')?'relative':'static',maxWidth:'100%',height:'auto',maxHeight:'none',margin:'0'});if(node.matches('.code-wrap'))root.style.width=item.width+'px';errors.push({...item,html:root.outerHTML,text:node.textContent.trim()});};
  if(page==='login'){
   for(const state of ['neutral','loading','success','wrong']){window.demoLogin(state);finishCaptureMotion();captureFocus(document.querySelector('#workshop-password'),'Password · '+({neutral:'Neutral',loading:'Checking',success:'Success',wrong:'Incorrect Password'}[state]));if(state==='neutral')captureFocus(document.querySelector('.gate-submit'),'Unlock Resources · Keyboard Focus');document.querySelectorAll('[data-input-icon],[data-status-icon]').forEach(node=>{if(!node.hasAttribute('hidden'))add(node,state);});}
   parent.postMessage({guide:'focus-catalog-data',requestId:event.data.requestId,page,focusItems},'*');
@@ -50,6 +50,14 @@ window.addEventListener('message',async event=>{
   window.demoLogin('neutral');finishCaptureMotion();
  }else{
   for(const [selector,label,ring] of [['.intro','Body Text Selection',false],['pre','Prompt Text · Keyboard Focus',true],['.copy','Copy Prompt · Keyboard Focus',true],['.qr-copy','QR Link · Keyboard Focus',true],['footer button','Log Out · Keyboard Focus',true],['.theme-toggle [aria-pressed=true]','Colour Theme · Keyboard Focus',true],['.controls [aria-pressed=true]','Coding Agent · Keyboard Focus',true]])captureFocus(document.querySelector(selector),label,ring);
+  window.workshopPerspective.preview('ready');
+  captureFocus(document.querySelector('.perspective-discover'),'Perspective Discovery · Keyboard Focus');
+  add(document.querySelector('.perspective-discover svg'),'Eligible · Perspective Discovery');
+  window.workshopPerspective.preview('complete');
+  document.querySelector('.perspective-dialog').setAttribute('open','');
+  addError(document.querySelector('.perspective-dialog'),'Perspective Discovery Success');
+  document.querySelector('.perspective-dialog').removeAttribute('open');
+  window.workshopPerspective.preview('locked');
   parent.postMessage({guide:'focus-catalog-data',requestId:event.data.requestId,page,focusItems},'*');
   const savedTheme=document.documentElement.dataset.theme,savedAgent=window.workshopAgent.current;
   const theme=async value=>{window.dispatchEvent(new StorageEvent('storage',{key:'workshop-colour-theme',newValue:value}));await yieldCapture();finishCaptureMotion();};

@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.72"
-  update_summary: "Group related specimens and show prompt helper feedback"
-  updated_at: "Sun 18 Oct 2026 at 09:46:31 pm AEDT (+11:00)"
+  doc_revision: "26.0.73"
+  update_summary: "Document the perspective discovery and persistent theme control"
+  updated_at: "Mon 19 Oct 2026 at 12:55:49 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -229,3 +229,20 @@ Interactive login, resource and block previews use 70% of the viewport space rem
 App interface changes must update affected playground specimens, adapters and parity checks in the same change, following the mandatory contract in `AGENTS.md`. Validate against independently rendered main-app pages as well as the specimen source frames; shared imports alone do not prove rendered parity.
 
 Typography follows a curated brand, pre-heading, heading, body, prompt, QR, footer and login hierarchy. Icons follow page flow while keeping related controls, card icons, copy states and prompt symbols together. Copy controls show a resting type example plus success/failure prompt-panel examples captured through the real app renderer; the Icons view retains all captured icon variants. Keep helper feedback over the code panel in a clearly cropped context preview, and leave room around captured controls for their original outlines. The login error typography specimen holds the actual incorrect-password renderer output. Error States captures failures in their login form, QR button or prompt-copy button/status context. The toolbar uses Screen Width, and changing its radio controls preserves scroll position and focus.
+
+
+## Perspective Discovery
+
+The resources page keeps its existing day/night control fixed within the viewport. The login control remains inside its panel. Preserve the shared circular reveal, control movement and colour timing. Saved backdrop geometry was refreshed for this layout change.
+
+`lib/workshop-easter-egg.mjs` owns the footer inscription, styles, state controller and success dialog. The day fragment reads “Look at things a little differently”; the night fragment reads “there’s more here than meets the eye.” A shared Unicode ellipsis stays horizontally centred. The browser lays out both fragments even while one is hidden: the day fragment wraps upwards and the night fragment downwards from their meeting point. No fixed text-height estimate is used.
+
+During each page visit, the whole inscription must remain within the viewport for one continuous second in each settled theme while the tab is visible. Theme transitions, including the colour fallback, do not count towards this dwell. Switching themes away from the inscription cannot unlock it. Reloading resets progress. The controller reads the shared theme controller’s busy state instead of guessing its animation duration.
+
+Once eligible, a 45-degree sheen crosses the visible fragment as one unit towards the ellipsis, normally every 9.5 seconds while visible. Its arrival reveals the installed Lucide Sparkles icon for two seconds with staggered brightness changes. The target remains available between appearances. Hover immediately reveals and animates it; keyboard focus shows it and the shared focus ring. Its 44px hit target sits across the ellipsis from the current fragment. Activating it immediately restarts the sheen and reveals the other fragment, holds the complete message for three seconds, then opens the success dialog. After dismissal the return target sits beneath the completed inscription to avoid overlapping its text. Reduced motion uses a static eligible icon and immediate text reveal.
+
+The success dialog uses a multicolour outer glow and the existing readable surface, native modal containment, heading focus, Escape dismissal and focus restoration. It invites participants to ask Adam what else is hiding. No essential workshop resource is gated by this discovery.
+
+The Playground consumes the canonical module. Components includes Natural Discovery, Locked, Eligible Sparkles, Full Sentence and Success Dialog controls. Typography includes both fragments, the ellipsis and dialog text; Icons, Status States, Focus and Selection and the generated colour rules include their relevant source specimens. Captured success dialogs are held nonmodally in isolated catalogue frames to avoid moving the user’s focus; the interactive Components specimen exercises the real modal. Playground controls supply fixtures through the shared renderer, not independent markup or state logic.
+
+Validate with `node website/tests/perspective-browser-check.mjs`, `node website/tests/perspective-edge-browser-check.mjs` and `node website/tests/style-guide-browser-check.mjs`, plus the existing theme-transition, theme-control-colour and Playground focus checks. Touch checks use browser emulation; physical-device Safari still requires user testing through the LAN preview.

@@ -155,6 +155,7 @@ const script = `(() => {
   const themeAnimations = new Set();
   let reveal, revealRequest = 0;
   let restoreControlColours = () => {};
+  window.workshopThemeBusy = () => Boolean(reveal) || themeAnimations.size > 0;
   const colourProperties = ['color', 'backgroundColor', 'borderTopColor', 'borderRightColor', 'borderBottomColor', 'borderLeftColor', 'outlineColor', 'fill', 'stroke', 'filter'];
   const cancelThemeAnimations = () => { themeAnimations.forEach(animation => animation.cancel()); themeAnimations.clear(); };
   reducedMotion.addEventListener('change', () => { if (reducedMotion.matches) { cancelThemeAnimations(); restoreControlColours(); reveal?.skipTransition(); } });

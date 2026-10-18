@@ -3,14 +3,50 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.137"
-  update_summary: "Accelerate and audit focus previews"
-  updated_at: "Mon 19 Oct 2026 at 12:41:47 am AEDT (+11:00)"
+  doc_revision: "26.0.138"
+  update_summary: "Add the two-theme perspective discovery"
+  updated_at: "Mon 19 Oct 2026 at 12:57:03 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.136 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 12:57:03 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add the two-theme perspective discovery
+
+### Added
+
+- Add complementary footer fragments wrapping outwards from a centred ellipsis, eligible only after a full settled-theme viewport viewing in both themes during the current visit.
+- Add a directional sheen, intermittent Lucide Sparkles, immediate hover sparkle, persistent eligible hit target, complete-sentence reveal and a colourful success dialog inviting discovery with Adam.
+- Represent live and held discovery states through canonical source renderers in Playground Components, Typography, Icons, Status States, Focus and Selection and colour rules; keep catalogue dialog captures nonmodal.
+- Add desktop/mobile discovery and touch/eligibility regression coverage, with reduced-motion and independent Playground checks.
+
+### Changed
+
+- Keep the resources theme control visible while scrolling, preserving existing theme animation and login control behaviour.
+- Refresh saved backdrop geometry for the changed control position and document the discovery flow and device-testing limits.
+
+### Validation
+
+- `npm --prefix website run build` — passed; built app and generated Playground contain v26.0.136 and the shared discovery module.
+- `node website/tests/perspective-browser-check.mjs` — passed at four widths for both agents, including qualification, hover, geometry, dialog focus and reduced motion.
+- `node website/tests/perspective-edge-browser-check.mjs` — passed; touch emulation, hidden tab, rapid toggles, fallback dwell, reset and independent Playground quote/icon parity.
+- `node website/tests/style-guide-browser-check.mjs` — passed; required source parity and existing interaction coverage.
+- `node website/tests/playground-focus-matrix-check.mjs` — passed across 16 viewport/theme/agent combinations.
+- Theme-transition and theme-control-colour browser checks — passed on both pages at mobile/desktop widths.
+- Auth, placeholder, reveal-radius and local phone-preview tests — passed (13 checks).
+- `npm --prefix website run blocks:measure` — passed; saved layout revision 8.
+- Local main app and password-free Playground HTTP checks — passed. Physical-device Safari remains unverified.
 
 ## v26.0.135 — 2026-10-19
 
