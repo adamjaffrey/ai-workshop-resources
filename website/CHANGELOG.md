@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.133"
-  update_summary: "Clarify typography specimens and contain style options"
-  updated_at: "Sun 18 Oct 2026 at 11:50:11 pm AEDT (+11:00)"
+  doc_revision: "26.0.134"
+  update_summary: "Make the password input fill its visible field"
+  updated_at: "Sun 18 Oct 2026 at 11:57:50 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.132 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 11:57:50 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Make the password input fill its visible field
+
+### Fixed
+
+- Extend the real password input to both inner borders, moving spacing inside it and positioning the shared status icon over its left padding. Clicking either edge now focuses the input, and password-manager controls can anchor to the full field width.
+- Keep a rounded neutral inset surface throughout typing and submission, including password-manager background injection outside the native autofill state. Preserve status colours, text spacing and the shared main-app/Playground renderer.
+
+### Validation
+
+- `npm --prefix website run build` — passed; generated server assets display v26.0.132.
+- Password-field geometry and edge-click checks passed at 320, 390, 768 and 1440px. A rendered-pixel check confirms simulated blue background injection stays neutral, allowing one colour-channel level for text antialiasing.
+- Login-state checks passed in both themes at mobile and desktop widths. Actual 1Password extension behaviour requires user browser verification.
+- `node website/tests/style-guide-browser-check.mjs` — passed; main-app/Playground parity across four widths, both themes and agents.
+- Website PVS validation, `git diff --check`, local LAN endpoints and password unlock — passed.
 
 ## v26.0.131 — 2026-10-18
 
