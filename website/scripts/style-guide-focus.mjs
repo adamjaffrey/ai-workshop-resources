@@ -4,12 +4,14 @@ export const focusGalleryScript = String.raw`
 const catalog=document.getElementById('focus-catalog'),focusCache={};
 document.documentElement.setAttribute('data-held-keyboard','');
 window.addEventListener('message',event=>{
- if(event.source!==parent||event.data?.guide!=='icon-catalog-data')return;
+ if(event.source!==parent||event.data?.guide!=='focus-catalog-data')return;
+ if(event.data.requestId<(focusCache[event.data.page]?.requestId||0))return;
  focusCache[event.data.page]=event.data;
  if(!focusCache.resources||!focusCache.login||focusCache.resources.requestId!==focusCache.login.requestId)return;
+ if(catalog.dataset.captureId===String(event.data.requestId))return;
  // Commit both sources together: never insert login first and prepend resources later.
  for(const page of ['resources','login']){
- const section=document.getElementById('focus-'+page),fragment=document.createDocumentFragment();
+ const section=document.getElementById('focus-'+page),signature=JSON.stringify(focusCache[page].focusItems);if(section.captureSignature===signature)continue;section.captureSignature=signature;const fragment=document.createDocumentFragment();
  for(const item of focusCache[page].focusItems){
   const row=document.createElement('section');row.className='focus-row';
   const title=document.createElement('h3');title.textContent=item.label;
@@ -23,6 +25,7 @@ window.addEventListener('message',event=>{
  }
  section.replaceChildren(fragment);
  }
+ catalog.dataset.captureId=event.data.requestId;
  catalog.querySelectorAll('.segmented-toggle').forEach(e=>window.layoutWorkshopToggle(e));
 });
 new ResizeObserver(()=>{if(catalog.getBoundingClientRect().width)parent.postMessage({guide:'reference-height',height:Math.ceil(catalog.getBoundingClientRect().height+32)},'*');}).observe(catalog);

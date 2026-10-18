@@ -14,7 +14,8 @@ try{
   assert.equal(await t.locator('[data-source-selector="pre"] .code-wrap').evaluate(e=>getComputedStyle(e).borderTopStyle),'solid');
   assert.equal(await t.locator('[data-source-selector="#workshop-password"] .password-icon').count(),1);
   assert.equal(await t.locator('.feedback-grid').evaluate(e=>getComputedStyle(e).borderBottomStyle),'solid');
-  const buttonWidth=await t.locator('[data-type-sample].gate-submit').evaluate(e=>e.getBoundingClientRect().width);assert.ok(buttonWidth>180&&buttonWidth<=365);
+  await t.locator('[data-source-selector=".gate-submit"][style*="--source-width"]').waitFor();
+  const buttonWidth=await t.locator('[data-type-sample].gate-submit').evaluate(e=>e.getBoundingClientRect().width);assert.ok(buttonWidth>180&&buttonWidth<=365,JSON.stringify({width,buttonWidth}));
   assert.equal(await t.locator('#type-specimens').evaluate(e=>getComputedStyle(e).paddingBottom),'16px');
   await page.locator('[data-tab=errors]').click();await page.waitForTimeout(800);const e=page.frameLocator('#errors-frame');
   const states=await e.locator('#errors-login .icon-row').evaluateAll(es=>es.map(e=>e.dataset.state));assert.equal(states.at(-2),'retryReady');assert.equal(states.at(-1),'JavaScript Unavailable');

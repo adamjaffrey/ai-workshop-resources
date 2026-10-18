@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.136"
-  update_summary: "Synchronise focus specimens and remember the selected tab"
-  updated_at: "Mon 19 Oct 2026 at 12:34:03 am AEDT (+11:00)"
+  doc_revision: "26.0.137"
+  update_summary: "Accelerate and audit focus previews"
+  updated_at: "Mon 19 Oct 2026 at 12:41:47 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.135 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 12:41:47 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Accelerate and audit focus previews
+
+### Changed
+
+- Deliver focus specimens before the heavier icon/status catalogue, coalesce refresh requests, and use MessageChannel yields instead of timer waits vulnerable to hidden-frame throttling.
+- Ignore stale or identical focus results and preserve unchanged specimen DOM. Restore the resources content context so prompt surfaces use the canonical scoped background.
+- Serve local Playground assets by URL with public-asset CORS support and gzip its HTML when accepted. Retain self-contained asset embedding by default for generated hosted HTML. Authentication remains unchanged.
+
+### Validation
+
+- `node website/tests/playground-focus-matrix-check.mjs` — passed; 16 combinations at 320, 390, 768 and 1440px, both agents/themes, independent app control/password/surface parity, horizontal overflow, late layout stability and rapid final-selection checks.
+- `node website/tests/playground-focus-performance-check.mjs` — passed; gzip preserves exact HTML. Local HTML transfer decreased from approximately 4.45 MB uncompressed to 250 KB compressed, with fonts/images requested separately.
+- Real LAN preview benchmark — cold Focus loads measured 912ms at 390px and 812ms at 1440px with fourfold CPU slowdown in headless Chrome. This does not reproduce or guarantee the user's Mac/Safari timing.
+- Focus consistency, contextual typography, tool-focus and typography/modal checks — passed. A fixed-delay typography assertion was updated to await its source capture.
+- `node website/tests/style-guide-browser-check.mjs` — passed; complete source-parity matrix.
+- `npm --prefix website run build` — passed; generated server assets display v26.0.135. WebKit is not installed; physical Safari/iPhone behaviour remains unverified.
 
 ## v26.0.134 — 2026-10-19
 

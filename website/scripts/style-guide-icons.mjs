@@ -19,12 +19,16 @@ HTMLElement.prototype.focus=function(){};HTMLTextAreaElement.prototype.select=fu
 // Copy-failure selection is simulated too; native ranges can focus an iframe.
 window.getSelection=()=>({removeAllRanges(){},addRange(){}});
 function finishCaptureMotion(){document.body.offsetHeight;document.getAnimations().forEach(a=>{if(a.effect?.getTiming().iterations!==Infinity)try{a.finish();}catch{}});}
+// MessageChannel yields are not subject to background iframe timer throttling.
+const captureChannel=new MessageChannel(),captureTasks=[];
+captureChannel.port1.onmessage=()=>captureTasks.shift()?.();
+const yieldCapture=()=>new Promise(resolve=>{captureTasks.push(resolve);captureChannel.port2.postMessage(null);});
 let capturingIcons=false,pendingIcons;
 window.addEventListener('message',async event=>{
  if(event.source!==parent||event.data?.guide!=='icon-catalog')return;
  if(capturingIcons){pendingIcons=event.data;return;}capturingIcons=true;
  try{
- const requested=event.data.settings;if(requested){window.dispatchEvent(new StorageEvent('storage',{key:'workshop-colour-theme',newValue:requested.theme}));window.workshopAgent?.select(requested.agent);await new Promise(r=>setTimeout(r,0));finishCaptureMotion();}
+ const requested=event.data.settings;if(requested){window.dispatchEvent(new StorageEvent('storage',{key:'workshop-colour-theme',newValue:requested.theme}));window.workshopAgent?.select(requested.agent);await yieldCapture();finishCaptureMotion();}
  const page=event.data.page,items=[],errors=[],typographyFeedback=[],agentTypography=[],buttonVariants=[],focusItems=[];
  const captureButton=(node,kind,state)=>{const c=getComputedStyle(node.querySelector('.copy-label')||node);buttonVariants.push({kind,state,html:iconSnapshot(node,page,state,true).html,typography:[c.fontFamily,c.fontSize,c.fontWeight,c.lineHeight,c.color]});};
  const captureFocus=(node,label,ring=true)=>{
@@ -41,14 +45,16 @@ window.addEventListener('message',async event=>{
  const addError=(node,state)=>{if(!node)throw Error('Missing error source: '+page+' '+state);const item=iconSnapshot(node,page,state,true),template=document.createElement('template');template.innerHTML=node.matches('.gate-panel,.code-wrap')?node.outerHTML:item.html;const root=template.content.firstElementChild;if(node.matches('.gate-panel')){root.querySelector('input').setAttribute('value',node.querySelector('input').value);}if(node.matches('.gate-panel'))root.classList.add('full-login-context');Object.assign(root.style,{position:node.matches('.qr-copy,.code-wrap')?'relative':'static',maxWidth:'100%',height:'auto',maxHeight:'none',margin:'0'});if(node.matches('.code-wrap'))root.style.width=item.width+'px';errors.push({...item,html:root.outerHTML,text:node.textContent.trim()});};
  if(page==='login'){
   for(const state of ['neutral','loading','success','wrong']){window.demoLogin(state);finishCaptureMotion();captureFocus(document.querySelector('#workshop-password'),'Password · '+({neutral:'Neutral',loading:'Checking',success:'Success',wrong:'Incorrect Password'}[state]));if(state==='neutral')captureFocus(document.querySelector('.gate-submit'),'Unlock Resources · Keyboard Focus');document.querySelectorAll('[data-input-icon],[data-status-icon]').forEach(node=>{if(!node.hasAttribute('hidden'))add(node,state);});}
+  parent.postMessage({guide:'focus-catalog-data',requestId:event.data.requestId,page,focusItems},'*');
   for(const state of ['loading','success','empty','wrong','network','service','generic','limited','limitedLater','retryReady']){window.demoLogin(state);finishCaptureMotion();const status=document.getElementById('gate-error');addError(document.getElementById('access-form'),state);errors.at(-1).statusHtml=status.outerHTML;errors.at(-1).colour=getComputedStyle(status).color;}
   window.demoLogin('neutral');finishCaptureMotion();
  }else{
   for(const [selector,label,ring] of [['.intro','Body Text Selection',false],['pre','Prompt Text · Keyboard Focus',true],['.copy','Copy Prompt · Keyboard Focus',true],['.qr-copy','QR Link · Keyboard Focus',true],['footer button','Log Out · Keyboard Focus',true],['.theme-toggle [aria-pressed=true]','Colour Theme · Keyboard Focus',true],['.controls [aria-pressed=true]','Coding Agent · Keyboard Focus',true]])captureFocus(document.querySelector(selector),label,ring);
+  parent.postMessage({guide:'focus-catalog-data',requestId:event.data.requestId,page,focusItems},'*');
   const savedTheme=document.documentElement.dataset.theme,savedAgent=window.workshopAgent.current;
-  const theme=async value=>{window.dispatchEvent(new StorageEvent('storage',{key:'workshop-colour-theme',newValue:value}));await new Promise(r=>setTimeout(r,0));finishCaptureMotion();};
-  const agent=async value=>{window.workshopAgent.select(value);await new Promise(r=>setTimeout(r,0));finishCaptureMotion();};
-  const copy=async(button,success)=>{copyFailure=!success;button.click();await new Promise(r=>setTimeout(r,0));finishCaptureMotion();};
+  const theme=async value=>{window.dispatchEvent(new StorageEvent('storage',{key:'workshop-colour-theme',newValue:value}));await yieldCapture();finishCaptureMotion();};
+  const agent=async value=>{window.workshopAgent.select(value);await yieldCapture();finishCaptureMotion();};
+  const copy=async(button,success)=>{copyFailure=!success;button.click();await yieldCapture();finishCaptureMotion();};
   for(const button of document.querySelectorAll('.copy,.qr-copy'))setStatus(button,'');
   add(document.querySelector('.brand-mark img'),'Default');
   await theme('light');add(document.querySelector('[data-theme-choice=light] svg'),'Selected · Light Mode');

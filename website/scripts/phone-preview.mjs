@@ -1,5 +1,6 @@
 // Local-only adapter: never imported by application or production build entrypoints.
 import http from 'node:http';
+import {gzipSync} from 'node:zlib';
 import {styleGuidePage} from './style-guide.mjs';
 import {randomBytes} from 'node:crypto';
 import {DatabaseSync} from 'node:sqlite';
@@ -32,11 +33,13 @@ export function createPhonePreview({protectPlayground=false}={}) {
         res.writeHead(308,{'Location':'/playground'+url.search,'Cache-Control':'no-store'});res.end();return;
       }
       if(!protectPlayground && ['GET','HEAD'].includes(req.method) && url.pathname==='/playground') {
-        res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'});
-        res.end(req.method==='HEAD'?undefined:await styleGuidePage());return;
+        const compressed=(req.headers['accept-encoding']||'').split(',').some(value=>/^\s*gzip(?:\s*;|\s*$)/i.test(value)&&!/(?:^|;)\s*q=0(?:\.0*)?\s*$/i.test(value));
+        res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','Vary':'Accept-Encoding',...(compressed?{'Content-Encoding':'gzip'}:{})});
+        if(req.method==='HEAD'){res.end();return;}
+        const html=await styleGuidePage({inlineAssets:false});res.end(compressed?gzipSync(html):html);return;
       }
       if(req.method==='GET'&&assets.has(url.pathname)) {
-        res.writeHead(200,{'Content-Type':assets.get(url.pathname),'Cache-Control':'no-store'});
+        res.writeHead(200,{'Content-Type':assets.get(url.pathname),'Cache-Control':'no-store','Access-Control-Allow-Origin':'*'});
         res.end(readFileSync(new URL('../public'+url.pathname,import.meta.url)));return;
       }
       const headers=new Headers();
