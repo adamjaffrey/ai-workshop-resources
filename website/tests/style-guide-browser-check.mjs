@@ -56,6 +56,7 @@ const copyGap=await p.locator('#copy').evaluate(e=>e.nextElementSibling.getBound
 // cross-frame browser-automation click at the bottom edge of the window.
 const clickPrompt=async()=>{await p.locator('#resources-frame').evaluate(e=>e.scrollIntoView({block:'center'}));await resources.locator('[data-copy]').first().click();};
 await choose('copy','error');await clickPrompt();
+await resources.locator('[data-copy][data-copy-error]').first().waitFor({state:'attached',timeout:3000});
 assert.equal(await resources.locator('[data-copy]').first().getAttribute('data-copy-error')!==null,true);
 await choose('copy','success');await clickPrompt();
 const resourceDocument=await (await p.locator('#resources-frame').elementHandle()).contentFrame();

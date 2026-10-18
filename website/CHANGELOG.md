@@ -3,14 +3,44 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.139"
-  update_summary: "Replace the discovery icon with concealed-text shimmer"
-  updated_at: "Mon 19 Oct 2026 at 01:21:18 am AEDT (+11:00)"
+  doc_revision: "26.0.140"
+  update_summary: "Add slower rainbow sweeps, particle bursts and a moving halo"
+  updated_at: "Mon 19 Oct 2026 at 01:31:59 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.138 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 01:31:59 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add slower rainbow sweeps, particle bursts and a moving halo
+
+### Changed
+
+- Stretch the rainbow text sweep to 4.5 seconds and repeat it every 6.5 seconds, retaining shared wrapped-line movement towards the ellipsis.
+- Replace concealed-letter glimmers with 24 coloured outward-moving light particles across the entire hidden-fragment target. Hidden letters stay hidden until activation, including under reduced motion.
+- Intensify the dialog halo, animate its colour and extent continuously, rotate its rainbow border and change the dismissal label to Done.
+- Keep the dedicated Discovery tab on the canonical renderer, update its preview labels and record visual inspiration links without copying third-party code.
+- Await asynchronous copy-failure feedback in the existing Playground test before asserting its result.
+
+### Validation
+
+- `npm --prefix website run build` — passed; built app and Playground contain v26.0.138, particles, moving halo and Done, with the old dismissal label absent.
+- `node website/tests/perspective-sheen-browser-check.mjs` — passed; rendered rainbow sweep, concealed glyphs remaining invisible, expanding particles, full-fragment hit area, moving halo, Done and reduced-motion halo.
+- `node website/tests/perspective-browser-check.mjs` — passed across four widths and both agents, including qualification, reveal, hover, modal focus and reduced motion.
+- `node website/tests/perspective-edge-browser-check.mjs` — passed; touch, hidden tab, rapid toggles, fallback dwell, reset and dedicated-tab source parity.
+- `node website/tests/perspective-playground-browser-check.mjs` — passed across 16 viewport/theme/agent combinations and the success dialog.
+- `node website/tests/style-guide-browser-check.mjs` — passed; source parity and existing Playground interaction coverage.
+- Visual review of captured phone-sized rainbow/particle frames and the glowing dialog — passed. Main app and Playground LAN routes return HTTP 200. Physical-device Safari remains unverified.
 
 ## v26.0.137 — 2026-10-19
 

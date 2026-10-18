@@ -12,14 +12,17 @@ for(const width of [320,390,1440])for(const theme of ['light','dark']){
  const hit=await p.locator('.perspective-discover').boundingBox(),fragment=await p.locator(hidden).evaluate(e=>e.getBoundingClientRect().toJSON());
  assert.ok(Math.abs(hit.x-fragment.x)<1&&Math.abs(hit.width-fragment.width)<1);assert.ok(hit.y<=fragment.y&&hit.y+hit.height>=fragment.y+fragment.height,'entire concealed fragment covered');
  await p.evaluate(()=>{for(const a of document.getAnimations())if(a.animationName==='perspective-sheen'){a.pause();a.currentTime=0;}});
- const rest=await p.locator('.perspective').screenshot();await p.evaluate(()=>{for(const a of document.getAnimations())if(a.animationName==='perspective-sheen')a.currentTime=750;});
+ const rest=await p.locator('.perspective').screenshot();await p.evaluate(()=>{for(const a of document.getAnimations())if(a.animationName==='perspective-sheen')a.currentTime=2250;});
  assert.equal(await p.locator(selector).evaluate(e=>getComputedStyle(e,'::after').animationName),'perspective-sheen');
  const active=await p.locator('.perspective').screenshot();assert.notDeepEqual(active,rest,'sheen changes rendered pixels');
  if(width===390)await p.locator('.perspective').screenshot({path:'/tmp/perspective-sheen-'+theme+'.png'});
- await p.locator('.perspective-discover').hover();await p.waitForTimeout(650);assert.equal(await p.locator(hidden).evaluate(e=>getComputedStyle(e,'::after').animationName),'perspective-glimmer');assert.ok(Number(await p.locator(hidden).evaluate(e=>getComputedStyle(e,'::after').opacity))>.2);
+ await p.locator('.perspective-discover').hover();await p.waitForTimeout(650);assert.equal(await p.locator(hidden).evaluate(e=>getComputedStyle(e,'::after').opacity),'0');assert.equal(await p.locator('.perspective-particle').first().evaluate(e=>getComputedStyle(e).animationName),'perspective-burst');assert.equal(await p.locator('.perspective-particle').count(),24);assert.ok(await p.locator('.perspective-particle').first().evaluate(e=>new DOMMatrixReadOnly(getComputedStyle(e).transform).a>.4),'particles expand into visible sparks');
  assert.equal(await p.locator('.perspective-discover svg').count(),0);
  if(width===390)await p.locator('.perspective').screenshot({path:'/tmp/perspective-glimmer-'+theme+'.png'});
  await p.mouse.move(hit.x+hit.width-2,hit.y+hit.height/2);assert.equal(await p.evaluate(({x,y})=>getComputedStyle(document.elementFromPoint(x,y)).cursor,{x:hit.x+hit.width-2,y:hit.y+hit.height/2}),'pointer');
 }
-console.log('PASS: rendered sheen pixels, concealed-text glimmer and full-fragment target bounds at phone/desktop widths in both themes');
+await p.evaluate(()=>window.workshopPerspective.preview('success'));
+await p.waitForTimeout(100);const shadow=await p.locator('.perspective-dialog').evaluate(e=>getComputedStyle(e).boxShadow);await p.waitForTimeout(500);assert.notEqual(await p.locator('.perspective-dialog').evaluate(e=>getComputedStyle(e).boxShadow),shadow,'halo moves continuously');assert.equal(await p.locator('.perspective-dialog button').textContent(),'Done');await p.screenshot({path:'/tmp/perspective-rainbow-dialog.png'});
+await p.emulateMedia({reducedMotion:'reduce'});assert.equal(await p.locator('.perspective-dialog').evaluate(e=>getComputedStyle(e).animationName),'none');
+console.log('PASS: rendered sheen pixels, abstract particle bursts and full-fragment target bounds at phone/desktop widths in both themes');
 }finally{await b.close();await new Promise(r=>server.close(r));}

@@ -20,14 +20,14 @@ try {
   const after=await page.locator('.perspective').boundingBox();assert.deepEqual(after,before,'theme preserves resting geometry');
   const geometry=await page.evaluate(()=>{const e=document.querySelector('.perspective-ellipsis').getBoundingClientRect(),t=document.querySelector('.theme-toggle').getBoundingClientRect();return {centre:e.x+e.width/2,width:innerWidth,toggleTop:t.top,overflow:document.documentElement.scrollWidth>innerWidth};});
   assert.ok(Math.abs(geometry.centre-width/2)<1,'ellipsis centred');assert.ok(geometry.toggleTop>=0&&geometry.toggleTop<60,'persistent toggle');assert.equal(geometry.overflow,false);
-  await page.locator('.perspective-discover').hover();await page.waitForTimeout(650);assert.ok(Number(await page.locator('.perspective-night').evaluate(e=>getComputedStyle(e,'::after').opacity))>0);
+  await page.locator('.perspective-discover').hover();await page.waitForTimeout(650);assert.ok(Number(await page.locator('.perspective-particles').evaluate(e=>getComputedStyle(e).opacity))>0);
   await page.locator('.perspective-discover').click();await page.waitForFunction(()=>window.workshopPerspective.state==='complete');await page.locator('.perspective-dialog').waitFor({state:'visible'});
-  assert.equal(await page.evaluate(()=>document.activeElement.id),'perspective-title');await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.textContent),'Keep Exploring');
+  assert.equal(await page.evaluate(()=>document.activeElement.id),'perspective-title');await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.textContent),'Done');
   await page.keyboard.press('Escape');await page.waitForFunction(()=>document.activeElement.className==='perspective-discover');assert.equal(await page.evaluate(()=>document.activeElement.className),'perspective-discover');
  }
  // Reduced motion and touch use the same gate and action without timing gestures.
  await page.emulateMedia({reducedMotion:'reduce'});await page.reload();await page.locator('.perspective').scrollIntoViewIfNeeded();await page.waitForTimeout(1100);await page.locator('[data-theme-choice=dark]').click();await page.waitForFunction(()=>window.workshopPerspective.state==='ready');
- assert.ok(Number(await page.locator('.perspective-day').evaluate(e=>getComputedStyle(e,'::after').opacity))>0);await page.locator('.perspective-discover').click();await page.locator('.perspective-dialog').waitFor({state:'visible'});
+ assert.ok(Number(await page.locator('.perspective-particles').evaluate(e=>getComputedStyle(e).opacity))>0);await page.locator('.perspective-discover').click();await page.locator('.perspective-dialog').waitFor({state:'visible'});
  assert.deepEqual(errors,[]);console.log('Perspective layout, qualification, reveal, hover, modal focus and reduced motion passed across 8 width/agent combinations.');
  await page.screenshot({path:'/tmp/perspective-dialog.png'});
 }finally{await browser.close();await new Promise(r=>server.close(r));}
