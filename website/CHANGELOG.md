@@ -3,14 +3,46 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.145"
-  update_summary: "Refine particle coverage, controls and immediate halo response"
-  updated_at: "Mon 19 Oct 2026 at 02:26:04 am AEDT (+11:00)"
+  doc_revision: "26.0.146"
+  update_summary: "Add settings export, wider tuning ranges and a rotating halo"
+  updated_at: "Mon 19 Oct 2026 at 02:34:03 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.144 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 02:34:03 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add settings export, wider tuning ranges and a rotating halo
+
+### Added
+
+- Add header Copy Settings to export every current effect value with explicit units, including local HTTP clipboard and selectable-text fallbacks.
+- Add independent Hover Area Height tuning from 48–360px, with a shorter 112px default.
+
+### Changed
+
+- Set defaults to 16px ring radius, 200% gravity and 200% particle intensity.
+- Increase percentage limits to 400%, ring radius to 128px, sweep and particle duration to 24 seconds, and sweep gap to 20 seconds; support up to 192 particles.
+- Order controls by timing, particle appearance, particle interaction and halo strength; retain header reset and mobile wrapping.
+- Remove pointer-based halo behaviour and its control. Rotate the centred rainbow halo slowly on a 24-second cycle, respecting reduced motion.
+
+### Validation
+
+- Website build and generated version/control checks — passed.
+- Clipboard payload, denial fallback, maximum particle count, default reset, control order and mobile header fit — passed.
+- Dedicated Playground/app parity across four widths, both themes and both agents — passed.
+- Continuous sheen, revised ring, rotating halo, reduced motion, touch and theme edge cases — passed.
+- General Playground source-parity suite and preview HTTP endpoints — passed. Physical-device Safari remains unverified.
 
 ## v26.0.143 — 2026-10-19
 

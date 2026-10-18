@@ -15,13 +15,13 @@ for(const width of [320,390,1440])for(const theme of ['light','dark']){
  assert.equal(await p.locator(selector).evaluate(e=>getComputedStyle(e,'::after').animationName),'none');
  const active=await p.locator('.perspective').screenshot();assert.notDeepEqual(active,rest,'shared wave changes rendered pixels');
  if(width===390)await p.locator('.perspective').screenshot({path:'/tmp/perspective-sheen-'+theme+'.png'});
- await p.locator('.perspective-discover').hover();await p.waitForTimeout(650);assert.equal(await p.locator(hidden).evaluate(e=>getComputedStyle(e,'::after').opacity),'0');assert.equal(await p.locator('.perspective-particle').count(),96);assert.ok(await p.locator('.perspective-particle').first().evaluate(e=>new DOMMatrixReadOnly(getComputedStyle(e).transform).a>.4),'particles expand into visible sparks');
+ await p.locator('.perspective-discover').hover();await p.waitForTimeout(650);assert.equal(await p.locator(hidden).evaluate(e=>getComputedStyle(e,'::after').opacity),'0');assert.equal(await p.locator('.perspective-particle').count(),192);assert.ok(await p.locator('.perspective-particle').first().evaluate(e=>new DOMMatrixReadOnly(getComputedStyle(e).transform).a>.4),'particles expand into visible sparks');
  assert.equal(await p.locator('.perspective-discover svg').count(),0);
  if(width===390)await p.locator('.perspective').screenshot({path:'/tmp/perspective-glimmer-'+theme+'.png'});
  await p.mouse.move(hit.x+hit.width-2,hit.y+hit.height/2);assert.equal(await p.evaluate(({x,y})=>getComputedStyle(document.elementFromPoint(x,y)).cursor,{x:hit.x+hit.width-2,y:hit.y+hit.height/2}),'pointer');
 }
 await p.evaluate(()=>window.workshopPerspective.preview('success'));
-await p.waitForTimeout(2500);const shadow=await p.locator('.perspective-dialog').evaluate(e=>getComputedStyle(e).boxShadow);await p.waitForTimeout(500);assert.equal(await p.locator('.perspective-dialog').evaluate(e=>getComputedStyle(e).boxShadow),shadow,'halo stays still when pointer stops');assert.equal(await p.locator('.perspective-dialog button').textContent(),'Done');await p.screenshot({path:'/tmp/perspective-rainbow-dialog.png'});
+await p.waitForTimeout(2500);const shadow=await p.locator('.perspective-dialog').evaluate(e=>getComputedStyle(e).boxShadow);await p.waitForTimeout(500);assert.notEqual(await p.locator('.perspective-dialog').evaluate(e=>getComputedStyle(e).boxShadow),shadow,'halo rotates slowly');assert.equal(await p.locator('.perspective-dialog button').textContent(),'Done');await p.screenshot({path:'/tmp/perspective-rainbow-dialog.png'});
 await p.emulateMedia({reducedMotion:'reduce'});assert.equal(await p.locator('.perspective-dialog').evaluate(e=>getComputedStyle(e).animationName),'none');
 console.log('PASS: rendered sheen pixels, twinkling particle field and full-fragment target bounds at phone/desktop widths in both themes');
 }finally{await b.close();await new Promise(r=>server.close(r));}
