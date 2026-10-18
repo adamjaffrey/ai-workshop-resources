@@ -5,7 +5,7 @@ const {server}=createPhonePreview();await new Promise(r=>server.listen(0,'127.0.
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
  const page=await browser.newPage({viewport:{width:390,height:700}});
- await page.goto('http://127.0.0.1:'+server.address().port+'/style-guide');
+ await page.goto('http://127.0.0.1:'+server.address().port+'/playground');
  const tabs=page.locator('nav[role=tablist]');await page.waitForFunction(()=>document.querySelector('nav').hasAttribute('data-overflow-right'));
  assert.notEqual(await tabs.evaluate(e=>getComputedStyle(e).maskImage),'none');
  await tabs.evaluate(e=>e.scrollLeft=e.scrollWidth);await page.waitForFunction(()=>!document.querySelector('nav').hasAttribute('data-overflow-right'));

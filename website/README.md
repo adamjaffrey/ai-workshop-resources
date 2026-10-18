@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.68"
-  update_summary: "Document neutral login icons and direct touch QR activation"
-  updated_at: "Sun 18 Oct 2026 at 01:26:13 pm AEDT (+11:00)"
+  doc_revision: "26.0.69"
+  update_summary: "Document the canonical playground route and parity requirements"
+  updated_at: "Sun 18 Oct 2026 at 03:00:12 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -46,7 +46,7 @@ This protects content delivered by this website. The linked public GitHub reposi
 
 ## Local Design Review
 
-The interactive block-strength and blur controls are available in the local playground’s Blocks tab at `/style-guide`. The original standalone generator remains archived under `website/_archive/` as a manual test only. It is not generated, opened or tested by normal development/build startup. Production remains at 40% block strength and 4px background blur.
+The interactive block-strength and blur controls are available in the local playground’s Blocks tab at `/playground`. The original standalone generator remains archived under `website/_archive/` as a manual test only. It is not generated, opened or tested by normal development/build startup. Production remains at 40% block strength and 4px background blur.
 
 To run the optional test, use `npm --prefix website run test:blur-preview` from the repository root. This generates the resources fixture and archived login fixture, then runs the geometry, slider and placeholder browser checks in Chrome. It does not remeasure block geometry. For a manual visual session without browser checks, run `node website/_archive/preview-login.mjs`, then explicitly open `website/_archive/login-design-preview.html` in Chrome. The archived generator is tracked; its generated HTML and screenshots are ignored by Git and excluded from deployment. The form is disabled and contains no credentials or protected workshop content.
 
@@ -181,7 +181,7 @@ Run `node website/tests/status-colours-browser-check.mjs` to verify success, err
 
 ## Local Component Playground
 
-Start `npm --prefix website run preview:phone`, then visit `/style-guide` on the printed local or LAN address. This local-only route requires no password and is not registered in the production handler. The regular site still requires the current local test password printed by the preview server. Do not open a browser automatically.
+Start `npm --prefix website run preview:phone`, then visit `/playground` on the printed local or LAN address. The previous `/style-guide` URL redirects to `/playground`. This local-only route requires no password and is not registered in the production handler. The regular site still requires the current local test password printed by the preview server. Do not open a browser automatically.
 
 The playground reuses current login/resource markup, CSS, shared theme helpers and resource interactions. It provides light/dark and Codex/Claude controls, fixed sample widths, held hover styles, persistent simulated login states, simulated copy success/failure, colour-token swatches, source-derived typography specimens and a docked Style Inspector. The standard H2 is the real neutral login heading; the accent H2 is the real step heading. H4–H6 and general text/disabled-input specimens are omitted while absent from the app. Warning tokens are labelled reserved, with no fabricated warning component.
 
@@ -225,3 +225,5 @@ The source-parity browser check compares each typography specimen’s text, font
 The Icons tab captures current app controls, SVGs, images and Unicode glyphs, including selected theme/agent and copy/login states. Icon Family filters show All, Lucide, Lobe, Unicode or Other. Show Sources defaults off and reveals separate Lucide/Lobe source links without making specimens external navigation targets. Licence panels explain Lucide’s ISC licence and Feather-derived MIT notice, and Lobe’s MIT licence. Error States renders all login and copy failures from the same live source messages and computed styles. Isolated capture frames suppress focus and selection side effects and finish transitions before capture; they never change production behaviour.
 
 Interactive login, resource and block previews have an inline height cap of 70dvh. Expand Preview opens the existing preview in a native modal dialog without moving or reloading its iframe. Lucide Maximize 2 and Minimize 2 identify expand/contract actions. Relevant state controls and shared Style Options remain available inside the dialog; their collapsible sections preserve room on short screens. Closing or Escape restores page position and focus to the invoking control. Background scrolling is locked only while expanded. Typography, Icons and Error States instead measure their full content height and scroll with the playground page. Validate with `node website/tests/playground-expanded-preview-check.mjs`.
+
+App interface changes must update affected playground specimens, adapters and parity checks in the same change, following the mandatory contract in `AGENTS.md`. Validate against independently rendered main-app pages as well as the specimen source frames; shared imports alone do not prove rendered parity.

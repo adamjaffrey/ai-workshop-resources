@@ -23,7 +23,7 @@ try {
  const safariTap=()=>qr.evaluate(e=>{e.dispatchEvent(new PointerEvent('pointerdown',{bubbles:true,pointerType:'touch'}));e.dispatchEvent(new MouseEvent('click',{bubbles:true,detail:1}));});
  await safariTap();assert.equal(await count(),0);await page.waitForTimeout(320);await safariTap();assert.equal(await count(),1);
  // Same production script inside a 768px-wide specimen on a narrow touch host.
- await page.setViewportSize({width:390,height:844});await page.goto('http://127.0.0.1:'+server.address().port+'/style-guide');
+ await page.setViewportSize({width:390,height:844});await page.goto('http://127.0.0.1:'+server.address().port+'/playground');
  await page.locator('#style-options').click();await page.locator('input[name=width][value="768"]').locator('..').click();await page.locator('#style-options').click();
  const source=page.frameLocator('#resources-frame');
  await source.locator('body').evaluate(()=>{window.copyCount=0;Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async()=>window.copyCount++}});});

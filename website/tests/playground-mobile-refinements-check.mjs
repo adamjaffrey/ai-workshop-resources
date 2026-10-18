@@ -6,7 +6,7 @@ const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
  const p=await browser.newPage({viewport:{width:390,height:844}});const errors=[];p.on('pageerror',e=>errors.push(e.message));
  await p.addInitScript(()=>{window.firstAccents=[];let frames=0;const watch=()=>{window.firstAccents.push(document.documentElement?.dataset.selectedAgent);if(++frames<8)requestAnimationFrame(watch);};requestAnimationFrame(watch);try{localStorage.setItem('workshop-selected-agent','claude-code');}catch{}});
- await p.goto(origin+'/style-guide');await p.waitForTimeout(1000);
+ await p.goto(origin+'/playground');await p.waitForTimeout(1000);
  assert.equal(await p.locator('html').getAttribute('data-selected-agent'),'codex');assert.ok((await p.evaluate(()=>window.firstAccents)).filter(Boolean).every(x=>x==='codex'));
  await p.click('#style-options');assert.equal(await p.locator('#style-dialog').evaluate(e=>e.matches(':popover-open')),true);
  const pop=await p.locator('#style-dialog').boundingBox(),opener=await p.locator('#style-options').boundingBox();assert.ok(Math.abs(pop.y-opener.y)<2);

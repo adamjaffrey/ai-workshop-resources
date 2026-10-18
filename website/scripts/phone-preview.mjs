@@ -28,9 +28,12 @@ export function createPhonePreview() {
   const server=http.createServer(async(req,res)=>{
     try {
       const url=new URL(req.url,'http://'+req.headers.host);
-      if(req.method==='GET' && url.pathname==='/style-guide') {
+      if(['GET','HEAD'].includes(req.method) && ['/style-guide','/style-guide/','/playground/'].includes(url.pathname)) {
+        res.writeHead(308,{'Location':'/playground'+url.search,'Cache-Control':'no-store'});res.end();return;
+      }
+      if(['GET','HEAD'].includes(req.method) && url.pathname==='/playground') {
         res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'});
-        res.end(await styleGuidePage());return;
+        res.end(req.method==='HEAD'?undefined:await styleGuidePage());return;
       }
       if(req.method==='GET'&&assets.has(url.pathname)) {
         res.writeHead(200,{'Content-Type':assets.get(url.pathname),'Cache-Control':'no-store'});

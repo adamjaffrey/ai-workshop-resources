@@ -5,7 +5,7 @@ const {server}=createPhonePreview();await new Promise(r=>server.listen(0,'127.0.
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
  for(const width of [390,1440]){
- const p=await browser.newPage({viewport:{width,height:844}}),errors=[];p.on('pageerror',e=>errors.push(e.message));await p.goto('http://127.0.0.1:'+server.address().port+'/style-guide');await p.waitForTimeout(500);
+ const p=await browser.newPage({viewport:{width,height:844}}),errors=[];p.on('pageerror',e=>errors.push(e.message));await p.goto('http://127.0.0.1:'+server.address().port+'/playground');await p.waitForTimeout(500);
  for(const name of ['login','resources','blocks']){
  await p.click('[data-tab='+(name==='blocks'?'blocks':'components')+']');const dialog=p.locator('#'+name+'-preview'),frame=p.frameLocator('#'+name+'-frame');
  assert.ok((await p.locator('#'+name+'-frame').boundingBox()).height<=844*.7+1);

@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.120"
-  update_summary: "Neutralise login icons and handle QR touch activation directly"
-  updated_at: "Sun 18 Oct 2026 at 01:27:12 pm AEDT (+11:00)"
+  doc_revision: "26.0.121"
+  update_summary: "Require app-playground parity and expose the playground route"
+  updated_at: "Sun 18 Oct 2026 at 03:01:10 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.119 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 03:01:10 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Require app-playground parity and expose the playground route
+
+### Changed
+
+- Make `/playground` the canonical local testing route; redirect legacy `/style-guide` links and trailing-slash variants while preserving queries.
+- Require app interface changes to update affected playground sources, state adapters and regression coverage in the same coherent change, with independent rendered-app comparisons.
+- Update route documentation and browser checks while retaining production exclusion.
+
+### Validation
+
+- Canonical GET/HEAD route, legacy redirects and production exclusion tests — passed.
+- Playground parity/browser checks for both themes and agents at mobile/desktop sizes — passed.
+- Production build and saved-placeholder checks — passed.
 
 ## v26.0.118 — 2026-10-18
 

@@ -9,7 +9,7 @@ const b=await chromium.launch({channel:'chrome',headless:true});
 try{
 const p=await b.newPage();const errors=[];const writes=[];
 p.on('pageerror',e=>errors.push(e.message));p.on('request',r=>{if(r.method()!=='GET')writes.push(r.url());});
-await p.goto(origin+'/style-guide');
+await p.goto(origin+'/playground');
 const choose=async(id,value)=>{const mobile=['theme','agent','width','hover'].includes(id)&&p.viewportSize().width<=660;if(mobile){await p.click('#style-options');assert.equal(await p.locator('#style-dialog').evaluate(e=>e.matches(':popover-open')),true);assert.equal(await p.locator('#style-dialog-title').evaluate(e=>document.activeElement===e),true);assert.equal(await p.locator('#style-dialog-title').evaluate(e=>getComputedStyle(e).outlineStyle),'none');await p.keyboard.press('Tab');await p.waitForTimeout(200);assert.equal(await p.locator('#style-options').evaluate(e=>document.activeElement===e),true);}const input=p.locator('input[name="'+id+'"][value="'+value+'"]');await input.locator('..').click();assert.equal(await input.isChecked(),true);if(mobile){await p.click('#style-options');await p.waitForFunction(()=>!document.getElementById('style-dialog').matches(':popover-open'));assert.equal(await p.locator('#style-options').evaluate(e=>document.activeElement===e),true);}};
 assert.equal(await p.locator('select').count(),0);
 async function verifySourceParity(){await p.click('[data-tab=typography]');await p.waitForTimeout(350);
@@ -50,8 +50,8 @@ await choose('copy','error');await resources.locator('[data-copy]').first().clic
 assert.equal(await resources.locator('[data-copy]').first().getAttribute('data-copy-error')!==null,true);
 await choose('copy','success');await resources.locator('[data-copy]').first().click();
 assert.equal(await resources.locator('[data-copy]').first().getAttribute('data-copied'),'true');
-await resources.locator('footer button').click();assert.equal(p.url(),origin+'/style-guide');
-await p.click('[data-tab=typography]');assert.equal(p.url(),origin+'/style-guide');
+await resources.locator('footer button').click();assert.equal(p.url(),origin+'/playground');
+await p.click('[data-tab=typography]');assert.equal(p.url(),origin+'/playground');
 assert.match(await p.frameLocator('#type-frame').locator('output').first().textContent(),/48px/);
 await p.waitForTimeout(400);
 const headingStyles=await p.frameLocator('#type-frame').locator('h2[data-type-sample]').evaluateAll(es=>es.map(e=>{const c=getComputedStyle(e);return {size:c.fontSize,weight:c.fontWeight,colour:c.color};}));assert.equal(headingStyles.length,2);assert.equal(headingStyles[0].size,headingStyles[1].size);assert.equal(headingStyles[0].weight,headingStyles[1].weight);assert.notEqual(headingStyles[0].colour,headingStyles[1].colour);
@@ -84,6 +84,6 @@ assert.equal(writes.length,0);assert.deepEqual(errors,[]);
 await p.screenshot({path:'/tmp/style-guide-colours.png',fullPage:true});
 await p.click('[data-tab=components]');await p.locator('#login-frame').scrollIntoViewIfNeeded();await p.screenshot({path:'/tmp/style-guide-components.png'});
 await p.setViewportSize({width:390,height:844});await p.locator('#login-frame').scrollIntoViewIfNeeded();await p.screenshot({path:'/tmp/style-guide-mobile.png'});
-const production=await handleRequest(new Request('http://production/style-guide'),{});assert.notEqual(production.status,200);
+const production=await handleRequest(new Request('http://production/playground'),{});assert.notEqual(production.status,200);
 console.log('PASS: radios, docked/frozen/debounced inspector, block selection/blur controls, mobile/desktop, both agents/themes, all held login states, copy feedback, navigation containment, tokens, typography and production exclusion');
 }finally{await b.close();await new Promise(r=>server.close(r));}
