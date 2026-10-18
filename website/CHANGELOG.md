@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.127"
-  update_summary: "Name icon purposes and preserve official library identities"
-  updated_at: "Sun 18 Oct 2026 at 10:10:21 pm AEDT (+11:00)"
+  doc_revision: "26.0.128"
+  update_summary: "Add the hidden version-number Playground shortcut"
+  updated_at: "Sun 18 Oct 2026 at 10:21:30 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.126 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 10:21:30 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add the hidden version-number Playground shortcut
+
+### Added
+
+- Open Playground after three version-number taps or clicks within three seconds; exclude the copyright notice and reset incomplete or interrupted sequences.
+- Keep the version ordinary, unfocusable text with no visible or screen-reader action affordance; preserve existing authentication.
+- Exercise the shared shortcut in Playground specimens while cancelling navigation.
+
+### Changed
+
+- Require separate build and commit lines, an explicit new-artefact or no-new-artefact explanation, and independent GitHub push and Sites publication statuses in update handoffs.
+
+### Validation
+
+- Production build with provisional v26.0.126 — passed.
+- Shortcut touch/mouse, expiry, copyright exclusion, non-focusability and sandbox containment checks at four widths — passed.
+- App/Playground source-parity matrix at four widths, both themes and both agents — passed.
 
 ## v26.0.125 — 2026-10-18
 

@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.31"
-  update_summary: "Require approval before introducing non-Lucide icons"
-  updated_at: "Sun 18 Oct 2026 at 10:13:53 pm AEDT (+11:00)"
+  doc_revision: "26.0.32"
+  update_summary: "Clarify artefact handoffs and hidden Playground navigation"
+  updated_at: "Sun 18 Oct 2026 at 10:20:05 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -40,7 +40,8 @@ metadata:
 ### Required Update Handoff
 
 - Every completed update response must show the current website artefact version and the short Git commit hash. Distinguish a new build from a documentation-only update, which retains the current artefact version. State whether the commit is local or pushed and whether Sites was published; never imply an unperformed action.
-- Use a compact first line such as **Build:** `v26.0.121` · **Commit:** `abc1234` (local). Follow with **Local Preview** and clearly labelled clickable links for **Main App** and **Playground**. Explicitly identify the local Playground as password-free.
+- Put **Build** and **Commit** on separate lines. The Build line must explicitly say either “changed — new artefact produced” or “unchanged — no new artefact produced”, with the current version. Do not imply that a documentation-only update produced a new build. The Commit line shows the short hash and whether it is local or pushed.
+- Include a separate **Push and Publish** heading with explicit **GitHub** and **Sites** statuses for this update: performed successfully, not performed, or failed/blocked. Distinguish pushing from publishing and never imply one means the other. Follow with **Local Preview** and clearly labelled clickable **Main App** and **Playground** links; identify the local Playground as password-free.
 - Immediately below the local links, show **🔑 Local App Test Password** and a fenced `text` code block containing the active preview server's current test password. Read it from the active process's output before the handoff; restart and verify the server when necessary. Never invent or reuse a stale credential. If local preview is unavailable, explain that limitation rather than presenting an unverified link or password.
 - Whenever publishing to Sites succeeds, also include **Live on Sites**, with separate clickable **Main App** and **Playground** links. Explain that they share the existing login session when relevant. Never include the production password. Keep local preview and hosted links visually separate.
 - Keep the change summary and verification concise above these details. Use modest icons and descriptive anchor text; do not open the links automatically.
@@ -158,6 +159,11 @@ Apply this standard to:
 - Refresh saved block positions with `npm --prefix website run blocks:measure` when an authorised layout change requires it; no separate user approval is needed. Do not measure for non-layout changes or automatically during development/build startup. Run the archived `test:blur-preview` only when explicitly requested.
 - For a layout change affecting visible background blocks, increment `placeholderLayoutRevision` in `website/lib/workshop-layout.mjs` to mark saved geometry stale. The existing stale-layout guard reports that a manual refresh is required; it must not launch measurement automatically. Refresh and commit geometry with the corresponding layout change. This revision is a cache key, not an artefact version.
 - Do not remeasure merely because source code changed or to refresh a source fingerprint. Development/build startup uses saved geometry and never launches Chrome measurement. The tester is archived under `website/_archive/` and runs only through its explicit manual command. Generating its HTML is separate from remeasurement.
+
+## Hidden Playground Shortcut
+
+- Three taps or primary-button clicks on the footer version number within three seconds open `/playground`. Only the version text activates it; other clicks, leaving the window or changing visibility reset the sequence. Keep it an ordinary text span: no Tab stop, programmatic focusability, focus ring, button/link role, action-specific screen-reader label, tooltip, hover treatment or visible affordance. Screen readers should read only the existing version text. This intentionally undisclosed shortcut is an exception to the normal pointer-cursor rule. It does not grant access or bypass authentication.
+- Playground specimens exercise the same gesture handler but cancel navigation and report the simulated activation.
 
 ## Playground Source Fidelity
 

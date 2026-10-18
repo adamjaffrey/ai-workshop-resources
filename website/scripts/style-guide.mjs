@@ -31,6 +31,7 @@ for(const [page,html] of [['Resources',resourcePage],['Login',loginPage]])for(co
 const radios=(id,label,options)=>`<fieldset class="choices" id="${id}"><legend>${label}</legend><div class="choice-options">${options.map(([value,text],i)=>`<label class="choice"><input type="radio" name="${id}" value="${value}" ${i?'':'checked'}><span>${text}</span></label>`).join('')}</div></fieldset>`;
 const bridge=`
 window.addEventListener('message',e=>{if(e.source!==parent||e.data?.guide!=='measure-reference')return;const content=document.getElementById('type-specimens')||document.getElementById('icon-catalog')||document.getElementById('error-catalog');if(content?.getBoundingClientRect().width)parent.postMessage({guide:'reference-height',height:Math.ceil(content.getBoundingClientRect().height+(content.id==='type-specimens'?0:32))},'*');});
+document.addEventListener('workshop:open-playground',event=>{event.preventDefault();parent.postMessage({guide:'notice',text:'Playground shortcut activated. Navigation is disabled in this specimen.'},'*');});
 let copyFailure=false;
 Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async()=>{if(copyFailure)throw Error('Simulated copy failure');}}});
 document.execCommand=()=>false;
