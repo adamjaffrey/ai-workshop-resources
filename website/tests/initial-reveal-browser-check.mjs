@@ -14,25 +14,25 @@ try {
  });
  const url=new URL('../outputs/workshop-resources-preview.html',import.meta.url).href;
  for(const [width,height] of [[320,320],[390,844],[660,900],[661,900],[768,1024],[1024,768],[1440,900],[1440,1600],[1920,2160]]) {
-  await page.setViewportSize({width,height});await page.goto(url);await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(700);
+  await page.setViewportSize({width,height});await page.goto(url);await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(1300);
   const result=await page.evaluate(()=>{
    const visible=r=>Math.min(r.bottom,innerHeight)-Math.max(r.top,0)>=10&&r.right>0&&r.left<innerWidth;
    return {rows:[...document.querySelectorAll('.step-row')].map(row=>({expected:visible(row.querySelector('article').getBoundingClientRect())||[...row.querySelectorAll('.step-copy')].some(copy=>{const range=document.createRange();range.selectNodeContents(copy);return [...range.getClientRects()].some(visible);}),actual:row.classList.contains('is-revealed')})),events:window.revealEvents};
   });
   for(const row of result.rows)assert.equal(row.actual,row.expected,`${width}x${height} initial visibility`);
-  for(let i=1;i<result.events.length;i++)assert.ok(result.events[i].time-result.events[i-1].time>=80,'initial pairs must stagger');
+  for(let i=1;i<result.events.length;i++)assert.ok(result.events[i].time-result.events[i-1].time>=300,'initial pairs must stagger');
  }
- // Initial visible pairs move vertically, never sideways or beyond their resting position.
+ // Initial pairs retain sideways motion after a lead-in and stagger.
  await page.setViewportSize({width:1440,height:1600});await page.goto(url);
- for(let sample=0;sample<8;sample++){await page.waitForTimeout(80);const offsets=await page.locator('.reveal-initial > *').evaluateAll(es=>es.map(e=>{const c=getComputedStyle(e);const m=c.transform==='none'?new DOMMatrix():new DOMMatrix(c.transform);return [m.m41,m.m42];}));for(const [x,y] of offsets){assert.equal(x,0);assert.ok(y>=0&&y<=16);}}
+ for(let sample=0;sample<8;sample++){await page.waitForTimeout(80);const offsets=await page.locator('.reveal-initial > *').evaluateAll(es=>es.map(e=>{const c=getComputedStyle(e);const m=c.transform==='none'?new DOMMatrix():new DOMMatrix(c.transform);return [m.m41,m.m42];}));for(const [x,y] of offsets){assert.equal(y,0);assert.ok(Math.abs(x)<=64);}}
  // A step heading alone in the initial viewport reveals its offscreen card.
  await page.setViewportSize({width:390,height:844});await page.goto(url);
  await page.waitForTimeout(1000);
  const stepTop=await page.locator('.step-copy').first().evaluate(e=>e.getBoundingClientRect().top);
- await page.setViewportSize({width:390,height:Math.ceil(stepTop+20)});await page.goto(url);await page.waitForTimeout(250);
+ await page.setViewportSize({width:390,height:Math.ceil(stepTop+20)});await page.goto(url);await page.waitForTimeout(400);
  assert.equal(await page.locator('.step-row').first().evaluate(e=>e.classList.contains('is-revealed')&&e.querySelector('article').getBoundingClientRect().top>=innerHeight),true);
  // A tiny initial sliver must wait; ten pixels qualifies.
- await page.setViewportSize({width:390,height:Math.floor(stepTop+5)});await page.goto(url);await page.waitForTimeout(250);
+ await page.setViewportSize({width:390,height:Math.floor(stepTop+5)});await page.goto(url);await page.waitForTimeout(400);
  assert.equal(await page.locator('.step-row').first().evaluate(e=>e.classList.contains('is-revealed')),false);
  // Fully offscreen pairs use exactly the later 40px step-text trigger, including the first.
  await page.setViewportSize({width:390,height:320});await page.goto(url);await page.waitForTimeout(200);
@@ -47,11 +47,11 @@ try {
  const html=await readFile(new URL('../outputs/workshop-resources-preview.html',import.meta.url),'utf8');
  const cards=[...html.matchAll(/<section class="step-row"[\s\S]*?<\/article>\s*<\/section>/g)];assert.equal(cards.length,3);
  await writeFile(extraFile,html.replace(cards[2][0],cards[2][0].repeat(3)));
- await page.setViewportSize({width:1440,height:4000});await page.goto(pathToFileURL(extraFile).href);await page.waitForTimeout(900);
+ await page.setViewportSize({width:1440,height:4000});await page.goto(pathToFileURL(extraFile).href);await page.waitForTimeout(2200);
  assert.equal(await page.locator('.step-row').count(),5);
  const events=await page.evaluate(()=>window.revealEvents);assert.ok(events.length>=3);
- for(let i=1;i<events.length;i++)assert.ok(events[i].time-events[i-1].time>=80);
+ for(let i=1;i<events.length;i++)assert.ok(events[i].time-events[i-1].time>=300);
  await page.emulateMedia({reducedMotion:'reduce'});await page.goto(url);
  assert.equal(await page.locator('.step-marker').last().evaluate(e=>getComputedStyle(e).opacity),'1');
- console.log('PASS: initial viewport visibility and 120ms stagger at nine sizes, step-only visibility, 40px triggers for all cards, five-card fixture and reduced motion');
+ console.log('PASS: initial viewport visibility and 240ms lead-in and 360ms stagger at nine sizes, step-only visibility, 40px triggers for all cards, five-card fixture and reduced motion');
 } finally {await browser.close();await unlink(extraFile).catch(()=>{});}

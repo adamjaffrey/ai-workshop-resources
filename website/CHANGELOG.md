@@ -3,14 +3,54 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.131"
-  update_summary: "Show complete agent typography states and clearer source links"
-  updated_at: "Sun 18 Oct 2026 at 10:44:55 pm AEDT (+11:00)"
+  doc_revision: "26.0.132"
+  update_summary: "Refine contextual status previews and shared visual conventions"
+  updated_at: "Sun 18 Oct 2026 at 11:28:53 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.130 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 11:28:53 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine contextual status previews and shared visual conventions
+
+### Changed
+
+- Show complete login panels for every held status and show JavaScript-disabled notices in their actual surrounding panel or page context. Scale context previews only when narrow containers require it.
+- Rename Error States to Status States and include checking, success, retry and both copy-success outcomes alongside existing failures and JavaScript fallbacks.
+- Use a shared static Lucide X notice renderer and error typography. Place the login fallback above Password and align the resources fallback with the main content. Catalogue the shared icon with its Lucide source.
+- Share the login panel's soft dark shadow with floating Playground controls. Preserve surface and border contrast in dark mode.
+- Restore sideways initial step/card entrances with a 240ms lead-in and 360ms stagger, respecting reduced motion.
+- Separate the unused-heading note, remove final list dividers, improve tablet/desktop slider spacing, and move shortcut feedback into the inspector with automatic dismissal.
+- Keep the Feather explanation with its disclosure and use the surrounding primary text colour.
+
+### Fixed
+
+- Constrain prompt typography and feedback specimens to measured app widths and preserve valid measurements when their source frame is hidden.
+- Preserve sample password values when cloning inputs, retain prompt status messages inside their real positioning container, and provide room around status-panel shadows.
+- Avoid replaying an unchanged agent selection when applying Playground settings.
+- Centre cross-frame pointer targets clear of the fixed inspector during clipboard parity tests and wait for asynchronous copy completion.
+
+### Validation
+
+- `npm --prefix website run build` — passed; built server assets display v26.0.130.
+- `node website/tests/style-guide-browser-check.mjs` — passed; source parity at 320, 390, 768 and 1440px, both themes and agents, held login states, copy feedback and sandbox containment.
+- `node website/tests/javascript-notice-browser-check.mjs` — passed; actual JavaScript-disabled notices, placement, shared tokens, icons and typography across four widths, both themes and agents.
+- `node website/tests/playground-status-layout-check.mjs` — passed; bounded prompts, populated password, full-panel states, context scaling, non-overlap and shared shadows.
+- `node website/tests/playground-reconciliation-check.mjs`, `node website/tests/playground-grouping-browser-check.mjs` and `node website/tests/playground-layout-audit-check.mjs` — passed.
+- `node website/tests/initial-reveal-browser-check.mjs` — passed; nine viewport sizes, initial stagger, later thresholds, extra-card fixtures and reduced motion.
+- Headless Chrome visual review and local preview HTTP/authentication checks — passed. Physical iPhone/Safari validation was not performed.
+- Website PVS validation and `git diff --check` — passed.
 
 ## v26.0.129 — 2026-10-18
 

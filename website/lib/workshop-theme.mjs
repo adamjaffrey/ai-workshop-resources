@@ -9,7 +9,7 @@ const moon = icon('moon','select-dark-theme','<path d="M20.985 12.486a9 9 0 1 1-
 const control = `<div class="theme-toggle" role="group" aria-label="Colour Theme" hidden><button type="button" data-theme-choice="light" aria-label="Light Mode" title="Light Mode" aria-pressed="false">${sun}</button><button type="button" data-theme-choice="dark" aria-label="Dark Mode" title="Dark Mode" aria-pressed="false">${moon}</button></div>`;
 const styles = `
 :root {
-  --agent-accent: #0285FF; --agent-ink: #fff; --page: #f3f3f3; --surface: #fff; --content-surface: #f8f9fa; --text: #1a1a1a;
+  --floating-shadow: 0 24px 80px #00000024; --agent-accent: #0285FF; --agent-ink: #fff; --page: #f3f3f3; --surface: #fff; --content-surface: #f8f9fa; --text: #1a1a1a;
   --muted-text: #5b6066; --border: #dedede; --panel-border: #d5d9dd;
   --control-border: #c7ccd1; --control-bg: #e9e9e9; --control-text: #454545;
   --hover: #e9edf0; --field-bg: var(--content-surface); --field-border: #bfc4c9;
@@ -97,6 +97,10 @@ button:enabled:is(:active, .is-held):not(.segmented-toggle button) { scale: .97;
 .page-toolbar .brand { margin: 0; }
 .theme-toggle { display: inline-flex; flex-shrink: 0; gap: 4px; padding: 4px; border: 1px solid var(--control-border); border-radius: 12px; background: var(--control-bg); }
 .theme-toggle[hidden] { display: none; }
+.javascript-notice { display:flex; align-items:flex-start; gap:7px; padding:16px; border:1px solid var(--border); border-radius:10px; background:var(--surface); color:var(--error); font-family:inherit; font-size:14px; font-weight:400; line-height:21px; }
+.javascript-notice .icon { width:18px; height:18px; flex:none; margin-top:1.5px; }
+#workshop-content .javascript-notice { width:calc(100% - 48px); max-width:960px; margin:0 auto; }
+.gate-panel .javascript-notice { margin:24px 0 0; }
 .theme-toggle button { display: grid; place-items: center; width: 44px; padding: 0; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--control-text); }
 .theme-toggle button:hover { color: var(--text); }
 .theme-toggle button[aria-pressed="true"] { background: transparent; color: var(--text); }

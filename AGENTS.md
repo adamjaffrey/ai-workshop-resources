@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.36"
-  update_summary: "Require inline code for build versions and commit hashes"
-  updated_at: "Sun 18 Oct 2026 at 10:36:16 pm AEDT (+11:00)"
+  doc_revision: "26.0.37"
+  update_summary: "Preserve contextual status specimens and staggered sideways reveals"
+  updated_at: "Sun 18 Oct 2026 at 11:17:01 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -59,6 +59,8 @@ metadata:
 - Keep checking and success text visually hidden but announced to screen readers. Use neutral muted-text colour for the resting Lucide padlock and checking Loader Circle; swap to Check on success; use green success styling and honour reduced motion.
 - Show only error messages below the input. Reserve one text line so ordinary status changes do not resize or recentre the panel; allow expansion for accessibility text scaling rather than clipping messages. Keep 12px between label and input, 12px between input and error row, and 16px before the submit button.
 - After an incorrect password, colour the input border, focused outline, padlock and password bullets red until the user edits the field. Refocusing alone must preserve the error. Editing clears the error and restores the neutral padlock and selected blue/orange focused border and focus accent. On success, show green bullets during the brief transition, then clear the password before navigation.
+
+- Keep JavaScript-disabled notices separate from password validation: use the shared error token and decorative Lucide X; place the login notice between introductory copy and Password, and the resources notice between the header and first step. Render them statically inside `noscript`.
 
 ## Focus and Panel Opening
 
@@ -122,7 +124,7 @@ Preserve the approved behaviour in `website/lib/workshop-theme.mjs`, `website/li
 
 - Apply the same rules to every step/card pair, regardless of its index or the number of cards, on desktop and mobile.
 - On initial page load, after fonts and prompt content establish layout, take a single viewport visibility snapshot. A pair qualifies if at least 10px vertically of its card or step text is visible inside the viewport. A tiny sliver under 10px does not qualify. Do not always reveal the first pair.
-- Reveal qualifying initial pairs in DOM order with 120ms between animation starts. Animate each initial step marker and linked card together with a 16px upward entrance, 420ms opacity fade and 480ms transform using `cubic-bezier(.2,.7,.2,1)`. Avoid opposing horizontal motion for initial visible pairs; retain the later scroll-triggered horizontal entrance. Keep pre-reveal positioning transition-free; do not wait for the preceding animation to finish.
+- Reveal qualifying initial pairs in DOM order with a 240ms lead-in before the first and 360ms between subsequent animation starts. Animate each initial step marker and linked card together with the same sideways offsets and 600ms opacity / 750ms transform treatment as later scroll-triggered entrances. Keep pre-reveal positioning transition-free; do not wait for the preceding animation to finish.
 - Pairs outside the initial group wait until the point 40px below the top of their step text is inside the viewport. Observe `.step-copy` with a 40px bottom inset on both desktop and mobile, revealing the marker and card together. This intentionally reveals stacked cards before their own top edge arrives. Fall back to observing the card only if a future pair has no step-text element. Resizing or scrolling later must not reapply the initial step-text exception.
 - Reveal each pair once. Honour reduced motion by showing content immediately and cancelling queued reveals; without IntersectionObserver, keep the content visible.
 - Validate short/tall phone, tablet and desktop viewports, breakpoint boundaries, step-text-only initial visibility, tiny slivers, multiple initial cards, later step-text thresholds and additional-card fixtures.
@@ -175,11 +177,13 @@ Apply this standard to:
 - Read blur, strength and scrim defaults from app CSS. Local sliders must never change production settings or trigger block remeasurement.
 - Distinguish the playground’s own testing/navigation controls and explanatory annotations from app specimens. Keep source-parity checks for rendered text and computed typography across mobile/desktop, both agents and both themes when modifying the playground or specimen sources.
 
+- Show full login panels for held login states in Status States. Show JavaScript-disabled notices in their real surrounding page or panel context. Scale complete context specimens only when necessary to fit narrow containers, and label that scaling explicitly. Reuse the login panel shadow token for floating Playground controls; keep dark shadows in dark mode with surface and border contrast, rather than white glows.
+
 ### Mandatory Change and Validation Contract
 
 - Treat the main local app and `/playground` as two consumers of the same application sources. An app interface change is incomplete until its playground representation and relevant parity checks are updated and verified in the same coherent change. This covers markup, copy and messages, typography, spacing, colours and tokens, assets and icons, responsive rules, states, settings, focus, hover, touch and animations. This requirement does not authorise publication to Sites.
 - Change the canonical app source first. Import or capture that source in the playground; never fix a mismatch by copying strings, CSS, SVGs or state logic into a second independently maintained implementation. If a source cannot be shared directly, extract a shared renderer or helper rather than creating an optical duplicate.
-- For each new, changed or removed component, setting or state, audit the Components, Typography, Colours, Icons, Error States and Blocks and Blur views as applicable. Update specimen manifests, capture selectors, held-state adapters and source labels; remove obsolete examples and fail explicitly when an expected source is missing.
+- For each new, changed or removed component, setting or state, audit the Components, Typography, Colours, Icons, Status States and Blocks and Blur views as applicable. Update specimen manifests, capture selectors, held-state adapters and source labels; remove obsolete examples and fail explicitly when an expected source is missing.
 - Held-state adapters may supply fixture data, simulated outcomes and time controls, but must use the app's renderers and messages. When app state transitions change, review every affected adapter in the same change. Keep intentional differences explicit: sample input, held transient states, isolated focus, and disabled real navigation, clipboard, session and authentication effects. Do not allow these exceptions to conceal visual or semantic drift.
 - Validate affected specimens against independently rendered main-app pages, not only against other playground frames. Compare text, computed typography, colours, icon geometry, state attributes and relevant interaction behaviour at 320, 390, 768 and 1440px, in light/dark mode and for Codex/Claude. Include relevant neutral, loading, success, failure, disabled, hover and focused states, plus pointer, keyboard and touch paths when affected.
 - Run the existing source-parity check (`node website/tests/style-guide-browser-check.mjs`) for app interface or specimen-source changes, plus focused checks for the changed behaviour. Add or extend regression coverage when fixing a parity defect. Resolve unexpected differences before declaring the work complete; report any unverified browser/device behaviour or intentional simulation difference honestly. Do not claim universal 100% parity based only on shared imports or a limited test pass.

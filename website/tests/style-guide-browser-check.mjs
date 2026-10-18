@@ -52,10 +52,14 @@ assert.equal(await resources.locator('.copy').first().evaluate(e=>getComputedSty
 await choose('width','320');await p.waitForTimeout(50);assert.equal(await resources.locator('html').evaluate(()=>innerWidth),320);
 await choose('width','fluid');await choose('hover','off');
 const copyGap=await p.locator('#copy').evaluate(e=>e.nextElementSibling.getBoundingClientRect().top-e.getBoundingClientRect().bottom);assert.ok(copyGap>=20);
-await choose('copy','error');await resources.locator('[data-copy]').first().click();
+// Centre the embedded viewport so the fixed inspector cannot intercept a
+// cross-frame browser-automation click at the bottom edge of the window.
+const clickPrompt=async()=>{await p.locator('#resources-frame').evaluate(e=>e.scrollIntoView({block:'center'}));await resources.locator('[data-copy]').first().click();};
+await choose('copy','error');await clickPrompt();
 assert.equal(await resources.locator('[data-copy]').first().getAttribute('data-copy-error')!==null,true);
-await choose('copy','success');await resources.locator('[data-copy]').first().click();
-assert.equal(await resources.locator('[data-copy]').first().getAttribute('data-copied'),'true');
+await choose('copy','success');await clickPrompt();
+const resourceDocument=await (await p.locator('#resources-frame').elementHandle()).contentFrame();
+await resourceDocument.waitForFunction(()=>document.querySelector('[data-copy]').dataset.copied==='true',null,{timeout:3000});
 await resources.locator('footer button').click();assert.equal(p.url(),origin+'/playground');
 await p.click('[data-tab=typography]');assert.equal(p.url(),origin+'/playground');
 assert.match(await p.frameLocator('#type-frame').locator('[data-source-selector="h1"] output').textContent(),/48px/);
