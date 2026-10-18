@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.65"
-  update_summary: "Document expanded previews and single-scroll reference galleries"
-  updated_at: "Sun 18 Oct 2026 at 12:39:09 pm AEDT (+11:00)"
+  doc_revision: "26.0.66"
+  update_summary: "Document touch QR preview and focus-dependent success rings"
+  updated_at: "Sun 18 Oct 2026 at 12:46:40 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -131,6 +131,10 @@ On initial load, snapshot the viewport after fonts and prompt content establish 
 
 Disable text selection and iOS touch callouts only within buttons and their descendants. Keep page copy and prompt code selectable. Preserve native activation and keyboard focus, use held-press feedback on regular buttons, and retain the segmented selectors’ existing press/release animation. Clear held feedback on release, pointer cancellation, pointer exit, focus loss or page hiding. Do not draw a border or focus-like ring for a held press. Preserve genuine keyboard focus indicators and disable press scaling for reduced motion. Keep selection colours derived from the agent accent where supported, allowing native iPhone selection highlighting.
 
+## QR Touch Preview
+
+On touch input when the primary device cannot hover, the first tap reveals Copy Link and a second deliberate tap copies. Ignore repeat taps within 300ms of revealing the overlay. Tapping outside or leaving focus dismisses the preview. Mouse and keyboard activation remain immediate. Other controls retain single-tap activation because their hover styling does not conceal an action.
+
 ## Login Feedback
 
 Use a fixed 18px input icon slot: agent-accent Lucide Lock at rest, CSS-rotated Loader Circle while checking, and green Check on success. Reduced motion keeps the spinner static. Checking and success messages remain in a visually hidden live region; only errors appear below the field, with the semantic red Lucide X. Keep status text in sentence case and button labels in CMOS title case.
@@ -145,7 +149,7 @@ Login status messages use the existing system font at 14px with a 21px line heig
 
 Use a 300ms circular reveal at viewport widths up to 660px and 420ms above that breakpoint with a 300px feathered mask edge and gentle radius ease-out (`cubic-bezier(.25,.35,.75,.85)`) for light mode and its exact time-reversed ease-in for dark mode from the centre of the destination sun/moon button for explicit light/dark changes on both pages. Light mode expands the incoming light snapshot from the sun; dark mode reverses the same animation on the outgoing light snapshot, contracting it into the moon, with a 280ms soft-colour fallback when View Transitions are unavailable. Agent selection uses an eased colour blend synchronised with slider arrival at exactly 160ms, derived from shared toggle timing for both agent and day/night selectors; use 60ms each for rebound, return and settling (340ms total), retaining existing distances and easing. Animate only changed colours and theme-dependent brand treatment, preserving independent press and reveal animations. Rapid changes resolve to the latest preference. Apply saved theme and agent colours immediately before initial paint with no decorative transition. Skip or cancel transitions when reduced motion is enabled.
 
-During successful login, keep the green input border, full outer ring and check visible regardless of input focus until navigation completes. The submit button also uses semantic success green, with white text in light mode and dark text in dark mode for contrast.
+During successful login, keep the green input border and check visible until navigation completes. Show the green outer ring only while the password field is focused. The submit button also uses semantic success green, with white text in light mode and dark text in dark mode for contrast.
 
 Contain horizontal page overflow at both the root and body, using clipping with a hidden-overflow fallback. Preserve vertical document scrolling after login and the login panel’s own scroll handling.
 

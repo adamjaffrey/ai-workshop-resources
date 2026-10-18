@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.117"
-  update_summary: "Expand interactive previews and simplify gallery scrolling"
-  updated_at: "Sun 18 Oct 2026 at 12:39:58 pm AEDT (+11:00)"
+  doc_revision: "26.0.118"
+  update_summary: "Refine touch QR copying, focus rings and expanded preview controls"
+  updated_at: "Sun 18 Oct 2026 at 12:46:40 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.116 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 12:46:40 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine touch QR copying, focus rings and expanded preview controls
+
+### Changed
+
+- Reveal the QR copy overlay on first touch and copy on a second deliberate tap when hover is unavailable; preserve immediate mouse and keyboard copying.
+- Show the green success outline only while the password input is focused, retaining the success border, check and button feedback.
+- Match expand/contract icons to neighbouring 18px controls while preserving 44px tap targets.
+- Enclose expanded Style Options and Preview Controls with theme-aware rounded borders.
+- Document QR touch behaviour and focused success styling.
+
+### Validation
+
+- Touch QR, desktop copy, login states and playground controls/error browser checks — passed.
+- Playground source-parity and expanded-preview browser checks across mobile/desktop — passed.
+- Production build and saved-placeholder checks — passed; no layout remeasurement required.
 
 ## v26.0.115 — 2026-10-18
 

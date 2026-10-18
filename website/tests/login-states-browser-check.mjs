@@ -63,20 +63,20 @@ try {
   mode='success';await submit();await state('success','Access granted.');assert.equal(await button.textContent(),'Opening Resources…');
   assert.equal(await status.evaluate(e=>getComputedStyle(e).color),theme==='light'?'rgb(20, 108, 62)':'rgb(117, 214, 163)');
   assert.equal(await status.locator('[data-status-icon="error"]').isVisible(),false);
-  const checkSuccessColours=async()=>{
+  const checkSuccessColours=async(focused)=>{
    await page.locator('.password-field').evaluate(async e=>{await Promise.all(e.getAnimations({subtree:true}).map(a=>a.finished.catch(()=>{})));});
    const green=theme==='light'?'rgb(20, 108, 62)':'rgb(117, 214, 163)';
    const styles=await page.locator('.password-field').evaluate(e=>{const c=getComputedStyle(e);return{outline:c.outlineColor,width:c.outlineWidth,style:c.outlineStyle,border:c.borderColor,lock:getComputedStyle(e.querySelector('svg')).color};});
-   assert.deepEqual(styles,{outline:green,width:'3px',style:'solid',border:green,lock:green});
+   assert.equal(styles.border,green);assert.equal(styles.lock,green);assert.equal(styles.width,'3px');assert.equal(styles.outline,focused?green:'rgba(0, 0, 0, 0)');
    assert.equal(await input.evaluate(e=>getComputedStyle(e).color),green);
    assert.equal(await input.inputValue(),'example');
    assert.equal(await button.evaluate(e=>getComputedStyle(e).backgroundColor),green);
    assert.equal(await button.evaluate(e=>getComputedStyle(e).color),theme==='light'?'rgb(255, 255, 255)':'rgb(16, 18, 22)');
   };
-  // Mouse submission moves focus off the input; success still needs a full ring.
-  await input.evaluate(e=>e.blur());await checkSuccessColours();
+  // Only a genuinely focused input receives a success focus ring.
+  await input.evaluate(e=>e.blur());await checkSuccessColours(false);
   await page.reload();await input.fill('example');await input.press('Enter');
-  await state('success','Access granted.');await checkSuccessColours();
+  await state('success','Access granted.');await checkSuccessColours(true);
 
   await page.close();
  }

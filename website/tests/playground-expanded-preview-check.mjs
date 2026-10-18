@@ -12,7 +12,7 @@ try{
  await frame.locator('body').evaluate(()=>window.previewSentinel='preserved');
  await dialog.locator('.preview-expand').scrollIntoViewIfNeeded();const before=await p.evaluate(()=>scrollY);
  await dialog.locator('.preview-expand').click();await p.waitForTimeout(100);
- assert.equal(await dialog.evaluate(e=>e.matches(':modal')),true);assert.equal(await p.evaluate(()=>document.activeElement.id),name+'-preview-title');
+ assert.equal(await dialog.evaluate(e=>e.matches(':modal')),true);assert.equal(await dialog.locator('.contract-icon svg').evaluate(e=>getComputedStyle(e).width),'18px');assert.equal(await dialog.locator('.preview-settings').evaluate(e=>getComputedStyle(e).borderWidth),'1px');assert.equal(await dialog.locator('.preview-settings').evaluate(e=>getComputedStyle(e).borderRadius),'10px');assert.equal(await p.evaluate(()=>document.activeElement.id),name+'-preview-title');
  assert.equal(await frame.locator('body').evaluate(()=>window.previewSentinel),'preserved');
  assert.ok((await p.locator('#'+name+'-frame').boundingBox()).height>200);
  await p.keyboard.press('Tab');assert.ok(await dialog.evaluate(e=>e.contains(document.activeElement)));
