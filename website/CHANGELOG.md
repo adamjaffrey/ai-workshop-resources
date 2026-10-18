@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.126"
-  update_summary: "Reconcile Playground coverage and retain exact source origins"
-  updated_at: "Sun 18 Oct 2026 at 10:01:12 pm AEDT (+11:00)"
+  doc_revision: "26.0.127"
+  update_summary: "Name icon purposes and preserve official library identities"
+  updated_at: "Sun 18 Oct 2026 at 10:10:21 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.125 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 10:10:21 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Name icon purposes and preserve official library identities
+
+### Changed
+
+- Give every app and Playground tooling SVG explicit usage, official-name and provider metadata; identify the Wavelength brand image too.
+- Show descriptive usage names alongside official Lucide and Lobe identities and original source links in the icon gallery.
+- Check declared Lucide names against actual SVG definitions and test all SVG metadata, visible usage names and library links.
+- Require Lucide-first sourcing in repository instructions, with documented exceptions when no suitable icon exists.
+
+### Validation
+
+- Production build with provisional v26.0.125 — passed.
+- Playground source-parity matrix across four widths, both agents and both themes — passed.
+- Source reconciliation and icon naming/provenance browser checks — passed.
 
 ## v26.0.124 — 2026-10-18
 
