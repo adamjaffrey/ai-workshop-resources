@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.124"
-  update_summary: "Refine Playground usability and responsive page behaviour"
-  updated_at: "Sun 18 Oct 2026 at 09:13:36 pm AEDT (+11:00)"
+  doc_revision: "26.0.125"
+  update_summary: "Group related Playground specimens and expose helper feedback"
+  updated_at: "Sun 18 Oct 2026 at 09:46:31 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.123 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 09:46:31 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Group related Playground specimens and expose helper feedback
+
+### Changed
+
+- Curate typography into brand, pre-heading, heading, body, prompt, QR, footer and login groups instead of strict DOM order.
+- Keep card icons, copy variants, prompt symbols, footer symbols and login state icons in coherent consecutive groups.
+- Add outline clearance around captured icon controls, including QR copy/check/failure examples.
+- Capture actual prompt-copy success and failure panels for Typography, including button states and helper text overlaying the code block.
+- Document curated grouping and shared-renderer feedback sources.
+
+### Validation
+
+- Group ordering and QR outline clearance on all four sides at four screen widths — passed.
+- Independent app/Playground typography and prompt-helper feedback parity across four widths, both agents and themes — passed.
+- Production build and saved-placeholder checks — passed.
 
 ## v26.0.122 — 2026-10-18
 

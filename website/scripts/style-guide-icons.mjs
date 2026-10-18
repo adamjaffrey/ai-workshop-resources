@@ -20,7 +20,7 @@ window.addEventListener('message',async event=>{
  if(event.source!==parent||event.data?.guide!=='icon-catalog')return;
  if(capturingIcons){pendingIcons=event.data;return;}capturingIcons=true;
  try{
- const page=event.data.page,items=[],errors=[];
+ const page=event.data.page,items=[],errors=[],typographyFeedback=[];
  const add=(node,state)=>{if(node)items.push(iconSnapshot(node,page,state));};
  const addError=(node,state)=>{if(!node)return;const item=iconSnapshot(node,page,state,true),template=document.createElement('template');template.innerHTML=item.html;const root=template.content.firstElementChild;if(node.matches('.gate-panel'))for(const child of [...root.children])if(!child.matches('label,.password-field,.gate-error,.gate-submit'))child.remove();Object.assign(root.style,{position:node.matches('.qr-copy')?'relative':'static',maxWidth:'100%',height:'auto',maxHeight:'none',margin:'0'});errors.push({...item,html:root.outerHTML,text:node.textContent.trim()});};
  if(page==='login'){
@@ -43,13 +43,27 @@ window.addEventListener('message',async event=>{
   await agent('claude-code');add(document.querySelector('[data-agent="claude-code"] svg'),'Selected · Claude Code');await agent(savedAgent);
   document.querySelectorAll('.symbol svg').forEach(node=>add(node,'Step Icon'));
   const prompt=document.querySelector('.copy');
-  if(prompt){setStatus(prompt,'');add(prompt.querySelector('.copy-icon'),'Prompt · Copy');await copy(prompt,true);add(prompt.querySelector('.success-icon'),'Prompt · Copied');await copy(prompt,false);add(prompt.querySelector('.error-icon'),'Prompt · Copy Failed');addError(prompt,'Prompt Copy Failure');const status=prompt.closest('article').querySelector('.status');errors.at(-1).html+=iconSnapshot(status,page,'Prompt Copy Failure',true).html;setStatus(prompt,'');}
+  const captureFeedback=state=>{const status=prompt.closest('article').querySelector('.status'),c=getComputedStyle(status);typographyFeedback.push({state,html:prompt.closest('.code-wrap').outerHTML,typography:[c.fontFamily,c.fontSize,c.fontWeight,c.lineHeight,c.color],text:status.textContent});};
+  if(prompt){setStatus(prompt,'');add(prompt.querySelector('.copy-icon'),'Prompt · Copy');await copy(prompt,true);captureFeedback('success');add(prompt.querySelector('.success-icon'),'Prompt · Copied');await copy(prompt,false);captureFeedback('error');add(prompt.querySelector('.error-icon'),'Prompt · Copy Failed');addError(prompt,'Prompt Copy Failure');const status=prompt.closest('article').querySelector('.status');errors.at(-1).html+=iconSnapshot(status,page,'Prompt Copy Failure',true).html;setStatus(prompt,'');}
   add(document.querySelector('footer button svg'),'Log Out');copyFailure=false;
  }
  const seen=new Set(),walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
  while(walker.nextNode()){const node=walker.currentNode,el=node.parentElement;if(el.closest('script,style,svg,.page-placeholder')||!el.checkVisibility({checkVisibilityCSS:true}))continue;for(const match of node.textContent.matchAll(/[\p{S}\p{Extended_Pictographic}]/gu)){const character=match[0]+(node.textContent[match.index+match[0].length]==='\uFE0F'?'\uFE0F':'');if(character.codePointAt(0)<128||seen.has(character))continue;seen.add(character);const snapshot=iconSnapshot(el,page,'Text'),excerpt=document.createElement('template');excerpt.innerHTML=snapshot.html;const sample=excerpt.content.firstElementChild;sample.textContent=node.textContent.split('\n').find(line=>line.includes(character));Object.assign(sample.style,{maxWidth:'100%',height:'auto',maxHeight:'none'});items.push({order:snapshot.order,symbol:character,label:unicodeLabel(character),page,state:'Source Text Excerpt',selector:el.tagName.toLowerCase(),colour:getComputedStyle(el).color,html:sample.outerHTML});}}
  document.querySelectorAll('.footer-copyright:not(.page-placeholder *)').forEach(el=>{const c=getComputedStyle(el,'::before');if(c.content&&c.content!=='none'&&c.content!=='normal')items.push({order:[...document.querySelectorAll('*')].indexOf(el),symbol:c.content.replaceAll('"',''),label:'Bullet · U+2022',page,state:'Unwrapped Footer',selector:'.footer-copyright::before',colour:c.color,html:iconSnapshot(el.closest('.footer-meta'),page,'Footer').html});});
- items.sort((a,b)=>a.order-b.order);parent.postMessage({guide:'icon-catalog-data',page,items,errors},'*');
+ const rank=item=>{
+ if(page==='login'){if(item.svg?.includes('data-input-icon="lock"'))return item.state==='neutral'?0:1;return {loading:2,success:3,wrong:4}[item.state]??5;}
+ if(item.symbol)return item.symbol==='©'?80:item.symbol==='•'?81:70;
+ if(item.state==='Default')return 0;
+ if(item.state.includes('Mode'))return item.state.includes('Light')?10:11;
+ if(item.state==='QR Code')return 20;
+ if(item.state.startsWith('QR ·'))return 30;
+ if(item.state==='Selected · Codex')return 40;
+ if(item.state==='Selected · Claude Code')return 41;
+ if(item.state==='Step Icon')return 50;
+ if(item.state.startsWith('Prompt ·'))return 60;
+ if(item.state==='Log Out')return 90;
+ return 75;
+ };items.sort((a,b)=>rank(a)-rank(b));parent.postMessage({guide:'icon-catalog-data',page,items,errors,typographyFeedback},'*');
  }finally{capturingIcons=false;if(pendingIcons){const data=pendingIcons;pendingIcons=null;window.dispatchEvent(new MessageEvent('message',{source:parent,data}));}}
 });`;
 

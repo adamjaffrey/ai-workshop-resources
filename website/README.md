@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.71"
-  update_summary: "Document responsive specimens and calmer initial reveals"
-  updated_at: "Sun 18 Oct 2026 at 09:13:36 pm AEDT (+11:00)"
+  doc_revision: "26.0.72"
+  update_summary: "Group related specimens and show prompt helper feedback"
+  updated_at: "Sun 18 Oct 2026 at 09:46:31 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -228,4 +228,4 @@ Interactive login, resource and block previews use 70% of the viewport space rem
 
 App interface changes must update affected playground specimens, adapters and parity checks in the same change, following the mandatory contract in `AGENTS.md`. Validate against independently rendered main-app pages as well as the specimen source frames; shared imports alone do not prove rendered parity.
 
-Typography examples follow source DOM order within each source page. Copy controls show one resting state; the Icons view shows their live captured variants. The login error typography specimen holds the actual incorrect-password renderer output. Error States captures failures in their login form, QR button or prompt-copy button/status context. The toolbar uses Screen Width, and changing its radio controls preserves scroll position and focus.
+Typography follows a curated brand, pre-heading, heading, body, prompt, QR, footer and login hierarchy. Icons follow page flow while keeping related controls, card icons, copy states and prompt symbols together. Copy controls show a resting type example plus success/failure prompt-panel examples captured through the real app renderer; the Icons view retains all captured icon variants. Keep helper feedback over the code panel in a clearly cropped context preview, and leave room around captured controls for their original outlines. The login error typography specimen holds the actual incorrect-password renderer output. Error States captures failures in their login form, QR button or prompt-copy button/status context. The toolbar uses Screen Width, and changing its radio controls preserves scroll position and focus.

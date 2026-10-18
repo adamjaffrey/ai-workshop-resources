@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {chromium} from 'playwright';
+import {createPhonePreview} from '../scripts/phone-preview.mjs';
+const {server}=createPhonePreview();await new Promise(r=>server.listen(0,'127.0.0.1',r));const b=await chromium.launch({channel:'chrome',headless:true});
+try{
+ const p=await b.newPage({viewport:{width:1440,height:900}}),errors=[];p.on('pageerror',e=>errors.push(e.message));await p.goto('http://127.0.0.1:'+server.address().port+'/playground');await p.click('[data-tab=icons]');await p.waitForTimeout(1200);
+ const icons=p.frameLocator('#icons-frame');const states=await icons.locator('#icons-resources .icon-row').evaluateAll(es=>es.map(e=>e.dataset.state));const steps=states.flatMap((s,i)=>s==='Step Icon'?[i]:[]);assert.equal(steps.length,3);assert.equal(steps[2]-steps[0],2);assert.ok(states.indexOf('Prompt · Copy')>steps[2]);assert.equal(states.at(-1),'Log Out');
+ const login=await icons.locator('#icons-login .icon-row').evaluateAll(es=>es.map(e=>e.dataset.state));assert.deepEqual(login.slice(0,5),['neutral','wrong','loading','success','wrong']);
+ for(const width of [320,390,768,1440]){await p.setViewportSize({width,height:900});await p.waitForTimeout(500);const rows=icons.locator('.icon-row').filter({has:icons.locator('.qr-copy')});for(const row of await rows.all()){const bounds=await row.locator('.icon-sample').evaluate(e=>{const q=e.querySelector('.qr-copy');if(!q)return true;const r=q.getBoundingClientRect(),s=e.getBoundingClientRect(),c=getComputedStyle(q);const halo=parseFloat(c.outlineWidth)+Math.max(0,parseFloat(c.outlineOffset));return r.left-s.left>=halo&&r.top-s.top>=halo&&s.right-r.right>=halo&&s.bottom-r.bottom>=halo;});assert.ok(bounds,'QR outline gutter');}}
+ await p.click('[data-tab=typography]');await p.waitForTimeout(800);const type=p.frameLocator('#type-frame');const order=await type.locator('.type-row:not(.feedback-row)').evaluateAll(es=>es.map(e=>e.dataset.sourceSelector));assert.deepEqual(order.slice(0,6),['.brand-name','.eyebrow','h1','#gate-title','.step-title','.card-heading h3']);
+ assert.equal(await type.locator('.feedback-row').count(),2);for(const state of ['success','error']){const row=type.locator('[data-feedback='+state+']');assert.ok((await row.locator('.status').innerText()).length>0);assert.equal(await row.locator('.copy').getAttribute('data-copied'),String(state==='success'));assert.equal(await row.locator('.status').evaluate(e=>getComputedStyle(e).position),'absolute');}
+ await p.screenshot({path:'/tmp/playground-grouped-typography.png'});assert.deepEqual(errors,[]);console.log('PASS: logical typography/icon grouping, QR outline gutters and real prompt feedback variants');
+}finally{await b.close();server.close();}
