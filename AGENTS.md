@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.35"
-  update_summary: "Give build and delivery status its own labelled heading"
-  updated_at: "Sun 18 Oct 2026 at 10:32:52 pm AEDT (+11:00)"
+  doc_revision: "26.0.36"
+  update_summary: "Require inline code for build versions and commit hashes"
+  updated_at: "Sun 18 Oct 2026 at 10:36:16 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -42,6 +42,7 @@ metadata:
 - Every completed update response must show the current website artefact version and the short Git commit hash. Distinguish a new build from a documentation-only update, which retains the current artefact version. State whether the commit is local or pushed and whether Sites was published; never imply an unperformed action.
 - Introduce the status list with the bold label **📦 Build and Delivery**, followed by a blank line. Never leave the list without its own heading.
 - Present build and delivery status in one four-item bulleted list, in this order: **Build**, **Commit**, **Push (GitHub)** and **Publish (Sites)**. The Build item includes the current version and explicitly says either “changed — new artefact produced” or “unchanged — no new artefact produced”. The Commit item shows the short hash and whether it is local or pushed. Push and Publish each independently state performed successfully, not performed, or failed/blocked for this update. Never imply that a push means publication or that a documentation-only update produced an artefact. Do not add a separate Push and Publish heading.
+- Wrap the build version and short Git commit hash in Markdown backticks so they render as inline code, for example `v26.0.128` and `1a5050f`. Use inline code, not a fenced code block, for these two values.
 - Follow that list with **🔗 Local Preview** and clearly labelled clickable **Main App** and **Playground** links; identify the local Playground as password-free.
 - Immediately below the local links, show **🔑 Local App Test Password** and a fenced `text` code block containing the active preview server's current test password. Read it from the active process's output before the handoff; restart and verify the server when necessary. Never invent or reuse a stale credential. If local preview is unavailable, explain that limitation rather than presenting an unverified link or password.
 - Whenever publishing to Sites succeeds, also include **🌐 Live on Sites**, with separate clickable **Main App** and **Playground** links. Explain that they share the existing login session when relevant. Never include the production password. Keep local preview and hosted links visually separate.
