@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.33"
-  update_summary: "Open the hidden Playground shortcut in a separate tab"
-  updated_at: "Sun 18 Oct 2026 at 10:22:25 pm AEDT (+11:00)"
+  doc_revision: "26.0.34"
+  update_summary: "Use the header logo shortcut and unified delivery status list"
+  updated_at: "Sun 18 Oct 2026 at 10:28:16 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -40,8 +40,8 @@ metadata:
 ### Required Update Handoff
 
 - Every completed update response must show the current website artefact version and the short Git commit hash. Distinguish a new build from a documentation-only update, which retains the current artefact version. State whether the commit is local or pushed and whether Sites was published; never imply an unperformed action.
-- Put **Build** and **Commit** on separate lines. The Build line must explicitly say either “changed — new artefact produced” or “unchanged — no new artefact produced”, with the current version. Do not imply that a documentation-only update produced a new build. The Commit line shows the short hash and whether it is local or pushed.
-- Include a separate **Push and Publish** heading with explicit **GitHub** and **Sites** statuses for this update: performed successfully, not performed, or failed/blocked. Distinguish pushing from publishing and never imply one means the other. Follow with **Local Preview** and clearly labelled clickable **Main App** and **Playground** links; identify the local Playground as password-free.
+- Present build and delivery status in one four-item bulleted list, in this order: **Build**, **Commit**, **Push (GitHub)** and **Publish (Sites)**. The Build item includes the current version and explicitly says either “changed — new artefact produced” or “unchanged — no new artefact produced”. The Commit item shows the short hash and whether it is local or pushed. Push and Publish each independently state performed successfully, not performed, or failed/blocked for this update. Never imply that a push means publication or that a documentation-only update produced an artefact. Do not add a separate Push and Publish heading.
+- Follow that list with **Local Preview** and clearly labelled clickable **Main App** and **Playground** links; identify the local Playground as password-free.
 - Immediately below the local links, show **🔑 Local App Test Password** and a fenced `text` code block containing the active preview server's current test password. Read it from the active process's output before the handoff; restart and verify the server when necessary. Never invent or reuse a stale credential. If local preview is unavailable, explain that limitation rather than presenting an unverified link or password.
 - Whenever publishing to Sites succeeds, also include **Live on Sites**, with separate clickable **Main App** and **Playground** links. Explain that they share the existing login session when relevant. Never include the production password. Keep local preview and hosted links visually separate.
 - Keep the change summary and verification concise above these details. Use modest icons and descriptive anchor text; do not open the links automatically.
@@ -162,7 +162,7 @@ Apply this standard to:
 
 ## Hidden Playground Shortcut
 
-- Three taps or primary-button clicks on the footer version number within three seconds open `/playground` in a new tab/window using `_blank` with `noopener,noreferrer`, leaving Resources open. Only the version text activates it; other clicks, leaving the window or changing visibility reset the sequence. Keep it an ordinary text span: no Tab stop, programmatic focusability, focus ring, button/link role, action-specific screen-reader label, tooltip, hover treatment or visible affordance. Screen readers should read only the existing version text. This intentionally undisclosed shortcut is an exception to the normal pointer-cursor rule. It does not grant access or bypass authentication.
+- Three taps or primary-button clicks on the Wavelength header logo within three seconds open `/playground` in a new tab/window using `_blank` with `noopener,noreferrer`, leaving Resources open. Only the header brand area activates it; other clicks, leaving the window or changing visibility reset the sequence. Keep the existing brand markup unchanged: no Tab stop, programmatic focusability, focus ring, button/link role, action-specific screen-reader label, tooltip, hover treatment or visible affordance. Screen readers should encounter only the existing brand content. On the locked main app, recognise the same coordinates from the actual blurred backdrop logo bounds through the scrim without adding a hotspot element; never intercept the login panel. The blank Playground login backdrop has no shortcut target. This intentionally undisclosed shortcut is an exception to the normal pointer-cursor rule. It does not grant access or bypass authentication.
 - Playground specimens exercise the same gesture handler but cancel navigation and report the simulated activation.
 
 ## Playground Source Fidelity

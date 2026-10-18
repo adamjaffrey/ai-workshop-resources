@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.129"
-  update_summary: "Open Playground separately and preserve the Resources tab"
-  updated_at: "Sun 18 Oct 2026 at 10:23:32 pm AEDT (+11:00)"
+  doc_revision: "26.0.130"
+  update_summary: "Move hidden Playground access to the header logo"
+  updated_at: "Sun 18 Oct 2026 at 10:28:58 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.128 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 10:28:58 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Move hidden Playground access to the header logo
+
+### Changed
+
+- Move the three-tap/click shortcut from the version number to the Wavelength header brand, keeping separate-tab navigation and ordinary brand semantics.
+- Share the handler with locked main-app login and recognise the actual blurred logo coordinates through the scrim without adding a hotspot or intercepting the login panel.
+- Preserve protected Playground login and its blank backdrop; local Playground remains password-free.
+- Require Build, Commit, Push (GitHub) and Publish (Sites) in one handoff status list, including whether a new artefact was produced.
+
+### Validation
+
+- Production build with provisional v26.0.128 — passed.
+- Four-width touch/mouse checks for locked and unlocked logo gestures, authentication, footer exclusion, expiry, no opener and sandbox containment — passed.
+- App/Playground source-parity matrix across both themes and agents — passed.
 
 ## v26.0.127 — 2026-10-18
 
