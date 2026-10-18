@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.69"
-  update_summary: "Document the canonical playground route and parity requirements"
-  updated_at: "Sun 18 Oct 2026 at 03:00:12 pm AEDT (+11:00)"
+  doc_revision: "26.0.70"
+  update_summary: "Document shared hosted sessions and anonymous local playground access"
+  updated_at: "Sun 18 Oct 2026 at 07:45:54 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -181,13 +181,13 @@ Run `node website/tests/status-colours-browser-check.mjs` to verify success, err
 
 ## Local Component Playground
 
-Start `npm --prefix website run preview:phone`, then visit `/playground` on the printed local or LAN address. The previous `/style-guide` URL redirects to `/playground`. This local-only route requires no password and is not registered in the production handler. The regular site still requires the current local test password printed by the preview server. Do not open a browser automatically.
+Start `npm --prefix website run preview:phone`, then visit `/playground` on the printed local or LAN address. The previous `/style-guide` URL redirects to `/playground`. This route requires no password on the local preview server. On Sites, it shares the main app’s password and server-validated session: one login unlocks both pages, direct playground login returns to the playground, and expiry or logout relocks it. The generated playground is bundled server-side, never served as a public static asset. The regular site still requires the current local test password printed by the preview server. Do not open a browser automatically.
 
 The playground reuses current login/resource markup, CSS, shared theme helpers and resource interactions. It provides light/dark and Codex/Claude controls, fixed sample widths, held hover styles, persistent simulated login states, simulated copy success/failure, colour-token swatches, source-derived typography specimens and a docked Style Inspector. The standard H2 is the real neutral login heading; the accent H2 is the real step heading. H4–H6 and general text/disabled-input specimens are omitted while absent from the app. Warning tokens are labelled reserved, with no fabricated warning component.
 
-Sample frames are sandboxed without same-origin access, form submission or top navigation. Only the icon gallery permits new tabs for explicitly revealed source links. Session checks are removed, authentication is simulated, copy actions never touch the clipboard, and specimen links remain in the playground. Login visual state handling reuses the current login script up to its submission handler, then substitutes persistent demonstration states. Keep the tool under `scripts/` and out of production route registration.
+Sample frames are sandboxed without same-origin access, form submission or top navigation. Only the icon gallery permits new tabs for explicitly revealed source links. Session checks are removed, authentication is simulated, copy actions never touch the clipboard, and specimen links remain in the playground. Login visual state handling reuses the current login script up to its submission handler, then substitutes persistent demonstration states. The shared generator lives under `scripts/`; builds generate a server-only module for the authenticated production route. Only the outer hosted playground checks the real session; specimen frames retain simulated sessions.
 
-Validate with `node website/tests/style-guide-browser-check.mjs`. This checks both agents/themes at mobile and desktop sizes, held login states, copy results, frame widths, navigation containment and production-route exclusion. Headless checks are permitted; do not present them as native mobile-browser testing.
+Validate with `node website/tests/style-guide-browser-check.mjs`. This checks both agents/themes at mobile and desktop sizes, held login states, copy results, frame widths, navigation containment and anonymous hosted-content protection. Run `node website/tests/playground-session-browser-check.mjs` for shared-session navigation, direct login return, sandbox/CSP rendering and logout relocking. Headless checks are permitted; do not present them as native mobile-browser testing.
 
 The separate theme toggle layer moves immediately but blends its surface, border and text tokens with the circular feather. Sample the actual animated root-mask radius at the control centre each frame; do not start an independent colour timer. In dark mode the control retains its light colours until the contracting feather reaches it. Clear temporary overrides on completion, interruption and reduced-motion changes.
 

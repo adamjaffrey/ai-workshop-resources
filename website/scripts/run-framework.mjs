@@ -12,6 +12,7 @@ if (command === 'build') {
 }
 // Refresh the resources preview; the retired blur tester is opt-in under _archive.
 await import('./preview-resources.mjs');
+await import('./generate-playground.mjs');
 const managedLinux = readExecutionProfile() === "managed-linux";
 
 if (managedLinux && command === "build") {

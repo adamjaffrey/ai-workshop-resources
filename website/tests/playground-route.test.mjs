@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {createPhonePreview} from '../scripts/phone-preview.mjs';
 import {handleRequest} from '../lib/workshop-handler.mjs';
-test('canonical playground route and legacy redirects remain local-only',async()=>{
+test('local playground stays anonymous while hosted routes protect specimens',async()=>{
  const {server}=createPhonePreview();await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
  try{
   const page=await fetch(origin+'/playground');assert.equal(page.status,200);assert.match(await page.text(),/<title>Workshop Component Playground<\/title>/);

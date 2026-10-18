@@ -85,5 +85,5 @@ await p.screenshot({path:'/tmp/style-guide-colours.png',fullPage:true});
 await p.click('[data-tab=components]');await p.locator('#login-frame').scrollIntoViewIfNeeded();await p.screenshot({path:'/tmp/style-guide-components.png'});
 await p.setViewportSize({width:390,height:844});await p.locator('#login-frame').scrollIntoViewIfNeeded();await p.screenshot({path:'/tmp/style-guide-mobile.png'});
 const production=await handleRequest(new Request('http://production/playground'),{});assert.notEqual(production.status,200);
-console.log('PASS: radios, docked/frozen/debounced inspector, block selection/blur controls, mobile/desktop, both agents/themes, all held login states, copy feedback, navigation containment, tokens, typography and production exclusion');
+console.log('PASS: radios, docked/frozen/debounced inspector, block selection/blur controls, mobile/desktop, both agents/themes, all held login states, copy feedback, navigation containment, tokens, typography and unconfigured hosted access fails closed');
 }finally{await b.close();await new Promise(r=>server.close(r));}

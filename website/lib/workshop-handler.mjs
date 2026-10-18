@@ -57,7 +57,7 @@ async function bodyText(request) {
   return Buffer.concat(chunks).toString('utf8');
 }
 
-export async function handleRequest(request, env, now = Date.now()) {
+export async function handleRequest(request, env, now = Date.now(), options = {}) {
   const nonce = randomBytes(18).toString('base64');
   const headers = {
     'Cache-Control':'private, no-store, max-age=0',
@@ -115,7 +115,12 @@ export async function handleRequest(request, env, now = Date.now()) {
     }
     const session=await readSession(request,env.DB,version,now);
     if(path==='/auth/session') return session?json({expiresAt:session.expires_at}):json({error:'Please sign in again.'},401,{'Set-Cookie':cookie('',now,0)});
-    if(path!=='/' && path!=='/index.html') return reply('Not found',404);
+    if(['/style-guide','/style-guide/','/playground/'].includes(path)) return reply(null,308,{'Location':'/playground'});
+    if(path==='/playground' && session) {
+      const html=options.renderPlayground ? await options.renderPlayground() : (await import('./workshop-playground.generated.mjs')).playgroundPage;
+      return reply(html.replaceAll('__SESSION_EXPIRES__',String(session.expires_at)),200,{'Content-Type':'text/html; charset=utf-8','Content-Security-Policy':"default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"});
+    }
+    if(!['/','/index.html','/playground'].includes(path)) return reply('Not found',404);
     const page=session?resourcePage.replace('__SESSION_EXPIRES__',String(session.expires_at)):loginPage;
     return reply(page.replaceAll('__NONCE__',nonce),200,{'Content-Type':'text/html; charset=utf-8',...(!session?{'Set-Cookie':cookie('',now,0)}:{})});
   } catch {
@@ -233,6 +238,6 @@ form.addEventListener('submit',async event=>{
   password.setSelectionRange(password.value.length,password.value.length);password.readOnly=true;
   setStatus('success',loginMessages.success);button.removeAttribute('aria-busy');
   button.textContent=loginControlLabels.opening;
-  setTimeout(()=>{password.value='';location.replace('/');},900);
+  setTimeout(()=>{password.value='';location.replace(location.pathname==='/playground'?'/playground':'/');},900);
 });
 `;

@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {DatabaseSync} from 'node:sqlite';
 import {readFileSync} from 'node:fs';
+import {styleGuidePage} from '../scripts/style-guide.mjs';
 import {handleRequest,makeVerifier,COOKIE,SESSION_SECONDS} from '../lib/workshop-handler.mjs';
 const password='test-only-long-workshop-password';
 const verifier=makeVerifier(password);
@@ -62,4 +63,15 @@ test('missing configuration and database failure fail closed',async()=>{
  assert.doesNotMatch(html,/system-blueprint-creator/);
  const e=env();e.DB.prepare=()=>{throw Error('database down')};
  const r=await handleRequest(post(),e);assert.equal(r.status,503);assert.doesNotMatch(await r.text(),/system-blueprint-creator/);
+});
+test('hosted playground shares the main session and never exposes specimens anonymously',async()=>{
+ const e=env(),now=1000000;
+ for(const path of ['/playground','/playground?test=1']){
+  const r=await handleRequest(get(path),e,now);const text=await r.text();assert.match(text,/workshop-password/);assert.doesNotMatch(text,/Component Playground|system-blueprint-creator|srcdoc=/);assert.match(r.headers.get('cache-control'),/no-store/);
+ }
+ const cookie=await login(e,now);
+ for(const path of ['/','/playground']){const r=await handleRequest(get(path,cookie),e,now+1,{renderPlayground:()=>styleGuidePage({authenticated:true})});assert.equal(r.status,200);assert.match(await r.text(),path==='/'?/system-blueprint-creator/:/Component Playground/);assert.equal(r.headers.get('set-cookie'),null);}
+ const expired=await handleRequest(get('/playground',cookie),e,now+SESSION_SECONDS*1000);assert.doesNotMatch(await expired.text(),/Component Playground|srcdoc=/);
+ await handleRequest(post('/auth/logout','',{cookie}),e,now+2);
+ assert.doesNotMatch(await(await handleRequest(get('/playground',cookie),e,now+3)).text(),/Component Playground|srcdoc=/);
 });

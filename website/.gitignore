@@ -65,3 +65,6 @@ next-env.d.ts
 # Generated optional archived preview; retain its generator in Git.
 /_archive/*.html
 /_archive/*.png
+
+# Authenticated server-only playground, generated from current app sources.
+/lib/workshop-playground.generated.mjs

@@ -16,7 +16,7 @@ const assets=new Map([
   ['/assets/workshop-resources-qr.png','image/png'],
 ]);
 
-export function createPhonePreview() {
+export function createPhonePreview({protectPlayground=false}={}) {
   // Each process has a fresh credential and database. Never read .env or hosted secrets.
   const password='preview-'+randomBytes(6).toString('hex');
   const sql=new DatabaseSync(':memory:');
@@ -28,10 +28,10 @@ export function createPhonePreview() {
   const server=http.createServer(async(req,res)=>{
     try {
       const url=new URL(req.url,'http://'+req.headers.host);
-      if(['GET','HEAD'].includes(req.method) && ['/style-guide','/style-guide/','/playground/'].includes(url.pathname)) {
+      if(!protectPlayground && ['GET','HEAD'].includes(req.method) && ['/style-guide','/style-guide/','/playground/'].includes(url.pathname)) {
         res.writeHead(308,{'Location':'/playground'+url.search,'Cache-Control':'no-store'});res.end();return;
       }
-      if(['GET','HEAD'].includes(req.method) && url.pathname==='/playground') {
+      if(!protectPlayground && ['GET','HEAD'].includes(req.method) && url.pathname==='/playground') {
         res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'});
         res.end(req.method==='HEAD'?undefined:await styleGuidePage());return;
       }
@@ -52,7 +52,7 @@ export function createPhonePreview() {
         for await(const chunk of req){size+=chunk.length;if(size>4096){res.writeHead(413);res.end('Request too large');return;}chunks.push(chunk);}
         body=Buffer.concat(chunks);
       }
-      const response=await handleRequest(new Request(url,{method:req.method,headers,body}),env);
+      const response=await handleRequest(new Request(url,{method:req.method,headers,body}),env,Date.now(),{renderPlayground:()=>styleGuidePage({authenticated:true})});
       res.statusCode=response.status;
       for(const [key,value] of response.headers){
         res.setHeader(key,key==='set-cookie'?value.replace(COOKIE+'=',previewCookie+'=').replace('; Secure',''):value);

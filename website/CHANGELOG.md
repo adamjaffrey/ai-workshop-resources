@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.121"
-  update_summary: "Require app-playground parity and expose the playground route"
-  updated_at: "Sun 18 Oct 2026 at 03:01:10 pm AEDT (+11:00)"
+  doc_revision: "26.0.122"
+  update_summary: "Host the playground behind the shared app session"
+  updated_at: "Sun 18 Oct 2026 at 07:45:54 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.120 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 07:45:54 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Host the playground behind the shared app session
+
+### Changed
+
+- Serve `/playground` on Sites only after validating the same session used by the resource page; direct playground login returns to that page.
+- Bundle generated specimen HTML server-side, with no protected content in public static assets; retain sandboxed, simulated specimen actions.
+- Relock the hosted playground on session expiry or detected logout, and add a link back to resources.
+- Keep the local preview playground password-free and document the hosted/local distinction.
+
+### Validation
+
+- Authentication, route and browser validation — passed.
+- Ten authentication and route tests passed, including expiry, logout and anonymous-content protection.
+- Shared-session browser checks passed, including direct login return and CSP-compatible specimen rendering.
+- App/playground source parity checks passed for both agents and themes at mobile and desktop sizes.
+- Production build, saved-placeholder checks and public-asset content isolation passed.
 
 ## v26.0.119 — 2026-10-18
 

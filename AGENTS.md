@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.26"
-  update_summary: "Require app and playground parity for every interface change"
-  updated_at: "Sun 18 Oct 2026 at 03:00:12 pm AEDT (+11:00)"
+  doc_revision: "26.0.27"
+  update_summary: "Protect hosted playground access while keeping local previews password-free"
+  updated_at: "Sun 18 Oct 2026 at 07:45:54 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -164,4 +164,4 @@ Apply this standard to:
 - Held-state adapters may supply fixture data, simulated outcomes and time controls, but must use the app's renderers and messages. When app state transitions change, review every affected adapter in the same change. Keep intentional differences explicit: sample input, held transient states, isolated focus, and disabled real navigation, clipboard, session and authentication effects. Do not allow these exceptions to conceal visual or semantic drift.
 - Validate affected specimens against independently rendered main-app pages, not only against other playground frames. Compare text, computed typography, colours, icon geometry, state attributes and relevant interaction behaviour at 320, 390, 768 and 1440px, in light/dark mode and for Codex/Claude. Include relevant neutral, loading, success, failure, disabled, hover and focused states, plus pointer, keyboard and touch paths when affected.
 - Run the existing source-parity check (`node website/tests/style-guide-browser-check.mjs`) for app interface or specimen-source changes, plus focused checks for the changed behaviour. Add or extend regression coverage when fixing a parity defect. Resolve unexpected differences before declaring the work complete; report any unverified browser/device behaviour or intentional simulation difference honestly. Do not claim universal 100% parity based only on shared imports or a limited test pass.
-- Keep `/playground` local-only and canonical. Preserve `/style-guide` as a redirect for existing links. Keep the testing controls distinct from app specimens and never expose local testing routes or credentials through a production handler.
+- Keep `/playground` canonical and preserve `/style-guide` as a redirect. On Sites, protect the entire playground with the same server-validated session as the main app, including expiry and logout; never publish specimen HTML as a public static asset. On the local preview server, keep `/playground` password-free. Keep testing controls distinct from app specimens, keep simulated actions sandboxed and never expose local test credentials or authentication bypasses through a production handler.
