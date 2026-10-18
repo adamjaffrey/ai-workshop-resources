@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.115"
-  update_summary: "Compact login errors and distinguish their shared colours"
-  updated_at: "Sun 18 Oct 2026 at 11:53:37 am AEDT (+11:00)"
+  doc_revision: "26.0.116"
+  update_summary: "Align heading actions and label reset controls"
+  updated_at: "Sun 18 Oct 2026 at 11:55:28 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.114 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 11:55:28 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Align heading actions and label reset controls
+
+### Changed
+
+- Align section reset buttons and the source checkbox with the first heading line, independently of heading wrapping.
+- Add visible Reset labels beside proportional Lucide reset icons while preserving descriptive accessible names and touch targets.
+
+### Validation
+
+- Headless playground checks — passed, including first-line alignment and container bounds at 320/390/1440px.
+- Production build, geometry guard, syntax and whitespace checks — passed.
 
 ## v26.0.113 — 2026-10-18
 
