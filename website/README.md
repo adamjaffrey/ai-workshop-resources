@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.81"
-  update_summary: "Document shareable effect settings and expanded tuning controls"
-  updated_at: "Mon 19 Oct 2026 at 02:32:26 am AEDT (+11:00)"
+  doc_revision: "26.0.82"
+  update_summary: "Document sticky controls and the mobile icon collapse"
+  updated_at: "Mon 19 Oct 2026 at 02:46:27 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -43,6 +43,12 @@ The preview script never reads `.env`, hosted secrets or production session stor
 ## Access Boundary
 
 This protects content delivered by this website. The linked public GitHub repository, its history and independently published files remain public. A shared password can be forwarded and does not identify individual participants. Branding assets remain public; workshop content is delivered only by the authenticated server route. Previously downloaded material cannot be withdrawn.
+
+## Persistent Page Controls
+
+The theme selector starts vertically centred beside the Wavelength wordmark. Both selectors remain in their original layout until reaching a 16px top inset (or the safe-area inset when larger). Their shared floating-control shadow fades in over the next 48px of scrolling and reverses on return. Layout spacers prevent content jumps; the original controls retain focus and keyboard behaviour.
+
+At widths up to 660px, the agent selector compresses before reaching the theme control, hiding its text visually while retaining accessible button names. A short squash-and-stretch accompanies the collapse to icons at the left page edge. Reduced motion removes the decorative animation. The Playground Resources preview consumes this same implementation and supports scrolling through each state.
 
 ## Local Design Review
 

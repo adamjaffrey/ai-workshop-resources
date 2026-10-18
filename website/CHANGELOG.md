@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.146"
-  update_summary: "Add settings export, wider tuning ranges and a rotating halo"
-  updated_at: "Mon 19 Oct 2026 at 02:34:03 am AEDT (+11:00)"
+  doc_revision: "26.0.147"
+  update_summary: "Add persistent selectors with a mobile icon collapse"
+  updated_at: "Mon 19 Oct 2026 at 02:47:20 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.145 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 02:47:20 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add persistent selectors with a mobile icon collapse
+
+### Changed
+
+- Restore the theme selector beside the wordmark; lock both selectors at a 16px top inset and fade their shared shadows over 48px of further scrolling.
+- Collapse the mobile agent selector to accessible icons with a squash-and-stretch animation, preserving layout space, focus and reduced-motion support; prevent collisions during fast scrolling.
+- Share the implementation with the Playground Resources specimen and document its scrolling states. Refresh anonymous login backdrop geometry for the restored header layout.
+
+### Validation
+
+- `node website/tests/sticky-controls-browser-check.mjs` — passed across 320, 390, 768 and 1440px, both themes and agents; shadow interpolation, restoration, keyboard selection, reduced motion and the Playground scroll specimen.
+- `node website/tests/style-guide-browser-check.mjs` — passed.
+- Theme transition, theme control-colour and focus browser checks — passed.
+- Authentication and reveal-radius source tests — 10 passed; saved placeholder validation — 2 passed.
+- `npm --prefix website run build` — passed; built server displays v26.0.145.
+- Headless mobile screenshots inspected; final local app and Playground URLs return HTTP 200. Physical-device behaviour has not been checked.
 
 ## v26.0.144 — 2026-10-19
 

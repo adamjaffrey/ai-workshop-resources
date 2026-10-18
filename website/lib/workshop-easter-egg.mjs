@@ -51,9 +51,6 @@ export const eggCSS = `
 .perspective-dialog button { background:var(--surface); color:var(--text); border:1px solid var(--control-border); border-radius:8px; padding:10px 16px; }
 .perspective-dialog button:hover { background:var(--hover); }
 body:has(.perspective-dialog[open]) { overflow:hidden; }
-/* Float the existing resource control; the header keeps its original height. */
-body:has(.perspective) .page-toolbar { min-height:54px; padding-right:110px; }
-body:has(.perspective) .page-toolbar > .theme-toggle { position:fixed; top:max(16px,env(safe-area-inset-top)); right:max(24px,calc((100vw - 960px)/2)); z-index:30; box-shadow:var(--floating-control-shadow); }
 @media(prefers-reduced-motion:reduce) { .perspective-fragment::after,.perspective-ellipsis::after,.perspective-dialog[open],.perspective-particle { animation:none!important; } .perspective[data-state="ready"] .perspective-particles { opacity:.6; } .perspective[data-state="ready"] .perspective-particle { opacity:.7!important; transform:none!important; } .perspective-dialog { --perspective-halo-angle:0deg!important; --halo-hue:0!important; } }
 
 `;
