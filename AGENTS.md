@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.37"
-  update_summary: "Preserve contextual status specimens and staggered sideways reveals"
-  updated_at: "Sun 18 Oct 2026 at 11:17:01 pm AEDT (+11:00)"
+  doc_revision: "26.0.38"
+  update_summary: "Preserve contextual typography and modal style options"
+  updated_at: "Sun 18 Oct 2026 at 11:47:39 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -69,6 +69,7 @@ metadata:
 - Buttons, toggles, links and other non-text-entry controls show a focus ring only during keyboard navigation initiated by Tab or Shift+Tab. Preserve that indicator through keyboard activation and focus transfer; click or tap switches back to ring-free pointer focus.
 - After a segmented selector changes, focus the newly selected mode for mouse, touch and keyboard activation, including activation from track padding or gaps. Apply the same rule to agent and day/night selectors.
 - On opening any modal, dialog or popover panel, focus its descriptive heading with `tabindex="-1"` and prevent scrolling. The heading must never display a focus ring, regardless of input method. Do not initially focus a text field or open the software keyboard.
+- The Playground Style Options menu is visually a popover but uses native modal dialog containment. While open, block background interaction and scrolling. Close with X, Escape or an outside tap without activating the background, then restore the previous scroll position and invoking control focus.
 - The first Tab after heading focus must reach the first visible, enabled interactive element in logical DOM order and display its keyboard focus ring. Preserve the login order: day/night selector as one stop, password, then unlock.
 - Use the shared panel-heading focus helper for custom panels and the shared opening handling for native dialogs/popovers. Every such panel must have an accessible heading. Preserve native modal containment and focus restoration to the invoking control when a panel closes.
 - Validate initial/opening focus, Tab/Shift+Tab navigation, keyboard activation, pointer/touch ring suppression, input focus and selector destination focus on desktop and mobile layouts when modifying these flows.
@@ -177,7 +178,7 @@ Apply this standard to:
 - Read blur, strength and scrim defaults from app CSS. Local sliders must never change production settings or trigger block remeasurement.
 - Distinguish the playground’s own testing/navigation controls and explanatory annotations from app specimens. Keep source-parity checks for rendered text and computed typography across mobile/desktop, both agents and both themes when modifying the playground or specimen sources.
 
-- Show full login panels for held login states in Status States. Show JavaScript-disabled notices in their real surrounding page or panel context. Scale complete context specimens only when necessary to fit narrow containers, and label that scaling explicitly. Reuse the login panel shadow token for floating Playground controls; keep dark shadows in dark mode with surface and border contrast, rather than white glows.
+- Show full login panels for held login states in Status States. Show JavaScript-disabled notices in their real surrounding page or panel context. Scale complete context specimens only when necessary to fit narrow containers, and label that scaling explicitly. Reuse the login panel shadow token for floating Playground panels; use the stronger shared floating-control shadow token for the ellipsis and Back to Top buttons; keep dark shadows in dark mode with surface and border contrast, rather than white glows.
 
 ### Mandatory Change and Validation Contract
 

@@ -2,7 +2,14 @@
 // Shared 340ms motion: 160ms travel, then three 60ms rebound/settling phases.
 export const toggleTiming = {arrival: 160, rebound: 60, return: 60, settle: 60};
 toggleTiming.duration = toggleTiming.arrival + toggleTiming.rebound + toggleTiming.return + toggleTiming.settle;
-export const toggleScript = `window.createWorkshopToggle = function(toggle) {
+export const toggleScript = `window.layoutWorkshopToggle = function(toggle) {
+    const selected=toggle.querySelector('[aria-pressed="true"]'),indicator=toggle.querySelector('.toggle-indicator');
+    if(!selected||!indicator)return;
+    const left=selected.offsetLeft,width=selected.offsetWidth;
+    indicator.style.left=left+'px';indicator.style.width=width+'px';
+    return {left,width};
+};
+window.createWorkshopToggle = function(toggle) {
     const reducedMotionQuery = matchMedia('(prefers-reduced-motion: reduce)');
     toggle.classList.add('segmented-toggle');
     const indicator = document.createElement('span');
@@ -23,9 +30,7 @@ export const toggleScript = `window.createWorkshopToggle = function(toggle) {
       held = undefined;
       if (toggle.contains(document.activeElement) && document.activeElement !== selected) selected.focus({preventScroll: true});
       toggleAnimation?.cancel();
-      const left = selected.offsetLeft, width = selected.offsetWidth;
-      indicator.style.left = left + 'px';
-      indicator.style.width = width + 'px';
+      const {left,width} = window.layoutWorkshopToggle(toggle);
       if (!animate || reducedMotionQuery.matches || !Number.isFinite(previous.left) || previous.width === 0) return;
       const direction = Math.sign(left - previous.left);
       if (!direction) return;

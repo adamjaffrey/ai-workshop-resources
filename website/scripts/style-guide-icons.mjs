@@ -24,12 +24,13 @@ window.addEventListener('message',async event=>{
  if(event.source!==parent||event.data?.guide!=='icon-catalog')return;
  if(capturingIcons){pendingIcons=event.data;return;}capturingIcons=true;
  try{
- const page=event.data.page,items=[],errors=[],typographyFeedback=[],agentTypography=[];
+ const page=event.data.page,items=[],errors=[],typographyFeedback=[],agentTypography=[],buttonVariants=[];
+ const captureButton=(node,kind,state)=>{const c=getComputedStyle(node.querySelector('.copy-label')||node);buttonVariants.push({kind,state,html:iconSnapshot(node,page,state,true).html,typography:[c.fontFamily,c.fontSize,c.fontWeight,c.lineHeight,c.color]});};
  const add=(node,state)=>{if(!node)throw Error('Missing icon source: '+page+' '+state);items.push(iconSnapshot(node,page,state));};
- const addError=(node,state)=>{if(!node)throw Error('Missing error source: '+page+' '+state);const item=iconSnapshot(node,page,state,true),template=document.createElement('template');template.innerHTML=node.matches('.gate-panel,.code-wrap')?node.outerHTML:item.html;const root=template.content.firstElementChild;if(node.matches('.gate-panel')){root.querySelector('input').setAttribute('value',node.querySelector('input').value);}if(node.matches('.gate-panel'))root.classList.add('full-login-context');Object.assign(root.style,{position:node.matches('.qr-copy,.code-wrap')?'relative':'static',maxWidth:'100%',height:'auto',maxHeight:'none',margin:'0'});errors.push({...item,html:root.outerHTML,text:node.textContent.trim()});};
+ const addError=(node,state)=>{if(!node)throw Error('Missing error source: '+page+' '+state);const item=iconSnapshot(node,page,state,true),template=document.createElement('template');template.innerHTML=node.matches('.gate-panel,.code-wrap')?node.outerHTML:item.html;const root=template.content.firstElementChild;if(node.matches('.gate-panel')){root.querySelector('input').setAttribute('value',node.querySelector('input').value);}if(node.matches('.gate-panel'))root.classList.add('full-login-context');Object.assign(root.style,{position:node.matches('.qr-copy,.code-wrap')?'relative':'static',maxWidth:'100%',height:'auto',maxHeight:'none',margin:'0'});if(node.matches('.code-wrap'))root.style.width=item.width+'px';errors.push({...item,html:root.outerHTML,text:node.textContent.trim()});};
  if(page==='login'){
   for(const state of ['neutral','loading','success','wrong']){window.demoLogin(state);finishCaptureMotion();document.querySelectorAll('[data-input-icon],[data-status-icon]').forEach(node=>{if(!node.hasAttribute('hidden'))add(node,state);});}
-  for(const state of ['loading','success','retryReady','empty','wrong','network','service','generic','limited','limitedLater']){window.demoLogin(state);finishCaptureMotion();const status=document.getElementById('gate-error');addError(document.getElementById('access-form'),state);errors.at(-1).statusHtml=status.outerHTML;errors.at(-1).colour=getComputedStyle(status).color;}
+  for(const state of ['loading','success','empty','wrong','network','service','generic','limited','limitedLater','retryReady']){window.demoLogin(state);finishCaptureMotion();const status=document.getElementById('gate-error');addError(document.getElementById('access-form'),state);errors.at(-1).statusHtml=status.outerHTML;errors.at(-1).colour=getComputedStyle(status).color;}
   window.demoLogin('neutral');finishCaptureMotion();
  }else{
   const savedTheme=document.documentElement.dataset.theme,savedAgent=window.workshopAgent.current;
@@ -42,13 +43,13 @@ window.addEventListener('message',async event=>{
   await theme('dark');add(document.querySelector('[data-theme-choice=dark] svg'),'Selected · Dark Mode');await theme(savedTheme);
   const qr=document.querySelector('.qr-copy');
   add(qr?.querySelector('img'),'QR Code');
-  if(qr){qr.setAttribute('data-feedback','');finishCaptureMotion();add(qr.querySelector('.copy-icon'),'QR · Copy Link');await copy(qr,true);add(qr.querySelector('.success-icon'),'QR · Link Copied');addError(qr,'QR Link Copy Success');await copy(qr,false);add(qr.querySelector('.error-icon'),'QR · Copy Failed');addError(qr,'QR Link Copy Failure');errors.at(-1).colour=getComputedStyle(qr.querySelector('.copy-content')).color;setStatus(qr,'');}
+  if(qr){qr.setAttribute('data-feedback','');finishCaptureMotion();add(qr.querySelector('.copy-icon'),'QR · Copy Link');captureButton(qr,'qr','neutral');await copy(qr,true);add(qr.querySelector('.success-icon'),'QR · Link Copied');captureButton(qr,'qr','success');addError(qr,'QR Link Copy Success');await copy(qr,false);add(qr.querySelector('.error-icon'),'QR · Copy Failed');captureButton(qr,'qr','error');addError(qr,'QR Link Copy Failure');errors.at(-1).colour=getComputedStyle(qr.querySelector('.copy-content')).color;setStatus(qr,'');}
   await agent('codex');agentTypography.push({agent:'codex',html:iconSnapshot(document.querySelector('.controls .toggle'),page,'Codex Selected',true).html});add(document.querySelector('[data-agent=codex] svg'),'Selected · Codex');
   await agent('claude-code');agentTypography.push({agent:'claude-code',html:iconSnapshot(document.querySelector('.controls .toggle'),page,'Claude Code Selected',true).html});add(document.querySelector('[data-agent="claude-code"] svg'),'Selected · Claude Code');await agent(savedAgent);
   document.querySelectorAll('.symbol svg').forEach(node=>add(node,'Step Icon'));
   const prompt=document.querySelector('.copy');
   const captureFeedback=state=>{const status=prompt.closest('article').querySelector('.status'),c=getComputedStyle(status);typographyFeedback.push({state,html:prompt.closest('.code-wrap').outerHTML,typography:[c.fontFamily,c.fontSize,c.fontWeight,c.lineHeight,c.color],text:status.textContent});};
-  if(prompt){setStatus(prompt,'');add(prompt.querySelector('.copy-icon'),'Prompt · Copy');await copy(prompt,true);captureFeedback('success');addError(prompt.closest('.code-wrap'),'Prompt Copy Success');add(prompt.querySelector('.success-icon'),'Prompt · Copied');await copy(prompt,false);captureFeedback('error');add(prompt.querySelector('.error-icon'),'Prompt · Copy Failed');addError(prompt.closest('.code-wrap'),'Prompt Copy Failure');setStatus(prompt,'');}
+  if(prompt){setStatus(prompt,'');add(prompt.querySelector('.copy-icon'),'Prompt · Copy');captureButton(prompt,'prompt','neutral');await copy(prompt,true);captureFeedback('success');captureButton(prompt,'prompt','success');addError(prompt.closest('.code-wrap'),'Prompt Copy Success');add(prompt.querySelector('.success-icon'),'Prompt · Copied');await copy(prompt,false);captureFeedback('error');captureButton(prompt,'prompt','error');add(prompt.querySelector('.error-icon'),'Prompt · Copy Failed');addError(prompt.closest('.code-wrap'),'Prompt Copy Failure');setStatus(prompt,'');}
   add(document.querySelector('footer button svg'),'Log Out');copyFailure=false;
  }
  // Render the app's native noscript children in their original parent context.
@@ -57,6 +58,7 @@ window.addEventListener('message',async event=>{
  const fallbackSource=sourceSelector(fallback),temporary=document.createElement('div');temporary.innerHTML=fallback.textContent;temporary.style.display='contents';fallback.after(temporary);
  const fallbackNode=temporary.firstElementChild;if(!fallbackNode)throw Error('Missing fallback content: '+page);
  if(page==='login'){const noticeIcon=iconSnapshot(fallbackNode.querySelector('svg'),page,'JavaScript Unavailable · Shared Notice');noticeIcon.selector=fallbackSource;items.push(noticeIcon);}
+ const noticeStyle=getComputedStyle(fallbackNode),noticeTypography={page,selector:fallbackSource,html:fallbackNode.outerHTML,typography:[noticeStyle.fontFamily,noticeStyle.fontSize,noticeStyle.fontWeight,noticeStyle.lineHeight,noticeStyle.color]};
  const context=(page==='login'?document.getElementById('access-form'):document.getElementById('workshop-content')).cloneNode(true);
  context.querySelectorAll('noscript,script').forEach(n=>n.remove());context.querySelectorAll('.theme-toggle').forEach(n=>n.hidden=true);
  if(page==='resources'){for(const child of [...context.children])if(child.matches('footer'))child.remove();context.querySelectorAll('.step-row').forEach((row,i)=>{if(i)row.remove();else row.classList.add('is-revealed');});}
@@ -79,7 +81,7 @@ window.addEventListener('message',async event=>{
  if(item.state.startsWith('Prompt ·'))return 60;
  if(item.state==='Log Out')return 90;
  return 75;
- };items.sort((a,b)=>rank(a)-rank(b));parent.postMessage({guide:'icon-catalog-data',page,items,errors,typographyFeedback,agentTypography},'*');
+ };items.sort((a,b)=>rank(a)-rank(b));errors.sort((a,b)=>Number(a.state==='retryReady')-Number(b.state==='retryReady'));parent.postMessage({guide:'icon-catalog-data',page,items,errors,typographyFeedback,agentTypography,buttonVariants,noticeTypography},'*');
  }finally{capturingIcons=false;if(pendingIcons){const data=pendingIcons;pendingIcons=null;window.dispatchEvent(new MessageEvent('message',{source:parent,data}));}}
 });`;
 
@@ -102,7 +104,7 @@ window.addEventListener('message',event=>{if(event.source!==parent)return;if(eve
 });`;
 
 export const errorGalleryScript = String.raw`
-function sizeContext(target){const context=target.querySelector('.fallback-context,.full-login-context');if(!context)return;const width=target.clientWidth-parseFloat(getComputedStyle(target).paddingLeft)-parseFloat(getComputedStyle(target).paddingRight);if(width<=0)return;if(width<320){context.style.width='320px';context.style.maxWidth='none';context.style.zoom=width/320;}else{context.style.removeProperty('width');context.style.maxWidth='100%';context.style.zoom=1;}}
+function sizeContext(target){const context=target.querySelector('.fallback-context,.full-login-context');if(!context)return;const width=target.clientWidth-parseFloat(getComputedStyle(target).paddingLeft)-parseFloat(getComputedStyle(target).paddingRight);if(width<=0)return;if(width<320){context.style.width='320px';context.style.maxWidth='none';context.style.zoom=width/320;}else{context.style.removeProperty('width');context.style.maxWidth='100%';context.style.zoom=1;}context.querySelectorAll('.theme-toggle:not([hidden])').forEach(toggle=>window.layoutWorkshopToggle(toggle));}
 const contextSizing=new ResizeObserver(entries=>entries.forEach(({target})=>sizeContext(target)));
 window.addEventListener('message',event=>{if(event.source===parent&&['settings','measure-reference'].includes(event.data?.guide))document.querySelectorAll('.error-sample').forEach(sizeContext);});
 const errorLabels={loading:'Checking Password',success:'Password Accepted',retryReady:'Ready to Retry',empty:'Empty Password',wrong:'Incorrect Password',network:'Connection Failure',service:'Sign-In Unavailable',generic:'Unexpected Sign-In Failure',limited:'Rate Limited · Example Countdown',limitedLater:'Rate Limited · No Countdown'};

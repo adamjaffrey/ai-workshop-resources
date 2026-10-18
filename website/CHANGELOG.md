@@ -3,14 +3,50 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.132"
-  update_summary: "Refine contextual status previews and shared visual conventions"
-  updated_at: "Sun 18 Oct 2026 at 11:28:53 pm AEDT (+11:00)"
+  doc_revision: "26.0.133"
+  update_summary: "Clarify typography specimens and contain style options"
+  updated_at: "Sun 18 Oct 2026 at 11:50:11 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.131 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 11:50:11 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Clarify typography specimens and contain style options
+
+### Changed
+
+- Group resting, success and failure prompt/QR copy controls side by side using captures of their real app states. Label each button's actual text metrics separately from the prompt overlay message metrics and show both overlay outcomes together when space permits.
+- Add both real JavaScript-disabled notices to Typography. Move unused H4, H5, H6, hyperlink/anchor and warning categories into a separate explanatory panel without invented specimens.
+- Remove trailing divider padding, final-child margins and empty specimen containers. Put the Feather MIT notice in an indented, bordered, non-scrollable container.
+- Bring the resources JavaScript notice closer to the coding-agent controls and add separation before Step 1. Move Ready to Retry after all login error/fallback states.
+- Give the ellipsis and Back to Top buttons a stronger shared dark shadow while retaining the softer panel shadow.
+- Use a native modal dialog for the visually anchored Style Options panel. Block background scrolling and interaction; dismiss through X, Escape or an outside tap and restore scroll position and opener focus.
+
+### Fixed
+
+- Bound Status States prompt success/failure panels by the measured app width.
+- Position held login theme indicators with the same helper used by the app's real toggle, so their geometry stays correct after responsive scaling.
+
+### Validation
+
+- `npm --prefix website run build` — passed; built server assets display v26.0.131.
+- `node website/tests/style-guide-browser-check.mjs` — passed at four widths, both themes and agents, including source typography, login/copy states and sandbox containment.
+- `node website/tests/playground-typography-modal-check.mjs` — passed; all copy variants, exact metric labels, JavaScript notices, trailing spacing, licence layout, toggle alignment, modal focus, outside dismissal and scroll restoration.
+- `node website/tests/playground-status-layout-check.mjs`, `node website/tests/playground-reconciliation-check.mjs` and `node website/tests/playground-grouping-browser-check.mjs` — passed.
+- `node website/tests/javascript-notice-browser-check.mjs`, `node website/tests/playground-mobile-refinements-check.mjs` and `node website/tests/playground-controls-and-errors-check.mjs` — passed.
+- `node --test website/tests/reveal-radius.test.mjs`, `node website/tests/theme-control-colour-browser-check.mjs` and `node website/tests/theme-transition-browser-check.mjs` — passed.
+- Website PVS validation and `git diff --check` — passed. Browser checks used headless Chrome; physical iPhone/Safari testing was not performed.
 
 ## v26.0.130 — 2026-10-18
 
