@@ -21,7 +21,7 @@ export const eggCSS = `
 :root[data-theme="dark"] .perspective-day { visibility:hidden; }
 :root[data-theme="dark"] .perspective-night { visibility:visible; }
 .perspective[data-state="revealing"] .perspective-fragment,.perspective[data-state="complete"] .perspective-fragment { visibility:visible; }
-.perspective-discover { position:absolute; left:100%; top:50%; transform:translateY(-50%); width:44px; height:44px; padding:12px; border:0; border-radius:10px; background:transparent; color:var(--muted-text); z-index:2; }
+.perspective-discover { position:absolute; left:100%; top:50%; transform:translateY(-50%); width:44px; height:44px; padding:12px; border:0; border-radius:24px; background:transparent; color:var(--muted-text); z-index:2; }
 :root[data-theme="dark"] .perspective-discover { left:auto; right:100%; }
 .perspective[data-state="complete"] .perspective-join { position:static; }
 .perspective[data-state="complete"] .perspective-discover { top:100%; left:50%; right:auto; transform:translateX(-50%); }
@@ -31,7 +31,7 @@ export const eggCSS = `
 .perspective-ellipsis { position:relative; display:inline-block; }
 .perspective[data-sheening] .perspective-ellipsis::after,:root[data-theme="light"] .perspective[data-sheening] .perspective-day::after,:root[data-theme="dark"] .perspective[data-sheening] .perspective-night::after { opacity:1; }
 /* Independent twinkling points; the concealed glyphs never supply the cue. */
-.perspective-particles { position:absolute; inset:0; pointer-events:none; opacity:0; overflow:visible; }
+.perspective-particles { position:absolute; inset:0; pointer-events:none; opacity:0; overflow:hidden; border-radius:24px; }
 .perspective-particle { position:absolute; left:var(--x); top:var(--y); width:var(--size); height:var(--size); border-radius:50%; background:var(--particle-colour,var(--agent-accent)); box-shadow:0 0 5px var(--particle-colour,var(--agent-accent)); opacity:0; transform:translate(var(--pull-x,0px),var(--pull-y,0px)) scale(var(--pull-scale,1)); will-change:transform,opacity; }
 .perspective-particle[hidden] { display:none; }
 .perspective[data-state="ready"] .perspective-particles { opacity:1; }
@@ -71,7 +71,7 @@ export function initPerspective(defaults) {
  const visible=()=>{const r=area.getBoundingClientRect();return !document.hidden&&r.top>=0&&r.bottom<=innerHeight&&r.left>=0&&r.right<=innerWidth;};
  const stable=()=>!window.workshopThemeBusy?.();
  function setState(next){state=next;area.dataset.state=next;}
- function positionTarget(){if(state==='complete'){button.removeAttribute('style');return;}const fragment=root.dataset.theme==='dark'?day:night;const r=fragment.getBoundingClientRect(),a=area.getBoundingClientRect(),height=Math.max(config.hoverHeight,r.height+20);Object.assign(button.style,{left:(r.left-a.left)+'px',right:'auto',top:(r.top-a.top+(r.height-height)/2)+'px',width:r.width+'px',height:height+'px',transform:'none'});}
+ function positionTarget(){if(state==='complete'){const a=area.getBoundingClientRect();Object.assign(button.style,{left:'0px',right:'auto',top:'-10px',width:a.width+'px',height:Math.max(44,a.height+20)+'px',transform:'none'});button.setAttribute('aria-label','Reopen Discovery Message');return;}button.setAttribute('aria-label','Discover Another Perspective');const fragment=root.dataset.theme==='dark'?day:night;const r=fragment.getBoundingClientRect(),a=area.getBoundingClientRect(),height=Math.max(config.hoverHeight,r.height+20);Object.assign(button.style,{left:(r.left-a.left)+'px',right:'auto',top:(r.top-a.top+(r.height-height)/2)+'px',width:r.width+'px',height:height+'px',transform:'none'});}
  function sync(){const all=state==='revealing'||state==='complete';day.setAttribute('aria-hidden',String(!all&&root.dataset.theme==='dark'));night.setAttribute('aria-hidden',String(!all&&root.dataset.theme!=='dark'));positionTarget();}
  function configure(next={}){const before=JSON.stringify(config);for(const [key,min,max] of [['duration',1500,24000],['gap',0,20000],['intensity',0,400],['halo',0,400],['gravity',0,400],['particleDuration',500,24000],['ringRadius',8,128],['hoverHeight',48,360]]){if(Number.isFinite(next[key]))config[key]=Math.min(max,Math.max(min,next[key]));}area.style.setProperty('--hover-height',config.hoverHeight+'px');area.style.setProperty('--particle-radius',config.ringRadius+'px');area.style.setProperty('--perspective-duration',config.duration+'ms');dialog.style.setProperty('--perspective-halo',config.halo/100);points.forEach((point,i)=>point.hidden=i>=Math.round(config.intensity*.48));if(state==='ready'&&before!==JSON.stringify(config)){clearTimers();area.removeAttribute('data-sheening');area.removeAttribute('data-sparkling');cycle=performance.now()+100;}return {...config};}
  button.addEventListener('pointermove',event=>{const r=button.getBoundingClientRect();pointer={x:event.clientX-r.left,y:event.clientY-r.top};});
@@ -115,7 +115,7 @@ export function initPerspective(defaults) {
    if(!motion.matches){other.animate([{opacity:0,clipPath:root.dataset.theme==='dark'?'inset(0 0 0 100%)':'inset(0 100% 0 0)'},{opacity:1,clipPath:'inset(0 0 0 0)'}],{duration:180,fill:'both',easing:'ease-out'});}
    later(()=>{if(token!==sequence)return;setState('complete');sync();},motion.matches?0:180);
    later(()=>{area.removeAttribute('data-sheening');area.removeAttribute('data-celebrating');},900);
-   later(()=>{if(token!==sequence)return;dialog.showModal();window.workshopFocusPanel?.(dialog);},1250);
+   later(()=>{if(token!==sequence)return;dialog.showModal();window.workshopFocusPanel?.(dialog);},2000);
   } else {later(()=>{if(token===sequence)area.removeAttribute('data-sheening');},config.duration);}
  }
  button.addEventListener('pointerenter',event=>{const r=button.getBoundingClientRect();pointer={x:event.clientX-r.left,y:event.clientY-r.top};hovering=true;if(state==='ready')area.setAttribute('data-hovering','');});button.addEventListener('pointerleave',()=>{hovering=false;area.removeAttribute('data-hovering');});

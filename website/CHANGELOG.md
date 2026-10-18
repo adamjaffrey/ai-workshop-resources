@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.150"
-  update_summary: "Stabilise sticky selectors and align the agent label above"
-  updated_at: "Mon 19 Oct 2026 at 03:01:57 am AEDT (+11:00)"
+  doc_revision: "26.0.151"
+  update_summary: "Extend the reading pause and reopen discovery from the text"
+  updated_at: "Mon 19 Oct 2026 at 03:04:52 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.149 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 03:04:52 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Extend the reading pause and reopen discovery from the text
+
+### Changed
+
+- Keep the immediate 180ms reveal and short sheen, but wait two seconds after activation before opening the success dialog.
+- Clip the particle field to 24px rounded corners.
+- Cover the revealed sentence with the return target after dismissal so either half can be clicked or tapped to reopen the dialog, retaining keyboard access and focus restoration.
+
+### Validation
+
+- Website build and generated version/reopening-target checks — passed.
+- Touch reading pause, rounded clipping, text-based reopening and heading focus — passed.
+- Dedicated Playground/app parity across four widths, both themes and both agents — passed.
+- General Playground source-parity suite and Wi-Fi preview endpoints — passed. Physical-device Safari remains unverified.
 
 ## v26.0.148 — 2026-10-19
 
