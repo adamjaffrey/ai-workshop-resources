@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.130"
-  update_summary: "Move hidden Playground access to the header logo"
-  updated_at: "Sun 18 Oct 2026 at 10:28:58 pm AEDT (+11:00)"
+  doc_revision: "26.0.131"
+  update_summary: "Show complete agent typography states and clearer source links"
+  updated_at: "Sun 18 Oct 2026 at 10:44:55 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.129 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 10:44:55 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Show complete agent typography states and clearer source links
+
+### Changed
+
+- Begin icon source links with View Source, followed by the official library and icon names.
+- Replace isolated agent-label typography specimens with two complete selectors captured from the real app: Codex selected and Claude Code selected. Each agent appears selected and deselected with its actual background and theme colours.
+- Retain computed typography readings and source references for both held selector states.
+
+### Validation
+
+- Production build with provisional v26.0.129 — passed.
+- Four-width, both-theme and both-agent parity checks including held selector text styles, selected backgrounds and helper feedback — passed.
+- Source reconciliation, exact source-link text and paired selector-state checks — passed.
+- Mobile selector specimen visual inspection — passed.
 
 ## v26.0.128 — 2026-10-18
 
