@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.134"
-  update_summary: "Make the password input fill its visible field"
-  updated_at: "Sun 18 Oct 2026 at 11:57:50 pm AEDT (+11:00)"
+  doc_revision: "26.0.135"
+  update_summary: "Refine specimen context and add focus and selection previews"
+  updated_at: "Mon 19 Oct 2026 at 12:17:51 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.133 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 12:17:51 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine specimen context and add focus and selection previews
+
+### Changed
+
+- Balance first/last Typography spacing, hide duplicate inert copy controls, preserve prompt and password containers with the padlock, and use source widths for unlock and JavaScript notices. Restore the divider after prompt feedback and use primary text for unused categories.
+- Tighten QR and prompt status spacing, enclose the full-site JavaScript fallback, restore the divider before login states and place Ready to Retry immediately before the JavaScript fallback.
+- Add Focus and Selection using canonical app markup, mechanically derived focus selectors and computed selection colours. Include password states, controls, selectors and body/prompt text, linked to theme and agent settings.
+- Round Playground tooling focus treatments, provide clearance in overflow rows, disable edge fades during keyboard focus and show the checkbox ring around its rounded label.
+- Include Focus and Selection in the repository's mandatory Playground parity contract.
+
+### Validation
+
+- `node website/tests/playground-context-focus-check.mjs` — passed at 320, 390, 768 and 1440px; password rings also match canonical tokens for both themes and agents.
+- `node website/tests/playground-tool-focus-check.mjs` — passed; visible tooling controls have rounded rings and vertical overflow clearance across all tabs at mobile/desktop widths.
+- `node website/tests/style-guide-browser-check.mjs` — passed; full source-parity matrix.
+- `node website/tests/playground-typography-modal-check.mjs` and `node website/tests/playground-status-layout-check.mjs` — passed.
+- `npm --prefix website run build` — passed; generated assets display v26.0.133. Headless Chrome screenshots inspected; physical Safari and 1Password extension behaviour not verified.
 
 ## v26.0.132 — 2026-10-18
 

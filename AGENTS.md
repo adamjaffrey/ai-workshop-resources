@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.38"
-  update_summary: "Preserve contextual typography and modal style options"
-  updated_at: "Sun 18 Oct 2026 at 11:47:39 pm AEDT (+11:00)"
+  doc_revision: "26.0.39"
+  update_summary: "Include focus and selection in Playground source parity"
+  updated_at: "Mon 19 Oct 2026 at 12:16:38 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -184,7 +184,7 @@ Apply this standard to:
 
 - Treat the main local app and `/playground` as two consumers of the same application sources. An app interface change is incomplete until its playground representation and relevant parity checks are updated and verified in the same coherent change. This covers markup, copy and messages, typography, spacing, colours and tokens, assets and icons, responsive rules, states, settings, focus, hover, touch and animations. This requirement does not authorise publication to Sites.
 - Change the canonical app source first. Import or capture that source in the playground; never fix a mismatch by copying strings, CSS, SVGs or state logic into a second independently maintained implementation. If a source cannot be shared directly, extract a shared renderer or helper rather than creating an optical duplicate.
-- For each new, changed or removed component, setting or state, audit the Components, Typography, Colours, Icons, Status States and Blocks and Blur views as applicable. Update specimen manifests, capture selectors, held-state adapters and source labels; remove obsolete examples and fail explicitly when an expected source is missing.
+- For each new, changed or removed component, setting or state, audit the Components, Typography, Colours, Icons, Status States, Focus and Selection, and Blocks and Blur views as applicable. Update specimen manifests, capture selectors, held-state adapters and source labels; remove obsolete examples and fail explicitly when an expected source is missing.
 - Held-state adapters may supply fixture data, simulated outcomes and time controls, but must use the app's renderers and messages. When app state transitions change, review every affected adapter in the same change. Keep intentional differences explicit: sample input, held transient states, isolated focus, and disabled real navigation, clipboard, session and authentication effects. Do not allow these exceptions to conceal visual or semantic drift.
 - Validate affected specimens against independently rendered main-app pages, not only against other playground frames. Compare text, computed typography, colours, icon geometry, state attributes and relevant interaction behaviour at 320, 390, 768 and 1440px, in light/dark mode and for Codex/Claude. Include relevant neutral, loading, success, failure, disabled, hover and focused states, plus pointer, keyboard and touch paths when affected.
 - Run the existing source-parity check (`node website/tests/style-guide-browser-check.mjs`) for app interface or specimen-source changes, plus focused checks for the changed behaviour. Add or extend regression coverage when fixing a parity defect. Resolve unexpected differences before declaring the work complete; report any unverified browser/device behaviour or intentional simulation difference honestly. Do not claim universal 100% parity based only on shared imports or a limited test pass.

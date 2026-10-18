@@ -24,15 +24,26 @@ window.addEventListener('message',async event=>{
  if(event.source!==parent||event.data?.guide!=='icon-catalog')return;
  if(capturingIcons){pendingIcons=event.data;return;}capturingIcons=true;
  try{
- const page=event.data.page,items=[],errors=[],typographyFeedback=[],agentTypography=[],buttonVariants=[];
+ const page=event.data.page,items=[],errors=[],typographyFeedback=[],agentTypography=[],buttonVariants=[],focusItems=[];
  const captureButton=(node,kind,state)=>{const c=getComputedStyle(node.querySelector('.copy-label')||node);buttonVariants.push({kind,state,html:iconSnapshot(node,page,state,true).html,typography:[c.fontFamily,c.fontSize,c.fontWeight,c.lineHeight,c.color]});};
+ const captureFocus=(node,label,ring=true)=>{
+  const root=node.closest('.password-field')||node.closest('.code-wrap')||node.closest('.segmented-toggle')||node;
+  const clone=root.cloneNode(true),originals=[root,...root.querySelectorAll('*')],copies=[clone,...clone.querySelectorAll('*')];
+  copies[originals.indexOf(node)].setAttribute('data-focus-target','');
+  originals.forEach((n,i)=>{if(n instanceof HTMLInputElement)copies[i].setAttribute('value',n.value);});
+  clone.style.maxWidth='100%';clone.style.width=root.getBoundingClientRect().width+'px';
+  if(node.matches('.copy'))clone.style.position='relative';
+  let html=clone.outerHTML;if(page==='login')html='<div class="gate-panel '+document.getElementById('access-form').className+' focus-context">'+html+'</div>';
+  const selection=getComputedStyle(node,'::selection');focusItems.push({page,label,ring,html,selector:sourceSelector(node),selection:[selection.backgroundColor,selection.color],selectionText:node.matches('input')?'••••••••':node.textContent.trim().slice(0,90)});
+ };
  const add=(node,state)=>{if(!node)throw Error('Missing icon source: '+page+' '+state);items.push(iconSnapshot(node,page,state));};
  const addError=(node,state)=>{if(!node)throw Error('Missing error source: '+page+' '+state);const item=iconSnapshot(node,page,state,true),template=document.createElement('template');template.innerHTML=node.matches('.gate-panel,.code-wrap')?node.outerHTML:item.html;const root=template.content.firstElementChild;if(node.matches('.gate-panel')){root.querySelector('input').setAttribute('value',node.querySelector('input').value);}if(node.matches('.gate-panel'))root.classList.add('full-login-context');Object.assign(root.style,{position:node.matches('.qr-copy,.code-wrap')?'relative':'static',maxWidth:'100%',height:'auto',maxHeight:'none',margin:'0'});if(node.matches('.code-wrap'))root.style.width=item.width+'px';errors.push({...item,html:root.outerHTML,text:node.textContent.trim()});};
  if(page==='login'){
-  for(const state of ['neutral','loading','success','wrong']){window.demoLogin(state);finishCaptureMotion();document.querySelectorAll('[data-input-icon],[data-status-icon]').forEach(node=>{if(!node.hasAttribute('hidden'))add(node,state);});}
+  for(const state of ['neutral','loading','success','wrong']){window.demoLogin(state);finishCaptureMotion();captureFocus(document.querySelector('#workshop-password'),'Password · '+({neutral:'Neutral',loading:'Checking',success:'Success',wrong:'Incorrect Password'}[state]));if(state==='neutral')captureFocus(document.querySelector('.gate-submit'),'Unlock Resources · Keyboard Focus');document.querySelectorAll('[data-input-icon],[data-status-icon]').forEach(node=>{if(!node.hasAttribute('hidden'))add(node,state);});}
   for(const state of ['loading','success','empty','wrong','network','service','generic','limited','limitedLater','retryReady']){window.demoLogin(state);finishCaptureMotion();const status=document.getElementById('gate-error');addError(document.getElementById('access-form'),state);errors.at(-1).statusHtml=status.outerHTML;errors.at(-1).colour=getComputedStyle(status).color;}
   window.demoLogin('neutral');finishCaptureMotion();
  }else{
+  for(const [selector,label,ring] of [['.intro','Body Text Selection',false],['pre','Prompt Text · Keyboard Focus',true],['.copy','Copy Prompt · Keyboard Focus',true],['.qr-copy','QR Link · Keyboard Focus',true],['footer button','Log Out · Keyboard Focus',true],['.theme-toggle [aria-pressed=true]','Colour Theme · Keyboard Focus',true],['.controls [aria-pressed=true]','Coding Agent · Keyboard Focus',true]])captureFocus(document.querySelector(selector),label,ring);
   const savedTheme=document.documentElement.dataset.theme,savedAgent=window.workshopAgent.current;
   const theme=async value=>{window.dispatchEvent(new StorageEvent('storage',{key:'workshop-colour-theme',newValue:value}));await new Promise(r=>setTimeout(r,0));finishCaptureMotion();};
   const agent=async value=>{window.workshopAgent.select(value);await new Promise(r=>setTimeout(r,0));finishCaptureMotion();};
@@ -58,7 +69,7 @@ window.addEventListener('message',async event=>{
  const fallbackSource=sourceSelector(fallback),temporary=document.createElement('div');temporary.innerHTML=fallback.textContent;temporary.style.display='contents';fallback.after(temporary);
  const fallbackNode=temporary.firstElementChild;if(!fallbackNode)throw Error('Missing fallback content: '+page);
  if(page==='login'){const noticeIcon=iconSnapshot(fallbackNode.querySelector('svg'),page,'JavaScript Unavailable · Shared Notice');noticeIcon.selector=fallbackSource;items.push(noticeIcon);}
- const noticeStyle=getComputedStyle(fallbackNode),noticeTypography={page,selector:fallbackSource,html:fallbackNode.outerHTML,typography:[noticeStyle.fontFamily,noticeStyle.fontSize,noticeStyle.fontWeight,noticeStyle.lineHeight,noticeStyle.color]};
+ const noticeStyle=getComputedStyle(fallbackNode),noticeTypography={page,width:fallbackNode.getBoundingClientRect().width,selector:fallbackSource,html:fallbackNode.outerHTML,typography:[noticeStyle.fontFamily,noticeStyle.fontSize,noticeStyle.fontWeight,noticeStyle.lineHeight,noticeStyle.color]};
  const context=(page==='login'?document.getElementById('access-form'):document.getElementById('workshop-content')).cloneNode(true);
  context.querySelectorAll('noscript,script').forEach(n=>n.remove());context.querySelectorAll('.theme-toggle').forEach(n=>n.hidden=true);
  if(page==='resources'){for(const child of [...context.children])if(child.matches('footer'))child.remove();context.querySelectorAll('.step-row').forEach((row,i)=>{if(i)row.remove();else row.classList.add('is-revealed');});}
@@ -81,7 +92,7 @@ window.addEventListener('message',async event=>{
  if(item.state.startsWith('Prompt ·'))return 60;
  if(item.state==='Log Out')return 90;
  return 75;
- };items.sort((a,b)=>rank(a)-rank(b));errors.sort((a,b)=>Number(a.state==='retryReady')-Number(b.state==='retryReady'));parent.postMessage({guide:'icon-catalog-data',page,items,errors,typographyFeedback,agentTypography,buttonVariants,noticeTypography},'*');
+ };items.sort((a,b)=>rank(a)-rank(b));parent.postMessage({guide:'icon-catalog-data',page,items,errors,typographyFeedback,agentTypography,buttonVariants,noticeTypography,focusItems},'*');
  }finally{capturingIcons=false;if(pendingIcons){const data=pendingIcons;pendingIcons=null;window.dispatchEvent(new MessageEvent('message',{source:parent,data}));}}
 });`;
 

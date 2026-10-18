@@ -12,7 +12,7 @@ try {
   assert.equal(await type.locator('#type-specimens > :last-child').evaluate(e=>getComputedStyle(e).paddingBottom),'0px');assert.equal(await type.locator('#type-specimens > :last-child > :last-child').evaluate(e=>getComputedStyle(e).marginBottom),'0px');assert.equal(await type.locator('#undefined-headings').count(),0);assert.equal(await page.locator('#unused-text-styles li').count(),5);
   if(width===1440)for(const selector of ['.copy','.qr-copy']){const cells=await type.locator('[data-source-selector="'+selector+'"] .button-variant').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().top));assert.ok(Math.max(...cells)-Math.min(...cells)<1);}
   await page.click('[data-tab=errors]');await page.waitForTimeout(800);const status=page.frameLocator('#errors-frame');
-  const states=await status.locator('#errors-login .icon-row').evaluateAll(es=>es.map(e=>e.dataset.state));assert.equal(states.at(-1),'retryReady');
+  const states=await status.locator('#errors-login .icon-row').evaluateAll(es=>es.map(e=>e.dataset.state));assert.equal(states.at(-2),'retryReady');
   for(const node of await status.locator('.error-sample>.code-wrap').all())assert.ok(await node.evaluate(e=>e.getBoundingClientRect().width)<600);
   for(const toggle of await status.locator('.full-login-context .theme-toggle').all())assert.equal(await toggle.evaluate(e=>{const i=e.querySelector('.toggle-indicator').getBoundingClientRect(),s=e.querySelector('[aria-pressed=true]').getBoundingClientRect();return Math.abs(i.left-s.left)<1.5&&Math.abs(i.width-s.width)<1.5;}),true,'Indicator follows selected button');
  }
