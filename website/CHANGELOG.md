@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.153"
-  update_summary: "Soften particle boundaries and slow the discovery reveal"
-  updated_at: "Mon 19 Oct 2026 at 03:18:03 am AEDT (+11:00)"
+  doc_revision: "26.0.154"
+  update_summary: "Use symmetric margins for the mobile selector trigger"
+  updated_at: "Mon 19 Oct 2026 at 03:21:08 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.152 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 03:21:08 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Use symmetric margins for the mobile selector trigger
+
+### Changed
+
+- Collapse 4px inside one measured control height and expand 4px outside it: 46px and 54px gaps with the current 50px controls.
+- Preserve the stable layout footprint and shared Playground implementation.
+
+### Validation
+
+- `node website/tests/sticky-controls-stability-check.mjs` — passed at 320, 390 and 660px, including symmetric thresholds, reversal stability and zero layout drift.
+- `node website/tests/style-guide-browser-check.mjs` — passed.
+- `node --test website/tests/auth.test.mjs` — 9 passed.
+- `npm --prefix website run build` — passed; generated version verified as v26.0.152 and no local Worker secret files in dist.
+- Wi-Fi main app and Playground URLs — HTTP 200.
 
 ## v26.0.151 — 2026-10-19
 
