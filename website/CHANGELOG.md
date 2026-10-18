@@ -3,14 +3,44 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.125"
-  update_summary: "Group related Playground specimens and expose helper feedback"
-  updated_at: "Sun 18 Oct 2026 at 09:46:31 pm AEDT (+11:00)"
+  doc_revision: "26.0.126"
+  update_summary: "Reconcile Playground coverage and retain exact source origins"
+  updated_at: "Sun 18 Oct 2026 at 10:01:12 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.124 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 10:01:12 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Reconcile Playground coverage and retain exact source origins
+
+### Added
+
+- Add source-linked typography specimens for both agent buttons, the login pre-heading and password input.
+- Include both native JavaScript-unavailable notices in Error States and Fallbacks.
+- Add reconciliation coverage for complete source trees and component children, every SVG, embedded asset bytes, gallery origins and actual no-JavaScript notices.
+
+### Changed
+
+- Identify icon, Unicode and error specimens with exact source selectors and retain original image asset paths when embedding previews.
+- Fail explicitly when required icon or error sources disappear instead of silently omitting them.
+
+### Validation
+
+- Production build with provisional v26.0.124 — passed.
+- Source-parity browser matrix at 320, 390, 768 and 1440px, both themes and both agents — passed.
+- Logical grouping and QR outline-clearance browser checks — passed.
+- Full source-tree, SVG, asset, error-group and no-JavaScript reconciliation — passed.
 
 ## v26.0.123 — 2026-10-18
 
