@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.40"
-  update_summary: "Require bulleted app links with north-east arrows in replies"
-  updated_at: "Mon 19 Oct 2026 at 01:58:46 am AEDT (+11:00)"
+  doc_revision: "26.0.41"
+  update_summary: "Require Wi-Fi addresses for all project preview handoffs"
+  updated_at: "Mon 19 Oct 2026 at 02:58:05 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -28,6 +28,8 @@ metadata:
 - Maintain independent document revisions. Moving a governed document increments its document revision once; it does not renumber historical build entries or allocate an artefact version.
 
 ## Preview Delivery
+
+- For every future preview handoff in this project, provide the active server’s reachable Wi-Fi/LAN IPv4 address and port, never `localhost`, `127.0.0.1` or another loopback address. Adam reviews on his phone. Bind the server to the network interface, verify both app and Playground URLs, and state that the phone must be on the same Wi-Fi. Recheck the address and active process’s test password at each handoff. If LAN access is unavailable, explain the limitation rather than substituting a loopback link.
 
 - **Do NOT automatically open Google Chrome for the user.** Do not launch, foreground or open a Chrome window/tab after builds, updates, server restarts or preview handoffs. This also applies to other browsers. Provide the preview link and current local test password in the reply instead; let the user open it themselves.
 - Open a user-facing preview only when the user explicitly asks to open it. A request to build, update, test, start a preview server or provide a preview link is not permission to open Chrome. When explicitly asked to open a preview, use Google Chrome.

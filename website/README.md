@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.84"
-  update_summary: "Document immediate discovery reveal and sheen-only celebration"
-  updated_at: "Mon 19 Oct 2026 at 02:54:02 am AEDT (+11:00)"
+  doc_revision: "26.0.85"
+  update_summary: "Document stable selector geometry and separate scroll thresholds"
+  updated_at: "Mon 19 Oct 2026 at 02:58:05 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -46,9 +46,9 @@ This protects content delivered by this website. The linked public GitHub reposi
 
 ## Persistent Page Controls
 
-The theme selector starts vertically centred beside the Wavelength wordmark. Both selectors remain in their original layout until reaching a 16px top inset (or the safe-area inset when larger). Their shared floating-control shadow fades in over the next 48px of scrolling and reverses on return. Layout spacers prevent content jumps; the original controls retain focus and keyboard behaviour.
+The theme selector starts vertically centred beside the Wavelength wordmark. “I’m Using” sits above the left-aligned agent selector at every viewport width. Both selectors remain in their original layout until reaching a 16px top inset (or the safe-area inset when larger). Their shared floating-control shadow fades in over the next 48px of scrolling and reverses on return. Layout spacers prevent content jumps; the original controls retain focus and keyboard behaviour.
 
-At widths up to 660px, the agent selector compresses before reaching the theme control, hiding its text visually while retaining accessible button names. A short squash-and-stretch accompanies the collapse to icons at the left page edge. Reduced motion removes the decorative animation. The Playground Resources preview consumes this same implementation and supports scrolling through each state.
+At widths up to 660px, the agent selector compresses 96px before reaching the theme control’s bottom edge and expands only after retreating 144px below it. The 48px separation prevents small scroll reversals from repeatedly restarting the animation. Its full-width layout slot remains reserved through both states and animations; height-only mobile viewport changes do not reset the control. The agent selector moves horizontally using a transform without changing surrounding layout, hiding its text visually while retaining accessible button names. A short squash-and-stretch accompanies the collapse to icons at the left page edge. Reduced motion removes the decorative animation. The Playground Resources preview consumes this same implementation and supports scrolling through each state.
 
 ## Local Design Review
 

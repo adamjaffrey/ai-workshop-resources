@@ -3,14 +3,46 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.149"
-  update_summary: "Reveal the discovered sentence immediately with sheen only"
-  updated_at: "Mon 19 Oct 2026 at 02:55:42 am AEDT (+11:00)"
+  doc_revision: "26.0.150"
+  update_summary: "Stabilise sticky selectors and align the agent label above"
+  updated_at: "Mon 19 Oct 2026 at 03:01:57 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.148 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 03:01:57 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Stabilise sticky selectors and align the agent label above
+
+### Fixed
+
+- Reserve the full agent-selector layout slot throughout collapse and expansion, preventing the selector and “I’m Using” label from reflowing during the animation.
+- Collapse 96px below the theme control and expand 144px below it, avoiding repeated state changes during small scroll reversals. Ignore height-only viewport changes when measuring, and measure untransformed dimensions.
+
+### Changed
+
+- Place “I’m Using” above the left-aligned agent selector on desktop as well as mobile; refresh anonymous login backdrop geometry.
+- Require verified Wi-Fi/LAN addresses for all future project preview handoffs in AGENTS.md.
+
+### Validation
+
+- Previous implementation reproduced 37px of selector-slot movement and 14.5px of label movement at 390px near its original threshold.
+- `node website/tests/sticky-controls-stability-check.mjs` — passed; zero slot and label layout drift at 320, 390 and 660px through collapse, expansion and scroll reversals; height-only resize retains sticky state.
+- `node website/tests/sticky-controls-browser-check.mjs` — passed; 16 width/theme/agent combinations, above-selector labels, left alignment, shadow interpolation, focus, restoration and Playground scrolling.
+- `node website/tests/style-guide-browser-check.mjs` — passed on final source. An earlier concurrent run timed out on copy feedback; isolated rerun passed.
+- Theme transition, theme control-colour and focus browser checks — passed.
+- `npm --prefix website run blocks:measure` and `npm --prefix website run build` — passed; generated server displays v26.0.148.
+- Final app and Playground Wi-Fi URLs — HTTP 200. Physical-phone validation remains with the user.
 
 ## v26.0.147 — 2026-10-19
 
