@@ -38,7 +38,7 @@ export function initStickyControls() {
   const inset=Math.max(16,parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sticky-safe-top'))||0);
   const agentBox=items[1].slot.getBoundingClientRect();
   // Separate entry/exit thresholds prevent small scroll reversals retriggering motion.
-  const shouldCompact=mobile.matches&&agentBox.top<inset+items[0].height+(compact?144:96);
+  const shouldCompact=mobile.matches&&agentBox.top<inset+items[0].height+items[1].height+(compact?4:0);
   if(shouldCompact)items[1].slot.style.width=items[1].width+'px';
   agent.toggleAttribute('data-collision',mobile.matches&&agentBox.top<inset+items[0].height+4);
   if(shouldCompact!==compact){compact=shouldCompact;agent.toggleAttribute('data-compact',compact);animation?.cancel();if(!motion.matches)animation=agent.animate([{scale:'1 1'},{scale:'.96 1.06',offset:.45},{scale:'1.025 .98',offset:.75},{scale:'1 1'}],{duration:420,easing:'ease-out'});}

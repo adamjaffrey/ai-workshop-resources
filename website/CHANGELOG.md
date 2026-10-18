@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.151"
-  update_summary: "Extend the reading pause and reopen discovery from the text"
-  updated_at: "Mon 19 Oct 2026 at 03:04:52 am AEDT (+11:00)"
+  doc_revision: "26.0.152"
+  update_summary: "Trigger the mobile selector morph one control height away"
+  updated_at: "Mon 19 Oct 2026 at 03:07:24 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.150 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 03:07:24 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Trigger the mobile selector morph one control height away
+
+### Changed
+
+- Derive the collapse gap from the measured agent-control height instead of 96px. Expand 4px beyond that gap to prevent threshold flicker, replacing the previous 48px reversal buffer.
+- Preserve the stable layout slot, reduced-motion behaviour and mobile viewport-height handling; reuse unchanged resting backdrop geometry.
+
+### Validation
+
+- `node website/tests/sticky-controls-stability-check.mjs` — passed at 320, 390 and 660px; waits until one control height, holds through small reversals, expands beyond the 4px buffer, and retains zero slot/label drift.
+- `node website/tests/style-guide-browser-check.mjs` — passed.
+- `npm --prefix website run build` — passed, including saved placeholder checks; generated version verified as v26.0.150.
+- Wi-Fi main app and Playground URLs — HTTP 200.
 
 ## v26.0.149 — 2026-10-19
 

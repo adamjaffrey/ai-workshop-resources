@@ -14,15 +14,18 @@ try {
   const samples=[];
   const sample=()=>{const r=slot.getBoundingClientRect(),l=label.getBoundingClientRect();samples.push({top:r.top+scrollY,width:r.width,label:l.top+scrollY,compact:agent.hasAttribute('data-compact')});};
   async function move(top){scrollTo(0,origin-top);for(let i=0;i<26;i++){await new Promise(requestAnimationFrame);sample();}}
-  await move(140); // Collapse with ample room before the theme's bottom edge.
+  const threshold=16+document.querySelector('.page-toolbar .theme-toggle').offsetHeight+agent.offsetHeight;
+  await move(threshold+2);
+  const waitsUntilOneHeight=!agent.hasAttribute('data-compact');
+  await move(threshold-2);
   const collapsed=agent.hasAttribute('data-compact');
-  for(const top of [159,165,158,166,160,164])await move(top);
+  for(const offset of [-1,2,-2,1,-1,2])await move(threshold+offset);
   const held=agent.hasAttribute('data-compact');
-  await move(230); // Expand well clear of the theme and collapse threshold.
+  await move(threshold+6); // Only a 4px reversal buffer beyond one control height.
   const expanded=!agent.hasAttribute('data-compact');
-  return {collapsed,held,expanded,topDrift:Math.max(...samples.map(s=>s.top))-Math.min(...samples.map(s=>s.top)),widthDrift:Math.max(...samples.map(s=>s.width))-Math.min(...samples.map(s=>s.width)),labelDrift:Math.max(...samples.map(s=>s.label))-Math.min(...samples.map(s=>s.label))};
+  return {waitsUntilOneHeight,collapsed,held,expanded,topDrift:Math.max(...samples.map(s=>s.top))-Math.min(...samples.map(s=>s.top)),widthDrift:Math.max(...samples.map(s=>s.width))-Math.min(...samples.map(s=>s.width)),labelDrift:Math.max(...samples.map(s=>s.label))-Math.min(...samples.map(s=>s.label))};
  });
- console.log(width,result);assert.equal(result.collapsed,true);assert.equal(result.held,true);assert.equal(result.expanded,true);assert.ok(result.topDrift<1);assert.ok(result.widthDrift<1);assert.ok(result.labelDrift<1);
+ console.log(width,result);assert.equal(result.waitsUntilOneHeight,true);assert.equal(result.collapsed,true);assert.equal(result.held,true);assert.equal(result.expanded,true);assert.ok(result.topDrift<1);assert.ok(result.widthDrift<1);assert.ok(result.labelDrift<1);
  await page.evaluate(()=>scrollTo(0,800));await page.waitForTimeout(500);await page.setViewportSize({width,height:720});await page.waitForTimeout(50);
  assert.equal(await page.locator('.controls .toggle').getAttribute('data-compact'),'');assert.equal(await page.locator('.controls .toggle').evaluate(e=>e.getBoundingClientRect().top),16);
  await context.close();
