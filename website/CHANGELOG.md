@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.147"
-  update_summary: "Add persistent selectors with a mobile icon collapse"
-  updated_at: "Mon 19 Oct 2026 at 02:47:20 am AEDT (+11:00)"
+  doc_revision: "26.0.148"
+  update_summary: "Apply the approved Easter Egg preset"
+  updated_at: "Mon 19 Oct 2026 at 02:49:41 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.146 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 02:49:41 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Apply the approved Easter Egg preset
+
+### Changed
+
+- Set canonical particle intensity to 400%, gravity to 160% and hover height to 60px after the explicit go message.
+- Preserve the supplied four-second sweep, two-second gap, four-second particle lifetime, 16px radius and 100% halo strength.
+- Keep the app, Playground initial settings, Reset and Copy on the same defaults; preserve the latest sticky-control work.
+
+### Validation
+
+- Website build and generated version/default-value checks — passed.
+- Dedicated Playground/app parity across four widths, both themes and agents, including Reset and Copy — passed.
+- Particle wave, ring interaction and halo behaviour — passed.
+- General Playground source-parity suite and local preview HTTP checks — passed. Physical-device Safari remains unverified.
 
 ## v26.0.145 — 2026-10-19
 

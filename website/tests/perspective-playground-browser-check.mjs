@@ -19,7 +19,7 @@ try{
  for(const [key,value] of Object.entries({duration:8000,gap:750,intensity:150,halo:25,gravity:150,particleDuration:6000,ringRadius:80,hoverHeight:160})){await guide.locator('#perspective-'+key).evaluate((el,value)=>{el.value=value;el.dispatchEvent(new Event('input',{bubbles:true}));},value);}
  await guide.waitForTimeout(300);
  assert.deepEqual(await f.locator('body').evaluate(()=>window.workshopPerspective.config),{duration:8000,gap:750,intensity:150,halo:25,gravity:150,particleDuration:6000,ringRadius:80,hoverHeight:160});
- assert.deepEqual(await app.evaluate(()=>window.workshopPerspective.config),{duration:4000,gap:2000,intensity:200,halo:100,gravity:200,particleDuration:4000,ringRadius:16,hoverHeight:112});
+ assert.deepEqual(await app.evaluate(()=>window.workshopPerspective.config),{duration:4000,gap:2000,intensity:400,halo:100,gravity:160,particleDuration:4000,ringRadius:16,hoverHeight:60});
  assert.equal(await f.locator('.perspective-particle:not([hidden])').count(),72);await guide.locator('input[name=egg][value=ready]').locator('..').click();await guide.waitForTimeout(200);assert.ok((await f.locator('.perspective-discover').boundingBox()).height>=144);await guide.locator('input[name=egg][value=success]').locator('..').click();
  assert.equal(await f.locator('.perspective-dialog').evaluate(e=>e.style.getPropertyValue('--perspective-halo')),'0.25');
  await guide.evaluate(()=>{Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async text=>window.copiedSettings=text}});});await guide.locator('#perspective-copy').click();

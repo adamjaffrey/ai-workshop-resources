@@ -1,6 +1,6 @@
 // Original implementation inspired by Magic UI Aurora Text/Shine Border and Aceternity Sparkles.
 // Reference links and rationale are recorded in website/README.md; no third-party code copied.
-export const perspectiveDefaults = Object.freeze({duration:4000,gap:2000,intensity:200,halo:100,gravity:200,particleDuration:4000,ringRadius:16,hoverHeight:112});
+export const perspectiveDefaults = Object.freeze({duration:4000,gap:2000,intensity:400,halo:100,gravity:160,particleDuration:4000,ringRadius:16,hoverHeight:60});
 const scatter = (i,seed) => ((Math.sin((i+1)*seed)*43758.5453)%1+1)%1*100;
 const particles = Array.from({length:192},(_,i)=>`<span class="perspective-particle" style="--x:${scatter(i,12.9898)}%;--y:${scatter(i,78.233)}%;--size:${1+(i%5)*.35}px;--delay:${-(i%17)*.23}s;--twinkle:${1.6+(i%7)*.31}s"></span>`).join('');
 export const eggMarkup = `<section class="perspective" data-state="locked" aria-label="A Different Perspective">
@@ -11,7 +11,7 @@ export const eggMarkup = `<section class="perspective" data-state="locked" aria-
 <dialog class="perspective-dialog" aria-labelledby="perspective-title"><h2 id="perspective-title" tabindex="-1">You Saw the Whole Picture</h2><p>A little curiosity. A different perspective. Something you might otherwise have missed.</p><p>Ask Adam what else is hiding.</p><form method="dialog"><button type="submit">Done</button></form></dialog>`;
 export const eggCSS = `
 /* Preserve each fragment's intrinsic height even when its theme is hidden. */
-.perspective { --egg-line: 24px; position:relative; display:grid; grid-template-columns:minmax(0,1fr) 1.2em minmax(0,1fr); grid-template-rows:auto auto; margin-top:max(40px,calc(var(--hover-height,112px) / 2)); margin-bottom:max(40px,calc(var(--hover-height,112px) / 2)); font-size:14px; line-height:var(--egg-line); color:var(--muted-text); }
+.perspective { --egg-line: 24px; position:relative; display:grid; grid-template-columns:minmax(0,1fr) 1.2em minmax(0,1fr); grid-template-rows:auto auto; margin-top:max(40px,calc(var(--hover-height,60px) / 2)); margin-bottom:max(40px,calc(var(--hover-height,60px) / 2)); font-size:14px; line-height:var(--egg-line); color:var(--muted-text); }
 .perspective + .perspective-dialog + footer { margin-top:0; }
 .perspective-fragment,.perspective-ellipsis { font-size:14px; line-height:24px; color:var(--muted-text); }
 .perspective-fragment { margin:0; min-width:0; overflow-wrap:anywhere; position:relative; }
