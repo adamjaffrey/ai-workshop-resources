@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.63"
-  update_summary: "Document playground controls, icon sources, licences and errors"
-  updated_at: "Sun 18 Oct 2026 at 12:43:48 am AEDT (+11:00)"
+  doc_revision: "26.0.64"
+  update_summary: "Reserve one accessible line for concise login errors"
+  updated_at: "Sun 18 Oct 2026 at 11:52:35 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -139,7 +139,7 @@ Validate empty passwords inline without shaking. Only an incorrect-password resp
 
 Rate-limit feedback uses the actual remaining server window from Retry-After, rounds displayed minutes up, and says less than a minute for the final minute. Disable submission until that time ends, then announce that signing in can be retried. Update announcements only when displayed text changes, avoiding per-second screen-reader chatter.
 
-Login status messages use the existing system font at 14px with a 21px line height, regular weight (400) for all statuses, including checking, errors, retry information and success; the submit button remains semibold (600). Leave 12px between label and field, 12px below the input border and 8px before the submit button. Reserve two lines (42px at default text size) for errors in every state; permit growth for text scaling instead of clipping. Centre the 18px status icon against the first line, including when a message wraps.
+Login status messages use the existing system font at 14px with a 21px line height, regular weight (400) for all statuses, including checking, errors, retry information and success; the submit button remains semibold (600). Leave 12px between label and field, 12px below the input border and 8px before the submit button. Reserve one line (21px at default text size) for errors in every state; permit growth for text scaling instead of clipping. Centre the 18px status icon against the first line, including when a message wraps.
 
 ## Theme Transitions
 
@@ -159,7 +159,7 @@ Explicit theme changes use 300ms at viewport widths up to 660px and 420ms above 
 
 The QR encodes `https://ai-workshop-resources.adamjaffrey.chatgpt.site/`, verified against the existing Sites project. Its button displays the installed Lucide Copy icon and Copy Link label on hover or keyboard focus, copies that same URL with a legacy clipboard fallback, and reports success or failure. Keep the overlay exactly inside the QR image; place the caption gap outside the button. Share the prompt-copy feedback lifecycle: green Lucide Check and text, 180ms ease-out entrance, 5000ms success hold (12000ms for failure), then 650ms ease-in-out exit; reduced motion skips the animation. Keep the 540px image and 48px white quiet zone. All enabled buttons and selector tracks use the pointer cursor.
 
-After a wrong password, keep the padlock and password bullets red until the user edits the field. Refocusing or clicking alone preserves the error and its message. Editing clears the error and restores the selected agent accent to the icon and focus ring. On success the bullets turn green for the opening transition; clear the input immediately before navigation. Keep user-facing errors concise enough for the two-line reserve at supported viewport sizes, while allowing growth for accessibility text scaling.
+After a wrong password, keep the padlock and password bullets red until the user edits the field. Refocusing or clicking alone preserves the error and its message. Editing clears the error and restores the selected agent accent to the icon and focus ring. On success the bullets turn green for the opening transition; clear the input immediately before navigation. Keep user-facing errors concise enough for the one-line reserve at supported viewport sizes, while allowing growth for accessibility text scaling.
 
 Prompt-copy buttons show Prompt Copied on success. When QR feedback expires without hover or keyboard focus, its text and obscuring background exit together over 650ms with ease-in-out. While hovered or keyboard-focused, keep the background and reset the animated success text to Copy Link. Avoid a second background fade after feedback completes.
 

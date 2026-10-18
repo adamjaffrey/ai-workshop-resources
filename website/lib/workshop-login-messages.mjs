@@ -2,7 +2,7 @@
 export const loginMessages = Object.freeze({
   empty: 'Enter your password.',
   wrong: 'Incorrect password. Try again.',
-  network: 'Connection failed. Check your internet.',
+  network: 'Check your connection.',
   service: 'Sign-in unavailable. Try later.',
   generic: 'Sign-in failed. Try again.',
   limitedLater: 'Too many attempts. Try later.',
@@ -11,7 +11,8 @@ export const loginMessages = Object.freeze({
   success: 'Access granted.',
 });
 export function loginRetryMessage(duration) {
-  return 'Too many attempts. Retry in ' + duration + '.';
+  const compact=duration.replace('less than a minute','<1 min').replace(/\bminutes?\b/g,'min');
+  return 'Too many tries. Wait ' + compact + '.';
 }
 
 export const loginControlLabels = Object.freeze({opening: 'Opening Resources…'});

@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.114"
-  update_summary: "Fit filtered icons and restore playground bottom spacing"
-  updated_at: "Sun 18 Oct 2026 at 01:22:34 am AEDT (+11:00)"
+  doc_revision: "26.0.115"
+  update_summary: "Compact login errors and distinguish their shared colours"
+  updated_at: "Sun 18 Oct 2026 at 11:53:37 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.113 — 2026-10-18
+
+**Built at:** Sun 18 Oct 2026 at 11:53:37 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Compact login errors and distinguish their shared colours
+
+### Changed
+
+- Shorten connection and retry-countdown messages and reserve one 21px error line, allowing accessibility text to wrap without clipping.
+- Move shared light/dark error colours further towards berry while preserving contrast across both agents and all tested surfaces.
+- Clarify mobile hover previews and rename the normal-interaction option; preserve actual copy behaviour.
+- Update repository and website instructions for the one-line reserve.
+
+### Validation
+
+- Authentication tests, login-state matrix at 320/390/768/1440px, shared status contrast and playground source-parity/control checks — passed.
+- Default errors fit one line without panel jumps; semantic foreground contrast is at least 4.5:1 on tested surfaces.
+- Production build, geometry guard, syntax and whitespace checks — passed.
 
 ## v26.0.112 — 2026-10-18
 

@@ -32,7 +32,7 @@ try {
    assert.equal(await status.evaluate(e=>getComputedStyle(e).fontWeight),'400');
    assert.equal(await button.evaluate(e=>getComputedStyle(e).fontWeight),'600');
    const box=await page.locator('#access-form').boundingBox();assert.ok(Math.abs(box.height-initial.height)<1,'panel height must not jump');
-   if(kind==='error')assert.equal(await status.locator('[data-status-icon="error"]').isVisible(),true);
+   if(kind==='error'){assert.equal(await status.locator('[data-status-icon="error"]').isVisible(),true);assert.ok(await status.evaluate(e=>e.getBoundingClientRect().height<=parseFloat(getComputedStyle(e).lineHeight)+1),'default error must fit one line');}
    else {assert.equal(await status.locator('span').textContent(),'');if(kind!=='info')assert.equal(await page.locator('[data-input-icon="'+kind+'"]').isVisible(),true);}
   };
   await button.click();await state('error','Enter your password.');assert.equal(requests,0);assert.equal(await hasShake(),false);
@@ -43,9 +43,9 @@ try {
   assert.equal(await page.locator('[data-input-icon="loading"]').evaluate(e=>getComputedStyle(e).animationName),'none');
   await page.emulateMedia({reducedMotion:'no-preference'});mode='wrong';pending();
   await state('error','Incorrect password. Try again.');assert.equal(await hasShake(),true);assert.equal(await input.getAttribute('aria-invalid'),'true');
-  assert.equal(await status.evaluate(e=>getComputedStyle(e).color),theme==='light'?'rgb(162, 13, 96)':'rgb(255, 133, 178)');
+  assert.equal(await status.evaluate(e=>getComputedStyle(e).color),theme==='light'?'rgb(150, 13, 115)':'rgb(255, 141, 206)');
   const lock=page.locator('[data-input-icon="lock"]');
-  const red=theme==='light'?'rgb(162, 13, 96)':'rgb(255, 133, 178)';
+  const red=theme==='light'?'rgb(150, 13, 115)':'rgb(255, 141, 206)';
   assert.deepEqual(await input.evaluate(e=>[e.selectionStart,e.selectionEnd]),[7,7]);
   assert.equal(await lock.evaluate(e=>getComputedStyle(e).color),red);
   await input.click();assert.equal(await input.getAttribute('aria-invalid'),'true');
@@ -55,10 +55,10 @@ try {
   await input.fill('new input');await page.waitForTimeout(180);assert.notEqual(await lock.evaluate(e=>getComputedStyle(e).color),red);
   mode='wrong';await submit();await state('error','Incorrect password. Try again.');
   await button.focus();await page.keyboard.press('Shift+Tab');assert.equal(await input.getAttribute('aria-invalid'),'true');
-  for(const [next,text] of [['network','Connection failed. Check your internet.'],['service','Sign-in unavailable. Try later.'],['malformed','Sign-in failed. Try again.'],['unexpected','Sign-in failed. Try again.']]){
+  for(const [next,text] of [['network','Check your connection.'],['service','Sign-in unavailable. Try later.'],['malformed','Sign-in failed. Try again.'],['unexpected','Sign-in failed. Try again.']]){
    mode=next;await submit();await state('error',text);assert.equal(await hasShake(),false);assert.equal(await input.getAttribute('aria-invalid'),null);assert.equal(await button.isEnabled(),true);
   }
-  mode='limited';await submit();await state('error','Too many attempts. Retry in less than a minute.');assert.equal(await button.isDisabled(),true);assert.equal(await hasShake(),false);assert.equal(await input.getAttribute('aria-invalid'),null);
+  mode='limited';await submit();await state('error','Too many tries. Wait <1 min.');assert.equal(await button.isDisabled(),true);assert.equal(await hasShake(),false);assert.equal(await input.getAttribute('aria-invalid'),null);
   await state('info','You can try again.');assert.equal(await button.isEnabled(),true);
   mode='success';await submit();await state('success','Access granted.');assert.equal(await button.textContent(),'Opening Resources…');
   assert.equal(await status.evaluate(e=>getComputedStyle(e).color),theme==='light'?'rgb(20, 108, 62)':'rgb(117, 214, 163)');

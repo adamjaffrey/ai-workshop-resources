@@ -172,7 +172,7 @@ export async function styleGuidePage(){
  <div class="primary-style-choices">${radios('agent','Coding Agent',[['codex','Codex'],['claude-code','Claude Code']])}
  ${radios('theme','Colour Theme',[['light','Light'],['dark','Dark']])}</div>
  ${radios('width','Sample Width',[['fluid','Fit'],['320','320px'],['390','390px'],['768','768px'],['1440','1440px']])}
- <div>${radios('hover','Hover Preview',[['off','Hover with Pointer'],['on','Show Hover States']])}<p class="inspector-hint">Tap Show Hover States to keep all supported hover styles visible in the previews, without touching each item. Tap Hover with Pointer to restore normal behaviour: styles appear only while a mouse pointer is over an item. On touch screens, use Show Hover States to inspect them.</p></div>
+ <div>${radios('hover','Hover Preview',[['off','Normal Interaction'],['on','Show Hover States']])}<p class="inspector-hint">Tap Show Hover States to keep all supported hover styles visible in the previews, without touching each item. Normal Interaction restores browser behaviour. On touch screens, select Show Hover States; no long press is needed. Examples remain clickable, so tapping the QR code still runs the simulated copy action.</p></div>
  </div></div>
  <main class="wrap"><nav role="tablist" aria-label="Playground Sections">${['Components','Typography','Colours','Blocks','Icons','Errors'].map((s,i)=>`<button type="button" role="tab" id="tab-${s.toLowerCase()}" data-tab="${s.toLowerCase()}" aria-controls="panel-${s.toLowerCase()}" aria-selected="${!i}" tabindex="${i?-1:0}">${s==='Blocks'?'Blocks and Blur':s==='Errors'?'Error States':s}</button>`).join('')}</nav>
  <p class="notice" id="notice" role="status"></p>
