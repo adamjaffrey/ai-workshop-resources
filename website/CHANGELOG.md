@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.148"
-  update_summary: "Apply the approved Easter Egg preset"
-  updated_at: "Mon 19 Oct 2026 at 02:49:41 am AEDT (+11:00)"
+  doc_revision: "26.0.149"
+  update_summary: "Reveal the discovered sentence immediately with sheen only"
+  updated_at: "Mon 19 Oct 2026 at 02:55:42 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.147 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 02:55:42 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Reveal the discovered sentence immediately with sheen only
+
+### Changed
+
+- Begin the concealed-fragment reveal immediately on activation, completing in 180ms without waiting for the ambient sweep.
+- Run a fresh 900ms sheen across the full sentence and ellipsis with particles hidden, using sentence bounds after the target disappears.
+- Open the success dialog 1.25 seconds after activation, with immediate non-animated text reveal under reduced motion.
+
+### Validation
+
+- Website build and generated version/celebration checks — passed.
+- Timed touch reveal, hidden particles, both-fragment sheen, sentence bounds and popup reading pause — passed.
+- Responsive qualification, reveal, modal focus and reduced motion across eight width/agent combinations — passed.
+- Dedicated Playground/app parity across four widths, both themes and agents, and general source-parity suite — passed.
+- Local preview endpoints — HTTP 200. Physical-device Safari remains unverified.
 
 ## v26.0.146 — 2026-10-19
 
