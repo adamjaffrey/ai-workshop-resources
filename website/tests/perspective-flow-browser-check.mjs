@@ -11,8 +11,8 @@ try{
   await p.waitForFunction(()=>document.querySelector('.perspective').hasAttribute('data-sheening'));
   assert.equal(await p.locator('.perspective-ellipsis').evaluate(e=>getComputedStyle(e,'::after').animationName),'none');
   const paints=await p.locator('.perspective-day,.perspective-night,.perspective-ellipsis').evaluateAll(es=>es.map(e=>getComputedStyle(e,'::after').backgroundImage));assert.equal(new Set(paints).size,1,'all glyphs crop exactly one gradient');
-  await p.waitForTimeout(850);
-  const early=await p.locator('.perspective-particle:not([hidden])').evaluateAll((points,dark)=>{const side=p=>{const x=parseFloat(p.style.getPropertyValue('--x'));return dark?100-x:x;};return {near:points.filter(p=>side(p)<15).map(p=>Number(p.style.opacity)),far:points.filter(p=>side(p)>85).map(p=>Number(p.style.opacity))};},theme==='dark');
+  await p.waitForTimeout(750);
+  const early=await p.locator('.perspective-particle:not([hidden])').evaluateAll((points,dark)=>{const side=p=>{const x=parseFloat(p.style.getPropertyValue('--x')),y=parseFloat(p.style.getPropertyValue('--y'));return (dark?100-x:x)+y*.6;};return {near:points.filter(p=>side(p)<35).map(p=>Number(p.style.opacity)),far:points.filter(p=>side(p)>135).map(p=>Number(p.style.opacity))};},theme==='dark');
   assert.ok(early.near.some(a=>a>.01),'particles nearest ellipsis appear first');assert.ok(early.far.every(a=>a<.01),'far edge waits for wave');
   await p.waitForTimeout(400);const colours=await p.locator('.perspective-particle:not([hidden])').evaluateAll(es=>es.filter(e=>Number(e.style.opacity)>.05).map(e=>e.style.getPropertyValue('--particle-colour')));assert.ok(new Set(colours).size>3,'particles inherit varied rainbow colours from shared wave');
   const before=await p.locator('.perspective-particle').first().evaluate(e=>e.style.transform);await p.waitForTimeout(300);assert.notEqual(await p.locator('.perspective-particle').first().evaluate(e=>e.style.transform),before,'particles drift without hover');

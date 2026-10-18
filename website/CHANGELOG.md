@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.144"
-  update_summary: "Add radial particle attraction and pointer-only halo tuning"
-  updated_at: "Mon 19 Oct 2026 at 02:17:46 am AEDT (+11:00)"
+  doc_revision: "26.0.145"
+  update_summary: "Refine particle coverage, controls and immediate halo response"
+  updated_at: "Mon 19 Oct 2026 at 02:26:04 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.143 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 02:26:04 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine particle coverage, controls and immediate halo response
+
+### Changed
+
+- Increase the concealed-half target to at least 140px tall, scaling its height and footer spacing with the selected particle radius.
+- Add an 8–64px Particle Ring Radius slider, preserving the 28px default.
+- Move Reset into the panel header using the shared icon-button treatment, and move preview-only guidance above the controls.
+- Remove halo smoothing and competing iframe-local coordinates; use one pointer source without boundary resets or a settling tail.
+- Broaden the shared colour field over the full particle region and remove particle opacity lag so the colour band overlaps the text, ellipsis and first sparkles.
+
+### Validation
+
+- Website build and generated version/control checks — passed.
+- Shared wave, directional particle emergence, ring attraction, local visibility and halo response checks — passed.
+- Dedicated Playground/app parity across four widths, both themes and agents; radius sizing, reset placement and immediate halo stability — passed.
+- Rendered sheen, touch discovery, hidden-tab, fallback theme transitions and reduced motion — passed.
+- General Playground source-parity suite — passed. Physical-device Safari remains unverified.
 
 ## v26.0.142 — 2026-10-19
 
