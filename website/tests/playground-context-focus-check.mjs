@@ -23,7 +23,7 @@ try{
   await page.locator('[data-tab=focus]').click();await page.waitForTimeout(1000);const f=page.frameLocator('#focus-frame');assert.equal(await f.locator('.focus-row').count(),12);
   assert.equal(await f.locator('.password-field[data-held-focus-within]').count(),4);
   for(const field of await f.locator('.password-field').all())assert.equal(await field.evaluate(e=>getComputedStyle(e).outlineWidth),'3px');
-  for(const row of await f.locator('.focus-row').all())assert.ok((await row.locator('.focus-meta').textContent()).includes('Selection:'));
+  assert.equal(await f.locator('.selection-preview').count(),6);
  }
  for(const theme of ['light','dark'])for(const agent of ['codex','claude-code']){
   await page.evaluate(({theme,agent})=>{for(const [name,value] of Object.entries({theme,agent})){const e=document.querySelector('input[name="'+name+'"][value="'+value+'"]');e.checked=true;e.dispatchEvent(new Event('change',{bubbles:true}));}},{theme,agent});await page.waitForTimeout(1000);

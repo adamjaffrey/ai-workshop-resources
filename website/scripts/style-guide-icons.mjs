@@ -24,17 +24,18 @@ window.addEventListener('message',async event=>{
  if(event.source!==parent||event.data?.guide!=='icon-catalog')return;
  if(capturingIcons){pendingIcons=event.data;return;}capturingIcons=true;
  try{
+ const requested=event.data.settings;if(requested){window.dispatchEvent(new StorageEvent('storage',{key:'workshop-colour-theme',newValue:requested.theme}));window.workshopAgent?.select(requested.agent);await new Promise(r=>setTimeout(r,0));finishCaptureMotion();}
  const page=event.data.page,items=[],errors=[],typographyFeedback=[],agentTypography=[],buttonVariants=[],focusItems=[];
  const captureButton=(node,kind,state)=>{const c=getComputedStyle(node.querySelector('.copy-label')||node);buttonVariants.push({kind,state,html:iconSnapshot(node,page,state,true).html,typography:[c.fontFamily,c.fontSize,c.fontWeight,c.lineHeight,c.color]});};
  const captureFocus=(node,label,ring=true)=>{
-  const root=node.closest('.password-field')||node.closest('.code-wrap')||node.closest('.segmented-toggle')||node;
+  const root=node.closest('.password-field')||node.closest('.qr-card')||node.closest('.code-wrap')||node.closest('.segmented-toggle')||node;
   const clone=root.cloneNode(true),originals=[root,...root.querySelectorAll('*')],copies=[clone,...clone.querySelectorAll('*')];
   copies[originals.indexOf(node)].setAttribute('data-focus-target','');
   originals.forEach((n,i)=>{if(n instanceof HTMLInputElement)copies[i].setAttribute('value',n.value);});
   clone.style.maxWidth='100%';clone.style.width=root.getBoundingClientRect().width+'px';
   if(node.matches('.copy'))clone.style.position='relative';
-  let html=clone.outerHTML;if(page==='login')html='<div class="gate-panel '+document.getElementById('access-form').className+' focus-context">'+html+'</div>';
-  const selection=getComputedStyle(node,'::selection');focusItems.push({page,label,ring,html,selector:sourceSelector(node),selection:[selection.backgroundColor,selection.color],selectionText:node.matches('input')?'••••••••':node.textContent.trim().slice(0,90)});
+  let html=clone.outerHTML;if(node.matches('footer button'))html='<footer class="focus-footer">'+html+'</footer>';if(page==='login')html='<div class="gate-panel '+document.getElementById('access-form').className+' focus-context">'+html+'</div>';
+  const selection=getComputedStyle(node,'::selection');focusItems.push({page,label,ring,html,selector:sourceSelector(node),selection:[selection.backgroundColor,selection.color],selectable:node.matches('input,pre,.intro'),selectionText:node.matches('input')?'••••••••':node.textContent.trim().slice(0,90)});
  };
  const add=(node,state)=>{if(!node)throw Error('Missing icon source: '+page+' '+state);items.push(iconSnapshot(node,page,state));};
  const addError=(node,state)=>{if(!node)throw Error('Missing error source: '+page+' '+state);const item=iconSnapshot(node,page,state,true),template=document.createElement('template');template.innerHTML=node.matches('.gate-panel,.code-wrap')?node.outerHTML:item.html;const root=template.content.firstElementChild;if(node.matches('.gate-panel')){root.querySelector('input').setAttribute('value',node.querySelector('input').value);}if(node.matches('.gate-panel'))root.classList.add('full-login-context');Object.assign(root.style,{position:node.matches('.qr-copy,.code-wrap')?'relative':'static',maxWidth:'100%',height:'auto',maxHeight:'none',margin:'0'});if(node.matches('.code-wrap'))root.style.width=item.width+'px';errors.push({...item,html:root.outerHTML,text:node.textContent.trim()});};
@@ -92,7 +93,7 @@ window.addEventListener('message',async event=>{
  if(item.state.startsWith('Prompt ·'))return 60;
  if(item.state==='Log Out')return 90;
  return 75;
- };items.sort((a,b)=>rank(a)-rank(b));parent.postMessage({guide:'icon-catalog-data',page,items,errors,typographyFeedback,agentTypography,buttonVariants,noticeTypography,focusItems},'*');
+ };items.sort((a,b)=>rank(a)-rank(b));parent.postMessage({guide:'icon-catalog-data',requestId:event.data.requestId,page,items,errors,typographyFeedback,agentTypography,buttonVariants,noticeTypography,focusItems},'*');
  }finally{capturingIcons=false;if(pendingIcons){const data=pendingIcons;pendingIcons=null;window.dispatchEvent(new MessageEvent('message',{source:parent,data}));}}
 });`;
 

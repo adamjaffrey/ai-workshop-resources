@@ -3,14 +3,44 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.135"
-  update_summary: "Refine specimen context and add focus and selection previews"
-  updated_at: "Mon 19 Oct 2026 at 12:17:51 am AEDT (+11:00)"
+  doc_revision: "26.0.136"
+  update_summary: "Synchronise focus specimens and remember the selected tab"
+  updated_at: "Mon 19 Oct 2026 at 12:34:03 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.134 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 12:34:03 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Synchronise focus specimens and remember the selected tab
+
+### Fixed
+
+- Restore real QR-card and footer context in focus examples, preserving QR image/overlay sizing and Log Out icon alignment, spacing and rounded ring geometry. Independently rendered main-app controls already have the correct context.
+- Render focus resources and login examples together and reject stale capture generations. Apply each capture's requested theme/agent settings and relayout selector indicators after insertion. Keep held focus independent of pointer modality.
+- Show selection highlights only for selectable body text, prompt text and password contents, not button or selector labels. Remove trailing row padding beneath the final password specimen.
+- Add space above Typography prompt-feedback headings and remove the extra boundary around the login JavaScript fallback while retaining the full-site fallback boundary.
+
+### Added
+
+- Remember the selected Playground tab across refreshes within the current browser tab, with a safe default when browser storage is unavailable or the stored tab no longer exists.
+
+### Validation
+
+- `node website/tests/playground-focus-consistency-check.mjs` — passed; independent QR/logout geometry, full overlay coverage, selectable-only highlights, repeated theme/agent changes, status boundaries and refresh persistence.
+- `node website/tests/playground-context-focus-check.mjs`, `node website/tests/playground-status-layout-check.mjs`, `node website/tests/playground-typography-modal-check.mjs` and `node website/tests/playground-tool-focus-check.mjs` — passed.
+- `node website/tests/style-guide-browser-check.mjs` — passed; complete source-parity matrix across responsive widths, agents and themes.
+- `npm --prefix website run build` — passed; generated assets display v26.0.134. Browser checks used headless Chrome; physical Safari and 1Password testing were not performed.
 
 ## v26.0.133 — 2026-10-19
 

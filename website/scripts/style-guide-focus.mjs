@@ -1,21 +1,29 @@
-// Held focus selectors are derived from canonical app rules, never a second ring palette.
-export const heldFocusCSS = css => css.replaceAll(':focus-within','[data-held-focus-within]').replaceAll(':focus-visible','[data-held-focus]').replaceAll(':focus','[data-held-focus]');
+// Derive held selectors from app CSS, with independent modality so preview clicks cannot erase them.
+export const heldFocusCSS = css => css.replaceAll('[data-focus-input="keyboard"]','[data-held-keyboard]').replaceAll(':focus-within','[data-held-focus-within]').replaceAll(':focus-visible','[data-held-focus]').replaceAll(':focus','[data-held-focus]');
 export const focusGalleryScript = String.raw`
-const catalog=document.getElementById('focus-catalog');
+const catalog=document.getElementById('focus-catalog'),focusCache={};
+document.documentElement.setAttribute('data-held-keyboard','');
 window.addEventListener('message',event=>{
  if(event.source!==parent||event.data?.guide!=='icon-catalog-data')return;
- const section=document.getElementById('focus-'+event.data.page);section.replaceChildren();
- for(const item of event.data.focusItems){
+ focusCache[event.data.page]=event.data;
+ if(!focusCache.resources||!focusCache.login||focusCache.resources.requestId!==focusCache.login.requestId)return;
+ // Commit both sources together: never insert login first and prepend resources later.
+ for(const page of ['resources','login']){
+ const section=document.getElementById('focus-'+page),fragment=document.createDocumentFragment();
+ for(const item of focusCache[page].focusItems){
   const row=document.createElement('section');row.className='focus-row';
   const title=document.createElement('h3');title.textContent=item.label;
   const preview=document.createElement('div');preview.className='focus-preview';preview.innerHTML=item.html;
   const target=preview.querySelector('[data-focus-target]');
   if(item.ring){target.setAttribute('data-held-focus','');for(let p=target.parentElement;p&&p!==preview;p=p.parentElement)p.setAttribute('data-held-focus-within','');}
-  const selected=document.createElement('p');selected.className='selection-preview';selected.textContent=item.selectionText;selected.style.background=item.selection[0];selected.style.color=item.selection[1];
-  const detail=document.createElement('p');detail.className='focus-meta';detail.textContent=item.page+' → '+item.selector+' · Selection: '+item.selection.join(' / ');
-  row.append(title,preview,selected,detail);section.append(row);
+  row.append(title,preview);
+  if(item.selectable){const selected=document.createElement('p');selected.className='selection-preview';selected.textContent=item.selectionText;selected.style.background=item.selection[0];selected.style.color=item.selection[1];row.append(selected);}
+  const detail=document.createElement('p');detail.className='focus-meta';detail.textContent=item.page+' → '+item.selector+(item.selectable?' · Selection: '+item.selection.join(' / '):' · Keyboard focus; control label is not selectable.');
+  row.append(detail);fragment.append(row);
  }
- document.documentElement.dataset.focusInput='keyboard';
+ section.replaceChildren(fragment);
+ }
+ catalog.querySelectorAll('.segmented-toggle').forEach(e=>window.layoutWorkshopToggle(e));
 });
 new ResizeObserver(()=>{if(catalog.getBoundingClientRect().width)parent.postMessage({guide:'reference-height',height:Math.ceil(catalog.getBoundingClientRect().height+32)},'*');}).observe(catalog);
 `;
