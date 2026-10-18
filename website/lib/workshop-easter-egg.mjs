@@ -1,6 +1,6 @@
 // Original implementation inspired by Magic UI Aurora Text/Shine Border and Aceternity Sparkles.
 // Reference links and rationale are recorded in website/README.md; no third-party code copied.
-export const perspectiveDefaults = Object.freeze({duration:4000,gap:2000,intensity:100,halo:100,gravity:100,particleDuration:4000});
+export const perspectiveDefaults = Object.freeze({duration:4000,gap:2000,intensity:100,halo:100,gravity:180,particleDuration:4000});
 const scatter = (i,seed) => ((Math.sin((i+1)*seed)*43758.5453)%1+1)%1*100;
 const particles = Array.from({length:96},(_,i)=>`<span class="perspective-particle" style="--x:${scatter(i,12.9898)}%;--y:${scatter(i,78.233)}%;--size:${1+(i%5)*.35}px;--delay:${-(i%17)*.23}s;--twinkle:${1.6+(i%7)*.31}s"></span>`).join('');
 export const eggMarkup = `<section class="perspective" data-state="locked" aria-label="A Different Perspective">
@@ -26,17 +26,13 @@ export const eggCSS = `
 .perspective[data-state="complete"] .perspective-join { position:static; }
 .perspective[data-state="complete"] .perspective-discover { top:100%; left:50%; right:auto; transform:translateX(-50%); }
 .perspective-discover[hidden] { display:none; }
-/* Animate the actual text silhouette: a shared sweep for all wrapped lines. */
-.perspective-fragment::after,.perspective-ellipsis::after { content:attr(data-sheen-text); position:absolute; inset:0; pointer-events:none; user-select:none; visibility:visible; color:transparent; background:linear-gradient(135deg,transparent 25%,#ff4f9b 34%,#ffb642 41%,#6de29f 48%,#4bc7ff 55%,#9275ff 62%,#ef72dd 69%,transparent 78%); background-size:300% 100%; background-position:150% 0; background-clip:text; -webkit-background-clip:text; opacity:0; }
+/* All glyphs crop the same area-sized colour field, including the ellipsis. */
+.perspective-fragment::after,.perspective-ellipsis::after { content:attr(data-sheen-text); position:absolute; inset:0; pointer-events:none; user-select:none; visibility:visible; color:transparent; background-image:var(--wave-paint,none); background-size:var(--wave-width) var(--wave-height); background-position:var(--wave-offset-x) var(--wave-offset-y); background-repeat:no-repeat; background-clip:text; -webkit-background-clip:text; opacity:0; }
 .perspective-ellipsis { position:relative; display:inline-block; }
-.perspective[data-sheening] .perspective-ellipsis::after { animation:perspective-sheen calc(var(--perspective-duration,4000ms) * .28) linear calc(var(--perspective-duration,4000ms) * .72) both; }
-.perspective { --egg-sheen:color-mix(in srgb,var(--agent-accent) 60%,var(--text)); }
-:root[data-theme="light"] .perspective[data-sheening] .perspective-day::after { animation:perspective-sheen var(--perspective-duration,4000ms) linear; }
-:root[data-theme="dark"] .perspective[data-sheening] .perspective-night::after { animation:perspective-sheen var(--perspective-duration,4000ms) linear reverse; }
-@keyframes perspective-sheen { 0% { background-position:150% 0; opacity:0; } 15%,85% { opacity:.85; } 100% { background-position:-50% 0; opacity:0; } }
+.perspective[data-sheening] .perspective-ellipsis::after,:root[data-theme="light"] .perspective[data-sheening] .perspective-day::after,:root[data-theme="dark"] .perspective[data-sheening] .perspective-night::after { opacity:1; }
 /* Independent twinkling points; the concealed glyphs never supply the cue. */
 .perspective-particles { position:absolute; inset:0; pointer-events:none; opacity:0; overflow:hidden; }
-.perspective-particle { position:absolute; left:var(--x); top:var(--y); width:var(--size); height:var(--size); border-radius:50%; background:color-mix(in srgb,var(--agent-accent) 65%,var(--text)); box-shadow:0 0 4px color-mix(in srgb,var(--agent-accent) 65%,transparent); opacity:0; transform:translate(var(--pull-x,0px),var(--pull-y,0px)) scale(var(--pull-scale,1)); will-change:transform,opacity; }
+.perspective-particle { position:absolute; left:var(--x); top:var(--y); width:var(--size); height:var(--size); border-radius:50%; background:var(--particle-colour,var(--agent-accent)); box-shadow:0 0 5px var(--particle-colour,var(--agent-accent)); opacity:0; transform:translate(var(--pull-x,0px),var(--pull-y,0px)) scale(var(--pull-scale,1)); will-change:transform,opacity; }
 .perspective-particle[hidden] { display:none; }
 .perspective[data-state="ready"] .perspective-particles { opacity:1; }
 .perspective[data-state="complete"] .perspective-fragment::after { visibility:hidden; }
@@ -68,7 +64,7 @@ export function initPerspective(defaults) {
  for(const fragment of [day,night,area.querySelector('.perspective-ellipsis')])fragment.dataset.sheenText=fragment.textContent;
  let seen=new Set(),candidate=null,since=0,state='locked',cycle=0,sequence=0,hovering=false,held=false,waveTheme=root.dataset.theme;
  let waves=[],pointer=null,lastFrame=0,haloPointer={x:.5,y:.5},haloCurrent={x:.5,y:.5};
- const floats=points.map((el,i)=>({el,x:parseFloat(el.style.getPropertyValue('--x'))/100,y:parseFloat(el.style.getPropertyValue('--y'))/100,phase:i*2.399,pullX:0,pullY:0,alpha:0}));
+ const floats=points.map((el,i)=>({el,x:parseFloat(el.style.getPropertyValue('--x'))/100,y:parseFloat(el.style.getPropertyValue('--y'))/100,phase:i*2.399,pullX:0,pullY:0,alpha:0,chargedAt:-Infinity,colour:null}));
  let timers=[];
  const later=(fn,ms)=>{const id=setTimeout(fn,ms);timers.push(id);return id;};
  const clearTimers=()=>{timers.forEach(clearTimeout);timers=[];};
@@ -82,18 +78,26 @@ export function initPerspective(defaults) {
  button.addEventListener('pointerleave',()=>pointer=null);
  document.addEventListener('pointermove',event=>{haloPointer={x:event.clientX/innerWidth,y:event.clientY/innerHeight};});
  document.documentElement.addEventListener('pointerleave',()=>haloPointer={x:.5,y:.5});
+ // The palette, geometry and clock are shared by text, punctuation and particles.
+ const palette=[[255,79,155],[255,182,66],[109,226,159],[75,199,255],[146,117,255],[239,114,221]];
+ function waveSample(q,centre,band){const u=(q-centre)/band+.5;if(u<0||u>1)return null;const v=Math.max(0,Math.min(1,(u-.12)/.76))*(palette.length-1),i=Math.min(palette.length-2,Math.floor(v)),mix=v-i;return {u,colour:palette[i].map((n,k)=>Math.round(n+(palette[i+1][k]-n)*mix)),alpha:Math.sin(Math.PI*u)**2};}
+ function waveGeometry(w,now,box){const band=Math.max(80,box.width*.34),extent=box.width+box.height,centre=-band/2+(now-w.start)/w.sweep*(extent+band);return {band,centre};}
+ function paintWave(w,now,box){const {band,centre}=waveGeometry(w,now,box),stops=['transparent '+((centre-band/2)/Math.SQRT2)+'px',...palette.map((rgb,i)=>'rgb('+rgb.join(' ')+') '+((centre-band/2+band*(.12+i*.152))/Math.SQRT2)+'px'),'transparent '+((centre+band/2)/Math.SQRT2)+'px'];area.style.setProperty('--wave-paint','linear-gradient('+(w.dark?225:135)+'deg,'+stops.join(',')+')');area.style.setProperty('--wave-width',box.width+'px');area.style.setProperty('--wave-height',box.height+'px');for(const el of [day,night,area.querySelector('.perspective-ellipsis')]){const r=el.getBoundingClientRect();el.style.setProperty('--wave-offset-x',-(r.left-box.left)+'px');el.style.setProperty('--wave-offset-y',-(r.top-box.top)+'px');}}
  function frame(now){
   const dt=Math.min(50,now-lastFrame||16),ease=1-Math.exp(-dt/220);lastFrame=now;
   if(!document.hidden&&!motion.matches){
    if(dialog.open){haloCurrent.x+=(haloPointer.x-haloCurrent.x)*ease;haloCurrent.y+=(haloPointer.y-haloCurrent.y)*ease;dialog.style.setProperty('--halo-x',20+haloCurrent.x*60+'%');dialog.style.setProperty('--halo-y',20+haloCurrent.y*60+'%');dialog.style.setProperty('--halo-dx',(haloCurrent.x-.5)*36+'px');dialog.style.setProperty('--halo-dy',(haloCurrent.y-.5)*28+'px');}
-   waves=waves.filter(w=>now-w.start<w.sweep*1.5+w.life);
+   waves=waves.filter(w=>now-w.start<w.sweep+w.life);
+   const box=area.getBoundingClientRect(),latest=waves.at(-1);if(latest&&area.hasAttribute('data-sheening'))paintWave(latest,now,box);
    if(state==='ready'&&visible()){
     const r=button.getBoundingClientRect(),hint=hovering||area.hasAttribute('data-keyboard-hint');
     for(const f of floats){if(f.el.hidden)continue;const t=now/1000,driftX=Math.sin(t*.48+f.phase)*7+Math.sin(t*.21+f.phase*2)*4,driftY=Math.cos(t*.39+f.phase)*6;let glow=0;
-     for(const w of waves){const distance=w.dark?1-f.x:f.x,age=now-w.start-w.sweep*(.9+distance*.5);if(age>=0&&age<w.life){const u=age/w.life;glow=Math.max(glow,Math.min(1,u*7)*Math.pow(1-u,1.5));}}
-     const target=Math.max(glow,hint?.6:0);f.alpha+=(target-f.alpha)*ease;
-     const dx=pointer?pointer.x-f.x*r.width-driftX:0,dy=pointer?pointer.y-f.y*r.height-driftY:0,influence=pointer?Math.max(0,1-Math.hypot(dx,dy)/140)*config.gravity/100:0;
-     f.pullX+=(dx*influence*.38-f.pullX)*ease;f.pullY+=(dy*influence*.38-f.pullY)*ease;
+     for(const w of waves){if(now-w.start>w.sweep)continue;const {centre,band}=waveGeometry(w,now,box),x=r.left-box.left+f.x*r.width+driftX+f.pullX,y=r.top-box.top+f.y*r.height+driftY+f.pullY,sample=waveSample((w.dark?box.width-x:x)+y,centre,band);if(sample&&sample.alpha>.05){f.chargedAt=now;if(!f.colour||sample.u>.2+(f.phase%1)*.6)f.colour=sample.colour;glow=Math.max(glow,sample.alpha);}}
+     const age=now-f.chargedAt;if(age<config.particleDuration)glow=Math.max(glow,.8*Math.pow(1-age/config.particleDuration,1.5));
+     if(f.colour)f.el.style.setProperty('--particle-colour','rgb('+f.colour.join(' ')+')');
+     const attractor=pointer||(hint?{x:r.width/2,y:r.height/2}:null),dx=attractor?attractor.x-f.x*r.width-driftX:0,dy=attractor?attractor.y-f.y*r.height-driftY:0,local=attractor?Math.exp(-(dx*dx+dy*dy)/(75*75)):0,influence=Math.min(.96,local*config.gravity/100);
+     const target=hint?Math.max(glow,.85)*local:glow;f.alpha+=(target-f.alpha)*ease;
+     f.pullX+=(dx*influence-f.pullX)*ease;f.pullY+=(dy*influence-f.pullY)*ease;
      f.el.style.transform='translate('+(driftX+f.pullX)+'px,'+(driftY+f.pullY)+'px) scale('+(1+influence*.6)+')';f.el.style.opacity=f.alpha*(.65+.35*Math.sin(t*1.7+f.phase)**2);
     }
    }else{for(const f of floats){f.alpha=0;f.el.style.opacity=0;}}
@@ -104,7 +108,7 @@ export function initPerspective(defaults) {
  configure();
  function sheen(complete=false){
   const token=++sequence;clearTimers();area.removeAttribute('data-sheening');area.removeAttribute('data-sparkling');void area.offsetWidth;
-  if(!motion.matches){area.setAttribute('data-sheening','');if(!complete)waves.push({start:performance.now(),sweep:config.duration,life:config.particleDuration,dark:root.dataset.theme==='dark'});}
+  if(!motion.matches){area.setAttribute('data-sheening','');waves.push({start:performance.now(),sweep:config.duration,life:config.particleDuration,dark:root.dataset.theme==='dark'});}
   if(complete){
    area.removeAttribute('data-hovering');area.removeAttribute('data-keyboard-hint');
    setState('revealing');sync();button.hidden=true;
@@ -113,7 +117,7 @@ export function initPerspective(defaults) {
    later(()=>{if(token!==sequence)return;setState('complete');sync();area.removeAttribute('data-sheening');later(()=>{dialog.showModal();window.workshopFocusPanel?.(dialog);},2000);},motion.matches?0:config.duration+1800);
   } else {later(()=>{if(token===sequence)area.removeAttribute('data-sheening');},config.duration);}
  }
- button.addEventListener('pointerenter',()=>{hovering=true;if(state==='ready')area.setAttribute('data-hovering','');});button.addEventListener('pointerleave',()=>{hovering=false;area.removeAttribute('data-hovering');});
+ button.addEventListener('pointerenter',event=>{const r=button.getBoundingClientRect();pointer={x:event.clientX-r.left,y:event.clientY-r.top};hovering=true;if(state==='ready')area.setAttribute('data-hovering','');});button.addEventListener('pointerleave',()=>{hovering=false;area.removeAttribute('data-hovering');});
  button.addEventListener('focus',()=>{if(state==='ready'&&root.dataset.focusInput==='keyboard')area.setAttribute('data-keyboard-hint','');});button.addEventListener('blur',()=>area.removeAttribute('data-keyboard-hint'));
  button.addEventListener('click',()=>{if(state==='ready')sheen(true);else if(state==='complete'){dialog.showModal();window.workshopFocusPanel?.(dialog);}});
  dialog.addEventListener('close',()=>{if(state!=='complete')return;button.hidden=false;button.focus({preventScroll:true});});
@@ -136,6 +140,6 @@ export function initPerspective(defaults) {
  setInterval(tick,100);tick();
  motion.addEventListener('change',()=>{if(motion.matches){area.getAnimations({subtree:true}).forEach(a=>{if(a.effect?.getTiming().iterations===Infinity)a.cancel();else a.finish();});area.removeAttribute('data-sheening');}});
  // Shared state renderer for isolated Playground fixtures; no parallel UI implementation.
- window.workshopPerspective={configure,get config(){return {...config};},get state(){return state;},get seen(){return [...seen];},preview(next){held=next!=='live';seen=new Set();candidate=null;clearTimers();sequence++;waves=[];dialog.close();area.removeAttribute('data-sheening');area.removeAttribute('data-sparkling');setState(next==='success'?'complete':next==='live'?'locked':next);button.hidden=next==='locked'||next==='live';if(next==='ready'){seen=new Set(['light','dark']);cycle=performance.now()+500;}if(next==='success'){dialog.showModal();window.workshopFocusPanel?.(dialog);}sync();},sheen};
+ window.workshopPerspective={configure,setHaloPointer(x,y){if(Number.isFinite(x)&&Number.isFinite(y))haloPointer={x:Math.max(0,Math.min(1,x)),y:Math.max(0,Math.min(1,y))};},get config(){return {...config};},get state(){return state;},get seen(){return [...seen];},preview(next){held=next!=='live';seen=new Set();candidate=null;clearTimers();sequence++;waves=[];floats.forEach(f=>{f.chargedAt=-Infinity;f.colour=null;f.el.style.removeProperty('--particle-colour');});dialog.close();area.removeAttribute('data-sheening');area.removeAttribute('data-sparkling');setState(next==='success'?'complete':next==='live'?'locked':next);button.hidden=next==='locked'||next==='live';if(next==='ready'){seen=new Set(['light','dark']);cycle=performance.now()+500;}if(next==='success'){dialog.showModal();window.workshopFocusPanel?.(dialog);}sync();},sheen};
 }
 export function withPerspective(html){return html.replace('</head>',`<style>${eggCSS}</style></head>`).replace('    <footer>',eggMarkup+'\n    <footer>').replace('</body>',`<script nonce="__NONCE__">(${initPerspective.toString()})(${JSON.stringify(perspectiveDefaults)});</script></body>`);}

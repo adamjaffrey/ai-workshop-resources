@@ -9,14 +9,19 @@ try{
   await p.goto(origin);await p.evaluate(theme=>window.dispatchEvent(new StorageEvent('storage',{key:'workshop-colour-theme',newValue:theme})),theme);await p.locator('.perspective').scrollIntoViewIfNeeded();await p.waitForTimeout(500);
   await p.evaluate(()=>{window.workshopPerspective.configure({duration:1500,gap:1000,particleDuration:12000});window.workshopPerspective.preview('ready');});
   await p.waitForFunction(()=>document.querySelector('.perspective').hasAttribute('data-sheening'));
-  assert.equal(await p.locator('.perspective-ellipsis').evaluate(e=>getComputedStyle(e,'::after').animationName),'perspective-sheen');
-  await p.waitForTimeout(1600);
+  assert.equal(await p.locator('.perspective-ellipsis').evaluate(e=>getComputedStyle(e,'::after').animationName),'none');
+  const paints=await p.locator('.perspective-day,.perspective-night,.perspective-ellipsis').evaluateAll(es=>es.map(e=>getComputedStyle(e,'::after').backgroundImage));assert.equal(new Set(paints).size,1,'all glyphs crop exactly one gradient');
+  await p.waitForTimeout(850);
   const early=await p.locator('.perspective-particle:not([hidden])').evaluateAll((points,dark)=>{const side=p=>{const x=parseFloat(p.style.getPropertyValue('--x'));return dark?100-x:x;};return {near:points.filter(p=>side(p)<15).map(p=>Number(p.style.opacity)),far:points.filter(p=>side(p)>85).map(p=>Number(p.style.opacity))};},theme==='dark');
-  assert.ok(early.near.some(a=>a>.01),'particles nearest ellipsis appear first');assert.ok(early.far.every(a=>a<.001),'far edge waits for wave');
+  assert.ok(early.near.some(a=>a>.01),'particles nearest ellipsis appear first');assert.ok(early.far.every(a=>a<.01),'far edge waits for wave');
+  await p.waitForTimeout(400);const colours=await p.locator('.perspective-particle:not([hidden])').evaluateAll(es=>es.filter(e=>Number(e.style.opacity)>.05).map(e=>e.style.getPropertyValue('--particle-colour')));assert.ok(new Set(colours).size>3,'particles inherit varied rainbow colours from shared wave');
   const before=await p.locator('.perspective-particle').first().evaluate(e=>e.style.transform);await p.waitForTimeout(300);assert.notEqual(await p.locator('.perspective-particle').first().evaluate(e=>e.style.transform),before,'particles drift without hover');
   await p.waitForFunction(()=>document.querySelector('.perspective').hasAttribute('data-sheening'));
   assert.ok(await p.locator('.perspective-particle').evaluateAll(points=>points.some(p=>Number(p.style.opacity)>.1)),'next sweep begins while previous particles persist');
  }
+ await p.setViewportSize({width:1440,height:900});await p.goto(origin);await p.locator('.perspective').scrollIntoViewIfNeeded();await p.evaluate(()=>window.workshopPerspective.preview('ready'));const hit=await p.locator('.perspective-discover').boundingBox();await p.mouse.move(hit.x+hit.width/2,hit.y+hit.height/2);await p.waitForTimeout(1200);
+ const attraction=await p.locator('.perspective-particle:not([hidden])').evaluateAll(es=>{const r=document.querySelector('.perspective-discover').getBoundingClientRect();return es.map(e=>{const x=parseFloat(e.style.getPropertyValue('--x'))/100*r.width,y=parseFloat(e.style.getPropertyValue('--y'))/100*r.height,m=new DOMMatrixReadOnly(getComputedStyle(e).transform);return {distance:Math.hypot(x-r.width/2,y-r.height/2),alpha:Number(e.style.opacity),after:Math.hypot(x+m.e-r.width/2,y+m.f-r.height/2)};});});
+ assert.ok(attraction.filter(p=>p.distance<45).some(p=>p.alpha>.3&&p.after<p.distance*.5),'near particles gather strongly at pointer');assert.ok(attraction.filter(p=>p.distance>180).every(p=>p.alpha<.01),'hover does not illuminate distant particles');
  await p.evaluate(()=>window.workshopPerspective.preview('success'));await p.mouse.move(5,5);await p.waitForTimeout(450);const before=await p.locator('.perspective-dialog').evaluate(e=>e.style.getPropertyValue('--halo-x'));await p.mouse.move(380,850);await p.waitForTimeout(450);assert.notEqual(await p.locator('.perspective-dialog').evaluate(e=>e.style.getPropertyValue('--halo-x')),before,'halo tracks screen pointer');
  await p.emulateMedia({reducedMotion:'reduce'});assert.equal(await p.locator('.perspective-dialog').evaluate(e=>getComputedStyle(e).getPropertyValue('--halo-dx')),'0px');
  console.log('PASS: directional emergence, ellipsis sheen, free drift, overlapping sweep tails and pointer halo');

@@ -14,10 +14,11 @@ try{
   const dims=e=>{const r=e.getBoundingClientRect();return [r.width,r.height];};assert.deepEqual(await f.locator('.perspective-discover').evaluate(dims),await app.locator('.perspective-discover').evaluate(dims));
  }
  await guide.locator('input[name=egg][value=success]').locator('..').click();await f.locator('.perspective-dialog').waitFor({state:'visible'});await app.evaluate(()=>window.workshopPerspective.preview('success'));for(const selector of ['#perspective-title','.perspective-dialog p','.perspective-dialog button'])assert.deepEqual(await f.locator(selector).first().evaluate(read),await app.locator(selector).first().evaluate(read));
+ await guide.mouse.move(10,10);await guide.waitForTimeout(700);const haloBefore=await f.locator('.perspective-dialog').evaluate(e=>e.style.getPropertyValue('--halo-x'));await guide.mouse.move(1200,20);await guide.waitForTimeout(700);assert.notEqual(await f.locator('.perspective-dialog').evaluate(e=>e.style.getPropertyValue('--halo-x')),haloBefore,'halo follows pointer outside specimen');
  for(const [key,value] of Object.entries({duration:8000,gap:750,intensity:150,halo:25,gravity:150,particleDuration:6000})){await guide.locator('#perspective-'+key).evaluate((el,value)=>{el.value=value;el.dispatchEvent(new Event('input',{bubbles:true}));},value);}
  await guide.waitForTimeout(300);
  assert.deepEqual(await f.locator('body').evaluate(()=>window.workshopPerspective.config),{duration:8000,gap:750,intensity:150,halo:25,gravity:150,particleDuration:6000});
- assert.deepEqual(await app.evaluate(()=>window.workshopPerspective.config),{duration:4000,gap:2000,intensity:100,halo:100,gravity:100,particleDuration:4000});
+ assert.deepEqual(await app.evaluate(()=>window.workshopPerspective.config),{duration:4000,gap:2000,intensity:100,halo:100,gravity:180,particleDuration:4000});
  assert.equal(await f.locator('.perspective-particle:not([hidden])').count(),72);
  assert.equal(await f.locator('.perspective-dialog').evaluate(e=>e.style.getPropertyValue('--perspective-halo')),'0.25');
  await guide.locator('#perspective-reset').click();await guide.waitForTimeout(300);

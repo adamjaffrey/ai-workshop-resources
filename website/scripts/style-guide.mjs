@@ -162,7 +162,7 @@ export async function styleGuidePage({authenticated=false,inlineAssets=true}={})
  const start=resources.indexOf('    async function checkSession()'),end=resources.indexOf('  </script>',start);
  if(start<0||end<0)throw Error('Resource session boundary missing');
  resources=resources.slice(0,start)+resources.slice(end);
- const discovery=sandboxDoc(resources, `let lastEgg;window.addEventListener('message',e=>{if(e.source!==parent||e.data?.guide!=='settings'||!e.data.egg)return;if(e.data.perspective)window.workshopPerspective.configure(e.data.perspective);if(e.data.egg!==lastEgg){lastEgg=e.data.egg;window.workshopPerspective.preview(lastEgg);if(lastEgg!=='live')document.querySelector('.perspective').scrollIntoView({block:'center'});}});`).replace('</head>','<style>/* Isolated source specimen: hide unrelated app content only. */ main > :not(.perspective,.perspective-dialog,.page-toolbar){display:none!important}.page-toolbar .brand{visibility:hidden}</style></head>');
+ const discovery=sandboxDoc(resources, `let lastEgg;document.addEventListener('pointermove',e=>parent.postMessage({guide:'discovery-pointer',x:e.clientX,y:e.clientY},'*'));window.addEventListener('message',e=>{if(e.source!==parent)return;if(e.data?.guide==='perspective-pointer'){window.workshopPerspective.setHaloPointer(e.data.x,e.data.y);return;}if(e.data?.guide!=='settings'||!e.data.egg)return;if(e.data.perspective)window.workshopPerspective.configure(e.data.perspective);if(e.data.egg!==lastEgg){lastEgg=e.data.egg;window.workshopPerspective.preview(lastEgg);if(lastEgg!=='live')document.querySelector('.perspective').scrollIntoView({block:'center'});}});`).replace('</head>','<style>/* Isolated source specimen: hide unrelated app content only. */ main > :not(.perspective,.perspective-dialog,.page-toolbar){display:none!important}.page-toolbar .brand{visibility:hidden}</style></head>');
  resources=sandboxDoc(resources);
  let blocks=loginPage.replace(/<script[^>]*src="\/login.js"[^>]*><\/script>/,'');
  blocks=blocks.replace('</head>',`<style>
@@ -321,6 +321,10 @@ export async function styleGuidePage({authenticated=false,inlineAssets=true}={})
  $('inspector-details').onclick=()=>{const show=$('inspection').hidden;$('inspection').hidden=!show;rotateDisclosure($('inspector-details'),show);};
  ['strength','blur','dim'].forEach(id=>$(id).addEventListener('input',()=>{blockOverrides[id]=true;$(id+'-value').value=$(id).value+(id==='blur'?'px':'%');sync();}));
  $('reset-blocks').onclick=()=>{Object.keys(blockOverrides).forEach(k=>blockOverrides[k]=false);$('review').value='clear';sync();};
+ function forwardHaloPointer(x,y){$('discovery-frame').contentWindow.postMessage({guide:'perspective-pointer',x:x/innerWidth,y:y/innerHeight},'*');}
+ document.addEventListener('pointermove',e=>forwardHaloPointer(e.clientX,e.clientY));
+ document.documentElement.addEventListener('pointerleave',()=>forwardHaloPointer(innerWidth/2,innerHeight/2));
+ window.addEventListener('message',e=>{if(e.source!==$('discovery-frame').contentWindow||e.data?.guide!=='discovery-pointer'||!Number.isFinite(e.data.x)||!Number.isFinite(e.data.y))return;const r=$('discovery-frame').getBoundingClientRect();forwardHaloPointer(r.left+e.data.x,r.top+e.data.y);});
  const perspectiveDefaults=${JSON.stringify(perspectiveDefaults)};
  for(const key of Object.keys(perspectiveDefaults))$('perspective-'+key).addEventListener('input',()=>{const input=$('perspective-'+key);$('perspective-'+key+'-value').textContent=(input.dataset.unit==='s'?Number(input.value)/1000:input.value)+input.dataset.unit;sync();});
  $('perspective-reset').addEventListener('click',()=>{for(const [key,value] of Object.entries(perspectiveDefaults)){const input=$('perspective-'+key);input.value=value;$('perspective-'+key+'-value').textContent=(input.dataset.unit==='s'?value/1000:value)+input.dataset.unit;}sync();});

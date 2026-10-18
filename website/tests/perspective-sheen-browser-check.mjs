@@ -11,10 +11,9 @@ for(const width of [320,390,1440])for(const theme of ['light','dark']){
  const selector=theme==='light'?'.perspective-day':'.perspective-night',hidden=theme==='light'?'.perspective-night':'.perspective-day';
  const hit=await p.locator('.perspective-discover').boundingBox(),fragment=await p.locator(hidden).evaluate(e=>e.getBoundingClientRect().toJSON());
  assert.ok(Math.abs(hit.x-fragment.x)<1&&Math.abs(hit.width-fragment.width)<1);assert.ok(hit.y<=fragment.y&&hit.y+hit.height>=fragment.y+fragment.height,'entire concealed fragment covered');
- await p.evaluate(()=>{for(const a of document.getAnimations())if(a.animationName==='perspective-sheen'){a.pause();a.currentTime=0;}});
- const rest=await p.locator('.perspective').screenshot();await p.evaluate(()=>{for(const a of document.getAnimations())if(a.animationName==='perspective-sheen')a.currentTime=2250;});
- assert.equal(await p.locator(selector).evaluate(e=>getComputedStyle(e,'::after').animationName),'perspective-sheen');
- const active=await p.locator('.perspective').screenshot();assert.notDeepEqual(active,rest,'sheen changes rendered pixels');
+ const rest=await p.locator('.perspective').screenshot();await p.waitForTimeout(1000);
+ assert.equal(await p.locator(selector).evaluate(e=>getComputedStyle(e,'::after').animationName),'none');
+ const active=await p.locator('.perspective').screenshot();assert.notDeepEqual(active,rest,'shared wave changes rendered pixels');
  if(width===390)await p.locator('.perspective').screenshot({path:'/tmp/perspective-sheen-'+theme+'.png'});
  await p.locator('.perspective-discover').hover();await p.waitForTimeout(650);assert.equal(await p.locator(hidden).evaluate(e=>getComputedStyle(e,'::after').opacity),'0');assert.equal(await p.locator('.perspective-particle').count(),96);assert.ok(await p.locator('.perspective-particle').first().evaluate(e=>new DOMMatrixReadOnly(getComputedStyle(e).transform).a>.4),'particles expand into visible sparks');
  assert.equal(await p.locator('.perspective-discover svg').count(),0);

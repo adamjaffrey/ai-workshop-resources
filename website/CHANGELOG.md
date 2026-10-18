@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.142"
-  update_summary: "Unify the Easter Egg sweep, drifting particles and pointer halo"
-  updated_at: "Mon 19 Oct 2026 at 02:02:07 am AEDT (+11:00)"
+  doc_revision: "26.0.143"
+  update_summary: "Carry one rainbow wave into locally attracted sparkles"
+  updated_at: "Mon 19 Oct 2026 at 02:09:33 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.141 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 02:09:33 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Carry one rainbow wave into locally attracted sparkles
+
+### Changed
+
+- Replace separate text and ellipsis animations with crops of one area-sized gradient driven by one clock across the complete inscription.
+- Sample that shared palette at drifting particle positions and retain rainbow colours in their fading tails.
+- Increase default gravity to 180% and restrict hover brightness to particles near the pointer, fading distant points.
+- Forward Playground screen-pointer movement across the specimen iframe boundary so its halo follows the surrounding page as well.
+
+### Validation
+
+- Website build and generated version/shared-wave/pointer-code checks — passed.
+- Shared gradient, rainbow particle colours, directional emergence, drift, overlapping tails, strong local attraction and distant-particle fade — passed.
+- Dedicated Playground/app parity across four widths, both themes and agents, controls/reset and halo tracking outside the iframe — passed.
+- Rendered sheen, discovery gating, focus, reduced motion, touch and theme-transition edge cases — passed.
+- Required general Playground source-parity suite — passed. Physical-device Safari remains unverified.
 
 ## v26.0.140 — 2026-10-19
 
