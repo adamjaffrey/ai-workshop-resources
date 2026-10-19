@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.160"
-  update_summary: "Restore the previous selector contraction"
-  updated_at: "Mon 19 Oct 2026 at 11:51:31 am AEDT (+11:00)"
+  doc_revision: "26.0.161"
+  update_summary: "Adjust selector contraction and expansion gaps"
+  updated_at: "Mon 19 Oct 2026 at 11:57:39 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.159 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 11:57:39 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Adjust selector contraction and expansion gaps
+
+### Changed
+
+- Contract the mobile agent selector at a 16px gap and expand at 24px, preserving the 8px reversal buffer and existing animation.
+- Apply the same thresholds to the shared Playground Resources specimen and update the documented gaps and stability regression.
+
+### Validation
+
+- `node website/tests/sticky-controls-stability-check.mjs` — passed at 320, 390 and 660px with zero layout drift.
+- `node website/tests/style-guide-browser-check.mjs` — passed.
+- `npm --prefix website run build` — passed; generated v26.0.159 verified.
+- Wi-Fi app and Playground previews — HTTP 200.
 
 ## v26.0.158 — 2026-10-19
 

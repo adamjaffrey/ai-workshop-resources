@@ -14,14 +14,14 @@ try {
   const samples=[];
   const sample=()=>{const r=slot.getBoundingClientRect(),l=label.getBoundingClientRect();samples.push({top:r.top+scrollY,width:r.width,label:l.top+scrollY,compact:agent.hasAttribute('data-compact')});};
   async function move(top){scrollTo(0,origin-top);for(let i=0;i<26;i++){await new Promise(requestAnimationFrame);sample();}}
-  const threshold=24+document.querySelector('.page-toolbar .theme-toggle').offsetHeight+16;
+  const threshold=24+document.querySelector('.page-toolbar .theme-toggle').offsetHeight+20;
   await move(threshold-2);
   const waitsUntilCloseGap=!agent.hasAttribute('data-compact');
   await move(threshold-6);
   const collapsed=agent.hasAttribute('data-compact');
   for(const offset of [-1,2,-2,1,-1,2])await move(threshold+offset);
   const held=agent.hasAttribute('data-compact');
-  await move(threshold+6); // Symmetric 4px margins around the 16px gap.
+  await move(threshold+6); // Symmetric 4px margins around the 20px gap.
   const expanded=!agent.hasAttribute('data-compact');
   return {waitsUntilCloseGap,collapsed,held,expanded,topDrift:Math.max(...samples.map(s=>s.top))-Math.min(...samples.map(s=>s.top)),widthDrift:Math.max(...samples.map(s=>s.width))-Math.min(...samples.map(s=>s.width)),labelDrift:Math.max(...samples.map(s=>s.label))-Math.min(...samples.map(s=>s.label))};
  });
