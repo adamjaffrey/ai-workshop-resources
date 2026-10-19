@@ -103,12 +103,12 @@ await choose('review','panel');assert.equal(await blocks.locator('.access-gate')
 assert.equal(await blocks.locator('.access-gate').evaluate(e=>getComputedStyle(e).backdropFilter),'none');
 await choose('review','clear');assert.equal(await blocks.locator('.page-placeholder').evaluate(e=>getComputedStyle(e).filter),'none');
 await p.click('#reset-blocks');await p.waitForFunction(()=>document.querySelector('#strength').value==='40'&&document.querySelector('#blur').value==='4');assert.equal(await p.locator('#strength').inputValue(),'40');assert.equal(await p.locator('#blur').inputValue(),'4');
-await p.screenshot({path:'/tmp/style-guide-blocks.png'});
+await p.screenshot({path:'/tmp/playground-blocks.png'});
 await p.click('[data-tab=colours]');assert.ok(await p.locator('[data-token]').count()>20);
 assert.equal(writes.length,0);assert.deepEqual(errors,[]);
-await p.screenshot({path:'/tmp/style-guide-colours.png',fullPage:true});
-await p.click('[data-tab=components]');await p.locator('#login-frame').scrollIntoViewIfNeeded();await p.screenshot({path:'/tmp/style-guide-components.png'});
-await p.setViewportSize({width:390,height:844});await p.locator('#login-frame').scrollIntoViewIfNeeded();await p.screenshot({path:'/tmp/style-guide-mobile.png'});
+await p.screenshot({path:'/tmp/playground-colours.png',fullPage:true});
+await p.click('[data-tab=components]');await p.locator('#login-frame').scrollIntoViewIfNeeded();await p.screenshot({path:'/tmp/playground-components.png'});
+await p.setViewportSize({width:390,height:844});await p.locator('#login-frame').scrollIntoViewIfNeeded();await p.screenshot({path:'/tmp/playground-mobile.png'});
 const production=await handleRequest(new Request('http://production/playground'),{});assert.notEqual(production.status,200);
 console.log('PASS: radios, docked/frozen/debounced inspector, block selection/blur controls, mobile/desktop, both agents/themes, all held login states, copy feedback, navigation containment, tokens, typography and unconfigured hosted access fails closed');
 }finally{await b.close();await new Promise(r=>server.close(r));}

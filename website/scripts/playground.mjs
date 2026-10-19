@@ -1,7 +1,7 @@
-import {linkTypographyPage} from './style-guide-link-typography.mjs';
+import {linkTypographyPage} from './playground-link-typography.mjs';
 import {__iconNode as linkTypographyIcon} from '../node_modules/lucide-react/dist/esm/icons/text-cursor.mjs';
-import {playgroundLayoutCSS, playgroundLayoutScript, playgroundStickyControlsScript} from './style-guide-layout.mjs';
-import {playgroundIconCatalogScript} from './style-guide-playground-icons.mjs';
+import {playgroundLayoutCSS, playgroundLayoutScript, playgroundStickyControlsScript} from './playground-layout.mjs';
+import {playgroundIconCatalogScript} from './playground-tool-icons.mjs';
 import {__iconNode as headingIcon0} from '../node_modules/lucide-react/dist/esm/icons/lock-keyhole.mjs';
 import {__iconNode as headingIcon1} from '../node_modules/lucide-react/dist/esm/icons/panels-top-left.mjs';
 import {__iconNode as headingIcon2} from '../node_modules/lucide-react/dist/esm/icons/type.mjs';
@@ -21,9 +21,9 @@ import {playgroundHeadingIcon,playgroundFavicon} from '../lib/workshop-playgroun
 import {playgroundTabPaths} from '../lib/workshop-playground-routes.mjs';
 import {wormHaloControls} from '../lib/workshop-worm-halo.mjs';
 import {eggCSS,perspectiveDefaults,perspectiveControls} from '../lib/workshop-easter-egg.mjs';
-import {heldFocusCSS, focusGalleryScript} from './style-guide-focus.mjs';
+import {heldFocusCSS, focusGalleryScript} from './playground-focus.mjs';
 // Shared playground generator. Runs locally or at build time; generated HTML is served only after session validation.
-import {iconCaptureScript, iconGalleryScript, errorGalleryScript} from './style-guide-icons.mjs';
+import {iconCaptureScript, iconGalleryScript, errorGalleryScript} from './playground-icons.mjs';
 import {readFile} from 'node:fs/promises';
 import {loginPage, playgroundLoginPage, resourcePage} from '../lib/workshop-pages.mjs';
 import {handleRequest} from '../lib/workshop-handler.mjs';
@@ -183,7 +183,7 @@ window.addEventListener('message',e=>{
 
 new ResizeObserver(measure).observe(document.body);new MutationObserver(measure).observe(document.documentElement,{attributes:true});measure();
 `;
-export async function styleGuidePage({authenticated=false,inlineAssets=true}={}){
+export async function playgroundPage({authenticated=false,inlineAssets=true}={}){
  const lucideLicence=await readFile(new URL("../public/assets/lucide-LICENSE.txt",import.meta.url),"utf8");
  const featherNotice=lucideLicence.slice(lucideLicence.indexOf("The MIT License"));
  const iconNames={};

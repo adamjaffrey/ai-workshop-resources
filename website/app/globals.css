@@ -2,6 +2,9 @@
 @import "tw-animate-css";
 @import "../vendor/shadcn-tailwind-4.13.0.css";
 
+/* Retired starter examples must not contribute production utilities. */
+@source not "../_archive";
+
 @utility scrollbar-thin {
   scrollbar-width: thin;
 }

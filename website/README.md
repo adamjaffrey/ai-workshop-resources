@@ -3,14 +3,30 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.134"
-  update_summary: "Raise the shared link surface top edge by one pixel"
-  updated_at: "Mon 19 Oct 2026 at 08:07:49 pm AEDT (+11:00)"
+  doc_revision: "26.0.135"
+  update_summary: "Rename Playground sources and document the website folder map"
+  updated_at: "Mon 19 Oct 2026 at 10:23:52 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Workshop Website Access
+
+## Folder Map
+
+| Location | Purpose |
+| --- | --- |
+| [lib/](lib/) | Shared app rendering, styles, behaviour and authentication. |
+| [scripts/playground.mjs](scripts/playground.mjs) and `scripts/playground-*.mjs` | Playground rendering, layout, focus and icon tooling. |
+| [scripts/](scripts/) | Preview, build, installation and asset-generation commands. |
+| [tests/](tests/) | Active unit and headless browser checks; start with `playground-browser-check.mjs` for source parity. |
+| [app/](app/), [build/](build/) and [components/](components/) | Active Sites routing, build integration and connector fallback UI. `build/` contains maintained source, not disposable output. |
+| [db/](db/) and [drizzle/](drizzle/) | Active database definitions and migrations. |
+| [public/](public/) and [vendor/](vendor/) | Public assets and retained third-party CSS and licences. |
+| [_archive/](_archive/) | Retired previews and unused starter examples/components, retained for reference. |
+| `dist/`, `outputs/`, `.next/`, `.wrangler/`, `.sites-runtime/` and `node_modules/` | Ignored generated output, local runtime state and dependencies. |
+
+The unused starter UI components and mobile hook are now in `_archive/starter/components/ui/` and `_archive/starter/hooks/`; the D1 notes example is in `_archive/starter/examples/d1/`. The shared button remains in `components/ui/button.tsx` because the active connector error screen imports it. Archived imports point to their retained dependencies; TypeScript, ESLint and Tailwind exclude the archive from normal processing. `_archive/preview-login.mjs` remains an explicitly invoked manual preview. Existing documentation anchors and the legacy `/style-guide` URL redirect remain intact.
 
 ## Project Tracking
 
@@ -193,7 +209,7 @@ The playground reuses current login/resource markup, CSS, shared theme helpers a
 
 Sample frames are sandboxed without same-origin access, form submission or top navigation. Only the icon gallery permits new tabs for explicitly revealed source links. Session checks are removed, authentication is simulated, copy actions never touch the clipboard, and specimen links remain in the playground. Login visual state handling reuses the current login script up to its submission handler, then substitutes persistent demonstration states. The shared generator lives under `scripts/`; builds generate a server-only module for the authenticated production route. Only the outer hosted playground checks the real session; specimen frames retain simulated sessions.
 
-Validate with `node website/tests/style-guide-browser-check.mjs`. This checks both agents/themes at mobile and desktop sizes, held login states, copy results, frame widths, navigation containment and anonymous hosted-content protection. Run `node website/tests/playground-session-browser-check.mjs` for shared-session navigation, direct login return, sandbox/CSP rendering and logout relocking. Headless checks are permitted; do not present them as native mobile-browser testing.
+Validate with `node website/tests/playground-browser-check.mjs`. This checks both agents/themes at mobile and desktop sizes, held login states, copy results, frame widths, navigation containment and anonymous hosted-content protection. Run `node website/tests/playground-session-browser-check.mjs` for shared-session navigation, direct login return, sandbox/CSP rendering and logout relocking. Headless checks are permitted; do not present them as native mobile-browser testing.
 
 The separate theme toggle layer moves immediately but blends its surface, border and text tokens with the circular feather. Sample the actual animated root-mask radius at the control centre each frame; do not start an independent colour timer. In dark mode the control retains its light colours until the contracting feather reaches it. Clear temporary overrides on completion, interruption and reduced-motion changes.
 
@@ -222,7 +238,7 @@ At widths up to 660px, the four global controls move into a native popover that 
 | App Icons and Symbols | Running app frames plus installed Lucide definitions | Captures actual SVG/image markup and computed styles inside their controls, including login and copy states. Matches Lucide technical names by SVG geometry; labels Lobe brand logos and extracts Unicode text excerpts and the CSS footer separator. Isolated source frames prevent state capture from disturbing the visible specimens. |
 | Colours | App CSS and colour-bearing markup attributes | Token swatches resolve from shared theme values; a generated declaration inventory exposes literal colours, shadows, outlines, fills and interaction selectors. Usage descriptions are tooling annotations. |
 | Blocks | Saved placeholder markup plus login CSS | Reuses geometry; reads native blur, strength and scrim values. Local controls adjust only the sandbox frame. |
-| Playground chrome | `scripts/style-guide.mjs` | Navigation, labels, radio groups, inspector and local sliders are explicitly tooling UI; they use shared colour tokens but are not represented as app components. |
+| Playground chrome | `scripts/playground.mjs` | Navigation, labels, radio groups, inspector and local sliders are explicitly tooling UI; they use shared colour tokens but are not represented as app components. |
 
 The neutral-token audit found every neutral role referenced. Light-mode `--field-bg` now aliases the nearly identical `--content-surface`, removing an unnecessary separate fill. Dark-mode `--field-border` aliases the already identical `--control-border`. Other neutral roles remain distinct for canvas, raised surfaces, text hierarchy and boundary emphasis. No geometry refresh is required for these colour-only changes.
 
@@ -263,7 +279,7 @@ The shared `perspectiveControls` schema defines every slider’s label, default,
 
 Header Copy exports every setting and its explicit unit, including hidden controls. Header Reset restores the canonical defaults. Clipboard API, legacy local-HTTP copying and selectable-text fallback remain supported. Controls affect only this preview session; they do not save app defaults. The shared source specimen retains app typography, colours, target geometry, focus and animation. It retains canonical step three, card three and footer context, scrolled to frame the inscription; the normal resource specimen remains complete. The inscription frame is 420px tall and the selected Success Dialog frame 520px; full-screen expansion fills the available viewport. Fixed Screen Width selections shrink and centre the surrounding preview canvas as well as setting the specimen viewport; oversized specimens scroll inside the available canvas. Fit restores full available width. Screen Width buttons share the same vertical padding as the other style controls. Canvas and iframe widths interpolate over 360ms, including Fit; reduced motion skips interpolation. All state-control slider grids use at most three equal columns, retaining empty cells for orphan controls instead of stretching them. Narrower containers naturally reduce to two or one column.
 
-Validate viewport sizing with `node website/tests/playground-width-browser-check.mjs` and animation loops with `node website/tests/perspective-loop-browser-check.mjs`. Validate with `node website/tests/perspective-timing-browser-check.mjs`, `node website/tests/perspective-flow-browser-check.mjs`, `node website/tests/perspective-browser-check.mjs`, `node website/tests/perspective-edge-browser-check.mjs`, `node website/tests/perspective-sheen-browser-check.mjs`, `node website/tests/perspective-playground-browser-check.mjs` and `node website/tests/style-guide-browser-check.mjs`, plus the existing theme-transition, theme-control-colour and Playground focus checks. Touch checks use browser emulation; physical-device Safari still requires user testing through the LAN preview.
+Validate viewport sizing with `node website/tests/playground-width-browser-check.mjs` and animation loops with `node website/tests/perspective-loop-browser-check.mjs`. Validate with `node website/tests/perspective-timing-browser-check.mjs`, `node website/tests/perspective-flow-browser-check.mjs`, `node website/tests/perspective-browser-check.mjs`, `node website/tests/perspective-edge-browser-check.mjs`, `node website/tests/perspective-sheen-browser-check.mjs`, `node website/tests/perspective-playground-browser-check.mjs` and `node website/tests/playground-browser-check.mjs`, plus the existing theme-transition, theme-control-colour and Playground focus checks. Touch checks use browser emulation; physical-device Safari still requires user testing through the LAN preview.
 
 ## Floating Brand Blur
 

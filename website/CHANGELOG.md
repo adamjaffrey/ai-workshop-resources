@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.205"
-  update_summary: "Space the first Easter Egg disclosure from its introduction"
-  updated_at: "Mon 19 Oct 2026 at 08:20:05 pm AEDT (+11:00)"
+  doc_revision: "26.0.206"
+  update_summary: "Rename Playground sources and archive unused starter files"
+  updated_at: "Mon 19 Oct 2026 at 10:26:23 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.204 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 10:26:23 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Rename Playground sources and archive unused starter files
+
+### Changed
+
+- Rename the Playground renderer, supporting modules and source-parity check; update imports and documentation while preserving the legacy `/style-guide` redirect.
+- Move 60 unused starter UI components, their mobile hook and the D1 example into `_archive/starter/`, retaining the active connector button and all required infrastructure.
+- Resolve archived imports and exclude retired files from TypeScript, ESLint and Tailwind processing.
+- Add a website folder map without moving existing documentation or breaking its anchors.
+
+### Validation
+
+- TypeScript `tsc --noEmit --incremental false` and active/archived import resolution audit — passed.
+- Authentication, phone-preview and Playground route checks — 16 passed.
+- Playground browser source-parity check at 320, 390, 768 and 1440px, both themes and agents — passed.
+- Placeholder source checks and Sites production build with generated v26.0.204 displays — passed.
 
 ## v26.0.203 — 2026-10-19
 

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
-import {linkTypographyPage} from '../scripts/style-guide-link-typography.mjs';
+import {linkTypographyPage} from '../scripts/playground-link-typography.mjs';
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{const page=await browser.newPage({hasTouch:true});const errors=[];page.on('pageerror',e=>errors.push(e.message));
 await page.setContent(linkTypographyPage);await page.waitForFunction(()=>document.querySelector('a.workshop-link'));

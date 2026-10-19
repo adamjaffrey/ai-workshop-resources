@@ -2,7 +2,7 @@ import {isPlaygroundPath,playgroundRedirect} from '../lib/workshop-playground-ro
 // Local-only adapter: never imported by application or production build entrypoints.
 import http from 'node:http';
 import {gzipSync} from 'node:zlib';
-import {styleGuidePage} from './style-guide.mjs';
+import {playgroundPage} from './playground.mjs';
 import {randomBytes} from 'node:crypto';
 import {DatabaseSync} from 'node:sqlite';
 import {readFileSync} from 'node:fs';
@@ -36,7 +36,7 @@ export function createPhonePreview({protectPlayground=false,autoLogin=false}={})
         const compressed=(req.headers['accept-encoding']||'').split(',').some(value=>/^\s*gzip(?:\s*;|\s*$)/i.test(value)&&!/(?:^|;)\s*q=0(?:\.0*)?\s*$/i.test(value));
         res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','Vary':'Accept-Encoding',...(compressed?{'Content-Encoding':'gzip'}:{})});
         if(req.method==='HEAD'){res.end();return;}
-        const html=await styleGuidePage({inlineAssets:false});res.end(compressed?gzipSync(html):html);return;
+        const html=await playgroundPage({inlineAssets:false});res.end(compressed?gzipSync(html):html);return;
       }
       if(req.method==='GET'&&assets.has(url.pathname)) {
         res.writeHead(200,{'Content-Type':assets.get(url.pathname),'Cache-Control':'no-store','Access-Control-Allow-Origin':'*'});
@@ -67,7 +67,7 @@ export function createPhonePreview({protectPlayground=false,autoLogin=false}={})
           automaticCookie=login.headers.get('set-cookie');headers.set('cookie',automaticCookie.split(';')[0]);
         }
       }
-      const response=await handleRequest(new Request(url,{method:req.method,headers,body}),env,Date.now(),{renderPlayground:()=>styleGuidePage({authenticated:true})});
+      const response=await handleRequest(new Request(url,{method:req.method,headers,body}),env,Date.now(),{renderPlayground:()=>playgroundPage({authenticated:true})});
       res.statusCode=response.status;
       for(const [key,value] of response.headers){
         res.setHeader(key,key==='set-cookie'?value.replace(COOKIE+'=',previewCookie+'=').replace('; Secure',''):value);
