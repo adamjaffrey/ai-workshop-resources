@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.199"
-  update_summary: "Place discovery in the footer and reduce particle layout work"
-  updated_at: "Mon 19 Oct 2026 at 07:53:00 pm AEDT (+11:00)"
+  doc_revision: "26.0.200"
+  update_summary: "Align link hit areas with hover bounds and widen selector spacing"
+  updated_at: "Mon 19 Oct 2026 at 07:57:57 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.198 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 07:57:57 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Align link hit areas with hover bounds and widen selector spacing
+
+### Changed
+
+- Move link hover and pointer/touch bounds down 3px at the top and out 1px at the right, preserving left/bottom edges and text/arrow placement.
+- Align keyboard focus rings with the new bounds and update held-hover specimens and colour readouts.
+- Increase the lower spacing beneath normal and pinned Playground global selectors to 40px.
+
+### Validation
+
+- Link hit-boundary, mouse/touch/keyboard, focus, theme and reduced-motion checks — passed.
+- Sticky-toolbar spacing, connected controls and selection/typography checks — passed.
+- Full app/specimen browser regression check — passed. Rendered focus/hover sample inspected; physical-device Safari not tested.
+- Sites local production build and generated v26.0.198 displays — passed. Main-app placeholder geometry unchanged.
 
 ## v26.0.197 — 2026-10-19
 

@@ -38,7 +38,7 @@ header.wrap{padding-top:40px;padding-bottom:0;width:calc(100% - 48px);max-width:
 header.wrap .kicker{font-size:14px;line-height:21px;margin:0 0 24px}
 header.wrap #playground-title{font-size:48px;line-height:1.2;letter-spacing:-.045em;margin:0 0 24px}
 header.wrap p{font-size:16px;line-height:24px;margin:0;max-width:none}
-.playground-heading~.toolbar .wrap{padding-top:32px;padding-bottom:24px;width:calc(100% - 48px);max-width:1120px;padding-inline:0}
+.playground-heading~.toolbar .wrap{padding-top:32px;padding-bottom:40px;width:calc(100% - 48px);max-width:1120px;padding-inline:0}
 .choices legend{font-size:14px;line-height:21px;margin-bottom:16px}
 .choices .choice-options.segmented-toggle{display:inline-flex!important;flex-flow:row nowrap!important;align-items:center;position:relative;gap:4px!important;padding:4px!important;border:1px solid var(--control-border);border-radius:12px;background:var(--control-bg);max-width:100%;overflow-x:auto;scrollbar-width:thin;vertical-align:top}
 .choice-options.segmented-toggle .choice{flex:none;white-space:nowrap}
@@ -100,7 +100,7 @@ summary{display:flex;align-items:center;gap:8px}summary>.disclosure-chevron{marg
 .toolbar{position:relative;top:auto}
 .toolbar.controls-pinned{height:var(--toolbar-flow-height)}
 .toolbar.controls-pinned::before{content:'';position:fixed;inset:0 0 auto;height:var(--toolbar-pinned-height);background:var(--surface);border-bottom:1px solid var(--border)}
-.playground-heading~.toolbar.controls-pinned #global-style-controls{position:fixed;top:0;left:50%;transform:translateX(-50%);padding-top:24px;padding-bottom:24px;align-items:flex-start}
+.playground-heading~.toolbar.controls-pinned #global-style-controls{position:fixed;top:0;left:50%;transform:translateX(-50%);padding-top:24px;padding-bottom:40px;align-items:flex-start}
 .toolbar.controls-pinned legend{position:absolute;width:1px!important;height:1px;padding:0!important;margin:-1px!important;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .toolbar.controls-pinned .hover-explanation{display:none}
 .toolbar.controls-pinned .hover-explainer{visibility:hidden}
