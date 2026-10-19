@@ -14,20 +14,20 @@ try {
   const samples=[];
   const sample=()=>{const r=slot.getBoundingClientRect(),l=label.getBoundingClientRect();samples.push({top:r.top+scrollY,width:r.width,label:l.top+scrollY,compact:agent.hasAttribute('data-compact')});};
   async function move(top){scrollTo(0,origin-top);for(let i=0;i<26;i++){await new Promise(requestAnimationFrame);sample();}}
-  const threshold=16+document.querySelector('.page-toolbar .theme-toggle').offsetHeight+agent.offsetHeight;
+  const threshold=24+document.querySelector('.page-toolbar .theme-toggle').offsetHeight+16;
   await move(threshold-2);
-  const waitsUntilOneHeight=!agent.hasAttribute('data-compact');
+  const waitsUntilCloseGap=!agent.hasAttribute('data-compact');
   await move(threshold-6);
   const collapsed=agent.hasAttribute('data-compact');
   for(const offset of [-1,2,-2,1,-1,2])await move(threshold+offset);
   const held=agent.hasAttribute('data-compact');
-  await move(threshold+6); // Symmetric 4px margins around one control height.
+  await move(threshold+6); // Symmetric 4px margins around the 16px gap.
   const expanded=!agent.hasAttribute('data-compact');
-  return {waitsUntilOneHeight,collapsed,held,expanded,topDrift:Math.max(...samples.map(s=>s.top))-Math.min(...samples.map(s=>s.top)),widthDrift:Math.max(...samples.map(s=>s.width))-Math.min(...samples.map(s=>s.width)),labelDrift:Math.max(...samples.map(s=>s.label))-Math.min(...samples.map(s=>s.label))};
+  return {waitsUntilCloseGap,collapsed,held,expanded,topDrift:Math.max(...samples.map(s=>s.top))-Math.min(...samples.map(s=>s.top)),widthDrift:Math.max(...samples.map(s=>s.width))-Math.min(...samples.map(s=>s.width)),labelDrift:Math.max(...samples.map(s=>s.label))-Math.min(...samples.map(s=>s.label))};
  });
- console.log(width,result);assert.equal(result.waitsUntilOneHeight,true);assert.equal(result.collapsed,true);assert.equal(result.held,true);assert.equal(result.expanded,true);assert.ok(result.topDrift<1);assert.ok(result.widthDrift<1);assert.ok(result.labelDrift<1);
+ console.log(width,result);assert.equal(result.waitsUntilCloseGap,true);assert.equal(result.collapsed,true);assert.equal(result.held,true);assert.equal(result.expanded,true);assert.ok(result.topDrift<1);assert.ok(result.widthDrift<1);assert.ok(result.labelDrift<1);
  await page.evaluate(()=>scrollTo(0,800));await page.waitForTimeout(500);await page.setViewportSize({width,height:720});await page.waitForTimeout(50);
- assert.equal(await page.locator('.controls .toggle').getAttribute('data-compact'),'');assert.equal(await page.locator('.controls .toggle').evaluate(e=>e.getBoundingClientRect().top),16);
+ assert.equal(await page.locator('.controls .toggle').getAttribute('data-compact'),'');assert.equal(await page.locator('.controls .toggle').evaluate(e=>e.getBoundingClientRect().top),24);
  await context.close();
  }
  console.log('PASS: stable layout during collapse/expansion, threshold oscillation and mobile viewport-height changes');

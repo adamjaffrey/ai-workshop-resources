@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.157"
-  update_summary: "Start the animated discovery reveal without a delay"
-  updated_at: "Mon 19 Oct 2026 at 11:27:01 am AEDT (+11:00)"
+  doc_revision: "26.0.158"
+  update_summary: "Centre floating shadows and tighten sticky-control spacing"
+  updated_at: "Mon 19 Oct 2026 at 11:32:56 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.156 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 11:32:56 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Centre floating shadows and tighten sticky-control spacing
+
+### Changed
+
+- Lock both persistent controls 24px from the top, respecting larger safe-area insets. Collapse the mobile agent selector at a 12px gap and expand at 20px, retaining stable layout slots and the fast-scroll safeguard.
+- Centre both shared floating-shadow tokens without changing blur or opacity. Use the centred control token for Playground floating controls, the Style Options panel and inspector dock; preserve the larger login-panel blur.
+- Update repository guidance to retain matching centred shadows for Playground floating elements. Preserve resting layout and saved backdrop geometry.
+
+### Validation
+
+- Sticky-control browser matrix — passed across four widths, both agents and themes, including 24px locking and source-linked Playground scrolling.
+- Mobile stability regression — passed at 320, 390 and 660px, with 12px/20px triggers and zero slot/label drift.
+- Rendered shadow comparison — app selectors, Playground Style Options panel, Back to Top and inspector share zero-offset shadows.
+- `node website/tests/style-guide-browser-check.mjs` — passed on final source.
+- Radius-endpoint, theme-transition and theme-control-colour checks — passed.
+- `npm --prefix website run build` — passed; generated version verified as v26.0.156. Wi-Fi app and Playground URLs return HTTP 200.
 
 ## v26.0.155 — 2026-10-19
 

@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.41"
-  update_summary: "Require Wi-Fi addresses for all project preview handoffs"
-  updated_at: "Mon 19 Oct 2026 at 02:58:05 am AEDT (+11:00)"
+  doc_revision: "26.0.42"
+  update_summary: "Share centred shadows across floating Playground elements"
+  updated_at: "Mon 19 Oct 2026 at 11:30:41 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -181,7 +181,7 @@ Apply this standard to:
 - Read blur, strength and scrim defaults from app CSS. Local sliders must never change production settings or trigger block remeasurement.
 - Distinguish the playground’s own testing/navigation controls and explanatory annotations from app specimens. Keep source-parity checks for rendered text and computed typography across mobile/desktop, both agents and both themes when modifying the playground or specimen sources.
 
-- Show full login panels for held login states in Status States. Show JavaScript-disabled notices in their real surrounding page or panel context. Scale complete context specimens only when necessary to fit narrow containers, and label that scaling explicitly. Reuse the login panel shadow token for floating Playground panels; use the stronger shared floating-control shadow token for the ellipsis and Back to Top buttons; keep dark shadows in dark mode with surface and border contrast, rather than white glows.
+- Show full login panels for held login states in Status States. Show JavaScript-disabled notices in their real surrounding page or panel context. Scale complete context specimens only when necessary to fit narrow containers, and label that scaling explicitly. Use the shared centred floating-control shadow token for floating Playground panels, the inspector dock, the ellipsis and Back to Top buttons; keep dark shadows in dark mode with surface and border contrast, rather than white glows.
 
 ### Mandatory Change and Validation Contract
 
