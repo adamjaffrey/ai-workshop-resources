@@ -26,6 +26,7 @@ export function initStickyControls() {
   return {control,slot,width:0,height:0};
  });
  for(const button of agent.querySelectorAll('button'))button.setAttribute('aria-label',button.querySelector('span').textContent.trim());
+ let pinned=false;
  let frame=0,compact=false,animation,viewportWidth=innerWidth;
  let lastY=scrollY,lastTime=performance.now(),speed=0,expandGap=24;
  function measure(){
@@ -45,7 +46,7 @@ export function initStickyControls() {
   const gap=agentBox.top-inset-(mobile.matches?items[0].height:0);
   const contractGap=16+Math.min(64,Math.max(0,speed-.15)*180);
   // Latch the actual entry boundary. Deceleration alone cannot expand the control.
-  const shouldCompact=compactLayout.matches&&(mobile.matches ? (compact ? !(delta<0&&gap>=expandGap) : gap<contractGap) : (compact ? gap<40 : gap<=32));
+  const shouldCompact=compactLayout.matches&&(pinned||(mobile.matches ? (compact ? !(delta<0&&gap>=expandGap) : gap<contractGap) : (compact ? gap<40 : gap<=32)));
   if(shouldCompact!==compact){
    if(shouldCompact)expandGap=Math.max(24,contractGap);
    const duration=mobile.matches&&shouldCompact&&speed>.15?Math.max(100,Math.min(340,(gap-4)/speed*.75)):340;
@@ -53,9 +54,9 @@ export function initStickyControls() {
   }
   if(shouldCompact)items[1].slot.style.width=items[1].width+'px';
   agent.toggleAttribute('data-collision',mobile.matches&&agentBox.top<inset+items[0].height+4);
-  if(shouldCompact!==compact){compact=shouldCompact;agent.toggleAttribute('data-compact',compact);animation?.cancel();if(!motion.matches)animation=agent.animate([{scale:'1 1'},{scale:'.96 1.06',offset:.45},{scale:'1.025 .98',offset:.75},{scale:'1 1'}],{duration:420,easing:'ease-out'});}
+  if(shouldCompact!==compact){compact=shouldCompact;agent.toggleAttribute('data-compact',compact);animation?.cancel();if(!motion.matches&&!pinned)animation=agent.animate([{scale:'1 1'},{scale:'.96 1.06',offset:.45},{scale:'1.025 .98',offset:.75},{scale:'1 1'}],{duration:420,easing:'ease-out'});}
   items.forEach((item,index)=>{
-   const {control,slot}=item,r=slot.getBoundingClientRect(),locked=r.top<=inset;
+   const {control,slot}=item,r=slot.getBoundingClientRect(),locked=pinned||r.top<=inset;
    // Keep the agent's expanded footprint throughout both animations.
    if(index===0)slot.style.width=locked?item.width+'px':'';
    control.toggleAttribute('data-locked',locked);
@@ -72,6 +73,6 @@ export function initStickyControls() {
  window.addEventListener('pageshow',measure);
  motion.addEventListener('change',()=>{if(motion.matches)animation?.cancel();});
  document.fonts.ready.then(measure);measure();
- return {refresh:measure};
+ return {refresh:measure,configure(options){if(typeof options.pinned==='boolean')pinned=options.pinned;measure();}};
 }
 export function withStickyControls(html){return html.replace('</head>',`<style>:root{--sticky-safe-top:env(safe-area-inset-top,0px)}${stickyCSS}</style></head>`).replace('</body>',`<script nonce="__NONCE__">window.workshopStickyControls=(${initStickyControls.toString()})();</script></body>`);}

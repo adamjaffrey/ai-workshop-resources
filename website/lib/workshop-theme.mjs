@@ -78,6 +78,7 @@ html, body { overflow-x: hidden; }
 }
 /* Pointer focus remains real, but navigation rings belong to keyboard Tab use. */
 :root:not([data-focus-input="keyboard"]) :focus:not(input):not(textarea):not([contenteditable="true"]) { outline: none; }
+:root:not([data-focus-input="keyboard"]) input:is([type="radio"],[type="checkbox"],[type="range"]):focus { outline: none; }
 :root:not([data-focus-input="keyboard"]) .code-wrap:has(pre:focus)::after { outline: none; }
 :root[data-focus-input="keyboard"] :is(button, a[href], [tabindex]):focus:not(pre):not([data-panel-heading]) { outline: 3px solid var(--icon-ink); outline-offset: 3px; }
 [data-panel-heading]:focus { outline: none !important; box-shadow: none !important; }

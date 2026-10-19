@@ -34,7 +34,7 @@ nav[role=tablist]{border-bottom:0;padding-bottom:14px;background:linear-gradient
 
 /* Match the main app's pre-heading position and vertical type rhythm. */
 .wrap{padding-inline:24px}
-header.wrap{padding-top:134px;padding-bottom:0;width:calc(100% - 48px);max-width:960px;padding-inline:0}
+header.wrap{padding-top:40px;padding-bottom:0;width:calc(100% - 48px);max-width:960px;padding-inline:0}
 header.wrap .kicker{font-size:14px;line-height:21px;margin:0 0 24px}
 header.wrap #playground-title{font-size:48px;line-height:1.2;letter-spacing:-.045em;margin:0 0 24px}
 header.wrap p{font-size:16px;line-height:24px;margin:0;max-width:900px}
@@ -45,7 +45,7 @@ header.wrap p{font-size:16px;line-height:24px;margin:0;max-width:900px}
 .choice-options.segmented-toggle .choice span{height:40px;display:flex;align-items:center;padding:0 12px;border:0;border-radius:8px;background:transparent;color:var(--control-text)}
 .choice-options.segmented-toggle .choice input:checked+span{background:transparent;color:var(--agent-ink)}
 .choice-options.segmented-toggle .choice:hover span{box-shadow:none;background:color-mix(in srgb,var(--icon-ink) 8%,transparent)}
-.choice-options.segmented-toggle .choice input:focus-visible+span{outline-offset:-3px}
+:root[data-focus-input="keyboard"] .choice-options.segmented-toggle .choice input:focus+span{outline-offset:-3px}
 #login-preview #login-destination{flex:0 1 auto;min-width:0;max-width:45%}
 @media(max-width:660px){header.wrap #playground-title{font-size:40px}header.wrap{padding-bottom:32px}header.wrap p{margin-bottom:0}#mobile-style-controls .primary-style-choices{display:flex;flex-wrap:wrap}.primary-style-choices>.choices{min-width:0;max-width:100%}}
 `;

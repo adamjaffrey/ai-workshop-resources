@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.121"
-  update_summary: "Document canonical Playground routes and direct aliases"
-  updated_at: "Mon 19 Oct 2026 at 05:45:24 pm AEDT (+11:00)"
+  doc_revision: "26.0.122"
+  update_summary: "Document pinned specimen controls and reliable pointer holds"
+  updated_at: "Mon 19 Oct 2026 at 05:50:51 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -313,7 +313,7 @@ Playground Icons offers All, Playground, UI Elements and Section Headings filter
 
 ### Header, Connected Choices and Colour Values
 
-Playground omits breadcrumbs. Its pre-heading begins 134px from the page top, matching the app’s 40px top padding, 54px toolbar and 40px gap. The pre-heading and H1 each have 24px after them; the introduction has 32px before desktop style controls. Type sizes and line heights match the app, including its mobile H1. Mobile Style Options remain in their existing popover.
+Playground omits breadcrumbs. Its pre-heading begins 40px from the page top. Floating utility buttons reserve no vertical space, and the Playground does not reserve the main app’s logo-toolbar area. The pre-heading and H1 each have 24px after them; the introduction has 32px before desktop style controls. Type sizes and line heights match the app, including its mobile H1. Mobile Style Options remain in their existing popover.
 
 All outer radio groups use the shared segmented selector controller and its 340ms travel/rebound/settling animation. Their native radio inputs retain keyboard semantics and focus; only direct option clicks select a value. Padding does not advance selection. Long groups scroll horizontally in one connected container; reduced motion, hidden panels, resized controls and programmatic changes realign the indicator without animation. Main-app two-option selectors retain their original track-click behaviour.
 
@@ -321,6 +321,8 @@ The shared colour-value formatter renders displayed hexadecimal colours in monos
 
 ### Easter Egg Entry State
 
-The introduction is concise; Viewing Modes, Sweep and Particle Controls, Reveal and Halo Controls, and Application Source are initially collapsed disclosures. On activating the section, changing view, replaying or resizing, the specimen scrolls to its bottom. It synchronously refreshes the real sticky controls and floating branding, so the controls are already in their top positions. Branding retains the app’s responsive full-wordmark/mark-only behaviour. This initial positioning does not prevent subsequent user scrolling. The original app’s sticky controller now exposes a refresh method for specimen layout synchronisation without changing normal app behaviour.
+The introduction is concise; Viewing Modes, Sweep and Particle Controls, Reveal and Halo Controls, and Application Source are initially collapsed disclosures. On activating the section, changing view, replaying or resizing, the specimen scrolls to its bottom. It synchronously refreshes the real sticky controls and floating branding, so the controls are already in their top positions. Branding retains the app’s responsive full-wordmark/mark-only behaviour. This initial positioning does not prevent subsequent user scrolling. The Easter Egg specimen enables pinned mode in the shared sticky controller: both selectors remain 24px from the iframe viewport top, even at scroll position zero. Responsive agent compression remains active, and the logo shares their vertical centre. Other app specimens and the main app retain normal scroll-triggered sticky behaviour. The original app’s sticky controller now exposes a refresh method for specimen layout synchronisation without changing normal app behaviour.
 
 Validate connected controls, typography, colour chips and header rhythm with `node website/tests/playground-connected-controls-browser-check.mjs`; validate filtered tile widths and all seven Easter Egg entry states with `node website/tests/playground-egg-entry-browser-check.mjs`.
+
+Pointer focus for radio and checkbox controls follows the shared input-modality state: only Tab/Shift+Tab navigation enables visible rings. Clicking or tapping retains real focus without a ring. The shared selector controller focuses each direct radio target before starting its hold, compares focus transfer against the actual input, and cancels an abandoned hold without restoring selection focus. Native radio Space activation remains intact. Verify repeated and rapid holds, pointer/touch versus keyboard focus, and pinned iframe scrolling with `node website/tests/playground-toggle-hold-browser-check.mjs`.

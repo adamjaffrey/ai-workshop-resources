@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.187"
-  update_summary: "Canonicalise Playground URLs with direct query-preserving aliases"
-  updated_at: "Mon 19 Oct 2026 at 05:46:25 pm AEDT (+11:00)"
+  doc_revision: "26.0.188"
+  update_summary: "Fix selector holds and keep Easter Egg controls pinned"
+  updated_at: "Mon 19 Oct 2026 at 05:50:51 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.186 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 05:50:51 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Fix selector holds and keep Easter Egg controls pinned
+
+### Changed
+
+- Keep both Easter Egg selectors 24px from the iframe viewport top throughout scrolling, aligned with the responsive floating brand; preserve ordinary app sticky behaviour.
+- Move Design Tools to the 40px page inset without reserving space for floating utility buttons.
+- Restrict radio/checkbox focus rings to keyboard navigation while retaining real pointer focus.
+- Focus the actual radio input before beginning a hold, recognise its focus transfer and cancel abandoned holds without pulling focus back. Preserve native radio Space handling.
+
+### Validation
+
+- Repeated/rapid hold, mouse/touch and keyboard focus, and top/bottom iframe scrolling checks — passed at mobile/desktop widths.
+- Header/connected-control, all seven Easter Egg entry states at four widths, and expanded-preview checks — passed.
+- Theme-transition and feather/control-colour suites — passed; radius, authentication and saved geometry tests: 12 passed.
+- Sites local production build — passed with v26.0.186. No main-app resting geometry changes or remeasurement. Physical iPhone/Safari not tested.
 
 ## v26.0.185 — 2026-10-19
 

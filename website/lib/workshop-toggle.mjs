@@ -25,13 +25,13 @@ window.createWorkshopToggle = function(toggle, options = {}) {
       const style = getComputedStyle(indicator);
       return {left: parseFloat(style.left), width: parseFloat(style.width), transform: style.transform};
     }
-    function moveIndicator(animate = true) {
+    function moveIndicator(animate = true, restoreFocus = true) {
       const selected = selectedButton();
       if (!selected) return;
       const previous = snapshot();
       clearTimeout(releaseTimer);
       held = undefined;
-      if (toggle.contains(document.activeElement) && document.activeElement !== focusTarget(selected)) focusTarget(selected).focus({preventScroll: true});
+      if (restoreFocus && toggle.contains(document.activeElement) && document.activeElement !== focusTarget(selected)) focusTarget(selected).focus({preventScroll: true});
       toggleAnimation?.cancel();
       const {left,width} = window.layoutWorkshopToggle(toggle);
       if (!animate || reducedMotionQuery.matches || !Number.isFinite(previous.left) || previous.width === 0) return;
@@ -66,16 +66,16 @@ window.createWorkshopToggle = function(toggle, options = {}) {
       ], {duration: 160, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards'});
     }
     function cancelPress() {
-      if (held) moveIndicator(false);
+      if (held) moveIndicator(false, false);
     }
     toggle.addEventListener('pointerdown', event => {
       if (event.button !== 0 || !event.isPrimary) return;
       const directButton = event.target.closest(targetSelector);
       const button = directButton || (options.directOnly ? null : selectedButton());
       if (!button || !toggle.contains(button) || button.disabled) return;
-      if (!directButton) {
+      if (!directButton || options.directOnly) {
         event.preventDefault();
-        button.focus({preventScroll: true});
+        focusTarget(button).focus({preventScroll: true});
       }
       press(button, event.pointerId);
     });
@@ -96,7 +96,7 @@ window.createWorkshopToggle = function(toggle, options = {}) {
     window.addEventListener('pointercancel', cancelPress);
     window.addEventListener('blur', cancelPress);
     toggle.addEventListener('focusout', event => {
-      if (event.relatedTarget !== held?.button) cancelPress();
+      if (held && event.relatedTarget !== focusTarget(held.button)) cancelPress();
     });
     toggle.addEventListener('keydown', event => {
       if (![' ', 'Enter'].includes(event.key) || event.target.tagName !== 'BUTTON') return;
@@ -104,7 +104,7 @@ window.createWorkshopToggle = function(toggle, options = {}) {
       if (!event.repeat) press(event.target, event.key);
     });
     toggle.addEventListener('keyup', event => {
-      if (![' ', 'Enter'].includes(event.key)) return;
+      if (![' ', 'Enter'].includes(event.key) || event.target.tagName !== 'BUTTON') return;
       event.preventDefault();
       if (held?.input === event.key && held.button === event.target) {
         event.target.click();
