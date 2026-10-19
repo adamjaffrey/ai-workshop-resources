@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.125"
-  update_summary: "Document internal overflow fades and shared header branding"
-  updated_at: "Mon 19 Oct 2026 at 06:21:37 pm AEDT (+11:00)"
+  doc_revision: "26.0.126"
+  update_summary: "Standardise Playground spacing and align floating controls with content"
+  updated_at: "Mon 19 Oct 2026 at 06:34:34 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -285,7 +285,7 @@ In the 19 October active benchmark, worst-theme sweep/hover main-thread occupanc
 
 ## Playground Heading and Favicon
 
-Every section uses the same heading wrapper, 24px type, 1.5 line height and 4px top inset inside the shared panel padding. Heading icons align with the first text line. Expanded headings stay in one 44px row, scroll horizontally and use the shared overflow fade before icon-only actions. The page heading includes the installed Lucide Toy Brick icon at one em, vertically centred beside the title. `workshop-playground-brand.mjs` supplies the shared heading SVG and data-URI favicon (white Toy Brick on Codex blue #0285FF), used by the Playground shell and its hosted login page on every section route. Resources retains its own favicon. Each of the 16 panel headings has a decorative 24px Lucide icon with a 2px stroke, inherited heading colour and stable provider/name/usage metadata. Both licence headings share File Badge; other panel headings have distinct icons. Copy Values and Reset Defaults appear after each preview’s controls, with Expand View floating at the lower-right of its iframe inset below the global ellipsis and Back to Top stacking levels. Expanded previews move the same buttons into the heading row, hide their text labels, preserve accessible names and restore their positions when closed. Style Options and Preview Controls remain text-only.
+Every section uses the same heading wrapper, 24px type, 1.5 line height and 4px top inset inside the shared panel padding. Heading icons align with the first text line. Expanded headings stay in one 44px row, scroll horizontally and use the shared overflow fade before icon-only actions. The page heading includes the installed Lucide Toy Brick icon at one em, vertically centred beside the title. `workshop-playground-brand.mjs` supplies the shared heading SVG and data-URI favicon (white Toy Brick on Codex blue #0285FF), used by the Playground shell and its hosted login page on every section route. Resources retains its own favicon. Each of the 16 panel headings has a decorative 24px Lucide icon with a 2px stroke, inherited heading colour and stable provider/name/usage metadata. Both licence headings share File Badge; other panel headings have distinct icons. Copy Values and Reset Defaults appear after each preview’s controls, with Expand View floating at the lower-right of its iframe inset below the global ellipsis and Back to Top stacking levels. Expanded previews move the same buttons into the heading row, hide their text labels, preserve accessible names and restore their positions when closed. Style Options and Preview Controls use the shared Lucide disclosure chevron.
 
 The Icons tab separates App Icons and Symbols from Playground Icons. The latter replaces the former standalone heading-icon specimen and scans the actual outer Playground DOM, including hidden mobile and expanded controls, without entering app specimen frames. It groups icons by provider and official name, clones their SVG geometry, lists every usage location and links to the official source. This includes the page-heading Toy Brick and the catalogue panel’s own Blocks icon. The app catalogue’s filters and Show Sources control apply only to app specimens; Playground source links use a separate Show Sources checkbox, initially off. Both catalogues keep that checkbox after their controls rather than beside their heading. Validate completeness, metadata, responsive heading geometry, themes/agents and expanded-panel focus with `node website/tests/playground-heading-icons-browser-check.mjs`.
 
@@ -327,7 +327,7 @@ Validate connected controls, typography, colour chips and header rhythm with `no
 
 Pointer focus for radio and checkbox controls follows the shared input-modality state: only Tab/Shift+Tab navigation enables visible rings. Clicking or tapping retains real focus without a ring. The shared selector controller focuses each direct radio target before starting its hold, compares focus transfer against the actual input, and cancels an abandoned hold without restoring selection focus. Native radio Space activation remains intact. Verify repeated and rapid holds, pointer/touch versus keyboard focus, and pinned iframe scrolling with `node website/tests/playground-toggle-hold-browser-check.mjs`.
 
-The Playground header, introduction, desktop style controls, tabs and panels share a maximum content width of 1280px. The body wrapper is 1328px including 24px padding on each side; header/control wrappers use a 1280px content limit with the same side spacing. The inspector aligns with those content edges. Narrow screens retain 24px side spacing; vertical spacing and main-app layout remain unchanged. Wider text naturally wraps onto fewer lines.
+The Playground header, introduction, desktop style controls, tabs and panels share a maximum content width of 1080px. The body wrapper is 1128px including 24px padding on each side; header/control wrappers use a 1080px content limit with the same side spacing. The inspector aligns with those content edges. Narrow screens retain 24px side spacing; vertical spacing and main-app layout remain unchanged. Wider text naturally wraps onto fewer lines.
 
 ### Overflow Cues and Selection Position
 
@@ -338,3 +338,5 @@ The overflow audit also covers long expanded headings, expanded control areas, S
 Hover Preview now offers Force Hover States, with help explaining that supported hover appearances remain visible without pointing at individual items. The Easter Egg specimen removes unused header space from normal flow; at its upper scroll limit, Step 3 begins 24px below the bottom of the pinned selector. Initial view selection still scrolls to the inscription at the bottom.
 
 Validate masks, preserved borders, clamped centring, checkbox alignment, branded header spacing and the Step 3 gap with `node website/tests/playground-overflow-browser-check.mjs`.
+
+Toggle labels retain 16px before their selector and 32px separation from preceding content or control rows. Body paragraphs use the full available panel width. Floating controls align with the 1080px content edge, start centred on the brand row, and stop at a 24px top inset while scrolling. The mobile Style Options dialog has 24px top and side insets; its opening mask starts at the invoking button. Native disclosure markers are replaced by metadata-labelled Lucide Chevron Right icons, rotated when open. Validate with `node website/tests/playground-spacing-browser-check.mjs`.

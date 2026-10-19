@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.191"
-  update_summary: "Refine Playground overflow cues, branding and specimen spacing"
-  updated_at: "Mon 19 Oct 2026 at 06:21:37 pm AEDT (+11:00)"
+  doc_revision: "26.0.192"
+  update_summary: "Standardise Playground spacing and align floating controls with content"
+  updated_at: "Mon 19 Oct 2026 at 06:34:34 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.190 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 06:34:34 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Standardise Playground spacing and align floating controls with content
+
+### Changed
+
+- Set Playground content to 1080px plus 24px side padding and remove the body-copy width cap.
+- Apply 16px label-to-selector and 32px group spacing; align floating controls with content and the brand row before sticking 24px from the top.
+- Inset the mobile popover 24px from the top and sides and replace native disclosure triangles with official Lucide chevrons.
+
+### Validation
+
+- Responsive spacing, floating controls, popover focus and bounds at four widths — passed.
+- Overflow and expanded-preview regression suites — passed.
+- Sites production build with v26.0.190 — passed. Physical-device Safari not tested; main-app geometry unchanged.
 
 ## v26.0.189 — 2026-10-19
 
