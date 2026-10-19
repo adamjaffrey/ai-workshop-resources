@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.168"
-  update_summary: "Refine brand blur feathering and export tuning settings"
-  updated_at: "Mon 19 Oct 2026 at 02:14:45 pm AEDT (+11:00)"
+  doc_revision: "26.0.169"
+  update_summary: "Tune Easter Egg previews and resize Playground canvases"
+  updated_at: "Mon 19 Oct 2026 at 02:31:05 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.167 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 02:31:05 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Tune Easter Egg previews and resize Playground canvases
+
+### Changed
+
+- Apply the supplied 27-value Easter Egg preset through the shared settings schema.
+- Repeat the final sheen in Full Sentence and loop Discovery Reveal without opening the modal; keep tuning controls available and restart loops when settings change. Preserve the real app's success dialog flow.
+- Align Screen Width buttons with other style controls. Centre fixed-width preview canvases at the chosen viewport size in embedded and expanded views; retain scrolling for oversized viewports and full-width Fit.
+
+### Validation
+
+- `npm --prefix website run build` — passed; reused existing placeholder geometry because app resting layout is unchanged.
+- Headless Chrome source-parity, viewport sizing, Easter Egg loop, settings and final-flow regression checks passed.
+- LAN app and password-free Playground returned HTTP 200. Physical-device Safari remains a manual preview check.
 
 ## v26.0.166 — 2026-10-19
 

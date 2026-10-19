@@ -10,7 +10,7 @@ try{
  assert.deepEqual(await guide.locator('#discovery-preview input[type=range]').evaluateAll(es=>es.map(e=>e.id)),perspectiveControls.map(c=>'perspective-'+c.key));
  assert.ok(await guide.locator('#discovery-preview input[type=range]').evaluateAll(es=>es.every(e=>e.min==='0'&&Number(e.max)>0)),'every control exposes zero and a bounded maximum');
  await guide.locator('input[name=egg][value=ready]').locator('..').click();await guide.waitForTimeout(200);assert.equal(await guide.locator('#perspective-intensity').isVisible(),true);assert.equal(await guide.locator('#perspective-halo').isVisible(),false);
- await guide.locator('input[name=egg][value=complete]').locator('..').click();await guide.waitForTimeout(200);assert.equal(await guide.locator('#perspective-burstDuration').isVisible(),true);assert.equal(await guide.locator('#perspective-intensity').isVisible(),false);
+ await guide.locator('input[name=egg][value=complete]').locator('..').click();await guide.waitForTimeout(200);assert.equal(await guide.locator('#perspective-finalDuration').isVisible(),true);assert.equal(await guide.locator('#perspective-intensity').isVisible(),false);
  const read=e=>{const s=getComputedStyle(e);return {text:e.textContent,font:s.fontFamily,size:s.fontSize,line:s.lineHeight,colour:s.color,align:s.textAlign,background:s.backgroundColor};};
  for(const width of [320,390,768,1440])for(const theme of ['light','dark'])for(const agent of ['codex','claude-code']){
   await guide.evaluate(values=>{for(const [name,value]of Object.entries(values)){const el=document.querySelector('input[name="'+name+'"][value="'+value+'"]');el.checked=true;el.dispatchEvent(new Event('change',{bubbles:true}));}},{width:String(width),theme,agent,egg:'ready'});
