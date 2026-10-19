@@ -50,6 +50,8 @@ body:has(#playground-title)>main.wrap{padding-inline:28px}
 .panel>.section-heading h2,.panel>p,.panel>.feather-notice>p{padding-inline:0}
 .panel>ul{margin-inline:0}
 .panel>.frame-wrap,.panel>#playground-icon-catalog,.panel>.samples{margin-inline:-4px;width:calc(100% + 8px);max-width:none}
+/* The preview viewport stays on its rails; only its iframe may exceed it. */
+.panel>.frame-wrap,.preview-dialog.is-expanded>.frame-wrap{min-width:0;max-width:calc(100% + 8px);overflow:auto}
 .choices legend,.field>.slider-label,#hover .hover-explanation{padding-inline:0}
 .choices>.choice-shell,.choices>.choice-options:not(:has(.choice-shell)){margin-inline-start:-4px;max-width:calc(100% + 8px)}
 .panel-actions,.panel-options,.heading-actions{margin-inline-end:-4px}
@@ -61,6 +63,7 @@ body:has(#playground-title)>main.wrap{padding-inline:28px}
 #style-dialog #style-options{top:-1px;right:-1px}
 .preview-dialog.is-expanded{padding-inline:28px}
 .preview-dialog.is-expanded>.frame-wrap,.preview-dialog.is-expanded>.preview-settings,.preview-dialog.is-expanded>.preview-state-settings{margin-inline:-4px;width:calc(100% + 8px);max-width:none}
+.preview-dialog.is-expanded>.frame-wrap{max-width:calc(100% + 8px)}
 .preview-dialog.is-expanded>.preview-settings,.preview-dialog.is-expanded>.preview-state-settings{padding-inline:14px}
 .preview-dialog.is-expanded>.section-heading h2{padding-inline:0}
 .expanded-global-controls,.expanded-state-controls{padding-inline:4px;margin-inline-start:calc(22px - var(--disclosure-ink-inset))}

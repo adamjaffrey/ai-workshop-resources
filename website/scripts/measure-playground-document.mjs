@@ -76,7 +76,7 @@ export function measurePlaygroundDocument({frames={}}={}) {
       if (original.closest('.page-placeholder')) continue;
       if (el.matches('script, style, noscript, title')) {el.remove(); continue;}
       const svg = el.closest('svg');
-      const allowed = svg ? new Set(['class','xmlns','viewBox','width','height','fill','fill-rule','stroke','stroke-width','stroke-linecap','stroke-linejoin','d','x','y','x1','x2','y1','y2','cx','cy','r','rx','ry','points']) : new Set(['class','id','style','hidden','open','type','checked','disabled','width','height','role','aria-selected','aria-pressed','data-panel','data-tab','data-review']);
+      const allowed = svg ? new Set(['class','xmlns','viewBox','width','height','fill','fill-rule','stroke','stroke-width','stroke-linecap','stroke-linejoin','d','x','y','x1','x2','y1','y2','cx','cy','r','rx','ry','points']) : new Set(['class','id','style','hidden','open','type','checked','disabled','width','height','role','aria-selected','aria-pressed','data-panel','data-tab','data-review','data-inspect']);
       for (const attr of [...el.attributes]) if (!allowed.has(attr.name)) el.removeAttribute(attr.name);
       if (el.matches('pre code[id]')) el.removeAttribute('id');
       if (el.tagName === 'IFRAME') { el.setAttribute('sandbox',''); el.setAttribute('tabindex','-1'); el.setAttribute('srcdoc', frames[original.id] || '<!doctype html><html><body></body></html>'); }
@@ -144,5 +144,6 @@ export function measurePlaygroundDocument({frames={}}={}) {
     clone.querySelectorAll('script,style,noscript,title,link,meta').forEach(el=>el.remove());
     clone.setAttribute('aria-hidden', 'true'); clone.setAttribute('inert', '');
     const css=[...document.querySelectorAll('style')].map(el=>el.textContent).join('\n').replace(/@font-face\s*\{[^}]*\}/g,'');
-    return {markup: clone.outerHTML, css, words, iconSizes};
+    const inspectorMetrics=[...clone.querySelectorAll('.inspector-dock .ph-word')].map((el,i)=>{el.classList.add('ph-inspector-'+i);return el.getAttribute('style');});
+    return {markup: clone.outerHTML, css, words, iconSizes, inspectorMetrics};
 }

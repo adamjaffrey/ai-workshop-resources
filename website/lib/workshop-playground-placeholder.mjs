@@ -40,7 +40,7 @@ window.workshopRenderBackdropPreview=(frame,theme,agent)=>{
   const scrollDocument=source=>{
    const doc=new DOMParser().parseFromString(source,'text/html');
    doc.querySelectorAll('[inert]').forEach(el=>el.removeAttribute('inert'));
-   const style=doc.createElement('style');style.textContent='html,body{overflow-y:auto!important;overflow-x:hidden!important;pointer-events:auto!important}iframe{pointer-events:auto!important}';doc.head.append(style);
+   const style=doc.createElement('style');style.textContent='html,body{overflow-y:auto!important;overflow-x:auto!important;pointer-events:auto!important}iframe{pointer-events:auto!important}';doc.head.append(style);
    doc.querySelectorAll('iframe[srcdoc]').forEach(child=>{child.srcdoc=scrollDocument(child.getAttribute('srcdoc'));child.tabIndex=0;});
    return '<!doctype html>'+doc.documentElement.outerHTML;
   };

@@ -123,6 +123,8 @@ function sandboxDoc(html,extra='') {
  const frameGuard=extra.includes('workshopRenderBackdropPreview')?guard.replace("default-src \'none\';","default-src \'none\'; frame-src about:;"):guard;
  html=html.replace('<head>','<head>'+frameGuard+setup);
  html=html.replace('</head>',`<style>${hover}
+/* Let horizontal gestures chain to the containing preview viewport. */
+html,body,.access-gate{overscroll-behavior-x:auto!important}
 .icon-sample,.agent-preview{--reference-left:0px;--reference-right:0px;mask-image:linear-gradient(to right,transparent,#000 var(--reference-left),#000 calc(100% - var(--reference-right)),transparent)}</style></head>`);
  const referenceOverflow=`const observedSamples=new WeakSet();const sampleFade=e=>{e.style.setProperty('--reference-left',e.scrollLeft>2?'28px':'0px');e.style.setProperty('--reference-right',e.scrollWidth-e.clientWidth-e.scrollLeft>2?'28px':'0px');};const sampleResize=new ResizeObserver(entries=>entries.forEach(({target})=>sampleFade(target)));function watchSamples(){document.querySelectorAll('.icon-sample,.agent-preview').forEach(e=>{if(!observedSamples.has(e)){observedSamples.add(e);e.addEventListener('scroll',()=>sampleFade(e),{passive:true});sampleResize.observe(e);}sampleFade(e);});}new MutationObserver(watchSamples).observe(document.body,{subtree:true,childList:true});watchSamples();`;
 

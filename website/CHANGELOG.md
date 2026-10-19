@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.217"
-  update_summary: "Canonicalise website URLs and support linked display preferences"
-  updated_at: "Tue 20 Oct 2026 at 06:46:58 am AEDT (+11:00)"
+  doc_revision: "26.0.218"
+  update_summary: "Freeze decorative captures and restore mobile preview panning"
+  updated_at: "Tue 20 Oct 2026 at 07:09:40 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.216 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 07:09:40 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Freeze decorative captures and restore mobile preview panning
+
+### Changed
+
+- Convert fixed/sticky positioning and interaction styles during capture only; top-right tools move with the captured document. Include the neutral expanded Style Inspector as the final static section without its dock shadow or reserved viewport space.
+- Refresh Components geometry at layout revision 2, retaining measured cap heights, baselines, anonymous wrapping and responsive inspector font metrics. Main Resources geometry remains unchanged.
+- Constrain iframe preview wrappers to the containing optical rails, while retaining the selected iframe width. Permit horizontal gesture chaining through isolated login specimens and native two-axis scrolling in nested anonymous inspection frames.
+- Document the capture rules and their rationale: hovering silhouettes reveal background structure throughout scrolling. Preserve normal interactive Playground behaviour and the existing publication-only measurement policy beyond this explicitly requested capture.
+
+### Validation
+
+- Authentication and anonymous backdrop unit checks — 11 passed.
+- Components geometry compared across 12 widths and two heights, including the inspector font breakpoint; static positioning, anonymous content, themes and agents checked across 20 viewport combinations.
+- Emulated touch swipes passed for Login and Resources at 320px/390px, inline and expanded; Fit removes horizontal overflow. Native wheel scrolling passed for outer and nested anonymous previews at mobile/desktop widths.
+- Optical rail, nested alignment, menu containment, tab-edge and selection-axis browser checks passed. Mobile/desktop static inspector screenshots inspected; no physical-phone verification performed.
+- Playground source fidelity/interaction suite and main-app background geometry checks passed.
+- Production build succeeded with v26.0.216; the build reused saved geometry unchanged. Verified LAN destinations and real automatic session. No push or Sites publication performed.
 
 ## v26.0.215 — 2026-10-20
 

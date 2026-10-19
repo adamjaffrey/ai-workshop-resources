@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.58"
-  update_summary: "Define canonical Playground paths and normalised URLs"
-  updated_at: "Tue 20 Oct 2026 at 06:39:18 am AEDT (+11:00)"
+  doc_revision: "26.0.59"
+  update_summary: "Require static backdrop captures and scrollable preview viewports"
+  updated_at: "Tue 20 Oct 2026 at 07:02:11 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -312,8 +312,17 @@ Apply this standard to:
 - Relevant layout changes include structure, positions, dimensions, spacing, fonts, weight/size, letter spacing, line height, wrapping, breakpoints, word geometry, icon sizes and QR pattern bounds/padding. Text or asset edits count only when those measurements change. Footer-only edits below the visible backdrop and version-label edits with identical geometry do not require measurement. If the published source cannot be verified, resolve that uncertainty before publication rather than guessing a baseline.
 - Mark affected layout changes with the corresponding `placeholderLayoutRevision` or `playgroundPlaceholderLayoutRevision` in `website/lib/workshop-layout.mjs`. These are independent geometry cache keys, not artefact versions. At publication preparation, after all layout edits, run `npm --prefix website run blocks:measure` for affected Resources geometry and `node website/scripts/measure-playground-placeholder.mjs` for affected Components geometry. Never measure other Playground tabs. No additional approval is required within an authorised publication.
 - Run `node website/scripts/check-placeholder-publication.mjs --published-source PATH --published-commit SHA` using the verified source checkout and full Sites commit. Review its source-change list and require saved revisions to match before publishing. This check does not infer layout changes from filenames or source fingerprints: the reviewed diff determines whether a revision/refresh is needed. Validate and commit refreshed geometry with the publication candidate. A failed publication does not advance the published baseline; reuse already validated candidate measurements when their layout inputs remain unchanged.
-- Preserve the main backdrop's glyph/rectangle rules above in the Components capture and its visible specimens. Omit the Style Inspector dock and its reserved bottom spacing from captures; retain it in the authenticated Playground. Remove protected text, source actions and inactive tab bodies; retain responsive layout and measured word/icon shapes. Backdrop frames have no scripts or interactive access. Their saved geometry is generated locally, never measured in a visitor's browser.
+- Preserve the main backdrop's glyph/rectangle rules above in the Components capture and its visible specimens. Capture the Style Inspector as a static final section at the bottom, with neutral content and its details expanded; remove its floating dock positioning, shadow and reserved viewport spacing. Retain the interactive dock in the authenticated Playground. Remove protected text, source actions and inactive tab bodies; retain responsive layout and measured word/icon shapes. Backdrop frames have no scripts or interactive access. Their saved geometry is generated locally, never measured in a visitor's browser.
 - Run the archived `test:blur-preview` only when explicitly requested. Generating preview HTML is separate from measurement; source fingerprints record provenance and do not independently trigger refreshes.
+
+### Static Capture Behaviour And Rationale
+
+- Treat a login background as one fixed composition in document coordinates, not an interactive page. Here, “fixed asset” does not mean CSS `position: fixed`: scrolling the block inspection view must move captured controls with the page, without persistent hovering silhouettes that reveal the underlying page structure throughout the scroll.
+- Before every future login-background geometry measurement or snapshot, normalise viewport-fixed positioning to document-anchored positioning and sticky positioning to normal document flow. Disable hover, active and focus-state styling, animations, transitions and scroll-driven state changes in the capture. Preserve initial responsive geometry and the existing cap-height, baseline and wrapping rules. Never change the real app or Playground's interactive behaviour to prepare a decorative capture.
+- For Components, keep the top-right tools anchored to the captured document and place the Style Inspector last in normal flow. Capture its expanded neutral state; do not retain live inspection readings, floating shadows or bottom viewport reservations. Apply the same static preparation to embedded specimens. Use `website/scripts/prepare-backdrop-capture.mjs` for this preparation and verify that no captured element remains fixed/sticky or changes on hover.
+- Captured documents remain anonymous and script-disabled. Blocks and Blur may expose native scrolling to inspect them, but must not restore original actions, hover states or sticky behaviour. Verify that tool silhouettes leave the viewport when scrolled and the inspector appears only at the bottom.
+- Keep preview viewports constrained to their containing card's optical rails, including expanded views. A selected desktop Screen Width enlarges the iframe inside that viewport, not the surrounding viewport itself. In isolated specimens only, allow horizontal scroll chaining through the login overlay and root; retain production login containment and vertical behaviour. Preserve native horizontal and vertical scrolling; test touch gestures beginning inside the iframe, not only programmatic `scrollLeft` changes. Do not add gesture interception or disable vertical scrolling when a sizing correction resolves overflow. Test narrow phones, wide selected widths, Fit, and inline/expanded views; distinguish emulated touch from physical-device verification.
+- The explicit request for this static Components capture authorises its one-off remeasurement during this update. Future internal builds still reuse saved geometry unless the user explicitly authorises another exception; otherwise apply the existing publication-only and layout-change conditions.
 
 ## Hidden Playground Shortcut
 

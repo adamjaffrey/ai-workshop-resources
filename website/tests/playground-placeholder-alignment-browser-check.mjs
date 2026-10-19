@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {prepareBackdropCapture} from '../scripts/prepare-backdrop-capture.mjs';
 import {chromium} from 'playwright';
 import {createPhonePreview} from '../scripts/phone-preview.mjs';
 const local=createPhonePreview(),hosted=createPhonePreview({protectPlayground:true});
@@ -7,14 +8,14 @@ const origin=app=>'http://127.0.0.1:'+app.server.address().port;
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
  const source=await browser.newPage({reducedMotion:'reduce'}),gate=await browser.newPage({reducedMotion:'reduce'});
- for(const width of [320,390,660,661,700,701,768,1023,1024,1440])for(const height of [600,1000]){
+ for(const width of [320,390,600,601,660,661,700,701,768,1023,1024,1440])for(const height of [600,1000]){
   for(const p of [source,gate])await p.setViewportSize({width,height});
-  await source.goto(origin(local)+'/playground/components');await source.evaluate(()=>document.fonts.ready);await source.addStyleTag({content:':root{--embedded-preview-height:70dvh!important}.inspector-dock{display:none!important}main.wrap{padding-bottom:24px!important}'});
+  await source.goto(origin(local)+'/playground/components');await source.evaluate(()=>document.fonts.ready);await source.evaluate(prepareBackdropCapture,{playground:true});
   await gate.goto(origin(hosted)+'/playground');
   const frame=await gate.locator('.playground-placeholder>iframe').elementHandle().then(e=>e.contentFrame());await frame.waitForSelector('.ph-word');await frame.evaluate(()=>document.fonts.ready);
   const original=await source.evaluate(()=>{
    const words=[],walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
-   while(walker.nextNode()) {const n=walker.currentNode;if(n.parentElement.closest('svg,script,style,noscript,.catalog-sources,#style-dialog,.inspector-dock,[data-panel]:not([data-panel="components"])'))continue;
+   while(walker.nextNode()) {const n=walker.currentNode;if(n.parentElement.closest('svg,script,style,noscript,.catalog-sources,#style-dialog,[data-panel]:not([data-panel="components"])'))continue;
     for(const m of n.textContent.matchAll(/[^\s/-]*[/-]|[^\s/-]+/gu)){const range=document.createRange();range.setStart(n,m.index);range.setEnd(n,m.index+m[0].length);const r=range.getBoundingClientRect();if(r.width&&r.height)words.push({text:m[0],x:r.x,y:r.y,width:r.width,height:r.height});}}
    return words;
   });

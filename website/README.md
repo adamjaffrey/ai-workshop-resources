@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.141"
-  update_summary: "Document URL aliases, preference overrides and adaptive favicon"
-  updated_at: "Tue 20 Oct 2026 at 06:39:18 am AEDT (+11:00)"
+  doc_revision: "26.0.142"
+  update_summary: "Explain static captures and mobile preview scrolling"
+  updated_at: "Tue 20 Oct 2026 at 07:02:11 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -118,9 +118,17 @@ Before publication, obtain the latest successful Sites deployment, its saved ver
 
 Mark affected geometry with `placeholderLayoutRevision` (Resources) or `playgroundPlaceholderLayoutRevision` (Components) in `lib/workshop-layout.mjs`. After final layout edits and only for the affected backdrop, run `npm --prefix website run blocks:measure` or `node website/scripts/measure-playground-placeholder.mjs` from the repository root. Run `node website/scripts/check-placeholder-publication.mjs --published-source PATH --published-commit SHA` against the verified publication checkout. It reports changed source files and rejects stale revisions; a human/agent review of the actual diff determines layout relevance. Validate and commit refreshed measurements with the publication candidate. Failed publication does not advance the comparison baseline; unchanged, validated candidate measurements can be reused on retry.
 
-The scripts use installed headless Google Chrome and save anonymous geometry in `lib/workshop-placeholder.generated.json` and `lib/workshop-playground-placeholder.generated.json`. Internal rendering no longer rejects a pending layout revision. Source fingerprints record provenance only. Omit the Style Inspector dock and its reserved bottom spacing from the capture; the authenticated Playground retains it. The public `/login-backdrop/components` endpoint serves only anonymous geometry, never app content or sessions. Components uses inert, script-disabled frame documents to preserve the canonical first tab's CSS and specimen layouts without leaking protected text, commands or actions. Both backdrops follow the selected theme and agent, with Codex blue as the default. Original text is replaced before delivery; geometry is never measured in a visitor's browser. Neither normal build startup nor preview controls launch measurement.
+The scripts use installed headless Google Chrome and save anonymous geometry in `lib/workshop-placeholder.generated.json` and `lib/workshop-playground-placeholder.generated.json`. Internal rendering no longer rejects a pending layout revision. Source fingerprints record provenance only. Capture the Style Inspector as an expanded, neutral static section at the very bottom, without its floating shadow or reserved viewport spacing; the authenticated Playground retains its interactive dock. The public `/login-backdrop/components` endpoint serves only anonymous geometry, never app content or sessions. Components uses inert, script-disabled frame documents to preserve the canonical first tab's CSS and specimen layouts without leaking protected text, commands or actions. Both backdrops follow the selected theme and agent, with Codex blue as the default. Original text is replaced before delivery; geometry is never measured in a visitor's browser. Neither normal build startup nor preview controls launch measurement.
 
 The full publication and handoff contract is in [AGENTS.md](../AGENTS.md#blur-placeholder-geometry). Every successful Sites publication includes separate Main App and Playground link bullets under **🌐 Live on Sites**. Run the archived `test:blur-preview` only when explicitly requested.
+
+### Static Backdrop Capture
+
+The Login specimen also permits horizontal scroll chaining through its overlay and document root to the containing preview viewport. This override is confined to isolated Playground specimens; production login containment and vertical scrolling are unchanged.
+
+A decorative background is one fixed composition in document coordinates. Fixed/sticky controls and hover feedback would reveal page structure throughout scrolling and make the background appear interactive. Before measuring, `scripts/prepare-backdrop-capture.mjs` converts fixed positioning to document anchoring and sticky positioning to normal flow, disables interaction-state CSS and motion, and applies the same preparation to embedded specimens. The real Playground retains its live controls. The captured Style Inspector is an expanded neutral section at the bottom, rather than a persistent overlay. The top-right tool silhouettes scroll away with the page. Native inspection scrolling does not restore scripts or actions.
+
+Preview frames remain inside their card's optical rails. Choosing a wide Screen Width enlarges the iframe, while its surrounding viewport remains constrained and scrollable in both axes. Validate real touch gestures starting inside an overflowing iframe, returning to Fit, and inline/expanded states. A prior unlimited maximum width expanded the viewport itself, preventing horizontal overflow from becoming scrollable.
 
 ### Validation
 

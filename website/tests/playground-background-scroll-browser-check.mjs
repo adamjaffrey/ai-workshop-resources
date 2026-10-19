@@ -19,7 +19,7 @@ try{
   // Let Chrome deliver the wheel gesture through script-disabled nested frames.
   await p.waitForTimeout(500);
   await frame.waitForFunction(()=>scrollY>20,undefined,{polling:100});
-  assert.ok(await frame.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  assert.ok(await frame.evaluate(()=>document.documentElement.scrollWidth<=innerWidth||getComputedStyle(document.documentElement).overflowX==='auto'),'Narrow nested content remains horizontally accessible');
  };
  for(const width of [390,1440]){
   await p.setViewportSize({width,height:1000});

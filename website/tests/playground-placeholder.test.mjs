@@ -9,7 +9,7 @@ test('public backdrop is anonymous and cannot expose another tab or run code',as
  const html=await response.text();
  assert.match(html,/<html[^>]*data-theme="dark" data-selected-agent="claude-code"/);
  assert.doesNotMatch(html,/<script|&lt;script|href=|onclick=|<form|&lt;form|system-blueprint-creator|system-build-assistant|github\.com\/adamjaffrey/);
- assert.doesNotMatch(html,/<aside class="inspector-dock"|id="inspection-summary"|data-panel="(?:typography|colours|blocks|icons|errors|focus|branding|discovery)"/);
+ assert.doesNotMatch(html,/data-panel="(?:typography|colours|blocks|icons|errors|focus|branding|discovery)"/);
  assert.match(response.headers.get('content-security-policy'),/script-src 'none'/);
  assert.match(response.headers.get('content-security-policy'),/frame-ancestors 'self'/);
  assert.equal(response.headers.get('set-cookie'),null);

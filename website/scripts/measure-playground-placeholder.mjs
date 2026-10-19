@@ -3,6 +3,7 @@ import {writeFile,readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {chromium} from 'playwright';
 import {playgroundPage} from './playground.mjs';
+import {prepareBackdropCapture} from './prepare-backdrop-capture.mjs';
 import {measurePlaygroundDocument} from './measure-playground-document.mjs';
 import {playgroundPlaceholderLayoutRevision} from '../lib/workshop-layout.mjs';
 import {placeholderStyles} from '../lib/workshop-placeholder.mjs';
@@ -20,11 +21,16 @@ try {
   const handle=await page.locator('#'+id).elementHandle();
   if(!handle)continue;
   const frame=await handle.contentFrame();await frame.evaluate(()=>document.fonts.ready);
+  await frame.evaluate(prepareBackdropCapture);
   const result=await frame.evaluate(measurePlaygroundDocument);words+=result.words;frames[id]=toDocument(result);
  }
- await page.evaluate(()=>{document.querySelectorAll('[data-panel]:not([data-panel="components"]),.catalog-sources,#style-dialog,.inspector-dock').forEach(el=>el.remove());});
- await page.addStyleTag({content:'main.wrap{padding-bottom:24px!important}html{scroll-padding-bottom:0!important}'});
+ await page.evaluate(prepareBackdropCapture,{playground:true});
  const result=await page.evaluate(measurePlaygroundDocument,{frames});words+=result.words;
+ // The inspector uses distinct mobile font sizes; measure those glyph metrics directly.
+ await page.setViewportSize({width:390,height:1000});await page.evaluate(()=>document.fonts.ready);
+ const mobile=await page.evaluate(measurePlaygroundDocument,{frames});
+ if(mobile.inspectorMetrics.length!==result.inspectorMetrics.length)throw Error('Inspector word count changed between capture widths');
+ result.css+='\n@media(max-width:600px){'+mobile.inspectorMetrics.map((style,i)=>'.inspector-dock .ph-inspector-'+i+'{'+style.replaceAll(';','!important;')+'}').join('')+'}';
  let document=toDocument(result);
  // The captured page already embeds assets; no runtime requests or original scripts/actions survive.
  for(const [name,mime] of [['wavelength-worm.png','image/png'],['markpro-bold.ttf','font/ttf']])document=document.replaceAll('/assets/'+name,'data:'+mime+';base64,'+(await readFile(new URL('../public/assets/'+name,import.meta.url))).toString('base64'));

@@ -13,7 +13,13 @@ try {
   assert.equal(await p.evaluate(()=>document.activeElement.id),'gate-title');
   assert.equal(await p.locator('.playground-placeholder>iframe').getAttribute('sandbox'),'');
   assert.equal(await frame.locator('[data-panel]').count(),1);
-  assert.equal(await frame.locator('.inspector-dock').count(),0);
+  assert.equal(await frame.locator('.inspector-dock').count(),1);
+  assert.equal(await frame.locator('.inspector-dock').evaluate(e=>e.parentElement.matches('main.wrap')&&!e.nextElementSibling&&getComputedStyle(e).position==='static'),true);
+  for(const doc of [frame,...frame.childFrames()]){assert.deepEqual(await doc.evaluate(()=>[...document.querySelectorAll('*')].filter(e=>['fixed','sticky'].includes(getComputedStyle(e).position)).map(e=>e.id||e.tagName)),[]);}
+  const toolY=await frame.locator('#style-options').evaluate(e=>e.getBoundingClientRect().top);
+  const delta=await frame.evaluate(()=>{scrollTo(0,180);return scrollY;});
+  assert.ok(delta>0);if(await frame.locator('#style-options').isVisible())assert.ok(Math.abs((await frame.locator('#style-options').evaluate(e=>e.getBoundingClientRect().top))-toolY+delta)<1);
+  await frame.evaluate(()=>scrollTo(0,0));
   assert.equal(await frame.locator('[data-panel]').getAttribute('data-panel'),'components');
   for(const theme of ['light','dark'])for(const agent of ['codex','claude-code']){
    await p.evaluate(({theme,agent})=>{document.documentElement.dataset.theme=theme;document.documentElement.dataset.selectedAgent=agent;},{theme,agent});
