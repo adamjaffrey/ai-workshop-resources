@@ -1,9 +1,10 @@
 // Experimental shared renderer; mounted only by the Playground until approved.
 export const wormHaloControls=[
- {key:'paddingX',label:'Horizontal Padding',min:0,max:100,step:1,value:26,unit:'px'},
- {key:'paddingY',label:'Vertical Padding',min:0,max:60,step:1,value:16,unit:'px'},
- {key:'blur',label:'Backdrop Blur',min:0,max:100,step:1,value:32,unit:'px'},
- {key:'feather',label:'Feather Width',min:0,max:64,step:1,value:20,unit:'px'},
+ {key:'paddingX',label:'Horizontal Padding',min:0,max:100,step:1,value:12,unit:'px'},
+ {key:'paddingY',label:'Vertical Padding',min:0,max:60,step:1,value:12,unit:'px'},
+ {key:'blur',label:'Backdrop Blur',min:0,max:100,step:1,value:36,unit:'px'},
+ {key:'feather',label:'Feather Width',min:0,max:64,step:1,value:36,unit:'px'},
+ {key:'radius',label:'Corner Radius',min:0,max:100,step:1,value:100,unit:'px'},
  {key:'tint',label:'Canvas Tint',min:0,max:100,step:1,value:50,unit:'%'},
 ];
 export function mountWormHalo(controls){
@@ -23,7 +24,7 @@ export function mountWormHalo(controls){
   const {blur,feather,tint}=config,width=bounds.width+2*config.paddingX,height=bounds.height+2*config.paddingY,pad=feather,w=width+pad*2,h=height+pad*2;
   // Signed distance to the pill: full alpha inside; only the exterior feathers.
   const scale=2,canvas=document.createElement('canvas');canvas.width=w*scale;canvas.height=h*scale;
-  const context=canvas.getContext('2d'),pixels=context.createImageData(canvas.width,canvas.height),radius=Math.min(width,height)/2;
+  const context=canvas.getContext('2d'),pixels=context.createImageData(canvas.width,canvas.height),radius=Math.min(config.radius,width/2,height/2);
   for(let y=0;y<canvas.height;y++)for(let x=0;x<canvas.width;x++){
    const qx=Math.abs((x+.5)/scale-w/2)-(width/2-radius),qy=Math.abs((y+.5)/scale-h/2)-(height/2-radius);
    const distance=Math.hypot(Math.max(qx,0),Math.max(qy,0))+Math.min(Math.max(qx,qy),0)-radius;
@@ -32,7 +33,7 @@ export function mountWormHalo(controls){
   }
   context.putImageData(pixels,0,0);const mask='url("'+canvas.toDataURL()+'")';
   Object.assign(veil.style,{width:w+'px',height:h+'px',backdropFilter:'blur('+blur+'px)',webkitBackdropFilter:'blur('+blur+'px)',background:'color-mix(in srgb,var(--page) '+tint+'%,transparent)',maskImage:mask,webkitMaskImage:mask,maskSize:'100% 100%',webkitMaskSize:'100% 100%'});
-  Object.assign(outline.style,{width:width+'px',height:height+'px',display:config.outline?'block':'none'});
+  Object.assign(outline.style,{width:width+'px',height:height+'px',borderRadius:radius+'px',display:config.outline?'block':'none'});
  }
  function position(){
   const rect=theme.getBoundingClientRect(),src=source.querySelector('img'),img=mark.querySelector('img'),size=src.getBoundingClientRect();

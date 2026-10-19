@@ -8,6 +8,10 @@ try {
  const context=await browser.newContext({viewport:{width,height:844},hasTouch:true});
  await context.request.post(origin+'/auth/login',{headers:{origin,accept:'application/json'},form:{password}});
  const page=await context.newPage();await page.goto(origin);await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(400);
+ if(width>660){
+  const states=await page.evaluate(async()=>{const a=document.querySelector('.controls .toggle'),origin=a.parentElement.getBoundingClientRect().top+scrollY;const results=[];for(const gap of [100,1,0,4,7,9,1,0]){scrollTo(0,origin-24-gap);await new Promise(r=>setTimeout(r,60));results.push(a.hasAttribute('data-compact'));}return {results,duration:a.style.getPropertyValue('--compact-duration')};});
+  assert.deepEqual(states.results,[false,false,true,true,true,false,false,true]);assert.equal(states.duration,'340ms');console.log('PASS tablet sticky boundary and 8px expansion',width);await context.close();continue;
+ }
  const result=await page.evaluate(async()=>{
   const agent=document.querySelector('.controls .toggle'),slot=agent.parentElement,label=document.querySelector('.controls-label');
   const origin=slot.getBoundingClientRect().top+scrollY;

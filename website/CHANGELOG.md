@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.171"
-  update_summary: "Animate preview widths and preserve hovered rainbow sweeps"
-  updated_at: "Mon 19 Oct 2026 at 02:43:26 pm AEDT (+11:00)"
+  doc_revision: "26.0.172"
+  update_summary: "Add Playground section links and refine tablet locking"
+  updated_at: "Mon 19 Oct 2026 at 02:57:53 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.170 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 02:57:53 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add Playground section links and refine tablet locking
+
+### Changed
+
+- Contract the tablet agent selector exactly at its sticky position, with regular 340ms width timing and an 8px expansion buffer. Preserve speed-aware mobile behaviour.
+- Add direct Playground section paths, URL updates and browser history navigation. Preserve the requested section through hosted login and expiry while retaining server-side authentication.
+- Unify the Playground header and selector toolbar surfaces. Require direct section links in future repository handoffs.
+- Add a Corner Radius slider and load the preferred 12px padding, 36px blur, 36px feather and 50% tint defaults. Retain the capsule shape by default and keep brand tuning Playground-only.
+
+### Validation
+
+- Authentication and Playground route tests — all 11 passed, including protected deep links and unknown-section rejection.
+- Branding browser checks — passed, including direct URL selection, browser Back, header surface parity, radius, export and fade restoration.
+- Sticky-control stability checks — passed on mobile and tablet, including sticky entry and 8px expansion hysteresis.
+- `node website/tests/style-guide-browser-check.mjs` — passed.
+- `npm --prefix website run build` — passed; generated v26.0.170 verified. Header and blur screenshots inspected; Wi-Fi automatic sign-in and direct Branding URL verified.
 
 ## v26.0.169 — 2026-10-19
 

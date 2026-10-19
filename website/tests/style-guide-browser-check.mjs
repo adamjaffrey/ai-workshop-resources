@@ -74,8 +74,8 @@ assert.equal(await resources.locator('[data-copy]').first().getAttribute('data-c
 await choose('copy','success');await resources.locator('body').evaluate(()=>new Promise(resolve=>{const check=()=>{if(!copyFailure)resolve();else setTimeout(check,20);};check();}));await resources.locator('[data-copy]').first().focus();await p.keyboard.press('Enter');
 const resourceDocument=await (await p.locator('#resources-frame').elementHandle()).contentFrame();
 await resourceDocument.waitForFunction(()=>document.querySelector('[data-copy]').dataset.copied==='true',null,{timeout:3000});
-await resources.locator('footer button').click();assert.equal(p.url(),origin+'/playground');
-await p.click('[data-tab=typography]');assert.equal(p.url(),origin+'/playground');
+await resources.locator('footer button').click();assert.ok(p.url().startsWith(origin+'/playground'));
+await p.click('[data-tab=typography]');assert.ok(p.url().startsWith(origin+'/playground'));
 assert.match(await p.frameLocator('#type-frame').locator('[data-source-selector="h1"] output').textContent(),/48px/);
 await p.waitForTimeout(400);
 const headingStyles=await p.frameLocator('#type-frame').locator('.type-row:not([data-source-selector="#perspective-title"]) h2[data-type-sample]').evaluateAll(es=>es.map(e=>{const c=getComputedStyle(e);return {size:c.fontSize,weight:c.fontWeight,colour:c.color};}));assert.equal(headingStyles.length,2);assert.equal(headingStyles[0].size,headingStyles[1].size);assert.equal(headingStyles[0].weight,headingStyles[1].weight);assert.notEqual(headingStyles[0].colour,headingStyles[1].colour);

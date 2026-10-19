@@ -1,3 +1,4 @@
+import {isPlaygroundPath} from '../lib/workshop-playground-routes.mjs';
 // Local-only adapter: never imported by application or production build entrypoints.
 import http from 'node:http';
 import {gzipSync} from 'node:zlib';
@@ -32,7 +33,7 @@ export function createPhonePreview({protectPlayground=false,autoLogin=false}={})
       if(!protectPlayground && ['GET','HEAD'].includes(req.method) && ['/style-guide','/style-guide/','/playground/'].includes(url.pathname)) {
         res.writeHead(308,{'Location':'/playground'+url.search,'Cache-Control':'no-store'});res.end();return;
       }
-      if(!protectPlayground && ['GET','HEAD'].includes(req.method) && url.pathname==='/playground') {
+      if(!protectPlayground && ['GET','HEAD'].includes(req.method) && isPlaygroundPath(url.pathname)) {
         const compressed=(req.headers['accept-encoding']||'').split(',').some(value=>/^\s*gzip(?:\s*;|\s*$)/i.test(value)&&!/(?:^|;)\s*q=0(?:\.0*)?\s*$/i.test(value));
         res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','Vary':'Accept-Encoding',...(compressed?{'Content-Encoding':'gzip'}:{})});
         if(req.method==='HEAD'){res.end();return;}

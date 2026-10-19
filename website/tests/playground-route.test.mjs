@@ -11,3 +11,14 @@ test('local playground stays anonymous while hosted routes protect specimens',as
   for(const path of ['/playground','/style-guide']){const r=await handleRequest(new Request('https://production.example'+path),{});assert.doesNotMatch(await r.text(),/<title>Workshop Component Playground<\/title>/);}
  }finally{await new Promise(r=>server.close(r));}
 });
+
+test('section paths are local previews but require hosted authentication',async()=>{
+ const {server,password}=createPhonePreview({protectPlayground:true});await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
+ try{
+  const locked=await fetch(origin+'/playground/branding');assert.match(await locked.text(),/id="access-form"/);
+  const login=await fetch(origin+'/auth/login',{method:'POST',headers:{origin,'content-type':'application/x-www-form-urlencoded',accept:'application/json'},body:new URLSearchParams({password})});const cookie=login.headers.get('set-cookie').split(';')[0];
+  assert.match(await(await fetch(origin+'/playground/branding',{headers:{cookie}})).text(),/<title>Workshop Component Playground<\/title>/);
+  assert.equal((await fetch(origin+'/playground/unknown',{headers:{cookie}})).status,404);
+  const js=await(await fetch(origin+'/login.js')).text();assert.match(js,/location.pathname.startsWith\('\/playground'\)/);
+ }finally{await new Promise(r=>server.close(r));}
+});
