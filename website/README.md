@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.115"
-  update_summary: "Document active animation performance and route parity"
-  updated_at: "Mon 19 Oct 2026 at 04:10:04 pm AEDT (+11:00)"
+  doc_revision: "26.0.116"
+  update_summary: "Document Playground heading icons and tooling catalogue"
+  updated_at: "Mon 19 Oct 2026 at 04:26:40 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -219,7 +219,7 @@ At widths up to 660px, the four global controls move into a native popover that 
 | Login status strings | `workshop-login-messages.mjs` | Production responses, browser status handling and the playground use one message authority. Initial button text comes from markup; opening text is shared. |
 | Resource specimen | `workshop-resource-page.mjs`, shared theme/agent/toggle scripts | Uses actual rendered cards, icons, prompts, selectors, QR feedback and footer. Only session checks, navigation and clipboard writes are isolated. |
 | Typography | Rendered login/resource elements selected by a source manifest | Clones real nodes and their ancestor classes, refreshes live text after agent/state changes, and uses app CSS. Layout-only wrappers arrange specimens without defining another font scale. Footer metadata excludes Log Out and reuses the app’s wrap detection; QR and Copy retain their visible controls and icons. |
-| Icons and Symbols | Running app frames plus installed Lucide definitions | Captures actual SVG/image markup and computed styles inside their controls, including login and copy states. Matches Lucide technical names by SVG geometry; labels Lobe brand logos and extracts Unicode text excerpts and the CSS footer separator. Isolated source frames prevent state capture from disturbing the visible specimens. |
+| App Icons and Symbols | Running app frames plus installed Lucide definitions | Captures actual SVG/image markup and computed styles inside their controls, including login and copy states. Matches Lucide technical names by SVG geometry; labels Lobe brand logos and extracts Unicode text excerpts and the CSS footer separator. Isolated source frames prevent state capture from disturbing the visible specimens. |
 | Colours | App CSS and colour-bearing markup attributes | Token swatches resolve from shared theme values; a generated declaration inventory exposes literal colours, shadows, outlines, fills and interaction selectors. Usage descriptions are tooling annotations. |
 | Blocks | Saved placeholder markup plus login CSS | Reuses geometry; reads native blur, strength and scrim values. Local controls adjust only the sandbox frame. |
 | Playground chrome | `scripts/style-guide.mjs` | Navigation, labels, radio groups, inspector and local sliders are explicitly tooling UI; they use shared colour tokens but are not represented as app components. |
@@ -285,4 +285,6 @@ In the 19 October active benchmark, worst-theme sweep/hover main-thread occupanc
 
 ## Playground Heading and Favicon
 
-Every section uses the same heading wrapper, 24px type, 1.5 line height and 4px top inset inside the shared panel padding. Mobile headings occupy their own row above actions; expanded preview headings retain their compact treatment. The page heading includes the installed Lucide Toy Brick icon at one em, vertically centred beside the title. `workshop-playground-brand.mjs` supplies the shared heading SVG and data-URI favicon (white Toy Brick on Codex blue #0285FF), used by the Playground shell and its hosted login page on every section route. The Icons tab documents its official source. Resources retains its own favicon.
+Every section uses the same heading wrapper, 24px type, 1.5 line height and 4px top inset inside the shared panel padding. Mobile headings occupy their own row above actions; expanded preview headings retain their compact treatment. The page heading includes the installed Lucide Toy Brick icon at one em, vertically centred beside the title. `workshop-playground-brand.mjs` supplies the shared heading SVG and data-URI favicon (white Toy Brick on Codex blue #0285FF), used by the Playground shell and its hosted login page on every section route. Resources retains its own favicon. Each of the 16 panel headings has a decorative 24px Lucide icon with a 2px stroke, inherited heading colour and stable provider/name/usage metadata. Both licence headings share File Badge; other panel headings have distinct icons. Mobile headings occupy a complete row above actions. Style Options and Preview Controls remain text-only.
+
+The Icons tab separates App Icons and Symbols from Playground Icons. The latter replaces the former standalone heading-icon specimen and scans the actual outer Playground DOM, including hidden mobile and expanded controls, without entering app specimen frames. It groups icons by provider and official name, clones their SVG geometry, lists every usage location and links to the official source. This includes the page-heading Toy Brick and the catalogue panel’s own Blocks icon. The app catalogue’s filters and Show Sources control apply only to app specimens; Playground source links remain visible. Validate completeness, metadata, responsive heading geometry, themes/agents and expanded-panel focus with `node website/tests/playground-heading-icons-browser-check.mjs`.

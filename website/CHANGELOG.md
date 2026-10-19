@@ -3,14 +3,46 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.181"
-  update_summary: "Reduce active particle cost and remove rainbow startup stall"
-  updated_at: "Mon 19 Oct 2026 at 04:20:59 pm AEDT (+11:00)"
+  doc_revision: "26.0.182"
+  update_summary: "Add Playground heading icons and a live tooling catalogue"
+  updated_at: "Mon 19 Oct 2026 at 04:27:10 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.180 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 04:27:10 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add Playground heading icons and a live tooling catalogue
+
+### Added
+
+- Add the reviewed Lucide icons to all 16 Playground panel headings, including Layout Template for Blocks and Blur, Blocks for Playground Icons and File Badge for both licences.
+- Catalogue 25 unique Playground icons from actual outer-page markup, including hidden mobile and expanded controls, with previews, usage locations and official source links.
+
+### Changed
+
+- Rename the app catalogue to App Icons and Symbols and replace the standalone heading-icon panel with Playground Icons in the existing Icons tab.
+- Keep Style Options and Preview Controls text-only, preserve the page-heading Toy Brick and leave app specimen markup unchanged.
+- Ensure mobile panel headings occupy a complete row above actions; preserve expanded heading focus and decorative icon semantics.
+- Document the catalogue and its focused browser validation.
+
+### Validation
+
+- Authentication and saved placeholder geometry tests — 11 passed; no block remeasurement required.
+- Headless heading/catalogue checks — complete metadata and unique-icon coverage, 320/390/768/1440px, both themes and agents, and expanded heading/Tab focus passed.
+- Full app/Playground source-parity browser suite — passed, including held states, typography, controls, containment and hosted access rejection.
+- Sites local production build — passed; server artefact contains the new catalogue and v26.0.180 displays.
+- LAN preview — automatic real session, home redirect, catalogue, login inspection and logout invalidation passed. Desktop/mobile screenshots inspected; physical iPhone/Safari not tested.
 
 ## v26.0.179 — 2026-10-19
 
