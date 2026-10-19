@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.61"
-  update_summary: "Normalise public query parameter names and values"
-  updated_at: "Tue 20 Oct 2026 at 07:30:43 am AEDT (+11:00)"
+  doc_revision: "26.0.62"
+  update_summary: "Rename Resources URLs and make login controls explicit"
+  updated_at: "Tue 20 Oct 2026 at 07:46:06 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -31,7 +31,7 @@ metadata:
 
 - Select the Playground destination using the exact rules and title/slug mapping under Required Update Handoff: use the primary relevant section for a section-specific review, otherwise use `/component-playground`. Always use the verified active Wi-Fi address and port for local links.
 
-- Start all user-facing local previews already signed in. Use `npm --prefix website run preview:phone` (automatic login enabled), or pass `{autoLogin:true}` to `createPhonePreview` for custom ports. Continue generating and displaying the process’s temporary test password. The local adapter must obtain a real session through the unchanged server-side login handler, using only its in-memory preview database and temporary credential; never add an authentication bypass to application handlers, production builds or hosted Sites. Keep low-level authentication tests explicit (`autoLogin:false`, the factory default). Provide `/workshop-resources?login=1` for inspecting the real login form; local Log Out returns there. Verify a fresh browser opens Resources, the session endpoint recognises its cookie, logout invalidates it, and hosted access still requires authentication when changing this workflow.
+- Start all user-facing local previews already signed in. Use `npm --prefix website run preview:phone` (automatic login enabled), or pass `{autoLogin:true}` to `createPhonePreview` for custom ports. Continue generating and displaying the process’s temporary test password. The local adapter must obtain a real session through the unchanged server-side login handler, using only its in-memory preview database and temporary credential; never add an authentication bypass to application handlers, production builds or hosted Sites. Keep low-level authentication tests explicit (`autoLogin:false`, the factory default). Provide `/ai-workshop-resources?show-login=true` for inspecting the real login form; local Log Out returns there. Verify a fresh browser opens Resources, the session endpoint recognises its cookie, logout invalidates it, and hosted access still requires authentication when changing this workflow.
 
 - For every future preview handoff in this project, provide the active server’s reachable Wi-Fi/LAN IPv4 address and port, never `localhost`, `127.0.0.1` or another loopback address. Adam reviews on his phone. Bind the server to the network interface, verify both app and Playground URLs. Do not include routine “use the same Wi-Fi” reminders in messages or handoffs. Recheck the address and active process’s test password at each handoff. If LAN access is unavailable, explain the limitation rather than substituting a loopback link.
 
@@ -49,14 +49,14 @@ The local column describes the user-facing preview started with automatic login 
 
 | URL | Local Preview | Hosted Sites |
 |---|---|---|
-| `/workshop-resources` | Opens the app using a valid local session, obtaining one automatically through the real local login handler if needed. No password entry is required. | Opens the app when the server validates the existing session; otherwise shows the password form. |
-| `/`, `/workshop`, `/resources`, `/ai`, `/ai-workshop-resources` and documented singular/plural aliases | Permanently redirects (301) to `/workshop-resources`, preserving query parameters. | Permanently redirects (301) to `/workshop-resources`, preserving query parameters; authentication is unchanged. |
-| `/home` or `/home/` | Permanently redirects (301) to `/workshop-resources`, preserving query parameters; the destination follows local automatic-login rules. | Permanently redirects (301) to `/workshop-resources`, preserving query parameters; the destination requires a valid hosted session or password login. |
+| `/ai-workshop-resources` | Opens the app using a valid local session, obtaining one automatically through the real local login handler if needed. No password entry is required. | Opens the app when the server validates the existing session; otherwise shows the password form. |
+| `/`, `/workshop`, `/resources`, `/ai`, `/workshop-resources` and documented singular/plural aliases | Permanently redirects (301) to `/ai-workshop-resources`, preserving query parameters. | Permanently redirects (301) to `/ai-workshop-resources`, preserving query parameters; authentication is unchanged. |
+| `/home` or `/home/` | Permanently redirects (301) to `/ai-workshop-resources`, preserving query parameters; the destination follows local automatic-login rules. | Permanently redirects (301) to `/ai-workshop-resources`, preserving query parameters; the destination requires a valid hosted session or password login. |
 | `/component-playground` or a supported section such as `/component-playground/branding` | Password-free by default; a section path selects that tab directly. | Requires the same server-validated session as the main app. Without one, shows the Playground login form; successful login retains the requested section. |
-| `/workshop-resources?login=0` | Behaves like `/workshop-resources`: reuses or automatically obtains a real local session. The value `0` is not an authentication token or a special login command. | Behaves like `/workshop-resources`. The query parameter is ignored for authentication and does not sign anyone in. |
-| `/workshop-resources?login=1` | Shows the real login form by ignoring the session cookie for this page request and suppressing automatic sign-in. This inspection URL does not revoke an existing session; Local Log Out separately revokes it and returns here. | Behaves like `/workshop-resources`. It does not force the login form, log the user out or revoke a session. A valid session shows the app; otherwise the password form is shown. |
+| `/ai-workshop-resources?show-login=false` | Reuses an existing valid session or shows the password form; never automatically signs in. | Reuses an existing valid session or shows the password form; never signs in. |
+| `/ai-workshop-resources?show-login=true` | Revokes the current session, clears its cookie and shows the login form. | Revokes the current session, clears its cookie and shows the login form. |
 
-The `login` query handling is confined to the local preview adapter on `/workshop-resources`; it is not a hosted authentication feature or a Playground override. Neither query value bypasses hosted authentication. Hosted app and Playground sessions share the existing seven-day expiry and logout rules. Never describe a hosted link as password-free merely because its local counterpart opens automatically.
+On Resources and supported Playground routes, `show-login=true` revokes the current server session, clears its cookie and displays the destination login form on local previews and hosted Sites. `show-login=false` never authenticates: it reuses a valid session or shows the login form. Local automatic sign-in is suppressed whenever `show-login` is present. The default local Playground remains anonymous unless `show-login=true` is requested. Successful login removes `show-login` before navigation to prevent a logout loop, preserving the section and unrelated query parameters. Hosted app and Playground sessions share the existing seven-day expiry and logout rules. Never describe a hosted link as password-free merely because its local counterpart opens automatically.
 
 ### Required Update Handoff
 
@@ -91,10 +91,10 @@ If a build, commit, push or publication failed or was blocked, replace that item
 
 Define `LOCAL_ORIGIN` as the active preview’s verified `http://WIFI-IP:PORT`, without a trailing slash. Never hard-code an example IP address or port, assume the previous process still owns a port, substitute loopback, or show a production password.
 
-- Main App: `[Main App ↗](LOCAL_ORIGIN/workshop-resources) — automatically signed in`. Link to `/workshop-resources`, not a redirect alias, and do not put paths in the anchor text.
+- Main App: `[Main App ↗](LOCAL_ORIGIN/ai-workshop-resources) — automatically signed in`. Link to `/ai-workshop-resources`, not a redirect alias, and do not put paths in the anchor text.
 - Playground, when exactly one section is the primary review destination: `[Playground > SECTION TITLE ↗](LOCAL_ORIGIN/component-playground/SECTION-SLUG) — automatically signed in`. Use the title/slug mapping below, not a raw slug or invented title.
 - Playground, for cross-cutting changes, documentation-only updates or no specific section: `[Playground ↗](LOCAL_ORIGIN/component-playground) — automatically signed in`.
-- Login Form: `[Login Form ↗](LOCAL_ORIGIN/workshop-resources?login=1) — logged-out view`.
+- Login Form: `[Login Form ↗](LOCAL_ORIGIN/ai-workshop-resources?show-login=true) — logged-out view`.
 
 | Section Slug | Section Title |
 |---|---|
@@ -108,7 +108,7 @@ Define `LOCAL_ORIGIN` as the active preview’s verified `http://WIFI-IP:PORT`, 
 | `branding` | Branding |
 | `easter-egg` | Easter Egg |
 
-Do not use “Preview link”, inline-code paths in labels, “password free”, “password-free”, “logged out state” or additional lock icons in these handoff bullets. The exact local phrase “automatically signed in” describes the no-password-entry review experience; it does not change the authentication implementation. The app obtains a real local session, while local Playground access remains password-free as documented above. Never apply this phrase to hosted access or imply that either local route bypasses hosted authentication. The login inspection link displays the logged-out form without itself revoking a session.
+Do not use “Preview link”, inline-code paths in labels, “password free”, “password-free”, “logged out state” or additional lock icons in these handoff bullets. The exact local phrase “automatically signed in” describes the no-password-entry review experience; it does not change the authentication implementation. The app obtains a real local session, while local Playground access remains password-free as documented above. Never apply this phrase to hosted access or imply that either local route bypasses hosted authentication. The login link revokes the current session before displaying the logged-out form.
 
 Verify the active process, LAN origin and all three destinations before handing them over. Read the password from that process’s startup output. Retained startup output is usable only after confirming that the same process is still serving those URLs; never copy a credential merely from a previous final response. Reuse a verified active preview for documentation-only work; do not rebuild or restart it solely because a document changed. If the process or password cannot be verified, restart and verify when safe and within scope, or use the unavailable case below.
 
@@ -116,7 +116,7 @@ If local preview is unavailable, retain **🔗 Local Preview** with `Unavailable
 
 #### Exact Live Link Selection
 
-Under **🌐 Live on Sites**, every successful publication must include two separate bullets: `[Main App ↗](VERIFIED-LIVE-ORIGIN/workshop-resources)` and `[Playground ↗](VERIFIED-LIVE-ORIGIN/component-playground)`, without authentication suffixes. Use the verified hosted origin; the existing site is `https://ai-workshop-resources.adamjaffrey.chatgpt.site`. Link to the Playground root by default; use the documented section title/slug only when explicitly requested. When the user asks for an existing live link without publication, provide the requested destination(s). Never include the production password or describe hosted links as automatically signed in. If showing an existing live site without publishing this update, say `Existing live site; this update has not been published.` before the link. Keep the Publish status truthful.
+Under **🌐 Live on Sites**, every successful publication must include two separate bullets: `[Main App ↗](VERIFIED-LIVE-ORIGIN/ai-workshop-resources)` and `[Playground ↗](VERIFIED-LIVE-ORIGIN/component-playground)`, without authentication suffixes. Use the verified hosted origin; the existing site is `https://workshop.adamjaffrey.chatgpt.site`. Link to the Playground root by default; use the documented section title/slug only when explicitly requested. When the user asks for an existing live link without publication, provide the requested destination(s). Never include the production password or describe hosted links as automatically signed in. If showing an existing live site without publishing this update, say `Existing live site; this update has not been published.` before the link. Keep the Publish status truthful.
 
 ### Handoff Format
 
@@ -132,9 +132,9 @@ Copy this structure literally for a successful new local build, replacing placeh
 
 **🔗 Local Preview**
 
-- [Main App ↗](LOCAL_ORIGIN/workshop-resources) — automatically signed in
+- [Main App ↗](LOCAL_ORIGIN/ai-workshop-resources) — automatically signed in
 - [Playground ↗](LOCAL_ORIGIN/component-playground) — automatically signed in
-- [Login Form ↗](LOCAL_ORIGIN/workshop-resources?login=1) — logged-out view
+- [Login Form ↗](LOCAL_ORIGIN/ai-workshop-resources?show-login=true) — logged-out view
 
 **🔑 Local App Test Password**
 
@@ -148,13 +148,13 @@ When the live-link inclusion condition is met, append:
 ```markdown
 **🌐 Live on Sites**
 
-- [Main App ↗](VERIFIED-LIVE-ORIGIN/workshop-resources)
+- [Main App ↗](VERIFIED-LIVE-ORIGIN/ai-workshop-resources)
 - [Playground ↗](VERIFIED-LIVE-ORIGIN/component-playground)
 ```
 
 Before sending, check the exact four status labels and order, version/hash evidence, canonical Main App URL, Playground title/slug selection, literal authentication suffixes, active-process password, and whether a Live on Sites section is warranted. Do not substitute stylistic variants for this contract.
 
-Site-wide GET/HEAD requests remove a leading `www.` hostname and lowercase the path before resolving aliases in one 301 redirect; lowercase the names and values of known public query parameters (`agent`, `theme`, `login`) in that same redirect, preserving unrelated query components exactly and leaving POST paths unchanged. Maintain only lowercase redirect keys and public asset filenames. Hosting must accept the `www` hostname and supply its certificate before these redirects can run.
+Site-wide GET/HEAD requests remove a leading `www.` hostname and lowercase the path before resolving aliases in one 301 redirect; lowercase the names and values of known public query parameters (`agent`, `theme`, `show-login` and its legacy aliases) in that same redirect, preserving unrelated query components exactly and leaving POST paths unchanged. Map `login=1`, `logged-in=false` and `logged-out=true` to `show-login=true`; map `login=0`, `logged-in=true` and `logged-out=false` to `show-login=false`. Accept only true/false for the named boolean selectors and only 1/0 for legacy `login`; remove unsupported login-selector values by redirect. Preserve duplicate order, using the first valid resulting `show-login` value. Maintain only lowercase redirect keys and public asset filenames. Hosting must accept the `www` hostname and supply its certificate before these redirects can run.
 
 ## Website Login
 

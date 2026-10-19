@@ -9,7 +9,7 @@ try{
  const p=await browser.newPage({reducedMotion:'reduce'});
  for(const width of [390,1440]){
  await p.setViewportSize({width,height:1000});
- for(const path of ['/workshop-resources','/component-playground',...playgroundSections.map(s=>'/component-playground/'+s)]){
+ for(const path of ['/ai-workshop-resources','/component-playground',...playgroundSections.map(s=>'/component-playground/'+s)]){
  const url=origin+path+'?theme=dark&agent=claude';
  await p.route(url,async route=>{const r=await handleRequest(new Request(url),{});await route.fulfill({status:r.status,headers:Object.fromEntries(r.headers),body:await r.text()});});
  const r=await p.goto(url);assert.equal(r.status(),503);assert.equal(p.url(),url);
@@ -19,7 +19,7 @@ try{
  if(path==='/component-playground'){const f=await p.locator('.playground-placeholder>iframe').elementHandle().then(e=>e.contentFrame());await f.waitForSelector('.ph-word');await p.screenshot({path:'/tmp/login-error-playground-'+width+'.png'});}
  await p.unroute(url);
  }
- for(const path of ['/workshop-resources','/component-playground/blocks-and-blur'])for(const status of [401,429,503,'network']){
+ for(const path of ['/ai-workshop-resources','/component-playground/blocks-and-blur'])for(const status of [401,429,503,'network']){
  const url=origin+path+'?theme=light&agent=codex';await p.goto(url);
  await p.route('**/auth/login',route=>status==='network'?route.abort():route.fulfill({status,headers:{'content-type':'application/json',...(status===429?{'retry-after':'60'}:{})},body:'{"error":"test"}'}));
  await p.locator('#workshop-password').fill('incorrect-test-password');await p.locator('.gate-submit').click();

@@ -39,9 +39,26 @@ test('automatic preview sign-in uses an isolated real session and retains login 
   assert.equal((await fetch(origin+'/auth/session',{headers:{cookie}})).status,200);
   assert.equal((await fetch(origin+'/auth/session')).status,401);
   assert.match(await(await fetch(origin+'/?login=1')).text(),/id="access-form"/);
-  const logout=await fetch(origin+'/auth/logout',{method:'POST',headers:{cookie,origin},redirect:'manual'});assert.equal(logout.headers.get('location'),'/workshop-resources?login=1');
+  const logout=await fetch(origin+'/auth/logout',{method:'POST',headers:{cookie,origin},redirect:'manual'});assert.equal(logout.headers.get('location'),'/ai-workshop-resources?show-login=true');
   assert.equal((await fetch(origin+'/auth/session',{headers:{cookie}})).status,401);
   // A stale cookie after a preview restart is replaced on the next normal visit.
   const again=await fetch(origin,{headers:{cookie}});assert.match(await again.text(),/id="workshop-content"/);assert.notEqual(again.headers.get('set-cookie').split(';')[0],cookie);
+ }finally{await new Promise(r=>server.close(r));}
+});
+
+test('show-login aliases revoke sessions; false never creates a local session',async()=>{
+ const {server}=createPhonePreview({autoLogin:true});server.listen(0,'127.0.0.1');await once(server,'listening');const origin='http://127.0.0.1:'+server.address().port;
+ try{
+  for(const query of ['show-login=true','login=1','logged-in=false','logged-out=true','SHOW-LOGIN=TRUE']){
+   const first=await fetch(origin+'/ai-workshop-resources');const cookie=first.headers.get('set-cookie').split(';')[0];
+   const response=await fetch(origin+'/ai-workshop-resources?'+query,{headers:{cookie}});
+   assert.equal(new URL(response.url).search,'?show-login=true');assert.match(await response.text(),/id="access-form"/);
+   assert.equal((await fetch(origin+'/auth/session',{headers:{cookie}})).status,401);
+  }
+  for(const query of ['show-login=false','login=0','logged-in=true','logged-out=false']){
+   assert.match(await(await fetch(origin+'/ai-workshop-resources?'+query)).text(),/id="access-form"/);
+   const first=await fetch(origin+'/ai-workshop-resources');const cookie=first.headers.get('set-cookie').split(';')[0];
+   assert.match(await(await fetch(origin+'/ai-workshop-resources?'+query,{headers:{cookie}})).text(),/id="workshop-content"/);
+  }
  }finally{await new Promise(r=>server.close(r));}
 });

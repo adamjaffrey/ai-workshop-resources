@@ -3,14 +3,43 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.220"
-  update_summary: "Normalise public query parameter names and values"
-  updated_at: "Tue 20 Oct 2026 at 07:30:43 am AEDT (+11:00)"
+  doc_revision: "26.0.221"
+  update_summary: "Rename Resources URLs and make login controls explicit"
+  updated_at: "Tue 20 Oct 2026 at 07:46:06 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.219 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 07:46:06 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Rename Resources URLs and make login controls explicit
+
+### Changed
+
+- Make `/ai-workshop-resources` canonical, retaining `/workshop-resources` and all existing Resources alternatives as 301 redirects. Update login, logout, expiry and preview destinations.
+- Replace the ambiguous login selector with `show-login=true` or `show-login=false`. Redirect legacy `login=1/0` and boolean `logged-in`/`logged-out` aliases to their corresponding canonical value. Remove unsupported login-selector values; retain unrelated query data and first-valid-value ordering.
+- Make `show-login=true` revoke the current session and display the requested login form on hosted and local routes. Remove the parameter after successful login to avoid a logout loop. `show-login=false` never authenticates or triggers local automatic sign-in.
+- Change the existing Sites slug to `workshop` as explicitly requested. Sites confirmed the change; the previous hostname returns 307 to the new hostname, preserving paths and queries. This hosting change does not publish this application build.
+- Update Copy Link and the QR code to `https://workshop.adamjaffrey.chatgpt.site/ai-workshop-resources`, and document the canonical URLs and login semantics.
+
+### Validation
+
+- Route, authentication and local-preview regression tests — 24 passed, including real session revocation and no authentication from false selectors.
+- Mobile/desktop URL preference and login-error browser checks — passed, including successful login without a logout loop and retained section/query context.
+- Playground source-parity suite — passed across four widths, both agents/themes and held login states; mobile screenshot inspected.
+- Copy Link and clipboard fallback browser check — passed. Regenerated QR independently decoded by macOS Vision to the exact canonical destination.
+- Sites production build — passed with v26.0.219. Built Worker redirect checks — passed (134 existing/alias cases plus canonical path and query checks).
+- LAN app, Playground, login form, session revocation and no-auto-login checks — passed. No GitHub push or application publication performed.
 
 ## v26.0.218 — 2026-10-20
 

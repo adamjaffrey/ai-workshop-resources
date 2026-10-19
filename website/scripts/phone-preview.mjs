@@ -32,7 +32,7 @@ export function createPhonePreview({protectPlayground=false,autoLogin=false}={})
       const url=new URL(req.url,'http://'+req.headers.host);
       const redirect=canonicalRedirect(url);
       if(redirect&&['GET','HEAD'].includes(req.method)){res.writeHead(redirect.status,{Location:redirect.location});res.end();return;}
-      if(!protectPlayground && ['GET','HEAD'].includes(req.method) && isPlaygroundPath(url.pathname)) {
+      if(!protectPlayground && url.searchParams.get('show-login')!=='true' && ['GET','HEAD'].includes(req.method) && isPlaygroundPath(url.pathname)) {
         const compressed=(req.headers['accept-encoding']||'').split(',').some(value=>/^\s*gzip(?:\s*;|\s*$)/i.test(value)&&!/(?:^|;)\s*q=0(?:\.0*)?\s*$/i.test(value));
         res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','Vary':'Accept-Encoding',...(compressed?{'Content-Encoding':'gzip'}:{})});
         if(req.method==='HEAD'){res.end();return;}
@@ -55,11 +55,10 @@ export function createPhonePreview({protectPlayground=false,autoLogin=false}={})
         for await(const chunk of req){size+=chunk.length;if(size>4096){res.writeHead(413);res.end('Request too large');return;}chunks.push(chunk);}
         body=Buffer.concat(chunks);
       }
-      if(autoLogin&&url.pathname==='/workshop-resources'&&url.searchParams.get('login')==='1')headers.delete('cookie');
       let automaticCookie;
       // Local preview only: obtain a real session through the unchanged auth handler.
       // Test callers keep explicit login by default; the user-facing launcher opts in.
-      if(autoLogin && req.method==='GET' && url.pathname==='/workshop-resources' && url.searchParams.get('login')!=='1') {
+      if(autoLogin && req.method==='GET' && url.pathname==='/ai-workshop-resources' && !url.searchParams.has('show-login')) {
         const session=await handleRequest(new Request(new URL('/auth/session',url),{headers}),env);
         if(session.status===401){
           const login=await handleRequest(new Request(new URL('/auth/login',url),{method:'POST',headers:{origin:url.origin,'content-type':'application/x-www-form-urlencoded',accept:'application/json','cf-connecting-ip':req.socket.remoteAddress||'local'},body:new URLSearchParams({password})}),env);
@@ -73,7 +72,7 @@ export function createPhonePreview({protectPlayground=false,autoLogin=false}={})
         res.setHeader(key,key==='set-cookie'?value.replace(COOKIE+'=',previewCookie+'=').replace('; Secure',''):value);
       }
       if(automaticCookie)res.setHeader('set-cookie',automaticCookie.replace(COOKIE+'=',previewCookie+'=').replace('; Secure',''));
-      if(autoLogin&&url.pathname==='/auth/logout'&&response.status===303)res.setHeader('location','/workshop-resources?login=1');
+      if(autoLogin&&url.pathname==='/auth/logout'&&response.status===303)res.setHeader('location','/ai-workshop-resources?show-login=true');
       res.end(Buffer.from(await response.arrayBuffer()));
     } catch {res.writeHead(500);res.end('Local preview unavailable');}
   });
@@ -84,7 +83,7 @@ export function createPhonePreview({protectPlayground=false,autoLogin=false}={})
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
   const {server,password}=createPhonePreview({autoLogin:true});
   server.listen(8788,'0.0.0.0',()=>{
-    console.log('Local preview opens signed in. Use /workshop-resources?login=1 to inspect login.');
+    console.log('Local preview opens signed in. Use /ai-workshop-resources?show-login=true to inspect login.');
     for(const addresses of Object.values(networkInterfaces()))for(const address of addresses||[])
       if(address.family==='IPv4'&&!address.internal)console.log('Network preview: http://'+address.address+':8788/');
     console.log('Local-only test password: '+password);

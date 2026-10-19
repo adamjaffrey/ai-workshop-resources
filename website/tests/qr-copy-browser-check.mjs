@@ -21,14 +21,14 @@ try {
  assert.ok(bounds.every(v=>v<.01));
  await qr.hover();assert.equal(await qr.locator('.qr-copy-overlay').evaluate(e=>getComputedStyle(e).opacity),'1');
  await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async text=>window.copiedURL=text}}));
- await qr.click();assert.equal(await page.evaluate(()=>window.copiedURL),'https://ai-workshop-resources.adamjaffrey.chatgpt.site/');
+ await qr.click();assert.equal(await page.evaluate(()=>window.copiedURL),'https://workshop.adamjaffrey.chatgpt.site/ai-workshop-resources');
  await page.getByText('Link Copied',{exact:true}).waitFor();
  assert.equal(await qr.locator('.success-icon').isVisible(),true);
  assert.equal(await qr.locator('.copy-icon').isVisible(),false);
  assert.equal(await qr.evaluate(e=>getComputedStyle(e).color),await page.locator('[data-copy]').first().evaluate(e=>{e.dataset.copied='true';return getComputedStyle(e).color;}));
- assert.equal(page.url(),origin+'/');
+ assert.equal(page.url(),origin+'/ai-workshop-resources');
  await page.evaluate(()=>{Object.defineProperty(navigator,'clipboard',{configurable:true,value:undefined});document.execCommand=command=>{window.fallbackURL=document.activeElement.value;return command==='copy';};});
- await qr.click();assert.equal(await page.evaluate(()=>window.fallbackURL),'https://ai-workshop-resources.adamjaffrey.chatgpt.site/');
+ await qr.click();assert.equal(await page.evaluate(()=>window.fallbackURL),'https://workshop.adamjaffrey.chatgpt.site/ai-workshop-resources');
  assert.equal(await qr.evaluate(e=>document.activeElement===e),true);
  await page.emulateMedia({reducedMotion:'no-preference'});
  await qr.click();

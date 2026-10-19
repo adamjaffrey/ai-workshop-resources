@@ -1,6 +1,6 @@
 export const playgroundSections=['components','typography','colours','blocks-and-blur','icons','status-states','focus-and-selection','branding','easter-egg'];
 export const playgroundTabPaths={blocks:'blocks-and-blur',errors:'status-states',focus:'focus-and-selection',discovery:'easter-egg'};
-export const resourcesRoot='/workshop-resources';
+export const resourcesRoot='/ai-workshop-resources';
 const resourceRoots=new Set(['','home','homes','index.html','workshop','workshops','resource','resources','workshop-resource','workshop-resources','workshops-resource','workshops-resources','ai','ais','ai-workshop-resource','ai-workshop-resources','ai-workshops-resource','ai-workshops-resources']);
 export const playgroundRoot='/component-playground';
 const roots=new Set(['component-playground','components-playground','component-playgrounds','components-playgrounds','component','components','playground','playgrounds','style-guide']);
@@ -30,18 +30,28 @@ export function playgroundRedirect(path){
 export const isPlaygroundPath=path=>path===playgroundRoot||playgroundSections.some(section=>path===playgroundRoot+'/'+section);
 
 // Preserve unrelated query components byte-for-byte, including signed values.
-const publicParameters=new Set(['agent','theme','login']);
+const publicParameters=new Set(['agent','theme']);
+const loginParameters=new Set(['show-login','login','logged-in','logged-out']);
 function canonicalSearch(search){
  if(!search)return search;
- return '?'+search.slice(1).split('&').map(part=>{
+ const parts=search.slice(1).split('&').map(part=>{
   const entry=new URLSearchParams(part).entries().next().value;
   if(!entry)return part;
   const [name,value]=entry,key=name.toLowerCase();
-  if(!publicParameters.has(key))return part;
   const lower=value.toLowerCase();
+  if(loginParameters.has(key)){
+   let show;
+   if(key==='login')show=lower==='1'?'true':lower==='0'?'false':undefined;
+   else if(lower==='true'||lower==='false')show=key==='logged-in'?(lower==='true'?'false':'true'):lower;
+   // Invalid login selectors are removed, never interpreted as authentication.
+   if(show===undefined)return null;
+   return 'show-login='+show;
+  }
+  if(!publicParameters.has(key))return part;
   if(name===key&&value===lower)return part;
   return new URLSearchParams([[key,lower]]).toString();
- }).join('&');
+ }).filter(part=>part!==null).join('&');
+ return parts?'?'+parts:'';
 }
 
 // Host, path and public query rules share one permanent destination.

@@ -40,14 +40,29 @@ try{
  await page.locator('[data-tab=icons]').click();await page.reload();await check('claude-code','dark',true);
  await page.goto(origin+'/component-playground?agent=__proto__&theme=unknown');await check('claude-code','dark',true);
  await context.request.post(origin+'/auth/logout',{headers:{origin},maxRedirects:0});
- await page.goto(origin+'/workshop-resources?login=1&agent=chatgpt&theme=sun');await check('codex','light');
- await page.fill('#workshop-password',password);await page.click('.gate-submit');await page.waitForURL(url=>!url.searchParams.has('login'));await page.waitForSelector('#workshop-content');assert.equal(new URL(page.url()).searchParams.has('login'),false);await check('codex','light');
+ await page.goto(origin+'/ai-workshop-resources?login=1&agent=chatgpt&theme=sun');await check('codex','light');
+ await page.fill('#workshop-password',password);await page.click('.gate-submit');await page.waitForURL(url=>!url.searchParams.has('show-login'));await page.waitForSelector('#workshop-content');assert.equal(new URL(page.url()).searchParams.has('show-login'),false);await check('codex','light');
  await page.goto(origin+'/');await check('codex','light');
  // Unknown paths still canonicalise site-wide, then remain a genuine 404.
  const redirect=await context.request.get(origin+'/UNKNOWN/Path?Keep=Case',{maxRedirects:0});assert.equal(redirect.status(),301);assert.equal(redirect.headers().location,'/unknown/path?Keep=Case');
  assert.equal((await context.request.get(origin+'/unknown/path')).status(),404);
  assert.equal((await context.request.get(origin+'/assets/MarkPro-Bold.ttf',{maxRedirects:0})).status(),301);
  assert.equal((await context.request.get(origin+'/assets/markpro-bold.ttf')).status(),200);
+ // Automatic local preview must leave inspection mode after a successful login.
+ const automatic=createPhonePreview({autoLogin:true});await new Promise(r=>automatic.server.listen(0,'127.0.0.1',r));
+ const local='http://127.0.0.1:'+automatic.server.address().port;
+ try{
+  for(const width of [390,1440]){
+   await page.setViewportSize({width,height:900});
+   await page.goto(local+'/ai-workshop-resources?Logged-In=FALSE&Theme=MOON');
+   assert.equal(new URL(page.url()).search,'?show-login=true&theme=moon');
+   await page.fill('#workshop-password',automatic.password);await page.click('.gate-submit');
+   await page.waitForURL(url=>!url.searchParams.has('show-login'));await page.waitForSelector('#workshop-content');assert.equal(new URL(page.url()).search,'?theme=moon');
+   assert.equal((await context.request.get(local+'/auth/session')).status(),200);
+   await page.goto(local+'/ai-workshop-resources?show-login=true');await page.waitForSelector('#access-form');
+   assert.equal((await context.request.get(local+'/auth/session')).status(),401);
+  }
+ }finally{await new Promise(r=>automatic.server.close(r));}
  assert.deepEqual(errors,[]);
  console.log('PASS: aliases, case, locked login continuity, saved preferences, selectors, favicon variants, mobile/desktop and asset redirects');
 }finally{await browser.close();await new Promise(r=>server.close(r));}

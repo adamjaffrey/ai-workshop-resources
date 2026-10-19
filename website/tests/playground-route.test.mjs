@@ -37,14 +37,14 @@ test('renamed sections permanently redirect with query strings',async()=>{
 test('home redirects locally and on the hosted handler without bypassing login',async()=>{
  const {server}=createPhonePreview();await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
  try{for(const path of ['/home','/home/'])for(const method of ['GET','HEAD']){
-  for(const response of [await fetch(origin+path+'?login=1',{method,redirect:'manual'}),await handleRequest(new Request('https://production.example'+path+'?login=1',{method}),{})]){assert.equal(response.status,301);assert.equal(response.headers.get('location'),'/workshop-resources?login=1');}
+  for(const response of [await fetch(origin+path+'?login=1',{method,redirect:'manual'}),await handleRequest(new Request('https://production.example'+path+'?login=1',{method}),{})]){assert.equal(response.status,301);assert.equal(response.headers.get('location'),'/ai-workshop-resources?show-login=true');}
  }assert.match(await(await fetch(origin+'/home')).text(),/id="access-form"/);
  }finally{await new Promise(r=>server.close(r));}
 });
 
 test('all aliases and slash variants redirect once locally and hosted, preserving exact queries',async()=>{
  const {server}=createPhonePreview();await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
- const aliases=[['/style-guide','/component-playground'],['/home','/workshop-resources'],['/component-playground/colors','/component-playground/colours'],['/component-playground/blocks','/component-playground/blocks-and-blur'],['/component-playground/blur','/component-playground/blocks-and-blur'],['/component-playground/errors','/component-playground/status-states'],['/component-playground/statuses','/component-playground/status-states'],['/component-playground/status','/component-playground/status-states'],['/component-playground/states','/component-playground/status-states'],['/component-playground/focus','/component-playground/focus-and-selection'],['/component-playground/selection','/component-playground/focus-and-selection'],['/component-playground/discovery','/component-playground/easter-egg'],['/component-playground/easter','/component-playground/easter-egg'],['/component-playground/egg','/component-playground/easter-egg']];
+ const aliases=[['/style-guide','/component-playground'],['/home','/ai-workshop-resources'],['/component-playground/colors','/component-playground/colours'],['/component-playground/blocks','/component-playground/blocks-and-blur'],['/component-playground/blur','/component-playground/blocks-and-blur'],['/component-playground/errors','/component-playground/status-states'],['/component-playground/statuses','/component-playground/status-states'],['/component-playground/status','/component-playground/status-states'],['/component-playground/states','/component-playground/status-states'],['/component-playground/focus','/component-playground/focus-and-selection'],['/component-playground/selection','/component-playground/focus-and-selection'],['/component-playground/discovery','/component-playground/easter-egg'],['/component-playground/easter','/component-playground/easter-egg'],['/component-playground/egg','/component-playground/easter-egg']];
  const canonical=['/component-playground',...['components','typography','colours','blocks-and-blur','icons','status-states','focus-and-selection','branding','easter-egg'].map(s=>'/component-playground/'+s)];
  const query='?theme=dark&value=a%2Fb&value=c+d&empty=';
  try{
@@ -58,7 +58,7 @@ test('all aliases and slash variants redirect once locally and hosted, preservin
   }
   for(const target of canonical)assert.equal((await fetch(origin+target,{redirect:'manual'})).status,200);
   const post=await fetch(origin+'/component-playground/blur/',{method:'POST',redirect:'manual'});assert.equal(post.status,404);assert.equal(post.headers.get('location'),null);
-  assert.equal((await fetch(origin+'/workshop-resources',{redirect:'manual'})).status,200);
+  assert.equal((await fetch(origin+'/ai-workshop-resources',{redirect:'manual'})).status,200);
  }finally{await new Promise(r=>server.close(r));}
 });
 
@@ -87,14 +87,14 @@ test('www, case and aliases share one permanent destination',async()=>{
 
 test('Resources aliases, case, plural forms and queries share the canonical URL',async()=>{
  const {canonicalRedirect}=await import('../lib/workshop-playground-routes.mjs');
- for(const alias of ['','home','homes','index.html','workshop','workshops','resource','resources','workshop-resource','workshops-resource','workshops-resources','ai','ais','ai-workshop-resource','ai-workshop-resources','ai-workshops-resource','ai-workshops-resources'])for(const suffix of ['','/']){
+ for(const alias of ['','workshop-resources','home','homes','index.html','workshop','workshops','resource','resources','workshop-resource','workshops-resource','workshops-resources','ai','ais','ai-workshop-resource','ai-workshop-resources','ai-workshops-resource','ai-workshops-resources'])for(const suffix of ['','/']){
   const path='/'+alias.toUpperCase()+suffix;
   if(path==='//')continue;
   const url=new URL('https://www.example.com'+path+'?agent=Claude&theme=Moon');
-  assert.deepEqual(canonicalRedirect(url),{location:'https://example.com/workshop-resources?agent=claude&theme=moon',status:301});
-  const r=await handleRequest(new Request(url),{});assert.equal(r.status,301);assert.equal(r.headers.get('location'),'https://example.com/workshop-resources?agent=claude&theme=moon');
+  assert.deepEqual(canonicalRedirect(url),{location:'https://example.com/ai-workshop-resources?agent=claude&theme=moon',status:301});
+  const r=await handleRequest(new Request(url),{});assert.equal(r.status,301);assert.equal(r.headers.get('location'),'https://example.com/ai-workshop-resources?agent=claude&theme=moon');
  }
- assert.equal(canonicalRedirect(new URL('https://example.com/workshop-resources')),null);
+ assert.equal(canonicalRedirect(new URL('https://example.com/ai-workshop-resources')),null);
 });
 
 
@@ -103,14 +103,31 @@ test('public query names and values canonicalise without changing opaque paramet
  for(const method of ['GET','HEAD']){
   const response=await handleRequest(new Request('https://www.example.com/PLAYGROUND/ICON/?AGENT=Claude&Theme=MOON&LOGIN=1&Token=AbC%2FZ+Q&agent=CODEX',{method}),{});
   assert.equal(response.status,301);
-  const destination='https://example.com/component-playground/icons?agent=claude&theme=moon&login=1&Token=AbC%2FZ+Q&agent=codex';
+  const destination='https://example.com/component-playground/icons?agent=claude&theme=moon&show-login=true&Token=AbC%2FZ+Q&agent=codex';
   assert.equal(response.headers.get('location'),destination);
   assert.equal(canonicalRedirect(new URL(destination)),null);
  }
  for(const [query,expected] of [['%41gent=%43ODEX','agent=codex'],['Theme=','theme='],['THEME=Unknown','theme=unknown'],['Agent=CODE&agent=CODEX','agent=code&agent=codex']]){
-  assert.deepEqual(canonicalRedirect(new URL('https://example.com/workshop-resources?'+query)),{location:'/workshop-resources?'+expected,status:301});
+  assert.deepEqual(canonicalRedirect(new URL('https://example.com/ai-workshop-resources?'+query)),{location:'/ai-workshop-resources?'+expected,status:301});
  }
- assert.equal(canonicalRedirect(new URL('https://example.com/workshop-resources?Token=AbC%2FZ+Q&theme=dark')),null);
+ assert.equal(canonicalRedirect(new URL('https://example.com/ai-workshop-resources?Token=AbC%2FZ+Q&theme=dark')),null);
  const post=await handleRequest(new Request('https://example.com/auth/login?AGENT=CODEX',{method:'POST'}),{});
  assert.equal(post.headers.get('location'),null);
+});
+
+test('login aliases redirect to explicit show-login booleans and invalid values disappear',async()=>{
+ const {canonicalRedirect}=await import('../lib/workshop-playground-routes.mjs');
+ for(const [alias,value] of [['login=1','true'],['login=0','false'],['logged-in=true','false'],['logged-in=false','true'],['logged-out=true','true'],['logged-out=false','false'],['SHOW-LOGIN=TRUE','true'],['SHOW-LOGIN=FALSE','false']]){
+  for(const method of ['GET','HEAD']){
+   const response=await handleRequest(new Request('https://www.example.com/Resources/?'+alias.toUpperCase()+'&Token=AbC',{method}),{});
+   const destination='https://example.com/ai-workshop-resources?show-login='+value+'&Token=AbC';
+   assert.equal(response.status,301);assert.equal(response.headers.get('location'),destination);
+   assert.equal(canonicalRedirect(new URL(destination)),null);
+  }
+ }
+ for(const query of ['login=true','login=false','login=2','login=-1','login=anything','login=','login','logged-in=1','logged-out=0','show-login=1','show-login=anything']){
+  assert.deepEqual(canonicalRedirect(new URL('https://example.com/ai-workshop-resources?'+query)),{status:301,location:'/ai-workshop-resources'});
+  assert.deepEqual(canonicalRedirect(new URL('https://example.com/ai-workshop-resources?'+query+'&Token=AbC')), {status:301,location:'/ai-workshop-resources?Token=AbC'});
+ }
+ assert.deepEqual(canonicalRedirect(new URL('https://example.com/ai-workshop-resources?login=0&logged-out=true')),{status:301,location:'/ai-workshop-resources?show-login=false&show-login=true'});
 });

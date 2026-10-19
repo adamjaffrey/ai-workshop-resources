@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 const origin=process.env.PRODUCTION_TEST_ORIGIN;
 if(!origin)throw Error('Set PRODUCTION_TEST_ORIGIN to the local built Worker');
-const aliases=[['/style-guide','/component-playground'],['/home','/workshop-resources'],['/component-playground/colors','/component-playground/colours'],['/component-playground/blocks','/component-playground/blocks-and-blur'],['/component-playground/blur','/component-playground/blocks-and-blur'],['/component-playground/errors','/component-playground/status-states'],['/component-playground/statuses','/component-playground/status-states'],['/component-playground/status','/component-playground/status-states'],['/component-playground/states','/component-playground/status-states'],['/component-playground/focus','/component-playground/focus-and-selection'],['/component-playground/selection','/component-playground/focus-and-selection'],['/component-playground/discovery','/component-playground/easter-egg'],['/component-playground/easter','/component-playground/easter-egg'],['/component-playground/egg','/component-playground/easter-egg']];
+const aliases=[['/workshop-resources','/ai-workshop-resources'],['/style-guide','/component-playground'],['/home','/ai-workshop-resources'],['/component-playground/colors','/component-playground/colours'],['/component-playground/blocks','/component-playground/blocks-and-blur'],['/component-playground/blur','/component-playground/blocks-and-blur'],['/component-playground/errors','/component-playground/status-states'],['/component-playground/statuses','/component-playground/status-states'],['/component-playground/status','/component-playground/status-states'],['/component-playground/states','/component-playground/status-states'],['/component-playground/focus','/component-playground/focus-and-selection'],['/component-playground/selection','/component-playground/focus-and-selection'],['/component-playground/discovery','/component-playground/easter-egg'],['/component-playground/easter','/component-playground/easter-egg'],['/component-playground/egg','/component-playground/easter-egg']];
 const canonical=['/component-playground',...['components','typography','colours','blocks-and-blur','icons','status-states','focus-and-selection','branding','easter-egg'].map(s=>'/component-playground/'+s)];
 const query='?theme=dark&value=a%2Fb&value=c+d&empty=';
 let count=0;
@@ -18,7 +18,7 @@ for(const [source,target] of [...aliases,...canonical.map(p=>[p,p]),['/unknown/p
 }
 console.log('PASS: '+count+' production Worker redirect cases, direct final destinations and exact query preservation');
 
-for(const [path,target] of [['/','/workshop-resources'],['/AI','/workshop-resources'],['/AI-WORKSHOPS-RESOURCE/','/workshop-resources'],['/Resources','/workshop-resources'],['/COMPONENTS/ICON/','/component-playground/icons'],['/WORKSHOP-RESOURCES/','/workshop-resources'],['/Unknown/Path','/unknown/path'],['/assets/MarkPro-Bold.ttf','/assets/markpro-bold.ttf']]){
+for(const [path,target] of [['/','/ai-workshop-resources'],['/AI','/ai-workshop-resources'],['/AI-WORKSHOPS-RESOURCE/','/ai-workshop-resources'],['/Resources','/ai-workshop-resources'],['/COMPONENTS/ICON/','/component-playground/icons'],['/WORKSHOP-RESOURCES/','/ai-workshop-resources'],['/Unknown/Path','/unknown/path'],['/assets/MarkPro-Bold.ttf','/assets/markpro-bold.ttf']]){
  const r=await fetch(origin+path+'?Keep=Case',{redirect:'manual'});assert.equal(r.status,301);assert.equal(r.headers.get('location'),target+'?Keep=Case');
 }
 const font=await fetch(origin+'/assets/markpro-bold.ttf');assert.equal(font.status,200);
@@ -27,7 +27,7 @@ console.log('PASS: canonical Resources, site-wide case and existing font redirec
 for(const method of ['GET','HEAD']){
  const response=await fetch(origin+'/COMPONENTS/ICON/?AGENT=Claude&Theme=MOON&LOGIN=1&Token=AbC%2FZ+Q',{method,redirect:'manual'});
  assert.equal(response.status,301);
- assert.equal(response.headers.get('location'),'/component-playground/icons?agent=claude&theme=moon&login=1&Token=AbC%2FZ+Q');
+ assert.equal(response.headers.get('location'),'/component-playground/icons?agent=claude&theme=moon&show-login=true&Token=AbC%2FZ+Q');
  const canonical=await fetch(origin+response.headers.get('location'),{method,redirect:'manual'});
  assert.equal(canonical.headers.get('location'),null);
 }
