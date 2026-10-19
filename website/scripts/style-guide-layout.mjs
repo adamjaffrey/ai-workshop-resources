@@ -113,6 +113,7 @@ main.wrap{padding-top:24px}
 @media(max-width:660px){header.wrap{padding-bottom:0}}
 
 
+.panel>p+details:has(>.rule-list),.panel>.feather-notice>p+details{margin-top:16px}
 /* White-card explanation only: never descend into specimen surfaces or frames. */
 .panel>.section-heading h2,.panel>p,.panel>.feather-notice>p{padding-inline:var(--playground-external-text-inset)}
 .panel>ul{margin-inline:var(--playground-external-text-inset)}
