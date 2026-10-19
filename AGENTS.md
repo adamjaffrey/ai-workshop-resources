@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.60"
-  update_summary: "Preserve route-specific login backgrounds for all errors"
-  updated_at: "Tue 20 Oct 2026 at 07:23:34 am AEDT (+11:00)"
+  doc_revision: "26.0.61"
+  update_summary: "Normalise public query parameter names and values"
+  updated_at: "Tue 20 Oct 2026 at 07:30:43 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -154,7 +154,7 @@ When the live-link inclusion condition is met, append:
 
 Before sending, check the exact four status labels and order, version/hash evidence, canonical Main App URL, Playground title/slug selection, literal authentication suffixes, active-process password, and whether a Live on Sites section is warranted. Do not substitute stylistic variants for this contract.
 
-Site-wide GET/HEAD requests remove a leading `www.` hostname and lowercase the path before resolving aliases in one 301 redirect; preserve query strings and exact POST paths. Maintain only lowercase redirect keys and public asset filenames. Hosting must accept the `www` hostname and supply its certificate before these redirects can run.
+Site-wide GET/HEAD requests remove a leading `www.` hostname and lowercase the path before resolving aliases in one 301 redirect; lowercase the names and values of known public query parameters (`agent`, `theme`, `login`) in that same redirect, preserving unrelated query components exactly and leaving POST paths unchanged. Maintain only lowercase redirect keys and public asset filenames. Hosting must accept the `www` hostname and supply its certificate before these redirects can run.
 
 ## Website Login
 

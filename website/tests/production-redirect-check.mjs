@@ -23,3 +23,12 @@ for(const [path,target] of [['/','/workshop-resources'],['/AI','/workshop-resour
 }
 const font=await fetch(origin+'/assets/markpro-bold.ttf');assert.equal(font.status,200);
 console.log('PASS: canonical Resources, site-wide case and existing font redirects on the built Worker');
+
+for(const method of ['GET','HEAD']){
+ const response=await fetch(origin+'/COMPONENTS/ICON/?AGENT=Claude&Theme=MOON&LOGIN=1&Token=AbC%2FZ+Q',{method,redirect:'manual'});
+ assert.equal(response.status,301);
+ assert.equal(response.headers.get('location'),'/component-playground/icons?agent=claude&theme=moon&login=1&Token=AbC%2FZ+Q');
+ const canonical=await fetch(origin+response.headers.get('location'),{method,redirect:'manual'});
+ assert.equal(canonical.headers.get('location'),null);
+}
+console.log('PASS: public query case normalisation combines with path aliases in one production redirect');

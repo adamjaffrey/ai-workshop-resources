@@ -14,7 +14,7 @@ const sectionAliases=new Map([
  ['brand','branding'],['brands','branding'],['brandings','branding'],['discovery','easter-egg'],['discoveries','easter-egg'],['easter','easter-egg'],['egg','easter-egg'],['eggs','easter-egg'],['easter-eggs','easter-egg'],
 ]);
 // Prefix aliases preserve arbitrary descendants; only known sections are normalised.
-// GET/HEAD callers preserve the original query string and never redirect POSTs.
+// GET/HEAD callers normalise public selectors and never redirect POSTs.
 export function playgroundRedirect(path){
  const normalised=path.toLowerCase().replace(/\/+$/,'')||'/';
  if(resourceRoots.has(normalised.slice(1)))return path===resourcesRoot?null:{location:resourcesRoot,status:301};
@@ -29,13 +29,29 @@ export function playgroundRedirect(path){
 }
 export const isPlaygroundPath=path=>path===playgroundRoot||playgroundSections.some(section=>path===playgroundRoot+'/'+section);
 
-// Host and path rules share one final destination, with no case-specific entries.
+// Preserve unrelated query components byte-for-byte, including signed values.
+const publicParameters=new Set(['agent','theme','login']);
+function canonicalSearch(search){
+ if(!search)return search;
+ return '?'+search.slice(1).split('&').map(part=>{
+  const entry=new URLSearchParams(part).entries().next().value;
+  if(!entry)return part;
+  const [name,value]=entry,key=name.toLowerCase();
+  if(!publicParameters.has(key))return part;
+  const lower=value.toLowerCase();
+  if(name===key&&value===lower)return part;
+  return new URLSearchParams([[key,lower]]).toString();
+ }).join('&');
+}
+
+// Host, path and public query rules share one permanent destination.
 export function canonicalRedirect(url){
  const path=playgroundRedirect(url.pathname);
+ const search=canonicalSearch(url.search),queryChanged=search!==url.search;
  if(url.hostname.startsWith('www.')){
   const destination=new URL(url);destination.hostname=destination.hostname.slice(4);
-  destination.pathname=path?.location||url.pathname;
+  destination.pathname=path?.location||url.pathname;destination.search=search;
   return {location:destination.href,status:301};
  }
- return path?{...path,location:path.location+url.search}:null;
+ return path||queryChanged?{location:(path?.location||url.pathname)+search,status:queryChanged?301:path.status}:null;
 }

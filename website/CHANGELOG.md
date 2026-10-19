@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.219"
-  update_summary: "Preserve login destinations during service failures"
-  updated_at: "Tue 20 Oct 2026 at 07:23:39 am AEDT (+11:00)"
+  doc_revision: "26.0.220"
+  update_summary: "Normalise public query parameter names and values"
+  updated_at: "Tue 20 Oct 2026 at 07:30:43 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.218 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 07:30:43 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Normalise public query parameter names and values
+
+### Changed
+
+- Lowercase known public query parameter names and values (`agent`, `theme`, `login`) in the shared GET/HEAD canonical redirect, combining hostname, path and selector corrections into one 301.
+- Preserve unrelated query components byte-for-byte, duplicate ordering, authentication boundaries and exact POST routing. Keep lowercase aliases rather than rewriting their meaning.
+- Document the normalisation scope and correct an outdated login-script assertion in the route tests.
+
+### Validation
+
+- Route, authentication and phone-preview regression tests — 21 passed.
+- URL preference browser check — passed at mobile and desktop widths, including mixed-case names through protected login, persistence and favicon selection.
+- Sites production build and built Worker redirect checks — passed, including 128 existing cases and new GET/HEAD query canonicalisation with no second hop.
+- Active LAN preview — Resources, Playground and uppercase login inspection verified; no push or publication performed.
 
 ## v26.0.217 — 2026-10-20
 

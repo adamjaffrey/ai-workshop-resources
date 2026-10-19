@@ -19,10 +19,10 @@ try{
   }
  };
  // Locked destination honours overrides before authentication.
- await page.goto(origin+'/Components/ICON?agent=Claude&theme=Night');await check('claude-code','dark');
+ await page.goto(origin+'/Components/ICON?AGENT=Claude&Theme=Night');await check('claude-code','dark');
  assert.equal(new URL(page.url()).pathname,'/component-playground/icons');
  await page.fill('#workshop-password',password);await page.click('.gate-submit');await page.waitForSelector('#playground-title');await check('claude-code','dark',true);
- assert.equal(new URL(page.url()).search,'?agent=Claude&theme=Night');
+ assert.equal(new URL(page.url()).search,'?agent=claude&theme=night');
  const agents={codex:'codex',chatgpt:'codex','chatgpt-codex':'codex',claude:'claude-code','claude-code':'claude-code',code:'claude-code'};
  const themes={light:'light',day:'light',sun:'light',dark:'dark',night:'dark',moon:'dark'};
  for(const width of [390,1440]){
