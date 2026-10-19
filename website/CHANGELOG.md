@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.202"
-  update_summary: "Raise the shared link surface top edge by one pixel"
-  updated_at: "Mon 19 Oct 2026 at 08:11:05 pm AEDT (+11:00)"
+  doc_revision: "26.0.203"
+  update_summary: "Align Playground card copy and disclosure text"
+  updated_at: "Mon 19 Oct 2026 at 08:15:27 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.201 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 08:15:27 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Align Playground card copy and disclosure text
+
+### Changed
+
+- Inset white-card headings and explanatory paragraphs by 4px without changing embedded specimens or text padding inside grey panels.
+- Match checkbox-label font family, size, weight and line height to toggle selections.
+- Align white-card disclosure content with the summary text after its chevron; preserve the distinct Hover Preview Explainer and expanded control layouts.
+
+### Validation
+
+- `node website/tests/playground-external-text-inset-browser-check.mjs` — passed at seven widths in both themes and for both agents, including checkbox typography, disclosure margins and preserved grey-panel padding.
+- Control-rhythm and expanded-preview browser checks — passed.
+- `node website/tests/style-guide-browser-check.mjs` — passed for shared-source specimens and interactions.
+- Phone and desktop disclosure screenshots — inspected.
+- Sites local production build, placeholder checks and generated v26.0.201 displays — passed.
 
 ## v26.0.200 — 2026-10-19
 

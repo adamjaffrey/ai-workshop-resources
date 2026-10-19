@@ -112,6 +112,15 @@ main.wrap{padding-top:24px}
 [data-panel]>.panel:first-child{margin-top:0}
 @media(max-width:660px){header.wrap{padding-bottom:0}}
 
+
+/* White-card explanation only: never descend into specimen surfaces or frames. */
+.panel>.section-heading h2,.panel>p,.panel>.feather-notice>p{padding-inline:var(--playground-external-text-inset)}
+.panel>ul{margin-inline:var(--playground-external-text-inset)}
+.source-choice{font-family:inherit;font-size:14px;font-weight:600;line-height:1.5}
+/* Align disclosure bodies with the summary text after its 18px chevron + 8px gap.
+   Expanded preview settings and the separately rendered hover explainer retain their layout. */
+.panel>details:not(.preview-settings):not(.preview-state-settings):not(.hover-help)>:not(summary),.panel>.feather-notice>details>:not(summary){margin-inline-start:26px}
+
 `;
 
 export const playgroundLayoutScript=String.raw`
