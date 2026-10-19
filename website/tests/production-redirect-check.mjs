@@ -39,3 +39,11 @@ for(const [source,target] of [['/AIS-WORKSHOPS-RESOURCE/Day-1-Resources/','/ai-w
  assert.equal((await fetch(origin+response.headers.get('location'),{method,redirect:'manual'})).headers.get('location'),null);
 }
 console.log('PASS: descendant aliases, plural families and canonical preference values on the built Worker');
+
+for(const alias of ['style','styles','guide','guides']){
+ const response=await fetch(origin+'/'+alias+'/icon/?Agent=INVALID&Theme=MOON&Keep=AbC',{redirect:'manual'});
+ assert.equal(response.status,301);assert.equal(response.headers.get('location'),'/component-playground/icons?theme=dark&Keep=AbC');
+}
+const invalid=await fetch(origin+'/ai-workshop-resources?agent=unknown&theme=',{redirect:'manual'});
+assert.equal(invalid.status,301);assert.equal(invalid.headers.get('location'),'/ai-workshop-resources');
+console.log('PASS: short Playground aliases and invalid preference cleanup on the built Worker');

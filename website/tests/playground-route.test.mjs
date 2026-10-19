@@ -5,10 +5,10 @@ import {handleRequest} from '../lib/workshop-handler.mjs';
 test('local playground stays anonymous while hosted routes protect specimens',async()=>{
  const {server}=createPhonePreview();await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
  try{
-  const page=await fetch(origin+'/component-playground');assert.equal(page.status,200);assert.match(await page.text(),/<title>Workshop Component Playground<\/title>/);
+  const page=await fetch(origin+'/component-playground');assert.equal(page.status,200);assert.match(await page.text(),/<title>Component Playground<\/title>/);
   const head=await fetch(origin+'/component-playground',{method:'HEAD'});assert.equal(head.status,200);assert.equal(await head.text(),'');
   for(const path of ['/style-guide','/style-guide/','/component-playground/']){const r=await fetch(origin+path+'?test=1',{redirect:'manual'});assert.equal(r.status,301);assert.equal(r.headers.get('location'),'/component-playground?test=1');}
-  for(const path of ['/component-playground','/style-guide']){const r=await handleRequest(new Request('https://production.example'+path),{});assert.doesNotMatch(await r.text(),/<title>Workshop Component Playground<\/title>/);}
+  for(const path of ['/component-playground','/style-guide']){const r=await handleRequest(new Request('https://production.example'+path),{});assert.doesNotMatch(await r.text(),/id="playground-title"/);}
  }finally{await new Promise(r=>server.close(r));}
 });
 
@@ -17,7 +17,7 @@ test('section paths are local previews but require hosted authentication',async(
  try{
   const locked=await fetch(origin+'/component-playground/branding');const lockedHtml=await locked.text();assert.match(lockedHtml,/id="access-form"/);assert.match(lockedHtml,/data:image\/svg\+xml/);assert.ok(decodeURIComponent(lockedHtml.match(/href="(data:image\/svg\+xml,[^"]+)"/)[1]).includes('#0285FF'));
   const login=await fetch(origin+'/auth/login',{method:'POST',headers:{origin,'content-type':'application/x-www-form-urlencoded',accept:'application/json'},body:new URLSearchParams({password})});const cookie=login.headers.get('set-cookie').split(';')[0];
-  assert.match(await(await fetch(origin+'/component-playground/branding',{headers:{cookie}})).text(),/<title>Workshop Component Playground<\/title>/);
+  assert.match(await(await fetch(origin+'/component-playground/branding',{headers:{cookie}})).text(),/<title>Component Playground<\/title>/);
   assert.equal((await fetch(origin+'/component-playground/unknown',{headers:{cookie}})).status,404);
   const js=await(await fetch(origin+'/login.js')).text();assert.match(js,/target.pathname.startsWith\('\/component-playground'\)/);
  }finally{await new Promise(r=>server.close(r));}
@@ -107,7 +107,7 @@ test('public query names and values canonicalise without changing opaque paramet
   assert.equal(response.headers.get('location'),destination);
   assert.equal(canonicalRedirect(new URL(destination)),null);
  }
- for(const [query,expected] of [['%41gent=%43ODEX','agent=codex'],['Theme=','theme='],['THEME=Unknown','theme=unknown'],['Agent=CODE&agent=CODEX','agent=claude-code&agent=codex']]){
+ for(const [query,expected] of [['%41gent=%43ODEX','agent=codex'],['Agent=CODE&agent=CODEX','agent=claude-code&agent=codex']]){
   assert.deepEqual(canonicalRedirect(new URL('https://example.com/ai-workshop-resources?'+query)),{location:'/ai-workshop-resources?'+expected,status:301});
  }
  assert.equal(canonicalRedirect(new URL('https://example.com/ai-workshop-resources?Token=AbC%2FZ+Q&theme=dark')),null);
@@ -139,7 +139,7 @@ test('all registered path alias families preserve descendants and word pluralisa
   resources.push(workshop+'-'+resource);
   for(const ai of ['ai','ais'])resources.push(ai+'-'+workshop+'-'+resource);
  }
- const playground=['component','components','playground','playgrounds','component-playground','component-playgrounds','components-playground','components-playgrounds'];
+ const playground=['style','styles','guide','guides','component','components','playground','playgrounds','component-playground','component-playgrounds','components-playground','components-playgrounds'];
  for(const style of ['style','styles'])for(const guide of ['guide','guides'])playground.push(style+'-'+guide);
  for(const [aliases,target] of [[resources,'/ai-workshop-resources'],[playground,'/component-playground']])for(const alias of aliases){
   const url=new URL('https://example.com/'+alias.toUpperCase()+'/Day-1-Resources/Notes/?Theme=SUN&Agent=CHATGPT&Keep=Case');
@@ -163,4 +163,13 @@ test('agent and theme aliases redirect to canonical values, preserving opaque qu
   const destination='https://example.com/ai-workshop-resources/day-1?'+key+'='+value+'&Opaque=AbC%2fX+Y';
   assert.deepEqual(canonicalRedirect(url),{location:destination,status:301});assert.equal(canonicalRedirect(new URL(destination)),null);
  }
+});
+
+test('invalid public preferences are removed while unrelated query bytes survive',async()=>{
+ const {canonicalRedirect}=await import('../lib/workshop-playground-routes.mjs');
+ for(const query of ['agent=unknown','theme=unknown','agent=','theme','agent=__proto__','theme=constructor','AGENT=INVALID&THEME=INVALID']){
+  assert.deepEqual(canonicalRedirect(new URL('https://example.com/ai-workshop-resources?'+query)),{location:'/ai-workshop-resources',status:301});
+  assert.deepEqual(canonicalRedirect(new URL('https://example.com/ai-workshop-resources?'+query+'&Token=AbC%2fD+E')),{location:'/ai-workshop-resources?Token=AbC%2fD+E',status:301});
+ }
+ assert.deepEqual(canonicalRedirect(new URL('https://example.com/guide/icons?agent=bad&agent=CLAUDE&theme=bad&theme=MOON')),{location:'/component-playground/icons?agent=claude-code&theme=dark',status:301});
 });

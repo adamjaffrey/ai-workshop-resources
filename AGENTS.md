@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.63"
-  update_summary: "Complete descendant redirects and canonical URL preferences"
-  updated_at: "Tue 20 Oct 2026 at 09:03:45 am AEDT (+11:00)"
+  doc_revision: "26.0.64"
+  update_summary: "Document URL rules and remove invalid public preferences"
+  updated_at: "Tue 20 Oct 2026 at 09:27:13 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -154,7 +154,7 @@ When the live-link inclusion condition is met, append:
 
 Before sending, check the exact four status labels and order, version/hash evidence, canonical Main App URL, Playground title/slug selection, literal authentication suffixes, active-process password, and whether a Live on Sites section is warranted. Do not substitute stylistic variants for this contract.
 
-Site-wide GET/HEAD requests remove a leading `www.` hostname and lowercase the path before resolving aliases in one 301 redirect; lowercase the names and values of known public query parameters (`agent`, `theme`, `show-login` and its legacy aliases) in that same redirect, preserving unrelated query components exactly and leaving POST paths unchanged. Map `login=1`, `logged-in=false` and `logged-out=true` to `show-login=true`; map `login=0`, `logged-in=true` and `logged-out=false` to `show-login=false`. Accept only true/false for the named boolean selectors and only 1/0 for legacy `login`; remove unsupported login-selector values by redirect. Preserve duplicate order, using the first valid resulting `show-login` value. Use 301 for every application canonical redirect, including slash-only corrections. Preserve descendants for every registered path alias with segment-boundary matching; `/` remains exact-only, and unknown descendants remain 404 until implemented. Support all ai/ais × workshop/workshops × resource/resources, style/styles × guide/guides, focus/focuses/foci × selection/selections, and easter/easters × egg/eggs variants. Canonicalise recognised agent/theme aliases to `codex`, `claude-code`, `light` and `dark` in that same hop. Maintain only lowercase redirect keys and public asset filenames. Hosting must accept the `www` hostname and supply its certificate before these redirects can run.
+Site-wide GET/HEAD requests remove a leading `www.` hostname and lowercase the path before resolving aliases in one 301 redirect; lowercase the names and values of known public query parameters (`agent`, `theme`, `show-login` and its legacy aliases) in that same redirect, preserving unrelated query components exactly and leaving POST paths unchanged. Map `login=1`, `logged-in=false` and `logged-out=true` to `show-login=true`; map `login=0`, `logged-in=true` and `logged-out=false` to `show-login=false`. Accept only true/false for the named boolean selectors and only 1/0 for legacy `login`; remove unsupported login-selector values by redirect. Preserve duplicate order, using the first valid resulting `show-login` value. Use 301 for every application canonical redirect, including slash-only corrections. Preserve descendants for every registered path alias with segment-boundary matching; `/` remains exact-only, and unknown descendants remain 404 until implemented. Support all ai/ais × workshop/workshops × resource/resources, style/styles × guide/guides, focus/focuses/foci × selection/selections, and easter/easters × egg/eggs variants. Canonicalise recognised agent/theme aliases to `codex`, `claude-code`, `light` and `dark` in that same hop. Remove unsupported or empty agent/theme values by 301; preserve unrelated query data. Include `/style`, `/styles`, `/guide` and `/guides` as Playground prefix aliases. Keep `website/URL-REFERENCE.md` aligned with routing changes. Use AI Workshop Resources and Component Playground as the respective browser titles, including login pages. Maintain only lowercase redirect keys and public asset filenames. Hosting must accept the `www` hostname and supply its certificate before these redirects can run.
 
 ## Website Login
 

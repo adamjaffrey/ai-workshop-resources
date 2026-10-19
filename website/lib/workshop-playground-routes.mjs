@@ -4,7 +4,7 @@ export const playgroundTabPaths={blocks:'blocks-and-blur',errors:'status-states'
 export const resourcesRoot='/ai-workshop-resources';
 const resourceRoots=new Set(['home','homes','index.html','workshop','workshops','resource','resources','workshop-resource','workshop-resources','workshops-resource','workshops-resources','ai','ais','ai-workshop-resource','ai-workshop-resources','ai-workshops-resource','ai-workshops-resources','ais-workshop-resource','ais-workshop-resources','ais-workshops-resource','ais-workshops-resources']);
 export const playgroundRoot='/component-playground';
-const roots=new Set(['component-playground','components-playground','component-playgrounds','components-playgrounds','component','components','playground','playgrounds','style-guide','style-guides','styles-guide','styles-guides']);
+const roots=new Set(['component-playground','components-playground','component-playgrounds','components-playgrounds','component','components','playground','playgrounds','style-guide','style-guides','styles-guide','styles-guides','style','styles','guide','guides']);
 const sectionAliases=new Map([
  ['component','components'],['typographies','typography'],['colour','colours'],['color','colours'],['colors','colours'],
  ['block','blocks-and-blur'],['blocks','blocks-and-blur'],['blur','blocks-and-blur'],['blurs','blocks-and-blur'],
@@ -55,7 +55,8 @@ function canonicalSearch(search){
   }
   if(!publicParameters.has(key))return part;
   const aliases=publicParameters.get(key);
-  const canonical=Object.hasOwn(aliases,lower)?aliases[lower]:lower;
+  if(!Object.hasOwn(aliases,lower))return null;
+  const canonical=aliases[lower];
   if(name===key&&value===canonical)return part;
   return new URLSearchParams([[key,canonical]]).toString();
  }).filter(part=>part!==null).join('&');

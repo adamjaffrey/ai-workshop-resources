@@ -67,13 +67,13 @@ test('missing configuration and database failure fail closed',async()=>{
 test('hosted playground shares the main session and never exposes specimens anonymously',async()=>{
  const e=env(),now=1000000;
  for(const path of ['/component-playground','/component-playground?test=1']){
-  const r=await handleRequest(get(path),e,now);const text=await r.text();assert.match(text,/workshop-password/);assert.doesNotMatch(text,/Component Playground|system-blueprint-creator|srcdoc=/);assert.match(r.headers.get('cache-control'),/no-store/);
+  const r=await handleRequest(get(path),e,now);const text=await r.text();assert.match(text,/workshop-password/);assert.doesNotMatch(text,/id="playground-title"|system-blueprint-creator|srcdoc=/);assert.match(r.headers.get('cache-control'),/no-store/);
  }
  const cookie=await login(e,now);
  for(const path of ['/ai-workshop-resources','/component-playground']){const r=await handleRequest(get(path,cookie),e,now+1,{renderPlayground:()=>playgroundPage({authenticated:true})});assert.equal(r.status,200);assert.match(await r.text(),path==='/ai-workshop-resources'?/system-blueprint-creator/:/Component Playground/);assert.equal(r.headers.get('set-cookie'),null);}
- const expired=await handleRequest(get('/component-playground',cookie),e,now+SESSION_SECONDS*1000);assert.doesNotMatch(await expired.text(),/Component Playground|srcdoc=/);
+ const expired=await handleRequest(get('/component-playground',cookie),e,now+SESSION_SECONDS*1000);assert.doesNotMatch(await expired.text(),/id="playground-title"|srcdoc=/);
  await handleRequest(post('/auth/logout','',{cookie}),e,now+2);
- assert.doesNotMatch(await(await handleRequest(get('/component-playground',cookie),e,now+3)).text(),/Component Playground|srcdoc=/);
+ assert.doesNotMatch(await(await handleRequest(get('/component-playground',cookie),e,now+3)).text(),/id="playground-title"|srcdoc=/);
 });
 
 test('service failures preserve every login destination, background and query URL',async()=>{

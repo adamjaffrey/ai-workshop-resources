@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.224"
-  update_summary: "Use AI Workshop Resources as the Resources page title"
-  updated_at: "Tue 20 Oct 2026 at 09:15:28 am AEDT (+11:00)"
+  doc_revision: "26.0.225"
+  update_summary: "Document URL rules and complete Playground canonicalisation"
+  updated_at: "Tue 20 Oct 2026 at 09:28:56 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.223 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 09:28:56 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Document URL rules and complete Playground canonicalisation
+
+### Changed
+
+- Set the Playground and its login browser titles to Component Playground.
+- Add `/style`, `/styles`, `/guide` and `/guides` as 301 Playground prefix aliases with descendant preservation.
+- Remove unsupported or empty agent/theme values by 301, preserving unrelated query bytes and using the first remaining valid value.
+- Add `URL-REFERENCE.md` with the complete canonical path, hostname redirect, query parameter, authentication and page-title reference; link it from README and align governing instructions.
+- Confirm the older ai-implementation-workshop-resources hostname still returns a Sites-controlled 307 to workshop.adamjaffrey.chatgpt.site with path/query preservation. No hosting settings changed.
+
+### Validation
+
+- Route, authentication and local-preview regression checks — 28 passed, including protected-content assertions independent of public page titles.
+- URL preference browser checks — passed at mobile/desktop widths, including saved preferences after invalid-value removal.
+- Browser title checks — passed for both pages and their login forms on the active LAN preview.
+- Sites local build and generated version verification — passed with v26.0.223. Built Worker redirect checks passed 134 baseline cases plus descendant, plural, canonical value, short alias and invalid-value cases.
+- No push or publication performed.
 
 ## v26.0.222 — 2026-10-20
 
