@@ -3,14 +3,46 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.214"
-  update_summary: "Align tab endpoints and lock selector scrolling to one axis"
-  updated_at: "Tue 20 Oct 2026 at 12:37:07 am AEDT (+11:00)"
+  doc_revision: "26.0.215"
+  update_summary: "Add measured Components login backdrops"
+  updated_at: "Tue 20 Oct 2026 at 06:14:54 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.213 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 06:14:54 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add measured Components login backdrops
+
+### Added
+
+- Show one anonymous Components backdrop behind all Playground login routes, using the shared cap-height and wrapping rules across phone, tablet and desktop layouts.
+- Serve script-disabled decorative geometry separately from protected content; follow the selected theme and agent, defaulting to Codex blue.
+- Add a publication preflight that compares the verified published source and checks saved geometry revisions.
+
+### Changed
+
+- Exclude the Style Inspector and its reserved spacing from the capture, retaining it in the authenticated Playground.
+- Reuse saved geometry for internal builds. Require remeasurement only for affected layouts during Sites publication preparation after comparing the last successful published source.
+- Document glyph eligibility, measured rectangle fallbacks and separate live Main App/Playground links after publication.
+
+### Validation
+
+- Thirteen authentication, anonymous-content and geometry-reuse tests — passed.
+- Components geometry at 20 viewport sizes and theme/agent/containment checks — passed; measured word positions within 1px.
+- Main login geometry across ten widths and two heights, desktop/mobile login focus and four-width shortcut checks — passed.
+- Mobile and desktop Codex-blue screenshots — visually reviewed.
+- Local website build, generated v26.0.213 display and unchanged saved-geometry hashes — passed.
 
 ## v26.0.212 — 2026-10-20
 

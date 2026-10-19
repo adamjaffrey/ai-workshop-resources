@@ -200,9 +200,9 @@ export async function playgroundPage({authenticated=false,inlineAssets=true}={})
  loginJS=loginJS.replace("window.workshopFocusPanel(document.getElementById('access-gate'));",'');
  const loginExtra=loginJS+`
  const resourceBackdrop=document.querySelector('main');
- const blankBackdrop=document.createElement('template');blankBackdrop.innerHTML=${JSON.stringify(playgroundLoginPage.match(/<main\b[^>]*>[\s\S]*?<\/main>/)[0])};
- const blankBackdropElement=blankBackdrop.content.firstElementChild;
- window.demoLoginBackground=destination=>{const target=destination==='playground'?blankBackdropElement:resourceBackdrop;if(document.querySelector('main')!==target)document.querySelector('main').replaceWith(target);};
+ const playgroundBackdrop=document.createElement('template');playgroundBackdrop.innerHTML=${JSON.stringify(playgroundLoginPage.match(/<main\b[^>]*>[\s\S]*?<\/main>/)[0])};
+ const playgroundBackdropElement=playgroundBackdrop.content.firstElementChild;
+ window.demoLoginBackground=destination=>{const target=destination==='playground'?playgroundBackdropElement:resourceBackdrop;if(document.querySelector('main')!==target)document.querySelector('main').replaceWith(target);};
  const cases={...loginMessages,limited:loginRetryMessage('less than a minute')};const initialSubmitLabel=button.textContent;
  window.demoLogin=state=>{busy=false;retryUntil=0;clearInterval(retryTimer);password.readOnly=false;release();resetPasswordError();password.type='password';password.value=state==='empty'?'':'Example password';
  button.textContent=initialSubmitLabel;

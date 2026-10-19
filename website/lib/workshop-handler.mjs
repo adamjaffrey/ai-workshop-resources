@@ -1,3 +1,4 @@
+import {playgroundPlaceholderDocument} from './workshop-playground-placeholder.mjs';
 import {isPlaygroundPath,playgroundRedirect} from './workshop-playground-routes.mjs';
 import { randomBytes, createHash, createHmac, scryptSync, timingSafeEqual } from 'node:crypto';
 import {loginMessages, loginRetryMessage, loginControlLabels} from './workshop-login-messages.mjs';
@@ -66,7 +67,7 @@ export async function handleRequest(request, env, now = Date.now(), options = {}
     'X-Content-Type-Options':'nosniff',
     'Referrer-Policy':'same-origin',
     'X-Frame-Options':'DENY',
-    'Content-Security-Policy':`default-src 'none'; script-src 'self' 'nonce-${nonce}'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'`,
+    'Content-Security-Policy':`default-src 'none'; script-src 'self' 'nonce-${nonce}'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'self' about:; base-uri 'none'; form-action 'self'; frame-ancestors 'none'`,
   };
   const reply = (body,status=200,extra={}) => new Response(request.method==='HEAD'?null:body,{status,headers:{...headers,...extra}});
   const json = (data,status=200,extra={}) => reply(JSON.stringify(data),status,{'Content-Type':'application/json',...extra});
@@ -76,6 +77,14 @@ export async function handleRequest(request, env, now = Date.now(), options = {}
   if(redirect&&['GET','HEAD'].includes(request.method))return reply(null,redirect.status,{Location:redirect.location+new URL(request.url).search});
   if (path==='/robots.txt') return reply('User-agent: *\nDisallow: /\n',200,{'Content-Type':'text/plain'});
   if (path==='/login.js' && request.method!=='POST') return reply(loginScript,200,{'Content-Type':'text/javascript; charset=utf-8'});
+  // Public decorative geometry only. This route cannot render authenticated content.
+  if(path==='/login-backdrop/components' && request.method!=='POST') {
+    const url=new URL(request.url);
+    return reply(playgroundPlaceholderDocument(url.searchParams.get('theme'),url.searchParams.get('agent')),200,{
+      'Content-Type':'text/html; charset=utf-8','X-Frame-Options':'SAMEORIGIN',
+      'Content-Security-Policy':"default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'none'; frame-src 'self' about:; base-uri 'none'; form-action 'none'; frame-ancestors 'self'",
+    });
+  }
   const unavailable = () => {
     const message = loginMessages.service;
     if (request.method === 'POST' || path === '/auth/session') return json({error:message},503);

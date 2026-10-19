@@ -1,3 +1,5 @@
-// Increment only when block geometry changes. See AGENTS.md and website/README.md.
-// This is a cache invalidation key, not the website artefact version.
+// Increment the affected revision for layout changes; internal builds reuse saved geometry.
+// Refresh stale measurements only during authorised Sites publication preparation.
+// These are cache keys, not website artefact versions.
 export const placeholderLayoutRevision = 13;
+export const playgroundPlaceholderLayoutRevision = 1;

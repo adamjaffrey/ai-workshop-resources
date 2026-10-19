@@ -4,10 +4,10 @@ import {placeholderFromPage} from '../lib/workshop-placeholder.mjs';
 import {loginPage, resourcePage} from '../lib/workshop-pages.mjs';
 import geometry from '../lib/workshop-placeholder.generated.json' with {type: 'json'};
 
-test('login inherits current CSS and measured geometry; stale layouts fail', () => {
+test('login inherits current CSS and measured geometry; internal builds reuse saved measurements', () => {
   assert.equal(loginPage.match(/<style>[\s\S]*?<\/style>/)[0], resourcePage.match(/<style>[\s\S]*?<\/style>/)[0]);
   assert.equal((loginPage.match(/class="step-row"/g) || []).length, (resourcePage.match(/class="step-row"/g) || []).length);
-  assert.throws(() => placeholderFromPage(resourcePage, geometry.layoutRevision + 1), /stale/);
+  assert.equal(placeholderFromPage(resourcePage, geometry.layoutRevision + 1),geometry.markup);
   assert.equal(placeholderFromPage(resourcePage + '<script>/* non-layout change */</script>'), geometry.markup);
 });
 test('measured geometry includes prompt words without source text or actions', () => {
