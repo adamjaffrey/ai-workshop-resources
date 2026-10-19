@@ -12,8 +12,8 @@ function renderPlaygroundIcons(){
   if(!name||!use)throw Error('Missing Playground icon metadata');
   const key=provider+':'+name;
   if(!icons.has(key))icons.set(key,{svg,provider,name,usages:new Set(),groups:new Set()});
-  const panel=svg.closest('.panel'),heading=svg.closest('h1,h2,h3'),control=svg.closest('button');
- const group=svg.closest('#playground-title')?'playground':svg.closest('.section-heading h2,.url-reference-subheading,[data-tab]')?'headings':svg.closest('button,a,.breadcrumbs')?'ui':'other';
+  const panel=svg.closest('.panel'),heading=svg.closest('h1,h2,h3'),control=svg.closest('button,summary');
+ const group=svg.closest('#playground-title')?'playground':svg.closest('.section-heading h2,.url-reference-subheading,[data-tab]')?'headings':svg.closest('button,a,summary,.breadcrumbs')?'ui':'other';
  icons.get(key).groups.add(group);
   const location=panel?.querySelector('.section-heading h2')?.textContent.trim()||'Playground';
   // Hidden alternate icons describe their own action, not the button's resting label.

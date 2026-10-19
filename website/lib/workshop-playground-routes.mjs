@@ -5,8 +5,10 @@ export const resourcesRoot='/ai-workshop-resources';
 const resourceRoots=new Set(['home','homes','index.html','workshop','workshops','resource','resources','workshop-resource','workshop-resources','workshops-resource','workshops-resources','ai','ais','ai-workshop-resource','ai-workshop-resources','ai-workshops-resource','ai-workshops-resources','ais-workshop-resource','ais-workshop-resources','ais-workshops-resource','ais-workshops-resources']);
 export const playgroundRoot='/component-playground';
 const roots=new Set(['component-playground','components-playground','component-playgrounds','components-playgrounds','component','components','playground','playgrounds','style-guide','style-guides','styles-guide','styles-guides','style','styles','guide','guides']);
+const urlReferenceAliases=['url','urls','reference','references','url-reference','url-references','urls-reference','urls-references'];
 const sectionAliases=new Map([
- ['url-references','url-reference'],['component','components'],['typographies','typography'],['colour','colours'],['color','colours'],['colors','colours'],
+ ...urlReferenceAliases.map(alias=>[alias,'url-reference']),
+ ['component','components'],['typographies','typography'],['colour','colours'],['color','colours'],['colors','colours'],
  ['block','blocks-and-blur'],['blocks','blocks-and-blur'],['blur','blocks-and-blur'],['blurs','blocks-and-blur'],
  ['block-and-blur','blocks-and-blur'],['block-and-blurs','blocks-and-blur'],['blocks-and-blurs','blocks-and-blur'],
  ['icon','icons'],['error','status-states'],['errors','status-states'],['status','status-states'],['statuses','status-states'],['state','status-states'],['states','status-states'],
@@ -24,6 +26,10 @@ export function playgroundRedirect(path){
   parts[1]=resourcesRoot.slice(1);
   const location=parts.join('/');
   return location===path?null:{location,status:301};
+ }
+ if(urlReferenceAliases.includes(parts[1])){
+  const location=playgroundRoot+'/url-reference'+(parts.length>2?'/'+parts.slice(2).join('/'):'');
+  return {location,status:301};
  }
  if(roots.has(parts[1])){
   parts[1]='component-playground';

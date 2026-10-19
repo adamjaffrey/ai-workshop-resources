@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.3"
-  update_summary: "Add the Playground URL Reference tab and reciprocal logo navigation"
-  updated_at: "Tue 20 Oct 2026 at 09:39:53 am AEDT (+11:00)"
+  doc_revision: "26.0.4"
+  update_summary: "Add URL Reference aliases and apply CMOS title case"
+  updated_at: "Tue 20 Oct 2026 at 10:30:35 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -14,13 +14,13 @@ metadata:
 
 This document describes the repository implementation. Application changes take effect on hosted Sites only after publication; a local build or Git commit does not deploy them. The site slug has already been changed to `workshop`. The Sources section identifies the implementation authorities.
 
-## Canonical Addresses And Page Titles
+## Canonical Addresses and Page Titles
 
 All paths in this document are relative to `https://workshop.adamjaffrey.chatgpt.site`.
 
-| Purpose | Canonical Address Or Path | Browser Title |
+| Purpose | Canonical Address or Path | Browser Title |
 | --- | --- | --- |
-| QR Code And Copy Link | `https://workshop.adamjaffrey.chatgpt.site` | Destination title |
+| QR Code and Copy Link | `https://workshop.adamjaffrey.chatgpt.site` | Destination title |
 | Resources | `/ai-workshop-resources` | AI Workshop Resources |
 | Resources Login | `/ai-workshop-resources?show-login=true` | AI Workshop Resources |
 | Playground | `/component-playground` | Component Playground |
@@ -30,7 +30,7 @@ Every supported Playground section uses the same browser title as the Playground
 
 ## Hostname Redirects
 
-| Source Hostname | Destination Hostname | Status And Owner |
+| Source Hostname | Destination Hostname | Status and Owner |
 | --- | --- | --- |
 | `ai-implementation-workshop-resources.adamjaffrey.chatgpt.site` | `workshop.adamjaffrey.chatgpt.site` | 307 Temporary Redirect, controlled by Sites |
 | `ai-workshop-resources.adamjaffrey.chatgpt.site` | `workshop.adamjaffrey.chatgpt.site` | 307 Temporary Redirect, controlled by Sites |
@@ -57,7 +57,7 @@ Every alias below redirects with 301 to `/ai-workshop-resources`. Named aliases 
 
 | Group | Alias Paths |
 | --- | --- |
-| Root And Home | `/`, `/home`, `/homes`, `/index.html` |
+| Root and Home | `/`, `/home`, `/homes`, `/index.html` |
 | Workshop | `/workshop`, `/workshops` |
 | Resources | `/resource`, `/resources` |
 | Workshop/Resource Combinations | `/workshop-resource`, `/workshop-resources`, `/workshops-resource`, `/workshops-resources` |
@@ -86,7 +86,7 @@ Every alias below redirects with 301 to `/component-playground`, preserving desc
 | Component | `/component`, `/components` |
 | Playground | `/playground`, `/playgrounds` |
 | Combined | `/components-playground`, `/component-playgrounds`, `/components-playgrounds` |
-| Style And Guide | `/style`, `/styles`, `/guide`, `/guides` |
+| Style and Guide | `/style`, `/styles`, `/guide`, `/guides` |
 | Style Guide Combinations | `/style-guide`, `/style-guides`, `/styles-guide`, `/styles-guides` |
 
 ## Playground Sections
@@ -103,7 +103,7 @@ Section aliases work under the canonical Playground root and every root alias ab
 | `/component-playground/status-states` | `error`, `errors`, `status`, `statuses`, `state`, `states`, `status-state`, `statuses-state`, `statuses-states` |
 | `/component-playground/focus-and-selection` | `focus`, `focuses`, `foci`, `selection`, `selections`, `focus-and-selections`, `focuses-and-selection`, `focuses-and-selections`, `foci-and-selection`, `foci-and-selections` |
 | `/component-playground/branding` | `brand`, `brands`, `brandings` |
-| `/component-playground/url-reference` | `url-references` |
+| `/component-playground/url-reference` | `url`, `urls`, `reference`, `references`, `url-references`, `urls-reference`, `urls-references` |
 | `/component-playground/easter-egg` | `discovery`, `discoveries`, `easter`, `easters`, `egg`, `eggs`, `easter-eggs`, `easters-egg`, `easters-eggs` |
 
 ```text
@@ -113,6 +113,8 @@ Section aliases work under the canonical Playground root and every root alias ab
 /guide/easters-eggs/example
 → /component-playground/easter-egg/example
 ```
+
+The top-level aliases `/url`, `/urls`, `/reference`, `/references`, `/url-reference`, `/url-references`, `/urls-reference` and `/urls-references` also redirect directly to `/component-playground/url-reference` with 301. They preserve descendants, so `/URLS-REFERENCES/Example` redirects to `/component-playground/url-reference/example`. These aliases also work as section slugs beneath every Playground root alias. Query strings follow the same global canonicalisation rules.
 
 Only the root and listed canonical section pages currently exist. Pluralisation uses explicit mappings; it does not rewrite arbitrary descendant words.
 
@@ -129,7 +131,7 @@ The portion after `?` is the query string. Each name/value pair is a query param
 | `show-login=true` | Revoke the current session, clear its cookie and show the requested login form |
 | `show-login=false` | Reuse a valid session or show login; never authenticate automatically |
 
-### Agent And Theme Aliases
+### Agent and Theme Aliases
 
 All recognised aliases redirect with 301 to the corresponding canonical value.
 
@@ -146,7 +148,7 @@ Unsupported or empty `agent` and `theme` values are removed by 301 redirect, inc
 
 The Playground favicon and its login-page favicon follow the selected agent and theme: light mode uses an agent-coloured tile with white strokes; dark mode uses a dark tile with agent-coloured strokes. Resources retains its static favicon.
 
-### Login Aliases And Validation
+### Login Aliases and Validation
 
 These aliases are redirect inputs only. Authentication reads the resulting `show-login` parameter.
 
@@ -159,7 +161,7 @@ Only true/false are accepted for `show-login`, `logged-in` and `logged-out`; onl
 
 Successful login removes `show-login` before navigation, preventing a logout loop while preserving the requested section and unrelated query parameters. These actions affect the current session only; they do not authenticate users or revoke unrelated browser sessions.
 
-### Local And Hosted Behaviour
+### Local and Hosted Behaviour
 
 | Request | Automatic Local Preview | Hosted Application |
 | --- | --- | --- |
@@ -179,7 +181,7 @@ The explicit boolean behaviour applies to Resources, the Playground root and eve
 
 This is one application 301. It selects Claude Code and dark theme, revokes the current session and shows the Playground login form. `Token=AbC` is preserved.
 
-## Other Authentication Navigation And Internal Parameters
+## Other Authentication Navigation and Internal Parameters
 
 | Action | Result |
 | --- | --- |
@@ -190,7 +192,7 @@ This is one application 301. It selects Claude Code and dark theme, revokes the 
 
 `return_to` is internal tooling, not a public display selector. Invalid or external destinations fall back to `/`. The decorative `/login-backdrop/components` endpoint uses canonical `theme` and `agent` values to render anonymous geometry; it cannot grant access. No query parameter carries a password or grants a hosted session.
 
-## Playground Reference And Logo Navigation
+## Playground Reference and Logo Navigation
 
 The Playground’s URL Reference tab at `/component-playground/url-reference` renders this document, including URL mappings and query parameter strings. Examples are non-clickable text, so inspecting `show-login=true` cannot accidentally log you out. Future URL or query changes must update this document and its Playground representation together.
 
@@ -200,11 +202,11 @@ The shortcut works while signed in and on both login screens, using the blurred 
 
 ## Sources
 
-- [Canonical Redirects And Path Aliases](lib/workshop-playground-routes.mjs)
-- [Shared Agent And Theme Alias Vocabulary](lib/workshop-url-preferences.mjs)
-- [Authentication And Login Navigation](lib/workshop-handler.mjs)
+- [Canonical Redirects and Path Aliases](lib/workshop-playground-routes.mjs)
+- [Shared Agent and Theme Alias Vocabulary](lib/workshop-url-preferences.mjs)
+- [Authentication and Login Navigation](lib/workshop-handler.mjs)
 - [Local Preview Behaviour](scripts/phone-preview.mjs)
-- [Resources And Login Documents](lib/workshop-pages.mjs)
+- [Resources and Login Documents](lib/workshop-pages.mjs)
 - [Playground Document](scripts/playground.mjs)
 - [Playground Favicon](lib/workshop-playground-brand.mjs)
 - [Internal Local Sign-In Tooling](build/sites-vite-plugin.ts)

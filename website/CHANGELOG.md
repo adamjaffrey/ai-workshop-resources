@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.227"
-  update_summary: "Fix Playground specimen layout and improve URL reference display"
-  updated_at: "Tue 20 Oct 2026 at 10:28:26 am AEDT (+11:00)"
+  doc_revision: "26.0.228"
+  update_summary: "Expand URL Reference aliases and standardise heading case"
+  updated_at: "Tue 20 Oct 2026 at 10:33:47 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.226 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 10:33:47 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Expand URL Reference aliases and standardise heading case
+
+### Changed
+
+- Order Playground Icon Use as All, Playground, Section Headings, UI Elements and Other. Keep cropped navigation arrows and disclosure chevrons in UI Elements; reserve Other for uncategorised uses.
+- Add 301 aliases for url/urls, reference/references and every url/urls × reference/references combination, both at the site root and beneath Playground root aliases. Preserve descendants and combine case/query canonicalisation in one hop. Update the shared URL reference document and rendered tab together.
+- Audit rendered Resources, login and Playground headings, table headings and control-group headings against CMOS 18. Correct URL Reference conjunctions and the QR specimen heading while preserving official technical identifiers and sentence-style image alt text. Record the title-case convention in repository instructions.
+
+### Validation
+
+- Route tests — 14 passed, including GET/HEAD alias variants, descendants, query preservation, segment boundaries, canonical destinations and unchanged POST handling.
+- Headless browser checks — passed for heading corrections, icon order/filtering at mobile and desktop widths, and URL Reference content/navigation across four widths, both agents and themes.
+- Production build and built Worker redirects — passed, including all new root and section shortcut combinations.
 
 ## v26.0.225 — 2026-10-20
 

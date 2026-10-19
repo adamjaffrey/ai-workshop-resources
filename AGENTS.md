@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.66"
-  update_summary: "Keep specimen clearance separate from optical alignment"
-  updated_at: "Tue 20 Oct 2026 at 10:26:28 am AEDT (+11:00)"
+  doc_revision: "26.0.67"
+  update_summary: "Standardise authored interface headings on CMOS 18 title case"
+  updated_at: "Tue 20 Oct 2026 at 10:31:32 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -206,6 +206,8 @@ Follow [Uxcel: Types of Cursors & When to Use Them](https://uxcel.com/lessons/ba
 - Preserve these distinctions in normal, hover, focus and disabled states. Do not use `pointer-events: none` merely to style a disabled control if it prevents the intended not-allowed cursor from appearing.
 
 ## Website Appearance
+
+- Use CMOS 18th edition title case for authored headings, table headings and control-group headings throughout Resources, login pages and Playground, including `website/URL-REFERENCE.md`. Lowercase interior articles, short prepositions and the coordinating conjunctions and/but/for/nor/or; capitalise first/last words and prepositions of five or more letters. Preserve official product names, icon identifiers, source selectors, URLs and code verbatim. Apply corrections in the owning source, not with blanket CSS or runtime capitalisation. See [CMOS title-case guidance](https://www.chicagomanualofstyle.org/qanda/data/faq/topics/CapitalizationTitles/faq0035.html).
 
 - Default the selected coding agent to Codex. Persist an explicit Codex or Claude Code choice across login, logout and reload, and apply it before paint on both pages.
 - Derive branded colours from the shared agent accent: Codex #0285FF or Claude Code #D97757. Keep neutral surfaces and semantic error/success colours distinct.

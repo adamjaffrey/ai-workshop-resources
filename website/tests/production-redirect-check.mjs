@@ -47,3 +47,9 @@ for(const alias of ['style','styles','guide','guides']){
 const invalid=await fetch(origin+'/ai-workshop-resources?agent=unknown&theme=',{redirect:'manual'});
 assert.equal(invalid.status,301);assert.equal(invalid.headers.get('location'),'/ai-workshop-resources');
 console.log('PASS: short Playground aliases and invalid preference cleanup on the built Worker');
+
+for(const alias of ['url','urls','reference','references','url-reference','url-references','urls-reference','urls-references'])for(const prefix of ['','components/'])for(const suffix of ['','/Future-Page/']){
+ const response=await fetch(origin+'/'+(prefix+alias).toUpperCase()+suffix+'?Theme=MOON&Keep=AbC%2FZ+Q',{redirect:'manual'});
+ assert.equal(response.status,301);assert.equal(response.headers.get('location'),'/component-playground/url-reference'+(suffix?'/future-page':'')+'?theme=dark&Keep=AbC%2FZ+Q');
+}
+console.log('PASS: URL Reference root/section aliases, plural combinations and descendants on the built Worker');

@@ -12,7 +12,7 @@ try{
   await page.goto(origin+'/component-playground/url-reference?theme='+theme+'&agent='+agent);
   const panel=page.locator('#panel-url-reference');await panel.waitFor({state:'visible'});
   assert.equal(await page.locator('#tab-url-reference').getAttribute('aria-selected'),'true');
-  for(const heading of ['Hostname Redirects','Resources Aliases','Playground Root Aliases','Playground Sections','Public Query Parameters','Login Aliases And Validation'])assert.ok((await panel.innerText()).includes(heading),heading);
+  for(const heading of ['Hostname Redirects','Resources Aliases','Playground Root Aliases','Playground Sections','Public Query Parameters','Login Aliases and Validation'])assert.ok((await panel.innerText()).includes(heading),heading);
   for(const value of ['agent=codex','agent=claude-code','theme=light','theme=dark','show-login=true','show-login=false','login=1','login=0','url-references'])assert.ok((await panel.innerText()).includes(value),value);
   const headingIcons=await panel.locator('h2>svg,h3>svg').evaluateAll(nodes=>nodes.map(svg=>({name:svg.dataset.iconName,use:svg.dataset.iconUse})));
   assert.equal(headingIcons.length,await panel.locator('h2,h3').count(),'Every reference heading has an icon');

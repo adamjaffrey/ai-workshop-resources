@@ -173,3 +173,19 @@ test('invalid public preferences are removed while unrelated query bytes survive
  }
  assert.deepEqual(canonicalRedirect(new URL('https://example.com/guide/icons?agent=bad&agent=CLAUDE&theme=bad&theme=MOON')),{location:'/component-playground/icons?agent=claude-code&theme=dark',status:301});
 });
+
+test('URL Reference shortcuts canonicalise roots, sections and descendants in one hop',async()=>{
+ const aliases=['url','urls','reference','references','url-reference','url-references','urls-reference','urls-references'];
+ const {server}=createPhonePreview();await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));const origin='http://127.0.0.1:'+server.address().port;
+ try{
+  for(const prefix of ['','component-playground/','styles-guides/'])for(const alias of aliases)for(const suffix of ['','/Example/'])for(const method of ['GET','HEAD']){
+   const path='/'+(prefix+alias).toUpperCase()+suffix+'?Theme=MOON&Keep=AbC%2FZ+Q';
+   const expected='/component-playground/url-reference'+(suffix?'/example':'')+'?theme=dark&Keep=AbC%2FZ+Q';
+   for(const response of [await fetch(origin+path,{method,redirect:'manual'}),await handleRequest(new Request('https://production.example'+path,{method}),{})]){assert.equal(response.status,301,path);assert.equal(response.headers.get('location'),expected,path);}
+  }
+  assert.equal((await fetch(origin+'/url-reference/example')).status,404,'Redirects do not create descendant pages');
+  assert.equal((await fetch(origin+'/reference-example',{redirect:'manual'})).status,404,'Segment boundary required');
+  assert.equal((await fetch(origin+'/url-reference',{method:'POST',redirect:'manual'})).status,404,'POST does not canonicalise');
+  assert.equal((await fetch(origin+'/component-playground/url-reference',{redirect:'manual'})).status,200,'Canonical destination does not redirect');
+ }finally{await new Promise(resolve=>server.close(resolve));}
+});
