@@ -23,7 +23,7 @@ try{
   await p.goto(origin);await p.locator('.worm-halo').waitFor({state:'attached'});
   await p.evaluate(()=>window.workshopBrandHalo.configure({hold:true}));await p.waitForTimeout(100);
   if(width<320)assert.equal(await p.locator('.worm-halo').evaluate(e=>getComputedStyle(e).display),'none');
-  else if(width<=660){const r=await p.locator('.worm-halo img').boundingBox();assert.ok(Math.abs(r.x+r.width/2-width/2)<1,JSON.stringify({width,r}));}
+  else if(width<=660){const r=await p.locator('.worm-halo img').boundingBox();const center=await p.evaluate(()=>{const a=document.querySelector('.controls .toggle').getBoundingClientRect(),t=document.querySelector('.theme-toggle').getBoundingClientRect();return(a.right+t.left)/2;});assert.ok(Math.abs(r.x+r.width/2-center)<1,JSON.stringify({width,r,center}));}
   const footer=await p.locator('footer').evaluate(e=>{const r=e.getBoundingClientRect(),button=e.querySelector('form').getBoundingClientRect();return {stacked:e.classList.contains('is-stacked'),center:r.left+r.width/2,button:button.left+button.width/2};});if(footer.stacked)assert.ok(Math.abs(footer.center-footer.button)<1);
  }
  console.log('PASS: stacked mobile controls, fluid capped specimens, focus overflow/group spacing, original/cropped icons, expanded controls, centred branding and stacked footer');

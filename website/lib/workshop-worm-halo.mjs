@@ -43,6 +43,7 @@ export function mountWormHalo(controls){
   host.dataset.brandVariant=full?'full':'mark';
   const inset=Math.max(24,parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sticky-safe-top'))||0);
   host.style.top=(inset+rect.height/2)+'px';
+  host.style.left=innerWidth<=660?((agent.getBoundingClientRect().right+rect.left)/2)+'px':'50%';
   const bounds=mark.getBoundingClientRect(),clearance=Math.min(bounds.left-agent.getBoundingClientRect().right,rect.left-bounds.right);
   const opacity=innerWidth<320?0:config.hold?1:(Number(getComputedStyle(agent).getPropertyValue('--sticky-shadow'))||0)*Math.max(0,Math.min(1,clearance/8));
   const key=JSON.stringify([bounds.width,bounds.height,config]);

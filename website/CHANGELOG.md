@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.209"
-  update_summary: "Restore mobile Playground introductory spacing"
-  updated_at: "Mon 19 Oct 2026 at 11:10:15 pm AEDT (+11:00)"
+  doc_revision: "26.0.210"
+  update_summary: "Centre mobile branding between the floating controls"
+  updated_at: "Mon 19 Oct 2026 at 11:12:03 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.208 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 11:12:03 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Centre mobile branding between the floating controls
+
+### Fixed
+
+- Centre the mobile Wavelength mark in the actual gap between the agent and theme controls, correcting the 4px left offset at 320px.
+- Retain desktop viewport centring and hide the floating brand below 320px.
+- Update branding assertions to measure the control-gap midpoint rather than the viewport midpoint on mobile.
+
+### Validation
+
+- Headless Chrome geometry checks — passed at 300, 320, 360, 390, 660, 768 and 1440px.
+- `npm --prefix website run build` — passed; generated server assets contain v26.0.208.
 
 ## v26.0.207 — 2026-10-19
 
