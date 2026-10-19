@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.124"
-  update_summary: "Align Playground sections to a 1280px content width"
-  updated_at: "Mon 19 Oct 2026 at 06:03:52 pm AEDT (+11:00)"
+  doc_revision: "26.0.125"
+  update_summary: "Document internal overflow fades and shared header branding"
+  updated_at: "Mon 19 Oct 2026 at 06:21:37 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -313,7 +313,7 @@ Playground Icons offers All, Playground, UI Elements and Section Headings filter
 
 ### Header, Connected Choices and Colour Values
 
-Playground omits breadcrumbs. Its pre-heading begins 40px from the page top. Floating utility buttons reserve no vertical space, and the Playground does not reserve the main app’s logo-toolbar area. The pre-heading and H1 each have 24px after them; the introduction has 32px before desktop style controls. Type sizes and line heights match the app, including its mobile H1. Mobile Style Options remain in their existing popover.
+Playground omits breadcrumbs. Its Wavelength brand row begins 40px from the page top and uses the main app’s actual brand markup, font and sizing. The 54px row and 40px following gap put Design Tools at 134px, matching the app’s branded header rhythm. Floating utility buttons reserve no vertical space. The pre-heading and H1 each have 24px after them; the introduction has 32px before desktop style controls. Type sizes and line heights match the app, including its mobile H1. Mobile Style Options remain in their existing popover.
 
 All outer radio groups use the shared segmented selector controller and its 340ms travel/rebound/settling animation. Their native radio inputs retain keyboard semantics and focus; only direct option clicks select a value. Padding does not advance selection. Long groups scroll horizontally in one connected container; reduced motion, hidden panels, resized controls and programmatic changes realign the indicator without animation. Main-app two-option selectors retain their original track-click behaviour.
 
@@ -328,3 +328,13 @@ Validate connected controls, typography, colour chips and header rhythm with `no
 Pointer focus for radio and checkbox controls follows the shared input-modality state: only Tab/Shift+Tab navigation enables visible rings. Clicking or tapping retains real focus without a ring. The shared selector controller focuses each direct radio target before starting its hold, compares focus transfer against the actual input, and cancels an abandoned hold without restoring selection focus. Native radio Space activation remains intact. Verify repeated and rapid holds, pointer/touch versus keyboard focus, and pinned iframe scrolling with `node website/tests/playground-toggle-hold-browser-check.mjs`.
 
 The Playground header, introduction, desktop style controls, tabs and panels share a maximum content width of 1280px. The body wrapper is 1328px including 24px padding on each side; header/control wrappers use a 1280px content limit with the same side spacing. The inspector aligns with those content edges. Narrow screens retain 24px side spacing; vertical spacing and main-app layout remain unchanged. Wider text naturally wraps onto fewer lines.
+
+### Overflow Cues and Selection Position
+
+Radio selectors have a persistent bordered outer shell; only their internal scrolling options receive directional 28px fades. A selected option centres within the visible rail, clamped to the real scroll limits without spacer gaps. Initial display, direct selection, programmatic changes and resizing update its position; manual scrolling remains available. The tab strip also fades on both overflowing sides while its baseline remains outside the mask. Checkboxes alongside selector rails are vertically centred against the 50px control shell.
+
+The overflow audit also covers long expanded headings, expanded control areas, Style Options and inspector details through the shared outer overflow observer. Typography colour tables and the reference gallery’s icon/agent sample scrollers have directional internal fades. Real app code panels inside live previews retain their source behaviour. Fades disappear independently at the corresponding scroll ends.
+
+Hover Preview now offers Force Hover States, with help explaining that supported hover appearances remain visible without pointing at individual items. The Easter Egg specimen removes unused header space from normal flow; at its upper scroll limit, Step 3 begins 24px below the bottom of the pinned selector. Initial view selection still scrolls to the inscription at the bottom.
+
+Validate masks, preserved borders, clamped centring, checkbox alignment, branded header spacing and the Step 3 gap with `node website/tests/playground-overflow-browser-check.mjs`.

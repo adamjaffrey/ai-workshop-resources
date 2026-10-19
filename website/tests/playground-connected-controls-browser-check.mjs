@@ -7,7 +7,7 @@ try{
  for(const width of [320,390,768,1440]){
   await page.setViewportSize({width,height:1000});await app.setViewportSize({width,height:1000});await page.evaluate(()=>scrollTo(0,0));await page.waitForTimeout(300);
   assert.equal(await page.locator('.breadcrumbs').count(),0);
-  const top=await app.locator('main').evaluate(e=>parseFloat(getComputedStyle(e).paddingTop));
+  const top=await app.locator('.eyebrow').evaluate(e=>e.getBoundingClientRect().top+scrollY);
   assert.equal(await page.locator('.kicker').evaluate(e=>e.getBoundingClientRect().top+scrollY),top);
   for(const [a,b] of [['.kicker','.eyebrow'],['#playground-title','h1'],['header.wrap p','.intro']]){
    const read=e=>{const s=getComputedStyle(e);return [s.fontSize,s.lineHeight,s.marginBottom];};assert.deepEqual(await page.locator(a).evaluate(read),await app.locator(b).evaluate(read));

@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.190"
-  update_summary: "Align Playground sections to a 1280px content width"
-  updated_at: "Mon 19 Oct 2026 at 06:03:52 pm AEDT (+11:00)"
+  doc_revision: "26.0.191"
+  update_summary: "Refine Playground overflow cues, branding and specimen spacing"
+  updated_at: "Mon 19 Oct 2026 at 06:21:37 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.189 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 06:21:37 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine Playground overflow cues, branding and specimen spacing
+
+### Changed
+
+- Keep selector borders and the tab baseline outside two-sided overflow fades; centre selected radio options within natural scroll limits.
+- Add missing directional fades to outer scroll areas, typography colour tables and icon/agent reference sample containers.
+- Centre neighbouring checkboxes against selector rails and rename Show Hover States to Force Hover States with revised help.
+- Add the app’s Wavelength brand markup and typography to the Playground header with the same vertical rhythm.
+- Shorten the Easter Egg specimen’s top whitespace so Step 3 starts 24px below the pinned selector.
+
+### Validation
+
+- Overflow and layout audit at 320, 390, 768 and 1440px — passed for internal masks, persistent borders, first/middle/last selection clamping, checkbox centres and header/Step 3 spacing.
+- Connected-control, repeated-hold, expanded-preview, icon catalogue and selection/typography suites — passed. All seven Easter Egg entry states at four widths passed.
+- Sites local production build — passed with v26.0.189. Mobile screenshots inspected; physical iPhone/Safari not tested. Main-app layout unchanged; no geometry remeasurement.
 
 ## v26.0.188 — 2026-10-19
 
