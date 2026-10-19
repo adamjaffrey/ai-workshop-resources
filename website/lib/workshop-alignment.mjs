@@ -41,7 +41,7 @@ main:is(#workshop-content,.page-placeholder)>*{width:calc(100% - 56px);max-width
 .perspective-dialog .perspective-dialog-content{padding-inline:calc(28px + var(--optical-offset))}
 .perspective-dialog-content>form{margin-inline-start:calc(-1 * var(--optical-offset))}
 .javascript-notice{padding-inline:calc(16px + var(--optical-offset))}
-:is(#workshop-content,.page-placeholder)>noscript>.javascript-notice{width:calc(100% + 8px);max-width:none;margin-inline:-4px}
+:is(#workshop-content,.page-placeholder)>noscript>.javascript-notice{width:calc(100% - 48px);max-width:960px;margin-inline:auto}
 /* Playground page and all its normal/expanded panels. */
 body:has(#playground-title)>.playground-heading header.wrap,
 body:has(#playground-title)>.toolbar .wrap{width:calc(100% - 56px);max-width:1112px;padding-inline:0}
@@ -57,14 +57,18 @@ body:has(#playground-title)>main.wrap{padding-inline:28px}
 .panel-actions,.panel-options,.heading-actions{margin-inline-end:-4px}
 .control-footer>.panel-actions{margin-inline-end:-4px}
 .panel-actions>button:first-child:last-child{margin-inline-start:0}
-.tab-scroll-shell{margin-inline:-4px;width:calc(100% + 8px)}
+.tab-scroll-shell{margin-inline:0;width:100%}
+.field>input[type=range]{margin-inline:-4px;width:calc(100% + 8px)}
 #style-dialog{padding-inline:24px}
 #style-dialog #style-options{right:20px}
 .preview-dialog.is-expanded{padding-inline:28px}
 .preview-dialog.is-expanded>.frame-wrap,.preview-dialog.is-expanded>.preview-settings,.preview-dialog.is-expanded>.preview-state-settings{margin-inline:-4px;width:calc(100% + 8px);max-width:none}
 .preview-dialog.is-expanded>.preview-settings,.preview-dialog.is-expanded>.preview-state-settings{padding-inline:14px}
 .preview-dialog.is-expanded>.section-heading h2{padding-inline:0}
-.expanded-global-controls,.expanded-state-controls{padding-inline:0}
+.expanded-global-controls,.expanded-state-controls{padding-inline:4px;margin-inline-start:calc(22px - var(--disclosure-ink-inset))}
+.expanded-global-controls>#global-style-controls{margin-inline:-4px;padding-inline:4px}
+#perspective-replay{margin-inline-start:calc(-1 * var(--optical-offset))}
+.panel>.feather-notice>details>.licence-text{margin-inline-start:calc(26px - var(--disclosure-ink-inset) - var(--optical-offset));padding-inline:20px}
 /* Disclosure chevrons get their own measured ink correction; body text shares
    the summary's text position, not the enclosing panel's edge. */
 .panel>details:not(.preview-settings):not(.preview-state-settings)>:not(summary),.panel>.feather-notice>details>:not(summary){margin-inline-start:calc(26px - var(--disclosure-ink-inset,5.25px))}
@@ -84,6 +88,9 @@ body:has(>#icon-catalog),body:has(>#error-catalog),body:has(>#focus-catalog),bod
    interiors retain canonical app geometry and typography. */
 :is(.icon-sample,.focus-preview,.agent-preview,.variant-preview)>:is(button,.toggle,.theme-toggle,.symbol,.password-field,.qr-card,.code-wrap,.javascript-notice){margin-inline-start:-4px!important}
 .type-row [data-in-situ]:is(.password-field,.code-wrap),.type-row [data-type-sample].gate-submit{margin-inline-start:-4px;max-width:calc(100% + 8px)}
+.type-row footer:not(.is-stacked) button[data-type-sample]{margin-inline-start:calc(-1 * var(--optical-offset))}
+.type-row [data-in-situ].code-wrap{width:calc(100% + 8px);max-width:calc(var(--source-width,100%) + 8px)}
+.notice-type-row .javascript-notice{margin-inline:-4px;width:calc(100% + 8px);max-width:none}
 .feedback-preview>.code-wrap{margin-inline-start:-4px;width:calc(100% + 8px)}
 /* Square textareas, tables and code listings deliberately stay on the text rail. */
 #worm-copy-fallback,#perspective-copy-fallback{display:block}#worm-copy-fallback[hidden],#perspective-copy-fallback[hidden]{display:none}

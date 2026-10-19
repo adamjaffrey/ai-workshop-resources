@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.52"
-  update_summary: "Define the shared text and rounded-surface alignment contract"
-  updated_at: "Mon 19 Oct 2026 at 11:49:52 pm AEDT (+11:00)"
+  doc_revision: "26.0.53"
+  update_summary: "Require secondary-surface and real no-script alignment checks"
+  updated_at: "Tue 20 Oct 2026 at 12:12:21 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -219,7 +219,7 @@ Rounded corners visually recede from their bounding edge, while SVG icons can co
 
 ### Required Checks
 
-Run `node website/tests/playground-external-text-inset-browser-check.mjs` for measured text/surface and visible-icon relationships across seven widths, all tabs, themes/agents, dialogs and expanded views. Also run source parity, relevant sticky/expanded/focus checks and inspect mobile/desktop screenshots. Verify no page overflow and preserve scrollable control rails and keyboard focus. For layout changes affecting the login backdrop, finish all layout edits first, then increment the placeholder layout revision, remeasure and run `website/tests/login-background-alignment-browser-check.mjs` to verify saved blur geometry against Resources across phone, tablet and desktop widths, including breakpoint boundaries and short/tall heights. Keep all canonical source layout styles and shared footer wrapping in the backdrop; anonymous prompt glyphs retain only slash/hyphen punctuation to preserve native line breaks.
+Run `node website/tests/playground-external-text-inset-browser-check.mjs` for measured text/surface and visible-icon relationships across seven widths, all tabs, themes/agents, dialogs and expanded views. Run `website/tests/playground-nested-alignment-browser-check.mjs` for standalone specimens, slider boundaries, square tabs, licence panels, expanded disclosure bodies and real JavaScript-disabled app/login notices. Test no-script pages with JavaScript actually disabled: a specimen cannot prove the original parent layout. Also run source parity, relevant sticky/expanded/focus checks and inspect mobile/desktop screenshots. Verify no page overflow and preserve scrollable control rails and keyboard focus. For layout changes affecting the login backdrop, finish all layout edits first, then increment the placeholder layout revision, remeasure and run `website/tests/login-background-alignment-browser-check.mjs` to verify saved blur geometry against Resources across phone, tablet and desktop widths, including breakpoint boundaries and short/tall heights. Keep all canonical source layout styles and shared footer wrapping in the backdrop; anonymous prompt glyphs retain only slash/hyphen punctuation to preserve native line breaks.
 
 ## Theme and Slider Animation
 

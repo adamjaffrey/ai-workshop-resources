@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.211"
-  update_summary: "Unify optical alignment across the app and Playground"
-  updated_at: "Mon 19 Oct 2026 at 11:49:52 pm AEDT (+11:00)"
+  doc_revision: "26.0.212"
+  update_summary: "Close secondary-surface optical alignment gaps"
+  updated_at: "Tue 20 Oct 2026 at 12:13:29 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.210 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 12:13:29 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Close secondary-surface optical alignment gaps
+
+### Fixed
+
+- Restore the real JavaScript-disabled Resources notice to the 24px surface gutter instead of extending it across the viewport.
+- Align expanded disclosure content beneath its summary text, retaining scroll clearance for outset toggle groups.
+- Apply the surface outset to licence panels, replay controls, rounded sliders, standalone Log Out and JavaScript-notice specimens; extend isolated prompt panels on both edges within their source-width limit.
+- Return the square tab strip to the text rail. Keep centred mobile Log Out specimens centred and retain control interiors.
+- Add secondary-surface and real no-script regression checks to repository instructions.
+
+### Validation
+
+- `playground-nested-alignment-browser-check.mjs` — passed at seven widths and all five expanded views, with real no-script app/login checks at four widths.
+- Existing all-tab alignment, expanded-preview, sticky-toolbar and focus-clearance checks — passed.
+- Final background remeasurement and ten-width/two-height geometry comparison — passed within 1px in both theme/agent variants.
+- `npm --prefix website run build` — passed; generated artefact contains v26.0.210.
 
 ## v26.0.209 — 2026-10-19
 
