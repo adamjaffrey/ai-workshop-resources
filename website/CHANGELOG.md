@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.228"
-  update_summary: "Expand URL Reference aliases and standardise heading case"
-  updated_at: "Tue 20 Oct 2026 at 10:33:47 am AEDT (+11:00)"
+  doc_revision: "26.0.229"
+  update_summary: "Add collapsible Playground sections with aligned chevrons"
+  updated_at: "Tue 20 Oct 2026 at 10:39:33 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.227 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 10:39:33 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add collapsible Playground sections with aligned chevrons
+
+### Added
+
+- Add a Lucide chevron-down disclosure control to every Playground section header, matching the heading icon size and first-line alignment. Compensate measured SVG whitespace and button padding to keep its visible stroke 28px from the container’s right edge in both orientations.
+- Rotate the chevron 90 degrees anticlockwise when collapsed, leaving only the heading icon, title and toggle visible. Restore original content layout on expansion and let following sections reflow naturally.
+- Expose expanded state and controlled content to assistive technology; retain keyboard focus and respect reduced motion. Keep collapse state in the current document only, so reload expands all sections on all tabs.
+- Include the new icon in the Playground catalogue and refresh iframe measurements after expansion. Retain existing controls in full-screen preview mode.
+
+### Validation
+
+- Section browser checks — passed for every section at 320, 390, 768 and 1440px, including optical alignment, reflow, pointer/keyboard activation, Tab/Shift-Tab focus, reload reset and full-screen compatibility.
+- Existing alignment and modal checks — passed across seven widths, all tabs, both agents/themes and expanded previews. Mobile/desktop screenshots visually reviewed.
+- Final LAN preview — passed for main app, Playground touch collapse/expand, 160ms anticlockwise animation and the real logged-out form.
+- Structure checks, production build and generated-artifact assertions — passed. Internal build reused saved backdrop geometry and advanced the Playground layout cache key for future authorised publication preparation.
 
 ## v26.0.226 — 2026-10-20
 

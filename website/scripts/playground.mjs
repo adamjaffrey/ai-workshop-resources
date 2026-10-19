@@ -1,3 +1,4 @@
+import {sectionCollapseCSS,sectionCollapseScript} from './playground-section-collapse.mjs';
 import {__iconNode as urlRootIcon} from '../node_modules/lucide-react/dist/esm/icons/route.mjs';
 import {__iconNode as urlExampleIcon} from '../node_modules/lucide-react/dist/esm/icons/combine.mjs';
 import {__iconNode as urlAuthIcon} from '../node_modules/lucide-react/dist/esm/icons/key-round.mjs';
@@ -345,6 +346,7 @@ window.addEventListener('message',e=>{
  #playground-icon-catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:24px}.playground-icon-entry{min-width:0;border:1px solid var(--border);border-radius:12px;padding:24px}.playground-icon-entry h3{display:flex;align-items:center;gap:12px;font-size:18px;margin:0 0 12px;overflow-wrap:anywhere}.playground-icon-entry h3 svg{width:24px;height:24px;flex:none}.playground-icon-entry ul{padding-left:20px;font-size:14px;overflow-wrap:anywhere}.playground-icon-entry a{font-size:14px}
 ${playgroundBrandCSS}
 ${playgroundLayoutCSS}
+${sectionCollapseCSS}
 ${urlReferenceCSS}
 </style></head><body>
  <div class="playground-heading" style="background:var(--surface)"><header class="wrap"><div class="playground-brand-row">${playgroundBrand}</div><div class="kicker">Design Tools</div><h1 id="playground-title" tabindex="-1" data-panel-heading>${playgroundHeadingIcon}<span>Component Playground</span></h1><p class="muted">One place to inspect the workshop’s live styles. Switch themes and agents, hold a login state, hover, press, select text and Tab through controls. App specimens reuse source markup and styles; the surrounding controls are testing tools. App actions are simulated. Icon source links open in a new tab.</p></header></div>
@@ -511,6 +513,7 @@ ${urlReferenceCSS}
   track.updateSelection=animate=>{update(animate);centre();};track.addEventListener('change',()=>{update(true);centre();});new ResizeObserver(centre).observe(track);update(false);centre();
  });
  ${playgroundStickyControlsScript}
+ ${sectionCollapseScript}
  ${playgroundIconCatalogScript}
  </script></body></html>`;
  if(inlineAssets)for(const [path,mime] of [['/assets/markpro-bold.ttf','font/ttf'],['/assets/wavelength-worm.png','image/png'],['/assets/workshop-resources-qr.png','image/png'],['/favicon.png','image/png']]){
