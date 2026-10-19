@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.139"
-  update_summary: "Document Components blocks and publication-only refreshes"
-  updated_at: "Tue 20 Oct 2026 at 06:14:54 am AEDT (+11:00)"
+  doc_revision: "26.0.140"
+  update_summary: "Document both background destinations in Blocks and Blur"
+  updated_at: "Tue 20 Oct 2026 at 06:26:16 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -233,7 +233,7 @@ Use visible native radio groups for the short theme, agent, width, hover and cop
 
 The Style Inspector is a read-only display of the selected element’s computed colours, dimensions, type and spacing. It remains fixed to the bottom of the viewport. Hover updates wait 200ms, nested typography metadata resolves to its specimen, unchanged readings are deduplicated, and the details area has a fixed height with internal scrolling. Click and keyboard focus update immediately. Freeze retains the current reading; Resume follows items again. The dock initially occupies one line. Its leading chevron expands the inspection controls and summary; the separately labelled More Details chevron expands the full readout. Both chevrons rotate and honour reduced motion.
 
-The Blocks and Blur tab reuses the current login markup and saved geometry. No Blur removes the placeholder blur temporarily, Blur and Darken shows the selected blur and scrim without the login panel, and Password Panel adds the real panel while retaining the same single background blur. Block strength, background blur and scrim opacity are independent sliders. Their initial and reset values are read from the real app CSS for the selected theme, rather than copied into the tool. Clicking a word, icon or QR block outlines its bounds and reports its dimensions. These settings are local, do not alter production defaults, and never trigger geometry measurement.
+The Blocks and Blur tab offers a Background Destination selector for Resources and Playground (the saved Components backdrop), reusing the current login markup and saved geometry. Both destinations share the layer, strength, blur, darkening, theme, agent and screen-width controls; reset retains the selected destination. No Blur removes the placeholder blur temporarily, Blur and Darken shows the selected blur and scrim without the login panel, and Password Panel adds the real panel while retaining the same single background blur. Block strength, background blur and scrim opacity are independent sliders. Their initial and reset values are read from the real app CSS for the selected theme, rather than copied into the tool. In Resources, clicking a word, icon or QR block outlines its bounds and reports its dimensions. Playground geometry remains an inert, script-disabled frame; it supports the shared visual controls without individual block picking. These settings are local, do not alter production defaults, and never trigger geometry measurement.
 
 ### Login Blur During Theme Changes
 

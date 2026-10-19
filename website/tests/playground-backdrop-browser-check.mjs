@@ -21,8 +21,8 @@ try{
    await page.evaluate(({theme,agent})=>{for(const [id,value] of Object.entries({theme,agent})){const e=document.getElementById(id);e.value=value;e.dispatchEvent(new Event('change'));}},{theme,agent});
    for(const destination of ['playground','resources','playground']){
     await page.locator('input[name=login-destination][value='+destination+']').locator('..').click();
-    const frame=page.frames().find(f=>f.name()==='login-frame')||await page.locator('#login-frame').elementHandle().then(e=>e.contentFrame());
-    await frame.waitForFunction(playground=>!!document.querySelector('.playground-placeholder>iframe')===playground,destination==='playground');
+    const frame=await page.locator('#login-frame').elementHandle().then(e=>e.contentFrame());
+    await frame.waitForFunction(playground=>!!document.querySelector('.playground-placeholder>iframe')===playground,destination==='playground',{polling:100});
     await gate.setViewportSize({width:await frame.evaluate(()=>innerWidth),height:844});
     assert.deepEqual(await frame.evaluate(snapshot),await gate.evaluate(snapshot));
     await gate.setViewportSize({width,height:844});

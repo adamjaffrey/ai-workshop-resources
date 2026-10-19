@@ -3,14 +3,45 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.215"
-  update_summary: "Add measured Components login backdrops"
-  updated_at: "Tue 20 Oct 2026 at 06:14:54 am AEDT (+11:00)"
+  doc_revision: "26.0.216"
+  update_summary: "Preview both backgrounds with shared Blocks and Blur controls"
+  updated_at: "Tue 20 Oct 2026 at 06:29:55 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.214 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 06:29:55 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Preview both backgrounds with shared Blocks and Blur controls
+
+### Added
+
+- Add Resources and Playground choices to Background Destination in Blocks and Blur. No Blur shows either saved background without blur, darkening or the login panel.
+- Share layer, strength, blur, darkening, theme, agent and width controls across destinations. Reset retains the chosen background.
+
+### Fixed
+
+- Embed anonymous, script-disabled geometry inside isolated Playground specimens so their sandbox can display the Components backdrop without relaxing production framing or authentication rules.
+
+### Changed
+
+- Document both preview destinations and retain individual block picking for Resources.
+
+### Validation
+
+- Both destinations, all three layers, both themes and agents, sliders, reset and expanded views at 320, 390, 768 and 1440px — passed; mobile and desktop screenshots reviewed.
+- Thirteen authentication and saved-geometry tests; shared login specimen, tab edges, 176 selection-region axis checks and menu containment — passed.
+- Local build and generated v26.0.214 display — passed; both saved geometry hashes unchanged.
 
 ## v26.0.213 — 2026-10-20
 
