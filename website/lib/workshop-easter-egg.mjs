@@ -32,10 +32,10 @@ export const eggCSS = `
 .perspective-fragment::after,.perspective-ellipsis::after { content:attr(data-sheen-text); position:absolute; inset:0; pointer-events:none; user-select:none; visibility:visible; color:transparent; background-image:var(--wave-paint,none); background-size:var(--wave-width) var(--wave-height); background-position:var(--wave-offset-x) var(--wave-offset-y); background-repeat:no-repeat; filter:brightness(var(--sheen-strength,1)); background-clip:text; -webkit-background-clip:text; opacity:0; }
 .perspective-ellipsis { position:relative; display:inline-block; }
 .perspective[data-sheening] .perspective-ellipsis::after,:root[data-theme="light"] .perspective[data-sheening] .perspective-day::after,:root[data-theme="dark"] .perspective[data-sheening] .perspective-night::after { opacity:var(--sheen-strength,1); }
-:root[data-theme="light"] .perspective-particle { background:var(--particle-colour); box-shadow:0 0 1px var(--particle-colour),0 0 3px var(--particle-colour); }
+:root[data-theme="light"] .perspective-particle { color:transparent; background:currentColor; box-shadow:0 0 1px currentColor,0 0 3px currentColor; }
 /* Travelling twinkling points; the concealed glyphs never supply the cue. */
 .perspective-particles { position:absolute; inset:0; pointer-events:none; opacity:0; overflow:visible; -webkit-mask-image:var(--particle-mask,none); mask-image:var(--particle-mask,none); mask-size:100% 100%; mask-repeat:no-repeat; }
-.perspective-particle { position:absolute; left:var(--x); top:var(--y); width:calc(var(--size) * var(--particle-size,1)); height:calc(var(--size) * var(--particle-size,1)); border-radius:50%; background:radial-gradient(circle,#fff 0 18%,var(--particle-colour,var(--agent-accent)) 45% 65%,transparent 76%); box-shadow:0 0 2px var(--particle-colour,var(--agent-accent)),0 0 6px var(--particle-colour,var(--agent-accent)); opacity:0; transform:translate(var(--pull-x,0px),var(--pull-y,0px)) scale(var(--pull-scale,1)); will-change:transform,opacity; }
+.perspective-particle { color:var(--agent-accent); position:absolute; left:var(--x); top:var(--y); width:calc(var(--size) * var(--particle-size,1)); height:calc(var(--size) * var(--particle-size,1)); border-radius:50%; background:radial-gradient(circle,#fff 0 18%,currentColor 45% 65%,transparent 76%); box-shadow:0 0 2px currentColor,0 0 6px currentColor; opacity:0; transform:translate(var(--pull-x,0px),var(--pull-y,0px)) scale(var(--pull-scale,1)); will-change:transform,opacity; }
 .perspective-particle[hidden] { display:none; }
 .perspective[data-state="ready"] .perspective-particles { opacity:1; }
 .perspective[data-state="complete"] .perspective-fragment::after { visibility:hidden; }
@@ -61,7 +61,20 @@ body:has(.perspective-dialog[open]) { overflow:hidden; }
 @media(prefers-reduced-motion:reduce) { .perspective-fragment::after,.perspective-ellipsis::after,.perspective-dialog[open],.perspective-dialog[open]::before,.perspective-dialog::backdrop,.perspective-particle { animation:none!important; } .perspective[data-state="ready"] .perspective-particles { opacity:.6; } .perspective[data-state="ready"] .perspective-particle { opacity:.7!important; transform:none!important; filter:none!important; } .perspective-dialog { --perspective-halo-angle:0deg!important; } }
 
 `;
-export function initPerspective(defaults,controls) {
+// Arc-length table for the original cubic approach and quadratic rounded outline.
+// Subdivision bounds each curve's control-polygon excess to .001px; no SVG queries.
+export function perspectiveRoute(origin,width,height,w,h) {
+ const cx=width/2,cy=height/2,left=cx-w/2,right=cx+w/2,top=cy-h/2,bottom=cy+h/2,radius=24,sign=origin.dark?-1:1;
+ const xy=(x,y)=>({x,y}),distance=(a,b)=>Math.hypot(b.x-a.x,b.y-a.y),route=[{x:origin.x,y:origin.y,d:0}];
+ const append=p=>{const a=route.at(-1);route.push({...p,d:a.d+distance(a,p)});};
+ function curve(points,depth=0){const length=points.slice(1).reduce((n,p,i)=>n+distance(points[i],p),0);if(depth>=16||length-distance(points[0],points.at(-1))<.001){append(points.at(-1));return;}const a=[points[0]],b=[points.at(-1)];let row=points;while(row.length>1){row=row.slice(1).map((p,i)=>xy((row[i].x+p.x)/2,(row[i].y+p.y)/2));a.push(row[0]);b.unshift(row.at(-1));}curve(a,depth+1);curve(b,depth+1);}
+ const endX=cx+sign*w/2,clamp=x=>Math.max(16,Math.min(width-16,x));
+ curve([xy(origin.x,origin.y),xy(clamp(origin.x+sign*90),origin.y-35),xy(clamp(endX+sign*40),cy+80),xy(endX,cy)]);
+ const approachLength=route.at(-1).d,mirror=(x,y)=>xy(origin.dark?2*cx-x:x,y),line=(x,y)=>append(mirror(x,y)),corner=(x,y,ex,ey)=>curve([route.at(-1),mirror(x,y),mirror(ex,ey)]);
+ line(right,top+radius);corner(right,top,right-radius,top);line(left+radius,top);corner(left,top,left,top+radius);line(left,bottom-radius);corner(left,bottom,left+radius,bottom);line(right-radius,bottom);corner(right,bottom,right,bottom-radius);line(right,cy);
+ return {route,approachLength,routeLength:route.at(-1).d};
+}
+export function initPerspective(defaults,controls,makeRoute) {
  const root=document.documentElement, area=document.querySelector('.perspective');
  if(!area)return;
  const day=area.querySelector('.perspective-day'),night=area.querySelector('.perspective-night'),button=area.querySelector('button'),dialog=document.querySelector('.perspective-dialog');
@@ -102,7 +115,7 @@ export function initPerspective(defaults,controls) {
  function colourAt(u){const v=Math.max(0,Math.min(1,u))*(palette.length-1),i=Math.min(palette.length-2,Math.floor(v)),mix=v-i;return palette[i].map((n,k)=>Math.round(n+(palette[i+1][k]-n)*mix));}
  function waveSample(q,centre,band){if(!config.bandWidth||!config.sheenStrength)return null;const u=(q-centre)/band+.5;if(u<0||u>1)return null;return {u,colour:colourAt(u),alpha:Math.sin(Math.PI*u)**2};}
  function waveGeometry(w,now,box){const band=Math.max(1,box.width*config.bandWidth/100),extent=box.width+box.height,centre=-band/2+(now-w.start)/Math.max(1,w.sweep)*(extent+band);return {band,centre};}
- function paintWave(w,now,box){const {band,centre}=waveGeometry(w,now,box),stops=Array.from({length:25},(_,i)=>{const u=i/24;return 'rgba('+colourAt(u).join(',')+','+(Math.sin(Math.PI*u)**2)+') '+((centre-band/2+band*u)/Math.SQRT2)+'px';});area.style.setProperty('--wave-paint',!config.bandWidth||!config.sheenStrength?'none':'linear-gradient('+(w.dark?315:135)+'deg,'+stops.join(',')+')');area.style.setProperty('--wave-width',box.width+'px');area.style.setProperty('--wave-height',box.height+'px');for(const el of [day,night,area.querySelector('.perspective-ellipsis')]){const r=el.getBoundingClientRect();el.style.setProperty('--wave-offset-x',-(r.left-box.left)+'px');el.style.setProperty('--wave-offset-y',-(r.top-box.top)+'px');}
+ function paintWave(w,now,box){const {band,centre}=waveGeometry(w,now,box),stops=Array.from({length:25},(_,i)=>{const u=i/24;return 'rgba('+colourAt(u).join(',')+','+(Math.sin(Math.PI*u)**2)+') '+((centre-band/2+band*u)/Math.SQRT2)+'px';});const paint=!config.bandWidth||!config.sheenStrength?'none':'linear-gradient('+(w.dark?315:135)+'deg,'+stops.join(',')+')';for(const [el,r] of [day,night,area.querySelector('.perspective-ellipsis')].map(el=>[el,el.getBoundingClientRect()])){el.style.setProperty('--wave-paint',paint);el.style.setProperty('--wave-width',box.width+'px');el.style.setProperty('--wave-height',box.height+'px');el.style.setProperty('--wave-offset-x',-(r.left-box.left)+'px');el.style.setProperty('--wave-offset-y',-(r.top-box.top)+'px');}
   if(w.complete&&!w.handoff){const end=sentenceEnd(w.dark),q=w.dark?box.left+box.width-end.x+box.top+box.height-end.y:end.x-box.left+end.y-box.top;if(centre>=q-band*.12){w.handoff=true;openDiscovery(end);}}
  }
 
@@ -116,12 +129,12 @@ export function initPerspective(defaults,controls) {
    const a=area.getBoundingClientRect(),glyphs=[day,night].map(el=>{const range=document.createRange();range.selectNodeContents(el);return range.getBoundingClientRect();}),textLeft=Math.min(...glyphs.map(r=>r.left)),textRight=Math.max(...glyphs.map(r=>r.right)),targetBox=button.hidden?{left:textLeft,right:textRight,top:a.top,bottom:a.bottom}:button.getBoundingClientRect(),top=Math.min(a.top,targetBox.top),left=Math.min(textLeft,targetBox.left),box={left,top,width:Math.max(textRight,targetBox.right)-left,height:Math.max(a.bottom,targetBox.bottom)-top},latest=waves.at(-1);if(latest&&area.hasAttribute('data-sheening'))paintWave(latest,now,box);
    if(particleWork&&visible()){
     particlesDrawn=true;
-    const r=button.getBoundingClientRect(),hint=hovering||area.hasAttribute('data-keyboard-hint'),samples=waves.filter(w=>now-w.start<=w.sweep).map(w=>({...waveGeometry(w,now,box),dark:w.dark}));
+    const r=targetBox,hint=hovering||area.hasAttribute('data-keyboard-hint'),samples=waves.filter(w=>now-w.start<=w.sweep).map(w=>({...waveGeometry(w,now,box),dark:w.dark}));
     for(const f of floats){if(f.el.hidden)continue;const t=now/1000,driftX=(Math.sin(t*.48+f.phase)*7+Math.sin(t*.21+f.phase*2)*4)*config.drift/100,driftY=Math.cos(t*.39+f.phase)*6*config.drift/100;let glow=0,lit=false;
      for(const w of samples){const {centre,band}=w,x=r.left-box.left+f.x*r.width+driftX+f.pullX,y=r.top-box.top+f.y*r.height+driftY+f.pullY,sample=waveSample(w.dark?box.width-x+box.height-y:x+y,centre,band);if(sample&&sample.alpha>.002){lit=true;f.chargedAt=now;f.colour=sample.colour;glow=Math.max(glow,sample.alpha);}}
      f.tail=config.particleDuration?Math.max(glow,f.tail*Math.exp(-dt/(config.particleDuration/6))):glow;if(f.tail<.005)f.tail=0;glow=f.tail;
      const attractor=pointer||(hint?{x:r.width/2,y:r.height/2}:null),dx=attractor?attractor.x-f.x*r.width-driftX:0,dy=attractor?attractor.y-f.y*r.height-driftY:0,local=attractor&&config.gravityRange?Math.exp(-(dx*dx+dy*dy)/(config.gravityRange**2)):0,influence=Math.min(1,local*config.gravity/100);
-     const hoverColour=colourAt((f.x*.73+f.y*.27+t*.035)%1),sampleColour=f.colour||hoverColour,colour=sampleColour.map((n,i)=>Math.round(n+(hoverColour[i]-n)*(hint?Math.min(1,local*2)*(1-Math.min(1,glow*2)):0)));f.el.style.setProperty('--particle-colour','rgb('+colour.map(n=>root.dataset.theme==='dark'?n:Math.round(n*.68)).join(' ')+')');
+     const hoverColour=colourAt((f.x*.73+f.y*.27+t*.035)%1),sampleColour=f.colour||hoverColour,colour=sampleColour.map((n,i)=>Math.round(n+(hoverColour[i]-n)*(hint?Math.min(1,local*2)*(1-Math.min(1,glow*2)):0)));
      const target=hint?.55*local:0;f.alpha=Math.max(glow,hint?f.alpha+(target-f.alpha)*ease:0);
      const distance=Math.hypot(dx,dy),ux=distance>.01?dx/distance:Math.cos(f.phase),uy=distance>.01?dy/distance:Math.sin(f.phase);
      f.pullX+=((dx-ux*config.ringRadius)*influence-f.pullX)*ease;f.pullY+=((dy-uy*config.ringRadius)*influence-f.pullY)*ease;
@@ -130,8 +143,12 @@ export function initPerspective(defaults,controls) {
      f.clock+=dt/(1+influence*config.gravitySlowdown/100);
      const period=Math.max(config.twinkleDuration,config.twinklePeriod*(.8+(f.phase%1)*.4)),pulse=period?f.clock%period:0,u=config.twinkleDuration?pulse/config.twinkleDuration:2;
      const flash=u>=1?0:u<.16?Math.pow(u/.16,2):Math.pow((1-u)/.84,2);
+     const light=!config.twinkleDuration?0:hint?Math.max(glow,.32+.68*flash):1,opacity=Math.min(1,f.alpha*light*config.particleBrightness/100*2);
+     // Keep simulation continuous, but do not restyle fully transparent points.
+     if(!opacity){if(f.el.style.opacity!=='0')f.el.style.opacity=0;continue;}
+     f.el.style.color='rgb('+colour.map(n=>root.dataset.theme==='dark'?n:Math.round(n*.68)).join(' ')+')';
      f.el.style.filter='brightness('+(1+flash*.25)+')';
-     f.el.style.transform='translate('+(driftX+f.pullX)+'px,'+(driftY+f.pullY)+'px) scale('+(1+influence*.6+flash*.25)+')';const light=!config.twinkleDuration?0:hint?Math.max(glow,.32+.68*flash):1;f.el.style.opacity=Math.min(1,f.alpha*light*config.particleBrightness/100*2);
+     f.el.style.transform='translate('+(driftX+f.pullX)+'px,'+(driftY+f.pullY)+'px) scale('+(1+influence*.6+flash*.25)+')';f.el.style.opacity=opacity;
 
     }
    }else{for(const f of floats){f.alpha=0;f.el.style.opacity=0;}}
@@ -148,18 +165,12 @@ export function initPerspective(defaults,controls) {
   if(motion.matches||!config.burstDuration){show();return;}
   finishFlight=show;
   const measure=dialog.cloneNode(true);measure.setAttribute('open','');Object.assign(measure.style,{visibility:'hidden',position:'fixed',pointerEvents:'none'});document.body.append(measure);const bounds=measure.getBoundingClientRect();measure.remove();
-  const cx=innerWidth/2,cy=innerHeight/2,w=bounds.width,h=bounds.height,left=cx-w/2,right=cx+w/2,top=cy-h/2,bottom=cy+h/2,radius=24,sign=origin.dark?-1:1;
+  const cx=innerWidth/2,cy=innerHeight/2,w=bounds.width,h=bounds.height;
   // One continuous path leaves the final glyph, curls outward/upward, then traces the actual halo perimeter.
-  const endX=cx+sign*w/2,clampX=x=>Math.max(16,Math.min(innerWidth-16,x));
-  const approach=document.createElementNS('http://www.w3.org/2000/svg','path');approach.setAttribute('d','M '+origin.x+' '+origin.y+' C '+clampX(origin.x+sign*90)+' '+(origin.y-35)+' '+clampX(endX+sign*40)+' '+(cy+80)+' '+endX+' '+cy);
-  const loop=document.createElementNS('http://www.w3.org/2000/svg','path');loop.setAttribute('d','M '+right+' '+cy+' V '+(top+radius)+' Q '+right+' '+top+' '+(right-radius)+' '+top+' H '+(left+radius)+' Q '+left+' '+top+' '+left+' '+(top+radius)+' V '+(bottom-radius)+' Q '+left+' '+bottom+' '+(left+radius)+' '+bottom+' H '+(right-radius)+' Q '+right+' '+bottom+' '+right+' '+(bottom-radius)+' Z');
-  const approachLength=approach.getTotalLength(),loopLength=loop.getTotalLength(),routeLength=approachLength+loopLength;
+  const {route,approachLength,routeLength}=makeRoute(origin,innerWidth,innerHeight,w,h);
   burst=document.createElement('canvas');burst.className='perspective-burst';burst.setAttribute('aria-hidden','true');burst.dataset.originX=origin.x;burst.dataset.originY=origin.y;Object.assign(burst.style,{position:'fixed',pointerEvents:'none',zIndex:2147483646,inset:0,width:'100%',height:'100%'});burst.width=innerWidth;burst.height=innerHeight;document.body.append(burst);
-  const ctx=burst.getContext('2d'),ink=document.createElement('canvas');ink.width=burst.width;ink.height=burst.height;const pen=ink.getContext('2d'),start=performance.now();
-  const rawPoint=d=>{if(d<approachLength)return approach.getPointAtLength(d);const p=loop.getPointAtLength(Math.min(loopLength,d-approachLength));return {x:origin.dark?2*cx-p.x:p.x,y:p.y};};
-  // Sample geometry once; interpolation keeps the same curve without repeated SVG layout calls.
-  const routeSteps=Math.ceil(routeLength),route=Array.from({length:routeSteps+1},(_,i)=>rawPoint(Math.min(routeLength,i)));
-  const point=d=>{const q=Math.max(0,Math.min(routeLength,d)),i=Math.min(routeSteps-1,Math.floor(q)),a=route[i],b=route[i+1],u=(q-i)/Math.max(.001,Math.min(1,routeLength-i));return {x:a.x+(b.x-a.x)*u,y:a.y+(b.y-a.y)*u};};
+  const ctx=burst.getContext('2d'),ink=document.createElement('canvas');ink.width=burst.width;ink.height=burst.height;const pen=ink.getContext('2d');
+  const point=d=>{const q=Math.max(0,Math.min(routeLength,d));let lo=0,hi=route.length-1;while(hi-lo>1){const mid=(lo+hi)>>1;if(route[mid].d<q)lo=mid;else hi=mid;}const a=route[lo],b=route[hi],u=(q-a.d)/Math.max(.001,b.d-a.d);return {x:a.x+(b.x-a.x)*u,y:a.y+(b.y-a.y)*u};};
   const margin=config.burstFeather*1.12+16,cropLeft=Math.max(0,Math.floor(Math.min(...route.map(p=>p.x))-margin)),cropTop=Math.max(0,Math.floor(Math.min(...route.map(p=>p.y))-margin)),cropRight=Math.min(innerWidth,Math.ceil(Math.max(...route.map(p=>p.x))+margin)),cropBottom=Math.min(innerHeight,Math.ceil(Math.max(...route.map(p=>p.y))+margin));
   burst.width=ink.width=Math.max(1,cropRight-cropLeft);burst.height=ink.height=Math.max(1,cropBottom-cropTop);Object.assign(burst.style,{inset:'auto',left:cropLeft+'px',top:cropTop+'px',width:burst.width+'px',height:burst.height+'px'});
   const haloColour=u=>{const v=u*palette.length,i=Math.floor(v)%palette.length,m=v-Math.floor(v);return palette[i].map((n,k)=>Math.round(n+(palette[(i+1)%palette.length][k]-n)*m));};
@@ -168,6 +179,7 @@ export function initPerspective(defaults,controls) {
    ctx.clearRect(0,0,burst.width,burst.height);ctx.globalAlpha=1;const feather=config.burstFeather;ctx.filter='blur('+feather*.35+'px)';ctx.drawImage(ink,0,0);ctx.filter='blur('+feather*.08+'px)';ctx.globalAlpha=.8;ctx.drawImage(ink,0,0);ctx.filter='none';ctx.globalAlpha=.5/(1+feather/12);ctx.drawImage(ink,0,0);burst.dataset.feather=feather;burst.dataset.progress=progress;
    if(progress<1)flightFrame=requestAnimationFrame(draw);else show();
   }
+  const start=performance.now();
   // Paint the first short ribbon immediately while the sheen is still touching the final letters.
   draw(start+Math.min(24,config.burstDuration*.02));
  }
@@ -208,6 +220,6 @@ export function initPerspective(defaults,controls) {
  setInterval(tick,100);tick();
  motion.addEventListener('change',()=>{if(motion.matches){if(opening)finishFlight?.();dialog.getAnimations().forEach(a=>{if(a.effect?.getTiming().iterations!==Infinity)a.finish();});area.getAnimations({subtree:true}).forEach(a=>{if(a.effect?.getTiming().iterations===Infinity)a.cancel();else a.finish();});area.removeAttribute('data-sheening');}});
  // Shared state renderer for isolated Playground fixtures; no parallel UI implementation.
- window.workshopPerspective={configure,get config(){return {...config};},get state(){return state;},get seen(){return [...seen];},preview(next,{loop=false}={}){loopMode=loop&&['complete','reveal','after'].includes(next)?next:null;held=next!=='live';repeatComplete=false;seen=new Set();candidate=null;clearTimers();cancelOpening();document.querySelectorAll('.perspective-burst,.perspective-screen-fade').forEach(e=>e.remove());for(const fragment of [day,night])fragment.getAnimations().forEach(a=>a.cancel());sequence++;area.removeAttribute('data-celebrating');waves=[];floats.forEach(f=>{f.chargedAt=-Infinity;f.tail=0;f.colour=null;f.el.style.removeProperty('--particle-colour');});dialog.close();area.removeAttribute('data-sheening');area.removeAttribute('data-sparkling');setState(next==='success'||next==='after'?'complete':next==='reveal'?'ready':next==='live'?'locked':next);button.hidden=next==='locked'||next==='live';if(next==='ready'){seen=new Set(['light','dark']);cycle=performance.now()+500;}if(next==='success'){openDiscovery();}if(next==='reveal'){if(loopMode)previewFormation();else sheen(true);}if(next==='complete'&&loopMode)sheen(true,{discover:false});if(next==='after')sheen(true,{reveal:false,discover:false,repeat:true});sync();},sheen};
+ window.workshopPerspective={configure,get config(){return {...config};},get state(){return state;},get seen(){return [...seen];},preview(next,{loop=false}={}){loopMode=loop&&['complete','reveal','after'].includes(next)?next:null;held=next!=='live';repeatComplete=false;seen=new Set();candidate=null;clearTimers();cancelOpening();document.querySelectorAll('.perspective-burst,.perspective-screen-fade').forEach(e=>e.remove());for(const fragment of [day,night])fragment.getAnimations().forEach(a=>a.cancel());sequence++;area.removeAttribute('data-celebrating');waves=[];floats.forEach(f=>{f.chargedAt=-Infinity;f.tail=0;f.colour=null;f.el.style.removeProperty('color');});dialog.close();area.removeAttribute('data-sheening');area.removeAttribute('data-sparkling');setState(next==='success'||next==='after'?'complete':next==='reveal'?'ready':next==='live'?'locked':next);button.hidden=next==='locked'||next==='live';if(next==='ready'){seen=new Set(['light','dark']);cycle=performance.now()+500;}if(next==='success'){openDiscovery();}if(next==='reveal'){if(loopMode)previewFormation();else sheen(true);}if(next==='complete'&&loopMode)sheen(true,{discover:false});if(next==='after')sheen(true,{reveal:false,discover:false,repeat:true});sync();},sheen};
 }
-export function withPerspective(html){return html.replace('</head>',`<style>${eggCSS}</style></head>`).replace('    <footer>',eggMarkup+'\n    <footer>').replace('</body>',`<script nonce="__NONCE__">(${initPerspective.toString()})(${JSON.stringify(perspectiveDefaults)},${JSON.stringify(perspectiveControls)});</script></body>`);}
+export function withPerspective(html){return html.replace('</head>',`<style>${eggCSS}</style></head>`).replace('    <footer>',eggMarkup+'\n    <footer>').replace('</body>',`<script nonce="__NONCE__">(${initPerspective.toString()})(${JSON.stringify(perspectiveDefaults)},${JSON.stringify(perspectiveControls)},${perspectiveRoute.toString()});</script></body>`);}

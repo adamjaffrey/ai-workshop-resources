@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.180"
-  update_summary: "Apply floating branding and unify Playground presentation"
-  updated_at: "Mon 19 Oct 2026 at 03:51:21 pm AEDT (+11:00)"
+  doc_revision: "26.0.181"
+  update_summary: "Reduce active particle cost and remove rainbow startup stall"
+  updated_at: "Mon 19 Oct 2026 at 04:20:59 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.179 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 04:20:59 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Reduce active particle cost and remove rainbow startup stall
+
+### Changed
+
+- Scope animated sheen properties to the three text elements, batch geometry reads and skip visual writes for fully transparent particles while preserving their simulation.
+- Use the native particle colour property for its existing gradients and shadows instead of repeatedly resolving an animated custom property. Retain compositor hints for smooth motion. Preserve the particle renderer, colours, density, shadows, gravity, twinkle calculations and approved settings.
+- Calculate the original cubic approach and quadratic halo outline directly using adaptive arc-length geometry instead of thousands of synchronous SVG queries. Start the trail clock after setup.
+
+### Validation
+
+- Original SVG route comparison across 24 desktop/mobile geometries and both directions — maximum deviation 0.112 CSS pixels, below the 0.2px tolerance.
+- Deterministic pre/post comparison — identical visible particle styles and text gradients across phone/desktop, both themes and sweep/hover states.
+- Final sweep/hover main-thread occupancy: desktop/phone about 11%/16% (previously 26%/28%); 4× throttled phone 39%/72% (previously 79%/97%). All effects had 16.7ms median cadence; particle p95 remained 33.4ms. Throttled phone trail startup fell from roughly 385–418ms to 14–23ms.
+- Active desktop, DPR-3 mobile and 4× CPU-throttled mobile benchmarks cover sweep, hover, trail startup/movement and halo. These use the host GPU, not physical iPhone/Safari hardware.
+- Approved defaults, idle work, 24-cycle cleanup, reveal/replay sequencing, 16 responsive app/Playground comparisons and the full source-parity suite — passed.
+- Hidden-tab test now waits for the actual locked state instead of an arbitrary 200ms delay.
+- Production build and saved placeholder geometry checks — passed; no geometry remeasurement needed.
 
 ## v26.0.178 — 2026-10-19
 
