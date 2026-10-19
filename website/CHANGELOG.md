@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.194"
-  update_summary: "Expand Playground content width to 1120px"
-  updated_at: "Mon 19 Oct 2026 at 07:01:47 pm AEDT (+11:00)"
+  doc_revision: "26.0.195"
+  update_summary: "Keep only Playground toggles pinned and equalise tab spacing"
+  updated_at: "Mon 19 Oct 2026 at 07:07:56 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.193 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 07:07:56 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Keep only Playground toggles pinned and equalise tab spacing
+
+### Changed
+
+- Keep only desktop global toggle rails persistent, with 24px above and below; let their labels scroll away and preserve the original document footprint.
+- Set tab-container spacing to 24px above and below at desktop and mobile widths.
+- Reduce the Hover Preview Explainer chevron/text gap to 4px.
+
+### Validation
+
+- Sticky-toolbar checks at four widths — passed for tab gaps, pinning, restoration, control interaction and mobile popover behaviour.
+- Expanded-preview regression checks — passed.
+- Desktop screenshot — inspected; physical-device Safari not tested.
+- Sites local production build and generated v26.0.193 displays — passed. Component specimens unchanged.
 
 ## v26.0.192 — 2026-10-19
 

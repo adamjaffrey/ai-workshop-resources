@@ -85,7 +85,7 @@ details[open]>summary>.disclosure-chevron{transform:rotate(90deg)}
 .choice-options,nav[role=tablist]{overflow-y:hidden!important;overscroll-behavior-y:none}
 summary{display:flex;align-items:center;gap:8px}summary>.disclosure-chevron{margin:0;vertical-align:initial}
 #hover legend{width:100%}.hover-label-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px 24px}
-.hover-explainer{display:inline-flex;align-items:center;gap:8px;border:0;padding:0;background:transparent;font-size:14px;line-height:21px;font-weight:400;color:var(--muted-text)}
+.hover-explainer{display:inline-flex;align-items:center;gap:4px;border:0;padding:0;background:transparent;font-size:14px;line-height:21px;font-weight:400;color:var(--muted-text)}
 .hover-explainer svg{width:18px;height:18px;flex:none}.hover-explainer[aria-expanded=true] svg{transform:rotate(90deg)}
 #inspector-toggle,.inspector-actions button{gap:8px}
 #style-dialog-title{margin-bottom:32px}
@@ -95,6 +95,20 @@ summary{display:flex;align-items:center;gap:8px}summary>.disclosure-chevron{marg
 #hover legend{max-width:100%}
 #hover .hover-explanation{font-size:14px;line-height:21px;font-weight:400;margin:0 0 16px;color:var(--muted-text)}
 .toolbar #global-style-controls>div:not(.primary-style-choices){max-width:none}
+
+/* Labels scroll normally; only the desktop control rails persist. */
+.toolbar{position:relative;top:auto}
+.toolbar.controls-pinned{height:var(--toolbar-flow-height)}
+.toolbar.controls-pinned::before{content:'';position:fixed;inset:0 0 auto;height:var(--toolbar-pinned-height);background:var(--surface);border-bottom:1px solid var(--border)}
+.playground-heading~.toolbar.controls-pinned #global-style-controls{position:fixed;top:0;left:50%;transform:translateX(-50%);padding-top:24px;padding-bottom:24px;align-items:flex-start}
+.toolbar.controls-pinned legend{position:absolute;width:1px!important;height:1px;padding:0!important;margin:-1px!important;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.toolbar.controls-pinned .hover-explanation{display:none}
+.toolbar.controls-pinned .hover-explainer{visibility:hidden}
+main.wrap{padding-top:24px}
+.tab-scroll-shell{margin:0 0 24px}
+.tab-scroll-shell nav[role=tablist]{padding-top:0}
+[data-panel]>.panel:first-child{margin-top:0}
+@media(max-width:660px){header.wrap{padding-bottom:0}}
 
 `;
 
@@ -146,4 +160,34 @@ function centerPlaygroundTab(tab){
  const r=tab.getBoundingClientRect(),n=nav.getBoundingClientRect();
  nav.scrollTo({left:nav.scrollLeft+r.left+r.width/2-n.left-nav.clientWidth/2,behavior:'instant'});
 }
+`;
+
+// The original toolbar footprint prevents layout jumps when its controls pin.
+export const playgroundStickyControlsScript=String.raw`
+const stickyToolbar=document.querySelector('.toolbar'),stickyControls=document.getElementById('global-style-controls');
+let stickyThreshold=Infinity,stickyWidth=0;
+function setStickyMetrics(){
+ const height=stickyControls.getBoundingClientRect().height;
+ stickyToolbar.style.setProperty('--toolbar-pinned-height',height+'px');
+ document.documentElement.style.setProperty('--toolbar-height',(stickyToolbar.classList.contains('controls-pinned')?height:stickyToolbar.offsetHeight)+'px');
+}
+function updateStickyControls(){
+ const eligible=innerWidth>660&&stickyControls.parentElement===stickyToolbar;
+ stickyToolbar.classList.toggle('controls-pinned',eligible&&scrollY>=stickyThreshold);
+ setStickyMetrics();
+}
+function measureStickyControls(){
+ stickyToolbar.classList.remove('controls-pinned');
+ const shell=stickyControls.querySelector('.choice-shell');
+ if(innerWidth>660&&stickyControls.parentElement===stickyToolbar&&shell){
+  stickyToolbar.style.setProperty('--toolbar-flow-height',stickyToolbar.getBoundingClientRect().height+'px');
+  stickyThreshold=shell.getBoundingClientRect().top+scrollY-24;
+ }else stickyThreshold=Infinity;
+ stickyWidth=innerWidth;updateStickyControls();
+}
+addEventListener('scroll',updateStickyControls,{passive:true});
+addEventListener('resize',measureStickyControls);
+new ResizeObserver(()=>{if(!stickyToolbar.classList.contains('controls-pinned')||stickyWidth!==innerWidth)measureStickyControls();else setStickyMetrics();}).observe(stickyControls);
+new MutationObserver(measureStickyControls).observe(stickyToolbar,{childList:true});
+document.fonts.ready.then(measureStickyControls);measureStickyControls();
 `;

@@ -1,6 +1,6 @@
 import {linkTypographyPage} from './style-guide-link-typography.mjs';
 import {__iconNode as linkTypographyIcon} from '../node_modules/lucide-react/dist/esm/icons/text-cursor.mjs';
-import {playgroundLayoutCSS, playgroundLayoutScript} from './style-guide-layout.mjs';
+import {playgroundLayoutCSS, playgroundLayoutScript, playgroundStickyControlsScript} from './style-guide-layout.mjs';
 import {playgroundIconCatalogScript} from './style-guide-playground-icons.mjs';
 import {__iconNode as headingIcon0} from '../node_modules/lucide-react/dist/esm/icons/lock-keyhole.mjs';
 import {__iconNode as headingIcon1} from '../node_modules/lucide-react/dist/esm/icons/panels-top-left.mjs';
@@ -412,7 +412,7 @@ ${playgroundLayoutCSS}
  new MutationObserver(scheduleOverflow).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class','hidden','open','style']});
  window.addEventListener('resize',scheduleOverflow);document.fonts.ready.then(scheduleOverflow);scheduleOverflow();
  new ResizeObserver(()=>document.documentElement.style.setProperty('--inspector-height',document.querySelector('.inspector-dock').offsetHeight+'px')).observe(document.querySelector('.inspector-dock'));
- new ResizeObserver(()=>document.documentElement.style.setProperty('--toolbar-height',document.querySelector('.toolbar').offsetHeight+'px')).observe(document.querySelector('.toolbar'));
+
  $('freeze-inspector').onclick=()=>{inspectorFrozen=!inspectorFrozen;$('freeze-inspector').setAttribute('aria-pressed',inspectorFrozen);$('freeze-inspector').textContent=inspectorFrozen?'Resume':'Freeze';document.querySelectorAll('iframe').forEach(f=>f.contentWindow.postMessage({guide:'inspection',frozen:inspectorFrozen},'*'));};
  function rotateDisclosure(button,show){const svg=button.querySelector('svg'),from=getComputedStyle(svg).transform;svg.getAnimations().forEach(a=>a.cancel());button.setAttribute('aria-expanded',show);if(!reduced.matches)svg.animate([{transform:from},{transform:show?'rotate(90deg)':'rotate(0deg)'}],{duration:240,easing:'cubic-bezier(.2,0,.2,1)'});}
  $('inspector-toggle').onclick=()=>{const show=$('inspector-body').hidden;$('inspector-body').hidden=!show;rotateDisclosure($('inspector-toggle'),show);};
@@ -464,6 +464,7 @@ ${playgroundLayoutCSS}
   const centre=()=>{const selected=track.querySelector('input:checked')?.closest('.choice');if(!selected||!track.clientWidth)return;const r=selected.getBoundingClientRect(),t=track.getBoundingClientRect();track.scrollTo({left:track.scrollLeft+r.left+r.width/2-t.left-track.clientWidth/2,behavior:'instant'});};
   track.updateSelection=animate=>{update(animate);centre();};track.addEventListener('change',()=>{update(true);centre();});new ResizeObserver(centre).observe(track);update(false);centre();
  });
+ ${playgroundStickyControlsScript}
  ${playgroundIconCatalogScript}
  </script></body></html>`;
  if(inlineAssets)for(const [path,mime] of [['/assets/MarkPro-Bold.ttf','font/ttf'],['/assets/wavelength-worm.png','image/png'],['/assets/workshop-resources-qr.png','image/png'],['/favicon.png','image/png']]){

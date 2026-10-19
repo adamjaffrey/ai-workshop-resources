@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.128"
-  update_summary: "Expand Playground content width to 1120px"
-  updated_at: "Mon 19 Oct 2026 at 07:01:47 pm AEDT (+11:00)"
+  doc_revision: "26.0.129"
+  update_summary: "Keep only Playground toggles pinned and equalise tab spacing"
+  updated_at: "Mon 19 Oct 2026 at 07:07:56 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -342,3 +342,5 @@ Validate masks, preserved borders, clamped centring, checkbox alignment, branded
 Toggle labels retain 16px before their selector and 32px separation from preceding content or control rows. Body paragraphs use the full available panel width. Floating controls align with the 1120px content edge, start centred on the brand row, and stop at a 24px top inset while scrolling. The mobile Style Options dialog has 24px top and side insets; its opening mask starts at the invoking button. Native disclosure markers are replaced by metadata-labelled Lucide Chevron Right icons, rotated when open. Validate with `node website/tests/playground-spacing-browser-check.mjs`.
 
 Outer Playground controls use shared spacing tokens: 4px within connected selectors, 8px within related actions and icon/label pairs, 16px between labels and controls, 24px between neighbouring groups or before inset previews, and 32px between stacked groups. Mobile Style Options uses one row-gap system without additive margins. Specimen documents retain their own spacing. Horizontal selector rails and tabs hide vertical overflow and reset accidental vertical offsets. Their 36px edge masks gain opacity with distance from an endpoint, retain their strength while approaching that endpoint, and disappear immediately at the endpoint tolerance. Tab and selector focus no longer removes those masks. The Hover Preview Explainer sits alongside its label where space permits, wraps on narrow layouts, and uses 14px/21px text with a centred Lucide chevron. Validate every tab at four widths with `node website/tests/playground-control-rhythm-browser-check.mjs`.
+
+On desktop widths above 660px, global control labels scroll away before the toggle rails pin 24px below the viewport top. The persistent surface has 24px below its last control row; the original toolbar footprint prevents content jumps. Labels remain available to assistive technology. Scrolling back restores the complete groups; mobile retains the Style Options dialog. The tab rail has exactly 24px outside its scroll-container bounds above and below, including its separate scrollbar gutter within those bounds. The Hover Preview Explainer uses a tighter 4px chevron/text gap. Validate with `node website/tests/playground-sticky-toolbar-browser-check.mjs`.

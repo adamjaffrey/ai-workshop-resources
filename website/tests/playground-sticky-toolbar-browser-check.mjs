@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';import {chromium} from 'playwright';import {createPhonePreview} from '../scripts/phone-preview.mjs';
+const {server}=createPhonePreview({autoLogin:true});await new Promise(r=>server.listen(0,'127.0.0.1',r));const browser=await chromium.launch({channel:'chrome',headless:true});
+try{const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));for(const width of [320,390,768,1440]){
+ await page.setViewportSize({width,height:1000});await page.goto('http://127.0.0.1:'+server.address().port+'/playground/components');await page.waitForTimeout(400);
+ const spacing=await page.evaluate(()=>{const nav=document.querySelector('.tab-scroll-shell').getBoundingClientRect(),panel=document.querySelector('[data-panel]:not([hidden])>.panel').getBoundingClientRect(),above=document.querySelector(innerWidth>660?'.toolbar':'header.wrap').getBoundingClientRect();return {above:nav.top-above.bottom,below:panel.top-nav.bottom,gap:getComputedStyle(document.querySelector('.hover-explainer')).gap};});assert.equal(spacing.above,24);assert.equal(spacing.below,24);assert.equal(spacing.gap,'4px');
+ if(width>660){
+  const before=await page.locator('.toolbar').boundingBox();await page.evaluate(()=>scrollTo(0,700));await page.waitForTimeout(200);
+  assert.ok(await page.locator('.toolbar').evaluate(e=>e.classList.contains('controls-pinned')));
+  assert.equal((await page.locator('#agent .choice-shell').boundingBox()).y,24);
+  const bottom=await page.evaluate(()=>{const shells=[...document.querySelectorAll('.toolbar .choice-shell')].map(e=>e.getBoundingClientRect().bottom);return document.querySelector('#global-style-controls').getBoundingClientRect().bottom-Math.max(...shells);});assert.equal(bottom,24);
+  assert.equal((await page.locator('.toolbar').boundingBox()).height,before.height);
+  assert.equal(await page.locator('#agent legend').evaluate(e=>getComputedStyle(e).clipPath),'inset(50%)');
+  await page.locator('#theme input[value=dark]').check({force:true});assert.ok(await page.locator('#theme input[value=dark]').isChecked());
+  if(width===1440)await page.screenshot({path:'/tmp/playground-sticky-toolbar.png'});
+  await page.evaluate(()=>scrollTo(0,0));await page.waitForTimeout(200);assert.equal(await page.locator('.toolbar').evaluate(e=>e.classList.contains('controls-pinned')),false);assert.equal(await page.locator('#agent legend').evaluate(e=>getComputedStyle(e).clipPath),'none');
+ }else{await page.evaluate(()=>scrollTo(0,700));assert.equal(await page.locator('.toolbar').evaluate(e=>getComputedStyle(e).display),'none');await page.locator('body>#style-options').click();await page.waitForTimeout(300);assert.ok(await page.locator('#style-dialog').evaluate(e=>e.open));await page.keyboard.press('Escape');}
+}assert.deepEqual(errors,[]);console.log('PASS: 24px tab gaps, desktop toggle-only pinning and restoration, control interaction, mobile popover and explainer spacing');}finally{await browser.close();server.close();}
