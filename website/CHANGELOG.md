@@ -3,14 +3,43 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.179"
-  update_summary: "Reduce idle effect work and audit deployment defaults"
-  updated_at: "Mon 19 Oct 2026 at 03:44:49 pm AEDT (+11:00)"
+  doc_revision: "26.0.180"
+  update_summary: "Apply floating branding and unify Playground presentation"
+  updated_at: "Mon 19 Oct 2026 at 03:51:21 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.178 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 03:51:21 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Apply floating branding and unify Playground presentation
+
+### Added
+
+- Mount shared floating branding in Resources at every browser width: worm on mobile, full wordmark above 660px, using the approved 8px padding, 36px blur, 48px feather, 100px radius and 48% tint.
+- Add Lucide Toy Brick beside the Playground heading and as a white-on-Codex-blue favicon for Playground routes and their hosted login page.
+
+### Changed
+
+- Group Branding checkboxes in a wrapping row after the final slider.
+- Unify section-heading typography and container-top spacing across all Playground tabs; preserve compact expanded-preview headings.
+- Keep Playground branding controls connected to the same renderer mounted by the main app.
+
+### Validation
+
+- Main-app branding at 320–1440px across both agents/themes, collision clearance, responsive checkboxes, heading measurements and favicon checks — passed.
+- Branding persistence, route/authentication, saved placeholder geometry, circular theme transitions and feather-following control colours — passed.
+- App/Playground source-parity browser suite, production build and verified LAN automatic-session handoff — passed.
 
 ## v26.0.177 — 2026-10-19
 

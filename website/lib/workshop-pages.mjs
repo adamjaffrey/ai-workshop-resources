@@ -1,3 +1,4 @@
+import {playgroundFavicon} from './workshop-playground-brand.mjs';
 import {javascriptNotice} from './workshop-javascript-notice.mjs';
 import {playgroundShortcutScript} from './workshop-playground-shortcut.mjs';
 import {synchroniseLoginLayout} from './workshop-placeholder.mjs';
@@ -11,4 +12,4 @@ const withPlaygroundShortcut=html=>html.replace('</body>','<script nonce="__NONC
 export const loginPage = withPlaygroundShortcut(synchroniseLoginLayout(loginTemplate, resourcePage));
 
 // Share every panel style and behaviour; only the destination backdrop differs.
-export const playgroundLoginPage = withPlaygroundShortcut(synchroniseLoginLayout(loginTemplate, resourcePage, {blankBackground:true}));
+export const playgroundLoginPage = withPlaygroundShortcut(synchroniseLoginLayout(loginTemplate.replace(/<link rel="icon"[^>]*>/,playgroundFavicon), resourcePage, {blankBackground:true}));

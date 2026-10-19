@@ -1,0 +1,5 @@
+import {__iconNode as toyBrick} from '../node_modules/lucide-react/dist/esm/icons/toy-brick.mjs';
+const paths=toyBrick.map(([tag,attrs])=>`<${tag} ${Object.entries(attrs).filter(([key])=>key!=='key').map(([key,value])=>`${key}="${value}"`).join(' ')}></${tag}>`).join('');
+export const playgroundHeadingIcon=`<svg data-icon-provider="lucide" data-icon-name="toy-brick" data-icon-use="playground-heading" aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`;
+const favicon=`<svg xmlns="http://www.w3.org/2000/svg" data-icon-provider="lucide" data-icon-name="toy-brick" data-icon-use="playground-favicon" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#0285FF"/><g transform="translate(4 4)" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</g></svg>`;
+export const playgroundFavicon=`<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,${encodeURIComponent(favicon)}">`;

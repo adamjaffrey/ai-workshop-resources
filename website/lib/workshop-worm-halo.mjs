@@ -1,4 +1,4 @@
-// Experimental shared renderer; mounted only by the Playground until approved.
+// Shared floating branding for Resources and its Playground specimens.
 export const wormHaloControls=[
  {key:'paddingX',label:'Horizontal Padding',min:0,max:100,step:1,value:8,unit:'px'},
  {key:'paddingY',label:'Vertical Padding',min:0,max:60,step:1,value:8,unit:'px'},
@@ -61,4 +61,8 @@ export function mountWormHalo(controls){
  const geometryObserver=new ResizeObserver(schedule);geometryObserver.observe(source);geometryObserver.observe(theme);geometryObserver.observe(agent);
  window.addEventListener('resize',schedule);document.fonts.ready.then(position);source.querySelector('img').addEventListener('load',position);
  position();return {configure};
+}
+
+export function withFloatingBrand(html){
+ return html.replace('</body>',`<script nonce="__NONCE__">window.workshopBrandHalo=(${mountWormHalo.toString()})(${JSON.stringify(wormHaloControls)});</script></body>`);
 }

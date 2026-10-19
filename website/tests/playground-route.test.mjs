@@ -15,7 +15,7 @@ test('local playground stays anonymous while hosted routes protect specimens',as
 test('section paths are local previews but require hosted authentication',async()=>{
  const {server,password}=createPhonePreview({protectPlayground:true});await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
  try{
-  const locked=await fetch(origin+'/playground/branding');assert.match(await locked.text(),/id="access-form"/);
+  const locked=await fetch(origin+'/playground/branding');const lockedHtml=await locked.text();assert.match(lockedHtml,/id="access-form"/);assert.match(lockedHtml,/data:image\/svg\+xml/);assert.ok(decodeURIComponent(lockedHtml.match(/href="(data:image\/svg\+xml,[^"]+)"/)[1]).includes('#0285FF'));
   const login=await fetch(origin+'/auth/login',{method:'POST',headers:{origin,'content-type':'application/x-www-form-urlencoded',accept:'application/json'},body:new URLSearchParams({password})});const cookie=login.headers.get('set-cookie').split(';')[0];
   assert.match(await(await fetch(origin+'/playground/branding',{headers:{cookie}})).text(),/<title>Workshop Component Playground<\/title>/);
   assert.equal((await fetch(origin+'/playground/unknown',{headers:{cookie}})).status,404);
