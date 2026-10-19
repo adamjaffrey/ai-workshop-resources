@@ -34,6 +34,18 @@ window.workshopRenderBackdropPreview=(frame,theme,agent)=>{
  let html=${JSON.stringify(geometry.document).replaceAll('<','\\u003c')};
  html=html.replaceAll('--ph-strength:40%','--ph-strength:'+strength+'%');
  html=html.replace(/<html\\b[^>]*>|&lt;html\\b.*?&gt;/g,tag=>tag.replace(/(data-theme=(?:&(?:amp;)*quot;|"))(?:light|dark)/g,'$1'+theme).replace(/(data-selected-agent=(?:&(?:amp;)*quot;|"))(?:codex|claude-code|claude)/g,'$1'+(agent==='claude'?'claude-code':'codex')));
+ // Inspection-only scrolling; login backdrops retain their inert, clipped canvas.
+ if(document.getElementById('preview-scrim')){
+  frame.parentElement.removeAttribute('inert');frame.style.pointerEvents='auto';frame.tabIndex=0;
+  const scrollDocument=source=>{
+   const doc=new DOMParser().parseFromString(source,'text/html');
+   doc.querySelectorAll('[inert]').forEach(el=>el.removeAttribute('inert'));
+   const style=doc.createElement('style');style.textContent='html,body{overflow-y:auto!important;overflow-x:hidden!important;pointer-events:auto!important}iframe{pointer-events:auto!important}';doc.head.append(style);
+   doc.querySelectorAll('iframe[srcdoc]').forEach(child=>{child.srcdoc=scrollDocument(child.getAttribute('srcdoc'));child.tabIndex=0;});
+   return '<!doctype html>'+doc.documentElement.outerHTML;
+  };
+  html=scrollDocument(html);
+ }
  frame.removeAttribute('src');frame.srcdoc=html;
 };
 window.workshopSyncBackdrop?.();
