@@ -18,7 +18,7 @@ try {
   assert.equal(await row.evaluate(e=>e.classList.contains('is-revealed')),true,`missing reveal at ${width}`);
   await page.waitForTimeout(800);
   const alignment=await page.locator('footer').evaluate(e=>{
-   const f=e.getBoundingClientRect(),t=e.querySelector('.footer-meta').getBoundingClientRect(),b=e.querySelector('button').getBoundingClientRect();
+   const f=e.getBoundingClientRect(),t=e.querySelector('.footer-meta').getBoundingClientRect(),b=e.querySelector('form button').getBoundingClientRect();
    return b.top>=t.bottom?b.left-t.left:f.right-b.right;
   });
   assert.ok(Math.abs(alignment)<1,`footer action alignment at ${width}`);

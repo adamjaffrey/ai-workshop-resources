@@ -15,7 +15,7 @@ try{
 
  await f.locator('#focus-catalog').evaluate((e,before)=>new Promise(resolve=>{const done=()=>{if(e.dataset.captureId!==before){observer.disconnect();resolve();}};const observer=new MutationObserver(done);observer.observe(e,{attributes:true});done();}),before);await p.waitForTimeout(250);
  for(const app of [source,login])await app.evaluate(({theme,agent})=>{Object.assign(document.documentElement.dataset,{theme,selectedAgent:agent,focusInput:'keyboard'});},{theme,agent});
- for(const selector of ['.copy','.qr-copy','footer button']){await source.locator(selector).first().focus();assert.deepEqual(await f.locator(selector==='footer button'?'footer [data-focus-target]':'[data-focus-target]'+selector).first().evaluate(metrics),await source.locator(selector).first().evaluate(metrics));}
+ for(const selector of ['.copy','.qr-copy','footer form[action="/auth/logout"] button']){await source.locator(selector).first().focus();assert.deepEqual(await f.locator(selector==='footer form[action="/auth/logout"] button'?'footer [data-focus-target]':'[data-focus-target]'+selector).first().evaluate(metrics),await source.locator(selector).first().evaluate(metrics));}
  // Check app-scoped surface rules as well as text and control styles.
  assert.equal(await f.locator('.code-wrap').first().evaluate(e=>getComputedStyle(e).backgroundColor),await source.locator('.code-wrap').first().evaluate(e=>getComputedStyle(e).backgroundColor));
  for(const state of ['Neutral','Checking','Success','Incorrect Password']){

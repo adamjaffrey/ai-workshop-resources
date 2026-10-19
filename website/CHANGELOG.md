@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.198"
-  update_summary: "Crop link arrow whitespace while preserving its visible size"
-  updated_at: "Mon 19 Oct 2026 at 07:25:40 pm AEDT (+11:00)"
+  doc_revision: "26.0.199"
+  update_summary: "Place discovery in the footer and reduce particle layout work"
+  updated_at: "Mon 19 Oct 2026 at 07:53:00 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.197 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 07:53:00 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Place discovery in the footer and reduce particle layout work
+
+### Changed
+
+- Move the Easter Egg inscription below the footer divider, retaining 40px vertical spacing and the existing responsive copyright/version/logout row in the app and Playground.
+- Cache relative particle/text geometry, reuse supported typed transforms and omit identity brightness filters without changing the approved particle styling or settings.
+- Scope Log Out specimens to their form and refresh stale test expectations for existing Playground controls and neutral lock icons.
+
+### Validation
+
+- Footer placement, geometry cache, fallback transforms, discovery flow, replay, defaults/cleanup, responsive source parity and footer reveal browser checks — passed.
+- Deterministic visible particle/text style comparison across mobile/desktop, both themes and sweep/hover states — passed.
+- Desktop, phone emulation and 4× CPU-throttled active animation samples completed. Mobile hover frame counts improved modestly; particle p95 remains approximately 33ms and sweep frame counts did not consistently improve. Physical-device performance remains unverified.
+- Playground session, source parity, focus consistency and button interaction checks — passed.
+- Isolated local production build and generated v26.0.197 app/Playground displays — passed. Saved login background geometry retained; footer-only changes need no remeasurement.
 
 ## v26.0.196 — 2026-10-19
 

@@ -8,7 +8,7 @@ try{
  const source=await browser.newPage({viewport:{width:1440,height:900}});await source.setContent(resourcePage.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g,''));
  const geometry=e=>{const c=getComputedStyle(e),r=e.getBoundingClientRect();return [r.width,r.height,c.display,c.gap,c.alignItems,c.borderRadius];};
  assert.deepEqual(await f.locator('.qr-copy img').evaluate(geometry),await source.locator('.qr-copy img').evaluate(geometry));
- assert.deepEqual(await f.locator('footer button').evaluate(geometry),await source.locator('footer button').evaluate(geometry));
+ assert.deepEqual(await f.locator('footer form[action="/auth/logout"] button').evaluate(geometry),await source.locator('footer form[action="/auth/logout"] button').evaluate(geometry));
  const qr=await f.locator('.qr-copy').boundingBox(),overlay=await f.locator('.qr-copy-overlay').boundingBox();assert.equal(qr.width,overlay.width);assert.equal(qr.height,overlay.height);
  assert.equal(await f.locator('.selection-preview').count(),6);
  for(const width of [390,1440]){await page.setViewportSize({width,height:900});

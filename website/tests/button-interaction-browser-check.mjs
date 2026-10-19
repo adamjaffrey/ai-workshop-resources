@@ -9,7 +9,7 @@ try {
  const page=await context.newPage();await page.goto('http://127.0.0.1:'+server.address().port);
  assert.equal(await page.locator('.gate-submit').evaluate(e=>getComputedStyle(e).userSelect),'none');
  await page.locator('#workshop-password').fill(password);await page.getByRole('button',{name:'Unlock Resources',exact:true}).click();await page.locator('#access-gate').waitFor({state:'detached'});
- for(const selector of ['.toggle button','.copy','footer button']){
+ for(const selector of ['.toggle button','.copy','footer form[action="/auth/logout"] button']){
   const button=page.locator(selector).first();await button.scrollIntoViewIfNeeded();await page.waitForTimeout(800);
   assert.equal(await button.evaluate(e=>getComputedStyle(e).userSelect),'none');
   assert.equal(await button.locator('svg').first().evaluate(e=>getComputedStyle(e).userSelect),'none');

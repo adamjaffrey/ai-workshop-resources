@@ -13,7 +13,9 @@ export const eggMarkup = `<section class="perspective" data-state="locked" aria-
 export const eggCSS = `
 /* Preserve each fragment's intrinsic height even when its theme is hidden. */
 .perspective { --egg-line: 24px; position:relative; display:grid; grid-template-columns:minmax(0,1fr) 1.2em minmax(0,1fr); grid-template-rows:auto auto; margin-top:max(40px,calc(var(--hover-height,60px) / 2)); margin-bottom:max(40px,calc(var(--hover-height,60px) / 2)); font-size:14px; line-height:var(--egg-line); color:var(--muted-text); }
-.perspective + .perspective-dialog + footer { margin-top:0; }
+footer:has(> .perspective) { display:block; padding-top:0; }
+footer > .perspective { width:100%; }
+.footer-content { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px 24px; }
 .perspective-fragment,.perspective-ellipsis { font-size:14px; line-height:24px; color:var(--muted-text); }
 .perspective-fragment { margin:0; min-width:0; overflow-wrap:anywhere; position:relative; }
 .perspective-day { grid-column:1; grid-row:1; text-align:right; }
@@ -85,7 +87,10 @@ export function initPerspective(defaults,controls,makeRoute) {
  let waves=[],pointer=null,lastFrame=0,maskKey="",opening=false,burst=null,flightFrame=0,finishFlight=null;
  const floats=points.map((el,i)=>({el,x:parseFloat(el.style.getPropertyValue('--x'))/100,y:parseFloat(el.style.getPropertyValue('--y'))/100,phase:i*2.399,clock:i*.13,lit:false,pullX:0,pullY:0,alpha:0,chargedAt:-Infinity,tail:0,colour:null}));
  let screenFade=null;function clearScreenFade(){screenFade?.remove();screenFade=null;dialog.removeAttribute("data-prefaded");}
- let syncDirty=true,configured=false,frameHandle=0,particlesDrawn=false;
+ // Reuse typed transform values where supported; other browsers retain the CSS path.
+ const typedTransforms=typeof CSSTransformValue==='function'&&typeof CSSTranslate==='function'&&typeof CSSScale==='function'&&!!button.attributeStyleMap;
+ if(typedTransforms)for(const f of floats){f.translation=new CSSTranslate(CSS.px(0),CSS.px(0));f.scaling=new CSSScale(1,1);f.transform=new CSSTransformValue([f.translation,f.scaling]);}
+ let frameLayout=null,syncDirty=true,configured=false,frameHandle=0,particlesDrawn=false;
  const wakeFrame=()=>{if(!frameHandle&&!document.hidden&&!motion.matches)frameHandle=requestAnimationFrame(frame);};
  new ResizeObserver(()=>{syncDirty=true;sync();wakeFrame();}).observe(area);new MutationObserver(()=>{syncDirty=true;sync();wakeFrame();}).observe(root,{attributes:true,attributeFilter:["data-theme"]});
  let timers=[];
@@ -105,8 +110,8 @@ export function initPerspective(defaults,controls,makeRoute) {
   }
   ctx.putImageData(pixels,0,0);button.querySelector('.perspective-particles').style.setProperty('--particle-mask','url("'+canvas.toDataURL()+'")');
  }
- function positionTarget(){if(state==='complete'){const a=area.getBoundingClientRect();Object.assign(button.style,{left:'0px',right:'auto',top:'-10px',width:a.width+'px',height:Math.max(44,a.height+20)+'px',transform:'none'});button.setAttribute('aria-label','Reopen Discovery Message');return;}button.setAttribute('aria-label','Discover Another Perspective');const fragment=root.dataset.theme==='dark'?day:night;const r=fragment.getBoundingClientRect(),a=area.getBoundingClientRect(),height=Math.max(config.hoverHeight,r.height),padding=(height-r.height)/2,range=document.createRange();range.selectNodeContents(fragment);const text=range.getBoundingClientRect();Object.assign(button.style,{left:(text.left-a.left-padding)+'px',right:'auto',top:(r.top-a.top-padding)+'px',width:(text.width+padding*2)+'px',height:height+'px',transform:'none'});shapeParticles([...range.getClientRects()],text.left-padding,r.top-padding,text.width+padding*2,height,padding);}
- function sync(){if(!syncDirty||!area.getClientRects().length)return;syncDirty=false;const all=state==='revealing'||state==='complete';day.setAttribute('aria-hidden',String(!all&&root.dataset.theme==='dark'));night.setAttribute('aria-hidden',String(!all&&root.dataset.theme!=='dark'));positionTarget();}
+ function positionTarget(){frameLayout=null;if(state==='complete'){const a=area.getBoundingClientRect();Object.assign(button.style,{left:'0px',right:'auto',top:'-10px',width:a.width+'px',height:Math.max(44,a.height+20)+'px',transform:'none'});button.setAttribute('aria-label','Reopen Discovery Message');return;}button.setAttribute('aria-label','Discover Another Perspective');const fragment=root.dataset.theme==='dark'?day:night;const r=fragment.getBoundingClientRect(),a=area.getBoundingClientRect(),height=Math.max(config.hoverHeight,r.height),padding=(height-r.height)/2,range=document.createRange();range.selectNodeContents(fragment);const text=range.getBoundingClientRect();Object.assign(button.style,{left:(text.left-a.left-padding)+'px',right:'auto',top:(r.top-a.top-padding)+'px',width:(text.width+padding*2)+'px',height:height+'px',transform:'none'});shapeParticles([...range.getClientRects()],text.left-padding,r.top-padding,text.width+padding*2,height,padding);}
+ function sync(){if(!syncDirty||!area.getClientRects().length)return;syncDirty=false;frameLayout=null;const all=state==='revealing'||state==='complete';day.setAttribute('aria-hidden',String(!all&&root.dataset.theme==='dark'));night.setAttribute('aria-hidden',String(!all&&root.dataset.theme!=='dark'));positionTarget();}
  function configure(next={}){const before=JSON.stringify(config);for(const {key,max} of controls){if(Number.isFinite(next[key]))config[key]=Math.min(max,Math.max(0,next[key]));}if(configured&&before===JSON.stringify(config))return {...config};configured=true;syncDirty=true;area.style.setProperty('--particle-size',config.particleSize/100);area.style.setProperty('--sheen-strength',config.sheenStrength/100);area.style.setProperty('--hover-height',config.hoverHeight+'px');area.style.setProperty('--particle-radius',config.ringRadius+'px');area.style.setProperty('--perspective-duration',config.duration+'ms');dialog.style.setProperty('--modal-fade',config.modalFade+'ms');dialog.style.setProperty('--perspective-halo',config.halo/100);dialog.style.setProperty('--halo-blur',config.haloBlur+'px');dialog.style.setProperty('--aurora-intensity',config.auroraIntensity/100);dialog.style.setProperty('--halo-period',(1400000/Math.max(1,config.haloSpeed))+'ms');dialog.style.setProperty('--aurora-period',(700000/Math.max(1,config.haloSpeed))+'ms');dialog.style.animationPlayState=config.haloSpeed?'running':'paused';dialog.style.setProperty('--aurora-play',config.haloSpeed?'running':'paused');points.forEach((point,i)=>point.hidden=i>=Math.round(config.intensity*.48));if(state==='ready'&&before!==JSON.stringify(config)){clearTimers();waves=[];floats.forEach(f=>{f.chargedAt=-Infinity;f.tail=0;f.lit=false;f.alpha=0;});area.removeAttribute('data-sheening');area.removeAttribute('data-sparkling');cycle=performance.now()+100;}if(loopMode&&before!==JSON.stringify(config))window.workshopPerspective?.preview(loopMode,{loop:true});return {...config};}
  button.addEventListener('pointermove',event=>{const r=button.getBoundingClientRect();pointer={x:event.clientX-r.left,y:event.clientY-r.top};});
  button.addEventListener('pointerleave',()=>pointer=null);
@@ -115,7 +120,7 @@ export function initPerspective(defaults,controls,makeRoute) {
  function colourAt(u){const v=Math.max(0,Math.min(1,u))*(palette.length-1),i=Math.min(palette.length-2,Math.floor(v)),mix=v-i;return palette[i].map((n,k)=>Math.round(n+(palette[i+1][k]-n)*mix));}
  function waveSample(q,centre,band){if(!config.bandWidth||!config.sheenStrength)return null;const u=(q-centre)/band+.5;if(u<0||u>1)return null;return {u,colour:colourAt(u),alpha:Math.sin(Math.PI*u)**2};}
  function waveGeometry(w,now,box){const band=Math.max(1,box.width*config.bandWidth/100),extent=box.width+box.height,centre=-band/2+(now-w.start)/Math.max(1,w.sweep)*(extent+band);return {band,centre};}
- function paintWave(w,now,box){const {band,centre}=waveGeometry(w,now,box),stops=Array.from({length:25},(_,i)=>{const u=i/24;return 'rgba('+colourAt(u).join(',')+','+(Math.sin(Math.PI*u)**2)+') '+((centre-band/2+band*u)/Math.SQRT2)+'px';});const paint=!config.bandWidth||!config.sheenStrength?'none':'linear-gradient('+(w.dark?315:135)+'deg,'+stops.join(',')+')';for(const [el,r] of [day,night,area.querySelector('.perspective-ellipsis')].map(el=>[el,el.getBoundingClientRect()])){el.style.setProperty('--wave-paint',paint);el.style.setProperty('--wave-width',box.width+'px');el.style.setProperty('--wave-height',box.height+'px');el.style.setProperty('--wave-offset-x',-(r.left-box.left)+'px');el.style.setProperty('--wave-offset-y',-(r.top-box.top)+'px');}
+ function paintWave(w,now,box,layout){const {band,centre}=waveGeometry(w,now,box),stops=Array.from({length:25},(_,i)=>{const u=i/24;return 'rgba('+colourAt(u).join(',')+','+(Math.sin(Math.PI*u)**2)+') '+((centre-band/2+band*u)/Math.SQRT2)+'px';});const paint=!config.bandWidth||!config.sheenStrength?'none':'linear-gradient('+(w.dark?315:135)+'deg,'+stops.join(',')+')';for(const [el,r] of layout.glyphs){el.style.setProperty('--wave-paint',paint);el.style.setProperty('--wave-width',box.width+'px');el.style.setProperty('--wave-height',box.height+'px');el.style.setProperty('--wave-offset-x',-(r.left-layout.box.left)+'px');el.style.setProperty('--wave-offset-y',-(r.top-layout.box.top)+'px');}
   if(w.complete&&!w.handoff){const end=sentenceEnd(w.dark),q=w.dark?box.left+box.width-end.x+box.top+box.height-end.y:end.x-box.left+end.y-box.top;if(centre>=q-band*.12){w.handoff=true;openDiscovery(end);}}
  }
 
@@ -124,10 +129,15 @@ export function initPerspective(defaults,controls,makeRoute) {
   const hintActive=hovering||area.hasAttribute('data-keyboard-hint'),particleWork=state==='ready'&&(hintActive||waves.length||floats.some(f=>f.tail>.005));
   if(document.hidden||motion.matches||(!waves.length&&!particleWork)){if(particlesDrawn){for(const f of floats){f.alpha=0;f.el.style.opacity=0;}particlesDrawn=false;}return;}
   const dt=Math.min(50,now-lastFrame||16),ease=config.gravityEase?1-Math.exp(-dt/config.gravityEase):1;lastFrame=now;
+  let aVisible=false;
   if(!document.hidden&&!motion.matches){
 
-   const a=area.getBoundingClientRect(),glyphs=[day,night].map(el=>{const range=document.createRange();range.selectNodeContents(el);return range.getBoundingClientRect();}),textLeft=Math.min(...glyphs.map(r=>r.left)),textRight=Math.max(...glyphs.map(r=>r.right)),targetBox=button.hidden?{left:textLeft,right:textRight,top:a.top,bottom:a.bottom}:button.getBoundingClientRect(),top=Math.min(a.top,targetBox.top),left=Math.min(textLeft,targetBox.left),box={left,top,width:Math.max(textRight,targetBox.right)-left,height:Math.max(a.bottom,targetBox.bottom)-top},latest=waves.at(-1);if(latest&&area.hasAttribute('data-sheening'))paintWave(latest,now,box);
-   if(particleWork&&visible()){
+   // Cache local geometry; only the inscription's viewport position changes on scroll.
+   const a=area.getBoundingClientRect(),inView=a.top>=0&&a.bottom<=innerHeight&&a.left>=0&&a.right<=innerWidth;
+   aVisible=inView;
+   if(!frameLayout){const relative=r=>({left:r.left-a.left,right:r.right-a.left,top:r.top-a.top,bottom:r.bottom-a.top,width:r.width,height:r.height}),glyphs=[day,night,area.querySelector('.perspective-ellipsis')].map(el=>[el,relative(el.getBoundingClientRect())]),text=[day,night].map(el=>{const range=document.createRange();range.selectNodeContents(el);return relative(range.getBoundingClientRect());}),textLeft=Math.min(...text.map(r=>r.left)),textRight=Math.max(...text.map(r=>r.right)),target=button.hidden?{left:textLeft,right:textRight,top:0,bottom:a.height,width:textRight-textLeft,height:a.height}:relative(button.getBoundingClientRect()),top=Math.min(0,target.top),left=Math.min(textLeft,target.left);frameLayout={glyphs,target,box:{left,top,width:Math.max(textRight,target.right)-left,height:Math.max(a.height,target.bottom)-top}};}
+   const layout=frameLayout,box={...layout.box,left:a.left+layout.box.left,top:a.top+layout.box.top},targetBox={...layout.target,left:a.left+layout.target.left,top:a.top+layout.target.top},latest=waves.at(-1);if(latest&&area.hasAttribute('data-sheening'))paintWave(latest,now,box,layout);
+   if(particleWork&&inView){
     particlesDrawn=true;
     const r=targetBox,hint=hovering||area.hasAttribute('data-keyboard-hint'),samples=waves.filter(w=>now-w.start<=w.sweep).map(w=>({...waveGeometry(w,now,box),dark:w.dark}));
     for(const f of floats){if(f.el.hidden)continue;const t=now/1000,driftX=(Math.sin(t*.48+f.phase)*7+Math.sin(t*.21+f.phase*2)*4)*config.drift/100,driftY=Math.cos(t*.39+f.phase)*6*config.drift/100;let glow=0,lit=false;
@@ -147,13 +157,13 @@ export function initPerspective(defaults,controls,makeRoute) {
      // Keep simulation continuous, but do not restyle fully transparent points.
      if(!opacity){if(f.el.style.opacity!=='0')f.el.style.opacity=0;continue;}
      f.el.style.color='rgb('+colour.map(n=>root.dataset.theme==='dark'?n:Math.round(n*.68)).join(' ')+')';
-     f.el.style.filter='brightness('+(1+flash*.25)+')';
-     f.el.style.transform='translate('+(driftX+f.pullX)+'px,'+(driftY+f.pullY)+'px) scale('+(1+influence*.6+flash*.25)+')';f.el.style.opacity=opacity;
+     f.el.style.filter=flash?'brightness('+(1+flash*.25)+')':'none';
+     const x=driftX+f.pullX,y=driftY+f.pullY,scale=1+influence*.6+flash*.25;if(typedTransforms){f.translation.x.value=x;f.translation.y.value=y;f.scaling.x=scale;f.scaling.y=scale;f.el.attributeStyleMap.set('transform',f.transform);}else f.el.style.transform='translate('+x+'px,'+y+'px) scale('+scale+')';f.el.style.opacity=opacity;
 
     }
    }else{for(const f of floats){f.alpha=0;f.el.style.opacity=0;}}
   }
-  if(waves.length||(particleWork&&visible()))wakeFrame();
+  if(waves.length||(particleWork&&aVisible))wakeFrame();
  }
  configure();
  function sentenceEnd(dark=root.dataset.theme==='dark'){const range=document.createRange();range.selectNodeContents(dark?day:night);const rects=[...range.getClientRects()],r=dark?rects[0]:rects.at(-1);return {x:dark?r.left:r.right,y:dark?r.top+r.height/2:r.bottom-r.height/2,dark};}
@@ -188,7 +198,7 @@ export function initPerspective(defaults,controls,makeRoute) {
   let wave;const startWave=()=>{if(token!==sequence||motion.matches||!sweep)return;area.setAttribute('data-sheening','');wave={start:performance.now(),sweep,life:config.particleDuration,dark:root.dataset.theme==='dark',complete:complete&&options.discover!==false,handoff:false};waves=[wave];wakeFrame();};if(lead)later(startWave,lead);else startWave();
   if(complete){
    area.removeAttribute('data-hovering');area.removeAttribute('data-keyboard-hint');
-   for(const fragment of [day,night])fragment.getAnimations().forEach(a=>a.cancel());setState(options.reveal===false?'complete':'revealing');sync();button.hidden=!options.repeat;
+   for(const fragment of [day,night])fragment.getAnimations().forEach(a=>a.cancel());setState(options.reveal===false?'complete':'revealing');sync();frameLayout=null;button.hidden=!options.repeat;
    const other=root.dataset.theme==='dark'?day:night;
    if(options.reveal!==false&&!motion.matches&&config.revealDuration)other.animate([{opacity:0,clipPath:root.dataset.theme==='dark'?'inset(0 0 0 100%)':'inset(0 100% 0 0)'},{opacity:1,clipPath:'inset(0 0 0 0)'}],{duration:reveal,fill:'both',easing:'ease-out'});
    later(()=>{if(token!==sequence)return;setState('complete');sync();},motion.matches||options.reveal===false?0:reveal);
@@ -199,9 +209,9 @@ export function initPerspective(defaults,controls,makeRoute) {
  button.addEventListener('pointerenter',event=>{const r=button.getBoundingClientRect();pointer={x:event.clientX-r.left,y:event.clientY-r.top};hovering=true;wakeFrame();if(state==='ready')area.setAttribute('data-hovering','');});button.addEventListener('pointerleave',()=>{hovering=false;area.removeAttribute('data-hovering');});
  button.addEventListener('focus',()=>{if(state==='ready'&&root.dataset.focusInput==='keyboard'){area.setAttribute('data-keyboard-hint','');wakeFrame();}});button.addEventListener('blur',()=>area.removeAttribute('data-keyboard-hint'));
  button.addEventListener('click',()=>{if(state==='ready')sheen(true);else if(state==='complete'){openDiscovery();}});
- dialog.addEventListener('close',()=>{clearScreenFade();window.dispatchEvent(new CustomEvent('perspective-state',{detail:state}));if(state!=='complete')return;if(!held||loopMode==='after'){repeatComplete=!held;cycle=performance.now()+config.gap;}button.hidden=false;button.focus({preventScroll:true});});
+ dialog.addEventListener('close',()=>{clearScreenFade();window.dispatchEvent(new CustomEvent('perspective-state',{detail:state}));if(state!=='complete')return;if(!held||loopMode==='after'){repeatComplete=!held;cycle=performance.now()+config.gap;}frameLayout=null;button.hidden=false;button.focus({preventScroll:true});});
  dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();});
- function previewFormation(){cycle=Infinity;setState('complete');sync();button.hidden=true;openDiscovery();}
+ function previewFormation(){cycle=Infinity;setState('complete');sync();frameLayout=null;button.hidden=true;openDiscovery();}
  function tick(){
   if(loopMode){if(!motion.matches&&!document.hidden&&stable()&&!opening&&!dialog.open&&performance.now()>=cycle){if(loopMode==='reveal')previewFormation();else sheen(true,loopMode==='after'?{reveal:false,discover:false,repeat:true}:{discover:false});}sync();return;}
   if(held&&state!=='ready')return;
@@ -209,7 +219,7 @@ export function initPerspective(defaults,controls,makeRoute) {
   if(state==='locked'){
    if(visible()&&stable()){
     if(candidate!==theme){candidate=theme;since=now;}
-    if(now-since>=1000){seen.add(theme);if(seen.has('light')&&seen.has('dark')){setState('ready');button.hidden=false;cycle=now+100;}}
+    if(now-since>=1000){seen.add(theme);if(seen.has('light')&&seen.has('dark')){setState('ready');frameLayout=null;button.hidden=false;cycle=now+100;}}
    }else{candidate=null;since=0;}
   }
   if(config.duration>0&&state==='ready'&&visible()&&stable()&&now>=cycle){sheen();cycle=now+config.duration+config.gap;}
@@ -220,6 +230,6 @@ export function initPerspective(defaults,controls,makeRoute) {
  setInterval(tick,100);tick();
  motion.addEventListener('change',()=>{if(motion.matches){if(opening)finishFlight?.();dialog.getAnimations().forEach(a=>{if(a.effect?.getTiming().iterations!==Infinity)a.finish();});area.getAnimations({subtree:true}).forEach(a=>{if(a.effect?.getTiming().iterations===Infinity)a.cancel();else a.finish();});area.removeAttribute('data-sheening');}});
  // Shared state renderer for isolated Playground fixtures; no parallel UI implementation.
- window.workshopPerspective={configure,get config(){return {...config};},get state(){return state;},get seen(){return [...seen];},preview(next,{loop=false}={}){loopMode=loop&&['complete','reveal','after'].includes(next)?next:null;held=next!=='live';repeatComplete=false;seen=new Set();candidate=null;clearTimers();cancelOpening();document.querySelectorAll('.perspective-burst,.perspective-screen-fade').forEach(e=>e.remove());for(const fragment of [day,night])fragment.getAnimations().forEach(a=>a.cancel());sequence++;area.removeAttribute('data-celebrating');waves=[];floats.forEach(f=>{f.chargedAt=-Infinity;f.tail=0;f.colour=null;f.el.style.removeProperty('color');});dialog.close();area.removeAttribute('data-sheening');area.removeAttribute('data-sparkling');setState(next==='success'||next==='after'?'complete':next==='reveal'?'ready':next==='live'?'locked':next);button.hidden=next==='locked'||next==='live';if(next==='ready'){seen=new Set(['light','dark']);cycle=performance.now()+500;}if(next==='success'){openDiscovery();}if(next==='reveal'){if(loopMode)previewFormation();else sheen(true);}if(next==='complete'&&loopMode)sheen(true,{discover:false});if(next==='after')sheen(true,{reveal:false,discover:false,repeat:true});sync();},sheen};
+ window.workshopPerspective={configure,get config(){return {...config};},get state(){return state;},get seen(){return [...seen];},preview(next,{loop=false}={}){loopMode=loop&&['complete','reveal','after'].includes(next)?next:null;held=next!=='live';repeatComplete=false;seen=new Set();candidate=null;clearTimers();cancelOpening();document.querySelectorAll('.perspective-burst,.perspective-screen-fade').forEach(e=>e.remove());for(const fragment of [day,night])fragment.getAnimations().forEach(a=>a.cancel());sequence++;area.removeAttribute('data-celebrating');waves=[];floats.forEach(f=>{f.chargedAt=-Infinity;f.tail=0;f.colour=null;f.el.style.removeProperty('color');});dialog.close();area.removeAttribute('data-sheening');area.removeAttribute('data-sparkling');setState(next==='success'||next==='after'?'complete':next==='reveal'?'ready':next==='live'?'locked':next);frameLayout=null;button.hidden=next==='locked'||next==='live';if(next==='ready'){seen=new Set(['light','dark']);cycle=performance.now()+500;}if(next==='success'){openDiscovery();}if(next==='reveal'){if(loopMode)previewFormation();else sheen(true);}if(next==='complete'&&loopMode)sheen(true,{discover:false});if(next==='after')sheen(true,{reveal:false,discover:false,repeat:true});sync();},sheen};
 }
-export function withPerspective(html){return html.replace('</head>',`<style>${eggCSS}</style></head>`).replace('    <footer>',eggMarkup+'\n    <footer>').replace('</body>',`<script nonce="__NONCE__">(${initPerspective.toString()})(${JSON.stringify(perspectiveDefaults)},${JSON.stringify(perspectiveControls)},${perspectiveRoute.toString()});</script></body>`);}
+export function withPerspective(html){return html.replace('</head>',`<style>${eggCSS}</style></head>`).replace('    <footer>','    <footer>'+eggMarkup.slice(0,eggMarkup.indexOf('<dialog'))+'<div class="footer-content">').replace('</footer>','</div></footer>'+eggMarkup.slice(eggMarkup.indexOf('<dialog'))).replace('</body>',`<script nonce="__NONCE__">(${initPerspective.toString()})(${JSON.stringify(perspectiveDefaults)},${JSON.stringify(perspectiveControls)},${perspectiveRoute.toString()});</script></body>`);}

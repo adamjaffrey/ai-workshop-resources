@@ -32,13 +32,13 @@ window.addEventListener('message',async event=>{
  const page=event.data.page,items=[],errors=[],typographyFeedback=[],agentTypography=[],buttonVariants=[],focusItems=[];
  const captureButton=(node,kind,state)=>{const c=getComputedStyle(node.querySelector('.copy-label')||node);buttonVariants.push({kind,state,html:iconSnapshot(node,page,state,true).html,typography:[c.fontFamily,c.fontSize,c.fontWeight,c.lineHeight,c.color]});};
  const captureFocus=(node,label,ring=true)=>{
-  const root=node.closest('.password-field')||node.closest('.qr-card')||node.closest('.code-wrap')||node.closest('.segmented-toggle')||node.closest('.perspective')||node;
+  const root=node.closest('.password-field')||node.closest('.qr-card')||node.closest('.code-wrap')||node.closest('.segmented-toggle')||node.closest('.perspective')||node.closest('footer form[action="/auth/logout"]')||node;
   const clone=root.cloneNode(true),originals=[root,...root.querySelectorAll('*')],copies=[clone,...clone.querySelectorAll('*')];
   copies[originals.indexOf(node)].setAttribute('data-focus-target','');
   originals.forEach((n,i)=>{if(n instanceof HTMLInputElement)copies[i].setAttribute('value',n.value);});
   clone.style.maxWidth='100%';clone.style.width=root.getBoundingClientRect().width+'px';
   if(node.matches('.copy'))clone.style.position='relative';
-  let html=clone.outerHTML;if(node.matches('footer button'))html='<footer class="focus-footer">'+html+'</footer>';if(page==='login')html='<div class="gate-panel '+document.getElementById('access-form').className+' focus-context">'+html+'</div>';
+  let html=clone.outerHTML;if(node.matches('footer form[action="/auth/logout"] button'))html='<footer class="focus-footer">'+html+'</footer>';if(page==='login')html='<div class="gate-panel '+document.getElementById('access-form').className+' focus-context">'+html+'</div>';
   const selection=getComputedStyle(node,'::selection');focusItems.push({page,label,ring,html,selector:sourceSelector(node),selection:[selection.backgroundColor,selection.color],selectable:node.matches('input,pre,.intro'),selectionText:node.matches('input')?'••••••••':node.textContent.trim().slice(0,90)});
  };
  const add=(node,state)=>{if(!node)throw Error('Missing icon source: '+page+' '+state);items.push(iconSnapshot(node,page,state));};
@@ -49,7 +49,7 @@ window.addEventListener('message',async event=>{
   for(const state of ['loading','success','empty','wrong','network','service','generic','limited','limitedLater','retryReady']){window.demoLogin(state);finishCaptureMotion();const status=document.getElementById('gate-error');addError(document.getElementById('access-form'),state);errors.at(-1).statusHtml=status.outerHTML;errors.at(-1).colour=getComputedStyle(status).color;}
   window.demoLogin('neutral');finishCaptureMotion();
  }else{
-  for(const [selector,label,ring] of [['.intro','Body Text Selection',false],['pre','Prompt Text · Keyboard Focus',true],['.copy','Copy Prompt · Keyboard Focus',true],['.qr-copy','QR Link · Keyboard Focus',true],['footer button','Log Out · Keyboard Focus',true],['.theme-toggle [aria-pressed=true]','Colour Theme · Keyboard Focus',true],['.controls [aria-pressed=true]','Coding Agent · Keyboard Focus',true]])captureFocus(document.querySelector(selector),label,ring);
+  for(const [selector,label,ring] of [['.intro','Body Text Selection',false],['pre','Prompt Text · Keyboard Focus',true],['.copy','Copy Prompt · Keyboard Focus',true],['.qr-copy','QR Link · Keyboard Focus',true],['footer form[action="/auth/logout"] button','Log Out · Keyboard Focus',true],['.theme-toggle [aria-pressed=true]','Colour Theme · Keyboard Focus',true],['.controls [aria-pressed=true]','Coding Agent · Keyboard Focus',true]])captureFocus(document.querySelector(selector),label,ring);
   parent.postMessage({guide:'focus-catalog-data',requestId:event.data.requestId,page,focusItems},'*');
   const savedTheme=document.documentElement.dataset.theme,savedAgent=window.workshopAgent.current;
   const theme=async value=>{window.dispatchEvent(new StorageEvent('storage',{key:'workshop-colour-theme',newValue:value}));await yieldCapture();finishCaptureMotion();};
@@ -68,7 +68,7 @@ window.addEventListener('message',async event=>{
   const prompt=document.querySelector('.copy');
   const captureFeedback=state=>{const status=prompt.closest('article').querySelector('.status'),c=getComputedStyle(status);typographyFeedback.push({state,html:prompt.closest('.code-wrap').outerHTML,typography:[c.fontFamily,c.fontSize,c.fontWeight,c.lineHeight,c.color],text:status.textContent});};
   if(prompt){setStatus(prompt,'');add(prompt.querySelector('.copy-icon'),'Prompt · Copy');captureButton(prompt,'prompt','neutral');await copy(prompt,true);captureFeedback('success');captureButton(prompt,'prompt','success');addError(prompt.closest('.code-wrap'),'Prompt Copy Success');add(prompt.querySelector('.success-icon'),'Prompt · Copied');await copy(prompt,false);captureFeedback('error');captureButton(prompt,'prompt','error');add(prompt.querySelector('.error-icon'),'Prompt · Copy Failed');addError(prompt.closest('.code-wrap'),'Prompt Copy Failure');setStatus(prompt,'');}
-  add(document.querySelector('footer button svg'),'Log Out');copyFailure=false;
+  add(document.querySelector('footer form[action="/auth/logout"] button svg'),'Log Out');copyFailure=false;
  }
  // Render the app's native noscript children in their original parent context.
  const fallback=document.querySelector(page==='login'?'#access-form noscript':'#workshop-content noscript');

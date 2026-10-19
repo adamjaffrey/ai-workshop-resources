@@ -129,7 +129,7 @@ const typeManifest=[
  ['resources','h1','Page Title · H1'],['login','#gate-title','H2 — Standard · Login Heading'],['resources','.step-title','H2 — Accent · Step Heading'],['resources','.card-heading h3','Card Heading · H3'],
  ['resources','.intro','Page Introduction'],['resources','.step-purpose','Step Subtitle'],['resources','.description','Card Description'],['resources','.slug','Skill Identifier'],['resources','.controls-label','Selector Label'],
  ['resources','.code-label','Prompt Header Label'],['resources','.copy','Copy Prompt Button · Resting, Success and Failure'],['resources','pre','Prompt Text · Monospace'],
- ['resources','.qr-copy','QR Copy Link Button · Resting, Success and Failure'],['resources','.qr-card figcaption','QR Caption · Scan to Open'],['resources','.footer-meta','Footer Text'],['resources','footer button','Log Out Button'],
+ ['resources','.qr-copy','QR Copy Link Button · Resting, Success and Failure'],['resources','.qr-card figcaption','QR Caption · Scan to Open'],['resources','.footer-meta','Footer Text'],['resources','footer form[action="/auth/logout"] button','Log Out Button'],
  ['login','.gate-toolbar .eyebrow','Login Pre-Heading'],['login','#gate-description','Login Introduction'],['login','label[for="workshop-password"]','Password Label'],['login','#workshop-password','Password Input'],['login','#gate-error','Login Error Message · Incorrect Password Example'],['login','.gate-submit','Unlock Resources Button']
 ];
 const scriptJSON=value=>JSON.stringify(value).replaceAll('<','\\u003c');

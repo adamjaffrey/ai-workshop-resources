@@ -74,7 +74,7 @@ assert.equal(await resources.locator('[data-copy]').first().getAttribute('data-c
 await choose('copy','success');await resources.locator('body').evaluate(()=>new Promise(resolve=>{const check=()=>{if(!copyFailure)resolve();else setTimeout(check,20);};check();}));await resources.locator('[data-copy]').first().focus();await p.keyboard.press('Enter');
 const resourceDocument=await (await p.locator('#resources-frame').elementHandle()).contentFrame();
 await resourceDocument.waitForFunction(()=>document.querySelector('[data-copy]').dataset.copied==='true',null,{timeout:3000});
-await resources.locator('footer button').focus();await p.keyboard.press('Enter');assert.ok(p.url().startsWith(origin+'/playground'));
+await resources.locator('footer form[action="/auth/logout"] button').focus();await p.keyboard.press('Enter');assert.ok(p.url().startsWith(origin+'/playground'));
 await p.click('[data-tab=typography]');assert.ok(p.url().startsWith(origin+'/playground'));
 assert.match(await p.frameLocator('#type-frame').locator('[data-source-selector="h1"] output').textContent(),/48px/);
 await p.waitForTimeout(400);
