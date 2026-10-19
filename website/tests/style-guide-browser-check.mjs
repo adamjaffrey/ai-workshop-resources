@@ -26,7 +26,7 @@ const mainContext=await b.newContext();await mainContext.request.post(origin+'/a
 const login=p.frameLocator('#login-frame'),resources=p.frameLocator('#resources-frame');
 await login.locator('#workshop-password').waitFor();
 for(const width of [320,390,768,1440]){
- await p.setViewportSize({width,height:900});for(const page of [actualLogin,actualResources])await page.setViewportSize({width:await resources.locator('body').evaluate(()=>innerWidth),height:900});
+ await p.setViewportSize({width,height:900});await p.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));for(const page of [actualLogin,actualResources])await page.setViewportSize({width:await resources.locator('body').evaluate(()=>innerWidth),height:900});
  for(const theme of ['light','dark'])for(const agent of ['codex','claude-code']){
   await choose('theme',theme);await choose('agent',agent);await p.waitForTimeout(500);
   const appShadow=await resources.locator('.page-toolbar .theme-toggle').evaluate(e=>getComputedStyle(e,'::after').boxShadow);
@@ -69,7 +69,7 @@ const clickPrompt=async()=>{await p.locator('#resources-frame').evaluate(e=>e.sc
 await choose('copy','error');await clickPrompt();
 await resources.locator('[data-copy][data-copy-error]').first().waitFor({state:'attached',timeout:3000});
 assert.equal(await resources.locator('[data-copy]').first().getAttribute('data-copy-error')!==null,true);
-await choose('copy','success');await clickPrompt();
+await choose('copy','success');await resources.locator('body').evaluate(()=>new Promise(resolve=>{const check=()=>{if(!copyFailure)resolve();else setTimeout(check,20);};check();}));await clickPrompt();
 const resourceDocument=await (await p.locator('#resources-frame').elementHandle()).contentFrame();
 await resourceDocument.waitForFunction(()=>document.querySelector('[data-copy]').dataset.copied==='true',null,{timeout:3000});
 await resources.locator('footer button').click();assert.equal(p.url(),origin+'/playground');
@@ -99,7 +99,7 @@ await p.locator('#dim').fill('25');await p.waitForTimeout(50);assert.equal(await
 await choose('review','panel');assert.equal(await blocks.locator('.access-gate').isVisible(),true);
 assert.equal(await blocks.locator('.access-gate').evaluate(e=>getComputedStyle(e).backdropFilter),'none');
 await choose('review','clear');assert.equal(await blocks.locator('.page-placeholder').evaluate(e=>getComputedStyle(e).filter),'none');
-await p.click('#reset-blocks');await p.waitForTimeout(100);assert.equal(await p.locator('#strength').inputValue(),'40');assert.equal(await p.locator('#blur').inputValue(),'4');
+await p.click('#reset-blocks');await p.waitForFunction(()=>document.querySelector('#strength').value==='40'&&document.querySelector('#blur').value==='4');assert.equal(await p.locator('#strength').inputValue(),'40');assert.equal(await p.locator('#blur').inputValue(),'4');
 await p.screenshot({path:'/tmp/style-guide-blocks.png'});
 await p.click('[data-tab=colours]');assert.ok(await p.locator('[data-token]').count()>20);
 assert.equal(writes.length,0);assert.deepEqual(errors,[]);

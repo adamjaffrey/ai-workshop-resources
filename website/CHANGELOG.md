@@ -3,14 +3,45 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.162"
-  update_summary: "Align Playground floating controls with the app"
-  updated_at: "Mon 19 Oct 2026 at 12:05:31 pm AEDT (+11:00)"
+  doc_revision: "26.0.163"
+  update_summary: "Refine Easter Egg twinkles, aurora controls and modal emergence"
+  updated_at: "Mon 19 Oct 2026 at 01:12:37 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.161 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 01:12:37 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine Easter Egg twinkles, aurora controls and modal emergence
+
+### Changed
+
+- Give drifting particles pinpoint flashes with true dark intervals and shorten their default settling tail from four to 2.5 seconds, independently of the four-second sweep and two-second gap.
+- Preserve the current sweep direction, progress and timer across theme changes; subsequent sweeps follow the selected theme.
+- Animate the success panel and rainbow halo out from the discovered sentence, honouring reduced motion.
+- Add a faster rotating aurora halo and Playground controls for halo speed, blur and aurora intensity, included in Copy and Reset.
+- Allow a zero-pixel particle ring and hover heights down to 24px while retaining the full wrapped text height.
+- Synchronise browser tests with rendered viewport dimensions, simulated clipboard settings and completed block resets instead of racing asynchronous updates.
+- Document the shared behaviour and controls.
+
+### Validation
+
+- Easter Egg flow, edge, Playground and timing browser checks — passed; desktop/mobile, both themes and agents, modal focus/reopening, pinpoint dark intervals, timer continuity and reduced motion covered.
+- Sheen pixel and geometry browser check — passed during animation refinement.
+- `node website/tests/style-guide-browser-check.mjs` — passed after correcting asynchronous test races.
+- Zero aurora intensity and zero blur — computed identity transform and zero blur verified in headless Chrome.
+- `npm --prefix website run build` — passed; built app and Playground contain v26.0.161 and shared controls.
+- Local LAN app and Playground routes — HTTP 200. Physical iPhone Safari remains unverified.
 
 ## v26.0.160 — 2026-10-19
 
