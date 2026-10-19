@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.161"
-  update_summary: "Adjust selector contraction and expansion gaps"
-  updated_at: "Mon 19 Oct 2026 at 11:57:39 am AEDT (+11:00)"
+  doc_revision: "26.0.162"
+  update_summary: "Align Playground floating controls with the app"
+  updated_at: "Mon 19 Oct 2026 at 12:05:31 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.160 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 12:05:31 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Align Playground floating controls with the app
+
+### Changed
+
+- Position the Playground ellipsis, Style Options panel and desktop Back to Top control 24px from the top, respecting larger safe-area insets.
+- Keep the mobile Back to Top button 56px below the ellipsis top, preserving the 8px gap between buttons.
+- Retain the shared centred floating-control shadow and verify its computed parity with the main app.
+
+### Validation
+
+- `node website/tests/style-guide-browser-check.mjs` — passed, including new position and shadow assertions at 320, 390, 768 and 1440px across both themes and agents. Earlier runs encountered intermittent typography and simulated clipboard timing failures; the full rerun passed.
+- `npm --prefix website run build` — passed; generated v26.0.160 verified.
+- Wi-Fi app and Playground previews — HTTP 200.
 
 ## v26.0.159 — 2026-10-19
 

@@ -29,6 +29,17 @@ for(const width of [320,390,768,1440]){
  await p.setViewportSize({width,height:900});for(const page of [actualLogin,actualResources])await page.setViewportSize({width:await resources.locator('body').evaluate(()=>innerWidth),height:900});
  for(const theme of ['light','dark'])for(const agent of ['codex','claude-code']){
   await choose('theme',theme);await choose('agent',agent);await p.waitForTimeout(500);
+  const appShadow=await resources.locator('.page-toolbar .theme-toggle').evaluate(e=>getComputedStyle(e,'::after').boxShadow);
+  assert.equal(await p.locator('#back-to-top').evaluate(e=>getComputedStyle(e).boxShadow),appShadow,'shared floating shadow');
+  assert.equal(await p.locator('#back-to-top').evaluate(e=>parseFloat(getComputedStyle(e).top)),width<=660?80:24,'floating top inset');
+  if(width<=660){
+   assert.equal(await p.locator('#style-options').evaluate(e=>e.getBoundingClientRect().top),24);
+   assert.equal(await p.locator('#style-options').evaluate(e=>getComputedStyle(e).boxShadow),appShadow);
+   await p.click('#style-options');
+   assert.equal(await p.locator('#style-dialog').evaluate(e=>e.getBoundingClientRect().top),24);
+   assert.equal(await p.locator('#style-dialog').evaluate(e=>getComputedStyle(e).boxShadow),appShadow);
+   await p.click('#style-options');
+  }
   assert.equal(await login.locator('html').getAttribute('data-theme'),theme);
   assert.equal(await resources.locator('html').getAttribute('data-selected-agent'),agent);
   for(const state of ['loading','success','wrong','empty','network','service','generic','limited','limitedLater','retryReady','neutral']){
