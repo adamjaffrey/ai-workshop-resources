@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.44"
-  update_summary: "Link directly to relevant Playground sections"
-  updated_at: "Mon 19 Oct 2026 at 02:55:59 pm AEDT (+11:00)"
+  doc_revision: "26.0.45"
+  update_summary: "Standardise direct section and home preview handoffs"
+  updated_at: "Mon 19 Oct 2026 at 03:17:14 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -29,7 +29,7 @@ metadata:
 
 ## Preview Delivery
 
-- Link directly to the relevant Playground section in future handoffs, such as `/playground/branding` or `/playground/discovery`. Supported sections are components, typography, colours, blocks, icons, errors, focus, branding and discovery. Continue using the verified Wi-Fi address for local links.
+- Link directly to the relevant Playground section in future handoffs, such as `/playground/branding` or `/playground/easter-egg`. Supported sections are components, typography, colours, blocks, icons, statuses, focus, branding and easter-egg. Continue using the verified Wi-Fi address for local links.
 
 - Start all user-facing local previews already signed in. Use `npm --prefix website run preview:phone` (automatic login enabled), or pass `{autoLogin:true}` to `createPhonePreview` for custom ports. Continue generating and displaying the process’s temporary test password. The local adapter must obtain a real session through the unchanged server-side login handler, using only its in-memory preview database and temporary credential; never add an authentication bypass to application handlers, production builds or hosted Sites. Keep low-level authentication tests explicit (`autoLogin:false`, the factory default). Provide `/?login=1` for inspecting the real login form; local Log Out returns there. Verify a fresh browser opens Resources, the session endpoint recognises its cookie, logout invalidates it, and hosted access still requires authentication when changing this workflow.
 
@@ -47,13 +47,38 @@ metadata:
 
 - Every completed update response must show the current website artefact version and the short Git commit hash. Distinguish a new build from a documentation-only update, which retains the current artefact version. State whether the commit is local or pushed and whether Sites was published; never imply an unperformed action.
 - Introduce the status list with the bold label **📦 Build and Delivery**, followed by a blank line. Never leave the list without its own heading.
-- Present build and delivery status in one four-item bulleted list, in this order: **Build**, **Commit**, **Push (GitHub)** and **Publish (Sites)**. The Build item includes the current version and explicitly says either “changed — new artefact produced” or “unchanged — no new artefact produced”. The Commit item shows the short hash and whether it is local or pushed. Push and Publish each independently state performed successfully, not performed, or failed/blocked for this update. Never imply that a push means publication or that a documentation-only update produced an artefact. Do not add a separate Push and Publish heading.
+- Present build and delivery status in one four-item bulleted list, in this order: **Build**, **Commit**, **Push (GitHub)** and **Publish (Sites)**. The Build item includes the current version and explicitly says either “changed, new artefact produced” or “unchanged, no new artefact produced”. The Commit item shows the short hash and whether it is local or pushed. Push and Publish each independently state performed successfully, not performed, or failed/blocked for this update. Never imply that a push means publication or that a documentation-only update produced an artefact. Do not add a separate Push and Publish heading.
 - Wrap the build version and short Git commit hash in Markdown backticks so they render as inline code, for example `v26.0.128` and `1a5050f`. Use inline code, not a fenced code block, for these two values.
-- Follow that list with **🔗 Local Preview** and clearly labelled clickable **Main App** and **Playground** links; identify the local Playground as password-free.
+- Follow that list with **🔗 Local Preview** and three separate bullets using the format below. Link to `/home`, the relevant Playground section for the component being changed, and `/?login=1` for the logged-out state. Use the verified current Wi-Fi address and port. Local `/home` automatically signs in using a real local test session; hosted `/home` redirects to `/` and retains normal server-side authentication.
 - Immediately below the local links, show **🔑 Local App Test Password** and a fenced `text` code block containing the active preview server's current test password. Read it from the active process's output before the handoff; restart and verify the server when necessary. Never invent or reuse a stale credential. If local preview is unavailable, explain that limitation rather than presenting an unverified link or password.
 - Whenever publishing to Sites succeeds, also include **🌐 Live on Sites**, with separate clickable **Main App** and **Playground** links. Explain that they share the existing login session when relevant. Never include the production password. Keep local preview and hosted links visually separate.
 - In all future chat responses containing app links, present each link as its own bullet item and include a north-east arrow in the anchor text, for example `[Main App ↗](URL)` and `[Playground ↗](URL)`. Apply this to local previews and hosted Sites links; never combine app links inline.
 - Keep the change summary and verification concise above these details. Use modest icons and descriptive anchor text; do not open the links automatically.
+
+### Handoff Format
+
+Use this structure, substituting the verified version, commit, delivery status, active Wi-Fi address, relevant section and current process password. Never reuse example credentials.
+
+````markdown
+**📦 Build and Delivery**
+
+- **Build:** `v26.0.XXX` — changed, new artefact produced.
+- **Commit:** `xxxxxxx` — local.
+- **Push (GitHub):** Not performed.
+- **Publish (Sites):** Not performed.
+
+**🔗 Local Preview**
+
+- [Preview link `/home` ↗](http://WIFI-IP:PORT/home) — password free
+- [Preview link `/playground/branding` ↗](http://WIFI-IP:PORT/playground/branding) — password free
+- [Preview link `/?login=1` ↗](http://WIFI-IP:PORT/?login=1) — 🔒 logged out state
+
+**🔑 Local App Test Password**
+
+```text
+CURRENT-PROCESS-PASSWORD
+```
+````
 
 ## Website Login
 

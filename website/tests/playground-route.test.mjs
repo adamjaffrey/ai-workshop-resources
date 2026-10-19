@@ -32,3 +32,12 @@ test('renamed sections permanently redirect with query strings',async()=>{
   assert.equal((await fetch(origin+'/playground/'+next)).status,200);
  }}finally{await new Promise(r=>server.close(r));}
 });
+
+
+test('home redirects locally and on the hosted handler without bypassing login',async()=>{
+ const {server}=createPhonePreview();await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
+ try{for(const path of ['/home','/home/'])for(const method of ['GET','HEAD']){
+  for(const response of [await fetch(origin+path+'?login=1',{method,redirect:'manual'}),await handleRequest(new Request('https://production.example'+path+'?login=1',{method}),{})]){assert.equal(response.status,301);assert.equal(response.headers.get('location'),'/?login=1');}
+ }assert.match(await(await fetch(origin+'/home')).text(),/id="access-form"/);
+ }finally{await new Promise(r=>server.close(r));}
+});

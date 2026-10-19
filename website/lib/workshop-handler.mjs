@@ -72,6 +72,7 @@ export async function handleRequest(request, env, now = Date.now(), options = {}
   const json = (data,status=200,extra={}) => reply(JSON.stringify(data),status,{'Content-Type':'application/json',...extra});
   const path = new URL(request.url).pathname;
   if (!['GET','HEAD','POST'].includes(request.method)) return reply('Method not allowed',405,{'Allow':'GET, HEAD, POST'});
+  if(['/home','/home/'].includes(path)&&['GET','HEAD'].includes(request.method))return reply(null,301,{Location:'/'+new URL(request.url).search});
   const redirect=playgroundRedirect(path);
   if(redirect&&['GET','HEAD'].includes(request.method))return reply(null,301,{Location:redirect+new URL(request.url).search});
   if (path==='/robots.txt') return reply('User-agent: *\nDisallow: /\n',200,{'Content-Type':'text/plain'});

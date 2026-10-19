@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.174"
-  update_summary: "Clear floating branding and standardise Playground controls"
-  updated_at: "Mon 19 Oct 2026 at 03:16:09 pm AEDT (+11:00)"
+  doc_revision: "26.0.175"
+  update_summary: "Add home redirect and direct preview handoff format"
+  updated_at: "Mon 19 Oct 2026 at 03:17:38 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.173 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 03:17:38 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add home redirect and direct preview handoff format
+
+### Changed
+
+- Permanently redirect GET/HEAD `/home` and `/home/` to `/`, preserving query strings in local and hosted handlers.
+- Retain hosted authentication and local automatic sign-in after redirect.
+- Record the requested preview handoff format and canonical component-section links in repository instructions.
+
+### Validation
+
+- All 13 route and authentication tests — passed.
+- Production build and whitespace checks — passed; no layout remeasurement required.
 
 ## v26.0.172 — 2026-10-19
 
