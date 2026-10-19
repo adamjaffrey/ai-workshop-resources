@@ -17,8 +17,6 @@ nav[role=tablist]{border-bottom:0;padding-bottom:2px;background:none}
 .preview-dialog:not(.is-expanded)>.frame-wrap>.preview-expand{position:absolute;bottom:12px;right:12px;z-index:2;box-shadow:var(--floating-control-shadow);height:44px}
 .preview-dialog:not(.is-expanded)>.frame-wrap>.preview-expand .action-label{display:inline}
 .panel:not(.is-expanded){padding:24px}
-/* Reference documents supply their own 24px inset; avoid double padding. */
-.panel>.frame-wrap:has(#type-frame,#focus-frame,#errors-frame,#icons-frame,#link-type-frame){margin-inline:-24px;width:calc(100% + 48px);max-width:none;border:0;border-radius:0}
 .preview-dialog.is-expanded>details:not(.preview-settings):not(.preview-state-settings){display:none}
 
 /* Every inset surface has the same breathing room after its preceding controls. */
@@ -78,7 +76,10 @@ summary>.disclosure-chevron{width:18px;height:18px;vertical-align:-3px;margin-ri
 details[open]>summary>.disclosure-chevron{transform:rotate(90deg)}
 #back-to-top,body>#style-options{right:max(24px,calc((100vw - 1120px)/2));top:var(--floating-tools-top,43px)}
 @media(max-width:660px){#back-to-top{top:calc(var(--floating-tools-top,43px) + 56px)}}
-#style-dialog{inset:24px 24px auto;margin:0;width:calc(100% - 48px);max-width:none;max-height:calc(100dvh - 48px)}
+#style-dialog{inset:var(--style-dialog-top,24px) 24px auto;margin:0;width:calc(100% - 48px);max-width:none;max-height:calc(100dvh - var(--style-dialog-top,24px) - 24px)}
+#style-options{width:48px;height:48px;padding:11px}
+#style-options svg{display:block;width:24px;height:24px}
+#style-dialog #style-options{border:1px solid transparent;padding:11px}
 
 /* Outer controls only: keep these tokens out of source specimen documents. */
 .state-tools,.toolbar #global-style-controls,.expanded-global-controls>#global-style-controls,#mobile-style-controls .primary-style-choices{gap:var(--control-row-gap) var(--control-column-gap)}
@@ -124,7 +125,7 @@ main.wrap{padding-top:24px}
    Expanded preview settings and the separately rendered hover explainer retain their layout. */
 .panel>details:not(.preview-settings):not(.preview-state-settings):not(.hover-help)>:not(summary),.panel>.feather-notice>details>:not(summary){margin-inline-start:26px}
 
-@media(max-width:660px){#login-preview .state-tools{flex-direction:column;gap:24px}#login-preview .state-tools>.choices{width:100%;flex:auto}#login-preview #login-destination{max-width:100%;width:100%}#login-destination .choice-options{flex-direction:row}}
+@media(max-width:660px){#login-preview .state-tools{flex-direction:column;gap:var(--control-row-gap)}#login-preview .state-tools>.choices{width:100%;flex:auto}#login-preview #login-destination{max-width:100%;width:100%}#login-destination .choice-options{flex-direction:row}}
 `;
 
 export const playgroundLayoutScript=String.raw`

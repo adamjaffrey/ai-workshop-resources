@@ -358,7 +358,7 @@ ${playgroundLayoutCSS}
  function syncWorm(){const settings={};for(const c of wormControls){settings[c.key]=Number($('worm-'+c.key).value);$('worm-'+c.key+'-value').value=settings[c.key]+c.unit;}settings.outline=$('worm-outline').checked;settings.hold=$('worm-hold').checked;settings.brand=$('worm-brand').value;$('branding-frame').contentWindow.postMessage({guide:'worm-halo',settings},'*');}
  $('worm-settings').addEventListener('input',syncWorm);$('worm-brand').addEventListener('change',syncWorm);$('branding-frame').addEventListener('load',syncWorm);$('reset-worm').onclick=()=>{for(const c of wormControls)$('worm-'+c.key).value=c.value;$('worm-outline').checked=false;$('worm-hold').checked=false;$('worm-brand').value='auto';syncWorm();};
  const globalControls=$('global-style-controls'),toolbar=document.querySelector('.toolbar'),styleDialog=$('style-dialog'),mobileStyle=matchMedia('(max-width:660px)');
- let optionsAnimation,optionsOpen=false,optionsReturnFocus,optionsScroll,optionsOrigin=0;
+ let optionsAnimation,optionsOpen=false,optionsReturnFocus,optionsScroll;
  function lockOptionsBackground(){optionsReturnFocus=document.activeElement;optionsScroll={y:scrollY,position:document.body.style.position,top:document.body.style.top,width:document.body.style.width,overflow:document.documentElement.style.overflow};document.documentElement.style.overflow='hidden';Object.assign(document.body.style,{position:'fixed',top:-optionsScroll.y+'px',width:'100%'});}
  function unlockOptionsBackground(restore=true){if(!optionsScroll)return;const saved=optionsScroll;optionsScroll=null;Object.assign(document.body.style,{position:saved.position,top:saved.top,width:saved.width});document.documentElement.style.overflow=saved.overflow;scrollTo({top:saved.y,behavior:'instant'});if(restore)(optionsReturnFocus?.isConnected?optionsReturnFocus:optionsButton).focus({preventScroll:true});}
 
@@ -366,9 +366,9 @@ ${playgroundLayoutCSS}
  function optionsIcon(open){optionsButton.setAttribute('aria-expanded',open);optionsButton.setAttribute('aria-label',open?'Close Style Options':'Style Options');optionsButton.title=open?'Close Style Options':'Style Options';optionsButton.querySelector('.options-more').hidden=open;optionsButton.querySelector('.options-close').hidden=!open;}
  async function setOptions(open,restore=true){
   optionsOpen=open;optionsAnimation?.cancel();optionsIcon(open);
-  if(open)optionsOrigin=Math.max(0,optionsButton.getBoundingClientRect().top-24);
-  const compact='inset('+optionsOrigin+'px 0px calc(100% - '+(optionsOrigin+48)+'px) calc(100% - 48px) round 12px)',expanded='inset(0px 0px 0px 0px round 12px)';
-  if(open){lockOptionsBackground();$('style-dialog-title').after(optionsButton);styleDialog.showModal();window.workshopFocusPanel(styleDialog);}
+  if(open)styleDialog.style.setProperty('--style-dialog-top',optionsButton.getBoundingClientRect().top+'px');
+  const compact='inset(0px 0px calc(100% - 48px) calc(100% - 48px) round 12px)',expanded='inset(0px 0px 0px 0px round 12px)';
+  if(open){lockOptionsBackground();$('style-dialog-title').after(optionsButton);styleDialog.showModal();window.workshopFocusPanel(styleDialog);styleDialog.scrollTo(0,0);}
   if(!reduced.matches){optionsAnimation=styleDialog.animate([{clipPath:open?compact:expanded},{clipPath:open?expanded:compact}],{duration:240,easing:'cubic-bezier(.2,0,.2,1)',fill:'both'});try{await optionsAnimation.finished;}catch{return;}}
   if(optionsOpen!==open)return;
   if(!open){styleDialog.close();optionsHome.before(optionsButton);unlockOptionsBackground(restore);}

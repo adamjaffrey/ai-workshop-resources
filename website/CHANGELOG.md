@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.212"
-  update_summary: "Close secondary-surface optical alignment gaps"
-  updated_at: "Tue 20 Oct 2026 at 12:13:29 am AEDT (+11:00)"
+  doc_revision: "26.0.213"
+  update_summary: "Restore Playground menu anchoring and specimen containment"
+  updated_at: "Tue 20 Oct 2026 at 12:24:34 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.211 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 12:24:34 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Restore Playground menu anchoring and specimen containment
+
+### Fixed
+
+- Anchor Style Options to the ellipsis's measured top edge at both page top and scrolled positions. Keep the 48px close control in the trigger's position with an explicit 24px Lucide X, and reset internal scroll on reopening.
+- Restore inset, bordered, rounded grey specimen frames within white cards for Typography, hyperlink styles, Icons, Status States, and Focus and Selection.
+- Restore the shared 32px gap between stacked Login Destination and Held Login State groups on mobile.
+- Require visual containment and top/scrolled menu checks alongside optical alignment tests in repository instructions.
+
+### Validation
+
+- `playground-menu-containment-browser-check.mjs` — passed at 320, 390 and 660px, with three scroll positions and five reference frames.
+- Existing seven-width alignment, nested-surface, expanded-preview, sticky-toolbar and focus-clearance checks — passed.
+- Reviewed populated mobile Typography and open-menu screenshots.
+- Final background remeasurement and ten-width/two-height comparison — passed within 1px.
+- `npm --prefix website run build` — passed; generated artefact contains v26.0.211.
 
 ## v26.0.210 — 2026-10-20
 
