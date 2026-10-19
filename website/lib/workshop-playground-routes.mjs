@@ -22,6 +22,6 @@ export function playgroundRedirect(path){
   const normalised=path.replace(/\/+$/,'')||'/';
   const destination=aliases.get(normalised)||normalised;
   if(destination===path||destination.startsWith('//'))return null;
-  return {location:destination,status:aliases.has(normalised)&&normalised!=='/style-guide'?301:308};
+  return {location:destination,status:aliases.has(normalised)?301:308};
 }
 export const isPlaygroundPath=path=>path==='/playground'||playgroundSections.some(section=>path==='/playground/'+section);

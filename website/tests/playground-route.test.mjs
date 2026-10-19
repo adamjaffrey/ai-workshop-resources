@@ -7,7 +7,7 @@ test('local playground stays anonymous while hosted routes protect specimens',as
  try{
   const page=await fetch(origin+'/playground');assert.equal(page.status,200);assert.match(await page.text(),/<title>Workshop Component Playground<\/title>/);
   const head=await fetch(origin+'/playground',{method:'HEAD'});assert.equal(head.status,200);assert.equal(await head.text(),'');
-  for(const path of ['/style-guide','/style-guide/','/playground/']){const r=await fetch(origin+path+'?test=1',{redirect:'manual'});assert.equal(r.status,308);assert.equal(r.headers.get('location'),'/playground?test=1');}
+  for(const path of ['/style-guide','/style-guide/','/playground/']){const r=await fetch(origin+path+'?test=1',{redirect:'manual'});assert.equal(r.status,path==='/playground/'?308:301);assert.equal(r.headers.get('location'),'/playground?test=1');}
   for(const path of ['/playground','/style-guide']){const r=await handleRequest(new Request('https://production.example'+path),{});assert.doesNotMatch(await r.text(),/<title>Workshop Component Playground<\/title>/);}
  }finally{await new Promise(r=>server.close(r));}
 });
@@ -52,7 +52,7 @@ test('all aliases and slash variants redirect once locally and hosted, preservin
    if(source===target&&!suffix)continue;
    const requestPath=source+suffix+query;
    const responses=[await fetch(origin+requestPath,{method,redirect:'manual'}),await handleRequest(new Request('https://production.example'+requestPath,{method}),{})];
-   for(const response of responses){assert.equal(response.status,source!==target&&source!=='/style-guide'?301:308,requestPath);assert.equal(response.headers.get('location'),target+query);if(method==='HEAD')assert.equal(await response.text(),'');}
+   for(const response of responses){assert.equal(response.status,source!==target?301:308,requestPath);assert.equal(response.headers.get('location'),target+query);if(method==='HEAD')assert.equal(await response.text(),'');}
    // The destination itself must never issue a further redirect, even without hosted configuration.
    for(const response of [await fetch(origin+target+query,{method,redirect:'manual'}),await handleRequest(new Request('https://production.example'+target+query,{method}),{})])assert.equal(response.headers.get('location'),null,target);
   }

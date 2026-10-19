@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.188"
-  update_summary: "Fix selector holds and keep Easter Egg controls pinned"
-  updated_at: "Mon 19 Oct 2026 at 05:50:51 pm AEDT (+11:00)"
+  doc_revision: "26.0.189"
+  update_summary: "Use 301 for style-guide and verify direct hosted redirects"
+  updated_at: "Mon 19 Oct 2026 at 05:58:40 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.187 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 05:58:40 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Use 301 for style-guide and verify direct hosted redirects
+
+### Changed
+
+- Redirect style-guide and its slash variants directly to Playground with 301.
+- Resolve shared aliases at the production Worker entry point before framework slash normalisation, preventing redirect chains on deployment.
+
+### Validation
+
+- Route, authentication and phone-preview suites — 16 passed.
+- Fresh local production Worker — 128 GET/HEAD alias and slash cases passed, with exact queries and no second redirect.
+- Sites production build, saved geometry checks and generated v26.0.187 displays — passed. Live deployment not performed.
 
 ## v26.0.186 — 2026-10-19
 

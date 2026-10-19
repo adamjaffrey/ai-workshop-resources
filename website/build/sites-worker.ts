@@ -1,9 +1,19 @@
 import handler from "vinext/server/fetch-handler";
+import { playgroundRedirect } from "../lib/workshop-playground-routes.mjs";
 import { runWithConnectorBinding } from "../lib/connector-context";
 import type { ConnectorBinding } from "../lib/connector-contract.mjs";
 
 export default {
   fetch(request: Request, env: Cloudflare.Env, ctx: ExecutionContext<{ CONNECTORS?: ConnectorBinding }>) {
+    // Resolve before Vinext can strip a slash and create an intermediate hop.
+    if (request.method === "GET" || request.method === "HEAD") {
+      const url = new URL(request.url);
+      const redirect = playgroundRedirect(url.pathname);
+      if (redirect) return new Response(null, {
+        status: redirect.status,
+        headers: { Location: redirect.location + url.search },
+      });
+    }
     let binding = ctx.props?.CONNECTORS;
     // Local preview emulates the same request-scoped capability. This branch and
     // the auxiliary service binding are absent from production builds.
