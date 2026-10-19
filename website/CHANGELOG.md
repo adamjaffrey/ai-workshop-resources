@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.177"
-  update_summary: "Stabilise Easter Egg controls when switching views"
-  updated_at: "Mon 19 Oct 2026 at 03:29:37 pm AEDT (+11:00)"
+  doc_revision: "26.0.178"
+  update_summary: "Sequence reveal and sheen with reliable replay"
+  updated_at: "Mon 19 Oct 2026 at 03:36:35 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.176 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 03:36:35 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Sequence reveal and sheen with reliable replay
+
+### Changed
+
+- Apply the supplied preset, including independent two-second text reveal and final sheen. Add Pause After Text Reveal (0–10 seconds, default zero) before the final sheen.
+- Add a Lucide Redo Replay Animation button after the relevant sliders. Keep preview loops running when the inscription leaves the iframe viewport, with document-visibility and reduced-motion safeguards.
+- Add an After Closing Dialog Playground view for the persistent complete sentence and repeating sheen.
+- Resume full-sentence sheens after the real success dialog closes, without repeating the reveal or reopening the dialog. Preserve click-to-reopen.
+- Confirm the rainbow canvas and screen fade share a stacking context with the rainbow above the fade.
+
+### Validation
+
+- Production build and focused replay regression — passed: sequential reveal/pause/sheen, offscreen repeats, manual replay, post-dialog sheens and actual layer ordering.
+- Desktop/mobile controls regression and full Playground source-parity checks — passed, including the new After Closing Dialog state and stable view sets.
+- LAN home, Easter Egg and logged-out preview — HTTP 200. Physical-device Safari remains a manual check.
 
 ## v26.0.175 — 2026-10-19
 
