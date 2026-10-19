@@ -38,7 +38,7 @@ for(const width of [320,390,768,1440]){
    assert.equal(await p.locator('#style-options').evaluate(e=>e.getBoundingClientRect().top),await p.locator('.playground-brand-row').evaluate(e=>{const r=e.getBoundingClientRect();return Math.max(24,r.top+(r.height-48)/2);}));
    assert.equal(await p.locator('#style-options').evaluate(e=>getComputedStyle(e).boxShadow),appShadow);
    await p.click('#style-options');
-   assert.equal(await p.locator('#style-dialog').evaluate(e=>e.getBoundingClientRect().top),24);
+   assert.equal(await p.locator('#style-dialog').evaluate(e=>e.getBoundingClientRect().top),await p.locator('.playground-brand-row').evaluate(e=>{const r=e.getBoundingClientRect();return Math.max(24,r.top+(r.height-48)/2);}));
    assert.equal(await p.locator('#style-dialog').evaluate(e=>getComputedStyle(e).boxShadow),appShadow);
    await p.click('#style-options');
   }
@@ -74,8 +74,8 @@ assert.equal(await resources.locator('[data-copy]').first().getAttribute('data-c
 await choose('copy','success');await resources.locator('body').evaluate(()=>new Promise(resolve=>{const check=()=>{if(!copyFailure)resolve();else setTimeout(check,20);};check();}));await resources.locator('[data-copy]').first().focus();await p.keyboard.press('Enter');
 const resourceDocument=await (await p.locator('#resources-frame').elementHandle()).contentFrame();
 await resourceDocument.waitForFunction(()=>document.querySelector('[data-copy]').dataset.copied==='true',null,{timeout:3000});
-await resources.locator('footer form[action="/auth/logout"] button').focus();await p.keyboard.press('Enter');assert.ok(p.url().startsWith(origin+'/playground'));
-await p.click('[data-tab=typography]');assert.ok(p.url().startsWith(origin+'/playground'));
+await resources.locator('footer form[action="/auth/logout"] button').focus();await p.keyboard.press('Enter');assert.ok(p.url().startsWith(origin+'/component-playground'));
+await p.click('[data-tab=typography]');assert.ok(p.url().startsWith(origin+'/component-playground'));
 assert.match(await p.frameLocator('#type-frame').locator('[data-source-selector="h1"] output').textContent(),/48px/);
 await p.locator('#type-frame').scrollIntoViewIfNeeded();
 const typographyDocument=await (await p.locator('#type-frame').elementHandle()).contentFrame();await typographyDocument.waitForFunction(()=>[...document.querySelectorAll('h2[data-type-sample]')].every(e=>getComputedStyle(e).color!==''));

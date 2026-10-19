@@ -1,3 +1,4 @@
+import {playgroundFaviconScript} from './workshop-playground-brand.mjs';
 import {alignmentCSS} from './workshop-alignment.mjs';
 import {colourValueCSS,colourValueScript} from './workshop-colour-values.mjs';
 import {linkCSS,linkScript} from './workshop-links.mjs';
@@ -5,7 +6,7 @@ import {revealRadiusRange} from './workshop-reveal.mjs';
 import {toggleScript} from './workshop-toggle.mjs';
 import {agentScript} from './workshop-agent.mjs';
 // Shared theme for the server-rendered login and resource pages.
-// Sun and Moon paths from the installed Lucide package (ISC; public/assets/lucide-LICENSE.txt).
+// Sun and Moon paths from the installed Lucide package (ISC; public/assets/lucide-license.txt).
 const icon = (name,use,paths) => `<svg data-icon-provider="lucide" data-icon-name="${name}" data-icon-use="${use}" class="icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`;
 const sun = icon('sun','select-light-theme','<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>');
 const moon = icon('moon','select-dark-theme','<path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/>');
@@ -172,6 +173,8 @@ const script = `(() => {
   const indicators = [];
   const valid = value => value === 'light' || value === 'dark';
   try { const saved = localStorage.getItem(key); if (valid(saved)) preference = saved; } catch {}
+  const requested=({light:'light',day:'light',sun:'light',dark:'dark',night:'dark',moon:'dark'})[new URLSearchParams(location.search).get('theme')?.toLowerCase()];
+  if(typeof requested==='string'){preference=requested;try{localStorage.setItem(key,preference);}catch{}}
   window.workshopColourTransition = (change, duration = 280) => {
     // Capture interrupted colours before cancelling, then batch reads before animation writes.
     const before = !reducedMotion.matches
@@ -305,7 +308,7 @@ const script = `(() => {
 })();`;
 
 export function withTheme(html, login = false) {
-  html = html.replace('</head>', `<style>${styles}\n${linkCSS}\n${colourValueCSS}\n${alignmentCSS}</style><script nonce="__NONCE__" data-workshop-theme>${agentScript}\n${toggleScript}\n${script}\n${linkScript}\n${colourValueScript}</script></head>`);
+  html = html.replace('</head>', `<style>${styles}\n${linkCSS}\n${colourValueCSS}\n${alignmentCSS}</style><script nonce="__NONCE__" data-workshop-theme>${agentScript}\n${playgroundFaviconScript}\n${toggleScript}\n${script}\n${linkScript}\n${colourValueScript}</script></head>`);
   if (login) return html.replace('</h2>', `</h2><div class="gate-toolbar"><p class="eyebrow">Workshop Access</p>${control}</div>`);
   return html.replace('<div class="brand" aria-label="Wavelength">', '<div class="page-toolbar"><div class="brand" aria-label="Wavelength">')
     .replace('    <header class="page-header">', `    ${control}</div>\n    <header class="page-header">`);

@@ -12,7 +12,7 @@ function env() {
  sql.exec(readFileSync(new URL('../drizzle/0000_early_felicia_hardy.sql',import.meta.url),'utf8'));
  return {WORKSHOP_PASSWORD_VERIFIER:verifier, DB:{prepare(query){return{bind(...values){return{async first(){return sql.prepare(query).get(...values)||null},async run(){return sql.prepare(query).run(...values)}}}}}}};
 }
-function get(path='/',cookie){return new Request(origin+path,{headers:cookie?{cookie}:{}})}
+function get(path='/workshop-resources',cookie){return new Request(origin+path,{headers:cookie?{cookie}:{}})}
 function post(path='/auth/login',value=password,headers={}){return new Request(origin+path,{method:'POST',headers:{origin,'content-type':'application/x-www-form-urlencoded',accept:'application/json',...headers},body:new URLSearchParams({password:value})})}
 async function login(e,now=1000000){const r=await handleRequest(post(),e,now);assert.equal(r.status,200);return r.headers.get('set-cookie')}
 test('anonymous visitors receive only login; no protected content or old browser gate',async()=>{
@@ -26,11 +26,11 @@ test('anonymous visitors receive only login; no protected content or old browser
 test('persistent cookie and server session expire at exactly seven days, without sliding renewal',async()=>{
  const e=env();const now=1000000;const cookie=await login(e,now);
  for(const flag of ['HttpOnly','Secure','SameSite=Lax','Path=/','Max-Age=604800','Expires='])assert.ok(cookie.includes(flag));
- const fresh=await handleRequest(get('/',cookie),e,now+1000);
+ const fresh=await handleRequest(get('/workshop-resources',cookie),e,now+1000);
  assert.match(await fresh.text(),/system-blueprint-creator/);assert.equal(fresh.headers.get('set-cookie'),null);
  assert.equal((await handleRequest(get('/auth/session',cookie),e,now+SESSION_SECONDS*1000-1)).status,200);
  assert.equal((await handleRequest(get('/auth/session',cookie),e,now+SESSION_SECONDS*1000)).status,401);
- assert.doesNotMatch(await (await handleRequest(get('/',cookie),e,now+SESSION_SECONDS*1000+1)).text(),/system-blueprint-creator/);
+ assert.doesNotMatch(await (await handleRequest(get('/workshop-resources',cookie),e,now+SESSION_SECONDS*1000+1)).text(),/system-blueprint-creator/);
 });
 test('wrong password and forged cookies never unlock',async()=>{
  const e=env();assert.equal((await handleRequest(post('/auth/login','incorrect'),e)).status,401);
@@ -66,12 +66,12 @@ test('missing configuration and database failure fail closed',async()=>{
 });
 test('hosted playground shares the main session and never exposes specimens anonymously',async()=>{
  const e=env(),now=1000000;
- for(const path of ['/playground','/playground?test=1']){
+ for(const path of ['/component-playground','/component-playground?test=1']){
   const r=await handleRequest(get(path),e,now);const text=await r.text();assert.match(text,/workshop-password/);assert.doesNotMatch(text,/Component Playground|system-blueprint-creator|srcdoc=/);assert.match(r.headers.get('cache-control'),/no-store/);
  }
  const cookie=await login(e,now);
- for(const path of ['/','/playground']){const r=await handleRequest(get(path,cookie),e,now+1,{renderPlayground:()=>playgroundPage({authenticated:true})});assert.equal(r.status,200);assert.match(await r.text(),path==='/'?/system-blueprint-creator/:/Component Playground/);assert.equal(r.headers.get('set-cookie'),null);}
- const expired=await handleRequest(get('/playground',cookie),e,now+SESSION_SECONDS*1000);assert.doesNotMatch(await expired.text(),/Component Playground|srcdoc=/);
+ for(const path of ['/workshop-resources','/component-playground']){const r=await handleRequest(get(path,cookie),e,now+1,{renderPlayground:()=>playgroundPage({authenticated:true})});assert.equal(r.status,200);assert.match(await r.text(),path==='/workshop-resources'?/system-blueprint-creator/:/Component Playground/);assert.equal(r.headers.get('set-cookie'),null);}
+ const expired=await handleRequest(get('/component-playground',cookie),e,now+SESSION_SECONDS*1000);assert.doesNotMatch(await expired.text(),/Component Playground|srcdoc=/);
  await handleRequest(post('/auth/logout','',{cookie}),e,now+2);
- assert.doesNotMatch(await(await handleRequest(get('/playground',cookie),e,now+3)).text(),/Component Playground|srcdoc=/);
+ assert.doesNotMatch(await(await handleRequest(get('/component-playground',cookie),e,now+3)).text(),/Component Playground|srcdoc=/);
 });

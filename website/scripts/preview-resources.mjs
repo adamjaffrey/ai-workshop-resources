@@ -3,7 +3,7 @@ import {mkdir, readFile, writeFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import {resourcePage} from '../lib/workshop-resource-page.mjs';
 let html = resourcePage;
-for (const [name, mime] of [['wavelength-worm.png', 'image/png'], ['workshop-resources-qr.png', 'image/png'], ['MarkPro-Bold.ttf', 'font/ttf']]) {
+for (const [name, mime] of [['wavelength-worm.png', 'image/png'], ['workshop-resources-qr.png', 'image/png'], ['markpro-bold.ttf', 'font/ttf']]) {
   const bytes = await readFile(new URL('../public/assets/' + name, import.meta.url));
   html = html.replaceAll('/assets/' + name, `data:${mime};base64,${bytes.toString('base64')}`);
 }

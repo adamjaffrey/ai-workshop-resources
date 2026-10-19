@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.57"
-  update_summary: "Define Components backdrops and publication-only measurement"
-  updated_at: "Tue 20 Oct 2026 at 06:14:54 am AEDT (+11:00)"
+  doc_revision: "26.0.58"
+  update_summary: "Define canonical Playground paths and normalised URLs"
+  updated_at: "Tue 20 Oct 2026 at 06:39:18 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -29,9 +29,9 @@ metadata:
 
 ## Preview Delivery
 
-- Select the Playground destination using the exact rules and title/slug mapping under Required Update Handoff: use the primary relevant section for a section-specific review, otherwise use `/playground`. Always use the verified active Wi-Fi address and port for local links.
+- Select the Playground destination using the exact rules and title/slug mapping under Required Update Handoff: use the primary relevant section for a section-specific review, otherwise use `/component-playground`. Always use the verified active Wi-Fi address and port for local links.
 
-- Start all user-facing local previews already signed in. Use `npm --prefix website run preview:phone` (automatic login enabled), or pass `{autoLogin:true}` to `createPhonePreview` for custom ports. Continue generating and displaying the process’s temporary test password. The local adapter must obtain a real session through the unchanged server-side login handler, using only its in-memory preview database and temporary credential; never add an authentication bypass to application handlers, production builds or hosted Sites. Keep low-level authentication tests explicit (`autoLogin:false`, the factory default). Provide `/?login=1` for inspecting the real login form; local Log Out returns there. Verify a fresh browser opens Resources, the session endpoint recognises its cookie, logout invalidates it, and hosted access still requires authentication when changing this workflow.
+- Start all user-facing local previews already signed in. Use `npm --prefix website run preview:phone` (automatic login enabled), or pass `{autoLogin:true}` to `createPhonePreview` for custom ports. Continue generating and displaying the process’s temporary test password. The local adapter must obtain a real session through the unchanged server-side login handler, using only its in-memory preview database and temporary credential; never add an authentication bypass to application handlers, production builds or hosted Sites. Keep low-level authentication tests explicit (`autoLogin:false`, the factory default). Provide `/workshop-resources?login=1` for inspecting the real login form; local Log Out returns there. Verify a fresh browser opens Resources, the session endpoint recognises its cookie, logout invalidates it, and hosted access still requires authentication when changing this workflow.
 
 - For every future preview handoff in this project, provide the active server’s reachable Wi-Fi/LAN IPv4 address and port, never `localhost`, `127.0.0.1` or another loopback address. Adam reviews on his phone. Bind the server to the network interface, verify both app and Playground URLs. Do not include routine “use the same Wi-Fi” reminders in messages or handoffs. Recheck the address and active process’s test password at each handoff. If LAN access is unavailable, explain the limitation rather than substituting a loopback link.
 
@@ -49,13 +49,14 @@ The local column describes the user-facing preview started with automatic login 
 
 | URL | Local Preview | Hosted Sites |
 |---|---|---|
-| `/` | Opens the app using a valid local session, obtaining one automatically through the real local login handler if needed. No password entry is required. | Opens the app when the server validates the existing session; otherwise shows the password form. |
-| `/home` or `/home/` | Permanently redirects (301) to `/`, preserving query parameters; the destination follows local automatic-login rules. | Permanently redirects (301) to `/`, preserving query parameters; the destination requires a valid hosted session or password login. |
-| `/playground` or a supported section such as `/playground/branding` | Password-free by default; a section path selects that tab directly. | Requires the same server-validated session as the main app. Without one, shows the Playground login form; successful login retains the requested section. |
-| `/?login=0` | Behaves like `/`: reuses or automatically obtains a real local session. The value `0` is not an authentication token or a special login command. | Behaves like `/`. The query parameter is ignored for authentication and does not sign anyone in. |
-| `/?login=1` | Shows the real login form by ignoring the session cookie for this page request and suppressing automatic sign-in. This inspection URL does not revoke an existing session; Local Log Out separately revokes it and returns here. | Behaves like `/`. It does not force the login form, log the user out or revoke a session. A valid session shows the app; otherwise the password form is shown. |
+| `/workshop-resources` | Opens the app using a valid local session, obtaining one automatically through the real local login handler if needed. No password entry is required. | Opens the app when the server validates the existing session; otherwise shows the password form. |
+| `/`, `/workshop`, `/resources`, `/ai`, `/ai-workshop-resources` and documented singular/plural aliases | Permanently redirects (301) to `/workshop-resources`, preserving query parameters. | Permanently redirects (301) to `/workshop-resources`, preserving query parameters; authentication is unchanged. |
+| `/home` or `/home/` | Permanently redirects (301) to `/workshop-resources`, preserving query parameters; the destination follows local automatic-login rules. | Permanently redirects (301) to `/workshop-resources`, preserving query parameters; the destination requires a valid hosted session or password login. |
+| `/component-playground` or a supported section such as `/component-playground/branding` | Password-free by default; a section path selects that tab directly. | Requires the same server-validated session as the main app. Without one, shows the Playground login form; successful login retains the requested section. |
+| `/workshop-resources?login=0` | Behaves like `/workshop-resources`: reuses or automatically obtains a real local session. The value `0` is not an authentication token or a special login command. | Behaves like `/workshop-resources`. The query parameter is ignored for authentication and does not sign anyone in. |
+| `/workshop-resources?login=1` | Shows the real login form by ignoring the session cookie for this page request and suppressing automatic sign-in. This inspection URL does not revoke an existing session; Local Log Out separately revokes it and returns here. | Behaves like `/workshop-resources`. It does not force the login form, log the user out or revoke a session. A valid session shows the app; otherwise the password form is shown. |
 
-The `login` query handling is confined to the local preview adapter on `/`; it is not a hosted authentication feature or a Playground override. Neither query value bypasses hosted authentication. Hosted app and Playground sessions share the existing seven-day expiry and logout rules. Never describe a hosted link as password-free merely because its local counterpart opens automatically.
+The `login` query handling is confined to the local preview adapter on `/workshop-resources`; it is not a hosted authentication feature or a Playground override. Neither query value bypasses hosted authentication. Hosted app and Playground sessions share the existing seven-day expiry and logout rules. Never describe a hosted link as password-free merely because its local counterpart opens automatically.
 
 ### Required Update Handoff
 
@@ -90,10 +91,10 @@ If a build, commit, push or publication failed or was blocked, replace that item
 
 Define `LOCAL_ORIGIN` as the active preview’s verified `http://WIFI-IP:PORT`, without a trailing slash. Never hard-code an example IP address or port, assume the previous process still owns a port, substitute loopback, or show a production password.
 
-- Main App: `[Main App ↗](LOCAL_ORIGIN) — automatically signed in`. Link to the root URL, not `/home`, and do not put paths in the anchor text.
-- Playground, when exactly one section is the primary review destination: `[Playground > SECTION TITLE ↗](LOCAL_ORIGIN/playground/SECTION-SLUG) — automatically signed in`. Use the title/slug mapping below, not a raw slug or invented title.
-- Playground, for cross-cutting changes, documentation-only updates or no specific section: `[Playground ↗](LOCAL_ORIGIN/playground) — automatically signed in`.
-- Login Form: `[Login Form ↗](LOCAL_ORIGIN/?login=1) — logged-out view`.
+- Main App: `[Main App ↗](LOCAL_ORIGIN/workshop-resources) — automatically signed in`. Link to `/workshop-resources`, not a redirect alias, and do not put paths in the anchor text.
+- Playground, when exactly one section is the primary review destination: `[Playground > SECTION TITLE ↗](LOCAL_ORIGIN/component-playground/SECTION-SLUG) — automatically signed in`. Use the title/slug mapping below, not a raw slug or invented title.
+- Playground, for cross-cutting changes, documentation-only updates or no specific section: `[Playground ↗](LOCAL_ORIGIN/component-playground) — automatically signed in`.
+- Login Form: `[Login Form ↗](LOCAL_ORIGIN/workshop-resources?login=1) — logged-out view`.
 
 | Section Slug | Section Title |
 |---|---|
@@ -115,7 +116,7 @@ If local preview is unavailable, retain **🔗 Local Preview** with `Unavailable
 
 #### Exact Live Link Selection
 
-Under **🌐 Live on Sites**, every successful publication must include two separate bullets: `[Main App ↗](VERIFIED-LIVE-ORIGIN)` and `[Playground ↗](VERIFIED-LIVE-ORIGIN/playground)`, without authentication suffixes. Use the verified hosted origin; the existing site is `https://ai-workshop-resources.adamjaffrey.chatgpt.site`. Link to the Playground root by default; use the documented section title/slug only when explicitly requested. When the user asks for an existing live link without publication, provide the requested destination(s). Never include the production password or describe hosted links as automatically signed in. If showing an existing live site without publishing this update, say `Existing live site; this update has not been published.` before the link. Keep the Publish status truthful.
+Under **🌐 Live on Sites**, every successful publication must include two separate bullets: `[Main App ↗](VERIFIED-LIVE-ORIGIN/workshop-resources)` and `[Playground ↗](VERIFIED-LIVE-ORIGIN/component-playground)`, without authentication suffixes. Use the verified hosted origin; the existing site is `https://ai-workshop-resources.adamjaffrey.chatgpt.site`. Link to the Playground root by default; use the documented section title/slug only when explicitly requested. When the user asks for an existing live link without publication, provide the requested destination(s). Never include the production password or describe hosted links as automatically signed in. If showing an existing live site without publishing this update, say `Existing live site; this update has not been published.` before the link. Keep the Publish status truthful.
 
 ### Handoff Format
 
@@ -131,9 +132,9 @@ Copy this structure literally for a successful new local build, replacing placeh
 
 **🔗 Local Preview**
 
-- [Main App ↗](LOCAL_ORIGIN) — automatically signed in
-- [Playground ↗](LOCAL_ORIGIN/playground) — automatically signed in
-- [Login Form ↗](LOCAL_ORIGIN/?login=1) — logged-out view
+- [Main App ↗](LOCAL_ORIGIN/workshop-resources) — automatically signed in
+- [Playground ↗](LOCAL_ORIGIN/component-playground) — automatically signed in
+- [Login Form ↗](LOCAL_ORIGIN/workshop-resources?login=1) — logged-out view
 
 **🔑 Local App Test Password**
 
@@ -147,15 +148,17 @@ When the live-link inclusion condition is met, append:
 ```markdown
 **🌐 Live on Sites**
 
-- [Main App ↗](VERIFIED-LIVE-ORIGIN)
-- [Playground ↗](VERIFIED-LIVE-ORIGIN/playground)
+- [Main App ↗](VERIFIED-LIVE-ORIGIN/workshop-resources)
+- [Playground ↗](VERIFIED-LIVE-ORIGIN/component-playground)
 ```
 
-Before sending, check the exact four status labels and order, version/hash evidence, root Main App URL, Playground title/slug selection, literal authentication suffixes, active-process password, and whether a Live on Sites section is warranted. Do not substitute stylistic variants for this contract.
+Before sending, check the exact four status labels and order, version/hash evidence, canonical Main App URL, Playground title/slug selection, literal authentication suffixes, active-process password, and whether a Live on Sites section is warranted. Do not substitute stylistic variants for this contract.
+
+Site-wide GET/HEAD requests remove a leading `www.` hostname and lowercase the path before resolving aliases in one 301 redirect; preserve query strings and exact POST paths. Maintain only lowercase redirect keys and public asset filenames. Hosting must accept the `www` hostname and supply its certificate before these redirects can run.
 
 ## Website Login
 
-- Use measured anonymous blocks from the first Playground tab, Components, behind every Playground login route. Reuse that single Components backdrop for `/playground` and all section paths; do not measure each tab. Main-app login retains its Resources backdrop. Share the login panel, one background blur and dimming, and keep both destinations inspectable from the Components login specimen. Both backdrops follow the selected theme/agent, defaulting to Codex blue. Serve only anonymous geometry in inert, script-disabled backdrop frames; never embed the authenticated Playground or original protected text.
+- Use measured anonymous blocks from the first Playground tab, Components, behind every Playground login route. Reuse that single Components backdrop for `/component-playground` and all section paths; do not measure each tab. Main-app login retains its Resources backdrop. Share the login panel, one background blur and dimming, and keep both destinations inspectable from the Components login specimen. Both backdrops follow the selected theme/agent, defaulting to Codex blue. Serve only anonymous geometry in inert, script-disabled backdrop frames; never embed the authenticated Playground or original protected text.
 
 - Sessions expire seven days after login, without extending on use. Keep this implementation detail in repository documentation, not the login page copy.
 - On initial load, focus the login heading with no visible focus ring. Tab order is the day/night toggle as one stop, password field, then unlock button on desktop and mobile.
@@ -314,7 +317,7 @@ Apply this standard to:
 
 ## Hidden Playground Shortcut
 
-- Three taps or primary-button clicks on the Wavelength header logo within three seconds open `/playground` in a new tab/window using `_blank` with `noopener,noreferrer`, leaving Resources open. Only the header brand area activates it; other clicks, leaving the window or changing visibility reset the sequence. Keep the existing brand markup unchanged: no Tab stop, programmatic focusability, focus ring, button/link role, action-specific screen-reader label, tooltip, hover treatment or visible affordance. Screen readers should encounter only the existing brand content. On the locked main app, recognise the same coordinates from the actual blurred backdrop logo bounds through the scrim without adding a hotspot element; never intercept the login panel. The inert Components backdrop does not expose an additional interactive shortcut target. This intentionally undisclosed shortcut is an exception to the normal pointer-cursor rule. It does not grant access or bypass authentication.
+- Three taps or primary-button clicks on the Wavelength header logo within three seconds open `/component-playground` in a new tab/window using `_blank` with `noopener,noreferrer`, leaving Resources open. Only the header brand area activates it; other clicks, leaving the window or changing visibility reset the sequence. Keep the existing brand markup unchanged: no Tab stop, programmatic focusability, focus ring, button/link role, action-specific screen-reader label, tooltip, hover treatment or visible affordance. Screen readers should encounter only the existing brand content. On the locked main app, recognise the same coordinates from the actual blurred backdrop logo bounds through the scrim without adding a hotspot element; never intercept the login panel. The inert Components backdrop does not expose an additional interactive shortcut target. This intentionally undisclosed shortcut is an exception to the normal pointer-cursor rule. It does not grant access or bypass authentication.
 - Playground specimens exercise the same gesture handler but cancel navigation and report the simulated activation.
 
 ## Playground Source Fidelity
@@ -329,10 +332,10 @@ Apply this standard to:
 
 ### Mandatory Change and Validation Contract
 
-- Treat the main local app and `/playground` as two consumers of the same application sources. An app interface change is incomplete until its playground representation and relevant parity checks are updated and verified in the same coherent change. This covers markup, copy and messages, typography, spacing, colours and tokens, assets and icons, responsive rules, states, settings, focus, hover, touch and animations. This requirement does not authorise publication to Sites.
+- Treat the main local app and `/component-playground` as two consumers of the same application sources. An app interface change is incomplete until its playground representation and relevant parity checks are updated and verified in the same coherent change. This covers markup, copy and messages, typography, spacing, colours and tokens, assets and icons, responsive rules, states, settings, focus, hover, touch and animations. This requirement does not authorise publication to Sites.
 - Change the canonical app source first. Import or capture that source in the playground; never fix a mismatch by copying strings, CSS, SVGs or state logic into a second independently maintained implementation. If a source cannot be shared directly, extract a shared renderer or helper rather than creating an optical duplicate.
 - For each new, changed or removed component, setting or state, audit the Components, Typography, Colours, Icons, Status States, Focus and Selection, and Blocks and Blur views as applicable. Update specimen manifests, capture selectors, held-state adapters and source labels; remove obsolete examples and fail explicitly when an expected source is missing.
 - Held-state adapters may supply fixture data, simulated outcomes and time controls, but must use the app's renderers and messages. When app state transitions change, review every affected adapter in the same change. Keep intentional differences explicit: sample input, held transient states, isolated focus, and disabled real navigation, clipboard, session and authentication effects. Do not allow these exceptions to conceal visual or semantic drift.
 - Validate affected specimens against independently rendered main-app pages, not only against other playground frames. Compare text, computed typography, colours, icon geometry, state attributes and relevant interaction behaviour at 320, 390, 768 and 1440px, in light/dark mode and for Codex/Claude. Include relevant neutral, loading, success, failure, disabled, hover and focused states, plus pointer, keyboard and touch paths when affected.
 - Run the existing source-parity check (`node website/tests/playground-browser-check.mjs`) for app interface or specimen-source changes, plus focused checks for the changed behaviour. Add or extend regression coverage when fixing a parity defect. Resolve unexpected differences before declaring the work complete; report any unverified browser/device behaviour or intentional simulation difference honestly. Do not claim universal 100% parity based only on shared imports or a limited test pass.
-- Keep `/playground` canonical and preserve `/style-guide` as a redirect. On Sites, protect the entire playground with the same server-validated session as the main app, including expiry and logout; never publish specimen HTML as a public static asset. On the local preview server, keep `/playground` password-free. Keep testing controls distinct from app specimens, keep simulated actions sandboxed and never expose local test credentials or authentication bypasses through a production handler.
+- Keep `/component-playground` canonical; redirect `/component`, `/components`, `/playground` and `/style-guide`, including descendants, with 301 responses. On Sites, protect the entire playground with the same server-validated session as the main app, including expiry and logout; never publish specimen HTML as a public static asset. On the local preview server, keep `/component-playground` password-free. Keep testing controls distinct from app specimens, keep simulated actions sandboxed and never expose local test credentials or authentication bypasses through a production handler.

@@ -27,7 +27,7 @@ try {
  const result=await page.evaluate(measurePlaygroundDocument,{frames});words+=result.words;
  let document=toDocument(result);
  // The captured page already embeds assets; no runtime requests or original scripts/actions survive.
- for(const [name,mime] of [['wavelength-worm.png','image/png'],['MarkPro-Bold.ttf','font/ttf']])document=document.replaceAll('/assets/'+name,'data:'+mime+';base64,'+(await readFile(new URL('../public/assets/'+name,import.meta.url))).toString('base64'));
+ for(const [name,mime] of [['wavelength-worm.png','image/png'],['markpro-bold.ttf','font/ttf']])document=document.replaceAll('/assets/'+name,'data:'+mime+';base64,'+(await readFile(new URL('../public/assets/'+name,import.meta.url))).toString('base64'));
  await writeFile(target,JSON.stringify({source:'components',layoutRevision:playgroundPlaceholderLayoutRevision,fingerprint:createHash('sha256').update(html).digest('hex'),words,document})+'\n');
  console.log(`Measured Components backdrop: ${words} anonymous words; ${Buffer.byteLength(document)} bytes`);
 } finally {await browser.close();}

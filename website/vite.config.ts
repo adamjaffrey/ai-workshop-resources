@@ -62,6 +62,22 @@ export default defineConfig(async ({ command }) => {
     },
     plugins: [
       vinext(),
+      {
+        name: "lowercase-client-asset-urls",
+        apply: "build",
+        enforce: "post",
+        outputOptions(options) {
+          if (this.environment.name !== "client") return {...options, hashCharacters: "hex", assetFileNames: "_next/static/assets/[hash][extname]"};
+          // Global lowercase redirects require generated URLs to be lowercase too.
+          return {
+            ...options,
+            hashCharacters: "hex",
+            entryFileNames: chunk => `_next/static/chunks/${chunk.name.toLowerCase()}-[hash].js`,
+            chunkFileNames: chunk => `_next/static/chunks/${chunk.name.toLowerCase()}-[hash].js`,
+            assetFileNames: "_next/static/assets/[hash][extname]",
+          };
+        },
+      },
       sites({ mockAuth: !managedLinux }),
       connectorPreview(),
       cloudflare({

@@ -20,9 +20,9 @@ try{
  assert.equal(await page.locator('.gate-submit').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(2, 133, 255)');
  await login();
  for(const width of [320,390,768,1440]){
-  await page.setViewportSize({width,height:844});
+  await page.setViewportSize({width,height:844});await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
   const boxes=await page.locator('footer').evaluate(e=>{
-   const f=e.getBoundingClientRect(),b=e.querySelector('form button').getBoundingClientRect(),t=e.querySelector('.footer-meta').getBoundingClientRect();return{right:b.top>=t.bottom?b.left-f.left:f.right-b.right,centres:b.top>=t.bottom?0:(t.top+t.height/2)-(b.top+b.height/2),overflow:document.documentElement.scrollWidth>innerWidth};
+   const f=e.querySelector('.footer-content').getBoundingClientRect(),b=e.querySelector('form button').getBoundingClientRect(),t=e.querySelector('.footer-meta').getBoundingClientRect(),stacked=e.classList.contains('is-stacked');return{right:stacked?(b.left+b.width/2)-(f.left+f.width/2):f.right+4-b.right,centres:stacked?0:(t.top+t.height/2)-(b.top+b.height/2),overflow:document.documentElement.scrollWidth>innerWidth};
   });
   assert.ok(Math.abs(boxes.right)<1&&Math.abs(boxes.centres)<1);assert.equal(boxes.overflow,false);
  }

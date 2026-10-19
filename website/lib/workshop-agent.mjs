@@ -5,6 +5,8 @@ export const agentScript = `(() => {
   const normalise=value=>value==='claude-code'?'claude-code':'codex';
   let current='codex';
   try {current=normalise(localStorage.getItem(key));} catch {}
+  const requested=({codex:'codex',chatgpt:'codex','chatgpt-codex':'codex',claude:'claude-code','claude-code':'claude-code',code:'claude-code'})[new URLSearchParams(location.search).get('agent')?.toLowerCase()];
+  if(typeof requested==='string'){current=requested;try{localStorage.setItem(key,current);}catch{}}
   function apply(value, animate = false) {
     const changed = current !== normalise(value);
     current=normalise(value);

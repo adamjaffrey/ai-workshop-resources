@@ -9,14 +9,14 @@ try{
  for(const width of [390,1440]){
   await page.setViewportSize({width,height:844});
   for(const [tab,path] of sections){
-   await page.goto(origin+'/playground/'+path);
+   await page.goto(origin+'/component-playground/'+path);
    assert.equal(await page.locator('[data-tab='+tab+']').getAttribute('aria-selected'),'true');
    await page.locator('[data-tab=typography]').click();
    await page.locator('[data-tab='+tab+']').click();
-   assert.equal(new URL(page.url()).pathname,'/playground/'+path);
+   assert.equal(new URL(page.url()).pathname,'/component-playground/'+path);
    await page.reload();assert.equal(await page.locator('[data-tab='+tab+']').getAttribute('aria-selected'),'true');
   }
-  await page.goto(origin+'/playground/blur/?theme=dark');assert.equal(new URL(page.url()).pathname,'/playground/blocks-and-blur');assert.equal(new URL(page.url()).search,'?theme=dark');
+  await page.goto(origin+'/component-playground/blur/?theme=dark');assert.equal(new URL(page.url()).pathname,'/component-playground/blocks-and-blur');assert.equal(new URL(page.url()).search,'?theme=dark');
   await page.locator('[data-tab=errors]').click();await page.locator('[data-tab=focus]').click();
   await page.goBack();assert.equal(await page.locator('[data-tab=errors]').getAttribute('aria-selected'),'true');
   await page.goForward();assert.equal(await page.locator('[data-tab=focus]').getAttribute('aria-selected'),'true');

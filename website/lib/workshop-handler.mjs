@@ -1,5 +1,5 @@
 import {playgroundPlaceholderDocument} from './workshop-playground-placeholder.mjs';
-import {isPlaygroundPath,playgroundRedirect} from './workshop-playground-routes.mjs';
+import {isPlaygroundPath,canonicalRedirect} from './workshop-playground-routes.mjs';
 import { randomBytes, createHash, createHmac, scryptSync, timingSafeEqual } from 'node:crypto';
 import {loginMessages, loginRetryMessage, loginControlLabels} from './workshop-login-messages.mjs';
 import { loginPage, playgroundLoginPage, resourcePage } from './workshop-pages.mjs';
@@ -73,8 +73,8 @@ export async function handleRequest(request, env, now = Date.now(), options = {}
   const json = (data,status=200,extra={}) => reply(JSON.stringify(data),status,{'Content-Type':'application/json',...extra});
   const path = new URL(request.url).pathname;
   if (!['GET','HEAD','POST'].includes(request.method)) return reply('Method not allowed',405,{'Allow':'GET, HEAD, POST'});
-  const redirect=playgroundRedirect(path);
-  if(redirect&&['GET','HEAD'].includes(request.method))return reply(null,redirect.status,{Location:redirect.location+new URL(request.url).search});
+  const redirect=canonicalRedirect(new URL(request.url));
+  if(redirect&&['GET','HEAD'].includes(request.method))return reply(null,redirect.status,{Location:redirect.location});
   if (path==='/robots.txt') return reply('User-agent: *\nDisallow: /\n',200,{'Content-Type':'text/plain'});
   if (path==='/login.js' && request.method!=='POST') return reply(loginScript,200,{'Content-Type':'text/javascript; charset=utf-8'});
   // Public decorative geometry only. This route cannot render authenticated content.
@@ -102,7 +102,7 @@ export async function handleRequest(request, env, now = Date.now(), options = {}
       if(path==='/auth/logout') {
         const token=tokenFrom(request);
         if(token) await env.DB.prepare('DELETE FROM workshop_sessions WHERE token_hash = ?').bind(sha(token)).run();
-        return reply(null,303,{'Location':'/','Set-Cookie':cookie('',now,0)});
+        return reply(null,303,{'Location':'/workshop-resources','Set-Cookie':cookie('',now,0)});
       }
       if (!request.headers.get('content-type')?.startsWith('application/x-www-form-urlencoded')) return json({error:'Unsupported request format.'},415);
       // Remove expired records without a scheduled job or schema mutation.
@@ -123,7 +123,7 @@ export async function handleRequest(request, env, now = Date.now(), options = {}
       await env.DB.prepare('INSERT INTO workshop_sessions (token_hash, expires_at, password_version) VALUES (?, ?, ?)').bind(sha(token),expires,version).run();
       const extra={'Set-Cookie':cookie(token,now)};
       if(request.headers.get('accept')?.includes('application/json')) return json({ok:true,expiresAt:expires},200,extra);
-      return reply(null,303,{...extra,'Location':'/'});
+      return reply(null,303,{...extra,'Location':'/workshop-resources'});
     }
     const session=await readSession(request,env.DB,version,now);
     if(path==='/auth/session') return session?json({expiresAt:session.expires_at}):json({error:'Please sign in again.'},401,{'Set-Cookie':cookie('',now,0)});
@@ -131,7 +131,7 @@ export async function handleRequest(request, env, now = Date.now(), options = {}
       const html=options.renderPlayground ? await options.renderPlayground() : (await import('./workshop-playground.generated.mjs')).playgroundPage;
       return reply(html.replaceAll('__SESSION_EXPIRES__',String(session.expires_at)),200,{'Content-Type':'text/html; charset=utf-8','Content-Security-Policy':"default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"});
     }
-    if(!['/','/index.html'].includes(path)&&!isPlaygroundPath(path)) return reply('Not found',404);
+    if(!['/workshop-resources'].includes(path)&&!isPlaygroundPath(path)) return reply('Not found',404);
     const page=session?resourcePage.replace('__SESSION_EXPIRES__',String(session.expires_at)):(isPlaygroundPath(path)?playgroundLoginPage:loginPage);
     return reply(page.replaceAll('__NONCE__',nonce),200,{'Content-Type':'text/html; charset=utf-8',...(!session?{'Set-Cookie':cookie('',now,0)}:{})});
   } catch {
@@ -249,6 +249,6 @@ form.addEventListener('submit',async event=>{
   password.setSelectionRange(password.value.length,password.value.length);password.readOnly=true;
   setStatus('success',loginMessages.success);button.removeAttribute('aria-busy');
   button.textContent=loginControlLabels.opening;
-  setTimeout(()=>{password.value='';location.replace(location.pathname.startsWith('/playground')?location.pathname:'/');},900);
+  setTimeout(()=>{password.value='';const target=new URL(location.href);if(!target.pathname.startsWith('/component-playground')){target.pathname='/workshop-resources';target.searchParams.delete('login');}location.replace(target.pathname+target.search+target.hash);},900);
 });
 `;

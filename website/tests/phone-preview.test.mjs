@@ -39,7 +39,7 @@ test('automatic preview sign-in uses an isolated real session and retains login 
   assert.equal((await fetch(origin+'/auth/session',{headers:{cookie}})).status,200);
   assert.equal((await fetch(origin+'/auth/session')).status,401);
   assert.match(await(await fetch(origin+'/?login=1')).text(),/id="access-form"/);
-  const logout=await fetch(origin+'/auth/logout',{method:'POST',headers:{cookie,origin},redirect:'manual'});assert.equal(logout.headers.get('location'),'/?login=1');
+  const logout=await fetch(origin+'/auth/logout',{method:'POST',headers:{cookie,origin},redirect:'manual'});assert.equal(logout.headers.get('location'),'/workshop-resources?login=1');
   assert.equal((await fetch(origin+'/auth/session',{headers:{cookie}})).status,401);
   // A stale cookie after a preview restart is replaced on the next normal visit.
   const again=await fetch(origin,{headers:{cookie}});assert.match(await again.text(),/id="workshop-content"/);assert.notEqual(again.headers.get('set-cookie').split(';')[0],cookie);

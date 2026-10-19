@@ -3,14 +3,43 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.216"
-  update_summary: "Preview both backgrounds with shared Blocks and Blur controls"
-  updated_at: "Tue 20 Oct 2026 at 06:29:55 am AEDT (+11:00)"
+  doc_revision: "26.0.217"
+  update_summary: "Canonicalise website URLs and support linked display preferences"
+  updated_at: "Tue 20 Oct 2026 at 06:46:58 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.215 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 06:46:58 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Canonicalise website URLs and support linked display preferences
+
+### Changed
+
+- Move Resources to `/workshop-resources` and Component Playground to `/component-playground`; redirect previous URLs and singular/plural section aliases with 301 responses, preserving queries and Playground descendants.
+- Apply lowercase paths and remove a leading `www.` through shared GET/HEAD routing before alias lookup, producing one redirect without maintaining capitalisation variants. Preserve exact POST paths; hostname acceptance and TLS remain hosting prerequisites.
+- Apply case-insensitive agent/theme query aliases before paint, persist valid preferences, preserve Playground navigation settings and update its favicon for both agents and themes.
+- Update login, logout, local automatic sessions, hidden shortcuts and handoff documentation to canonical paths; remove the local login-inspection flag after successful sign-in.
+- Lowercase public asset names and generated chunk/CSS URLs; correct existing browser assertions for the established menu position and footer optical alignment.
+
+### Validation
+
+- Authentication, phone-preview and routing tests — 19 passed, including combined hostname/case/alias handling and Resources variants.
+- URL preference browser check — passed at 390px and 1440px, including login continuity, invalid values, persistence, live favicon changes and manual login inspection.
+- Playground source parity, section navigation, hidden shortcut, agent preference, theme transition, theme control colour and radius checks — passed.
+- Sites local production build and generated v26.0.215 displays — passed; saved backdrop geometry reused without measurement.
+- Built Worker redirect check — 128 existing cases plus Resources/case/font checks passed; combined www/case/alias Host-header check passed.
+- LAN preview — all three handoff destinations, real automatic sessions, manual sign-in and logout invalidation passed. Headless mobile/desktop screenshots inspected; no physical-device test or publication performed.
 
 ## v26.0.214 — 2026-10-20
 

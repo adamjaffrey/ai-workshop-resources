@@ -1,5 +1,5 @@
 import handler from "vinext/server/fetch-handler";
-import { playgroundRedirect } from "../lib/workshop-playground-routes.mjs";
+import { canonicalRedirect } from "../lib/workshop-playground-routes.mjs";
 import { runWithConnectorBinding } from "../lib/connector-context";
 import type { ConnectorBinding } from "../lib/connector-contract.mjs";
 
@@ -8,10 +8,10 @@ export default {
     // Resolve before Vinext can strip a slash and create an intermediate hop.
     if (request.method === "GET" || request.method === "HEAD") {
       const url = new URL(request.url);
-      const redirect = playgroundRedirect(url.pathname);
+      const redirect = canonicalRedirect(url);
       if (redirect) return new Response(null, {
         status: redirect.status,
-        headers: { Location: redirect.location + url.search },
+        headers: { Location: redirect.location },
       });
     }
     let binding = ctx.props?.CONNECTORS;
