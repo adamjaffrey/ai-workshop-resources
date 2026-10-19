@@ -3,14 +3,35 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.208"
-  update_summary: "Refine responsive Playground specimens and controls"
-  updated_at: "Mon 19 Oct 2026 at 10:59:21 pm AEDT (+11:00)"
+  doc_revision: "26.0.209"
+  update_summary: "Restore mobile Playground introductory spacing"
+  updated_at: "Mon 19 Oct 2026 at 11:10:15 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.207 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 11:10:15 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Restore mobile Playground introductory spacing
+
+### Fixed
+
+- Restore 32px below the introductory body copy before the mobile header meets the grey content section; preserve desktop layout.
+
+### Validation
+
+- Headless Chrome geometry check — passed at 320, 390, 660, 768 and 1440px.
+- `npm --prefix website run build` — passed; generated server assets contain v26.0.207.
 
 ## v26.0.206 — 2026-10-19
 

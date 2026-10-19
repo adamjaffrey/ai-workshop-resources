@@ -115,7 +115,7 @@ main.wrap{padding-top:24px}
 .tab-scroll-shell{height:var(--tab-row-height);margin:0 0 16px}
 .tab-scroll-shell nav[role=tablist]{padding-top:0}
 [data-panel]>.panel:first-child{margin-top:0}
-@media(max-width:660px){header.wrap{padding-bottom:0}}
+
 
 
 .panel>p+details:has(>.rule-list),.panel>.feather-notice>p+details,.panel>p+.egg-help{margin-top:16px}
