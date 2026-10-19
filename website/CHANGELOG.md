@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.158"
-  update_summary: "Centre floating shadows and tighten sticky-control spacing"
-  updated_at: "Mon 19 Oct 2026 at 11:32:56 am AEDT (+11:00)"
+  doc_revision: "26.0.159"
+  update_summary: "Give the mobile selector a liquid-style contraction"
+  updated_at: "Mon 19 Oct 2026 at 11:42:32 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.157 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 11:42:32 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Give the mobile selector a liquid-style contraction
+
+### Changed
+
+- Morph the agent selector through an asymmetrically rounded squeeze and elastic rebound over 480ms, with a small opposing icon lag and no blur.
+- Resume interrupted shell animations from their visible shape; cancel shell and icon motion for reduced motion and remeasurement. Preserve the stable layout slot, 24px lock inset and 12px/20px trigger gaps.
+- Share the same live morph with the Playground Resources specimen; reuse unchanged resting backdrop geometry.
+
+### Validation
+
+- Sticky-control matrix — passed across four widths, both agents and themes, with keyboard selection, restoration and Playground scrolling.
+- Mobile stability regression — passed with zero layout drift at 320, 390 and 660px.
+- Focused animation review — rounded mid-animation shape inspected; crisp rendering, interrupted expansion and reduced-motion cancellation passed.
+- `node website/tests/style-guide-browser-check.mjs` — passed.
+- `npm --prefix website run build` — passed; generated version verified as v26.0.157. Wi-Fi app and Playground URLs return HTTP 200.
 
 ## v26.0.156 — 2026-10-19
 
