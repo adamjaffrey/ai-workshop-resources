@@ -13,9 +13,26 @@ try{
   await activate(version);await activate(version);assert.equal(p.url(),origin+'/ai-workshop-resources');await p.waitForTimeout(3100);await activate(version);assert.equal(p.url(),origin+'/ai-workshop-resources');
   await activate(copyright);await activate(version);await activate(version);const opened=c.waitForEvent('page');await activate(version);const playground=await opened;await playground.waitForURL(origin+'/component-playground');assert.equal(p.url(),origin+'/ai-workshop-resources');assert.equal(await playground.evaluate(()=>window.opener),null);p=playground;
   const frame=p.frameLocator('#resources-frame');await frame.locator('#workshop-content .brand').evaluate(e=>{e.click();e.click();e.click();});await p.waitForTimeout(100);assert.equal(p.url(),origin+'/component-playground');assert.match(await p.locator('#notice').textContent(),/shortcut activated/);assert.equal(await frame.locator('body').count(),1);
+  // The same gesture on Playground opens canonical Resources.
+  const pgBrand=p.locator('.playground-brand');
+  await activate(pgBrand);await activate(pgBrand);
+  const reverse=c.waitForEvent('page');await activate(pgBrand);
+  const rp=await reverse;await rp.waitForURL(origin+'/ai-workshop-resources');
+  assert.equal(await rp.evaluate(()=>window.opener),null);
+  assert.equal(p.url(),origin+'/component-playground');
   // Locked main app: the scrim receives the click at the real backdrop logo.
   const locked=await b.newContext({viewport:{width,height:900},hasTouch:touch,isMobile:touch});const lp=await locked.newPage();await lp.goto(origin+'/ai-workshop-resources');const box=await lp.locator('.page-placeholder .brand').boundingBox();assert.ok(box);const point={x:box.x+box.width/2,y:box.y+box.height/2};const hit=await lp.evaluate(({x,y})=>document.elementFromPoint(x,y)?.closest('.gate-panel')!==null,point);assert.equal(hit,false,'Logo is not covered by the panel');
-  const tap=async()=>touch?lp.touchscreen.tap(point.x,point.y):lp.mouse.click(point.x,point.y);await tap();await tap();const lockedPopup=locked.waitForEvent('page');await tap();const destination=await lockedPopup;await destination.waitForURL(origin+'/component-playground');await destination.locator('#access-form').waitFor();assert.equal(await destination.locator('.playground-placeholder>iframe').count(),1);assert.equal(await destination.locator('#workshop-password').count(),1);assert.equal(lp.url(),origin+'/ai-workshop-resources');await locked.close();
+  const tap=async()=>touch?lp.touchscreen.tap(point.x,point.y):lp.mouse.click(point.x,point.y);await tap();await tap();const lockedPopup=locked.waitForEvent('page');await tap();const destination=await lockedPopup;await destination.waitForURL(origin+'/component-playground');await destination.locator('#access-form').waitFor();assert.equal(await destination.locator('.playground-placeholder>iframe').count(),1);assert.equal(await destination.locator('#workshop-password').count(),1);assert.equal(lp.url(),origin+'/ai-workshop-resources');
+  const backdrop=destination.frameLocator('.playground-placeholder>iframe');
+  await backdrop.locator('.brand').waitFor();
+  const point2=await destination.evaluate(()=>{const f=document.querySelector('.playground-placeholder>iframe'),r=f.contentDocument.querySelector('.brand').getBoundingClientRect(),b=f.getBoundingClientRect();return {x:b.x+r.x+r.width/2,y:b.y+r.y+r.height/2};});
+  assert.equal(await destination.evaluate(({x,y})=>!!document.elementFromPoint(x,y)?.closest('.gate-panel'),point2),false);
+  await destination.locator('#gate-title').click({clickCount:3});assert.equal(locked.pages().length,2);
+  const tap2=()=>touch?destination.touchscreen.tap(point2.x,point2.y):destination.mouse.click(point2.x,point2.y);
+  await tap2();await tap2();const back=locked.waitForEvent('page');await tap2();
+  const returned=await back;await returned.waitForURL(origin+'/ai-workshop-resources');await returned.locator('#access-form').waitFor();
+  assert.equal(await returned.evaluate(()=>window.opener),null);
+  assert.equal(destination.url(),origin+'/component-playground');await locked.close();
   await c.close();
  }
  console.log('PASS: separate-tab three-click/tap shortcut with no opener, preserved Resources, timeout, copyright exclusion and locked scrim hit testing, unchanged brand semantics and sandbox navigation containment at four widths');

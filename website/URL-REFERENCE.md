@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.2"
-  update_summary: "Shorten the Playground label in the canonical URL table"
-  updated_at: "Tue 20 Oct 2026 at 09:33:51 am AEDT (+11:00)"
+  doc_revision: "26.0.3"
+  update_summary: "Add the Playground URL Reference tab and reciprocal logo navigation"
+  updated_at: "Tue 20 Oct 2026 at 09:39:53 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -103,6 +103,7 @@ Section aliases work under the canonical Playground root and every root alias ab
 | `/component-playground/status-states` | `error`, `errors`, `status`, `statuses`, `state`, `states`, `status-state`, `statuses-state`, `statuses-states` |
 | `/component-playground/focus-and-selection` | `focus`, `focuses`, `foci`, `selection`, `selections`, `focus-and-selections`, `focuses-and-selection`, `focuses-and-selections`, `foci-and-selection`, `foci-and-selections` |
 | `/component-playground/branding` | `brand`, `brands`, `brandings` |
+| `/component-playground/url-reference` | `url-references` |
 | `/component-playground/easter-egg` | `discovery`, `discoveries`, `easter`, `easters`, `egg`, `eggs`, `easter-eggs`, `easters-egg`, `easters-eggs` |
 
 ```text
@@ -188,6 +189,14 @@ This is one application 301. It selects Claude Code and dark theme, revokes the 
 | Local ChatGPT sign-in/out tooling | `return_to` selects a validated same-origin destination; GET uses 302 and sign-out POST uses 303 |
 
 `return_to` is internal tooling, not a public display selector. Invalid or external destinations fall back to `/`. The decorative `/login-backdrop/components` endpoint uses canonical `theme` and `agent` values to render anonymous geometry; it cannot grant access. No query parameter carries a password or grants a hosted session.
+
+## Playground Reference And Logo Navigation
+
+The Playground’s URL Reference tab at `/component-playground/url-reference` renders this document, including URL mappings and query parameter strings. Examples are non-clickable text, so inspecting `show-login=true` cannot accidentally log you out. Future URL or query changes must update this document and its Playground representation together.
+
+Three primary-button clicks or taps on the Wavelength header brand within three seconds open the other page in a new tab/window (`_blank`, `noopener,noreferrer`). Resources opens `/component-playground`; Playground opens `/ai-workshop-resources`. Both use canonical paths and the same gesture handler. The original page stays open. Other clicks, window blur or visibility changes reset the sequence.
+
+The shortcut works while signed in and on both login screens, using the blurred logo’s actual bounds through the scrim. Clicks on the login panel never activate it. The Components backdrop stays anonymous, inert and script-disabled; the parent reads only its geometry. Navigation does not sign anyone in or bypass hosted authentication. Playground specimens simulate activation without opening a window.
 
 ## Sources
 

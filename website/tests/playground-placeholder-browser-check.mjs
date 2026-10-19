@@ -11,7 +11,7 @@ try {
   const frame=await p.locator('.playground-placeholder>iframe').elementHandle().then(e=>e.contentFrame());
   await frame.waitForSelector('.ph-word');await frame.evaluate(()=>document.fonts.ready);
   assert.equal(await p.evaluate(()=>document.activeElement.id),'gate-title');
-  assert.equal(await p.locator('.playground-placeholder>iframe').getAttribute('sandbox'),'');
+  assert.equal(await p.locator('.playground-placeholder>iframe').getAttribute('sandbox'),'allow-same-origin');
   assert.equal(await frame.locator('[data-panel]').count(),1);
   assert.equal(await frame.locator('.inspector-dock').count(),1);
   assert.equal(await frame.locator('.inspector-dock').evaluate(e=>e.parentElement.matches('main.wrap')&&!e.nextElementSibling&&getComputedStyle(e).position==='static'),true);

@@ -5,7 +5,7 @@ const {server}=createPhonePreview();await new Promise(r=>server.listen(0,'127.0.
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
  const page=await browser.newPage(),origin='http://127.0.0.1:'+server.address().port;
- const sections=[['components','components'],['typography','typography'],['colours','colours'],['blocks','blocks-and-blur'],['icons','icons'],['errors','status-states'],['focus','focus-and-selection'],['branding','branding'],['discovery','easter-egg']];
+ const sections=[['components','components'],['typography','typography'],['colours','colours'],['blocks','blocks-and-blur'],['icons','icons'],['errors','status-states'],['focus','focus-and-selection'],['branding','branding'],['discovery','easter-egg'],['url-reference','url-reference']];
  for(const width of [390,1440]){
   await page.setViewportSize({width,height:844});
   for(const [tab,path] of sections){

@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.64"
-  update_summary: "Document URL rules and remove invalid public preferences"
-  updated_at: "Tue 20 Oct 2026 at 09:27:13 am AEDT (+11:00)"
+  doc_revision: "26.0.65"
+  update_summary: "Add lightweight documentation updates and shared URL reference rules"
+  updated_at: "Tue 20 Oct 2026 at 09:39:53 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -26,6 +26,16 @@ metadata:
 - Preserve existing skill source paths during documentation-only work. The skills’ legacy `VERSION` files are not verified PVS artefact authorities. Each skill backlog records the separate migration to the PVS `package/<skill-name>/VERSION.txt` structure; do not silently treat a document revision or legacy file as a successful build.
 - Validate products separately. The packaged PVS validator assumes one product per invocation and does not support recursively validating this multi-product root as a single application or document-only project. For a documentation-only change, validate the affected documents and changelog/backlog structure without inventing an artefact authority. Report existing legacy schema or packaging failures separately.
 - Maintain independent document revisions. Moving a governed document increments its document revision once; it does not renumber historical build entries or allocate an artefact version.
+
+## Documentation-Only Updates
+
+- Keep documentation-only changes light: review the text and diff, validate affected document metadata, and create the required local commit. Do not run website or browser tests, build the website, start or restart a preview server, change its password, or perform preview/LAN checks solely for a documentation change.
+- For documentation-only handoffs, provide the concise change summary, relevant document links and Build and Delivery status. Omit Local Preview and Local App Test Password unless the user explicitly requests a preview handoff. These exceptions override the general preview and handoff requirements below. A change that modifies executable website behaviour still requires the relevant software validation.
+- URL-reference prose is rendered in the Playground from `website/URL-REFERENCE.md`; wording-only corrections remain documentation-only and do not require rebuilding the hosted site unless publication is explicitly requested.
+
+## URL Reference Maintenance
+
+- Any future URL, hostname, redirect, query parameter, alias or canonical destination change must update both `website/URL-REFERENCE.md` and the Component Playground’s URL Reference tab in the same coherent change. The tab renders the Markdown document directly; keep that shared renderer and its route current, and verify both URL mappings and query parameter strings are represented when changing behaviour.
 
 ## Preview Delivery
 
@@ -60,7 +70,7 @@ On Resources and supported Playground routes, `show-login=true` revokes the curr
 
 ### Required Update Handoff
 
-This is an exact output contract for every completed update in this repository, including documentation-only updates. Use the literal labels, order, punctuation and status phrases below; substitute only verified values and the explicitly permitted alternatives. These rules supersede older handoff examples elsewhere in the repository or chat history.
+This is an exact output contract for every completed update in this repository, with the documentation-only exceptions above. Use the literal labels, order, punctuation and status phrases below; substitute only verified values and the explicitly permitted alternatives. These rules supersede older handoff examples elsewhere in the repository or chat history.
 
 1. Start with a concise change summary and verification result, normally one or two sentences.
 2. Emit **📦 Build and Delivery** and its four bullets in the exact order shown below.
@@ -93,7 +103,7 @@ Define `LOCAL_ORIGIN` as the active preview’s verified `http://WIFI-IP:PORT`, 
 
 - Main App: `[Main App ↗](LOCAL_ORIGIN/ai-workshop-resources) — automatically signed in`. Link to `/ai-workshop-resources`, not a redirect alias, and do not put paths in the anchor text.
 - Playground, when exactly one section is the primary review destination: `[Playground > SECTION TITLE ↗](LOCAL_ORIGIN/component-playground/SECTION-SLUG) — automatically signed in`. Use the title/slug mapping below, not a raw slug or invented title.
-- Playground, for cross-cutting changes, documentation-only updates or no specific section: `[Playground ↗](LOCAL_ORIGIN/component-playground) — automatically signed in`.
+- Playground, for cross-cutting changes or no specific section: `[Playground ↗](LOCAL_ORIGIN/component-playground) — automatically signed in`.
 - Login Form: `[Login Form ↗](LOCAL_ORIGIN/ai-workshop-resources?show-login=true) — logged-out view`.
 
 | Section Slug | Section Title |
@@ -107,10 +117,11 @@ Define `LOCAL_ORIGIN` as the active preview’s verified `http://WIFI-IP:PORT`, 
 | `focus-and-selection` | Focus and Selection |
 | `branding` | Branding |
 | `easter-egg` | Easter Egg |
+| `url-reference` | URL Reference |
 
 Do not use “Preview link”, inline-code paths in labels, “password free”, “password-free”, “logged out state” or additional lock icons in these handoff bullets. The exact local phrase “automatically signed in” describes the no-password-entry review experience; it does not change the authentication implementation. The app obtains a real local session, while local Playground access remains password-free as documented above. Never apply this phrase to hosted access or imply that either local route bypasses hosted authentication. The login link revokes the current session before displaying the logged-out form.
 
-Verify the active process, LAN origin and all three destinations before handing them over. Read the password from that process’s startup output. Retained startup output is usable only after confirming that the same process is still serving those URLs; never copy a credential merely from a previous final response. Reuse a verified active preview for documentation-only work; do not rebuild or restart it solely because a document changed. If the process or password cannot be verified, restart and verify when safe and within scope, or use the unavailable case below.
+Verify the active process, LAN origin and all three destinations before handing them over. Read the password from that process’s startup output. Retained startup output is usable only after confirming that the same process is still serving those URLs; never copy a credential merely from a previous final response. If the process or password cannot be verified, restart and verify when safe and within scope, or use the unavailable case below.
 
 If local preview is unavailable, retain **🔗 Local Preview** with `Unavailable — REASON.` and **🔑 Local App Test Password** with `Unavailable — no verified active preview password.` instead of links or a password block. Do not invent credentials or provide unverified URLs. If a deliberately passwordless preview has no test credential, state `Not applicable — this preview has no test password.` instead of a code block; the normal app preview still requires its generated test credential for manual login inspection.
 
@@ -120,7 +131,7 @@ Under **🌐 Live on Sites**, every successful publication must include two sepa
 
 ### Handoff Format
 
-Copy this structure literally for a successful new local build, replacing placeholders. For documentation-only work, replace only the Build phrase with `unchanged, no new artefact produced.`. For a section-specific review, replace only the Playground bullet with the section form defined above. Do not emit placeholder text.
+Copy this structure literally for a successful new local build, replacing placeholders. For documentation-only work, use `unchanged, no new artefact produced.` and omit the preview and password sections as specified above. For a section-specific review, replace only the Playground bullet with the section form defined above. Do not emit placeholder text.
 
 ````markdown
 **📦 Build and Delivery**
@@ -154,7 +165,7 @@ When the live-link inclusion condition is met, append:
 
 Before sending, check the exact four status labels and order, version/hash evidence, canonical Main App URL, Playground title/slug selection, literal authentication suffixes, active-process password, and whether a Live on Sites section is warranted. Do not substitute stylistic variants for this contract.
 
-Site-wide GET/HEAD requests remove a leading `www.` hostname and lowercase the path before resolving aliases in one 301 redirect; lowercase the names and values of known public query parameters (`agent`, `theme`, `show-login` and its legacy aliases) in that same redirect, preserving unrelated query components exactly and leaving POST paths unchanged. Map `login=1`, `logged-in=false` and `logged-out=true` to `show-login=true`; map `login=0`, `logged-in=true` and `logged-out=false` to `show-login=false`. Accept only true/false for the named boolean selectors and only 1/0 for legacy `login`; remove unsupported login-selector values by redirect. Preserve duplicate order, using the first valid resulting `show-login` value. Use 301 for every application canonical redirect, including slash-only corrections. Preserve descendants for every registered path alias with segment-boundary matching; `/` remains exact-only, and unknown descendants remain 404 until implemented. Support all ai/ais × workshop/workshops × resource/resources, style/styles × guide/guides, focus/focuses/foci × selection/selections, and easter/easters × egg/eggs variants. Canonicalise recognised agent/theme aliases to `codex`, `claude-code`, `light` and `dark` in that same hop. Remove unsupported or empty agent/theme values by 301; preserve unrelated query data. Include `/style`, `/styles`, `/guide` and `/guides` as Playground prefix aliases. Keep `website/URL-REFERENCE.md` aligned with routing changes. Use AI Workshop Resources and Component Playground as the respective browser titles, including login pages. Maintain only lowercase redirect keys and public asset filenames. Hosting must accept the `www` hostname and supply its certificate before these redirects can run.
+Site-wide GET/HEAD requests remove a leading `www.` hostname and lowercase the path before resolving aliases in one 301 redirect; lowercase the names and values of known public query parameters (`agent`, `theme`, `show-login` and its legacy aliases) in that same redirect, preserving unrelated query components exactly and leaving POST paths unchanged. Map `login=1`, `logged-in=false` and `logged-out=true` to `show-login=true`; map `login=0`, `logged-in=true` and `logged-out=false` to `show-login=false`. Accept only true/false for the named boolean selectors and only 1/0 for legacy `login`; remove unsupported login-selector values by redirect. Preserve duplicate order, using the first valid resulting `show-login` value. Use 301 for every application canonical redirect, including slash-only corrections. Preserve descendants for every registered path alias with segment-boundary matching; `/` remains exact-only, and unknown descendants remain 404 until implemented. Support all ai/ais × workshop/workshops × resource/resources, style/styles × guide/guides, focus/focuses/foci × selection/selections, and easter/easters × egg/eggs variants. Canonicalise recognised agent/theme aliases to `codex`, `claude-code`, `light` and `dark` in that same hop. Remove unsupported or empty agent/theme values by 301; preserve unrelated query data. Include `/style`, `/styles`, `/guide` and `/guides` as Playground prefix aliases. Keep `website/URL-REFERENCE.md` and the Playground URL Reference tab aligned with routing and query parameter changes. Use AI Workshop Resources and Component Playground as the respective browser titles, including login pages. Maintain only lowercase redirect keys and public asset filenames. Hosting must accept the `www` hostname and supply its certificate before these redirects can run.
 
 ## Website Login
 
@@ -328,7 +339,7 @@ Apply this standard to:
 
 ## Hidden Playground Shortcut
 
-- Three taps or primary-button clicks on the Wavelength header logo within three seconds open `/component-playground` in a new tab/window using `_blank` with `noopener,noreferrer`, leaving Resources open. Only the header brand area activates it; other clicks, leaving the window or changing visibility reset the sequence. Keep the existing brand markup unchanged: no Tab stop, programmatic focusability, focus ring, button/link role, action-specific screen-reader label, tooltip, hover treatment or visible affordance. Screen readers should encounter only the existing brand content. On the locked main app, recognise the same coordinates from the actual blurred backdrop logo bounds through the scrim without adding a hotspot element; never intercept the login panel. The inert Components backdrop does not expose an additional interactive shortcut target. This intentionally undisclosed shortcut is an exception to the normal pointer-cursor rule. It does not grant access or bypass authentication.
+- Three taps or primary-button clicks on the Wavelength header logo within three seconds open the other page in a new tab/window using `_blank` with `noopener,noreferrer`: Resources opens `/component-playground`, and Playground opens `/ai-workshop-resources`, leaving the original page open. Reuse the same gesture handler and timing on both pages. Only the header brand area activates it; other clicks, leaving the window or changing visibility reset the sequence. Keep the existing brand markup unchanged: no Tab stop, programmatic focusability, focus ring, button/link role, action-specific screen-reader label, tooltip, hover treatment or visible affordance. Screen readers should encounter only the existing brand content. On both locked pages, recognise the coordinates of the actual blurred backdrop logo through the scrim without adding a hotspot element; never intercept the login panel. The parent may read logo bounds from the anonymous Components iframe using `allow-same-origin`; the iframe remains inert and script-disabled (no `allow-scripts`, with CSP `script-src 'none'`). Never embed protected content or make the backdrop itself interactive. This intentionally undisclosed shortcut is an exception to the normal pointer-cursor rule. It does not grant access or bypass authentication.
 - Playground specimens exercise the same gesture handler but cancel navigation and report the simulated activation.
 
 ## Playground Source Fidelity

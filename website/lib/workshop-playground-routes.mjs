@@ -1,12 +1,12 @@
 import {agentAliases,themeAliases} from './workshop-url-preferences.mjs';
-export const playgroundSections=['components','typography','colours','blocks-and-blur','icons','status-states','focus-and-selection','branding','easter-egg'];
+export const playgroundSections=['components','typography','colours','blocks-and-blur','icons','status-states','focus-and-selection','branding','easter-egg','url-reference'];
 export const playgroundTabPaths={blocks:'blocks-and-blur',errors:'status-states',focus:'focus-and-selection',discovery:'easter-egg'};
 export const resourcesRoot='/ai-workshop-resources';
 const resourceRoots=new Set(['home','homes','index.html','workshop','workshops','resource','resources','workshop-resource','workshop-resources','workshops-resource','workshops-resources','ai','ais','ai-workshop-resource','ai-workshop-resources','ai-workshops-resource','ai-workshops-resources','ais-workshop-resource','ais-workshop-resources','ais-workshops-resource','ais-workshops-resources']);
 export const playgroundRoot='/component-playground';
 const roots=new Set(['component-playground','components-playground','component-playgrounds','components-playgrounds','component','components','playground','playgrounds','style-guide','style-guides','styles-guide','styles-guides','style','styles','guide','guides']);
 const sectionAliases=new Map([
- ['component','components'],['typographies','typography'],['colour','colours'],['color','colours'],['colors','colours'],
+ ['url-references','url-reference'],['component','components'],['typographies','typography'],['colour','colours'],['color','colours'],['colors','colours'],
  ['block','blocks-and-blur'],['blocks','blocks-and-blur'],['blur','blocks-and-blur'],['blurs','blocks-and-blur'],
  ['block-and-blur','blocks-and-blur'],['block-and-blurs','blocks-and-blur'],['blocks-and-blurs','blocks-and-blur'],
  ['icon','icons'],['error','status-states'],['errors','status-states'],['status','status-states'],['statuses','status-states'],['state','status-states'],['states','status-states'],

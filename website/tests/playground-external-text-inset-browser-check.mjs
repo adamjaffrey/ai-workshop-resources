@@ -29,7 +29,7 @@ try{
   await p.goto(origin+'/playground/components');
   for(const theme of ['light','dark'])for(const agent of ['codex','claude-code']){
    await p.evaluate(({theme,agent})=>{document.documentElement.dataset.theme=theme;document.documentElement.dataset.selectedAgent=agent;},{theme,agent});
-   for(const tab of ['components','typography','colours','focus','icons','errors','branding','discovery','blocks']){
+   for(const tab of ['components','typography','colours','focus','icons','errors','branding','discovery','blocks','url-reference']){
     await p.locator('[data-tab='+tab+']').click();
     if(tab==='icons'){
      const failures=await p.evaluate(ink=>[...document.querySelectorAll('.playground-icon-entry')].filter(e=>e.checkVisibility()).flatMap(entry=>{const svg=entry.querySelector('h3>svg'),r=svg.getBoundingClientRect(),v=svg.getAttribute('viewBox'),m=v==='0 0 24 24'?{...ink.icons[svg.dataset.iconName],viewBox:24}:ink.variants[svg.dataset.iconName+':'+v];if(!m)return ['Missing icon ink '+svg.dataset.iconName+' '+v];const c=getComputedStyle(entry),rail=entry.getBoundingClientRect().left+parseFloat(c.borderLeftWidth)+parseFloat(c.paddingLeft),actual=r.x+m.left*r.width/m.viewBox;return Math.abs(actual-rail)<.2?[]:[svg.dataset.iconName+' ink '+actual+' rail '+rail];}),ink);assert.deepEqual(failures,[],'catalogue icon ink');
@@ -39,7 +39,7 @@ try{
      const rail=await panel.locator(':scope>.section-heading').evaluate(e=>e.getBoundingClientRect().left);
      const id=await panel.getAttribute('id');
      const heading=panel.locator(':scope>.section-heading h2');
-     const result=await heading.evaluate((e,icons)=>{const svg=e.querySelector('svg'),r=svg.getBoundingClientRect();if(!icons[svg.dataset.iconName])throw Error('Missing measured icon '+svg.dataset.iconName);return r.x+icons[svg.dataset.iconName].left*r.width/24;},ink.icons);near(result,rail,'card heading ink');
+     const result=await heading.evaluate((e,icons)=>{const svg=e.querySelector('svg');if(!svg)return e.getBoundingClientRect().left;const r=svg.getBoundingClientRect();if(!icons[svg.dataset.iconName])throw Error('Missing measured icon '+svg.dataset.iconName);return r.x+icons[svg.dataset.iconName].left*r.width/24;},ink.icons);near(result,rail,'card heading ink');
      for(const copy of await panel.locator(':scope>p,:scope>.feather-notice>p').all())if(await copy.isVisible())near(await copy.evaluate(e=>e.getBoundingClientRect().left),rail,'card text');
      for(const choices of await panel.locator('.choices:visible').all()){
       const legend=choices.locator('legend'),shell=choices.locator(':scope>.choice-shell');if(await shell.count())near((await legend.boundingBox()).x-(await shell.boundingBox()).x,4,'toggle label');

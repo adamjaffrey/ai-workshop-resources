@@ -4,7 +4,7 @@ export const playgroundPlaceholderStyles=`
 main.page-placeholder.playground-placeholder>iframe{display:block;border:0;width:100%!important;max-width:none!important;margin:0!important;height:100%!important;pointer-events:none}
 `;
 export function playgroundPlaceholder(){
- return '<main class="page-placeholder playground-placeholder" aria-hidden="true" inert><iframe title="Decorative Components backdrop" tabindex="-1" sandbox="" src="/login-backdrop/components?theme=light&amp;agent=codex"></iframe></main>';
+ return '<main class="page-placeholder playground-placeholder" aria-hidden="true" inert><iframe title="Decorative Components backdrop" tabindex="-1" sandbox="allow-same-origin" src="/login-backdrop/components?theme=light&amp;agent=codex"></iframe></main>';
 }
 export function playgroundPlaceholderDocument(theme='light',agent='codex'){
  theme=theme==='dark'?'dark':'light';agent=['claude','claude-code'].includes(agent)?'claude-code':'codex';
