@@ -71,7 +71,7 @@ const clickPrompt=async()=>{await p.locator('#resources-frame').evaluate(e=>e.sc
 await choose('copy','error');await clickPrompt();
 await resources.locator('[data-copy][data-copy-error]').first().waitFor({state:'attached',timeout:3000});
 assert.equal(await resources.locator('[data-copy]').first().getAttribute('data-copy-error')!==null,true);
-await choose('copy','success');await resources.locator('body').evaluate(()=>new Promise(resolve=>{const check=()=>{if(!copyFailure)resolve();else setTimeout(check,20);};check();}));await clickPrompt();
+await choose('copy','success');await resources.locator('body').evaluate(()=>new Promise(resolve=>{const check=()=>{if(!copyFailure)resolve();else setTimeout(check,20);};check();}));await resources.locator('[data-copy]').first().focus();await p.keyboard.press('Enter');
 const resourceDocument=await (await p.locator('#resources-frame').elementHandle()).contentFrame();
 await resourceDocument.waitForFunction(()=>document.querySelector('[data-copy]').dataset.copied==='true',null,{timeout:3000});
 await resources.locator('footer button').click();assert.equal(p.url(),origin+'/playground');

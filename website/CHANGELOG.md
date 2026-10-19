@@ -3,14 +3,45 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.166"
-  update_summary: "Add a brand blur tuner and automatic local preview sign-in"
-  updated_at: "Mon 19 Oct 2026 at 01:58:50 pm AEDT (+11:00)"
+  doc_revision: "26.0.167"
+  update_summary: "Flow the final sheen into the halo and sustain rainbow hover"
+  updated_at: "Mon 19 Oct 2026 at 02:09:45 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.165 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 02:09:45 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Flow the final sheen into the halo and sustain rainbow hover
+
+### Changed
+
+- Use a single smooth rainbow opacity crest for text and ambient particles. Decay particle tails from actual energy without recharging them to a fixed brightness or triggering a second ambient flash.
+- Keep pointer-attracted particles glowing between slow twinkles, with gently varied rainbow hues independent of passing sheens; avoid retaining the final pink/plum sample.
+- Add a separate Final Sheen Duration control, defaulting to 2.2 seconds while the regular sweep remains four seconds.
+- Trigger a continuous ribbon while the sheen crosses the final letters. Curve it sideways and upward, trace the measured rounded modal outline, then fade in the stationary modal and backdrop. Match the traced halo and final halo palette.
+- Rename the existing formation controls and preserve their exported keys. Playground source and 27 state-specific settings remain shared with the app.
+- Apply the requested Congratulations heading, four paragraphs, bold quoted question and Done button exactly.
+- Cover pointer failure and keyboard success in the general simulated-copy test after an intermittent cross-frame click timeout.
+
+### Validation
+
+- Flow check — passed: single rising/falling crest, travelling particle onset, persistent varied hover with no sheen, slower gravity twinkles, zero values, exact modal copy and overlapping sheen/ribbon handoff.
+- Playground, edge, sheen and timing browser checks — passed across desktop/mobile, themes and agents, including touch, focus, reopening and shared-source parity.
+- `node website/tests/style-guide-browser-check.mjs` — passed after the copy success case was changed to keyboard activation.
+- Phone layout and mid-flight reduced-motion cancellation — passed; screenshots of the forming halo and desktop/mobile modal inspected.
+- `npm --prefix website run build` — passed; built v26.0.165, new copy and final-duration control verified.
+- Physical iPhone Safari remains unverified.
 
 ## v26.0.164 — 2026-10-19
 
