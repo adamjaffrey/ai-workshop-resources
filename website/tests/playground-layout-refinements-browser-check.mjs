@@ -7,7 +7,7 @@ try{
  const origin='http://127.0.0.1:'+server.address().port;
  for(const width of [320,390,768,1440]){
   await page.setViewportSize({width,height:900});await page.goto(origin+'/playground/focus');await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(200);
-  async function centered(){const d=await page.locator('[data-tab][aria-selected=true]').evaluate(e=>{const r=e.getBoundingClientRect(),n=e.parentElement.getBoundingClientRect();return Math.abs(r.left+r.width/2-n.left-e.parentElement.clientWidth/2);});assert.ok(d<2,'centred tab '+width+': '+d);}
+  async function centered(){if(width>660)return;const d=await page.locator('[data-tab][aria-selected=true]').evaluate(e=>{const nav=e.parentElement,r=e.getBoundingClientRect(),n=nav.getBoundingClientRect(),target=nav.scrollLeft+r.left+r.width/2-n.left-nav.clientWidth/2;return Math.abs(nav.scrollLeft-Math.max(0,Math.min(nav.scrollWidth-nav.clientWidth,target)));});assert.ok(d<2,'clamped mobile tab '+width+': '+d);}
   await centered();assert.equal(await page.locator('[data-tab=focus] svg').getAttribute('data-icon-name'),'search');
   for(const tab of ['components','typography','colours','blocks','icons','errors','focus','branding','discovery']){
    await page.locator('[data-tab='+tab+']').click();await page.waitForTimeout(70);await centered();

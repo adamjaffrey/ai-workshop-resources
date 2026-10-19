@@ -5,8 +5,9 @@ export const playgroundLayoutCSS=String.raw`
 .section-heading h2{align-items:flex-start}.section-heading h2>svg{align-self:flex-start;margin-top:calc((1.5em - 24px)/2)}
 .playground-icon-entry h3{align-items:flex-start}.playground-icon-entry h3>svg{margin-top:1.5px}
 nav[role=tablist] button{display:inline-flex;align-items:center;gap:8px}nav[role=tablist] button svg{width:20px;height:20px;flex:none}
-nav[role=tablist]::before,nav[role=tablist]::after{content:'';flex:none;width:var(--tab-start-space,0px)}nav[role=tablist]::after{width:var(--tab-end-space,0px)}
+nav[role=tablist]{border-bottom:0;padding-bottom:14px;background:linear-gradient(var(--border),var(--border)) left calc(100% - 14px)/100% 1px no-repeat}
 .panel-actions,.panel-options{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:12px;margin-top:16px}
+.control-footer{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px;margin-top:16px}.control-footer>.panel-actions,.control-footer>.panel-options{margin:0}.control-footer>.choices{flex:1;min-width:180px}.control-footer>.checkbox-controls{flex:1}.control-footer .panel-actions{margin-left:auto}
 .icon-button,.preview-expand{display:inline-flex;flex-direction:row;align-items:center;justify-content:center;gap:6px;width:max-content;max-width:100%;min-height:44px;white-space:nowrap}
 .icon-button svg,.preview-expand svg{width:18px;height:18px;flex:none}.icon-button .action-label{display:inline}
 #perspective-replay{width:max-content;justify-self:start;grid-column:1/-1;align-self:end;margin:0;font-size:14px;font-weight:600;gap:6px}
@@ -33,6 +34,7 @@ nav[role=tablist]::before,nav[role=tablist]::after{content:'';flex:none;width:va
 export const playgroundLayoutScript=String.raw`
 const previewActionHomes=new WeakMap();
 function placePreviewActions(dialog,expanded){
+ const footer=dialog.querySelector('.control-footer');if(footer){if(expanded){footer.before(Object.assign(document.createElement('span'),{id:'branding-footer-home',hidden:true}));dialog.querySelector('.expanded-state-controls').append(footer);}else document.getElementById('branding-footer-home')?.replaceWith(footer);}
  const heading=dialog.querySelector('.section-heading'),actions=heading.querySelector('.heading-actions');
  for(const {button,home} of previewActionHomes.get(dialog)||[]){if(expanded)actions.append(button);else home.before(button);}
 }
@@ -57,6 +59,10 @@ for(const dialog of document.querySelectorAll('.preview-dialog')){
 for(const choice of document.querySelectorAll('.section-heading .source-choice')){
  const panel=choice.closest('.panel'),row=document.createElement('div');row.className='panel-options';row.append(choice);panel.querySelector('.frame-wrap').before(row);
 }
+// Share the last control row where space allows; retain natural wrapping on phones.
+const branding=document.getElementById('branding-preview'),checks=branding.querySelector('.checkbox-controls'),brandActions=branding.querySelector('.panel-actions');
+const brandFooter=document.createElement('div');brandFooter.className='control-footer';brandActions.before(brandFooter);brandFooter.append(checks,brandActions);
+const filter=document.getElementById('icon-filter'),sourceOptions=document.getElementById('show-sources').closest('.panel-options'),iconFooter=document.createElement('div');iconFooter.className='control-footer';filter.before(iconFooter);iconFooter.append(filter,sourceOptions);
 // Derive tab icons from each section's first actual panel heading.
 for(const tab of document.querySelectorAll('[data-tab]')){
  const source=document.querySelector('[data-panel="'+tab.dataset.tab+'"] .section-heading h2 svg');
@@ -65,11 +71,8 @@ for(const tab of document.querySelectorAll('[data-tab]')){
 }
 function centerPlaygroundTab(tab){
  if(!tab)return;
- const nav=tab.parentElement,buttons=[...nav.querySelectorAll('[data-tab]')],style=getComputedStyle(nav),gap=parseFloat(style.gap)||0;
- const content=buttons.reduce((sum,b)=>sum+b.getBoundingClientRect().width,0)+gap*(buttons.length-1),available=nav.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight);
- const overflow=content>available;
- nav.style.setProperty('--tab-start-space',overflow?Math.max(0,(nav.clientWidth-buttons[0].offsetWidth)/2-parseFloat(style.paddingLeft)-gap)+'px':'0px');
- nav.style.setProperty('--tab-end-space',overflow?Math.max(0,(nav.clientWidth-buttons.at(-1).offsetWidth)/2-parseFloat(style.paddingRight)-gap)+'px':'0px');
+ const nav=tab.parentElement;
+ if(!matchMedia('(max-width:660px)').matches){const r=tab.getBoundingClientRect(),n=nav.getBoundingClientRect();if(r.left<n.left)nav.scrollLeft+=r.left-n.left;else if(r.right>n.right)nav.scrollLeft+=r.right-n.right;return;}
  const r=tab.getBoundingClientRect(),n=nav.getBoundingClientRect();
  nav.scrollTo({left:nav.scrollLeft+r.left+r.width/2-n.left-nav.clientWidth/2,behavior:'instant'});
 }

@@ -3,14 +3,43 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.183"
-  update_summary: "Refine Playground navigation and preview controls"
-  updated_at: "Mon 19 Oct 2026 at 04:51:33 pm AEDT (+11:00)"
+  doc_revision: "26.0.184"
+  update_summary: "Refine tab edges, restore native selector and unify links"
+  updated_at: "Mon 19 Oct 2026 at 05:14:43 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.182 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 05:14:43 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine tab edges, restore native selector and unify links
+
+### Changed
+
+- Limit tab centring to widths up to 660px, clamp scrolling to natural ends without spacer gaps and reveal offscreen tablet/desktop selections with minimum scrolling. Reserve space below the selection baseline for the horizontal scrollbar.
+- Remove fixed-position and horizontal-margin overrides from the Easter Egg selector specimen, restoring the real app’s sticky alignment and responsive contraction/expansion.
+- Combine Branding checkboxes with actions and the app icon filter with Show Sources where space permits, retaining natural wrapping on narrow screens.
+- Match Playground source labels to the app catalogue’s View Source · provider · icon-name format.
+- Decorate navigation and source links with an un-underlined Lucide Arrow Up Right and padded hover targets, preserving shared agent/theme link colours and 10% accent hover tint.
+
+### Validation
+
+- Authentication and saved geometry tests — 11 passed; no main-app resting geometry changes or remeasurement.
+- Layout refinement checks — all tabs at 320/390/768/1440px passed, including gaps, placement, expanded focus and source visibility.
+- Dedicated links/tabs checks — source labels, link/underline/arrow colours, hover padding, natural edge clamping, tablet/desktop noncentring and native selector alignment/width/compact-state comparison against an independent app page passed.
+- Icon catalogue and full app/Playground source-parity suites — passed across themes, agents and responsive layouts.
+- Expanded-preview checks — state preservation, modal controls and focus/scroll restoration passed.
+- Sites local production build and final LAN app/Playground/login links — passed with v26.0.182. Screenshots inspected; physical iPhone/Safari not tested.
 
 ## v26.0.181 — 2026-10-19
 

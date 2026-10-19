@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.117"
-  update_summary: "Document Playground navigation and preview control layout"
-  updated_at: "Mon 19 Oct 2026 at 04:51:33 pm AEDT (+11:00)"
+  doc_revision: "26.0.118"
+  update_summary: "Document mobile tabs, native selector parity and link styling"
+  updated_at: "Mon 19 Oct 2026 at 05:14:43 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -291,8 +291,16 @@ The Icons tab separates App Icons and Symbols from Playground Icons. The latter 
 
 ### Playground Layout and Navigation
 
-Each section tab clones the first panel’s actual heading icon. Selecting a tab, opening a section URL or restoring the initial section centres the selected tab horizontally, including first/last tabs through calculated end space. Subsequent manual scrolling is preserved. Focus Rings and Text Selection uses Lucide Search; Replay Animation uses Rotate Clockwise, the same button treatment as Copy Values and Reset Defaults, and only its content width.
+Each section tab clones the first panel’s actual heading icon. At widths up to 660px, selecting a tab, opening a section URL or restoring the initial section centres it only within the natural scroll range. There are no end spacers; edge items clamp to the start/end. Wider tablet and desktop views reveal an offscreen selected tab with minimum scrolling and never centre it. Subsequent manual scrolling is preserved. The tab strip reserves 14px below its selection baseline for the horizontal scrollbar. Focus Rings and Text Selection uses Lucide Search; Replay Animation uses Rotate Clockwise, the same button treatment as Copy Values and Reset Defaults, and only its content width.
 
-The login destination and held-state groups share a row at all widths; each group retains its own horizontal overflow behaviour. Every outer iframe inset, shared-colour sample grid and Playground icon catalogue has a 24px gap after the preceding visible content or controls. Expanded previews retain that gap through their row gap and inset margin. Branding checkboxes stay after the sliders. The isolated Easter Egg specimen exposes the existing app agent selector as a floating control at every width; it uses the original agent buttons and behaviour rather than a duplicate selector.
+The login destination and held-state groups share a row at all widths; each group retains its own horizontal overflow behaviour. Every outer iframe inset, shared-colour sample grid and Playground icon catalogue has a 24px gap after the preceding visible content or controls. Expanded previews retain that gap through their row gap and inset margin. Branding checkboxes share the final action row where space permits, and App Icons and Symbols places its family filter and Show Sources checkbox together. Narrow layouts wrap these controls without reducing their hit targets. The isolated Easter Egg specimen exposes the existing app agent selector with its original sticky-control script, source-aligned horizontal position, width-dependent contraction/expansion and shadow. It has no fixed-position/left override; the specimen hides unrelated header content while retaining the header’s horizontal margins. Its selector is compared with an independently rendered main app at the same viewport and scroll state.
 
 `node website/tests/playground-layout-refinements-browser-check.mjs` checks every tab at 320, 390, 768 and 1440px, including first-line icon alignment, tab centring, inset spacing, source visibility, live agent selection, expanded action placement, keyboard focus and scrollable/faded expanded titles. `node website/tests/playground-expanded-preview-check.mjs` verifies iframe-state preservation and modal controls.
+
+### Shared Navigation Links
+
+`lib/workshop-links.mjs` decorates navigation/source links with the installed Lucide Arrow Up Right, including dynamically generated catalogue links. Text has its own underlined span; the arrow inherits the same colour but is not underlined. A 3px vertical and 5px horizontal inset pads the entire hover target. Both icon catalogues use `View Source · PROVIDER · ICON-NAME`. Playground source visibility remains separately controlled.
+
+Link text, visited text, arrows and underlines use `--link`, aliased to `--icon-ink`. Light mode mixes 80% agent accent with black: Codex `#026ACC`, Claude `#AE5F46`. Dark mode mixes 55% accent with white: Codex `#74BCFF`, Claude `#EAB4A3`. Hover retains these foreground colours, increases underline thickness from 1px to 2px and uses the unmodified agent accent at 10% opacity (`#0285FF` or `#D97757`); the resulting visible background depends on the underlying surface. Reduced motion disables the existing hover-colour transition.
+
+`node website/tests/playground-links-and-tabs-browser-check.mjs` checks link colours/decoration, source-label parity, mobile edge clamping, noncentring tablet/desktop selection, scrollbar separation and native agent-selector parity.

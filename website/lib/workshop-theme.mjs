@@ -1,3 +1,4 @@
+import {linkCSS,linkScript} from './workshop-links.mjs';
 import {revealRadiusRange} from './workshop-reveal.mjs';
 import {toggleScript} from './workshop-toggle.mjs';
 import {agentScript} from './workshop-agent.mjs';
@@ -299,7 +300,7 @@ const script = `(() => {
 })();`;
 
 export function withTheme(html, login = false) {
-  html = html.replace('</head>', `<style>${styles}</style><script nonce="__NONCE__" data-workshop-theme>${agentScript}\n${toggleScript}\n${script}</script></head>`);
+  html = html.replace('</head>', `<style>${styles}\n${linkCSS}</style><script nonce="__NONCE__" data-workshop-theme>${agentScript}\n${toggleScript}\n${script}\n${linkScript}</script></head>`);
   if (login) return html.replace('</h2>', `</h2><div class="gate-toolbar"><p class="eyebrow">Workshop Access</p>${control}</div>`);
   return html.replace('<div class="brand" aria-label="Wavelength">', '<div class="page-toolbar"><div class="brand" aria-label="Wavelength">')
     .replace('    <header class="page-header">', `    ${control}</div>\n    <header class="page-header">`);
