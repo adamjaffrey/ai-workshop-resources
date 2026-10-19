@@ -120,7 +120,10 @@ export function initPerspective(defaults) {
   if(!motion.matches){area.setAttribute('data-sheening','');waves.push({start:performance.now(),sweep:config.duration,life:config.particleDuration,dark:root.dataset.theme==='dark'});}
   if(complete){
    area.removeAttribute('data-hovering');area.removeAttribute('data-keyboard-hint');
-   setState('complete');sync();button.hidden=true;
+   setState('revealing');sync();button.hidden=true;
+   const other=root.dataset.theme==='dark'?day:night;
+   if(!motion.matches)other.animate([{opacity:0,clipPath:root.dataset.theme==='dark'?'inset(0 0 0 100%)':'inset(0 100% 0 0)'},{opacity:1,clipPath:'inset(0 0 0 0)'}],{duration:800,fill:'both',easing:'ease-out'});
+   later(()=>{if(token!==sequence)return;setState('complete');sync();},motion.matches?0:800);
    later(()=>{area.removeAttribute('data-sheening');area.removeAttribute('data-celebrating');},config.duration);
    later(()=>{if(token!==sequence)return;dialog.showModal();window.workshopFocusPanel?.(dialog);},Math.max(4000,motion.matches?0:config.duration));
   } else {later(()=>{if(token===sequence)area.removeAttribute('data-sheening');},config.duration);}

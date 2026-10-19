@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.156"
-  update_summary: "Contour particles around text and rotate the complete rainbow halo"
-  updated_at: "Mon 19 Oct 2026 at 11:23:48 am AEDT (+11:00)"
+  doc_revision: "26.0.157"
+  update_summary: "Start the animated discovery reveal without a delay"
+  updated_at: "Mon 19 Oct 2026 at 11:27:01 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.155 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 11:27:01 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Start the animated discovery reveal without a delay
+
+### Changed
+
+- Restore the smooth 800ms text reveal with no start delay, clarifying the requested immediate response while preserving the normal-duration final sheen.
+- Retain text-shaped feathered particle capsules and the shared rotating rainbow border and halo from v26.0.154, which was not published to Sites.
+
+### Validation
+
+- Perspective edge browser checks — passed immediate animation start, 800ms duration, four-second sheen, delayed popup, reopening and touch paths.
+- `node website/tests/style-guide-browser-check.mjs` — passed.
+- Sites build helper and generated artefact inspection — passed with v26.0.155.
 
 ## v26.0.154 — 2026-10-19
 
