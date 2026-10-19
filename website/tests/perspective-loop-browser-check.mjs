@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
 import {createPhonePreview} from '../scripts/phone-preview.mjs';
 import {perspectiveDefaults} from '../lib/workshop-easter-egg.mjs';
-const requested={duration:3000,gap:1000,bandWidth:100,sheenStrength:100,intensity:300,particleDuration:0,particleSize:80,particleBrightness:300,twinklePeriod:500,twinkleDuration:200,drift:200,feather:160,gravity:160,gravityRange:80,gravityEase:180,gravitySlowdown:900,ringRadius:12,hoverHeight:40,finalDuration:2200,revealDuration:800,burstDuration:1200,burstFeather:90,modalFade:500,halo:300,haloSpeed:250,haloBlur:36,auroraIntensity:60};assert.deepEqual(perspectiveDefaults,requested);
+const requested={duration:3000,gap:1000,bandWidth:100,sheenStrength:100,intensity:300,particleDuration:0,particleSize:80,particleBrightness:300,twinklePeriod:500,twinkleDuration:200,drift:200,feather:160,gravity:160,gravityRange:80,gravityEase:180,gravitySlowdown:900,ringRadius:12,hoverHeight:40,finalDuration:2200,revealDuration:800,burstDuration:1200,burstFeather:90,backdropFade:1200,modalFade:500,halo:300,haloSpeed:250,haloBlur:36,auroraIntensity:60};assert.deepEqual(perspectiveDefaults,requested);
 const {server}=createPhonePreview({autoLogin:true});await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port,b=await chromium.launch({channel:'chrome',headless:true});
 try{
  const p=await b.newPage();const errors=[];p.on('pageerror',e=>errors.push(e.message));await p.goto(origin+'/playground');await p.locator('[data-tab=discovery]').click();const f=p.frameLocator('#discovery-frame');await f.locator('.perspective').waitFor();

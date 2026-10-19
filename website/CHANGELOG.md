@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.172"
-  update_summary: "Add Playground section links and refine tablet locking"
-  updated_at: "Mon 19 Oct 2026 at 02:57:53 pm AEDT (+11:00)"
+  doc_revision: "26.0.173"
+  update_summary: "Soften rainbow trails and unify slider columns"
+  updated_at: "Mon 19 Oct 2026 at 03:01:58 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.171 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 03:01:58 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Soften rainbow trails and unify slider columns
+
+### Changed
+
+- Extend Rainbow Trail Feather to 600px. Apply it throughout formation, broaden diffuse colour and reduce the sharp core instead of leaving fixed sharp overlays or converging on Halo Blur.
+- Fade the screen during the rainbow path, with a shared Screen Fade Duration control (0–6 seconds; default 1.2 seconds). Preserve the fade through modal opening and clean up on close, cancellation or preview changes.
+- Use responsive slider grids capped at four equal columns, preserving orphan widths and reducing naturally to one column on phones.
+
+### Validation
+
+- Production build, PVS validation and whitespace checks — passed; reused existing main-app placeholder geometry.
+- Headless source-parity, Easter Egg settings/loops/particle-flow and new feather checks — passed.
+- Responsive four/two/one-column widths, concurrent screen fade, modal handoff and cancellation — passed. Inspected the 600px diffuse rainbow screenshot.
+- Physical-device Safari — remains a manual LAN-preview check.
 
 ## v26.0.170 — 2026-10-19
 
