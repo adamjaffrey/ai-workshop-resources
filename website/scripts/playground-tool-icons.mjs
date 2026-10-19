@@ -2,8 +2,8 @@
 // Iframe app specimens belong exclusively to the separate app icon catalogue.
 export const playgroundIconCatalogScript = String.raw`
 function renderPlaygroundIcons(){
- const catalog=document.getElementById('playground-icon-catalog'),icons=new Map();
- const headingOrder=[...document.querySelectorAll('[data-tab]')].flatMap(tab=>[...document.querySelectorAll('[data-panel="'+tab.dataset.tab+'"] .section-heading h2 svg')].map(svg=>svg.dataset.iconName));
+ const catalog=document.getElementById('playground-icon-catalog'),icons=new Map(),originalArrowUsages=new Set();
+ const headingOrder=[...document.querySelectorAll('[data-tab]')].flatMap(tab=>[...document.querySelectorAll('[data-panel="'+tab.dataset.tab+'"] .section-heading h2 svg,[data-panel="'+tab.dataset.tab+'"] .url-reference-subheading svg')].map(svg=>svg.dataset.iconName));
  const uiOrder=['ellipsis','x','arrow-up-to-line','rotate-ccw','rotate-cw','copy','minimize-2','maximize-2','chevron-right','arrow-up-right'];
  for(const svg of document.querySelectorAll('svg[data-icon-provider]')){
   if(catalog.contains(svg))continue;
@@ -11,17 +11,19 @@ function renderPlaygroundIcons(){
   if(!name||!use)throw Error('Missing Playground icon metadata');
   const key=provider+':'+name;
   if(!icons.has(key))icons.set(key,{svg,provider,name,usages:new Set(),groups:new Set()});
-  const panel=svg.closest('.panel'),heading=svg.closest('h1,h2'),control=svg.closest('button');
- const group=svg.closest('#playground-title')?'playground':svg.closest('.section-heading h2,[data-tab]')?'headings':svg.closest('button,a,.breadcrumbs')?'ui':'other';
+  const panel=svg.closest('.panel'),heading=svg.closest('h1,h2,h3'),control=svg.closest('button');
+ const group=svg.closest('#playground-title')?'playground':svg.closest('.section-heading h2,.url-reference-subheading,[data-tab]')?'headings':svg.closest('button,a,.breadcrumbs')?'ui':'other';
  icons.get(key).groups.add(group);
   const location=panel?.querySelector('.section-heading h2')?.textContent.trim()||'Playground';
   // Hidden alternate icons describe their own action, not the button's resting label.
   const alternate=svg.closest('[hidden]')&&control;
   const label=alternate?use.split('-').map(word=>word[0].toUpperCase()+word.slice(1)).join(' '):heading?.textContent.trim()||control?.getAttribute('aria-label')||control?.textContent.trim()||'Breadcrumb';
-  icons.get(key).usages.add((location===label?location:location+' → '+label)+' · '+use);
+  const usage=(location===label?location:location+' → '+label)+' · '+use;
+ icons.get(key).usages.add(usage);
+ if(name==='arrow-up-right'&&svg.getAttribute('viewBox')==='0 0 24 24')originalArrowUsages.add(usage);
  }
  const cropped=icons.get('lucide:arrow-up-right');
- if(cropped){const original=cropped.svg.cloneNode(true);original.setAttribute('viewBox','0 0 24 24');original.classList.remove('link-arrow');icons.set('lucide:arrow-up-right',{...cropped,svg:original,variant:'original',usages:new Set(['Original Lucide source geometry; the hyperlink uses the cropped variant below.'])});icons.set('lucide:arrow-up-right:cropped',{...cropped,variant:'cropped'});}
+ if(cropped){const original=cropped.svg.cloneNode(true);original.setAttribute('viewBox','0 0 24 24');original.classList.remove('link-arrow');icons.set('lucide:arrow-up-right',{...cropped,svg:original,variant:'original',usages:new Set(['Original Lucide source geometry; hyperlinks use the cropped variant below.',...originalArrowUsages])});icons.set('lucide:arrow-up-right:cropped',{...cropped,variant:'cropped',usages:new Set([...cropped.usages].filter(usage=>!originalArrowUsages.has(usage)))});}
  catalog.replaceChildren();
  const rank=item=>item.groups.has('playground')?0:item.groups.has('ui')?10+(uiOrder.includes(item.name)?uiOrder.indexOf(item.name):uiOrder.length):item.groups.has('headings')?100+headingOrder.indexOf(item.name):1000;
  for(const {svg,provider,name,usages,groups,variant} of [...icons.values()].sort((a,b)=>rank(a)-rank(b)||a.name.localeCompare(b.name))){

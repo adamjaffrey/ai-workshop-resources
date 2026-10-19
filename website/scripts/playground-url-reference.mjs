@@ -4,7 +4,7 @@ const escape=text=>text.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAl
 // Deliberately limited to the reference document's Markdown vocabulary. No raw
 // HTML or executable links: examples (especially logout URLs) are text only.
 const inline=text=>text.split(/(`[^`]+`)/).map(part=>part.startsWith('`')?'<code>'+escape(part.slice(1,-1))+'</code>':escape(part.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'$1 ($2)'))).join('');
-export function renderUrlReference(markdown){
+export function renderUrlReference(markdown,renderHeading){
  const lines=markdown.replace(/^---\n[\s\S]*?\n---\n/,'').trim().split('\n');
  let html='',section=false;
  for(let i=0;i<lines.length;i++){
@@ -12,10 +12,10 @@ export function renderUrlReference(markdown){
   if(!line.trim()||line.startsWith('# '))continue;
   if(line.startsWith('## ')){
    if(section)html+='</section>';
-   section=true;html+='<section class="panel"><div class="section-heading"><h2>'+inline(line.slice(3))+'</h2></div>';continue;
+   section=true;html+='<section class="panel"><div class="section-heading"><h2>'+renderHeading(line.slice(3))+'</h2></div>';continue;
   }
   if(!section){html+='<p class="muted">'+inline(line)+'</p>';continue;}
-  if(line.startsWith('### ')){html+='<h3>'+inline(line.slice(4))+'</h3>';continue;}
+  if(line.startsWith('### ')){html+='<h3 class="url-reference-subheading">'+renderHeading(line.slice(4))+'</h3>';continue;}
   if(line.startsWith('```')){
    const code=[];while(++i<lines.length&&!lines[i].startsWith('```'))code.push(lines[i]);
    html+='<pre><code>'+escape(code.join('\n'))+'</code></pre>';continue;
@@ -33,9 +33,9 @@ export function renderUrlReference(markdown){
  if(section)html+='</section>';
  return html;
 }
-export async function urlReferencePanel(){
+export async function urlReferencePanel(renderHeading){
  const markdown=await readFile(new URL('../URL-REFERENCE.md',import.meta.url),'utf8');
- return '<div data-panel="url-reference" id="panel-url-reference" role="tabpanel" aria-labelledby="tab-url-reference" tabindex="0" hidden><p class="muted">URL mappings and query parameters, rendered from the repository’s URL-REFERENCE.md. Examples are text so inspecting a logout URL does not end your session.</p>'+renderUrlReference(markdown)+'</div>';
+ return '<div data-panel="url-reference" id="panel-url-reference" role="tabpanel" aria-labelledby="tab-url-reference" tabindex="0" hidden><p class="muted">URL mappings and query parameters, rendered from the repository’s URL-REFERENCE.md. Examples are text so inspecting a logout URL does not end your session.</p>'+renderUrlReference(markdown,renderHeading)+'</div>';
 }
 export const urlReferenceCSS=`
 #panel-url-reference{overflow-wrap:anywhere;min-width:0}
@@ -48,4 +48,6 @@ export const urlReferenceCSS=`
 #panel-url-reference pre{white-space:pre-wrap;margin:16px 0;padding:0}
 #panel-url-reference li+li{margin-top:8px}
 #panel-url-reference h3{margin-top:24px}
+.url-reference-subheading{display:flex;align-items:flex-start;gap:12px;line-height:1.5}
+.url-reference-subheading>svg{flex:none;margin-top:calc((1.5em - 24px)/2)}
 `;

@@ -14,6 +14,13 @@ try{
   assert.equal(await page.locator('#tab-url-reference').getAttribute('aria-selected'),'true');
   for(const heading of ['Hostname Redirects','Resources Aliases','Playground Root Aliases','Playground Sections','Public Query Parameters','Login Aliases And Validation'])assert.ok((await panel.innerText()).includes(heading),heading);
   for(const value of ['agent=codex','agent=claude-code','theme=light','theme=dark','show-login=true','show-login=false','login=1','login=0','url-references'])assert.ok((await panel.innerText()).includes(value),value);
+  const headingIcons=await panel.locator('h2>svg,h3>svg').evaluateAll(nodes=>nodes.map(svg=>({name:svg.dataset.iconName,use:svg.dataset.iconUse})));
+  assert.equal(headingIcons.length,await panel.locator('h2,h3').count(),'Every reference heading has an icon');
+  assert.equal(await page.locator('#tab-url-reference svg').getAttribute('data-icon-name'),'file-code-corner');
+  for(const {name,use} of headingIcons){
+   assert.ok((await page.locator('#playground-icon-catalog [data-catalog-icon="'+name+'"]').first().textContent()).includes(use),'Catalogue includes '+use);
+  }
+  assert.ok((await page.locator('#playground-icon-catalog [data-catalog-icon="file-code-corner"]').textContent()).includes('playground-tab-url-reference'));
   assert.equal(await panel.locator('a').count(),0,'Examples cannot log users out');
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,'No page overflow');
   assert.equal(await page.locator('nav[role=tablist]').evaluate(e=>{e.scrollTop=10;return e.scrollTop;}),0,'Tabs remain horizontal only');

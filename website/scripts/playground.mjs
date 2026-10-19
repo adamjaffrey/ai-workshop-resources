@@ -1,3 +1,5 @@
+import {__iconNode as urlCodeIcon} from '../node_modules/lucide-react/dist/esm/icons/code-xml.mjs';
+import {__iconNode as urlRedirectIcon} from '../node_modules/lucide-react/dist/esm/icons/arrow-up-right.mjs';
 import {resourcesShortcutScript} from '../lib/workshop-playground-shortcut.mjs';
 import {urlReferencePanel,urlReferenceCSS} from './playground-url-reference.mjs';
 import {playgroundPlaceholderPreviewScript} from '../lib/workshop-playground-placeholder.mjs';
@@ -69,6 +71,28 @@ const panelHeadingIcons=new Map([
   ['Floating Brand Blur', [headingIcon13, 'tag']],
   ['Easter Egg', [headingIcon14, 'egg']]
 ]);
+const urlHeadingIcons=new Map([
+ ['Canonical Addresses And Page Titles',[headingIcon5,'file-code-corner']],
+ ['Hostname Redirects',[urlRedirectIcon,'arrow-up-right']],
+ ['Global Canonicalisation',[headingIcon11,'list-checks']],
+ ['Resources Aliases',[headingIcon13,'tag']],
+ ['Playground Root Aliases',[headingIcon13,'tag']],
+ ['Playground Sections',[headingIcon9,'blocks']],
+ ['Public Query Parameters',[urlCodeIcon,'code-xml']],
+ ['Agent And Theme Aliases',[headingIcon4,'palette']],
+ ['Login Aliases And Validation',[headingIcon0,'lock-keyhole']],
+ ['Local And Hosted Behaviour',[headingIcon1,'panels-top-left']],
+ ['Combined Example',[urlCodeIcon,'code-xml']],
+ ['Other Authentication Navigation And Internal Parameters',[headingIcon0,'lock-keyhole']],
+ ['Playground Reference And Logo Navigation',[urlRedirectIcon,'arrow-up-right']],
+ ['Sources',[headingIcon5,'file-code-corner']],
+]);
+function urlHeading(title){
+ const icon=urlHeadingIcons.get(title);
+ if(!icon)throw Error('Choose a Lucide icon for URL Reference heading: '+title);
+ panelHeadingIcons.set(title,icon);
+ return panelHeading(title);
+}
 function panelHeading(title){
  const [nodes,name]=panelHeadingIcons.get(title);
  assertMeasuredHeadingIcon(name);
@@ -349,7 +373,7 @@ ${urlReferenceCSS}
  <div class="frame-wrap"><iframe id="blocks-frame" title="Block Geometry and Blur Specimen" sandbox="allow-scripts" srcdoc="${esc(blocks)}"></iframe></div><p id="block-report" class="notice" role="status">Both backgrounds share these preview controls. In Resources, click a block in No Blur view to inspect its dimensions. Blur and Darken adds the login scrim. Password Panel uses the same single blur and scrim, with no extra blur on the panel.</p></dialog></div>
  <div data-panel="icons" id="panel-icons" role="tabpanel" aria-labelledby="tab-icons" tabindex="0" hidden><section class="panel"><div class="section-heading"><h2>${panelHeading('App Icons and Symbols')}</h2><label class="source-choice"><input id="show-sources" type="checkbox">Show Sources</label></div><p class="muted">Live app SVGs and images, inside their actual controls at their rendered sizes. Names are matched against installed Lucide definitions; brand logos and Unicode symbols are identified separately. Colours follow the selected theme and agent. The QR control is desktop-only in the app.</p>${radios('icon-filter','Icon Family',[['all','All'],['lucide','Lucide'],['lobe','Lobe'],['unicode','Unicode'],['other','Other']])}<div class="frame-wrap"><iframe id="icons-frame" title="App Icon and Symbol Specimens" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox" srcdoc="${esc(icons)}"></iframe></div></section><section class="panel" id="playground-icons-panel"><div class="section-heading"><h2>${panelHeading('Playground Icons')}</h2></div><p class="muted">Heading, navigation and testing-control icons captured from this Playground, including mobile and expanded-preview controls. Each icon appears once with all its usages.</p>${radios('playground-icon-filter','Icon Use',[['all','All'],['playground','Playground'],['ui','UI Elements'],['headings','Section Headings']])}<div class="panel-options"><label class="source-choice"><input id="show-playground-sources" type="checkbox">Show Sources</label></div><div id="playground-icon-catalog"></div><p id="playground-icon-empty" class="muted" hidden>No icons match this category.</p></section><section class="panel"><div class="section-heading"><h2>${panelHeading('Lucide Licence · ISC and MIT')}</h2></div><p>Lucide icons may be used, modified and redistributed with their copyright and licence notices retained. Lucide uses ISC; icons derived from Feather also carry an MIT notice.</p><a href="https://lucide.dev/license" target="_blank" rel="noopener noreferrer">Read the Lucide Licence</a><hr><div class="feather-notice"><p>Some Lucide icons we use were adapted from Feather, an earlier icon library. Their original MIT notice is retained alongside Lucide’s licence to credit that work and preserve its licence terms.</p><details><summary>Feather-Derived Icons · Full MIT Notice</summary><pre class="licence-text">${esc(featherNotice)}</pre></details></div></section><section class="panel"><div class="section-heading"><h2>${panelHeading('Lobe Icons Licence · MIT')}</h2></div><p>Lobe icons may be used, modified and redistributed with their copyright and MIT licence notice retained.</p><a href="https://github.com/lobehub/lobe-icons/blob/master/LICENSE" target="_blank" rel="noopener noreferrer">Read the Lobe Icons Licence</a></section></div>
  <div data-panel="errors" id="panel-errors" role="tabpanel" aria-labelledby="tab-errors" tabindex="0" hidden><section class="panel"><div class="section-heading"><h2>${panelHeading('Status States and Fallbacks')}</h2></div><p class="muted">Login checking, success, retry and failure states, copy success and failure, and both JavaScript-unavailable notices, rendered from the app’s actual messages and styles. Change Colour Theme to compare the real status colours. Checking and login success use icons, with announcements for screen readers. Warning colours are reserved; the app has no warning message. JavaScript-unavailable notices appear when browser scripting is disabled and use the app’s own styles.</p><div class="frame-wrap"><iframe id="errors-frame" title="App Status State Specimens" sandbox="allow-scripts" srcdoc="${esc(errorStates)}"></iframe></div></section></div>
- ${await urlReferencePanel()}
+ ${await urlReferencePanel(urlHeading)}
  <div class="catalog-sources" aria-hidden="true" inert><iframe id="icon-login-source" sandbox="allow-scripts" srcdoc="${esc(iconLogin)}" title="Icon Login Source"></iframe><iframe id="icon-resources-source" sandbox="allow-scripts" srcdoc="${esc(iconResources)}" title="Icon Resource Source"></iframe></div>
  </main>
  <aside class="inspector-dock" aria-label="Style Inspector"><p class="notice" id="notice" role="status"></p><div class="inspector-bar"><button id="inspector-toggle" type="button" aria-expanded="false" aria-controls="inspector-body">${lucide(chevronIcon)}<strong>Style Inspector</strong></button></div><div id="inspector-body" hidden><div class="inspector-actions"><button id="inspector-details" type="button" aria-expanded="false" aria-controls="inspection">${lucide(chevronIcon)}<span>More Details</span></button><button id="freeze-inspector" type="button" aria-pressed="false">Freeze</button></div><p class="inspector-hint">Shows an item’s colours, type and spacing. Pause over it, click it or use Tab. Freeze keeps the reading.</p><div id="inspection-summary">No item selected yet.</div><dl id="inspection" hidden>${['Element','Size','Text Colour','Background','Border','Focus Ring','Font','Spacing'].map(label=>`<div><dt>${label}</dt><dd data-inspect="${label}">—</dd></div>`).join('')}</dl></div></aside>
