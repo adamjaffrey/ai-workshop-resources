@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.98"
-  update_summary: "Document pinpoint twinkles and the emerging aurora modal"
-  updated_at: "Mon 19 Oct 2026 at 01:12:37 pm AEDT (+11:00)"
+  doc_revision: "26.0.99"
+  update_summary: "Document speed-aware selector contraction"
+  updated_at: "Mon 19 Oct 2026 at 01:16:23 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -48,7 +48,7 @@ This protects content delivered by this website. The linked public GitHub reposi
 
 The theme selector starts vertically centred beside the Wavelength wordmark. “I’m Using” sits above the left-aligned agent selector at every viewport width. Both selectors remain in their original layout until reaching a 24px top inset (or the safe-area inset when larger). Their shared floating-control shadow uses two centred black layers with 12px and 28px blur and no horizontal or vertical offset. Playground floating controls, the Style Options panel and inspector dock share this token. The Playground ellipsis, Style Options panel and desktop Back to Top control sit 24px from the top (or the safe-area inset when larger). On mobile, Back to Top sits 56px below the ellipsis top, retaining an 8px gap between the 48px buttons. The larger shared login-panel shadow is also centred, retaining its 80px blur. The shadow fades in over the next 48px of scrolling and reverses on return. Layout spacers prevent content jumps; the original controls retain focus and keyboard behaviour.
 
-At widths up to 660px, the agent selector compresses when the gap to the theme control’s bottom edge reaches 16px, and expands again at 24px. These thresholds sit 4px either side of a 20px gap. This small reversal buffer prevents small scroll reversals from repeatedly restarting the animation. Its full-width layout slot remains reserved through both states and animations; height-only mobile viewport changes do not reset the control. The agent selector moves horizontally using a transform without changing surrounding layout, hiding its text visually while retaining accessible button names. A short squash-and-stretch accompanies the collapse to icons at the left page edge. Reduced motion removes the decorative animation. The Playground Resources preview consumes this same implementation and supports scrolling through each state.
+At widths up to 660px, the agent selector compresses when the gap to the theme control’s bottom edge reaches 16px, and expands again at 24px. Slow scrolling retains this 8px reversal buffer. Faster approaches use smoothed scroll speed with a 180ms lookahead above 0.15px/ms, capped at an 80px contraction gap. The selector remembers its contraction threshold and expands only when scrolling back past the larger of that gap or 24px; slowing or pausing cannot expand it. Fast contractions shorten the width transition to 100–340ms according to the remaining approach time, while the existing collision guard remains in place. Its full-width layout slot remains reserved through both states and animations; height-only mobile viewport changes do not reset the control. The agent selector moves horizontally using a transform without changing surrounding layout, hiding its text visually while retaining accessible button names. A short squash-and-stretch accompanies the collapse to icons at the left page edge. Reduced motion removes the decorative animation. The Playground Resources preview consumes this same implementation and supports scrolling through each state.
 
 ## Local Design Review
 

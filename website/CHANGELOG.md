@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.163"
-  update_summary: "Refine Easter Egg twinkles, aurora controls and modal emergence"
-  updated_at: "Mon 19 Oct 2026 at 01:12:37 pm AEDT (+11:00)"
+  doc_revision: "26.0.164"
+  update_summary: "Anticipate fast scrolling when contracting the selector"
+  updated_at: "Mon 19 Oct 2026 at 01:18:38 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.162 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 01:18:38 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Anticipate fast scrolling when contracting the selector
+
+### Changed
+
+- Use smoothed approach speed to start mobile selector contraction between 16px and 80px from the theme control, shortening fast width transitions to 100–340ms.
+- Remember each contraction boundary and expand only on reverse scrolling beyond the larger of that boundary or 24px. Pausing or decelerating does not expand the control.
+- Preserve shared app and Playground behaviour, stable layout, reduced motion and the collision guard. Leave branding unchanged.
+- Synchronise parity reference viewport widths after specimen layout settles to avoid resize timing mismatches.
+
+### Validation
+
+- `node website/tests/sticky-controls-stability-check.mjs` — passed at 320, 390 and 660px, including fast entry, pause latching, reversal boundaries and zero layout drift.
+- `node website/tests/style-guide-browser-check.mjs` — passed after correcting comparison viewport timing.
+- `npm --prefix website run build` — passed; generated v26.0.162 verified.
+- Wi-Fi app and Playground previews — HTTP 200. Physical iPhone feel remains for user review.
 
 ## v26.0.161 — 2026-10-19
 

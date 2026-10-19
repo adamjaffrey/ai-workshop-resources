@@ -13,7 +13,7 @@ try {
   const origin=slot.getBoundingClientRect().top+scrollY;
   const samples=[];
   const sample=()=>{const r=slot.getBoundingClientRect(),l=label.getBoundingClientRect();samples.push({top:r.top+scrollY,width:r.width,label:l.top+scrollY,compact:agent.hasAttribute('data-compact')});};
-  async function move(top){scrollTo(0,origin-top);for(let i=0;i<26;i++){await new Promise(requestAnimationFrame);sample();}}
+  async function move(top){const target=origin-top;while(Math.abs(scrollY-target)>1){scrollTo(0,scrollY+Math.sign(target-scrollY));await new Promise(requestAnimationFrame);}scrollTo(0,target);for(let i=0;i<26;i++){await new Promise(requestAnimationFrame);sample();}}
   const threshold=24+document.querySelector('.page-toolbar .theme-toggle').offsetHeight+20;
   await move(threshold-2);
   const waitsUntilCloseGap=!agent.hasAttribute('data-compact');
@@ -26,6 +26,20 @@ try {
   return {waitsUntilCloseGap,collapsed,held,expanded,topDrift:Math.max(...samples.map(s=>s.top))-Math.min(...samples.map(s=>s.top)),widthDrift:Math.max(...samples.map(s=>s.width))-Math.min(...samples.map(s=>s.width)),labelDrift:Math.max(...samples.map(s=>s.label))-Math.min(...samples.map(s=>s.label))};
  });
  console.log(width,result);assert.equal(result.waitsUntilCloseGap,true);assert.equal(result.collapsed,true);assert.equal(result.held,true);assert.equal(result.expanded,true);assert.ok(result.topDrift<1);assert.ok(result.widthDrift<1);assert.ok(result.labelDrift<1);
+ const fast=await page.evaluate(async()=>{
+  const agent=document.querySelector('.controls .toggle'),slot=agent.parentElement;
+  const origin=slot.getBoundingClientRect().top+scrollY,edge=24+document.querySelector('.page-toolbar .theme-toggle').offsetHeight;
+  const wait=ms=>new Promise(r=>setTimeout(r,ms));
+  const move=async gap=>{scrollTo(0,origin-edge-gap);await wait(30);};
+  await move(110);await wait(180);await move(100);await move(60);
+  const early=agent.hasAttribute('data-compact'),duration=parseFloat(agent.style.getPropertyValue('--compact-duration'));
+  await wait(200);dispatchEvent(new Event('scroll'));await wait(30);
+  const held=agent.hasAttribute('data-compact');
+  await move(65);const withinBoundary=agent.hasAttribute('data-compact');
+  await move(82);const restored=!agent.hasAttribute('data-compact');
+  return {early,held,withinBoundary,restored,duration};
+ });
+ console.log('speed-aware',width,fast);assert.equal(fast.early,true);assert.equal(fast.held,true);assert.equal(fast.withinBoundary,true);assert.equal(fast.restored,true);assert.ok(fast.duration<340);
  await page.evaluate(()=>scrollTo(0,800));await page.waitForTimeout(500);await page.setViewportSize({width,height:720});await page.waitForTimeout(50);
  assert.equal(await page.locator('.controls .toggle').getAttribute('data-compact'),'');assert.equal(await page.locator('.controls .toggle').evaluate(e=>e.getBoundingClientRect().top),24);
  await context.close();

@@ -6,9 +6,9 @@ export const stickyCSS = `
 [data-sticky-control]::after { content:""; position:absolute; inset:0; border-radius:inherit; box-shadow:var(--floating-control-shadow); opacity:var(--sticky-shadow); pointer-events:none; z-index:-1; }
 [data-sticky-control][data-locked] { position:fixed; z-index:30; }
 .controls .toggle[data-measuring] button,.controls .toggle[data-measuring] button span { transition:none!important; }
-.controls .toggle button span { display:inline-block; max-width:110px; overflow:hidden; white-space:nowrap; opacity:1; transition:max-width 340ms cubic-bezier(.22,1.35,.36,1),opacity 160ms; }
-.controls .toggle { transition:translate 340ms cubic-bezier(.22,1.35,.36,1); }
-.controls .toggle button { transition:padding 340ms cubic-bezier(.22,1.35,.36,1),gap 340ms cubic-bezier(.22,1.35,.36,1); }
+.controls .toggle button span { display:inline-block; max-width:110px; overflow:hidden; white-space:nowrap; opacity:1; transition:max-width var(--compact-duration,340ms) cubic-bezier(.22,1.35,.36,1),opacity 160ms; }
+.controls .toggle { transition:translate var(--compact-duration,340ms) cubic-bezier(.22,1.35,.36,1); }
+.controls .toggle button { transition:padding var(--compact-duration,340ms) cubic-bezier(.22,1.35,.36,1),gap var(--compact-duration,340ms) cubic-bezier(.22,1.35,.36,1); }
 .controls .toggle[data-compact] button { padding:10px 12px; gap:0; }
 .controls .toggle[data-compact] button span { max-width:0; opacity:0; }
 /* Fast flings must finish the width collapse before sharing the theme row. */
@@ -27,6 +27,7 @@ export function initStickyControls() {
  });
  for(const button of agent.querySelectorAll('button'))button.setAttribute('aria-label',button.querySelector('span').textContent.trim());
  let frame=0,compact=false,animation,viewportWidth=innerWidth;
+ let lastY=scrollY,lastTime=performance.now(),speed=0,expandGap=24;
  function measure(){
   animation?.cancel();
   agent.setAttribute('data-measuring','');
@@ -37,8 +38,19 @@ export function initStickyControls() {
   frame=0;
   const inset=Math.max(24,parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sticky-safe-top'))||0);
   const agentBox=items[1].slot.getBoundingClientRect();
-  // Separate entry/exit thresholds prevent small scroll reversals retriggering motion.
-  const shouldCompact=mobile.matches&&agentBox.top<inset+items[0].height+20+(compact?4:-4);
+  const now=performance.now(),elapsed=now-lastTime,delta=scrollY-lastY;
+  // Smooth approach speed; ignore pauses and reverse motion. Units are px/ms.
+  speed=delta>0&&elapsed>0&&elapsed<120 ? speed*.5+(delta/elapsed)*.5 : 0;
+  lastY=scrollY;lastTime=now;
+  const gap=agentBox.top-inset-items[0].height;
+  const contractGap=16+Math.min(64,Math.max(0,speed-.15)*180);
+  // Latch the actual entry boundary. Deceleration alone cannot expand the control.
+  const shouldCompact=mobile.matches&&(compact ? !(delta<0&&gap>=expandGap) : gap<contractGap);
+  if(shouldCompact!==compact){
+   if(shouldCompact)expandGap=Math.max(24,contractGap);
+   const duration=shouldCompact&&speed>.15?Math.max(100,Math.min(340,(gap-4)/speed*.75)):340;
+   agent.style.setProperty('--compact-duration',duration+'ms');
+  }
   if(shouldCompact)items[1].slot.style.width=items[1].width+'px';
   agent.toggleAttribute('data-collision',mobile.matches&&agentBox.top<inset+items[0].height+4);
   if(shouldCompact!==compact){compact=shouldCompact;agent.toggleAttribute('data-compact',compact);animation?.cancel();if(!motion.matches)animation=agent.animate([{scale:'1 1'},{scale:'.96 1.06',offset:.45},{scale:'1.025 .98',offset:.75},{scale:'1 1'}],{duration:420,easing:'ease-out'});}
