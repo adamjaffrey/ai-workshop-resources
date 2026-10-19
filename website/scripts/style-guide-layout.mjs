@@ -1,6 +1,6 @@
 // Outer Playground tooling only; app specimens keep their canonical controls.
 export const playgroundLayoutCSS=String.raw`
-:root{--playground-inset-gap:24px;--control-related-gap:8px;--control-label-gap:16px;--control-column-gap:24px;--control-row-gap:32px}
+:root{--playground-external-text-inset:4px;--playground-inset-gap:24px;--control-related-gap:8px;--control-label-gap:16px;--control-column-gap:24px;--control-row-gap:32px}
 .egg-help{margin-top:12px}.egg-help summary{font-weight:600}.egg-help p{font-size:14px;color:var(--muted-text)}
 #playground-title{align-items:flex-start}#playground-title>svg{margin-top:.075em}
 .section-heading h2{align-items:flex-start}.section-heading h2>svg{align-self:flex-start;margin-top:calc((1.5em - 24px)/2)}
@@ -81,7 +81,9 @@ details[open]>summary>.disclosure-chevron{transform:rotate(90deg)}
 .checkbox-controls{gap:32px 24px}.source-choice{gap:8px}
 .panel-actions{gap:8px}.panel-options{gap:32px 24px}
 .control-footer{column-gap:24px;row-gap:32px}
-.choices legend{margin-bottom:var(--control-label-gap);padding:0}
+/* Optical alignment belongs to external tooling labels, never specimens or control contents. */
+.choices legend{margin-bottom:var(--control-label-gap);padding:0 var(--playground-external-text-inset)}
+.field>.slider-label,#hover .hover-explanation{padding-inline:var(--playground-external-text-inset)}
 .choice-options,nav[role=tablist]{overflow-y:hidden!important;overscroll-behavior-y:none}
 summary{display:flex;align-items:center;gap:8px}summary>.disclosure-chevron{margin:0;vertical-align:initial}
 #hover legend{width:100%}.hover-label-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px 24px}

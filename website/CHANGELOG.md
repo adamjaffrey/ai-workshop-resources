@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.200"
-  update_summary: "Align link hit areas with hover bounds and widen selector spacing"
-  updated_at: "Mon 19 Oct 2026 at 07:57:57 pm AEDT (+11:00)"
+  doc_revision: "26.0.201"
+  update_summary: "Inset external Playground control labels by 4px"
+  updated_at: "Mon 19 Oct 2026 at 08:01:45 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.199 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 08:01:45 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Inset external Playground control labels by 4px
+
+### Changed
+
+- Inset outer toggle-group legends, slider labels and values, and hover-preview helper copy by 4px across all screen sizes, including mobile and expanded control destinations.
+- Preserve text inside controls, component specimen sections and embedded previews, together with existing 40px selector spacing and sticky behaviour.
+
+### Validation
+
+- `node website/tests/playground-external-text-inset-browser-check.mjs` — passed at seven widths, both themes and both agents, including control interiors and specimen headings.
+- `node website/tests/playground-control-rhythm-browser-check.mjs` — passed across all nine tabs at four widths; desktop screenshot inspected.
+- `node website/tests/playground-sticky-toolbar-browser-check.mjs` — passed.
+- `node website/tests/playground-expanded-preview-check.mjs` — passed.
+- `node website/tests/style-guide-browser-check.mjs` — passed, including source parity, held states, copy feedback and hosted authentication protection.
+- Sites local production build, placeholder checks and generated v26.0.199 displays — passed.
 
 ## v26.0.198 — 2026-10-19
 
