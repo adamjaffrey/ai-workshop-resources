@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.55"
-  update_summary: "Preserve tab edges and horizontal-only selector scrolling"
-  updated_at: "Tue 20 Oct 2026 at 12:36:31 am AEDT (+11:00)"
+  doc_revision: "26.0.56"
+  update_summary: "Clarify anonymous glyph scope and measured block fallbacks"
+  updated_at: "Tue 20 Oct 2026 at 12:59:39 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -297,6 +297,11 @@ Apply this standard to:
 ## Blur Placeholder Geometry
 
 - Follow the block sizing, colour and preview rules in `website/README.md`, under “Block Geometry Rules”.
+- Use invisible lowercase `x` characters only for eligible words inside prompt/code text (`pre`) and skill-slug labels (`.slug`). Do not apply this technique to every monospaced text area. A word is eligible only when every original character has the same rendered width as `x` in that text style, within the generator's tolerance of less than 0.01px per character.
+- For each eligible word, retain `/` and `-` and replace every other character with `x`; preserve the original whitespace between words. Make these anonymous glyphs transparent and draw the visible cap-height blocks with CSS. The glyphs are layout scaffolding, not visible lettering or protected text hidden by blur.
+- Preserve native browser wrapping with these glyphs: long prompt words, commands and skill slugs can split across lines as the viewport changes. One measured rectangle per word is unbreakable and cannot reproduce those internal line breaks. Retaining slash/hyphen punctuation preserves the corresponding native break opportunities; do not replace entire prompt lines with fixed bars.
+- Use measured empty rectangles for all text outside `pre` and `.slug`, and for any word inside those areas that fails the equal-width check, including wider emoji. Measure each word in its actual font/style after fonts load; retain its measured width, spacing and line-box dimensions. Both approaches use the same cap-height and baseline rules.
+- Never include original protected words, commands or link destinations in the generated backdrop. Removing the blur or making the anonymous glyphs visible must reveal only measured shapes and dummy text. These eligibility and replacement rules are implemented in `website/scripts/measure-placeholder.mjs`, with block styling in `website/lib/workshop-placeholder.mjs`.
 - Website changes that preserve the existing layout do not require block remeasurement. Reuse `website/lib/workshop-placeholder.generated.json` for colour, blend strength, blur, interaction/animation timing, authentication, documentation and preview-control changes that do not alter resting geometry.
 - Only layout changes that affect the visible blurred background require remeasurement: changes to structure, positions, dimensions, spacing, fonts, font weight/size, letter spacing, line height, wrapping, breakpoints, word geometry, icon-set dimensions or the QR pattern bounds/white padding. Treat text or asset changes as layout changes when they alter those measurements. A version-label change with identical geometry does not require remeasurement.
 - Footer-only changes below the visible login background do not require remeasurement or a layout-revision increment.

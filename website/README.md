@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.137"
-  update_summary: "Document anchored menu geometry and inset reference specimens"
-  updated_at: "Tue 20 Oct 2026 at 12:23:30 am AEDT (+11:00)"
+  doc_revision: "26.0.138"
+  update_summary: "Explain invisible glyph wrapping and measured rectangle selection"
+  updated_at: "Tue 20 Oct 2026 at 12:59:39 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -91,7 +91,11 @@ Run `node website/scripts/preview-resources.mjs` from the repository root to gen
 - Replace every visible word separately, including prompt text; do not estimate widths from character counts or replace entire prompt lines with generic bars.
 - Measure rendered word widths in Chrome after the page font has loaded. Retain the measured widths, original spacing, line boxes and responsive wrapping.
 - Use one consistent cap height per text style, measured from capital H at that style's font family, weight and size. Align each block's bottom to the alphabetic baseline. Do not use average word height or each word's ascenders/descenders; emoji placeholders follow the same cap-height rule.
-- Monospaced words use invisible anonymous glyphs to preserve native wrapping, including words that span lines. Wider exceptions such as emoji use measured boxes. Never include the original protected words in the generated login geometry.
+- Use invisible lowercase `x` characters only for eligible words inside prompt/code text (`pre`) and skill-slug labels (`.slug`). Do not apply this technique to every monospaced text area. A word is eligible only when every original character has the same rendered width as `x` in that text style, within the generator's tolerance of less than 0.01px per character.
+- For each eligible word, retain `/` and `-` and replace every other character with `x`; preserve the original whitespace between words. Make these anonymous glyphs transparent and draw the visible cap-height blocks with CSS. The glyphs are layout scaffolding, not visible lettering or protected text hidden by blur.
+- Preserve native browser wrapping with these glyphs: long prompt words, commands and skill slugs can split across lines as the viewport changes. One measured rectangle per word is unbreakable and cannot reproduce those internal line breaks. Retaining slash/hyphen punctuation preserves the corresponding native break opportunities; do not replace entire prompt lines with fixed bars.
+- Use measured empty rectangles for all text outside `pre` and `.slug`, and for any word inside those areas that fails the equal-width check, including wider emoji. Measure each word in its actual font/style after fonts load; retain its measured width, spacing and line-box dimensions. Both approaches use the same cap-height and baseline rules.
+- Never include original protected words, commands or link destinations in the generated backdrop. Removing the blur or making the anonymous glyphs visible must reveal only measured shapes and dummy text. These eligibility and replacement rules are implemented in `scripts/measure-placeholder.mjs`, with block styling in `lib/workshop-placeholder.mjs`.
 
 ### Icons And QR Code
 
