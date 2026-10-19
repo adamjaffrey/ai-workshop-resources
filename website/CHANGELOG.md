@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.189"
-  update_summary: "Use 301 for style-guide and verify direct hosted redirects"
-  updated_at: "Mon 19 Oct 2026 at 05:58:40 pm AEDT (+11:00)"
+  doc_revision: "26.0.190"
+  update_summary: "Align Playground sections to a 1280px content width"
+  updated_at: "Mon 19 Oct 2026 at 06:03:52 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.188 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 06:03:52 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Align Playground sections to a 1280px content width
+
+### Changed
+
+- Increase Playground content width to 1280px plus 24px on each side, giving a 1328px maximum outer wrapper.
+- Align the heading, introduction, style controls and inspector with the body; retain vertical spacing and the main-app layout.
+
+### Validation
+
+- Headless layout checks at 320, 390, 768, 1328, 1440 and 1920px — passed; matching content edges, 40px top inset and no horizontal page overflow.
+- Existing connected-control/header/typography browser checks — passed.
+- Sites local production build — passed with v26.0.188. Desktop screenshot inspected; main-app geometry unchanged, no remeasurement required.
 
 ## v26.0.187 — 2026-10-19
 

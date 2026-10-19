@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.123"
-  update_summary: "Use 301 for style-guide and verify direct hosted redirects"
-  updated_at: "Mon 19 Oct 2026 at 05:58:40 pm AEDT (+11:00)"
+  doc_revision: "26.0.124"
+  update_summary: "Align Playground sections to a 1280px content width"
+  updated_at: "Mon 19 Oct 2026 at 06:03:52 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -326,3 +326,5 @@ The introduction is concise; Viewing Modes, Sweep and Particle Controls, Reveal 
 Validate connected controls, typography, colour chips and header rhythm with `node website/tests/playground-connected-controls-browser-check.mjs`; validate filtered tile widths and all seven Easter Egg entry states with `node website/tests/playground-egg-entry-browser-check.mjs`.
 
 Pointer focus for radio and checkbox controls follows the shared input-modality state: only Tab/Shift+Tab navigation enables visible rings. Clicking or tapping retains real focus without a ring. The shared selector controller focuses each direct radio target before starting its hold, compares focus transfer against the actual input, and cancels an abandoned hold without restoring selection focus. Native radio Space activation remains intact. Verify repeated and rapid holds, pointer/touch versus keyboard focus, and pinned iframe scrolling with `node website/tests/playground-toggle-hold-browser-check.mjs`.
+
+The Playground header, introduction, desktop style controls, tabs and panels share a maximum content width of 1280px. The body wrapper is 1328px including 24px padding on each side; header/control wrappers use a 1280px content limit with the same side spacing. The inspector aligns with those content edges. Narrow screens retain 24px side spacing; vertical spacing and main-app layout remain unchanged. Wider text naturally wraps onto fewer lines.

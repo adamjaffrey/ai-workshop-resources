@@ -34,11 +34,11 @@ nav[role=tablist]{border-bottom:0;padding-bottom:14px;background:linear-gradient
 
 /* Match the main app's pre-heading position and vertical type rhythm. */
 .wrap{padding-inline:24px}
-header.wrap{padding-top:40px;padding-bottom:0;width:calc(100% - 48px);max-width:960px;padding-inline:0}
+header.wrap{padding-top:40px;padding-bottom:0;width:calc(100% - 48px);max-width:1280px;padding-inline:0}
 header.wrap .kicker{font-size:14px;line-height:21px;margin:0 0 24px}
 header.wrap #playground-title{font-size:48px;line-height:1.2;letter-spacing:-.045em;margin:0 0 24px}
-header.wrap p{font-size:16px;line-height:24px;margin:0;max-width:900px}
-.playground-heading~.toolbar .wrap{padding-top:32px;padding-bottom:24px;width:calc(100% - 48px);max-width:960px;padding-inline:0}
+header.wrap p{font-size:16px;line-height:24px;margin:0;max-width:none}
+.playground-heading~.toolbar .wrap{padding-top:32px;padding-bottom:24px;width:calc(100% - 48px);max-width:1280px;padding-inline:0}
 .choices legend{font-size:14px;line-height:21px;margin-bottom:16px}
 .choices .choice-options.segmented-toggle{display:inline-flex!important;flex-flow:row nowrap!important;align-items:center;position:relative;gap:4px!important;padding:4px!important;border:1px solid var(--control-border);border-radius:12px;background:var(--control-bg);max-width:100%;overflow-x:auto;scrollbar-width:thin;vertical-align:top}
 .choice-options.segmented-toggle .choice{flex:none;white-space:nowrap}
