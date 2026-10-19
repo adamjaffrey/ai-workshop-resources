@@ -26,9 +26,9 @@ export function initStickyControls() {
   return {control,slot,width:0,height:0};
  });
  for(const button of agent.querySelectorAll('button'))button.setAttribute('aria-label',button.querySelector('span').textContent.trim());
- let frame=0,compact=false,animations=[],viewportWidth=innerWidth;
+ let frame=0,compact=false,animation,viewportWidth=innerWidth;
  function measure(){
-  animations.forEach(animation=>animation.cancel());
+  animation?.cancel();
   agent.setAttribute('data-measuring','');
   for(const item of items){const {control,slot}=item;control.removeAttribute('data-locked');control.removeAttribute('data-compact');control.style.removeProperty('top');control.style.removeProperty('left');slot.style.width='';slot.style.height='';item.width=control.offsetWidth;item.height=control.offsetHeight;slot.style.width=item.width+'px';slot.style.height=item.height+'px';}
   agent.toggleAttribute('data-compact',compact);void agent.offsetWidth;agent.removeAttribute('data-measuring');update();
@@ -41,30 +41,7 @@ export function initStickyControls() {
   const shouldCompact=mobile.matches&&agentBox.top<inset+items[0].height+16+(compact?4:-4);
   if(shouldCompact)items[1].slot.style.width=items[1].width+'px';
   agent.toggleAttribute('data-collision',mobile.matches&&agentBox.top<inset+items[0].height+4);
-  if(shouldCompact!==compact){
-   // Continue from the visible shape when a scroll reversal interrupts the morph.
-   const current=getComputedStyle(agent),from={scale:current.scale,borderRadius:current.borderRadius};
-   animations.forEach(animation=>animation.cancel());animations=[];
-   compact=shouldCompact;agent.toggleAttribute('data-compact',compact);
-   if(!motion.matches){
-    const frames=compact?[
-     from,
-     {scale:'.9 1.16',borderRadius:'26px 32px 24px 30px / 28px 24px 30px 22px',offset:.38},
-     {scale:'1.07 .93',borderRadius:'18px 22px 20px 16px',offset:.68},
-     {scale:'.985 1.025',borderRadius:'15px',offset:.86},
-     {scale:'1 1',borderRadius:'12px'}
-    ]:[from,{scale:'1.025 .97',borderRadius:'18px',offset:.45},{scale:'1 1',borderRadius:'12px'}];
-    animations.push(agent.animate(frames,{duration:480,easing:'cubic-bezier(.22,.7,.3,1)'}));
-    // A small opposing lag makes the two icons feel suspended in the soft shell.
-    if(compact)agent.querySelectorAll('.brand-icon').forEach((icon,index)=>{
-     const direction=index===0?1:-1;
-     animations.push(icon.animate([{translate:'0px 0px',scale:'1 1'},
-      {translate:(direction*3)+'px 0px',scale:'1.08 .92',offset:.4},
-      {translate:(-direction)+'px 0px',scale:'.97 1.03',offset:.72},
-      {translate:'0px 0px',scale:'1 1'}],{duration:440,delay:index*20,easing:'ease-out'}));
-    });
-   }
-  }
+  if(shouldCompact!==compact){compact=shouldCompact;agent.toggleAttribute('data-compact',compact);animation?.cancel();if(!motion.matches)animation=agent.animate([{scale:'1 1'},{scale:'.96 1.06',offset:.45},{scale:'1.025 .98',offset:.75},{scale:'1 1'}],{duration:420,easing:'ease-out'});}
   items.forEach((item,index)=>{
    const {control,slot}=item,r=slot.getBoundingClientRect(),locked=r.top<=inset;
    // Keep the agent's expanded footprint throughout both animations.
@@ -81,7 +58,7 @@ export function initStickyControls() {
  // Mobile browser chrome changes height during scrolling: never reset a morph for that.
  window.addEventListener('resize',()=>{if(innerWidth!==viewportWidth){viewportWidth=innerWidth;measure();}else schedule();});
  window.addEventListener('pageshow',measure);
- motion.addEventListener('change',()=>{if(motion.matches)animations.forEach(animation=>animation.cancel());});
+ motion.addEventListener('change',()=>{if(motion.matches)animation?.cancel();});
  document.fonts.ready.then(measure);measure();
 }
 export function withStickyControls(html){return html.replace('</head>',`<style>:root{--sticky-safe-top:env(safe-area-inset-top,0px)}${stickyCSS}</style></head>`).replace('</body>',`<script nonce="__NONCE__">(${initStickyControls.toString()})();</script></body>`);}

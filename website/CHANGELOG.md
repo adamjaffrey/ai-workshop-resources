@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.159"
-  update_summary: "Give the mobile selector a liquid-style contraction"
-  updated_at: "Mon 19 Oct 2026 at 11:42:32 am AEDT (+11:00)"
+  doc_revision: "26.0.160"
+  update_summary: "Restore the previous selector contraction"
+  updated_at: "Mon 19 Oct 2026 at 11:51:31 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.158 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 11:51:31 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Restore the previous selector contraction
+
+### Changed
+
+- Revert the liquid-style animation trial to the exact v26.0.156 sticky-control implementation and its 420ms contraction.
+- Retain the 24px lock inset, 12px/20px trigger gaps, centred shadows and stable layout slot in the app and Playground. Reuse unchanged resting backdrop geometry.
+
+### Validation
+
+- Animation source matches commit e34949c byte for byte.
+- Mobile stability regression — passed with zero layout drift at 320, 390 and 660px.
+- `node website/tests/style-guide-browser-check.mjs` — passed.
+- `npm --prefix website run build` — passed; generated version verified as v26.0.158. Wi-Fi app and Playground URLs return HTTP 200.
 
 ## v26.0.157 — 2026-10-19
 

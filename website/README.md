@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.94"
-  update_summary: "Document the liquid-style agent selector morph"
-  updated_at: "Mon 19 Oct 2026 at 11:40:57 am AEDT (+11:00)"
+  doc_revision: "26.0.95"
+  update_summary: "Restore the previous selector contraction"
+  updated_at: "Mon 19 Oct 2026 at 11:49:25 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -48,7 +48,7 @@ This protects content delivered by this website. The linked public GitHub reposi
 
 The theme selector starts vertically centred beside the Wavelength wordmark. “I’m Using” sits above the left-aligned agent selector at every viewport width. Both selectors remain in their original layout until reaching a 24px top inset (or the safe-area inset when larger). Their shared floating-control shadow uses two centred black layers with 12px and 28px blur and no horizontal or vertical offset. Playground floating controls, the Style Options panel and inspector dock share this token. The larger shared login-panel shadow is also centred, retaining its 80px blur. The shadow fades in over the next 48px of scrolling and reverses on return. Layout spacers prevent content jumps; the original controls retain focus and keyboard behaviour.
 
-At widths up to 660px, the agent selector compresses when the gap to the theme control’s bottom edge reaches 12px, and expands again at 20px. These thresholds sit 4px either side of a 16px gap. This small reversal buffer prevents small scroll reversals from repeatedly restarting the animation. Its full-width layout slot remains reserved through both states and animations; height-only mobile viewport changes do not reset the control. The agent selector moves horizontally using a transform without changing surrounding layout, hiding its text visually while retaining accessible button names. A 480ms liquid-style morph accompanies the collapse to icons at the left page edge: the shell rounds asymmetrically, squeezes and rebounds while the crisp icons lag slightly in opposing directions. Expansion settles more gently; interrupted morphs resume from the visible shell shape. Reduced motion removes the decorative animation. The Playground Resources preview consumes this same implementation and supports scrolling through each state.
+At widths up to 660px, the agent selector compresses when the gap to the theme control’s bottom edge reaches 12px, and expands again at 20px. These thresholds sit 4px either side of a 16px gap. This small reversal buffer prevents small scroll reversals from repeatedly restarting the animation. Its full-width layout slot remains reserved through both states and animations; height-only mobile viewport changes do not reset the control. The agent selector moves horizontally using a transform without changing surrounding layout, hiding its text visually while retaining accessible button names. A short squash-and-stretch accompanies the collapse to icons at the left page edge. Reduced motion removes the decorative animation. The Playground Resources preview consumes this same implementation and supports scrolling through each state.
 
 ## Local Design Review
 
