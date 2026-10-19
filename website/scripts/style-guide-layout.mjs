@@ -4,6 +4,7 @@ export const playgroundLayoutCSS=String.raw`
 #playground-title{align-items:flex-start}#playground-title>svg{margin-top:.075em}
 .section-heading h2{align-items:flex-start}.section-heading h2>svg{align-self:flex-start;margin-top:calc((1.5em - 24px)/2)}
 .playground-icon-entry h3{align-items:flex-start}.playground-icon-entry h3>svg{margin-top:1.5px}
+#playground-icon-filter .choice-options{flex-wrap:nowrap;overflow-x:auto}#playground-icon-filter .choice{flex:none;white-space:nowrap}
 nav[role=tablist] button{display:inline-flex;align-items:center;gap:8px}nav[role=tablist] button svg{width:20px;height:20px;flex:none}
 nav[role=tablist]{border-bottom:0;padding-bottom:14px;background:linear-gradient(var(--border),var(--border)) left calc(100% - 14px)/100% 1px no-repeat}
 .panel-actions,.panel-options{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:12px;margin-top:16px}
@@ -62,7 +63,7 @@ for(const choice of document.querySelectorAll('.section-heading .source-choice')
 // Share the last control row where space allows; retain natural wrapping on phones.
 const branding=document.getElementById('branding-preview'),checks=branding.querySelector('.checkbox-controls'),brandActions=branding.querySelector('.panel-actions');
 const brandFooter=document.createElement('div');brandFooter.className='control-footer';brandActions.before(brandFooter);brandFooter.append(checks,brandActions);
-const filter=document.getElementById('icon-filter'),sourceOptions=document.getElementById('show-sources').closest('.panel-options'),iconFooter=document.createElement('div');iconFooter.className='control-footer';filter.before(iconFooter);iconFooter.append(filter,sourceOptions);
+for(const [filterId,sourceId] of [['icon-filter','show-sources'],['playground-icon-filter','show-playground-sources']]){const filter=document.getElementById(filterId),sourceOptions=document.getElementById(sourceId).closest('.panel-options'),iconFooter=document.createElement('div');iconFooter.className='control-footer';filter.before(iconFooter);iconFooter.append(filter,sourceOptions);}
 // Derive tab icons from each section's first actual panel heading.
 for(const tab of document.querySelectorAll('[data-tab]')){
  const source=document.querySelector('[data-panel="'+tab.dataset.tab+'"] .section-heading h2 svg');

@@ -3,7 +3,7 @@ const arrowSVG='<svg class="link-arrow" data-icon-provider="lucide" data-icon-na
 export const linkCSS=`
 a.workshop-link[href]{display:inline-block;max-width:100%;padding:3px 5px;border-radius:5px;text-decoration:none;overflow-wrap:anywhere;vertical-align:baseline}
 a.workshop-link[href] .link-label{text-decoration-line:underline;text-decoration-color:currentColor;text-decoration-thickness:1px;text-underline-offset:.18em}
-a.workshop-link[href]:hover .link-label{text-decoration-thickness:2px}
+a.workshop-link[href]:hover .link-label,a.workshop-link[href][data-link-preview="hover"] .link-label{text-decoration-thickness:2px}
 a.workshop-link[href] .link-arrow{display:inline-block;width:16px;height:16px;margin-left:4px;vertical-align:-3px;color:inherit;text-decoration:none;flex:none}
 `;
 export const linkScript=`

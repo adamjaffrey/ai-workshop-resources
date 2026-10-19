@@ -17,7 +17,7 @@ try{
    licenses:document.querySelector('[data-catalog-icon="file-badge"] ul').textContent,
    controls:['minimize-2','x','rotate-cw'].every(n=>entries.some(e=>e.dataset.catalogIcon===n))};
  });
- assert.equal(audit.missing,0);assert.deepEqual(audit.catalog,audit.names);assert.equal(audit.headings.length,16);assert.ok(audit.headings.every(([,n])=>n));assert.ok(audit.links&&audit.controls);assert.match(audit.licenses,/Lucide Licence/);assert.match(audit.licenses,/Lobe Icons Licence/);
+ assert.equal(audit.missing,0);assert.deepEqual(audit.catalog,audit.names);assert.equal(audit.headings.length,17);assert.ok(audit.headings.every(([,n])=>n));assert.ok(audit.links&&audit.controls);assert.match(audit.licenses,/Lucide Licence/);assert.match(audit.licenses,/Lobe Icons Licence/);
  assert.equal(audit.headings.find(([t])=>t==='Blocks and Blur')[1],'layout-template');assert.equal(audit.headings.find(([t])=>t==='Playground Icons')[1],'blocks');
  for(const width of [320,390,768,1440]){
   await page.setViewportSize({width,height:900});
@@ -37,5 +37,5 @@ try{
  }
  await page.locator('[data-tab=icons]').click();await page.locator('#playground-icons-panel').scrollIntoViewIfNeeded();await page.screenshot({path:'/tmp/playground-heading-icons-desktop.png'});
  await page.setViewportSize({width:390,height:844});await page.locator('#playground-icons-panel').scrollIntoViewIfNeeded();await page.screenshot({path:'/tmp/playground-heading-icons-mobile.png'});
- assert.deepEqual(errors,[]);console.log('PASS: 16 heading icons, complete deduplicated DOM catalogue, hidden controls, 16 responsive theme/agent combinations and expanded heading focus');
+ assert.deepEqual(errors,[]);console.log('PASS: 17 heading icons, complete deduplicated DOM catalogue, hidden controls, 16 responsive theme/agent combinations and expanded heading focus');
 }finally{await browser.close();server.close();}

@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.184"
-  update_summary: "Refine tab edges, restore native selector and unify links"
-  updated_at: "Mon 19 Oct 2026 at 05:14:43 pm AEDT (+11:00)"
+  doc_revision: "26.0.185"
+  update_summary: "Unify text selections and add hyperlink typography and icon categories"
+  updated_at: "Mon 19 Oct 2026 at 05:24:47 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.183 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 05:24:47 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Unify text selections and add hyperlink typography and icon categories
+
+### Changed
+
+- Apply shared agent/theme selection colours throughout the Playground and its specimens.
+- Add real resting and held-hover link specimens, northeast arrows, computed typography details and all four theme/agent colour combinations in a new Defined Styles Used in Playground panel.
+- Order Playground icons by page identity, UI controls and tab/panel headings; add All, Playground, UI Elements, Section Headings and Other category filters alongside Show Sources.
+
+### Validation
+
+- Authentication and saved geometry tests — 11 passed; no geometry remeasurement required.
+- Selection/typography checks — all 16 viewport/theme/agent combinations passed, including comparison with the actual app, live link styles, icon order and filters.
+- Heading/icon catalogue checks — 17 panel headings, complete source catalogue, responsive layouts and expanded focus passed.
+- Full app/Playground source-parity browser suite and Sites local production build passed. Screenshot inspected; physical iPhone/Safari not tested.
 
 ## v26.0.182 — 2026-10-19
 

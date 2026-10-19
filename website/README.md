@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.118"
-  update_summary: "Document mobile tabs, native selector parity and link styling"
-  updated_at: "Mon 19 Oct 2026 at 05:14:43 pm AEDT (+11:00)"
+  doc_revision: "26.0.119"
+  update_summary: "Document shared text selections, hyperlink specimens and icon categories"
+  updated_at: "Mon 19 Oct 2026 at 05:24:47 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -304,3 +304,9 @@ The login destination and held-state groups share a row at all widths; each grou
 Link text, visited text, arrows and underlines use `--link`, aliased to `--icon-ink`. Light mode mixes 80% agent accent with black: Codex `#026ACC`, Claude `#AE5F46`. Dark mode mixes 55% accent with white: Codex `#74BCFF`, Claude `#EAB4A3`. Hover retains these foreground colours, increases underline thickness from 1px to 2px and uses the unmodified agent accent at 10% opacity (`#0285FF` or `#D97757`); the resulting visible background depends on the underlying surface. Reduced motion disables the existing hover-colour transition.
 
 `node website/tests/playground-links-and-tabs-browser-check.mjs` checks link colours/decoration, source-label parity, mobile edge clamping, noncentring tablet/desktop selection, scrollbar separation and native agent-selector parity.
+
+### Shared Selection and Playground Typography
+
+The shared theme applies `::selection` to all app and Playground text, using the current agent and light/dark selection tokens. Typography includes a Defined Styles Used in Playground panel for shared hyperlink styles not currently used by main app content. Its real Resources link specimens use the shared renderer and held hover styling; computed values show text/underline/arrow colours, underline thickness and offset, font, padding, hover opacity and selection colours for both agents and themes. The table scrolls horizontally on narrow screens.
+
+Playground Icons offers All, Playground, UI Elements, Section Headings and Other filters. Order starts with Toy Brick, then interface controls (Ellipsis, X, Arrow Up to Line, Rotate Ccw, Rotate Cw, Copy, Minimize 2, Maximize 2 and remaining UI), then panel heading icons in tab/panel order. Category membership is derived from actual usage, and repeated icons remain deduplicated. The filter and Show Sources share a control row where space permits. Validate selection parity, link specimens, ordering and categories with `node website/tests/playground-selection-typography-browser-check.mjs`.
