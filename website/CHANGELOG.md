@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.176"
-  update_summary: "Isolate halo formation and tune fade defaults"
-  updated_at: "Mon 19 Oct 2026 at 03:22:11 pm AEDT (+11:00)"
+  doc_revision: "26.0.177"
+  update_summary: "Stabilise Easter Egg controls when switching views"
+  updated_at: "Mon 19 Oct 2026 at 03:29:37 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.175 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 03:29:37 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Stabilise Easter Egg controls when switching views
+
+### Fixed
+
+- Select named Easter Egg preview controls immediately from the chosen view, independently of transient animation and dialog-close events.
+- Tag iframe state messages with their preview view and ignore messages for a different selection. Only Natural Discovery follows live state changes.
+
+### Validation
+
+- Production build — passed; reused saved placeholder geometry.
+- New desktop/mobile control regression — passed for immediate sets, rapid switches, stale events, dialog closing and Natural Discovery. Existing animation-loop and full Playground source-parity checks also passed.
+- LAN home, direct Easter Egg section and logged-out preview — HTTP 200. Physical-device Safari remains a manual check.
 
 ## v26.0.174 — 2026-10-19
 
