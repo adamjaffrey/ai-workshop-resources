@@ -18,7 +18,7 @@ export function renderUrlReference(markdown,renderHeading){
   if(line.startsWith('### ')){html+='<h3 class="url-reference-subheading">'+renderHeading(line.slice(4))+'</h3>';continue;}
   if(line.startsWith('```')){
    const code=[];while(++i<lines.length&&!lines[i].startsWith('```'))code.push(lines[i]);
-   html+='<pre><code>'+escape(code.join('\n'))+'</code></pre>';continue;
+   html+='<div class="url-code-block code-wrap"><div class="code-header"><span class="code-label">'+escape(line.slice(3).trim()||'Example')+'</span></div><pre tabindex="0" aria-label="Code Example"><code>'+escape(code.join('\n'))+'</code></pre></div>';continue;
   }
   if(line.startsWith('|')){
    const rows=[];do{rows.push(lines[i]);i++;}while(i<lines.length&&lines[i].startsWith('|'));i--;
@@ -45,7 +45,11 @@ export const urlReferenceCSS=`
 #panel-url-reference th:last-child,#panel-url-reference td:last-child{padding-right:0}
 #panel-url-reference th{color:var(--text)}
 #panel-url-reference code{font:0.9em/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
-#panel-url-reference pre{white-space:pre-wrap;margin:16px 0;padding:0}
+#panel-url-reference .url-code-block{position:relative;margin:16px -4px;border:1px solid var(--panel-border);border-radius:12px;background:var(--surface);color:var(--text)}
+#panel-url-reference .code-header{min-height:56px;display:flex;align-items:center;border-bottom:1px solid var(--panel-border);padding:12px 20px}
+#panel-url-reference .code-label{font-size:12px;color:var(--muted-text)}
+#panel-url-reference pre{white-space:pre-wrap;margin:0;padding:16px 20px;max-height:320px;overflow:auto;border-radius:0 0 11px 11px}
+#panel-url-reference pre:focus-visible{outline:3px solid var(--icon-ink);outline-offset:3px}
 #panel-url-reference li+li{margin-top:8px}
 #panel-url-reference h3{margin-top:24px}
 .url-reference-subheading{display:flex;align-items:flex-start;gap:12px;line-height:1.5}

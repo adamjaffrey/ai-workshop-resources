@@ -30,6 +30,7 @@ export function initStickyControls() {
  let frame=0,compact=false,animation,viewportWidth=innerWidth;
  let lastY=scrollY,lastTime=performance.now(),speed=0,expandGap=24;
  function measure(){
+  if(!document.querySelector('.page-toolbar').getBoundingClientRect().width)return;
   animation?.cancel();
   agent.setAttribute('data-measuring','');
   for(const item of items){const {control,slot}=item;control.removeAttribute('data-locked');control.removeAttribute('data-compact');control.style.removeProperty('top');control.style.removeProperty('left');slot.style.width='';slot.style.height='';item.width=control.offsetWidth;item.height=control.offsetHeight;slot.style.width=item.width+'px';slot.style.height=item.height+'px';}
@@ -72,6 +73,10 @@ export function initStickyControls() {
  window.addEventListener('resize',()=>{if(innerWidth!==viewportWidth){viewportWidth=innerWidth;measure();}else schedule();});
  window.addEventListener('pageshow',measure);
  motion.addEventListener('change',()=>{if(motion.matches)animation?.cancel();});
+ // A hidden iframe has zero layout boxes but may retain the same innerWidth.
+ // Observe the source rail so revealing a Playground tab remeasures both controls.
+ let railWidth=0;
+ new ResizeObserver(entries=>{const width=entries[0].contentRect.width;if(width>0&&width!==railWidth){railWidth=width;measure();}}).observe(document.querySelector('.page-toolbar'));
  document.fonts.ready.then(measure);measure();
  return {refresh:measure,configure(options){if(typeof options.pinned==='boolean')pinned=options.pinned;measure();}};
 }

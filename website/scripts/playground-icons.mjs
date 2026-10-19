@@ -73,7 +73,7 @@ window.addEventListener('message',async event=>{
  // Render the app's native noscript children in their original parent context.
  const fallback=document.querySelector(page==='login'?'#access-form noscript':'#workshop-content noscript');
  if(!fallback)throw Error('Missing JavaScript fallback: '+page);
- const fallbackSource=sourceSelector(fallback),temporary=document.createElement('div');temporary.innerHTML=fallback.textContent;temporary.style.display='contents';fallback.after(temporary);
+ const fallbackSource=sourceSelector(fallback),temporary=document.createElement('div');temporary.innerHTML=fallback.textContent;temporary.className='javascript-notice-context';temporary.style.display='contents';fallback.after(temporary);
  const fallbackNode=temporary.firstElementChild;if(!fallbackNode)throw Error('Missing fallback content: '+page);
  if(page==='login'){const noticeIcon=iconSnapshot(fallbackNode.querySelector('svg'),page,'JavaScript Unavailable · Shared Notice');noticeIcon.selector=fallbackSource;items.push(noticeIcon);}
  const noticeStyle=getComputedStyle(fallbackNode),noticeTypography={page,width:fallbackNode.getBoundingClientRect().width,selector:fallbackSource,html:fallbackNode.outerHTML,typography:[noticeStyle.fontFamily,noticeStyle.fontSize,noticeStyle.fontWeight,noticeStyle.lineHeight,noticeStyle.color]};

@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.65"
-  update_summary: "Add lightweight documentation updates and shared URL reference rules"
-  updated_at: "Tue 20 Oct 2026 at 09:39:53 am AEDT (+11:00)"
+  doc_revision: "26.0.66"
+  update_summary: "Keep specimen clearance separate from optical alignment"
+  updated_at: "Tue 20 Oct 2026 at 10:26:28 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -228,6 +228,8 @@ Rounded corners visually recede from their bounding edge, while SVG icons can co
 - Each layout scope defines a text rail. Text, square-edged objects, tables, rules and square textareas start on this rail. Page headers, branding groups, dialog headings and introductory copy follow it too.
 - Designated rounded boundary components extend 4px outward from that rail. Full-width surfaces extend on both sides; intrinsic-width controls extend from their aligned edge. On mobile page layouts, the surface rail is 24px from the screen and the text rail is 28px. Expanded views use the same rails. Centred elements remain centred.
 - Use the single `--optical-offset` token. The component selectors in the shared module register existing scopes and surface boundaries. New scopes can use `.alignment-scope` with `--surface-padding`; full-width rounded children can use `.alignment-surface`. Square/text children stay on the scope's text rail. Do not automatically select all elements with a border radius.
+- In Playground specimen galleries, reserve a shared 16px safety inset (`--specimen-inset`) before applying the 4px optical extension. Keep focus rings, QR controls and login shadows inside this space; do not reduce wrapper padding to the optical offset. Full-page iframe previews retain their native page gutters. Preserve the inset in expanded views and refresh control measurements when revealing previously hidden frames.
+- Align Playground toggle legends with the first option’s text, accounting for the track border, track padding and button padding. Keep the button’s native interior spacing.
 - Apply the extension once per component boundary. A button inside a toggle does not acquire a second outward offset. Nested cards and prompt panels establish their own text rail using their normal interior surface spacing plus 4px; their designated rounded children may extend back to that interior surface rail.
 - Retain native padding, icon gaps and centred alignment inside buttons, toggle options, password fields and badges. A rounded icon tile is itself the boundary; do not also compensate the icon inside that tile. Move icon-and-heading groups together so their internal gap remains unchanged.
 - For an unboxed leading heading icon, align its visible stroke to the text rail by shifting the whole heading group by its measured leading whitespace at the rendered size. Never use a blanket 4px icon shift. The catalogue includes the cropped link-arrow variant separately. Disclosure bodies align beneath their summary text after the corrected chevron and gap. Button-contained icons keep their control padding.

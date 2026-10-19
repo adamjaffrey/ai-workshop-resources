@@ -6,7 +6,7 @@ const headingInkCSS=Object.entries(ink.icons).map(([name,{left}])=>`
 `).join('')+Object.entries(ink.variants).map(([key,m])=>{const [name,viewBox]=key.split(':');return `:is(#playground-title,.panel>.section-heading h2,.playground-icon-entry h3,.url-reference-subheading):has(>svg[data-icon-name="${name}"][viewBox="${viewBox}"]){--icon-ink-fraction:${m.left/m.viewBox}}`;}).join('');
 export function assertMeasuredHeadingIcon(name){if(!ink.icons[name])throw Error('Measure heading icon '+name+' with scripts/measure-alignment-icons.mjs');}
 export const alignmentCSS = String.raw`
-:root{--optical-offset:4px;--external-text-inset:var(--optical-offset);--playground-external-text-inset:var(--optical-offset)}
+:root{--specimen-inset:16px;--optical-offset:4px;--external-text-inset:var(--optical-offset);--playground-external-text-inset:var(--optical-offset)}
 #playground-title{--heading-icon-size:1em}
 :root{--disclosure-ink-inset:${ink.icons['chevron-right'].left/24*18}px}
 summary:has(>.disclosure-chevron){margin-inline-start:calc(-1 * var(--disclosure-ink-inset))}
@@ -34,7 +34,7 @@ main:is(#workshop-content,.page-placeholder)>*{width:calc(100% - 56px);max-width
 /* Login uses the same scope, including hosted Playground login and held states. */
 .gate-panel:not(.specimen-context):not(.focus-context){padding-inline:calc(32px + var(--optical-offset))}
 .gate-panel #gate-title,.gate-panel #gate-description,.gate-panel .eyebrow,.gate-panel label,.gate-panel .gate-error{padding-inline:0}
-.gate-panel>.password-field,.gate-panel>.gate-submit,.gate-panel>noscript>.javascript-notice{margin-inline:calc(-1 * var(--optical-offset));width:calc(100% + 2 * var(--optical-offset))}
+.gate-panel>.password-field,.gate-panel>.gate-submit,.gate-panel>noscript>.javascript-notice,.gate-panel>.javascript-notice,.gate-panel>.javascript-notice-context>.javascript-notice{margin-inline:calc(-1 * var(--optical-offset));width:calc(100% + 2 * var(--optical-offset))}
 .gate-toolbar>.theme-toggle{margin-inline-end:calc(-1 * var(--optical-offset))}
 @media(max-width:660px){.gate-panel:not(.specimen-context):not(.focus-context){padding-inline:calc(24px + var(--optical-offset))}}
 /* Dialogs and error surfaces are scopes too; their button interiors remain native. */
@@ -52,7 +52,7 @@ body:has(#playground-title)>main.wrap{padding-inline:28px}
 .panel>.frame-wrap,.panel>#playground-icon-catalog,.panel>.samples{margin-inline:-4px;width:calc(100% + 8px);max-width:none}
 /* The preview viewport stays on its rails; only its iframe may exceed it. */
 .panel>.frame-wrap,.preview-dialog.is-expanded>.frame-wrap{min-width:0;max-width:calc(100% + 8px);overflow:auto}
-.choices legend,.field>.slider-label,#hover .hover-explanation{padding-inline:0}
+.choices legend{padding-inline:0;margin-inline-start:13px}.field>.slider-label,#hover .hover-explanation{padding-inline:0}
 .choices>.choice-shell,.choices>.choice-options:not(:has(.choice-shell)){margin-inline-start:-4px;max-width:calc(100% + 8px)}
 .panel-actions,.panel-options,.heading-actions{margin-inline-end:-4px}
 .control-footer>.panel-actions{margin-inline-end:-4px}
@@ -78,13 +78,15 @@ body:has(#playground-title)>main.wrap{padding-inline:28px}
 .swatch strong,.swatch code,.swatch small{padding-inline:16px}.swatch p{margin-inline:16px}
 body:has(>#icon-catalog),body:has(>#error-catalog),body:has(>#focus-catalog),body:has(>#link-type-specimens){padding-inline:28px}
 #type-specimens{padding-inline:28px!important}
-.icon-sample:not(.error-sample),.focus-preview,.agent-preview,.variant-preview{margin-inline:-4px;padding-inline:4px}
-.error-sample:not(:has(.fallback-context,.full-login-context)){margin-inline:-4px;padding-inline:4px}
-.error-sample:has(.full-login-context){margin-inline:-4px;padding-inline:0}
+.icon-sample:not(.error-sample),.focus-preview,.agent-preview,.variant-preview,.feedback-preview{margin-inline:0;padding:var(--specimen-inset);max-width:100%;box-sizing:border-box}
+.error-sample:not(:has(.fallback-context,.full-login-context)){margin-inline:0;padding:var(--specimen-inset)}
+.error-sample:has(.full-login-context){margin-inline:0;padding-inline:var(--specimen-inset)}
 #errors-resources .error-sample:has(.fallback-context){margin-inline:-4px;padding-inline:20px!important}
 .focus-footer>form{margin-inline-start:-4px}
 .selection-preview{padding-inline:0}
 .selection-example{margin-inline:-4px;padding-inline:16px}
+.icon-row>h3,.icon-row>.icon-meta,.focus-row>h3,.focus-row>.focus-meta{margin-inline:var(--specimen-inset)}
+.type-row,.agent-row,.notice-type-row{padding-inline:var(--specimen-inset)!important}
 /* Standalone rounded specimen roots use the specimen rail, while copied
    interiors retain canonical app geometry and typography. */
 :is(.icon-sample,.focus-preview,.agent-preview,.variant-preview)>:is(button,.toggle,.theme-toggle,.symbol,.password-field,.qr-card,.code-wrap,.javascript-notice){margin-inline-start:-4px!important}

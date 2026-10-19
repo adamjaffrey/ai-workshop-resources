@@ -1,3 +1,4 @@
+import {linkArrowSVG} from '../lib/workshop-links.mjs';
 // Catalogue the real outer Playground DOM, including hidden/mobile controls.
 // Iframe app specimens belong exclusively to the separate app icon catalogue.
 export const playgroundIconCatalogScript = String.raw`
@@ -23,11 +24,11 @@ function renderPlaygroundIcons(){
  if(name==='arrow-up-right'&&svg.getAttribute('viewBox')==='0 0 24 24')originalArrowUsages.add(usage);
  }
  const cropped=icons.get('lucide:arrow-up-right');
- if(cropped){const original=cropped.svg.cloneNode(true);original.setAttribute('viewBox','0 0 24 24');original.classList.remove('link-arrow');icons.set('lucide:arrow-up-right',{...cropped,svg:original,variant:'original',usages:new Set(['Original Lucide source geometry; hyperlinks use the cropped variant below.',...originalArrowUsages])});icons.set('lucide:arrow-up-right:cropped',{...cropped,variant:'cropped',usages:new Set([...cropped.usages].filter(usage=>!originalArrowUsages.has(usage)))});}
+ if(cropped){const original=cropped.svg.cloneNode(true);original.setAttribute('viewBox','0 0 24 24');original.classList.remove('link-arrow');icons.set('lucide:arrow-up-right',{...cropped,svg:original,variant:'original',usages:new Set(['Original Lucide source geometry; hyperlinks use the cropped variant below.',...originalArrowUsages])});const template=document.createElement('template');template.innerHTML=${JSON.stringify(linkArrowSVG)};icons.set('lucide:arrow-up-right:cropped',{...cropped,svg:template.content.firstElementChild,groups:new Set(['ui']),variant:'cropped',usages:new Set(['Typography → Resting Link · follow-link','Typography → Hover Link · follow-link'])});}
  catalog.replaceChildren();
  const rank=item=>item.groups.has('playground')?0:item.groups.has('ui')?10+(uiOrder.includes(item.name)?uiOrder.indexOf(item.name):uiOrder.length):item.groups.has('headings')?100+headingOrder.indexOf(item.name):1000;
  for(const {svg,provider,name,usages,groups,variant} of [...icons.values()].sort((a,b)=>rank(a)-rank(b)||a.name.localeCompare(b.name))){
-  const entry=document.createElement('section');entry.className='playground-icon-entry';entry.dataset.catalogIcon=name;if(variant)entry.dataset.catalogVariant=variant;entry.dataset.iconGroups=[...groups].join(' ');
+  const entry=document.createElement('section');entry.className='playground-icon-entry';entry.dataset.catalogIcon=name;entry.dataset.iconFamily=provider;if(variant)entry.dataset.catalogVariant=variant;entry.dataset.iconGroups=[...groups].join(' ');
   const heading=document.createElement('h3'),sample=svg.cloneNode(true);
   sample.removeAttribute('id');sample.setAttribute('width','24');sample.setAttribute('height','24');sample.setAttribute('aria-hidden','true');
   if(variant==='cropped'){sample.style.width='8px';sample.style.height='8px';sample.setAttribute('width','8');sample.setAttribute('height','8');}heading.append(sample,document.createTextNode(name+(variant==='cropped'?' · Cropped for Links':'')));
@@ -41,7 +42,8 @@ function renderPlaygroundIcons(){
 }
 window.decorateWorkshopLinks();
 renderPlaygroundIcons();
-function filterPlaygroundIcons(){const value=document.querySelector('#playground-icon-filter input:checked').value;document.querySelectorAll('.playground-icon-entry').forEach(entry=>entry.hidden=value!=='all'&&!entry.dataset.iconGroups.split(' ').includes(value));document.getElementById('playground-icon-empty').hidden=Boolean(document.querySelector('.playground-icon-entry:not([hidden])'));}
+function filterPlaygroundIcons(){const value=document.querySelector('#playground-icon-filter input:checked').value,family=document.querySelector('#playground-icon-family input:checked').value;document.querySelectorAll('.playground-icon-entry').forEach(entry=>entry.hidden=(family!=='all'&&entry.dataset.iconFamily!==family)||(value!=='all'&&!entry.dataset.iconGroups.split(' ').includes(value)));document.getElementById('playground-icon-empty').hidden=Boolean(document.querySelector('.playground-icon-entry:not([hidden])'));}
+document.getElementById('playground-icon-family').addEventListener('change',filterPlaygroundIcons);
 document.getElementById('playground-icon-filter').addEventListener('change',filterPlaygroundIcons);filterPlaygroundIcons();
 document.getElementById('show-playground-sources').addEventListener('change',event=>{document.querySelectorAll('[data-playground-source]').forEach(link=>link.hidden=!event.target.checked);});
 `;

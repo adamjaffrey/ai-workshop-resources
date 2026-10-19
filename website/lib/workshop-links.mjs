@@ -1,7 +1,7 @@
 import {__iconNode as arrow} from '../node_modules/lucide-react/dist/esm/icons/arrow-up-right.mjs';
 // Lucide paths span 7–17; include the 1-unit round stroke on every edge.
 // A 12-unit canvas at 8px preserves the original 24-unit/16px scale.
-const arrowSVG='<svg class="link-arrow" data-icon-provider="lucide" data-icon-name="arrow-up-right" data-icon-use="follow-link" aria-hidden="true" viewBox="6 6 12 12" width="8" height="8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+arrow.map(([tag,attrs])=>'<'+tag+' '+Object.entries(attrs).filter(([key])=>key!=='key').map(([key,value])=>key+'="'+value+'"').join(' ')+'></'+tag+'>').join('')+'</svg>';
+export const linkArrowSVG='<svg class="link-arrow" data-icon-provider="lucide" data-icon-name="arrow-up-right" data-icon-use="follow-link" aria-hidden="true" viewBox="6 6 12 12" width="8" height="8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+arrow.map(([tag,attrs])=>'<'+tag+' '+Object.entries(attrs).filter(([key])=>key!=='key').map(([key,value])=>key+'="'+value+'"').join(' ')+'></'+tag+'>').join('')+'</svg>';
 export const linkCSS=`
 .link-tail{white-space:nowrap}
 a.workshop-link[href]{display:inline-block;max-width:100%;padding:2px 3px;border-radius:5px;text-decoration:none;overflow-wrap:anywhere;vertical-align:baseline;position:relative;isolation:isolate;background-color:transparent;pointer-events:none}
@@ -26,7 +26,7 @@ window.decorateWorkshopLinks=function(root=document){
   const walker=document.createTreeWalker(label,NodeFilter.SHOW_TEXT);let node,last;while(node=walker.nextNode())if(node.textContent.trim())last=node;
   const tail=document.createElement('span');tail.className='link-tail';
   if(last){const match=last.textContent.match(/\\S+\\s*$/);const word=document.createElement('span');word.className='link-label';word.textContent=match[0].trimEnd();last.textContent=last.textContent.slice(0,match.index);tail.append(word);}
-  tail.append(document.createTextNode('\u00a0'));tail.insertAdjacentHTML('beforeend',${JSON.stringify(arrowSVG)});a.append(tail);a.classList.add('workshop-link');
+  tail.append(document.createTextNode('\u00a0'));tail.insertAdjacentHTML('beforeend',${JSON.stringify(linkArrowSVG)});a.append(tail);a.classList.add('workshop-link');
  }
 };
 document.addEventListener('DOMContentLoaded',()=>{

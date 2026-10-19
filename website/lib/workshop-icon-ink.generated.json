@@ -16,6 +16,10 @@
       "left": 1,
       "right": 1
     },
+    "book-open": {
+      "left": 1,
+      "right": 1
+    },
     "check": {
       "left": 3,
       "right": 3
@@ -31,6 +35,10 @@
     "code-xml": {
       "left": 1,
       "right": 1
+    },
+    "combine": {
+      "left": 2,
+      "right": 2
     },
     "copy": {
       "left": 1,
@@ -51,6 +59,10 @@
     "file-code-corner": {
       "left": 1,
       "right": 3
+    },
+    "key-round": {
+      "left": 1,
+      "right": 0.95
     },
     "layout-template": {
       "left": 2,
@@ -92,6 +104,10 @@
       "left": 2,
       "right": 2
     },
+    "mouse-pointer-click": {
+      "left": 1.2,
+      "right": 2
+    },
     "palette": {
       "left": 1,
       "right": 1
@@ -105,6 +121,10 @@
       "right": 2
     },
     "rotate-cw": {
+      "left": 2,
+      "right": 2
+    },
+    "route": {
       "left": 2,
       "right": 2
     },

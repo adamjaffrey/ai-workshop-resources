@@ -3,14 +3,44 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.226"
-  update_summary: "Add the URL Reference tab and reciprocal logo shortcuts"
-  updated_at: "Tue 20 Oct 2026 at 10:04:55 am AEDT (+11:00)"
+  doc_revision: "26.0.227"
+  update_summary: "Fix Playground specimen layout and improve URL reference display"
+  updated_at: "Tue 20 Oct 2026 at 10:28:26 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.225 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 10:28:26 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Fix Playground specimen layout and improve URL reference display
+
+### Changed
+
+- Reserve a shared 16px inset around gallery specimens while retaining the 4px rounded-surface outdent. Align toggle legends with the first option text and record these rules in repository instructions.
+- Add the Playground Icon Family selector, use shared cropped-arrow geometry with Typography link-example usage labels, and give every URL Reference section a distinct measured Lucide icon.
+- Render fenced Markdown examples in bordered, keyboard-accessible code panels using Resources surface tokens.
+
+### Fixed
+
+- Remeasure sticky selectors when revealing the Resources iframe so controls initialised in a hidden tab do not overlap at zero coordinates.
+- Preserve the login JavaScript notice’s 4px outdent in captured specimens and remove overflow fade masks that clipped login-panel shadows.
+
+### Validation
+
+- Production build, generated-artifact assertions and structural tests — passed.
+- Headless browser checks — passed for source parity, URL Reference, nested and page alignment, specimen clearance, and sticky-control stability across mobile and desktop layouts.
+- Final LAN preview — passed for Resources, Playground, toggle text alignment, automatic real session creation and session revocation.
+- Reused saved anonymous backdrop geometry for the internal build; marked Playground geometry stale for the next authorised publication preparation.
 
 ## v26.0.224 — 2026-10-20
 
