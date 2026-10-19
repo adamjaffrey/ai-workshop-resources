@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.223"
-  update_summary: "Complete descendant redirects and canonical URL preferences"
-  updated_at: "Tue 20 Oct 2026 at 09:05:49 am AEDT (+11:00)"
+  doc_revision: "26.0.224"
+  update_summary: "Use AI Workshop Resources as the Resources page title"
+  updated_at: "Tue 20 Oct 2026 at 09:15:28 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.222 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 09:15:28 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Use AI Workshop Resources as the Resources page title
+
+### Changed
+
+- Set the Resources login browser title and framework metadata to AI Workshop Resources, matching the existing signed-in title and visible heading.
+
+### Validation
+
+- Rendered login and signed-in document titles — passed.
+- Headless browser verification on the active LAN preview — both Resources states show the requested title; Playground retains its existing title.
+- Sites local build and generated version verification — passed with v26.0.222; no layout changes or geometry remeasurement. No push or publication performed.
 
 ## v26.0.221 — 2026-10-20
 

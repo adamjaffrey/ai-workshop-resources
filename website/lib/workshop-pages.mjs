@@ -10,7 +10,7 @@ const loginTemplate = withTheme("<!doctype html>\n<html lang=\"en-AU\" class=\"i
 export {resourcePage} from './workshop-resource-page.mjs';
 
 const withPlaygroundShortcut=html=>html.replace('</head>','<style>'+playgroundPlaceholderStyles+'</style></head>').replace('</body>','<script nonce="__NONCE__">'+playgroundShortcutScript+playgroundPlaceholderScript+'</script></body>');
-export const loginPage = withPlaygroundShortcut(synchroniseLoginLayout(loginTemplate, resourcePage));
+export const loginPage = withPlaygroundShortcut(synchroniseLoginLayout(loginTemplate.replace('<title>AI Implementation Workshop Resources</title>','<title>AI Workshop Resources</title>'), resourcePage));
 
 // Every Playground route uses the measured Components backdrop and the shared login panel.
 export const playgroundLoginPage = withPlaygroundShortcut(synchroniseLoginLayout(loginTemplate.replace(/<link rel="icon"[^>]*>/,playgroundFavicon), resourcePage, {blankBackground:true}).replace('<main class="page-placeholder" aria-hidden="true"></main>',playgroundPlaceholder()));
