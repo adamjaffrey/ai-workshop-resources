@@ -85,10 +85,11 @@ export async function handleRequest(request, env, now = Date.now(), options = {}
       'Content-Security-Policy':"default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'none'; frame-src 'self' about:; base-uri 'none'; form-action 'none'; frame-ancestors 'self'",
     });
   }
+  const destinationLoginPage=isPlaygroundPath(path)?playgroundLoginPage:loginPage;
   const unavailable = () => {
     const message = loginMessages.service;
     if (request.method === 'POST' || path === '/auth/session') return json({error:message},503);
-    const page = loginPage.replace('class="gate-error"', 'class="gate-error is-error"')
+    const page = destinationLoginPage.replace('class="gate-error"', 'class="gate-error is-error"')
       .replace('data-status-icon="error" hidden', 'data-status-icon="error"')
       .replace('<span></span></p>', '<span>' + message + '</span></p>');
     return reply(page.replaceAll('__NONCE__',nonce),503,{'Content-Type':'text/html; charset=utf-8'});
@@ -132,7 +133,7 @@ export async function handleRequest(request, env, now = Date.now(), options = {}
       return reply(html.replaceAll('__SESSION_EXPIRES__',String(session.expires_at)),200,{'Content-Type':'text/html; charset=utf-8','Content-Security-Policy':"default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"});
     }
     if(!['/workshop-resources'].includes(path)&&!isPlaygroundPath(path)) return reply('Not found',404);
-    const page=session?resourcePage.replace('__SESSION_EXPIRES__',String(session.expires_at)):(isPlaygroundPath(path)?playgroundLoginPage:loginPage);
+    const page=session?resourcePage.replace('__SESSION_EXPIRES__',String(session.expires_at)):destinationLoginPage;
     return reply(page.replaceAll('__NONCE__',nonce),200,{'Content-Type':'text/html; charset=utf-8',...(!session?{'Set-Cookie':cookie('',now,0)}:{})});
   } catch {
     // Fail closed. Do not log requests, passwords, verifier values or cookies.

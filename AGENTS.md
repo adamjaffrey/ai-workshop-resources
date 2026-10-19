@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.59"
-  update_summary: "Require static backdrop captures and scrollable preview viewports"
-  updated_at: "Tue 20 Oct 2026 at 07:02:11 am AEDT (+11:00)"
+  doc_revision: "26.0.60"
+  update_summary: "Preserve route-specific login backgrounds for all errors"
+  updated_at: "Tue 20 Oct 2026 at 07:23:34 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -157,6 +157,8 @@ Before sending, check the exact four status labels and order, version/hash evide
 Site-wide GET/HEAD requests remove a leading `www.` hostname and lowercase the path before resolving aliases in one 301 redirect; preserve query strings and exact POST paths. Maintain only lowercase redirect keys and public asset filenames. Hosting must accept the `www` hostname and supply its certificate before these redirects can run.
 
 ## Website Login
+
+- Keep every login error on its requested canonical page and preserve its section/query URL. Initial configuration/database failures use that destination's login template: Resources blocks for Resources, Components blocks for every Playground section, with the same blur, dimming and theme/agent handling. Password, throttling, network and service errors during submission remain inline without navigation. Service failures still return HTTP 503 and fail closed. Run `website/tests/login-error-destination-browser-check.mjs` when changing this handling.
 
 - Use measured anonymous blocks from the first Playground tab, Components, behind every Playground login route. Reuse that single Components backdrop for `/component-playground` and all section paths; do not measure each tab. Main-app login retains its Resources backdrop. Share the login panel, one background blur and dimming, and keep both destinations inspectable from the Components login specimen. Both backdrops follow the selected theme/agent, defaulting to Codex blue. Serve only anonymous geometry in inert, script-disabled backdrop frames; never embed the authenticated Playground or original protected text.
 

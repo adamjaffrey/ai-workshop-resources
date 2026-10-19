@@ -75,3 +75,20 @@ test('hosted playground shares the main session and never exposes specimens anon
  await handleRequest(post('/auth/logout','',{cookie}),e,now+2);
  assert.doesNotMatch(await(await handleRequest(get('/component-playground',cookie),e,now+3)).text(),/Component Playground|srcdoc=/);
 });
+
+test('service failures preserve every login destination, background and query URL',async()=>{
+ const paths=['/workshop-resources','/component-playground',...['components','typography','colours','blocks-and-blur','icons','status-states','focus-and-selection','branding','easter-egg'].map(x=>'/component-playground/'+x)];
+ for(const path of paths)for(const failure of ['missing-config','invalid-verifier','database']){
+  const e=failure==='missing-config'?{}:env();
+  if(failure==='invalid-verifier')e.WORKSHOP_PASSWORD_VERIFIER='invalid';
+  if(failure==='database')e.DB.prepare=()=>{throw Error('database unavailable');};
+  const request=get(path+'?theme=dark&agent=claude',COOKIE+'='+'a'.repeat(64));
+  const response=await handleRequest(request,e);const html=await response.text();
+  assert.equal(response.status,503,path+' '+failure);assert.equal(response.headers.get('location'),null);
+  assert.equal(request.url,origin+path+'?theme=dark&agent=claude');
+  assert.match(html,/Sign-in unavailable/);assert.match(html,/id="access-form"/);
+  assert.equal(html.includes('class="page-placeholder playground-placeholder"'),path.startsWith('/component-playground'));
+  if(path.startsWith('/component-playground'))assert.match(html,/src="\/login-backdrop\/components/);
+  assert.doesNotMatch(html,/system-blueprint-creator|system-build-assistant|__NONCE__/);
+ }
+});

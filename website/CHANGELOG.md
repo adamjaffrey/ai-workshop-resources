@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.218"
-  update_summary: "Freeze decorative captures and restore mobile preview panning"
-  updated_at: "Tue 20 Oct 2026 at 07:09:40 am AEDT (+11:00)"
+  doc_revision: "26.0.219"
+  update_summary: "Preserve login destinations during service failures"
+  updated_at: "Tue 20 Oct 2026 at 07:23:39 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.217 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 07:23:39 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Preserve login destinations during service failures
+
+### Changed
+
+- Select one destination-specific login template for normal unauthenticated requests and configuration/database failure pages. Every Playground section retains the Components blocks, blur and dimming; Resources retains its own backdrop.
+- Preserve the requested canonical section and query URL, HTTP 503 error semantics and closed authentication boundary. Submission errors continue to render inline without navigation.
+- Record this error-handling contract in repository instructions and add route-wide regression coverage.
+
+### Validation
+
+- Authentication and anonymous-backdrop tests — passed (12 tests), including missing configuration, invalid verifier and database errors across all 11 login destinations.
+- Headless browser checks at 390px and 1440px: initial errors on all destinations plus incorrect password, throttling, service and network submission errors preserve URL, backdrop and blur. Mobile screenshot inspected.
+- Production build succeeded with v26.0.217. Saved geometry hashes remained unchanged; no remeasurement, push or publication performed.
 
 ## v26.0.216 — 2026-10-20
 
