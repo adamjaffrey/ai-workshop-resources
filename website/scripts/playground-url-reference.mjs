@@ -6,13 +6,13 @@ const escape=text=>text.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAl
 const inline=text=>text.split(/(`[^`]+`)/).map(part=>part.startsWith('`')?'<code>'+escape(part.slice(1,-1))+'</code>':escape(part.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'$1 ($2)'))).join('');
 export function renderUrlReference(markdown,renderHeading){
  const lines=markdown.replace(/^---\n[\s\S]*?\n---\n/,'').trim().split('\n');
- let html='',section=false;
+ let html='',section=false,sectionTitle='URL Reference';
  for(let i=0;i<lines.length;i++){
   const line=lines[i];
   if(!line.trim()||line.startsWith('# '))continue;
   if(line.startsWith('## ')){
    if(section)html+='</section>';
-   section=true;html+='<section class="panel"><div class="section-heading"><h2>'+renderHeading(line.slice(3))+'</h2></div>';continue;
+   section=true;sectionTitle=line.slice(3);html+='<section class="panel"><div class="section-heading"><h2>'+renderHeading(line.slice(3))+'</h2></div>';continue;
   }
   if(!section){html+='<p class="muted">'+inline(line)+'</p>';continue;}
   if(line.startsWith('### ')){html+='<h3 class="url-reference-subheading">'+renderHeading(line.slice(4))+'</h3>';continue;}
@@ -23,7 +23,7 @@ export function renderUrlReference(markdown,renderHeading){
   if(line.startsWith('|')){
    const rows=[];do{rows.push(lines[i]);i++;}while(i<lines.length&&lines[i].startsWith('|'));i--;
    const cells=row=>row.slice(1,-1).split('|').map(cell=>inline(cell.trim()));
-   html+='<div class="url-table"><table><thead><tr>'+cells(rows[0]).map(cell=>'<th scope="col">'+cell+'</th>').join('')+'</tr></thead><tbody>'+rows.slice(2).map(row=>'<tr>'+cells(row).map(cell=>'<td>'+cell+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>';continue;
+   html+='<div class="url-table" tabindex="0" role="region" aria-label="'+escape(sectionTitle)+' Table"><table><thead><tr>'+cells(rows[0]).map(cell=>'<th scope="col">'+cell+'</th>').join('')+'</tr></thead><tbody>'+rows.slice(2).map(row=>'<tr>'+cells(row).map(cell=>'<td>'+cell+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>';continue;
   }
   if(line.startsWith('- ')){
    html+='<ul>';do{html+='<li>'+inline(lines[i].slice(2))+'</li>';i++;}while(i<lines.length&&lines[i].startsWith('- '));i--;html+='</ul>';continue;
@@ -40,7 +40,7 @@ export async function urlReferencePanel(renderHeading){
 export const urlReferenceCSS=`
 #panel-url-reference{overflow-wrap:anywhere;min-width:0}
 #panel-url-reference .url-table{max-width:100%;overflow-x:auto}
-#panel-url-reference table{width:100%;border-collapse:collapse;text-align:left;font-size:14px}
+#panel-url-reference table{width:100%;min-width:600px;overflow-wrap:normal;border-collapse:collapse;text-align:left;font-size:14px}
 #panel-url-reference th,#panel-url-reference td{vertical-align:top;padding:12px 16px 12px 0;border-bottom:1px solid var(--border)}
 #panel-url-reference th:last-child,#panel-url-reference td:last-child{padding-right:0}
 #panel-url-reference th{color:var(--text)}

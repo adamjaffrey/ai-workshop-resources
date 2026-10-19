@@ -21,5 +21,5 @@ try{
   await page.goBack();assert.equal(await page.locator('[data-tab=errors]').getAttribute('aria-selected'),'true');
   await page.goForward();assert.equal(await page.locator('[data-tab=focus]').getAttribute('aria-selected'),'true');
  }
- console.log('PASS: all nine canonical tabs, clicks, reloads, alias arrival and Back/Forward at mobile/desktop widths');
+ console.log('PASS: all ten canonical tabs, clicks, reloads, alias arrival and Back/Forward at mobile/desktop widths');
 }finally{await browser.close();await new Promise(r=>server.close(r));}

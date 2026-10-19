@@ -21,6 +21,10 @@ try{
    assert.ok((await page.locator('#playground-icon-catalog [data-catalog-icon="'+name+'"]').first().textContent()).includes(use),'Catalogue includes '+use);
   }
   assert.ok((await page.locator('#playground-icon-catalog [data-catalog-icon="file-code-corner"]').textContent()).includes('playground-tab-url-reference'));
+  for(const table of await panel.locator('.url-table').all()){
+   assert.equal(await table.getAttribute('tabindex'),'0','Overflow table remains keyboard-accessible');
+   assert.ok(await table.locator('table').evaluate(e=>e.getBoundingClientRect().width>=600),'Keep columns readable');
+  }
   assert.equal(await panel.locator('a').count(),0,'Examples cannot log users out');
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,'No page overflow');
   assert.equal(await page.locator('nav[role=tablist]').evaluate(e=>{e.scrollTop=10;return e.scrollTop;}),0,'Tabs remain horizontal only');

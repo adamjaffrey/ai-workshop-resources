@@ -3,14 +3,54 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.225"
-  update_summary: "Document URL rules and complete Playground canonicalisation"
-  updated_at: "Tue 20 Oct 2026 at 09:28:56 am AEDT (+11:00)"
+  doc_revision: "26.0.226"
+  update_summary: "Add the URL Reference tab and reciprocal logo shortcuts"
+  updated_at: "Tue 20 Oct 2026 at 10:04:55 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.224 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 10:04:55 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add the URL Reference tab and reciprocal logo shortcuts
+
+### Added
+
+- Add `/component-playground/url-reference`, rendering the repository URL reference with path mappings, redirects, query parameters, aliases and authentication behaviour. Keep examples non-interactive to prevent accidental logout, and support `/url-references` as a section alias.
+- Give the tab, section headings and subheadings relevant measured Lucide icons; include their usages and official source links in the Playground Icons catalogue.
+- Reuse the Resources three-click/tap gesture for reverse navigation from Playground to canonical Resources in a separate tab/window. Support both authenticated pages and both login screens using actual anonymous backdrop logo bounds, without granting access or intercepting the login panel.
+
+### Changed
+
+- Require future URL/query changes to update both `URL-REFERENCE.md` and its Playground representation. Keep documentation-only updates free of website/browser tests, preview restarts, password changes and preview-verification handoffs.
+- Keep URL tables readable on narrow screens with keyboard-accessible horizontal scrolling inside their cards.
+- Preserve script-disabled anonymous Components backdrops while allowing the parent page to read their logo geometry.
+
+### Fixed
+
+- Supply the required heading icon so URL Reference no longer interrupts Playground tab initialisation; add a source-level regression check for all tab panels and icon sources.
+- Catalogue full-size navigation arrows separately from the cropped link-arrow variant.
+
+### Validation
+
+- Routing, authentication, local-preview and Playground structure checks — 29 passed; placeholder source tests also passed during the build.
+- URL Reference browser checks — passed at 320, 390, 768 and 1440px in both themes and both agents, including path/query content, heading/tab icon catalogue entries, keyboard-accessible tables and overflow.
+- Reciprocal logo shortcut browser checks — passed at four widths with mouse/touch, both login states, canonical destinations, no opener, timeout/reset behaviour and specimen navigation containment.
+- Playground source parity, seven-width optical alignment, tab edges, selection scroll axes and canonical section navigation — passed. Anonymous Components backdrop checks passed 20 viewport combinations with both themes/agents and no protected content or scripting.
+- Installed Lucide ink measurement verification — passed. Mobile/desktop URL Reference screenshots visually inspected.
+- Sites production build and generated version display — passed with v26.0.224. Built Worker checks passed 144 baseline redirects plus case, descendant, plural, query-value and invalid-value cases.
+- Final LAN preview — verified Resources, Playground, login form, automatic real session creation and session revocation. Earlier permission-review timeouts no longer prevented test execution.
+- No push or publication performed.
 
 ## v26.0.223 — 2026-10-20
 
