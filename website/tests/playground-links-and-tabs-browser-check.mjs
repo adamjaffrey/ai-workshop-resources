@@ -23,10 +23,15 @@ try{
   await page.locator('[data-tab=discovery]').click();const frame=page.frameLocator('#discovery-frame');await frame.locator('.controls .toggle').waitFor();await page.locator('#discovery-frame').scrollIntoViewIfNeeded();await page.waitForTimeout(300);const size=await frame.locator('body').evaluate(()=>({width:innerWidth,height:innerHeight}));await real.setViewportSize(size);await real.goto(base+'/');await real.evaluate(()=>document.fonts.ready);
   for(const target of ['top','bottom','top']){
    const scroll=target=>window.scrollTo(0,target==='top'?0:document.documentElement.scrollHeight);
-   await frame.locator('body').evaluate((_,target)=>window.scrollTo(0,target==='top'?0:document.documentElement.scrollHeight),target);await real.evaluate(scroll,target);await page.waitForTimeout(500);
+   await frame.locator('body').evaluate((_,target)=>window.scrollTo(0,target==='top'?0:document.documentElement.scrollHeight),target);await real.evaluate(scroll,'bottom');await page.waitForTimeout(500);
    const read=e=>{const r=e.getBoundingClientRect(),s=e.closest('.sticky-control-slot').getBoundingClientRect();return {compact:e.hasAttribute('data-compact'),locked:e.hasAttribute('data-locked'),left:Math.round(r.left),width:Math.round(r.width),slotLeft:Math.round(s.left)};};
    const specimen=await frame.locator('.controls .toggle').evaluate(read),actual=await real.locator('.controls .toggle').evaluate(read);
-   if(specimen.compact!==actual.compact)console.log(await frame.locator('.controls .toggle').evaluate(e=>{const a=[];for(let n=e;n;n=n.parentElement)a.push({tag:n.tagName,cls:n.className,display:getComputedStyle(n).display,box:n.getBoundingClientRect().toJSON()});return a;}));assert.equal(specimen.compact,actual.compact,JSON.stringify({width,target,specimen,actual}));assert.equal(specimen.left,actual.left,'real selector alignment');assert.equal(specimen.width,actual.width,'real selector width');
+   // Easter Egg deliberately pins its shared controls, including at scroll zero.
+   // Compare with the independently rendered app's naturally pinned state.
+   assert.equal(specimen.locked,true,'Easter Egg selector stays pinned');
+   assert.equal(await frame.locator('.controls .toggle').evaluate(e=>Math.round(e.getBoundingClientRect().top)),24);
+   assert.equal(actual.locked,true,'app comparison is naturally pinned');
+   assert.equal(specimen.compact,actual.compact,JSON.stringify({width,target,specimen,actual}));assert.equal(specimen.left,actual.left,'real selector alignment');assert.equal(specimen.width,actual.width,'real selector width');
   }
   await page.screenshot({path:'/tmp/playground-edge-'+width+'.png'});
  }
