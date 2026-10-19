@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.175"
-  update_summary: "Add home redirect and direct preview handoff format"
-  updated_at: "Mon 19 Oct 2026 at 03:17:38 pm AEDT (+11:00)"
+  doc_revision: "26.0.176"
+  update_summary: "Isolate halo formation and tune fade defaults"
+  updated_at: "Mon 19 Oct 2026 at 03:22:11 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.174 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 03:22:11 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Isolate halo formation and tune fade defaults
+
+### Changed
+
+- Start the looping Discovery Reveal preview directly at the sentence endpoint, with both halves visible and no full-line sheen. Preserve Full Sentence and the main app's complete discovery sequence.
+- Default Rainbow Trail Feather to 80px and Modal Fade Duration to 0.6 seconds.
+- Place Modal Fade Duration with Success Dialog controls; hide text-sheen controls in Discovery Reveal.
+
+### Validation
+
+- Production build and focused loop/settings checks — passed, including no Discovery Reveal text sheen, moved control visibility and unchanged real app modal flow.
+- Easter Egg source parity — passed across 16 width/theme/agent combinations; full Playground source-parity checks also passed.
+- Local home, Easter Egg section and logged-out form — HTTP 200; signed-in home and login-form markup verified. Physical-device Safari remains a manual check.
 
 ## v26.0.173 — 2026-10-19
 
