@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.178"
-  update_summary: "Sequence reveal and sheen with reliable replay"
-  updated_at: "Mon 19 Oct 2026 at 03:36:35 pm AEDT (+11:00)"
+  doc_revision: "26.0.179"
+  update_summary: "Reduce idle effect work and audit deployment defaults"
+  updated_at: "Mon 19 Oct 2026 at 03:44:49 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.177 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 03:44:49 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Reduce idle effect work and audit deployment defaults
+
+### Changed
+
+- Sleep the particle frame loop when idle, skip unchanged configuration writes and cache target geometry until state/theme/size changes.
+- Remove completed timeout IDs, calculate wave geometry once per frame, sample the ribbon route once and crop its canvas to the path plus glow margin. Preserve approved visual settings.
+- Cancel hidden Easter Egg tab fixtures and restart the selected preview when returning; avoid zero-size geometry work while hidden.
+
+### Validation
+
+- Local headless Chrome eligible-idle sample — about 315ms to 14ms task time over 1.5 seconds; inscription mutations dropped from 22,103 to zero. Results are scenario-specific.
+- Memory/cleanup regression — no remaining ribbon/fade nodes or element growth after 24 cycles; about 192KB retained heap delta after garbage collection in the first measured run. Long-session/device-specific leaks are not ruled out.
+- Approved settings audit — exact object matches main-app and Playground controllers; generated app artefact embeds the approved defaults and current version.
+- Production build, animation flow, loops, responsive feather, Easter Egg parity and full Playground source-parity checks — passed. Existing placeholder geometry reused.
+- Physical-device Safari — remains a manual preview check.
 
 ## v26.0.176 — 2026-10-19
 

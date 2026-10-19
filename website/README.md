@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.112"
-  update_summary: "Document sequential reveal timing and manual animation replay"
-  updated_at: "Mon 19 Oct 2026 at 03:35:07 pm AEDT (+11:00)"
+  doc_revision: "26.0.113"
+  update_summary: "Document animation scheduling and deployment settings audit"
+  updated_at: "Mon 19 Oct 2026 at 03:43:30 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -272,3 +272,9 @@ The Playground Branding tab mounts `workshop-worm-halo.mjs` over the canonical R
 ## Playground Section Links
 
 Direct URLs under `/playground/` select components, typography, colours, blocks, icons, statuses, focus, branding or easter-egg. Legacy errors, discovery and colors section paths permanently redirect (301) to statuses, easter-egg and colours, preserving query strings. Tab changes update browser history; Back and Forward restore the selected section. An explicit path takes precedence over the saved tab. Local section previews remain password-free; hosted paths require the same validated session, and login and session expiry retain the requested section. Unknown section paths return 404. The heading area uses the same theme surface as the selector toolbar for a continuous background.
+
+## Animation Performance and Settings Audit
+
+The Easter Egg renderer requests frames only while waves or hover particles need work; idle and reduced-motion states perform no particle writes. Shared geometry is refreshed on state, theme and resize changes, and unchanged settings return without rewriting styles. Completed timeout IDs are removed from the pending list. Ribbon path points are sampled once at one-pixel intervals and interpolated, while the canvas is cropped to the route plus its glow margin. The palette, density, CSS blur radii, timings and approved defaults remain unchanged. Leaving the Easter Egg Playground tab cancels its fixture effects; returning restarts the selected preview.
+
+`node website/tests/perspective-performance-browser-check.mjs` compares the complete approved settings object against both the canonical defaults and real main-app/Playground controllers. It also checks idle writes, repeated formation/cancellation cleanup and inactive-tab suspension. In a local headless Chrome 1.5-second eligible-idle sample, task time decreased from about 315ms to 14ms and inscription attribute mutations from 22,103 to zero. These are bounded measurements, not universal device benchmarks. A 24-cycle formation/cancellation run retained about 192KB after forced garbage collection, with unchanged element count and no remaining ribbon or screen-fade nodes; this does not rule out all long-session/browser leaks.

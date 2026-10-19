@@ -72,12 +72,15 @@ export function initPerspective(defaults,controls) {
  let waves=[],pointer=null,lastFrame=0,maskKey="",opening=false,burst=null,flightFrame=0,finishFlight=null;
  const floats=points.map((el,i)=>({el,x:parseFloat(el.style.getPropertyValue('--x'))/100,y:parseFloat(el.style.getPropertyValue('--y'))/100,phase:i*2.399,clock:i*.13,lit:false,pullX:0,pullY:0,alpha:0,chargedAt:-Infinity,tail:0,colour:null}));
  let screenFade=null;function clearScreenFade(){screenFade?.remove();screenFade=null;dialog.removeAttribute("data-prefaded");}
+ let syncDirty=true,configured=false,frameHandle=0,particlesDrawn=false;
+ const wakeFrame=()=>{if(!frameHandle&&!document.hidden&&!motion.matches)frameHandle=requestAnimationFrame(frame);};
+ new ResizeObserver(()=>{syncDirty=true;sync();wakeFrame();}).observe(area);new MutationObserver(()=>{syncDirty=true;sync();wakeFrame();}).observe(root,{attributes:true,attributeFilter:["data-theme"]});
  let timers=[];
- const later=(fn,ms)=>{const id=setTimeout(fn,ms);timers.push(id);return id;};
+ const later=(fn,ms)=>{const id=setTimeout(()=>{timers=timers.filter(t=>t!==id);fn();},ms);timers.push(id);return id;};
  const clearTimers=()=>{timers.forEach(clearTimeout);timers=[];};
  const visible=()=>{const r=area.getBoundingClientRect();return !document.hidden&&r.top>=0&&r.bottom<=innerHeight&&r.left>=0&&r.right<=innerWidth;};
  const stable=()=>!window.workshopThemeBusy?.();
- function setState(next){state=next;area.dataset.state=next;window.dispatchEvent(new CustomEvent('perspective-state',{detail:next}));}
+ function setState(next){syncDirty=true;state=next;area.dataset.state=next;window.dispatchEvent(new CustomEvent('perspective-state',{detail:next}));}
  // Union of soft capsules around actual wrapped line boxes, not their bounding rectangle.
  function shapeParticles(rects,left,top,width,height,padding){
   const lines=rects.filter(r=>r.width>0).map(r=>({x:r.left-left-padding,y:r.top-top+(r.height-24)/2-padding,w:r.width+padding*2,h:24+padding*2}));
@@ -90,8 +93,8 @@ export function initPerspective(defaults,controls) {
   ctx.putImageData(pixels,0,0);button.querySelector('.perspective-particles').style.setProperty('--particle-mask','url("'+canvas.toDataURL()+'")');
  }
  function positionTarget(){if(state==='complete'){const a=area.getBoundingClientRect();Object.assign(button.style,{left:'0px',right:'auto',top:'-10px',width:a.width+'px',height:Math.max(44,a.height+20)+'px',transform:'none'});button.setAttribute('aria-label','Reopen Discovery Message');return;}button.setAttribute('aria-label','Discover Another Perspective');const fragment=root.dataset.theme==='dark'?day:night;const r=fragment.getBoundingClientRect(),a=area.getBoundingClientRect(),height=Math.max(config.hoverHeight,r.height),padding=(height-r.height)/2,range=document.createRange();range.selectNodeContents(fragment);const text=range.getBoundingClientRect();Object.assign(button.style,{left:(text.left-a.left-padding)+'px',right:'auto',top:(r.top-a.top-padding)+'px',width:(text.width+padding*2)+'px',height:height+'px',transform:'none'});shapeParticles([...range.getClientRects()],text.left-padding,r.top-padding,text.width+padding*2,height,padding);}
- function sync(){const all=state==='revealing'||state==='complete';day.setAttribute('aria-hidden',String(!all&&root.dataset.theme==='dark'));night.setAttribute('aria-hidden',String(!all&&root.dataset.theme!=='dark'));positionTarget();}
- function configure(next={}){const before=JSON.stringify(config);for(const {key,max} of controls){if(Number.isFinite(next[key]))config[key]=Math.min(max,Math.max(0,next[key]));}area.style.setProperty('--particle-size',config.particleSize/100);area.style.setProperty('--sheen-strength',config.sheenStrength/100);area.style.setProperty('--hover-height',config.hoverHeight+'px');area.style.setProperty('--particle-radius',config.ringRadius+'px');area.style.setProperty('--perspective-duration',config.duration+'ms');dialog.style.setProperty('--modal-fade',config.modalFade+'ms');dialog.style.setProperty('--perspective-halo',config.halo/100);dialog.style.setProperty('--halo-blur',config.haloBlur+'px');dialog.style.setProperty('--aurora-intensity',config.auroraIntensity/100);dialog.style.setProperty('--halo-period',(1400000/Math.max(1,config.haloSpeed))+'ms');dialog.style.setProperty('--aurora-period',(700000/Math.max(1,config.haloSpeed))+'ms');dialog.style.animationPlayState=config.haloSpeed?'running':'paused';dialog.style.setProperty('--aurora-play',config.haloSpeed?'running':'paused');points.forEach((point,i)=>point.hidden=i>=Math.round(config.intensity*.48));if(state==='ready'&&before!==JSON.stringify(config)){clearTimers();waves=[];floats.forEach(f=>{f.chargedAt=-Infinity;f.tail=0;f.lit=false;f.alpha=0;});area.removeAttribute('data-sheening');area.removeAttribute('data-sparkling');cycle=performance.now()+100;}if(loopMode&&before!==JSON.stringify(config))window.workshopPerspective?.preview(loopMode,{loop:true});return {...config};}
+ function sync(){if(!syncDirty||!area.getClientRects().length)return;syncDirty=false;const all=state==='revealing'||state==='complete';day.setAttribute('aria-hidden',String(!all&&root.dataset.theme==='dark'));night.setAttribute('aria-hidden',String(!all&&root.dataset.theme!=='dark'));positionTarget();}
+ function configure(next={}){const before=JSON.stringify(config);for(const {key,max} of controls){if(Number.isFinite(next[key]))config[key]=Math.min(max,Math.max(0,next[key]));}if(configured&&before===JSON.stringify(config))return {...config};configured=true;syncDirty=true;area.style.setProperty('--particle-size',config.particleSize/100);area.style.setProperty('--sheen-strength',config.sheenStrength/100);area.style.setProperty('--hover-height',config.hoverHeight+'px');area.style.setProperty('--particle-radius',config.ringRadius+'px');area.style.setProperty('--perspective-duration',config.duration+'ms');dialog.style.setProperty('--modal-fade',config.modalFade+'ms');dialog.style.setProperty('--perspective-halo',config.halo/100);dialog.style.setProperty('--halo-blur',config.haloBlur+'px');dialog.style.setProperty('--aurora-intensity',config.auroraIntensity/100);dialog.style.setProperty('--halo-period',(1400000/Math.max(1,config.haloSpeed))+'ms');dialog.style.setProperty('--aurora-period',(700000/Math.max(1,config.haloSpeed))+'ms');dialog.style.animationPlayState=config.haloSpeed?'running':'paused';dialog.style.setProperty('--aurora-play',config.haloSpeed?'running':'paused');points.forEach((point,i)=>point.hidden=i>=Math.round(config.intensity*.48));if(state==='ready'&&before!==JSON.stringify(config)){clearTimers();waves=[];floats.forEach(f=>{f.chargedAt=-Infinity;f.tail=0;f.lit=false;f.alpha=0;});area.removeAttribute('data-sheening');area.removeAttribute('data-sparkling');cycle=performance.now()+100;}if(loopMode&&before!==JSON.stringify(config))window.workshopPerspective?.preview(loopMode,{loop:true});return {...config};}
  button.addEventListener('pointermove',event=>{const r=button.getBoundingClientRect();pointer={x:event.clientX-r.left,y:event.clientY-r.top};});
  button.addEventListener('pointerleave',()=>pointer=null);
  // The palette, geometry and clock are shared by text, punctuation and particles.
@@ -104,15 +107,18 @@ export function initPerspective(defaults,controls) {
  }
 
  function frame(now){
+  frameHandle=0;waves=waves.filter(w=>now-w.start<w.sweep+w.life);
+  const hintActive=hovering||area.hasAttribute('data-keyboard-hint'),particleWork=state==='ready'&&(hintActive||waves.length||floats.some(f=>f.tail>.005));
+  if(document.hidden||motion.matches||(!waves.length&&!particleWork)){if(particlesDrawn){for(const f of floats){f.alpha=0;f.el.style.opacity=0;}particlesDrawn=false;}return;}
   const dt=Math.min(50,now-lastFrame||16),ease=config.gravityEase?1-Math.exp(-dt/config.gravityEase):1;lastFrame=now;
   if(!document.hidden&&!motion.matches){
 
-   waves=waves.filter(w=>now-w.start<w.sweep+w.life);
    const a=area.getBoundingClientRect(),glyphs=[day,night].map(el=>{const range=document.createRange();range.selectNodeContents(el);return range.getBoundingClientRect();}),textLeft=Math.min(...glyphs.map(r=>r.left)),textRight=Math.max(...glyphs.map(r=>r.right)),targetBox=button.hidden?{left:textLeft,right:textRight,top:a.top,bottom:a.bottom}:button.getBoundingClientRect(),top=Math.min(a.top,targetBox.top),left=Math.min(textLeft,targetBox.left),box={left,top,width:Math.max(textRight,targetBox.right)-left,height:Math.max(a.bottom,targetBox.bottom)-top},latest=waves.at(-1);if(latest&&area.hasAttribute('data-sheening'))paintWave(latest,now,box);
-   if(state==='ready'&&visible()){
-    const r=button.getBoundingClientRect(),hint=hovering||area.hasAttribute('data-keyboard-hint');
+   if(particleWork&&visible()){
+    particlesDrawn=true;
+    const r=button.getBoundingClientRect(),hint=hovering||area.hasAttribute('data-keyboard-hint'),samples=waves.filter(w=>now-w.start<=w.sweep).map(w=>({...waveGeometry(w,now,box),dark:w.dark}));
     for(const f of floats){if(f.el.hidden)continue;const t=now/1000,driftX=(Math.sin(t*.48+f.phase)*7+Math.sin(t*.21+f.phase*2)*4)*config.drift/100,driftY=Math.cos(t*.39+f.phase)*6*config.drift/100;let glow=0,lit=false;
-     for(const w of waves){if(now-w.start>w.sweep)continue;const {centre,band}=waveGeometry(w,now,box),x=r.left-box.left+f.x*r.width+driftX+f.pullX,y=r.top-box.top+f.y*r.height+driftY+f.pullY,sample=waveSample(w.dark?box.width-x+box.height-y:x+y,centre,band);if(sample&&sample.alpha>.002){lit=true;f.chargedAt=now;f.colour=sample.colour;glow=Math.max(glow,sample.alpha);}}
+     for(const w of samples){const {centre,band}=w,x=r.left-box.left+f.x*r.width+driftX+f.pullX,y=r.top-box.top+f.y*r.height+driftY+f.pullY,sample=waveSample(w.dark?box.width-x+box.height-y:x+y,centre,band);if(sample&&sample.alpha>.002){lit=true;f.chargedAt=now;f.colour=sample.colour;glow=Math.max(glow,sample.alpha);}}
      f.tail=config.particleDuration?Math.max(glow,f.tail*Math.exp(-dt/(config.particleDuration/6))):glow;if(f.tail<.005)f.tail=0;glow=f.tail;
      const attractor=pointer||(hint?{x:r.width/2,y:r.height/2}:null),dx=attractor?attractor.x-f.x*r.width-driftX:0,dy=attractor?attractor.y-f.y*r.height-driftY:0,local=attractor&&config.gravityRange?Math.exp(-(dx*dx+dy*dy)/(config.gravityRange**2)):0,influence=Math.min(1,local*config.gravity/100);
      const hoverColour=colourAt((f.x*.73+f.y*.27+t*.035)%1),sampleColour=f.colour||hoverColour,colour=sampleColour.map((n,i)=>Math.round(n+(hoverColour[i]-n)*(hint?Math.min(1,local*2)*(1-Math.min(1,glow*2)):0)));f.el.style.setProperty('--particle-colour','rgb('+colour.map(n=>root.dataset.theme==='dark'?n:Math.round(n*.68)).join(' ')+')');
@@ -130,9 +136,8 @@ export function initPerspective(defaults,controls) {
     }
    }else{for(const f of floats){f.alpha=0;f.el.style.opacity=0;}}
   }
-  requestAnimationFrame(frame);
+  if(waves.length||(particleWork&&visible()))wakeFrame();
  }
- requestAnimationFrame(frame);
  configure();
  function sentenceEnd(dark=root.dataset.theme==='dark'){const range=document.createRange();range.selectNodeContents(dark?day:night);const rects=[...range.getClientRects()],r=dark?rects[0]:rects.at(-1);return {x:dark?r.left:r.right,y:dark?r.top+r.height/2:r.bottom-r.height/2,dark};}
  function cancelOpening(){clearScreenFade();opening=false;cancelAnimationFrame(flightFrame);finishFlight=null;burst?.getAnimations().forEach(a=>a.cancel());burst?.remove();burst=null;}
@@ -151,9 +156,14 @@ export function initPerspective(defaults,controls) {
   const approachLength=approach.getTotalLength(),loopLength=loop.getTotalLength(),routeLength=approachLength+loopLength;
   burst=document.createElement('canvas');burst.className='perspective-burst';burst.setAttribute('aria-hidden','true');burst.dataset.originX=origin.x;burst.dataset.originY=origin.y;Object.assign(burst.style,{position:'fixed',pointerEvents:'none',zIndex:2147483646,inset:0,width:'100%',height:'100%'});burst.width=innerWidth;burst.height=innerHeight;document.body.append(burst);
   const ctx=burst.getContext('2d'),ink=document.createElement('canvas');ink.width=burst.width;ink.height=burst.height;const pen=ink.getContext('2d'),start=performance.now();
-  const point=d=>{if(d<approachLength)return approach.getPointAtLength(d);const p=loop.getPointAtLength(Math.min(loopLength,d-approachLength));return {x:origin.dark?2*cx-p.x:p.x,y:p.y};};
+  const rawPoint=d=>{if(d<approachLength)return approach.getPointAtLength(d);const p=loop.getPointAtLength(Math.min(loopLength,d-approachLength));return {x:origin.dark?2*cx-p.x:p.x,y:p.y};};
+  // Sample geometry once; interpolation keeps the same curve without repeated SVG layout calls.
+  const routeSteps=Math.ceil(routeLength),route=Array.from({length:routeSteps+1},(_,i)=>rawPoint(Math.min(routeLength,i)));
+  const point=d=>{const q=Math.max(0,Math.min(routeLength,d)),i=Math.min(routeSteps-1,Math.floor(q)),a=route[i],b=route[i+1],u=(q-i)/Math.max(.001,Math.min(1,routeLength-i));return {x:a.x+(b.x-a.x)*u,y:a.y+(b.y-a.y)*u};};
+  const margin=config.burstFeather*1.12+16,cropLeft=Math.max(0,Math.floor(Math.min(...route.map(p=>p.x))-margin)),cropTop=Math.max(0,Math.floor(Math.min(...route.map(p=>p.y))-margin)),cropRight=Math.min(innerWidth,Math.ceil(Math.max(...route.map(p=>p.x))+margin)),cropBottom=Math.min(innerHeight,Math.ceil(Math.max(...route.map(p=>p.y))+margin));
+  burst.width=ink.width=Math.max(1,cropRight-cropLeft);burst.height=ink.height=Math.max(1,cropBottom-cropTop);Object.assign(burst.style,{inset:'auto',left:cropLeft+'px',top:cropTop+'px',width:burst.width+'px',height:burst.height+'px'});
   const haloColour=u=>{const v=u*palette.length,i=Math.floor(v)%palette.length,m=v-Math.floor(v);return palette[i].map((n,k)=>Math.round(n+(palette[(i+1)%palette.length][k]-n)*m));};
-  function draw(now){if(!opening||!burst)return;const progress=Math.min(1,(now-start)/config.burstDuration),head=routeLength*progress,tail=head<approachLength?Math.max(0,head-180):Math.max(0,approachLength-180*(1-Math.min(1,(head-approachLength)/180)));pen.clearRect(0,0,ink.width,ink.height);pen.lineCap='round';pen.lineJoin='round';
+  function draw(now){if(!opening||!burst)return;const progress=Math.min(1,(now-start)/config.burstDuration),head=routeLength*progress,tail=head<approachLength?Math.max(0,head-180):Math.max(0,approachLength-180*(1-Math.min(1,(head-approachLength)/180)));pen.setTransform(1,0,0,1,0,0);pen.clearRect(0,0,ink.width,ink.height);pen.translate(-cropLeft,-cropTop);pen.lineCap='round';pen.lineJoin='round';
    for(let d=tail;d<head;d+=5){const a=point(d),b=point(Math.min(head,d+6)),inLoop=d>=approachLength,u=inLoop?((Math.atan2(a.x-cx,cy-a.y)/(2*Math.PI)+1)%1):(1-(head-d)/180),rgb=inLoop?haloColour(u):colourAt(.62-Math.max(0,Math.min(1,(head-d)/180))*.4);pen.strokeStyle='rgba('+rgb.join(',')+','+(inLoop?1:Math.max(.05,1-(head-d)/200))+')';pen.lineWidth=(inLoop?8:5)+config.burstFeather*.12;pen.beginPath();pen.moveTo(a.x,a.y);pen.lineTo(b.x,b.y);pen.stroke();}
    ctx.clearRect(0,0,burst.width,burst.height);ctx.globalAlpha=1;const feather=config.burstFeather;ctx.filter='blur('+feather*.35+'px)';ctx.drawImage(ink,0,0);ctx.filter='blur('+feather*.08+'px)';ctx.globalAlpha=.8;ctx.drawImage(ink,0,0);ctx.filter='none';ctx.globalAlpha=.5/(1+feather/12);ctx.drawImage(ink,0,0);burst.dataset.feather=feather;burst.dataset.progress=progress;
    if(progress<1)flightFrame=requestAnimationFrame(draw);else show();
@@ -163,7 +173,7 @@ export function initPerspective(defaults,controls) {
  }
  function sheen(complete=false,options={}){
   cycle=Infinity;const token=++sequence,sweep=complete?config.finalDuration:config.duration,reveal=options.reveal===false?0:config.revealDuration,lead=complete&&!motion.matches&&!options.repeat?reveal+config.finalDelay:0;clearTimers();if(complete){waves=[];area.setAttribute('data-celebrating','');}area.removeAttribute('data-sheening');area.removeAttribute('data-sparkling');void area.offsetWidth;
-  let wave;const startWave=()=>{if(token!==sequence||motion.matches||!sweep)return;area.setAttribute('data-sheening','');wave={start:performance.now(),sweep,life:config.particleDuration,dark:root.dataset.theme==='dark',complete:complete&&options.discover!==false,handoff:false};waves=[wave];};if(lead)later(startWave,lead);else startWave();
+  let wave;const startWave=()=>{if(token!==sequence||motion.matches||!sweep)return;area.setAttribute('data-sheening','');wave={start:performance.now(),sweep,life:config.particleDuration,dark:root.dataset.theme==='dark',complete:complete&&options.discover!==false,handoff:false};waves=[wave];wakeFrame();};if(lead)later(startWave,lead);else startWave();
   if(complete){
    area.removeAttribute('data-hovering');area.removeAttribute('data-keyboard-hint');
    for(const fragment of [day,night])fragment.getAnimations().forEach(a=>a.cancel());setState(options.reveal===false?'complete':'revealing');sync();button.hidden=!options.repeat;
@@ -174,8 +184,8 @@ export function initPerspective(defaults,controls) {
    if(options.discover!==false)later(()=>{if(token!==sequence||wave?.handoff)return;if(wave)wave.handoff=true;openDiscovery();},motion.matches?0:lead+sweep);else cycle=performance.now()+lead+sweep+Math.max(500,config.gap);
   } else {later(()=>{if(token===sequence)area.removeAttribute('data-sheening');},config.duration);}
  }
- button.addEventListener('pointerenter',event=>{const r=button.getBoundingClientRect();pointer={x:event.clientX-r.left,y:event.clientY-r.top};hovering=true;if(state==='ready')area.setAttribute('data-hovering','');});button.addEventListener('pointerleave',()=>{hovering=false;area.removeAttribute('data-hovering');});
- button.addEventListener('focus',()=>{if(state==='ready'&&root.dataset.focusInput==='keyboard')area.setAttribute('data-keyboard-hint','');});button.addEventListener('blur',()=>area.removeAttribute('data-keyboard-hint'));
+ button.addEventListener('pointerenter',event=>{const r=button.getBoundingClientRect();pointer={x:event.clientX-r.left,y:event.clientY-r.top};hovering=true;wakeFrame();if(state==='ready')area.setAttribute('data-hovering','');});button.addEventListener('pointerleave',()=>{hovering=false;area.removeAttribute('data-hovering');});
+ button.addEventListener('focus',()=>{if(state==='ready'&&root.dataset.focusInput==='keyboard'){area.setAttribute('data-keyboard-hint','');wakeFrame();}});button.addEventListener('blur',()=>area.removeAttribute('data-keyboard-hint'));
  button.addEventListener('click',()=>{if(state==='ready')sheen(true);else if(state==='complete'){openDiscovery();}});
  dialog.addEventListener('close',()=>{clearScreenFade();window.dispatchEvent(new CustomEvent('perspective-state',{detail:state}));if(state!=='complete')return;if(!held||loopMode==='after'){repeatComplete=!held;cycle=performance.now()+config.gap;}button.hidden=false;button.focus({preventScroll:true});});
  dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();});
@@ -194,7 +204,7 @@ export function initPerspective(defaults,controls) {
   if(!visible()&&state==='ready'){clearTimers();area.removeAttribute('data-sheening');area.removeAttribute('data-sparkling');}
   sync();
  }
- document.addEventListener('visibilitychange',()=>{candidate=null;since=0;if(document.hidden&&state==='ready'){clearTimers();area.removeAttribute('data-sheening');area.removeAttribute('data-sparkling');}});
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)wakeFrame();candidate=null;since=0;if(document.hidden&&state==='ready'){clearTimers();area.removeAttribute('data-sheening');area.removeAttribute('data-sparkling');}});
  setInterval(tick,100);tick();
  motion.addEventListener('change',()=>{if(motion.matches){if(opening)finishFlight?.();dialog.getAnimations().forEach(a=>{if(a.effect?.getTiming().iterations!==Infinity)a.finish();});area.getAnimations({subtree:true}).forEach(a=>{if(a.effect?.getTiming().iterations===Infinity)a.cancel();else a.finish();});area.removeAttribute('data-sheening');}});
  // Shared state renderer for isolated Playground fixtures; no parallel UI implementation.
