@@ -1,3 +1,4 @@
+import {themeAliases} from './workshop-url-preferences.mjs';
 import {playgroundFaviconScript} from './workshop-playground-brand.mjs';
 import {alignmentCSS} from './workshop-alignment.mjs';
 import {colourValueCSS,colourValueScript} from './workshop-colour-values.mjs';
@@ -173,7 +174,7 @@ const script = `(() => {
   const indicators = [];
   const valid = value => value === 'light' || value === 'dark';
   try { const saved = localStorage.getItem(key); if (valid(saved)) preference = saved; } catch {}
-  const requested=({light:'light',day:'light',sun:'light',dark:'dark',night:'dark',moon:'dark'})[new URLSearchParams(location.search).get('theme')?.toLowerCase()];
+  const requested=(${JSON.stringify(themeAliases)})[new URLSearchParams(location.search).get('theme')?.toLowerCase()];
   if(typeof requested==='string'){preference=requested;try{localStorage.setItem(key,preference);}catch{}}
   window.workshopColourTransition = (change, duration = 280) => {
     // Capture interrupted colours before cancelling, then batch reads before animation writes.

@@ -10,7 +10,7 @@ try{
  for(const width of [390,1440]){
  await p.setViewportSize({width,height:1000});
  for(const path of ['/ai-workshop-resources','/component-playground',...playgroundSections.map(s=>'/component-playground/'+s)]){
- const url=origin+path+'?theme=dark&agent=claude';
+ const url=origin+path+'?theme=dark&agent=claude-code';
  await p.route(url,async route=>{const r=await handleRequest(new Request(url),{});await route.fulfill({status:r.status,headers:Object.fromEntries(r.headers),body:await r.text()});});
  const r=await p.goto(url);assert.equal(r.status(),503);assert.equal(p.url(),url);
  await p.locator('#gate-error').filter({hasText:'Sign-in unavailable'}).waitFor();

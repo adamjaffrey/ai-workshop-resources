@@ -32,7 +32,7 @@ export function createPhonePreview({protectPlayground=false,autoLogin=false}={})
       const url=new URL(req.url,'http://'+req.headers.host);
       const redirect=canonicalRedirect(url);
       if(redirect&&['GET','HEAD'].includes(req.method)){res.writeHead(redirect.status,{Location:redirect.location});res.end();return;}
-      if(!protectPlayground && url.searchParams.get('show-login')!=='true' && ['GET','HEAD'].includes(req.method) && isPlaygroundPath(url.pathname)) {
+      if(!protectPlayground && !url.searchParams.has('show-login') && ['GET','HEAD'].includes(req.method) && isPlaygroundPath(url.pathname)) {
         const compressed=(req.headers['accept-encoding']||'').split(',').some(value=>/^\s*gzip(?:\s*;|\s*$)/i.test(value)&&!/(?:^|;)\s*q=0(?:\.0*)?\s*$/i.test(value));
         res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','Vary':'Accept-Encoding',...(compressed?{'Content-Encoding':'gzip'}:{})});
         if(req.method==='HEAD'){res.end();return;}

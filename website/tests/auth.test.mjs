@@ -82,10 +82,10 @@ test('service failures preserve every login destination, background and query UR
   const e=failure==='missing-config'?{}:env();
   if(failure==='invalid-verifier')e.WORKSHOP_PASSWORD_VERIFIER='invalid';
   if(failure==='database')e.DB.prepare=()=>{throw Error('database unavailable');};
-  const request=get(path+'?theme=dark&agent=claude',COOKIE+'='+'a'.repeat(64));
+  const request=get(path+'?theme=dark&agent=claude-code',COOKIE+'='+'a'.repeat(64));
   const response=await handleRequest(request,e);const html=await response.text();
   assert.equal(response.status,503,path+' '+failure);assert.equal(response.headers.get('location'),null);
-  assert.equal(request.url,origin+path+'?theme=dark&agent=claude');
+  assert.equal(request.url,origin+path+'?theme=dark&agent=claude-code');
   assert.match(html,/Sign-in unavailable/);assert.match(html,/id="access-form"/);
   assert.equal(html.includes('class="page-placeholder playground-placeholder"'),path.startsWith('/component-playground'));
   if(path.startsWith('/component-playground'))assert.match(html,/src="\/login-backdrop\/components/);

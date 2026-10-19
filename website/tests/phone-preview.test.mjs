@@ -62,3 +62,20 @@ test('show-login aliases revoke sessions; false never creates a local session',a
   }
  }finally{await new Promise(r=>server.close(r));}
 });
+
+test('explicit login booleans enforce real sessions on every local page',async()=>{
+ const {playgroundSections}=await import('../lib/workshop-playground-routes.mjs');
+ const {server}=createPhonePreview({autoLogin:true});server.listen(0,'127.0.0.1');await once(server,'listening');const origin='http://127.0.0.1:'+server.address().port;
+ try{
+  for(const path of ['/ai-workshop-resources','/component-playground',...playgroundSections.map(section=>'/component-playground/'+section)]){
+   const locked=await fetch(origin+path+'?show-login=false');assert.match(await locked.text(),/id="access-form"/,path);
+   assert.equal((await fetch(origin+'/auth/session')).status,401);
+   const app=await fetch(origin+'/ai-workshop-resources');const cookie=app.headers.get('set-cookie').split(';')[0];
+   const unlocked=await fetch(origin+path+'?show-login=false',{headers:{cookie}});assert.doesNotMatch(await unlocked.text(),/id="access-form"/,path);
+   const logout=await fetch(origin+path+'?show-login=true',{headers:{cookie}});assert.match(await logout.text(),/id="access-form"/,path);
+   assert.equal((await fetch(origin+'/auth/session',{headers:{cookie}})).status,401);
+  }
+  assert.equal((await fetch(origin+'/resources/day-1-resources')).status,404);
+  assert.equal((await fetch(origin+'/styles-guides/not-a-page')).status,404);
+ }finally{await new Promise(r=>server.close(r));}
+});

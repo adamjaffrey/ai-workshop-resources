@@ -10,7 +10,7 @@ let count=0;
 for(const [source,target] of [...aliases,...canonical.map(p=>[p,p]),['/unknown/path','/unknown/path']])for(const suffix of ['','/','///'])for(const method of ['GET','HEAD']){
  if(source===target&&!suffix)continue;
  const response=await fetch(origin+source+suffix+query,{method,redirect:'manual'});
- assert.equal(response.status,source===target&&!target.startsWith('/component-playground')?308:301,source+suffix);
+ assert.equal(response.status,301,source+suffix);
  assert.equal(response.headers.get('location'),target+query,source+suffix);
  const next=await fetch(origin+target+query,{method,redirect:'manual'});
  assert.equal(next.headers.get('location'),null,'No second hop: '+target);
@@ -27,8 +27,15 @@ console.log('PASS: canonical Resources, site-wide case and existing font redirec
 for(const method of ['GET','HEAD']){
  const response=await fetch(origin+'/COMPONENTS/ICON/?AGENT=Claude&Theme=MOON&LOGIN=1&Token=AbC%2FZ+Q',{method,redirect:'manual'});
  assert.equal(response.status,301);
- assert.equal(response.headers.get('location'),'/component-playground/icons?agent=claude&theme=moon&show-login=true&Token=AbC%2FZ+Q');
+ assert.equal(response.headers.get('location'),'/component-playground/icons?agent=claude-code&theme=dark&show-login=true&Token=AbC%2FZ+Q');
  const canonical=await fetch(origin+response.headers.get('location'),{method,redirect:'manual'});
  assert.equal(canonical.headers.get('location'),null);
 }
 console.log('PASS: public query case normalisation combines with path aliases in one production redirect');
+
+for(const [source,target] of [['/AIS-WORKSHOPS-RESOURCE/Day-1-Resources/','/ai-workshop-resources/day-1-resources'],['/home/Day-1/Notes/','/ai-workshop-resources/day-1/notes'],['/styles-guides/foci-and-selections/Example/','/component-playground/focus-and-selection/example'],['/styles-guide/easters-eggs/Example/','/component-playground/easter-egg/example']])for(const method of ['GET','HEAD']){
+ const response=await fetch(origin+source+'?agent=CHATGPT-CODEX&theme=SUN&Keep=AbC',{method,redirect:'manual'});
+ assert.equal(response.status,301);assert.equal(response.headers.get('location'),target+'?agent=codex&theme=light&Keep=AbC');
+ assert.equal((await fetch(origin+response.headers.get('location'),{method,redirect:'manual'})).headers.get('location'),null);
+}
+console.log('PASS: descendant aliases, plural families and canonical preference values on the built Worker');

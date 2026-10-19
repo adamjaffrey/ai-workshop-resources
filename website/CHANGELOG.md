@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.222"
-  update_summary: "Point the QR code and Copy Link to the site root"
-  updated_at: "Tue 20 Oct 2026 at 08:38:39 am AEDT (+11:00)"
+  doc_revision: "26.0.223"
+  update_summary: "Complete descendant redirects and canonical URL preferences"
+  updated_at: "Tue 20 Oct 2026 at 09:05:49 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.221 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 09:05:49 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Complete descendant redirects and canonical URL preferences
+
+### Changed
+
+- Use HTTP 301 for all application canonical redirects, including trailing-slash-only corrections on otherwise unknown lowercase paths.
+- Preserve descendants beneath every registered Resources and Playground alias, including section aliases. Match path boundaries, keep the root alias exact-only, and retain 404 responses for unimplemented destinations.
+- Complete ai/ais × workshop/workshops × resource/resources, style/styles × guide/guides, focus/focuses/foci × selection/selections, and easter/easters × egg/eggs alias families.
+- Redirect agent/theme aliases to `codex`, `claude-code`, `light` and `dark`, sharing one vocabulary with the pre-paint scripts and combining corrections into one hop while preserving unrelated query data.
+- Make either explicit show-login boolean use real session handling on every local page, including all Playground sections. False requires a valid session; true revokes it. Preserve anonymous Playground access only when the parameter is absent.
+
+### Validation
+
+- Route, authentication and preview tests — 27 passed, including descendant/plural matrices, unknown destinations and both login booleans across all supported pages.
+- URL preference and login-error browser checks — passed at mobile/desktop widths, including canonical values, Playground login continuity and real session revocation.
+- Required Playground source-parity suite — passed across four widths, both themes/agents and held states.
+- Sites production build — passed with v26.0.221. Built Worker checks passed 134 baseline redirect cases plus descendant/plural and canonical-parameter cases with no extra application hop.
+- Active LAN preview — app, Playground, login form, canonical descendants and session handling verified. No push or publication performed.
 
 ## v26.0.220 — 2026-10-20
 
