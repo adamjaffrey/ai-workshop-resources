@@ -11,7 +11,7 @@ try{
   if(expanded){await p.locator('#discovery-preview .preview-expand').click();await p.locator('#discovery-preview .preview-settings > summary').click();}
   for(const width of ['320','390','768','1440','fluid']){
    await p.locator('input[name=width][value="'+width+'"]').locator('..').click();
-   const size=await p.locator('#discovery-frame').evaluate(e=>({frame:e.getBoundingClientRect().width,wrap:e.parentElement.getBoundingClientRect().width,available:e.parentElement.parentElement.clientWidth}));
+   await p.waitForTimeout(400);const size=await p.locator('#discovery-frame').evaluate(e=>({frame:e.getBoundingClientRect().width,wrap:e.parentElement.getBoundingClientRect().width,available:e.parentElement.parentElement.clientWidth}));
    if(width!=='fluid'){assert.equal(size.frame,Number(width));assert.ok(size.wrap<=Number(width)+2.5);if(Number(width)<=768)assert.equal(size.wrap,Number(width)+2,'canvas hugs chosen viewport');}else assert.ok(size.wrap>768,'Fit fills available canvas');
   }
   if(expanded)await p.keyboard.press('Escape');

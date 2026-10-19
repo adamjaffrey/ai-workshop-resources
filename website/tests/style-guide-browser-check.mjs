@@ -62,12 +62,12 @@ for(const width of [320,390,768,1440]){
 await choose('hover','on');await p.waitForTimeout(350);
 assert.equal(await resources.locator('html').getAttribute('data-demo-hover'),'');
 assert.equal(await resources.locator('.copy').first().evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(48, 57, 70)');
-await choose('width','320');await p.waitForTimeout(50);assert.equal(await resources.locator('html').evaluate(()=>innerWidth),320);
-await choose('width','fluid');await choose('hover','off');
+await choose('width','320');await p.locator('#resources-frame').scrollIntoViewIfNeeded();for(let attempt=0;attempt<50&&await resources.locator('html').evaluate(()=>innerWidth)!==320;attempt++)await p.waitForTimeout(100);assert.equal(await resources.locator('html').evaluate(()=>innerWidth),320);
+await choose('width','fluid');await choose('hover','off');await p.waitForTimeout(800);
 const copyGap=await p.locator('#copy').evaluate(e=>e.nextElementSibling.getBoundingClientRect().top-e.getBoundingClientRect().bottom);assert.ok(copyGap>=20);
-// Centre the embedded viewport so the fixed inspector cannot intercept a
-// cross-frame browser-automation click at the bottom edge of the window.
-const clickPrompt=async()=>{await p.locator('#resources-frame').evaluate(e=>e.scrollIntoView({block:'center'}));await resources.locator('[data-copy]').first().click();};
+// Activate the simulated clipboard outcome by keyboard so the fixed inspector
+// cannot intercept a cross-frame pointer action after viewport resizing.
+const clickPrompt=async()=>{await resources.locator('[data-copy]').first().focus();await p.keyboard.press('Enter');};
 await choose('copy','error');await clickPrompt();
 await resources.locator('[data-copy][data-copy-error]').first().waitFor({state:'attached',timeout:3000});
 assert.equal(await resources.locator('[data-copy]').first().getAttribute('data-copy-error')!==null,true);

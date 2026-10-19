@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.170"
-  update_summary: "Adapt brand blur sizing and restore its scroll fade"
-  updated_at: "Mon 19 Oct 2026 at 02:37:04 pm AEDT (+11:00)"
+  doc_revision: "26.0.171"
+  update_summary: "Animate preview widths and preserve hovered rainbow sweeps"
+  updated_at: "Mon 19 Oct 2026 at 02:43:26 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.169 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 02:43:26 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Animate preview widths and preserve hovered rainbow sweeps
+
+### Changed
+
+- Smooth canvas and iframe resizing over 360ms, including Fit, with immediate reduced-motion sizing.
+- Let travelling rainbow colour and brightness take priority over idle hover lighting while preserving pointer gravity and slower twinkles.
+- Retain canonical third-card and footer context in the Easter Egg specimen. Full Sentence repeats the app reveal and final sheen; Discovery Reveal starts fully visible and repeats sheen plus halo formation without a modal.
+- Set Halo Formation Duration to 1.2 seconds and document Rainbow Trail Feather.
+
+### Validation
+
+- Production build — passed; existing saved placeholder geometry reused.
+- Headless source-parity, width, loop, Easter Egg parity and particle-flow checks — passed, including actual reveal animation in Full Sentence and no text reveal in Discovery Reveal.
+- Context and smooth interpolation checks — passed; inspected screenshot with lower card and footer visible.
+- LAN app and Playground — HTTP 200. Physical-device Safari remains a manual check.
 
 ## v26.0.168 — 2026-10-19
 
