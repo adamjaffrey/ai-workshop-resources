@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.155"
-  update_summary: "Extend the reading pause and soften particle fades"
-  updated_at: "Mon 19 Oct 2026 at 03:26:42 am AEDT (+11:00)"
+  doc_revision: "26.0.156"
+  update_summary: "Contour particles around text and rotate the complete rainbow halo"
+  updated_at: "Mon 19 Oct 2026 at 11:23:48 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.154 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 11:23:48 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Contour particles around text and rotate the complete rainbow halo
+
+### Changed
+
+- Shape particle visibility around each measured wrapped text line with padded capsule corners and smooth feathering, leaving unused space beside short lines empty.
+- Reveal the sentence immediately and use the normal configured duration for the final sheen. Open the popup after at least four seconds, waiting for longer sweeps to finish.
+- Replace stationary colour-changing shadows with one rotating conic field shared by the rainbow border and blurred halo, keeping the inner content upright and scrollable.
+
+### Validation
+
+- Perspective edge, sheen, flow and Playground browser checks — passed, including decoded mask contours, transparent corners, immediate reveal, full-duration sheen and 16 width/theme/agent parity combinations.
+- `node website/tests/style-guide-browser-check.mjs` — passed.
+- Sites build helper and generated artefact inspection — passed with v26.0.154.
+- Halo screenshot reviewed; physical mobile Safari remains unverified.
 
 ## v26.0.153 — 2026-10-19
 
