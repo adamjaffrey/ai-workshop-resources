@@ -59,10 +59,9 @@ try {
           word.className = 'ph-word ph-code-word';
           if (node.parentElement.closest('.slug')) word.style.setProperty('--ph-ink', 'var(--muted-text)');
           // Prompt fonts are monospaced. Anonymous glyphs preserve native wrapping,
-          // including a word continuing across lines, without sending its text.
+          // including native punctuation breaks, without sending any letters or digits.
           for (const char of match[0]) {
-            word.append(document.createTextNode('x'));
-            if ('/-'.includes(char)) word.append(document.createElement('wbr'));
+            word.append(document.createTextNode('/-'.includes(char) ? char : 'x'));
           }
           fragment.append(word); words++;
           continue;
@@ -73,7 +72,9 @@ try {
         word.style.verticalAlign = `${-descent}em`;
         fragment.append(word); words++;
       }
-      target.replaceWith(fragment);
+      // Preserve the anonymous flex text item (e.g. the two-word logout label).
+      if (/flex/.test(css.display) && node.textContent.trim()) { const label=document.createElement('span'); label.append(fragment); target.replaceWith(label); }
+      else target.replaceWith(fragment);
     }
     for (let i = 0; i < cloneElements.length; i++) {
       const el = cloneElements[i];
@@ -117,11 +118,11 @@ try {
         }
         el.alt = '';
       }
-      if (el.tagName === 'FORM') {const replacement = document.createElement('div'); replacement.append(...el.childNodes); el.replaceWith(replacement);}
+      if (el.tagName === 'FORM') {const replacement = document.createElement('div'); replacement.className='ph-form'; replacement.append(...el.childNodes); el.replaceWith(replacement);}
     }
     // Match each icon family to its largest measured layout box. Hidden variants
     // use their CSS dimensions, so Copy/Success states share the same geometry.
-    const iconSet = el => el.closest('.symbol') ? 'step' : el.classList.contains('brand-icon') ? 'agent' : el.closest('.theme-toggle') ? 'theme' : el.closest('.copy') ? 'copy' : 'other';
+    const iconSet = el => el.dataset.iconUse==='log-out-session' ? 'footer' : el.closest('.symbol') ? 'step' : el.classList.contains('brand-icon') ? 'agent' : el.closest('.theme-toggle') ? 'theme' : el.closest('.copy') ? 'copy' : 'other';
     const iconSizes = {};
     for (const el of source.querySelectorAll('svg')) {
       const group = iconSet(el), rect = el.getBoundingClientRect(), css = getComputedStyle(el);

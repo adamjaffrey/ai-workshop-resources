@@ -1,3 +1,4 @@
+import {footerLayoutScript} from './workshop-footer-layout.mjs';
 import {placeholderLayoutRevision} from './workshop-layout.mjs';
 import geometry from './workshop-placeholder.generated.json' with {type: 'json'};
 
@@ -22,10 +23,12 @@ export const placeholderStyles = `
 `;
 
 export function synchroniseLoginLayout(login, resources, {blankBackground=false}={}) {
-  const resourceStyles = resources.match(/<style>[\s\S]*?<\/style>/)?.[0];
+  // Retain every source layout layer (including sticky controls and the footer).
+  const resourceStyles = resources.match(/<style\b[^>]*>[\s\S]*?<\/style>/g)?.join('');
   if (!resourceStyles) throw new Error('Resource styles missing');
   const gateStyles = login.match(/<style>([\s\S]*?)<\/style>/)?.[1];
   if (!gateStyles) throw new Error('Login panel styles missing');
   return login.replace(/<style>[\s\S]*?<\/style>/, resourceStyles + `<style>${gateStyles}${placeholderStyles}</style>`)
+    .replace('</body>', `<script nonce="__NONCE__">${footerLayoutScript}</script></body>`)
     .replace(/<main\b[^>]*>[\s\S]*?<\/main>/, blankBackground ? '<main class="page-placeholder" aria-hidden="true"></main>' : placeholderFromPage(resources));
 }

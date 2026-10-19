@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.51"
-  update_summary: "Centre the fully stacked mobile footer"
-  updated_at: "Mon 19 Oct 2026 at 10:53:09 pm AEDT (+11:00)"
+  doc_revision: "26.0.52"
+  update_summary: "Define the shared text and rounded-surface alignment contract"
+  updated_at: "Mon 19 Oct 2026 at 11:49:52 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -197,6 +197,29 @@ Follow [Uxcel: Types of Cursors & When to Use Them](https://uxcel.com/lessons/ba
 - Source every error colour on both pages from `var(--error)` in `website/lib/workshop-theme.mjs`. Define it once per light/dark theme; Codex and Claude share those values. Error text, icons, borders, focus rings, password text/autofill and copy-failure controls must reference or inherit that token, with no per-agent overrides or hard-coded component colours.
 - New interface icons MUST come from the installed Lucide Icons definitions. Only when Lucide has no suitable icon may an agent propose an alternative; obtain Adam’s explicit approval before adding or using it. Document the suitability gap and, after approval, retain the alternative’s official source, licence and Playground representation. The two existing Lobe Icons agent logos have standing approval and require neither renewed approval nor repeated reminders. The existing Wavelength brand asset remains approved. Do not interpret this standing approval as permission for additional Lobe icons.
 - Give every SVG icon a descriptive, stable `data-icon-use` identifying its purpose, plus `data-icon-name` for its official library name and `data-icon-provider` for its origin. Repeated uses may share a purpose name where they perform the same function. Preserve official Lucide and Lobe names independently of usage names; show both in the Playground and retain the original source links. Apply this to app and Playground tooling icons. Do not add redundant screen-reader labels to decorative icons whose controls already have accessible names.
+
+## Optical Alignment Contract
+
+Use the shared two-rail layout in `website/lib/workshop-alignment.mjs` for every active surface: Resources, both login destinations, all Playground tabs, grey specimen interiors, menus, dialogs, overlays, inspectors and expanded previews. This supersedes the earlier rule that independently inset selected labels and excluded specimen interiors.
+
+### Why
+
+Rounded corners visually recede from their bounding edge, while SVG icons can contain invisible whitespace. We selected a 4px surface extension through visual comparison. This is a project design convention, not a universal design standard. Shared rails replace per-element judgement calls and preserve a minimum 24px mobile surface gutter.
+
+### Deterministic Rules
+
+- Each layout scope defines a text rail. Text, square-edged objects, tables, rules and square textareas start on this rail. Page headers, branding groups, dialog headings and introductory copy follow it too.
+- Designated rounded boundary components extend 4px outward from that rail. Full-width surfaces extend on both sides; intrinsic-width controls extend from their aligned edge. On mobile page layouts, the surface rail is 24px from the screen and the text rail is 28px. Expanded views use the same rails. Centred elements remain centred.
+- Use the single `--optical-offset` token. The component selectors in the shared module register existing scopes and surface boundaries. New scopes can use `.alignment-scope` with `--surface-padding`; full-width rounded children can use `.alignment-surface`. Square/text children stay on the scope's text rail. Do not automatically select all elements with a border radius.
+- Apply the extension once per component boundary. A button inside a toggle does not acquire a second outward offset. Nested cards and prompt panels establish their own text rail using their normal interior surface spacing plus 4px; their designated rounded children may extend back to that interior surface rail.
+- Retain native padding, icon gaps and centred alignment inside buttons, toggle options, password fields and badges. A rounded icon tile is itself the boundary; do not also compensate the icon inside that tile. Move icon-and-heading groups together so their internal gap remains unchanged.
+- For an unboxed leading heading icon, align its visible stroke to the text rail by shifting the whole heading group by its measured leading whitespace at the rendered size. Never use a blanket 4px icon shift. The catalogue includes the cropped link-arrow variant separately. Disclosure bodies align beneath their summary text after the corrected chevron and gap. Button-contained icons keep their control padding.
+- Run `node website/scripts/measure-alignment-icons.mjs` when adding/changing heading icons, changing their viewBox/stroke, or updating the icon library. Commit `website/lib/workshop-icon-ink.generated.json`; use `--check` to verify it. New heading icons must have measured entries before being introduced. Keep official paths and metadata intact.
+- Do not remove or add corrections merely because a component expands, becomes sticky or changes viewport width. Preserve the same rail relationship across states. Specimens consume canonical app styling; their surrounding annotations follow their own scope.
+
+### Required Checks
+
+Run `node website/tests/playground-external-text-inset-browser-check.mjs` for measured text/surface and visible-icon relationships across seven widths, all tabs, themes/agents, dialogs and expanded views. Also run source parity, relevant sticky/expanded/focus checks and inspect mobile/desktop screenshots. Verify no page overflow and preserve scrollable control rails and keyboard focus. For layout changes affecting the login backdrop, finish all layout edits first, then increment the placeholder layout revision, remeasure and run `website/tests/login-background-alignment-browser-check.mjs` to verify saved blur geometry against Resources across phone, tablet and desktop widths, including breakpoint boundaries and short/tall heights. Keep all canonical source layout styles and shared footer wrapping in the backdrop; anonymous prompt glyphs retain only slash/hyphen punctuation to preserve native line breaks.
 
 ## Theme and Slider Animation
 

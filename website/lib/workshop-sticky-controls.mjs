@@ -61,7 +61,7 @@ export function initStickyControls() {
    if(index===0)slot.style.width=locked?item.width+'px':'';
    control.toggleAttribute('data-locked',locked);
    control.style.left=locked?r.left+'px':'';
-   if(index===1)control.style.translate=(compact?document.querySelector('.page-toolbar').getBoundingClientRect().left-r.left:0)+'px 0';
+   if(index===1)control.style.translate=(compact?document.querySelector('.page-toolbar').getBoundingClientRect().left-(parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--optical-offset'))||0)-r.left:0)+'px 0';
    control.style.top=locked?inset+'px':'';
    control.style.setProperty('--sticky-shadow',String(Math.min(1,Math.max(0,(inset-r.top)/48))));
   });

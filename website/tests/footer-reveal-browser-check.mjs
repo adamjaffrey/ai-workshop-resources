@@ -21,7 +21,7 @@ try {
   await page.waitForTimeout(800);
   const alignment=await page.locator('footer').evaluate(e=>{
    const f=e.getBoundingClientRect(),t=e.querySelector('.footer-meta').getBoundingClientRect(),b=e.querySelector('form button').getBoundingClientRect();
-   return b.top>=t.bottom?(b.left+b.width/2)-(f.left+f.width/2):f.right-b.right;
+   return b.top>=t.bottom?(b.left+b.width/2)-(f.left+f.width/2):f.right+4-b.right;
   });
   assert.ok(Math.abs(alignment)<1,`footer action alignment at ${width}`);
   const footer=await page.locator('.footer-meta').evaluate(e=>{

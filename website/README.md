@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.135"
-  update_summary: "Rename Playground sources and document the website folder map"
-  updated_at: "Mon 19 Oct 2026 at 10:23:52 pm AEDT (+11:00)"
+  doc_revision: "26.0.136"
+  update_summary: "Document the shared alignment rails and icon measurement workflow"
+  updated_at: "Mon 19 Oct 2026 at 11:49:52 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -59,6 +59,14 @@ The preview script never reads `.env`, hosted secrets or production session stor
 ## Access Boundary
 
 This protects content delivered by this website. The linked public GitHub repository, its history and independently published files remain public. A shared password can be forwarded and does not identify individual participants. Branding assets remain public; workshop content is delivered only by the authenticated server route. Previously downloaded material cannot be withdrawn.
+
+## Shared Optical Alignment
+
+`lib/workshop-alignment.mjs` owns the site's two alignment rails. Text and square-edged elements use the text rail; designated rounded surfaces extend 4px outward. Page content therefore uses a 28px mobile text gutter and a 24px surface gutter. A nested panel establishes its own text rail from its interior padding. Control interiors keep their native padding; offsets never accumulate through every rounded descendant. Centred content stays centred. These rules cover login, dialogs, expanded views and the grey Playground specimen interiors as well as the main page and normal Playground panels.
+
+Leading unboxed heading icons use stroke-inclusive ink measurements from `lib/workshop-icon-ink.generated.json`. `node website/scripts/measure-alignment-icons.mjs` refreshes these measurements; `--check` verifies them against the installed Lucide definitions. Measurements scale with displayed icon size and distinguish cropped viewBoxes. The whole heading group moves, preserving its icon-to-text gap. The final login backdrop is checked against real Resources word geometry with `node website/tests/login-background-alignment-browser-check.mjs` at ten widths and two heights. Its source styles and footer wrapping are shared; anonymous prompt glyphs preserve only slash/hyphen punctuation for native wrapping. The complete future-change contract and rationale are in the repository's [Optical Alignment Contract](../AGENTS.md#optical-alignment-contract).
+
+Validate with `node website/tests/playground-external-text-inset-browser-check.mjs`, the Playground source-parity check, and relevant sticky/expanded/specimen checks. Layout changes require a final blur-geometry refresh after all visual edits, followed by responsive comparison with the live Resources layout.
 
 ## Persistent Page Controls
 
@@ -347,7 +355,7 @@ Validate connected controls, typography, colour chips and header rhythm with `no
 
 Pointer focus for radio and checkbox controls follows the shared input-modality state: only Tab/Shift+Tab navigation enables visible rings. Clicking or tapping retains real focus without a ring. The shared selector controller focuses each direct radio target before starting its hold, compares focus transfer against the actual input, and cancels an abandoned hold without restoring selection focus. Native radio Space activation remains intact. Verify repeated and rapid holds, pointer/touch versus keyboard focus, and pinned iframe scrolling with `node website/tests/playground-toggle-hold-browser-check.mjs`.
 
-The Playground header, introduction, desktop style controls, tabs and panels share a maximum content width of 1120px. The body wrapper is 1168px including 24px padding on each side; header/control wrappers use a 1120px content limit with the same side spacing. The inspector aligns with those content edges. Narrow screens retain 24px side spacing; vertical spacing and main-app layout remain unchanged. Wider text naturally wraps onto fewer lines.
+The Playground keeps a maximum 1120px surface span and an inset 1112px text span. The body wrapper is 1168px with a 28px text inset on each side; rounded panels extend 4px back into that padding. Header/control wrappers use the same 1112px text span. The inspector aligns with those content edges. Narrow screens retain a 24px surface gutter and a 28px text gutter; vertical spacing is unchanged. Wider text naturally wraps onto fewer lines.
 
 ### Overflow Cues and Selection Position
 

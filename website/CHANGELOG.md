@@ -3,14 +3,46 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.210"
-  update_summary: "Centre mobile branding between the floating controls"
-  updated_at: "Mon 19 Oct 2026 at 11:12:03 pm AEDT (+11:00)"
+  doc_revision: "26.0.211"
+  update_summary: "Unify optical alignment across the app and Playground"
+  updated_at: "Mon 19 Oct 2026 at 11:49:52 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.209 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 11:49:52 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Unify optical alignment across the app and Playground
+
+### Changed
+
+- Establish shared text and rounded-surface rails: text and square elements align together; designated rounded boundaries extend 4px outward, retaining 24px mobile surface gutters and native control interiors.
+- Apply the convention to Resources, login, all Playground tabs, grey specimen interiors, sticky controls, dialogs, inspectors and expanded previews.
+- Measure leading heading-icon ink, including the cropped link-arrow variant, and align disclosure bodies with their heading text.
+- Document the deterministic rules and future validation workflow in repository instructions and the website README.
+
+### Fixed
+
+- Preserve outset clearance in scrollable specimens and centred alignment for stacked footer actions.
+- Remeasure the login background after layout completion. Retain every shared layout style, responsive footer wrapping, native anonymous prompt line breaks and separate footer icon geometry.
+
+### Validation
+
+- Responsive alignment checks passed at seven widths across all nine Playground tabs, both themes/agents, five expanded views and sampled grey specimen roots.
+- Background word geometry matched Resources within 1px at ten widths (320–1440px), two heights and both theme/agent variants.
+- Authentication, login focus/keyboard, source parity, footer/reveal, sticky controls, specimen spacing, expanded-view and Playground focus checks passed.
+- Installed Lucide ink measurement verification passed.
+- `npm --prefix website run build` — passed; generated server assets contain v26.0.209. Physical-device Safari review remains manual.
 
 ## v26.0.208 — 2026-10-19
 

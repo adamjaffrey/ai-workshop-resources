@@ -1,6 +1,6 @@
 // Outer Playground tooling only; app specimens keep their canonical controls.
 export const playgroundLayoutCSS=String.raw`
-:root{--playground-external-text-inset:4px;--playground-inset-gap:24px;--control-related-gap:8px;--control-label-gap:16px;--control-column-gap:24px;--control-row-gap:32px}
+:root{--playground-inset-gap:24px;--control-related-gap:8px;--control-label-gap:16px;--control-column-gap:24px;--control-row-gap:32px}
 .egg-help{margin-top:12px}.egg-help summary{font-weight:600}.egg-help p{font-size:14px;color:var(--muted-text)}
 #playground-title{align-items:flex-start}#playground-title>svg{margin-top:.075em}
 .section-heading h2{align-items:flex-start}.section-heading h2>svg{align-self:flex-start;margin-top:calc((1.5em - 24px)/2)}
@@ -87,8 +87,7 @@ details[open]>summary>.disclosure-chevron{transform:rotate(90deg)}
 .panel-actions{gap:8px}.panel-options{gap:32px 24px}
 .control-footer{column-gap:24px;row-gap:32px}
 /* Optical alignment belongs to external tooling labels, never specimens or control contents. */
-.choices legend{margin-bottom:var(--control-label-gap);padding:0 var(--playground-external-text-inset)}
-.field>.slider-label,#hover .hover-explanation{padding-inline:var(--playground-external-text-inset)}
+.choices legend{margin-bottom:var(--control-label-gap)}
 .choice-options,nav[role=tablist]{overflow-y:hidden!important;overscroll-behavior-y:none}
 summary{display:flex;align-items:center;gap:8px}summary>.disclosure-chevron{margin:0;vertical-align:initial}
 #hover legend{width:100%}.hover-label-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px 24px}
@@ -120,8 +119,6 @@ main.wrap{padding-top:24px}
 
 .panel>p+details:has(>.rule-list),.panel>.feather-notice>p+details,.panel>p+.egg-help{margin-top:16px}
 /* White-card explanation only: never descend into specimen surfaces or frames. */
-.panel>.section-heading h2,.panel>p,.panel>.feather-notice>p{padding-inline:var(--playground-external-text-inset)}
-.panel>ul{margin-inline:var(--playground-external-text-inset)}
 .source-choice{font-family:inherit;font-size:14px;font-weight:600;line-height:1.5}
 /* Align disclosure bodies with the summary text after its 18px chevron + 8px gap.
    Expanded preview settings and the separately rendered hover explainer retain their layout. */

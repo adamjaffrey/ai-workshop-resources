@@ -1,3 +1,5 @@
+import {updateFooterWrap} from '../lib/workshop-footer-layout.mjs';
+import {assertMeasuredHeadingIcon} from '../lib/workshop-alignment.mjs';
 import {linkTypographyPage} from './playground-link-typography.mjs';
 import {__iconNode as linkTypographyIcon} from '../node_modules/lucide-react/dist/esm/icons/text-cursor.mjs';
 import {playgroundLayoutCSS, playgroundLayoutScript, playgroundStickyControlsScript} from './playground-layout.mjs';
@@ -66,6 +68,7 @@ const panelHeadingIcons=new Map([
 ]);
 function panelHeading(title){
  const [nodes,name]=panelHeadingIcons.get(title);
+ assertMeasuredHeadingIcon(name);
  const use='playground-heading-'+title.toLowerCase().replace(/[^a-z0-9]+/g,'-');
  toolIconMetadata.set(nodes,[name,use]);
  return lucide(nodes,use).replace('width="22" height="22"','width="24" height="24"')+'<span>'+esc(title)+'</span>';
@@ -151,7 +154,7 @@ for(const [page,selector,label] of manifest){
  row.append(nested);if(['.copy','.qr-copy'].includes(selector))row.classList.add('has-variants');const output=document.createElement('output');row.append(output);document.getElementById('type-specimens').append(row);
 }
 
-function measure(){document.querySelectorAll('.type-row .footer-meta').forEach(footerMeta=>{${resourcePage.match(/const updateFooterWrap = \(\) => \{([\s\S]*?)\n    \}/)[1]}});document.querySelectorAll('.type-row:not(.feedback-row)').forEach(row=>{const e=row.querySelector('[data-type-sample]'),c=getComputedStyle(e);row.querySelector('output').textContent=e.tagName+' · '+c.fontSize+' / '+c.lineHeight+' · weight '+c.fontWeight+' · '+c.letterSpacing+' tracking · '+c.color+' · '+c.fontFamily;});}
+function measure(){document.querySelectorAll('.type-row .footer-meta').forEach(footerMeta=>{(${updateFooterWrap.toString()})(footerMeta);});document.querySelectorAll('.type-row:not(.feedback-row)').forEach(row=>{const e=row.querySelector('[data-type-sample]'),c=getComputedStyle(e);row.querySelector('output').textContent=e.tagName+' · '+c.fontSize+' / '+c.lineHeight+' · weight '+c.fontWeight+' · '+c.letterSpacing+' tracking · '+c.color+' · '+c.fontFamily;});}
 window.addEventListener('message',e=>{if(e.source!==parent||e.data?.guide!=='specimen-data')return;for(const item of e.data.items){if(item.missing)throw Error('Missing live source specimen: '+item.selector);const row=[...document.querySelectorAll('.type-row')].find(r=>r.dataset.sourcePage===e.data.page&&r.dataset.sourceSelector===item.selector);if(!row)continue;const old=row.querySelector('[data-type-sample]'),template=document.createElement('template');template.innerHTML=item.html;const next=template.content.firstElementChild;next.dataset.typeSample='';normaliseSample(next,item.selector);old.replaceWith(next);let wrapper=next.parentElement;for(const className of item.ancestors){if(!wrapper?.classList.contains('specimen-context'))break;wrapper.className=className+' specimen-context';wrapper=wrapper.parentElement;}}measure();});
 window.addEventListener('message',e=>{if(e.source!==parent||e.data?.guide!=='typography-error')return;typeErrorHtml=e.data.html;const sample=document.querySelector('[data-source-selector="#gate-error"] [data-type-sample]');normaliseSample(sample,'#gate-error');measure();});
 window.addEventListener('message',e=>{if(e.source!==parent||e.data?.guide!=='typography-feedback')return;document.querySelectorAll('.agent-row').forEach(row=>row.remove());let previousAgent=document.querySelector('[data-source-selector=".controls-label"]');for(const item of e.data.agents||[]){const row=document.createElement('section');row.className='agent-row';row.dataset.selectedAgent=item.agent;const label=document.createElement('p');label.className='sample-label';label.textContent='Agent Selector · '+(item.agent==='codex'?'Codex Selected · Claude Code Deselected':'Codex Deselected · Claude Code Selected')+' · resources → ';const code=document.createElement('code');code.textContent='.controls .toggle';label.append(code);const preview=document.createElement('div');preview.className='agent-preview';preview.innerHTML=item.html;row.append(label,preview);previousAgent.after(row);const output=document.createElement('output');output.textContent=[...preview.querySelectorAll('button[data-agent]')].map(button=>{const c=getComputedStyle(button);return button.querySelector('span').textContent.trim()+' · '+(button.getAttribute('aria-pressed')==='true'?'Selected':'Deselected')+' · '+c.fontSize+' / '+c.lineHeight+' · weight '+c.fontWeight+' · '+c.color;}).join(' | ');row.append(output);previousAgent=row;}

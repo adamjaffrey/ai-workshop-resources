@@ -1,0 +1,159 @@
+{
+  "viewBox": 24,
+  "strokeWidth": 2,
+  "alphaThreshold": 32,
+  "samplesPerUnit": 20,
+  "icons": {
+    "arrow-up-right": {
+      "left": 6,
+      "right": 6
+    },
+    "arrow-up-to-line": {
+      "left": 4,
+      "right": 4
+    },
+    "blocks": {
+      "left": 1,
+      "right": 1
+    },
+    "check": {
+      "left": 3,
+      "right": 3
+    },
+    "chevron-right": {
+      "left": 8,
+      "right": 8
+    },
+    "clipboard-list": {
+      "left": 3,
+      "right": 3
+    },
+    "code-xml": {
+      "left": 1,
+      "right": 1
+    },
+    "copy": {
+      "left": 1,
+      "right": 1
+    },
+    "egg": {
+      "left": 3,
+      "right": 3
+    },
+    "ellipsis": {
+      "left": 3,
+      "right": 3
+    },
+    "file-badge": {
+      "left": 2,
+      "right": 3
+    },
+    "file-code-corner": {
+      "left": 1,
+      "right": 3
+    },
+    "layout-template": {
+      "left": 2,
+      "right": 2
+    },
+    "list-checks": {
+      "left": 2,
+      "right": 2
+    },
+    "loader-circle": {
+      "left": 2,
+      "right": 2
+    },
+    "lock": {
+      "left": 2,
+      "right": 2
+    },
+    "lock-keyhole": {
+      "left": 2,
+      "right": 2
+    },
+    "log-out": {
+      "left": 2,
+      "right": 2
+    },
+    "maximize-2": {
+      "left": 2,
+      "right": 2
+    },
+    "minimize-2": {
+      "left": 2,
+      "right": 2
+    },
+    "monitor-down": {
+      "left": 1,
+      "right": 1
+    },
+    "moon": {
+      "left": 2,
+      "right": 2
+    },
+    "palette": {
+      "left": 1,
+      "right": 1
+    },
+    "panels-top-left": {
+      "left": 2,
+      "right": 2
+    },
+    "rotate-ccw": {
+      "left": 2,
+      "right": 2
+    },
+    "rotate-cw": {
+      "left": 2,
+      "right": 2
+    },
+    "scan-search": {
+      "left": 2,
+      "right": 2
+    },
+    "search": {
+      "left": 2,
+      "right": 2
+    },
+    "shapes": {
+      "left": 2,
+      "right": 2
+    },
+    "strikethrough": {
+      "left": 3,
+      "right": 3
+    },
+    "sun": {
+      "left": 1,
+      "right": 1
+    },
+    "tag": {
+      "left": 1,
+      "right": 1
+    },
+    "text-cursor": {
+      "left": 6,
+      "right": 6
+    },
+    "toy-brick": {
+      "left": 2,
+      "right": 2
+    },
+    "type": {
+      "left": 3,
+      "right": 3
+    },
+    "x": {
+      "left": 5,
+      "right": 5
+    }
+  },
+  "variants": {
+    "arrow-up-right:6 6 12 12": {
+      "left": 0,
+      "right": 0,
+      "viewBox": 12
+    }
+  }
+}
