@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.167"
-  update_summary: "Flow the final sheen into the halo and sustain rainbow hover"
-  updated_at: "Mon 19 Oct 2026 at 02:09:45 pm AEDT (+11:00)"
+  doc_revision: "26.0.168"
+  update_summary: "Refine brand blur feathering and export tuning settings"
+  updated_at: "Mon 19 Oct 2026 at 02:14:45 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.166 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 02:14:45 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine brand blur feathering and export tuning settings
+
+### Changed
+
+- Add Copy Settings to the Playground Branding tester, sharing the Easter Egg clipboard and selectable-text fallback. Export units, values, feather direction and preview context.
+- Keep the pill fully applied inside its bounds and feather only outward, using a capsule distance mask. Explain real backdrop blur separately from optional page-canvas tint.
+- Show the original worm and wordmark at preview widths of 1024px and above; show the worm alone on narrower previews, retaining tablet agent labels.
+- Start with the supplied 100px width, 50px height, 32px blur, 20px feather and 50% tint settings; allow widths up to 400px for the desktop wordmark. Keep the experiment Playground-only.
+
+### Validation
+
+- `node website/tests/worm-halo-browser-check.mjs` — passed across four viewport sizes and both themes/agents, including outward mask alpha samples, settings export/fallback and unchanged Easter Egg export.
+- `node website/tests/style-guide-browser-check.mjs` — passed.
+- `npm --prefix website run build` — passed; generated v26.0.166 verified.
+- Desktop and mobile screenshots inspected; Wi-Fi automatic sign-in and Playground verified. Physical Safari blur rendering remains for phone review.
 
 ## v26.0.165 — 2026-10-19
 

@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.102"
-  update_summary: "Document continuous sheen-to-halo discovery and persistent hover"
-  updated_at: "Mon 19 Oct 2026 at 02:06:54 pm AEDT (+11:00)"
+  doc_revision: "26.0.103"
+  update_summary: "Document outward brand feathering and settings export"
+  updated_at: "Mon 19 Oct 2026 at 02:13:08 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -267,4 +267,4 @@ Validate with `node website/tests/perspective-timing-browser-check.mjs`, `node w
 
 ## Floating Brand Blur Experiment
 
-The Playground Branding tab mounts `workshop-worm-halo.mjs` over the canonical Resources specimen. It clones the original worm at its rendered size, centres it in the viewport, and aligns it with the floating control centres. The main app does not yet mount this experimental overlay. Sliders adjust pill width (48–200px), height (20–100px), backdrop blur (0–32px), feather (0–64px) and canvas tint (0–100%). Defaults are 96px, 44px, 12px, 24px and 35%. A feathered capsule alpha mask softens the blur and tint together; the logo remains crisp. Show Pill Bounds draws a thin dotted pre-feather outline. Hold Visible is initially enabled for tuning; disabling it follows the agent selector’s exact shadow opacity. Settings remain session-only; Reset restores defaults. The source logo, theme and agent colours remain shared, with no independent brand asset or new icon.
+The Playground Branding tab mounts `workshop-worm-halo.mjs` over the canonical Resources specimen. It clones the original brand at its rendered size, centres it in the viewport, and aligns it with the floating control centres. Preview widths of 1024px and above show both worm and wordmark; narrower previews show the worm alone, preserving the tablet agent labels. This breakpoint applies to the specimen viewport, not the outer browser window. The main app does not yet mount this experimental overlay. Sliders adjust pill width (48–400px), height (20–100px), backdrop blur (0–32px), feather (0–64px) and canvas tint (0–100%). Defaults from the selected reference settings are 100px, 50px, 32px, 20px and 50%. A capsule distance mask keeps full opacity throughout the pill and fades only outside its edge, reaching zero at the configured feather distance. Real backdrop blur and optional page-canvas tint share this mask; the brand remains crisp. Set Canvas Tint to 0% for pure blur of the underlying content colours. Show Pill Bounds draws a thin dotted outline at the full-strength pill boundary. Hold Visible is initially enabled for tuning; disabling it follows the agent selector’s exact shadow opacity. Copy exports labelled JSON with units, outward-feather semantics, preview context and toggles, using the same clipboard and selectable-text fallback as Easter Egg settings. Settings remain session-only; Reset restores defaults. The source logo, theme and agent colours remain shared, with no independent brand asset or new icon.
