@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.46"
-  update_summary: "Omit routine same-Wi-Fi reminders from handoffs"
-  updated_at: "Mon 19 Oct 2026 at 03:21:36 pm AEDT (+11:00)"
+  doc_revision: "26.0.47"
+  update_summary: "Document local and hosted URL authentication behaviour"
+  updated_at: "Mon 19 Oct 2026 at 03:26:06 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -42,6 +42,20 @@ metadata:
 
 - Every preview-link handoff must put the clickable URL beside a clearly labelled, copyable fenced code block containing the current local test password. Use concise visual labels such as “🔗 Preview” and “🔑 Test Password” to distinguish them. Read the active server's password; never reuse a password from an earlier preview process. Never put production credentials in a handoff. If a preview has no password, explicitly say so.
 - Use modest formatting, short sections and helpful icons in user-facing handoffs so links, credentials, results and limits are easy to identify.
+
+### Local and Hosted URL Behaviour
+
+The local column describes the user-facing preview started with automatic login enabled. Low-level tests using `autoLogin:false` require explicit login for app content. Hosted behaviour applies after the corresponding build is published to Sites; a local commit or GitHub push alone does not update the live site.
+
+| URL | Local Preview | Hosted Sites |
+|---|---|---|
+| `/` | Opens the app using a valid local session, obtaining one automatically through the real local login handler if needed. No password entry is required. | Opens the app when the server validates the existing session; otherwise shows the password form. |
+| `/home` or `/home/` | Permanently redirects (301) to `/`, preserving query parameters; the destination follows local automatic-login rules. | Permanently redirects (301) to `/`, preserving query parameters; the destination requires a valid hosted session or password login. |
+| `/playground` or a supported section such as `/playground/branding` | Password-free by default; a section path selects that tab directly. | Requires the same server-validated session as the main app. Without one, shows the Playground login form; successful login retains the requested section. |
+| `/?login=0` | Behaves like `/`: reuses or automatically obtains a real local session. The value `0` is not an authentication token or a special login command. | Behaves like `/`. The query parameter is ignored for authentication and does not sign anyone in. |
+| `/?login=1` | Shows the real login form by ignoring the session cookie for this page request and suppressing automatic sign-in. This inspection URL does not revoke an existing session; Local Log Out separately revokes it and returns here. | Behaves like `/`. It does not force the login form, log the user out or revoke a session. A valid session shows the app; otherwise the password form is shown. |
+
+The `login` query handling is confined to the local preview adapter on `/`; it is not a hosted authentication feature or a Playground override. Neither query value bypasses hosted authentication. Hosted app and Playground sessions share the existing seven-day expiry and logout rules. Never describe a hosted link as password-free merely because its local counterpart opens automatically.
 
 ### Required Update Handoff
 
