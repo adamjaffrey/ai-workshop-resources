@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.47"
-  update_summary: "Document local and hosted URL authentication behaviour"
-  updated_at: "Mon 19 Oct 2026 at 03:26:06 pm AEDT (+11:00)"
+  doc_revision: "26.0.48"
+  update_summary: "Define exact update handoff wording and link selection"
+  updated_at: "Mon 19 Oct 2026 at 05:00:17 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -29,7 +29,7 @@ metadata:
 
 ## Preview Delivery
 
-- Link directly to the relevant Playground section in future handoffs, such as `/playground/branding` or `/playground/easter-egg`. Supported sections are components, typography, colours, blocks, icons, statuses, focus, branding and easter-egg. Continue using the verified Wi-Fi address for local links.
+- Select the Playground destination using the exact rules and title/slug mapping under Required Update Handoff: use the primary relevant section for a section-specific review, otherwise use `/playground`. Always use the verified active Wi-Fi address and port for local links.
 
 - Start all user-facing local previews already signed in. Use `npm --prefix website run preview:phone` (automatic login enabled), or pass `{autoLogin:true}` to `createPhonePreview` for custom ports. Continue generating and displaying the process’s temporary test password. The local adapter must obtain a real session through the unchanged server-side login handler, using only its in-memory preview database and temporary credential; never add an authentication bypass to application handlers, production builds or hosted Sites. Keep low-level authentication tests explicit (`autoLogin:false`, the factory default). Provide `/?login=1` for inspecting the real login form; local Log Out returns there. Verify a fresh browser opens Resources, the session endpoint recognises its cookie, logout invalidates it, and hosted access still requires authentication when changing this workflow.
 
@@ -40,7 +40,7 @@ metadata:
 - Never open or present a preview in the Codex sidebar, embedded browser, or preview panel. Do not use `open_in_codex` to show previews.
 - Headless browser validation is permitted and does not count as opening a user-facing preview.
 
-- Every preview-link handoff must put the clickable URL beside a clearly labelled, copyable fenced code block containing the current local test password. Use concise visual labels such as “🔗 Preview” and “🔑 Test Password” to distinguish them. Read the active server's password; never reuse a password from an earlier preview process. Never put production credentials in a handoff. If a preview has no password, explicitly say so.
+- Every preview-link handoff must use the exact Local Preview and Local App Test Password sections defined below. Do not invent alternate labels or status wording. Never include production credentials or reuse a password from an earlier preview process.
 - Use modest formatting, short sections and helpful icons in user-facing handoffs so links, credentials, results and limits are easy to identify.
 
 ### Local and Hosted URL Behaviour
@@ -59,33 +59,81 @@ The `login` query handling is confined to the local preview adapter on `/`; it i
 
 ### Required Update Handoff
 
-- Every completed update response must show the current website artefact version and the short Git commit hash. Distinguish a new build from a documentation-only update, which retains the current artefact version. State whether the commit is local or pushed and whether Sites was published; never imply an unperformed action.
-- Introduce the status list with the bold label **📦 Build and Delivery**, followed by a blank line. Never leave the list without its own heading.
-- Present build and delivery status in one four-item bulleted list, in this order: **Build**, **Commit**, **Push (GitHub)** and **Publish (Sites)**. The Build item includes the current version and explicitly says either “changed, new artefact produced” or “unchanged, no new artefact produced”. The Commit item shows the short hash and whether it is local or pushed. Push and Publish each independently state performed successfully, not performed, or failed/blocked for this update. Never imply that a push means publication or that a documentation-only update produced an artefact. Do not add a separate Push and Publish heading.
-- Wrap the build version and short Git commit hash in Markdown backticks so they render as inline code, for example `v26.0.128` and `1a5050f`. Use inline code, not a fenced code block, for these two values.
-- Follow that list with **🔗 Local Preview** and three separate bullets using the format below. Link to `/home`, the relevant Playground section for the component being changed, and `/?login=1` for the logged-out state. Use the verified current Wi-Fi address and port. Local `/home` automatically signs in using a real local test session; hosted `/home` redirects to `/` and retains normal server-side authentication.
-- Immediately below the local links, show **🔑 Local App Test Password** and a fenced `text` code block containing the active preview server's current test password. Read it from the active process's output before the handoff; restart and verify the server when necessary. Never invent or reuse a stale credential. If local preview is unavailable, explain that limitation rather than presenting an unverified link or password.
-- Whenever publishing to Sites succeeds, also include **🌐 Live on Sites**, with separate clickable **Main App** and **Playground** links. Explain that they share the existing login session when relevant. Never include the production password. Keep local preview and hosted links visually separate.
-- In all future chat responses containing app links, present each link as its own bullet item and include a north-east arrow in the anchor text, for example `[Main App ↗](URL)` and `[Playground ↗](URL)`. Apply this to local previews and hosted Sites links; never combine app links inline.
-- Keep the change summary and verification concise above these details. Use modest icons and descriptive anchor text; do not open the links automatically.
+This is an exact output contract for every completed update in this repository, including documentation-only updates. Use the literal labels, order, punctuation and status phrases below; substitute only verified values and the explicitly permitted alternatives. These rules supersede older handoff examples elsewhere in the repository or chat history.
+
+1. Start with a concise change summary and verification result, normally one or two sentences.
+2. Emit **📦 Build and Delivery** and its four bullets in the exact order shown below.
+3. Emit **🔗 Local Preview** with exactly three link bullets: Main App, Playground and Login Form.
+4. Immediately follow with **🔑 Local App Test Password** and one fenced `text` block containing only the active process’s test password.
+5. Append **🌐 Live on Sites** only when publication succeeds for this update, or the user explicitly requests the existing live link. Its default content is one Main App link. Do not automatically add a hosted Playground link.
+
+Use bold section labels, not Markdown heading markers. Put a blank line after every section label and between sections. Keep version and commit values in inline backticks. Every app link must be its own bullet with `↗` inside the anchor text. Do not open any link automatically.
+
+#### Exact Build and Delivery Wording
+
+| Item | Condition | Required Content After the Bold Item Label |
+|---|---|---|
+| Build | A new artefact was successfully produced and finalised | `` `vVERSION` — new artefact produced. `` |
+| Build | Documentation-only or another update with no new artefact | `` `vVERSION` — unchanged, no new artefact produced. `` |
+| Commit | This update was committed locally | `` `HASH` — local commit performed. `` |
+| Commit | This update’s commit was also pushed successfully | `` `HASH` — local commit performed; pushed to GitHub. `` |
+| Push (GitHub) | No push occurred for this update | `Not performed.` |
+| Push (GitHub) | Push succeeded for this update | `Performed successfully.` |
+| Publish (Sites) | No publication occurred for this update | `Not performed.` |
+| Publish (Sites) | Publication succeeded for this update | `Performed successfully.` |
+
+Read the website artefact version from `website/VERSION.txt` and the short commit hash from Git. A documentation-only update retains the current website version and must not add a build changelog entry. Never use “changed, new artefact produced”, “local.” or another shortened/paraphrased status. Push and publication are independent actions; report only what happened for this update, not a previous update’s delivery status.
+
+If a build, commit, push or publication failed or was blocked, replace that item’s success phrase with `Failed — REASON.` or `Blocked — REASON.` and report the actual current version/commit where applicable. If no commit occurred, use `Not performed.` for Commit; never present an older commit as this update’s commit. Do not use success wording for partial work.
+
+#### Exact Local Link Selection and Wording
+
+Define `LOCAL_ORIGIN` as the active preview’s verified `http://WIFI-IP:PORT`, without a trailing slash. Never hard-code an example IP address or port, assume the previous process still owns a port, substitute loopback, or show a production password.
+
+- Main App: `[Main App ↗](LOCAL_ORIGIN) — automatically signed in`. Link to the root URL, not `/home`, and do not put paths in the anchor text.
+- Playground, when exactly one section is the primary review destination: `[Playground > SECTION TITLE ↗](LOCAL_ORIGIN/playground/SECTION-SLUG) — automatically signed in`. Use the title/slug mapping below, not a raw slug or invented title.
+- Playground, for cross-cutting changes, documentation-only updates or no specific section: `[Playground ↗](LOCAL_ORIGIN/playground) — automatically signed in`.
+- Login Form: `[Login Form ↗](LOCAL_ORIGIN/?login=1) — logged-out view`.
+
+| Section Slug | Section Title |
+|---|---|
+| `components` | Components |
+| `typography` | Typography |
+| `colours` | Colours |
+| `blocks` | Blocks and Blur |
+| `icons` | Icons |
+| `statuses` | Status States |
+| `focus` | Focus and Selection |
+| `branding` | Branding |
+| `easter-egg` | Easter Egg |
+
+Do not use “Preview link”, inline-code paths in labels, “password free”, “password-free”, “logged out state” or additional lock icons in these handoff bullets. The exact local phrase “automatically signed in” describes the no-password-entry review experience; it does not change the authentication implementation. The app obtains a real local session, while local Playground access remains password-free as documented above. Never apply this phrase to hosted access or imply that either local route bypasses hosted authentication. The login inspection link displays the logged-out form without itself revoking a session.
+
+Verify the active process, LAN origin and all three destinations before handing them over. Read the password from that process’s startup output. Retained startup output is usable only after confirming that the same process is still serving those URLs; never copy a credential merely from a previous final response. Reuse a verified active preview for documentation-only work; do not rebuild or restart it solely because a document changed. If the process or password cannot be verified, restart and verify when safe and within scope, or use the unavailable case below.
+
+If local preview is unavailable, retain **🔗 Local Preview** with `Unavailable — REASON.` and **🔑 Local App Test Password** with `Unavailable — no verified active preview password.` instead of links or a password block. Do not invent credentials or provide unverified URLs. If a deliberately passwordless preview has no test credential, state `Not applicable — this preview has no test password.` instead of a code block; the normal app preview still requires its generated test credential for manual login inspection.
+
+#### Exact Live Link Selection
+
+Under **🌐 Live on Sites**, use `[Main App ↗](VERIFIED-LIVE-ORIGIN)` as a single bullet without an authentication suffix. Use the verified hosted origin; the existing site is `https://ai-workshop-resources.adamjaffrey.chatgpt.site`. Include an additional hosted Playground bullet only if the user explicitly asks for it, using the same Playground label/section mapping. Never include the production password or describe hosted links as automatically signed in. If showing an existing live site without publishing this update, say `Existing live site; this update has not been published.` before the link. Keep the Publish status truthful.
 
 ### Handoff Format
 
-Use this structure, substituting the verified version, commit, delivery status, active Wi-Fi address, relevant section and current process password. Never reuse example credentials.
+Copy this structure literally for a successful new local build, replacing placeholders. For documentation-only work, replace only the Build phrase with `unchanged, no new artefact produced.`. For a section-specific review, replace only the Playground bullet with the section form defined above. Do not emit placeholder text.
 
 ````markdown
 **📦 Build and Delivery**
 
-- **Build:** `v26.0.XXX` — changed, new artefact produced.
-- **Commit:** `xxxxxxx` — local.
+- **Build:** `vVERSION` — new artefact produced.
+- **Commit:** `HASH` — local commit performed.
 - **Push (GitHub):** Not performed.
 - **Publish (Sites):** Not performed.
 
 **🔗 Local Preview**
 
-- [Preview link `/home` ↗](http://WIFI-IP:PORT/home) — password free
-- [Preview link `/playground/branding` ↗](http://WIFI-IP:PORT/playground/branding) — password free
-- [Preview link `/?login=1` ↗](http://WIFI-IP:PORT/?login=1) — 🔒 logged out state
+- [Main App ↗](LOCAL_ORIGIN) — automatically signed in
+- [Playground ↗](LOCAL_ORIGIN/playground) — automatically signed in
+- [Login Form ↗](LOCAL_ORIGIN/?login=1) — logged-out view
 
 **🔑 Local App Test Password**
 
@@ -93,6 +141,16 @@ Use this structure, substituting the verified version, commit, delivery status, 
 CURRENT-PROCESS-PASSWORD
 ```
 ````
+
+When the live-link inclusion condition is met, append:
+
+```markdown
+**🌐 Live on Sites**
+
+- [Main App ↗](VERIFIED-LIVE-ORIGIN)
+```
+
+Before sending, check the exact four status labels and order, version/hash evidence, root Main App URL, Playground title/slug selection, literal authentication suffixes, active-process password, and whether a Live on Sites section is warranted. Do not substitute stylistic variants for this contract.
 
 ## Website Login
 
