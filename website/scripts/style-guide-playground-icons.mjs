@@ -26,9 +26,10 @@ function renderPlaygroundIcons(){
   for(const usage of usages){const item=document.createElement('li');item.textContent=usage;list.append(item);}
   const link=document.createElement('a');
   if(provider!=='lucide')throw Error('Add an official source route for Playground provider: '+provider);
-  link.href='https://lucide.dev/icons/'+name;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Lucide Source ↗';
+  link.href='https://lucide.dev/icons/'+name;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Lucide Source ↗';link.hidden=!document.getElementById('show-playground-sources').checked;link.dataset.playgroundSource='';
   entry.append(heading,list,link);catalog.append(entry);
  }
 }
 renderPlaygroundIcons();
+document.getElementById('show-playground-sources').addEventListener('change',event=>{document.querySelectorAll('[data-playground-source]').forEach(link=>link.hidden=!event.target.checked);});
 `;

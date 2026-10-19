@@ -3,14 +3,44 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.182"
-  update_summary: "Add Playground heading icons and a live tooling catalogue"
-  updated_at: "Mon 19 Oct 2026 at 04:27:10 pm AEDT (+11:00)"
+  doc_revision: "26.0.183"
+  update_summary: "Refine Playground navigation and preview controls"
+  updated_at: "Mon 19 Oct 2026 at 04:51:33 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.181 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 04:51:33 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine Playground navigation and preview controls
+
+### Changed
+
+- Align heading icons with the first text line, add each first-panel icon to its tab and centre the selected tab on selection and initial load while preserving subsequent manual scrolling.
+- Use Search for Focus and Selection and Rotate Clockwise for the content-width Replay Animation button.
+- Move Copy Values and Reset Defaults after preview controls, float Expand View at the lower-right of each interactive inset with the shared shadow, and keep global floating controls above it.
+- Use one scrollable, faded expanded heading row with icon-only actions on the right. Preserve iframe state, accessible button names and focus restoration.
+- Restore side-by-side mobile login controls, place source checkboxes after controls and use a consistent 24px gap before inset frames and reference containers.
+- Add independent, initially hidden Playground source links controlled by Show Sources and expose the original agent selector in the Easter Egg specimen at every width.
+
+### Validation
+
+- Authentication and saved placeholder geometry tests — 11 passed; app resting geometry is unchanged and no remeasurement was required.
+- Layout refinement browser check — all nine tabs at 320/390/768/1440px passed icon alignment, centring, spacing, control placement, expanded title scrolling/fades, keyboard focus, source toggling and live agent selection.
+- Icon catalogue browser check — metadata, unique coverage, both themes and agents across four widths passed.
+- Expanded-preview browser check — iframe-state preservation, shared controls, modal containment, Escape and focus/scroll restoration passed.
+- Full app/Playground source-parity suite and Sites local production build — passed.
+- Final LAN checks — v26.0.181, real automatic session, app/Playground/login links, touch source toggling and preserved manual tab scrolling passed. Mobile and expanded screenshots inspected; physical iPhone/Safari not tested.
 
 ## v26.0.180 — 2026-10-19
 

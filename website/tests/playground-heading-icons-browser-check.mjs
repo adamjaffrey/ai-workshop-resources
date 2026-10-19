@@ -15,7 +15,7 @@ try{
    headings:[...document.querySelectorAll('.section-heading h2')].map(e=>[e.textContent,e.querySelector('svg')?.dataset.iconName]),
    links:entries.every(e=>e.querySelector('a').href==='https://lucide.dev/icons/'+e.dataset.catalogIcon),
    licenses:document.querySelector('[data-catalog-icon="file-badge"] ul').textContent,
-   controls:['minimize-2','x','redo'].every(n=>entries.some(e=>e.dataset.catalogIcon===n))};
+   controls:['minimize-2','x','rotate-cw'].every(n=>entries.some(e=>e.dataset.catalogIcon===n))};
  });
  assert.equal(audit.missing,0);assert.deepEqual(audit.catalog,audit.names);assert.equal(audit.headings.length,16);assert.ok(audit.headings.every(([,n])=>n));assert.ok(audit.links&&audit.controls);assert.match(audit.licenses,/Lucide Licence/);assert.match(audit.licenses,/Lobe Icons Licence/);
  assert.equal(audit.headings.find(([t])=>t==='Blocks and Blur')[1],'layout-template');assert.equal(audit.headings.find(([t])=>t==='Playground Icons')[1],'blocks');
