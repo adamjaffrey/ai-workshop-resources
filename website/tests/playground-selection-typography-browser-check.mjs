@@ -6,6 +6,7 @@ try{
  const page=await browser.newPage(),app=await browser.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));const base='http://127.0.0.1:'+server.address().port;await page.goto(base+'/playground/typography');await app.goto(base+'/');
  const frame=page.frameLocator('#link-type-frame');await frame.locator('#link-colours tr').first().waitFor();assert.equal(await frame.locator('#link-colours tr').count(),4);assert.match(await frame.locator('#link-metrics').innerText(),/1px resting \/ 1px hover/);
  assert.equal(await frame.locator('a .link-arrow').count(),2);assert.equal(await frame.locator('a').first().getAttribute('href'),'/');
+ const crop=await frame.locator('a .link-arrow').first().evaluate(e=>{const original=e.cloneNode(true);original.setAttribute('viewBox','0 0 24 24');original.style.cssText='width:16px;height:16px;vertical-align:-3px';e.after(original);const a=e.getBoundingClientRect(),b=original.getBoundingClientRect(),result={width:a.width,scale:e.getScreenCTM().a,oldScale:original.getScreenCTM().a,topInset:a.top-b.top};original.remove();return result;});assert.equal(crop.width,8);assert.equal(crop.scale,crop.oldScale);assert.equal(crop.topInset,4);
  const read=e=>{const s=getComputedStyle(e,'::selection');return [s.backgroundColor,s.color];};
  for(const width of [320,390,768,1440]){
   await page.setViewportSize({width,height:900});

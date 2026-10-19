@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.130"
-  update_summary: "Bring Playground tabs closer to their component panels"
-  updated_at: "Mon 19 Oct 2026 at 07:14:51 pm AEDT (+11:00)"
+  doc_revision: "26.0.131"
+  update_summary: "Crop link arrow whitespace while preserving its visible size"
+  updated_at: "Mon 19 Oct 2026 at 07:25:40 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -344,3 +344,5 @@ Toggle labels retain 16px before their selector and 32px separation from precedi
 Outer Playground controls use shared spacing tokens: 4px within connected selectors, 8px within related actions and icon/label pairs, 16px between labels and controls, 24px between neighbouring groups or before inset previews, and 32px between stacked groups. Mobile Style Options uses one row-gap system without additive margins. Specimen documents retain their own spacing. Horizontal selector rails and tabs hide vertical overflow and reset accidental vertical offsets. Their 36px edge masks gain opacity with distance from an endpoint, retain their strength while approaching that endpoint, and disappear immediately at the endpoint tolerance. Tab and selector focus no longer removes those masks. The Hover Preview Explainer sits alongside its label where space permits, wraps on narrow layouts, and uses 14px/21px text with a centred Lucide chevron. Validate every tab at four widths with `node website/tests/playground-control-rhythm-browser-check.mjs`.
 
 On desktop widths above 660px, global control labels scroll away before the toggle rails pin 24px below the viewport top. The persistent surface has 24px below its last control row; the original toolbar footprint prevents content jumps. Labels remain available to assistive technology. Scrolling back restores the complete groups; mobile retains the Style Options dialog. The tab rail has 24px above its button hover areas and 16px from its horizontal baseline to the first panel. The native scroll indicator starts 2px below the baseline and occupies that existing 16px gap without adding layout height. The Hover Preview Explainer uses a tighter 4px chevron/text gap. Validate with `node website/tests/playground-sticky-toolbar-browser-check.mjs`.
+
+Shared hyperlink arrows retain the installed Lucide Arrow Up Right paths and 2-unit stroke, using a cropped `6 6 12 12` viewBox in an 8px square. This preserves the original 16px/24-unit rendering scale and removes 4px of empty space per side. A 1px vertical alignment preserves the original visible stroke position. The non-breaking space, link padding, underline, focus and hover treatments remain unchanged. Typography and icon specimens inherit the shared renderer.

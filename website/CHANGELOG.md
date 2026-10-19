@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.197"
-  update_summary: "Inset external app and login text beside rounded surfaces"
-  updated_at: "Mon 19 Oct 2026 at 07:20:28 pm AEDT (+11:00)"
+  doc_revision: "26.0.198"
+  update_summary: "Crop link arrow whitespace while preserving its visible size"
+  updated_at: "Mon 19 Oct 2026 at 07:25:40 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.196 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 07:25:40 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Crop link arrow whitespace while preserving its visible size
+
+### Changed
+
+- Crop shared Lucide link arrows to their stroke bounds and reduce their boxes proportionally, preserving visible size and vertical alignment.
+- Bring the arrow 4px closer to its preceding non-breaking space without changing link padding, colours or focus behaviour.
+- Refresh outdated parity-test expectations for the previously approved brand-aligned floating controls.
+
+### Validation
+
+- Typography and selection checks across 16 combinations — passed, including comparison with the original arrow scale and alignment.
+- Full app/specimen parity browser check — passed.
+- Sites local production build and generated v26.0.196 displays — passed. Main-app content contains no affected links; saved background geometry retained.
 
 ## v26.0.195 — 2026-10-19
 

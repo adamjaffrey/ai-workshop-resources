@@ -33,9 +33,9 @@ for(const width of [320,390,768,1440]){
   await choose('theme',theme);await choose('agent',agent);await p.waitForTimeout(500);
   const appShadow=await resources.locator('.page-toolbar .theme-toggle').evaluate(e=>getComputedStyle(e,'::after').boxShadow);
   assert.equal(await p.locator('#back-to-top').evaluate(e=>getComputedStyle(e).boxShadow),appShadow,'shared floating shadow');
-  assert.equal(await p.locator('#back-to-top').evaluate(e=>parseFloat(getComputedStyle(e).top)),width<=660?80:24,'floating top inset');
+  assert.equal(await p.locator('#back-to-top').evaluate(e=>parseFloat(getComputedStyle(e).top)),await p.locator('.playground-brand-row').evaluate(e=>{const r=e.getBoundingClientRect();return Math.max(24,r.top+(r.height-48)/2)+(innerWidth<=660?56:0);}),'floating top inset');
   if(width<=660){
-   assert.equal(await p.locator('#style-options').evaluate(e=>e.getBoundingClientRect().top),24);
+   assert.equal(await p.locator('#style-options').evaluate(e=>e.getBoundingClientRect().top),await p.locator('.playground-brand-row').evaluate(e=>{const r=e.getBoundingClientRect();return Math.max(24,r.top+(r.height-48)/2);}));
    assert.equal(await p.locator('#style-options').evaluate(e=>getComputedStyle(e).boxShadow),appShadow);
    await p.click('#style-options');
    assert.equal(await p.locator('#style-dialog').evaluate(e=>e.getBoundingClientRect().top),24);
