@@ -72,5 +72,6 @@ export function initStickyControls() {
  window.addEventListener('pageshow',measure);
  motion.addEventListener('change',()=>{if(motion.matches)animation?.cancel();});
  document.fonts.ready.then(measure);measure();
+ return {refresh:measure};
 }
-export function withStickyControls(html){return html.replace('</head>',`<style>:root{--sticky-safe-top:env(safe-area-inset-top,0px)}${stickyCSS}</style></head>`).replace('</body>',`<script nonce="__NONCE__">(${initStickyControls.toString()})();</script></body>`);}
+export function withStickyControls(html){return html.replace('</head>',`<style>:root{--sticky-safe-top:env(safe-area-inset-top,0px)}${stickyCSS}</style></head>`).replace('</body>',`<script nonce="__NONCE__">window.workshopStickyControls=(${initStickyControls.toString()})();</script></body>`);}

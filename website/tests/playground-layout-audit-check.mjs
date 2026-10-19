@@ -7,7 +7,7 @@ try{
  const p=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];p.on('pageerror',e=>errors.push(e.message));await p.goto('http://127.0.0.1:'+server.address().port+'/playground');await p.waitForTimeout(1200);
  const ys=await p.locator('#global-style-controls fieldset').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().top));assert.ok(Math.max(...ys)-Math.min(...ys)<1);
  assert.equal(await p.locator('#width legend').innerText(),'Screen Width');
- assert.deepEqual(await p.locator('.breadcrumbs a,.breadcrumbs [aria-current]').evaluateAll(es=>es.map(e=>[getComputedStyle(e).fontSize,getComputedStyle(e).fontWeight])),[['14px','400'],['14px','600']]);
+ assert.equal(await p.locator('.breadcrumbs').count(),0);
  const initialHeight=await p.locator('#login-frame').evaluate(e=>e.clientHeight);const available=await p.evaluate(()=>innerHeight-document.querySelector('.toolbar').offsetHeight-document.querySelector('.inspector-dock').offsetHeight-32);assert.ok(initialHeight<=available*.7+1);
  await p.evaluate(()=>scrollTo(0,700));
  for(const [id,value] of [['agent','claude-code'],['theme','dark'],['width','390'],['hover','on']]){const r=await p.locator('#'+id+' input[value="'+value+'"]').locator('..').boundingBox();const before=await p.evaluate(()=>scrollY);await p.mouse.click(r.x+r.width/2,r.y+r.height/2);await p.waitForTimeout(350);assert.equal(await p.evaluate(()=>scrollY),before,id+' scroll jump');}

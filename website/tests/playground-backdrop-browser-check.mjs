@@ -14,8 +14,7 @@ try{
  const snapshot=()=>['.access-gate','.gate-panel','.password-field','.page-placeholder'].map(selector=>{const c=getComputedStyle(document.querySelector(selector));return [c.backgroundColor,c.filter,c.backdropFilter,c.padding,c.borderRadius,c.fontFamily,c.fontSize];});
  for(const width of [320,390,768,1440]){
   for(const p of [page,main,gate])await p.setViewportSize({width,height:844});
-  const crumb=await page.locator('.breadcrumbs').boundingBox(),kicker=await page.locator('header .kicker').boundingBox();assert.ok(crumb.y+crumb.height<=kicker.y);
-  assert.equal(await page.locator('.breadcrumbs a').getAttribute('href'),'/');assert.equal(await page.locator('.breadcrumbs [aria-current=page]').innerText(),'Playground');
+  assert.equal(await page.locator('.breadcrumbs').count(),0);
   for(const theme of ['light','dark'])for(const agent of ['codex','claude']){
    for(const p of [main,gate])await p.evaluate(({theme,agent})=>{document.documentElement.dataset.theme=theme;document.documentElement.dataset.selectedAgent=agent},{theme,agent});
    assert.deepEqual(await gate.evaluate(snapshot),await main.evaluate(snapshot));
@@ -30,5 +29,5 @@ try{
    }
   }
  }
- assert.deepEqual(errors,[]);console.log('PASS: breadcrumb placement and shared login styling with blank/block backgrounds at four widths, both themes and agents');
+ assert.deepEqual(errors,[]);console.log('PASS: breadcrumb removal and shared login styling with blank/block backgrounds at four widths, both themes and agents');
 }finally{await browser.close();for(const app of [local,hosted])app.server.close();}

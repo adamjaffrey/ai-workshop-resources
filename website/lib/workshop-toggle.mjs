@@ -3,21 +3,24 @@
 export const toggleTiming = {arrival: 160, rebound: 60, return: 60, settle: 60};
 toggleTiming.duration = toggleTiming.arrival + toggleTiming.rebound + toggleTiming.return + toggleTiming.settle;
 export const toggleScript = `window.layoutWorkshopToggle = function(toggle) {
-    const selected=toggle.querySelector('[aria-pressed="true"]'),indicator=toggle.querySelector('.toggle-indicator');
+    const selected=toggle.querySelector(toggle.dataset.selectionSelector || '[aria-pressed="true"]'),indicator=toggle.querySelector('.toggle-indicator');
     if(!selected||!indicator)return;
     const left=selected.offsetLeft,width=selected.offsetWidth;
     indicator.style.left=left+'px';indicator.style.width=width+'px';
     return {left,width};
 };
-window.createWorkshopToggle = function(toggle) {
+window.createWorkshopToggle = function(toggle, options = {}) {
     const reducedMotionQuery = matchMedia('(prefers-reduced-motion: reduce)');
     toggle.classList.add('segmented-toggle');
+    const targetSelector=options.targetSelector || 'button';
+    const focusTarget=target=>target.querySelector('input') || target;
+    if(options.selectionSelector)toggle.dataset.selectionSelector=options.selectionSelector;
     const indicator = document.createElement('span');
     indicator.className = 'toggle-indicator';
     indicator.setAttribute('aria-hidden', 'true');
     toggle.prepend(indicator);
     let toggleAnimation, held, releaseTimer;
-    const selectedButton = () => toggle.querySelector('[aria-pressed="true"]');
+    const selectedButton = () => toggle.querySelector(toggle.dataset.selectionSelector || '[aria-pressed="true"]');
     function snapshot() {
       const style = getComputedStyle(indicator);
       return {left: parseFloat(style.left), width: parseFloat(style.width), transform: style.transform};
@@ -28,7 +31,7 @@ window.createWorkshopToggle = function(toggle) {
       const previous = snapshot();
       clearTimeout(releaseTimer);
       held = undefined;
-      if (toggle.contains(document.activeElement) && document.activeElement !== selected) selected.focus({preventScroll: true});
+      if (toggle.contains(document.activeElement) && document.activeElement !== focusTarget(selected)) focusTarget(selected).focus({preventScroll: true});
       toggleAnimation?.cancel();
       const {left,width} = window.layoutWorkshopToggle(toggle);
       if (!animate || reducedMotionQuery.matches || !Number.isFinite(previous.left) || previous.width === 0) return;
@@ -54,7 +57,7 @@ window.createWorkshopToggle = function(toggle) {
       indicator.style.left = previous.left + 'px';
       indicator.style.width = previous.width + 'px';
       const selected = selectedButton();
-      const direction = selected === toggle.querySelector('button') ? 1 : -1;
+      const direction = options.directOnly ? Math.sign(button.offsetLeft - selected.offsetLeft) : selected === toggle.querySelector('button') ? 1 : -1;
       // Cap added width in pixels so wide labels do not exaggerate the held stretch.
       const stretch = 1 + Math.min(.14, 6 / Math.max(previous.width, 1));
       toggleAnimation = indicator.animate([
@@ -67,8 +70,8 @@ window.createWorkshopToggle = function(toggle) {
     }
     toggle.addEventListener('pointerdown', event => {
       if (event.button !== 0 || !event.isPrimary) return;
-      const directButton = event.target.closest('button');
-      const button = directButton || selectedButton();
+      const directButton = event.target.closest(targetSelector);
+      const button = directButton || (options.directOnly ? null : selectedButton());
       if (!button || !toggle.contains(button) || button.disabled) return;
       if (!directButton) {
         event.preventDefault();
@@ -78,7 +81,7 @@ window.createWorkshopToggle = function(toggle) {
     });
     // The track padding and central gap are part of the same hit target.
     toggle.addEventListener('click', event => {
-      if (event.target.closest('button')) return;
+      if (options.directOnly || event.target.closest(targetSelector)) return;
       const button = held?.button || selectedButton();
       if (button && !button.disabled) {
         button.focus({preventScroll: true});

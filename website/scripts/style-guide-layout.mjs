@@ -1,6 +1,7 @@
 // Outer Playground tooling only; app specimens keep their canonical controls.
 export const playgroundLayoutCSS=String.raw`
 :root{--playground-inset-gap:24px}
+.egg-help{margin-top:12px}.egg-help summary{font-weight:600}.egg-help p{font-size:14px;color:var(--muted-text)}
 #playground-title{align-items:flex-start}#playground-title>svg{margin-top:.075em}
 .section-heading h2{align-items:flex-start}.section-heading h2>svg{align-self:flex-start;margin-top:calc((1.5em - 24px)/2)}
 .playground-icon-entry h3{align-items:flex-start}.playground-icon-entry h3>svg{margin-top:1.5px}
@@ -30,6 +31,23 @@ nav[role=tablist]{border-bottom:0;padding-bottom:14px;background:linear-gradient
 .heading-actions button .action-label{display:none!important}
 .preview-dialog.is-expanded>.panel-actions{display:none}.preview-dialog.is-expanded>.frame-wrap{margin-top:16px}
 .preview-dialog.is-expanded .expanded-state-controls{padding-bottom:12px}
+
+/* Match the main app's pre-heading position and vertical type rhythm. */
+.wrap{padding-inline:24px}
+header.wrap{padding-top:134px;padding-bottom:0;width:calc(100% - 48px);max-width:960px;padding-inline:0}
+header.wrap .kicker{font-size:14px;line-height:21px;margin:0 0 24px}
+header.wrap #playground-title{font-size:48px;line-height:1.2;letter-spacing:-.045em;margin:0 0 24px}
+header.wrap p{font-size:16px;line-height:24px;margin:0;max-width:900px}
+.playground-heading~.toolbar .wrap{padding-top:32px;padding-bottom:24px;width:calc(100% - 48px);max-width:960px;padding-inline:0}
+.choices legend{font-size:14px;line-height:21px;margin-bottom:16px}
+.choices .choice-options.segmented-toggle{display:inline-flex!important;flex-flow:row nowrap!important;align-items:center;position:relative;gap:4px!important;padding:4px!important;border:1px solid var(--control-border);border-radius:12px;background:var(--control-bg);max-width:100%;overflow-x:auto;scrollbar-width:thin;vertical-align:top}
+.choice-options.segmented-toggle .choice{flex:none;white-space:nowrap}
+.choice-options.segmented-toggle .choice span{height:40px;display:flex;align-items:center;padding:0 12px;border:0;border-radius:8px;background:transparent;color:var(--control-text)}
+.choice-options.segmented-toggle .choice input:checked+span{background:transparent;color:var(--agent-ink)}
+.choice-options.segmented-toggle .choice:hover span{box-shadow:none;background:color-mix(in srgb,var(--icon-ink) 8%,transparent)}
+.choice-options.segmented-toggle .choice input:focus-visible+span{outline-offset:-3px}
+#login-preview #login-destination{flex:0 1 auto;min-width:0;max-width:45%}
+@media(max-width:660px){header.wrap #playground-title{font-size:40px}header.wrap{padding-bottom:32px}header.wrap p{margin-bottom:0}#mobile-style-controls .primary-style-choices{display:flex;flex-wrap:wrap}.primary-style-choices>.choices{min-width:0;max-width:100%}}
 `;
 
 export const playgroundLayoutScript=String.raw`

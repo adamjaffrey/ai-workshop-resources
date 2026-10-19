@@ -1,3 +1,4 @@
+import {colourValueCSS,colourValueScript} from './workshop-colour-values.mjs';
 import {linkCSS,linkScript} from './workshop-links.mjs';
 import {revealRadiusRange} from './workshop-reveal.mjs';
 import {toggleScript} from './workshop-toggle.mjs';
@@ -15,7 +16,7 @@ const styles = `
   --muted-text: #5b6066; --border: #dedede; --panel-border: #d5d9dd;
   --control-border: #c7ccd1; --control-bg: #e9e9e9; --control-text: #454545;
   --hover: #e9edf0; --field-bg: var(--content-surface); --field-border: #bfc4c9;
-  --success: #146c3e; --success-ink: #fff; --error: #85009b; --warning: #755600; --warning-ink: #fff; --info: var(--muted-text); --link: var(--icon-ink);
+  --success: #146c3e; --success-ink: #fff; --error: #85009b; --warning: #755600; --warning-ink: #fff; --info: var(--muted-text); --link: var(--icon-ink); --link-hover: var(--link); --link-hover-bg: color-mix(in srgb, var(--agent-accent) 10%, transparent);
   --icon-ink: color-mix(in srgb, var(--agent-accent) 80%, black);
   --card-bg: color-mix(in srgb, var(--agent-accent) 4%, white);
   --tile-bg: color-mix(in srgb, var(--agent-accent) 16%, white);
@@ -29,7 +30,7 @@ const styles = `
   --border: #363d48; --panel-border: #414b59; --control-border: #566171;
   --control-bg: #252b34; --control-text: #c4cbd5; --hover: #303946;
   --field-bg: #11151b; --field-border: var(--control-border); --success: #75d6a3; --success-ink: #101216; --error: #ff8dce; --warning: #e5c15c; --warning-ink: #101216;
-  --link: var(--icon-ink); --icon-ink: color-mix(in srgb, var(--agent-accent) 55%, white);
+  --link: var(--icon-ink); --link-hover: color-mix(in srgb, var(--agent-accent) 35%, white); --link-hover-bg: var(--selection); --icon-ink: color-mix(in srgb, var(--agent-accent) 55%, white);
   --card-bg: color-mix(in srgb, var(--agent-accent) 12%, #171b21);
   --tile-bg: color-mix(in srgb, var(--agent-accent) 24%, #171b21);
   --connector: color-mix(in srgb, var(--agent-accent) 45%, #171b21);
@@ -41,7 +42,7 @@ const styles = `
 ::selection { background: var(--selection); color: var(--selection-text); }
 /* Shared text-link treatment, including visited links. */
 a[href], a[href]:visited { color: var(--link); text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; transition: background-color 160ms cubic-bezier(.2,0,.2,1); }
-a[href]:hover, a[href][data-link-preview="hover"] { background-color: color-mix(in srgb, var(--agent-accent) 10%, transparent); text-decoration-thickness: 2px; }
+a[href]:hover, a[href][data-link-preview="hover"] { background-color: var(--link-hover-bg); color: var(--link-hover); }
 @media (prefers-reduced-motion: reduce) { a[href] { transition: none; } }
 /* Contain viewport-wide motion at the root as well as the body (including Safari). */
 html, body { overflow-x: hidden; }
@@ -302,7 +303,7 @@ const script = `(() => {
 })();`;
 
 export function withTheme(html, login = false) {
-  html = html.replace('</head>', `<style>${styles}\n${linkCSS}</style><script nonce="__NONCE__" data-workshop-theme>${agentScript}\n${toggleScript}\n${script}\n${linkScript}</script></head>`);
+  html = html.replace('</head>', `<style>${styles}\n${linkCSS}\n${colourValueCSS}</style><script nonce="__NONCE__" data-workshop-theme>${agentScript}\n${toggleScript}\n${script}\n${linkScript}\n${colourValueScript}</script></head>`);
   if (login) return html.replace('</h2>', `</h2><div class="gate-toolbar"><p class="eyebrow">Workshop Access</p>${control}</div>`);
   return html.replace('<div class="brand" aria-label="Wavelength">', '<div class="page-toolbar"><div class="brand" aria-label="Wavelength">')
     .replace('    <header class="page-header">', `    ${control}</div>\n    <header class="page-header">`);

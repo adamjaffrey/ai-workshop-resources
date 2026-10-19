@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.185"
-  update_summary: "Unify text selections and add hyperlink typography and icon categories"
-  updated_at: "Mon 19 Oct 2026 at 05:24:47 pm AEDT (+11:00)"
+  doc_revision: "26.0.186"
+  update_summary: "Refine Playground hierarchy, selectors, links and Easter Egg entry"
+  updated_at: "Mon 19 Oct 2026 at 05:36:43 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.184 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 05:36:43 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine Playground hierarchy, selectors, links and Easter Egg entry
+
+### Changed
+
+- Remove breadcrumbs and match the app’s header spacing and typography; connect all single-choice controls with the shared animated pill and exact-option selection.
+- Keep link underlines at 1px, reduce hover padding, join final words and northeast arrows without wrapping, and brighten dark hover text over the shared selection background.
+- Render hex values in monospace and add cap-height colour chips throughout the defined typography specimen.
+- Remove the empty Other icon category and preserve four-column card widths when filtering.
+- Replace long Easter Egg copy with a short introduction and collapsed help. Start every view at the bottom with the real floating controls and responsive branding already positioned.
+
+### Validation
+
+- Connected-control/header/link/chip checks at 320, 390, 768 and 1440px — passed; selection/typography checks passed across 16 viewport/theme/agent combinations.
+- All seven Easter Egg views passed at four widths, including bottom position, sticky selector, visible branding and stable icon-card widths.
+- Source parity, icon catalogue, expanded-preview, link/tab and native selector comparisons passed. Theme transition, feather/control-colour and radius checks passed; authentication and saved geometry tests: 11 passed.
+- Legacy theme-browser-check exposed stale copy-label and preview-theme assumptions; retained unchanged. The dedicated transition/control-colour suites cover shared selector regressions.
+- Sites local production build passed with v26.0.184. Desktop and mobile screenshots inspected; physical iPhone/Safari not tested. Main-app resting geometry is unchanged; no remeasurement.
 
 ## v26.0.183 — 2026-10-19
 

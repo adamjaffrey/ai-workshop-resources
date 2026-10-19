@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.119"
-  update_summary: "Document shared text selections, hyperlink specimens and icon categories"
-  updated_at: "Mon 19 Oct 2026 at 05:24:47 pm AEDT (+11:00)"
+  doc_revision: "26.0.120"
+  update_summary: "Document connected controls and refined Playground presentation"
+  updated_at: "Mon 19 Oct 2026 at 05:36:43 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -299,9 +299,9 @@ The login destination and held-state groups share a row at all widths; each grou
 
 ### Shared Navigation Links
 
-`lib/workshop-links.mjs` decorates navigation/source links with the installed Lucide Arrow Up Right, including dynamically generated catalogue links. Text has its own underlined span; the arrow inherits the same colour but is not underlined. A 3px vertical and 5px horizontal inset pads the entire hover target. Both icon catalogues use `View Source · PROVIDER · ICON-NAME`. Playground source visibility remains separately controlled.
+`lib/workshop-links.mjs` decorates navigation/source links with the installed Lucide Arrow Up Right, including dynamically generated catalogue links. Text has its own underlined span; the arrow inherits the same colour but is not underlined. A 2px vertical and 3px horizontal inset pads the entire hover target. The final word, non-breaking space and arrow form a non-wrapping tail, so the arrow cannot occupy a line alone. Both icon catalogues use `View Source · PROVIDER · ICON-NAME`. Playground source visibility remains separately controlled.
 
-Link text, visited text, arrows and underlines use `--link`, aliased to `--icon-ink`. Light mode mixes 80% agent accent with black: Codex `#026ACC`, Claude `#AE5F46`. Dark mode mixes 55% accent with white: Codex `#74BCFF`, Claude `#EAB4A3`. Hover retains these foreground colours, increases underline thickness from 1px to 2px and uses the unmodified agent accent at 10% opacity (`#0285FF` or `#D97757`); the resulting visible background depends on the underlying surface. Reduced motion disables the existing hover-colour transition.
+Link text, visited text, arrows and underlines use `--link`, aliased to `--icon-ink`. Light mode mixes 80% agent accent with black: Codex `#026ACC`, Claude `#AE5F46`. Dark mode mixes 55% accent with white: Codex `#74BCFF`, Claude `#EAB4A3`. The underline remains 1px during hover. Light hover retains those foreground colours with a 10% accent background (`#0285FF` or `#D97757`). Dark hover uses 35% accent mixed with white (`#A6D4FF` or `#F2CFC4`) and the actual text-selection background (`#0F457A` or `#654037`). Resting link colours and selection colours remain distinct shared tokens derived from the same agent accent. Reduced motion disables the existing hover-colour transition.
 
 `node website/tests/playground-links-and-tabs-browser-check.mjs` checks link colours/decoration, source-label parity, mobile edge clamping, noncentring tablet/desktop selection, scrollbar separation and native agent-selector parity.
 
@@ -309,4 +309,18 @@ Link text, visited text, arrows and underlines use `--link`, aliased to `--icon-
 
 The shared theme applies `::selection` to all app and Playground text, using the current agent and light/dark selection tokens. Typography includes a Defined Styles Used in Playground panel for shared hyperlink styles not currently used by main app content. Its real Resources link specimens use the shared renderer and held hover styling; computed values show text/underline/arrow colours, underline thickness and offset, font, padding, hover opacity and selection colours for both agents and themes. The table scrolls horizontally on narrow screens.
 
-Playground Icons offers All, Playground, UI Elements, Section Headings and Other filters. Order starts with Toy Brick, then interface controls (Ellipsis, X, Arrow Up to Line, Rotate Ccw, Rotate Cw, Copy, Minimize 2, Maximize 2 and remaining UI), then panel heading icons in tab/panel order. Category membership is derived from actual usage, and repeated icons remain deduplicated. The filter and Show Sources share a control row where space permits. Validate selection parity, link specimens, ordering and categories with `node website/tests/playground-selection-typography-browser-check.mjs`.
+Playground Icons offers All, Playground, UI Elements and Section Headings filters. Order starts with Toy Brick, then interface controls (Ellipsis, X, Arrow Up to Line, Rotate Ccw, Rotate Cw, Copy, Minimize 2, Maximize 2 and remaining UI), then panel heading icons in tab/panel order. Category membership is derived from actual usage, and repeated icons remain deduplicated. The filter and Show Sources share a control row where space permits. Auto-fill grid columns reserve the same card widths when filtering, including the single Toy Brick result; the wide layout retains four columns. Validate selection parity, link specimens, ordering and categories with `node website/tests/playground-selection-typography-browser-check.mjs`.
+
+### Header, Connected Choices and Colour Values
+
+Playground omits breadcrumbs. Its pre-heading begins 134px from the page top, matching the app’s 40px top padding, 54px toolbar and 40px gap. The pre-heading and H1 each have 24px after them; the introduction has 32px before desktop style controls. Type sizes and line heights match the app, including its mobile H1. Mobile Style Options remain in their existing popover.
+
+All outer radio groups use the shared segmented selector controller and its 340ms travel/rebound/settling animation. Their native radio inputs retain keyboard semantics and focus; only direct option clicks select a value. Padding does not advance selection. Long groups scroll horizontally in one connected container; reduced motion, hidden panels, resized controls and programmatic changes realign the indicator without animation. Main-app two-option selectors retain their original track-click behaviour.
+
+The shared colour-value formatter renders displayed hexadecimal colours in monospace, without changing copied text. Existing code and preformatted blocks retain their own monospace treatment. Defined Styles Used in Playground adds decorative, rounded, 1cap square chips beside every displayed hex value. Each chip uses that exact hex colour, and is hidden from screen readers.
+
+### Easter Egg Entry State
+
+The introduction is concise; Viewing Modes, Sweep and Particle Controls, Reveal and Halo Controls, and Application Source are initially collapsed disclosures. On activating the section, changing view, replaying or resizing, the specimen scrolls to its bottom. It synchronously refreshes the real sticky controls and floating branding, so the controls are already in their top positions. Branding retains the app’s responsive full-wordmark/mark-only behaviour. This initial positioning does not prevent subsequent user scrolling. The original app’s sticky controller now exposes a refresh method for specimen layout synchronisation without changing normal app behaviour.
+
+Validate connected controls, typography, colour chips and header rhythm with `node website/tests/playground-connected-controls-browser-check.mjs`; validate filtered tile widths and all seven Easter Egg entry states with `node website/tests/playground-egg-entry-browser-check.mjs`.

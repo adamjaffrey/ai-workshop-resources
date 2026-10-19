@@ -56,7 +56,7 @@ for(const width of [320,390,768,1440]){
   for(const page of [actualLogin,actualResources])await page.evaluate(({theme,agent})=>{window.dispatchEvent(new StorageEvent('storage',{key:'workshop-colour-theme',newValue:theme}));window.workshopAgent?.select(agent);document.getAnimations().forEach(a=>{if(a.effect?.getTiming().iterations!==Infinity)try{a.finish();}catch{}});},{theme,agent});await p.waitForTimeout(200);await verifySourceParity();
  }
  assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
- if(width===390){const rail=await p.locator('#state .choice-options').evaluate(e=>({scroll:e.scrollWidth,width:e.clientWidth,rows:e.querySelectorAll('.state-row').length}));assert.ok(rail.scroll>rail.width);assert.equal(rail.rows,2);}
+ if(width===390){const rail=await p.locator('#state .choice-options').evaluate(e=>({scroll:e.scrollWidth,width:e.clientWidth,rows:e.querySelectorAll('.state-row').length}));assert.ok(rail.scroll>rail.width);assert.equal(rail.rows,0);}
 
 }
 await choose('hover','on');await p.waitForTimeout(350);
@@ -74,7 +74,7 @@ assert.equal(await resources.locator('[data-copy]').first().getAttribute('data-c
 await choose('copy','success');await resources.locator('body').evaluate(()=>new Promise(resolve=>{const check=()=>{if(!copyFailure)resolve();else setTimeout(check,20);};check();}));await resources.locator('[data-copy]').first().focus();await p.keyboard.press('Enter');
 const resourceDocument=await (await p.locator('#resources-frame').elementHandle()).contentFrame();
 await resourceDocument.waitForFunction(()=>document.querySelector('[data-copy]').dataset.copied==='true',null,{timeout:3000});
-await resources.locator('footer button').click();assert.ok(p.url().startsWith(origin+'/playground'));
+await resources.locator('footer button').focus();await p.keyboard.press('Enter');assert.ok(p.url().startsWith(origin+'/playground'));
 await p.click('[data-tab=typography]');assert.ok(p.url().startsWith(origin+'/playground'));
 assert.match(await p.frameLocator('#type-frame').locator('[data-source-selector="h1"] output').textContent(),/48px/);
 await p.waitForTimeout(400);
