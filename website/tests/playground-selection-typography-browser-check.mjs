@@ -26,7 +26,7 @@ try{
  const headingNames=await page.evaluate(()=>[...new Set([...document.querySelectorAll('[data-tab]')].flatMap(tab=>[...document.querySelectorAll('[data-panel="'+tab.dataset.tab+'"] .section-heading h2 svg')].map(e=>e.dataset.iconName)))]);
  assert.deepEqual(names.slice(11),headingNames);
  for(const category of ['playground','ui','headings','all']){
-  await page.locator('#playground-icon-filter input[value='+category+']').check({force:true});
+  const input=page.locator('#playground-icon-filter input[value='+category+']');await input.locator('..').click();assert.ok(await input.isChecked());
   const shown=await entries.evaluateAll(es=>es.filter(e=>!e.hidden).map(e=>e.dataset.iconGroups));assert.ok(shown.every(g=>category==='all'||g.split(' ').includes(category)));assert.equal(await page.locator('#playground-icon-empty').isVisible(),shown.length===0);
  }
  await page.locator('#show-playground-sources').check();assert.equal(await page.locator('[data-playground-source]:visible').count(),names.length);

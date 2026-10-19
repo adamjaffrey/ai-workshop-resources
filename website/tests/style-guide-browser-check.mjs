@@ -77,8 +77,9 @@ await resourceDocument.waitForFunction(()=>document.querySelector('[data-copy]')
 await resources.locator('footer form[action="/auth/logout"] button').focus();await p.keyboard.press('Enter');assert.ok(p.url().startsWith(origin+'/playground'));
 await p.click('[data-tab=typography]');assert.ok(p.url().startsWith(origin+'/playground'));
 assert.match(await p.frameLocator('#type-frame').locator('[data-source-selector="h1"] output').textContent(),/48px/);
-await p.waitForTimeout(400);
-const headingStyles=await p.frameLocator('#type-frame').locator('.type-row:not([data-source-selector="#perspective-title"]) h2[data-type-sample]').evaluateAll(es=>es.map(e=>{const c=getComputedStyle(e);return {size:c.fontSize,weight:c.fontWeight,colour:c.color};}));assert.equal(headingStyles.length,2);assert.equal(headingStyles[0].size,headingStyles[1].size);assert.equal(headingStyles[0].weight,headingStyles[1].weight);assert.notEqual(headingStyles[0].colour,headingStyles[1].colour);
+await p.locator('#type-frame').scrollIntoViewIfNeeded();
+const typographyDocument=await (await p.locator('#type-frame').elementHandle()).contentFrame();await typographyDocument.waitForFunction(()=>[...document.querySelectorAll('h2[data-type-sample]')].every(e=>getComputedStyle(e).color!==''));
+const headingStyles=await typographyDocument.evaluate(()=>[...document.querySelectorAll('.type-row:not([data-source-selector="#perspective-title"]) h2[data-type-sample]')].map(e=>{const c=getComputedStyle(e);return {size:c.fontSize,weight:c.fontWeight,colour:c.color};}));assert.equal(headingStyles.length,2);assert.equal(headingStyles[0].size,headingStyles[1].size);assert.equal(headingStyles[0].weight,headingStyles[1].weight);assert.notEqual(headingStyles[0].colour,headingStyles[1].colour);
 // Inspector stays docked and never changes its own geometry while inspecting.
 await p.click('#inspector-toggle');await p.click('#inspector-details');
 const type=p.frameLocator('#type-frame');await type.locator('h1').hover();await p.waitForTimeout(260);

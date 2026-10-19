@@ -7,7 +7,7 @@ export const linkCSS=`
 a.workshop-link[href]{display:inline-block;max-width:100%;padding:2px 3px;border-radius:5px;text-decoration:none;overflow-wrap:anywhere;vertical-align:baseline;position:relative;isolation:isolate;background-color:transparent;pointer-events:none}
 /* Preserve text/layout geometry; the adjusted surface is the native link's hit target. */
 a.workshop-link[href] *{pointer-events:none}
-a.workshop-link[href]::before{content:"";position:absolute;inset:3px -1px 0 0;border-radius:inherit;background-color:transparent;pointer-events:auto;cursor:inherit;z-index:-1;transition:background-color 160ms cubic-bezier(.2,0,.2,1)}
+a.workshop-link[href]::before{content:"";position:absolute;inset:2px -1px 0 0;border-radius:inherit;background-color:transparent;pointer-events:auto;cursor:inherit;z-index:-1;transition:background-color 160ms cubic-bezier(.2,0,.2,1)}
 a.workshop-link[href]:hover,a.workshop-link[href][data-link-preview="hover"]{background-color:transparent}
 a.workshop-link[href]:hover::before,a.workshop-link[href][data-link-preview="hover"]::before{background-color:var(--link-hover-bg)}
 a.workshop-link[href]:focus{outline:none!important}

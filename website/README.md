@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.133"
-  update_summary: "Align link hit areas with hover bounds and widen selector spacing"
-  updated_at: "Mon 19 Oct 2026 at 07:57:57 pm AEDT (+11:00)"
+  doc_revision: "26.0.134"
+  update_summary: "Raise the shared link surface top edge by one pixel"
+  updated_at: "Mon 19 Oct 2026 at 08:07:49 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -351,4 +351,4 @@ On desktop widths above 660px, global control labels scroll away before the togg
 
 Shared hyperlink arrows retain the installed Lucide Arrow Up Right paths and 2-unit stroke, using a cropped `6 6 12 12` viewBox in an 8px square. This preserves the original 16px/24-unit rendering scale and removes 4px of empty space per side. A 1px vertical alignment preserves the original visible stroke position. The non-breaking space, link padding, underline, focus and hover treatments remain unchanged. Typography and icon specimens inherit the shared renderer.
 
-Shared links keep their text, arrow and layout positions while using an adjusted hover/hit surface inset 3px from the original top and extended 1px beyond the original right. Left and bottom stay fixed. The anchor’s pseudo-element provides this native pointer/touch target; its original box and descendants do not receive pointer events. Keyboard focus remains on the native anchor and draws the shared 3px ring at its 3px offset around the adjusted surface. Theme colours, held hover and reduced motion use the same surface. Typography reads its computed fill rather than the transparent anchor background. Validate hit boundaries and all activation methods with `node website/tests/link-decoration-browser-check.mjs`. The normal and pinned desktop global-selector rows both retain 40px below their final control row.
+Shared links keep their text, arrow and layout positions while using an adjusted hover/hit surface inset 2px from the original top and extended 1px beyond the original right. Left and bottom stay fixed. The anchor’s pseudo-element provides this native pointer/touch target; its original box and descendants do not receive pointer events. Keyboard focus remains on the native anchor and draws the shared 3px ring at its 3px offset around the adjusted surface. Theme colours, held hover and reduced motion use the same surface. Typography reads its computed fill rather than the transparent anchor background. Validate hit boundaries and all activation methods with `node website/tests/link-decoration-browser-check.mjs`. The normal and pinned desktop global-selector rows both retain 40px below their final control row.

@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.201"
-  update_summary: "Inset external Playground control labels by 4px"
-  updated_at: "Mon 19 Oct 2026 at 08:01:45 pm AEDT (+11:00)"
+  doc_revision: "26.0.202"
+  update_summary: "Raise the shared link surface top edge by one pixel"
+  updated_at: "Mon 19 Oct 2026 at 08:11:05 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.200 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 08:11:05 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Raise the shared link surface top edge by one pixel
+
+### Changed
+
+- Raise the common hover, focus-ring and hit-target top edge by 1px, preserving the bottom and horizontal bounds, text and arrow placement.
+- Update Typography metrics and make regression checks use visible radio labels and atomically read live specimen styles.
+
+### Validation
+
+- Link geometry, mouse/touch/keyboard activation and typography checks — passed.
+- Full app/specimen regression check — passed after correcting stale-node sampling in the test.
+- Sites local production build, generated v26.0.200 displays and LAN preview routes — passed.
 
 ## v26.0.199 — 2026-10-19
 
