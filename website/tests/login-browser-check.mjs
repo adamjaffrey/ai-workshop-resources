@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
 import {loginPage,resourcePage} from '../lib/workshop-pages.mjs';
 import {handleRequest} from '../lib/workshop-handler.mjs';
+import {loginMessages} from '../lib/workshop-login-messages.mjs';
 const script=await (await handleRequest(new Request('https://workshop.example/login.js'),{})).text();
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try {
@@ -60,7 +61,7 @@ try {
     assert.equal(await page.locator('.page-placeholder').evaluate(el=>el.getBoundingClientRect().top),backgroundTop);
     await page.locator('#workshop-password').fill('wrong-password');
     await page.keyboard.press('Enter');
-    await page.getByText('Incorrect password. Please try again.').waitFor();
+    await page.getByText(loginMessages.wrong,{exact:true}).waitFor();
     assert.equal(await page.locator('.gate-submit').isDisabled(),false);
     assert.equal(await page.evaluate(()=>document.activeElement.id),'workshop-password');
     await page.evaluate(()=>{delete visualViewport.height;delete visualViewport.offsetTop;visualViewport.dispatchEvent(new Event('resize'));document.getElementById('gate-title').focus({preventScroll:true});});
