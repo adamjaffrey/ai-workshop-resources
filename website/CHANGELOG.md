@@ -3,14 +3,43 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.213"
-  update_summary: "Restore Playground menu anchoring and specimen containment"
-  updated_at: "Tue 20 Oct 2026 at 12:24:34 am AEDT (+11:00)"
+  doc_revision: "26.0.214"
+  update_summary: "Align tab endpoints and lock selector scrolling to one axis"
+  updated_at: "Tue 20 Oct 2026 at 12:37:07 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.212 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 12:37:07 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Align tab endpoints and lock selector scrolling to one axis
+
+### Fixed
+
+- Remove outer tab-list padding so baseline, scroll edges and endpoint indicators meet the text rail, retaining tab-label padding and directional 36px fades.
+- Hide vertical overflow in standalone selector wrappers inside Typography, Icons and Focus specimens. Preserve horizontal overflow when required and vertical scrolling for prompt content and tall panels.
+
+### Added
+
+- Document the scrolling contract and add tab-edge, scroll-axis and expanded-selector regression checks.
+
+### Validation
+
+- Seven-width tab-edge/fade checks and 172 selection-region checks across app, login and all Playground tabs/frames — passed.
+- Overflow hints, expanded previews, menu containment, nested and external alignment, login and sticky-control browser checks — passed.
+- Footer/reveal check rerun alone after a timing failure during concurrent tests — passed.
+- Mobile app, login and first/last tab screenshots visually reviewed; final ten-width/two-height login backdrop comparison — passed within 1px.
+- Local website build and generated v26.0.212 display verification — passed.
 
 ## v26.0.211 — 2026-10-20
 

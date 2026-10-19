@@ -60,7 +60,7 @@ header.wrap p{font-size:16px;line-height:24px;margin:0;max-width:none}
 
 .choice-shell .choice-options[data-overflow-left],.choice-shell .choice-options[data-overflow-right],[data-overflow-left],[data-overflow-right]{mask-composite:intersect;-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,rgba(0,0,0,var(--overflow-left-alpha,1)),#000 36px,#000 calc(100% - 36px),rgba(0,0,0,var(--overflow-right-alpha,1))),linear-gradient(to bottom,#000 calc(100% - var(--overflow-bottom,0px)),transparent);-webkit-mask-image:linear-gradient(to right,rgba(0,0,0,var(--overflow-left-alpha,1)),#000 36px,#000 calc(100% - 36px),rgba(0,0,0,var(--overflow-right-alpha,1))),linear-gradient(to bottom,#000 calc(100% - var(--overflow-bottom,0px)),transparent)}
 .tab-scroll-shell{position:relative;margin:4px 0 12px}.tab-scroll-shell::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--border);pointer-events:none}
-.tab-scroll-shell nav[role=tablist]{margin:0!important;background:none}
+.tab-scroll-shell nav[role=tablist]{margin:0!important;padding-inline:0;background:none}
 .control-footer>.panel-options{min-height:50px;align-items:center}
 /* Shared label rhythm: 32px before a group, 16px from label to rail. */
 .wrap{max-width:1168px}p{max-width:none}

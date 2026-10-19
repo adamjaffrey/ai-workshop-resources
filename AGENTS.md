@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.54"
-  update_summary: "Require visual containment and menu-state checks"
-  updated_at: "Tue 20 Oct 2026 at 12:23:30 am AEDT (+11:00)"
+  doc_revision: "26.0.55"
+  update_summary: "Preserve tab edges and horizontal-only selector scrolling"
+  updated_at: "Tue 20 Oct 2026 at 12:36:31 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -220,6 +220,18 @@ Rounded corners visually recede from their bounding edge, while SVG icons can co
 ### Required Checks
 
 Run `node website/tests/playground-external-text-inset-browser-check.mjs` for measured text/surface and visible-icon relationships across seven widths, all tabs, themes/agents, dialogs and expanded views. Run `website/tests/playground-nested-alignment-browser-check.mjs` for standalone specimens, slider boundaries, square tabs, licence panels, expanded disclosure bodies and real JavaScript-disabled app/login notices. Test no-script pages with JavaScript actually disabled: a specimen cannot prove the original parent layout. Run `website/tests/playground-menu-containment-browser-check.mjs` for menu geometry at page top and after scrolling, matching ellipsis/X dimensions, reference-frame containment and stacked control spacing. Visually inspect populated mobile specimens and the open menu; coordinate checks alone do not establish visual correctness. Reference specimens remain inside inset rounded grey frames within white cards. Also run source parity, relevant sticky/expanded/focus checks and inspect mobile/desktop screenshots. Verify no page overflow and preserve scrollable control rails and keyboard focus. For layout changes affecting the login backdrop, finish all layout edits first, then increment the placeholder layout revision, remeasure and run `website/tests/login-background-alignment-browser-check.mjs` to verify saved blur geometry against Resources across phone, tablet and desktop widths, including breakpoint boundaries and short/tall heights. Keep all canonical source layout styles and shared footer wrapping in the backdrop; anonymous prompt glyphs retain only slash/hyphen punctuation to preserve native line breaks.
+
+- Keep tab baselines, scroll-region edges and endpoint indicators on the text rail; retain tab-label interior padding. Removing outer padding must preserve the existing directional edge-fade masks and overflow-state handling.
+- Horizontal selection regions (tabs, toggle options and standalone selector specimen wrappers) use horizontal overflow only when needed and hide vertical overflow. Verify zero vertical scroll range/offset in inline, expanded and iframe contexts. Do not force horizontal scrollbars or remove `overflow-x: auto` merely because content fits at one width; preserve access at narrow widths and larger text sizes. Full prompt panels and tall dialogs retain their necessary vertical scrolling. Run `website/tests/playground-tab-edges-browser-check.mjs` and `website/tests/selection-scroll-axis-browser-check.mjs` after changes.
+
+### Scrollable Control Style and Validation
+
+- Treat tabs, horizontally overflowing menus, toggle selectors and other one-row selection regions as horizontal-only scrollers. Hide vertical overflow, keep the content tall enough for its controls and keyboard focus treatment, and verify that it cannot acquire a vertical offset. Do not disable page scrolling or trap vertical touch gestures merely to lock the control's own axis.
+- Use `overflow-x: auto`, not forced scrollbars, where content can exceed its container. Preserve horizontal access at narrow widths, with longer labels and enlarged text. Fitting content must have no horizontal movement or unnecessary scrollbar. Do not use clipping or `overflow-x: hidden` as a substitute for making all options accessible.
+- Use the shared 36px feathered edge mask and scroll-distance state handling. Each edge appears progressively over 36px of travel away from its boundary, rather than on a time-based animation. Preserve the strongest attained fade while returning towards that edge, then clear it immediately when the boundary is reached (the existing 2px tolerance handles rounding). An edge with remaining content on initial layout may already show its fade. Never fade the edge with no remaining content; clear stale fades when resizing makes all content fit.
+- Keep the baseline outside the content mask. Changes to outer padding, text-rail alignment or container width must not change feather width, fade progression, endpoint clearing, label padding or hit targets. Reuse the shared overflow implementation for new selection regions, including controls inside frames; do not invent separate per-control timing or gradients.
+- When adding or changing a control, check narrow phones, tablet/desktop widths and breakpoint boundaries; start, intermediate and final horizontal positions; reverse scrolling; resize from overflowing to fitting; longer labels and enlarged text; keyboard navigation/selection, pointer and touch input; focus-ring clearance; and inline, sticky, expanded and iframe states where applicable. Ensure the first and last choices remain reachable. Retain vertical scrolling in genuinely tall content panels and dialogs.
+- Run the tab-edge, scroll-axis, overflow-hints and relevant expanded/focus checks, and visually inspect populated mobile and desktop states. DOM coordinates alone are insufficient: check clipping, white-card containment of grey specimens, menu anchoring at page top and after scrolling, and the visible fades. Record which surfaces and states were actually checked and distinguish browser automation from physical-device testing.
 
 ## Theme and Slider Animation
 
