@@ -7,7 +7,7 @@ export const playgroundLayoutCSS=String.raw`
 .playground-icon-entry h3{align-items:flex-start}.playground-icon-entry h3>svg{margin-top:1.5px}
 #playground-icon-filter .choice-options{flex-wrap:nowrap;overflow-x:auto}#playground-icon-filter .choice{flex:none;white-space:nowrap}
 nav[role=tablist] button{display:inline-flex;align-items:center;gap:8px}nav[role=tablist] button svg{width:20px;height:20px;flex:none}
-nav[role=tablist]{border-bottom:0;padding-bottom:14px;background:linear-gradient(var(--border),var(--border)) left calc(100% - 14px)/100% 1px no-repeat}
+nav[role=tablist]{border-bottom:0;padding-bottom:2px;background:none}
 .panel-actions,.panel-options{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:var(--control-related-gap);margin-top:24px}
 .control-footer{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:var(--control-row-gap) var(--control-column-gap);margin-top:32px}.control-footer>.panel-actions,.control-footer>.panel-options{margin:0}.control-footer>.choices{flex:1;min-width:180px}.control-footer>.checkbox-controls{flex:1}.control-footer .panel-actions{margin-left:auto}
 .icon-button,.preview-expand{display:inline-flex;flex-direction:row;align-items:center;justify-content:center;gap:8px;width:max-content;max-width:100%;min-height:44px;white-space:nowrap}
@@ -56,7 +56,7 @@ header.wrap p{font-size:16px;line-height:24px;margin:0;max-width:none}
 .choice-shell .choice-options{--overflow-left:0px;--overflow-right:0px;mask-image:linear-gradient(to right,transparent,#000 var(--overflow-left),#000 calc(100% - var(--overflow-right)),transparent);-webkit-mask-image:linear-gradient(to right,transparent,#000 var(--overflow-left),#000 calc(100% - var(--overflow-right)),transparent)}
 
 .choice-shell .choice-options[data-overflow-left],.choice-shell .choice-options[data-overflow-right],[data-overflow-left],[data-overflow-right]{mask-composite:intersect;-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,rgba(0,0,0,var(--overflow-left-alpha,1)),#000 36px,#000 calc(100% - 36px),rgba(0,0,0,var(--overflow-right-alpha,1))),linear-gradient(to bottom,#000 calc(100% - var(--overflow-bottom,0px)),transparent);-webkit-mask-image:linear-gradient(to right,rgba(0,0,0,var(--overflow-left-alpha,1)),#000 36px,#000 calc(100% - 36px),rgba(0,0,0,var(--overflow-right-alpha,1))),linear-gradient(to bottom,#000 calc(100% - var(--overflow-bottom,0px)),transparent)}
-.tab-scroll-shell{position:relative;margin:4px 0 12px}.tab-scroll-shell::after{content:'';position:absolute;left:0;right:0;bottom:14px;height:1px;background:var(--border);pointer-events:none}
+.tab-scroll-shell{position:relative;margin:4px 0 12px}.tab-scroll-shell::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--border);pointer-events:none}
 .tab-scroll-shell nav[role=tablist]{margin:0!important;background:none}
 .control-footer>.panel-options{min-height:50px;align-items:center}
 /* Shared label rhythm: 32px before a group, 16px from label to rail. */
@@ -105,7 +105,7 @@ summary{display:flex;align-items:center;gap:8px}summary>.disclosure-chevron{marg
 .toolbar.controls-pinned .hover-explanation{display:none}
 .toolbar.controls-pinned .hover-explainer{visibility:hidden}
 main.wrap{padding-top:24px}
-.tab-scroll-shell{margin:0 0 24px}
+.tab-scroll-shell{height:var(--tab-row-height);margin:0 0 16px}
 .tab-scroll-shell nav[role=tablist]{padding-top:0}
 [data-panel]>.panel:first-child{margin-top:0}
 @media(max-width:660px){header.wrap{padding-bottom:0}}
@@ -114,6 +114,9 @@ main.wrap{padding-top:24px}
 
 export const playgroundLayoutScript=String.raw`
 const tabRail=document.querySelector('nav[role=tablist]'),tabShell=document.createElement('div');tabShell.className='tab-scroll-shell';tabRail.before(tabShell);tabShell.append(tabRail);
+// Keep the native scrollbar in the lower gap, outside the tab row's layout height.
+const measureTabRow=()=>tabShell.style.setProperty('--tab-row-height',tabRail.querySelector('button').getBoundingClientRect().height+'px');
+new ResizeObserver(measureTabRow).observe(tabRail);document.fonts.ready.then(measureTabRow);measureTabRow();
 const updateFloatingTools=()=>{const brand=document.querySelector('.playground-brand-row').getBoundingClientRect();document.documentElement.style.setProperty('--floating-tools-top',Math.max(24,brand.top+(brand.height-48)/2)+'px');};
 addEventListener('scroll',updateFloatingTools,{passive:true});addEventListener('resize',updateFloatingTools);updateFloatingTools();
 const previewActionHomes=new WeakMap();

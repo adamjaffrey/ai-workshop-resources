@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.195"
-  update_summary: "Keep only Playground toggles pinned and equalise tab spacing"
-  updated_at: "Mon 19 Oct 2026 at 07:07:56 pm AEDT (+11:00)"
+  doc_revision: "26.0.196"
+  update_summary: "Bring Playground tabs closer to their component panels"
+  updated_at: "Mon 19 Oct 2026 at 07:14:51 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.194 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 07:14:51 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Bring Playground tabs closer to their component panels
+
+### Changed
+
+- Retain 24px above tab button hover areas and use 16px between the baseline and the first component panel.
+- Position the native scroll indicator 2px below the baseline, excluding its gutter from layout spacing.
+
+### Validation
+
+- Tab geometry and sticky-toolbar checks at four widths — passed, including 24px/16px gaps and the 2px indicator offset.
+- Sites local production build and generated v26.0.194 displays — passed.
 
 ## v26.0.193 — 2026-10-19
 
