@@ -16,6 +16,7 @@ nav[role=tablist]{border-bottom:0;padding-bottom:2px;background:none}
 .preview-dialog:not(.is-expanded)>.frame-wrap{position:relative;isolation:isolate}
 .preview-dialog:not(.is-expanded)>.frame-wrap>.preview-expand{position:absolute;bottom:12px;right:12px;z-index:2;box-shadow:var(--floating-control-shadow);height:44px}
 .preview-dialog:not(.is-expanded)>.frame-wrap>.preview-expand .action-label{display:inline}
+.panel:not(.is-expanded){padding:24px}
 /* Every inset surface has the same breathing room after its preceding controls. */
 .panel>.frame-wrap,.panel>#playground-icon-catalog,.panel>.samples{margin-top:var(--playground-inset-gap)}
 .panel>.state-tools,.panel>#copy,.panel>#icon-filter,.panel>.panel-options,.panel>.panel-actions{margin-bottom:0}

@@ -28,5 +28,5 @@ window.addEventListener('message',event=>{
  catalog.dataset.captureId=event.data.requestId;
  catalog.querySelectorAll('.segmented-toggle').forEach(e=>window.layoutWorkshopToggle(e));
 });
-new ResizeObserver(()=>{if(catalog.getBoundingClientRect().width)parent.postMessage({guide:'reference-height',height:Math.ceil(catalog.getBoundingClientRect().height+32)},'*');}).observe(catalog);
+new ResizeObserver(()=>{if(catalog.getBoundingClientRect().width)parent.postMessage({guide:'reference-height',height:Math.ceil(catalog.getBoundingClientRect().height+48)},'*');}).observe(catalog);
 `;

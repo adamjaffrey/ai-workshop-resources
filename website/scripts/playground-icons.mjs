@@ -106,8 +106,8 @@ window.addEventListener('message',async event=>{
 export const iconGalleryScript = String.raw`
 let showIconSources=false,iconFilter="all",lastIconHeight=0;
 const iconCatalog=document.getElementById('icon-catalog');
-new ResizeObserver(()=>{if(!iconCatalog.getBoundingClientRect().width)return;const height=Math.ceil(iconCatalog.getBoundingClientRect().height+32);if(height!==lastIconHeight){lastIconHeight=height;parent.postMessage({guide:'icon-height',height},'*');}}).observe(iconCatalog);
-function filterIcons(){document.querySelectorAll(".icon-row").forEach(row=>row.hidden=iconFilter!=="all"&&row.dataset.category!==iconFilter);}
+new ResizeObserver(()=>{if(!iconCatalog.getBoundingClientRect().width)return;const height=Math.ceil(iconCatalog.getBoundingClientRect().height+48);if(height!==lastIconHeight){lastIconHeight=height;parent.postMessage({guide:'icon-height',height},'*');}}).observe(iconCatalog);
+function filterIcons(){document.querySelectorAll(".icon-row").forEach(row=>row.hidden=iconFilter!=="all"&&row.dataset.category!==iconFilter);document.querySelectorAll(".icon-row").forEach(row=>row.removeAttribute("data-first-visible"));document.querySelector(".icon-row:not([hidden])")?.setAttribute("data-first-visible", "");}
 function signature(svg){return [...svg.children].filter(n=>n.tagName.toLowerCase()!=='title').map(n=>n.tagName.toLowerCase()+JSON.stringify([...n.attributes].filter(a=>a.name!=='key'&&!(a.name==='ry'&&a.value===n.getAttribute('rx'))).map(a=>[a.name,a.value]).sort())).sort().join('|');}
 window.addEventListener('message',event=>{if(event.source!==parent)return;if(event.data?.guide==='icon-filter'){iconFilter=event.data.filter;filterIcons();return;}if(['icon-sources','settings'].includes(event.data?.guide)){if(event.data.iconFilter){iconFilter=event.data.iconFilter;filterIcons();}showIconSources=Boolean(event.data.sources);document.querySelectorAll('[data-icon-source]').forEach(a=>a.hidden=!showIconSources);return;}if(event.data?.guide!=='icon-catalog-data')return;
  const section=document.getElementById('icons-'+event.data.page);section.replaceChildren();
@@ -119,6 +119,7 @@ window.addEventListener('message',event=>{if(event.source!==parent)return;if(eve
  const sample=document.createElement('div');sample.className='icon-sample';sample.innerHTML=item.html;sample.querySelectorAll('input').forEach(e=>e.readOnly=true);
  const detail=document.createElement('p');detail.className='icon-meta';detail.textContent=(item.usage?'Use: '+item.usage+' · ':'')+item.page+' → '+item.selector+' · '+item.state+(item.width?' · '+Math.round(item.width)+' × '+Math.round(item.height)+'px':'')+' · '+item.colour+(item.src?' · '+(item.src.startsWith('data:')?'Embedded app image':item.src):'');row.append(title,sample,detail);
  if(url){const source=document.createElement('a');source.href=url;source.target='_blank';source.rel='noopener noreferrer';source.dataset.iconSource='';source.hidden=!showIconSources;source.textContent='View Source · '+name;row.append(source);}section.append(row);}
+ filterIcons();
 });`;
 
 export const errorGalleryScript = String.raw`

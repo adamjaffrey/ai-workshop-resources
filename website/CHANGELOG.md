@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.206"
-  update_summary: "Rename Playground sources and archive unused starter files"
-  updated_at: "Mon 19 Oct 2026 at 10:26:23 pm AEDT (+11:00)"
+  doc_revision: "26.0.207"
+  update_summary: "Unify Playground specimen and container spacing"
+  updated_at: "Mon 19 Oct 2026 at 10:32:39 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.205 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 10:32:39 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Unify Playground specimen and container spacing
+
+### Changed
+
+- Standardise specimen rows and container edges at 24px while preserving colour palette card and compact reference spacing.
+- Give the first login focus specimen clearance below its divider and preserve edge spacing when filtering icons.
+- Include the full container padding when sizing embedded specimen documents.
+
+### Validation
+
+- `node website/tests/playground-specimen-spacing-browser-check.mjs` — passed at 320, 390, 768 and 1440px.
+- `node website/tests/playground-spacing-browser-check.mjs` — passed.
+- `node website/tests/playground-browser-check.mjs` — passed.
+- `npm --prefix website run build` — passed; built app and Playground display v26.0.205.
+- Wi-Fi main app, Playground and login inspection routes — HTTP 200.
 
 ## v26.0.204 — 2026-10-19
 
