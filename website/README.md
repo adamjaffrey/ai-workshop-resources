@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.126"
-  update_summary: "Standardise Playground spacing and align floating controls with content"
-  updated_at: "Mon 19 Oct 2026 at 06:34:34 pm AEDT (+11:00)"
+  doc_revision: "26.0.127"
+  update_summary: "Unify Playground control spacing and distance-based overflow fades"
+  updated_at: "Mon 19 Oct 2026 at 06:54:12 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -331,7 +331,7 @@ The Playground header, introduction, desktop style controls, tabs and panels sha
 
 ### Overflow Cues and Selection Position
 
-Radio selectors have a persistent bordered outer shell; only their internal scrolling options receive directional 28px fades. A selected option centres within the visible rail, clamped to the real scroll limits without spacer gaps. Initial display, direct selection, programmatic changes and resizing update its position; manual scrolling remains available. The tab strip also fades on both overflowing sides while its baseline remains outside the mask. Checkboxes alongside selector rails are vertically centred against the 50px control shell.
+Radio selectors have a persistent bordered outer shell; only their internal scrolling options receive directional 36px fades. A selected option centres within the visible rail, clamped to the real scroll limits without spacer gaps. Initial display, direct selection, programmatic changes and resizing update its position; manual scrolling remains available. The tab strip also fades on both overflowing sides while its baseline remains outside the mask. Checkboxes alongside selector rails are vertically centred against the 50px control shell.
 
 The overflow audit also covers long expanded headings, expanded control areas, Style Options and inspector details through the shared outer overflow observer. Typography colour tables and the reference gallery’s icon/agent sample scrollers have directional internal fades. Real app code panels inside live previews retain their source behaviour. Fades disappear independently at the corresponding scroll ends.
 
@@ -340,3 +340,5 @@ Hover Preview now offers Force Hover States, with help explaining that supported
 Validate masks, preserved borders, clamped centring, checkbox alignment, branded header spacing and the Step 3 gap with `node website/tests/playground-overflow-browser-check.mjs`.
 
 Toggle labels retain 16px before their selector and 32px separation from preceding content or control rows. Body paragraphs use the full available panel width. Floating controls align with the 1080px content edge, start centred on the brand row, and stop at a 24px top inset while scrolling. The mobile Style Options dialog has 24px top and side insets; its opening mask starts at the invoking button. Native disclosure markers are replaced by metadata-labelled Lucide Chevron Right icons, rotated when open. Validate with `node website/tests/playground-spacing-browser-check.mjs`.
+
+Outer Playground controls use shared spacing tokens: 4px within connected selectors, 8px within related actions and icon/label pairs, 16px between labels and controls, 24px between neighbouring groups or before inset previews, and 32px between stacked groups. Mobile Style Options uses one row-gap system without additive margins. Specimen documents retain their own spacing. Horizontal selector rails and tabs hide vertical overflow and reset accidental vertical offsets. Their 36px edge masks gain opacity with distance from an endpoint, retain their strength while approaching that endpoint, and disappear immediately at the endpoint tolerance. Tab and selector focus no longer removes those masks. The Hover Preview Explainer sits alongside its label where space permits, wraps on narrow layouts, and uses 14px/21px text with a centred Lucide chevron. Validate every tab at four widths with `node website/tests/playground-control-rhythm-browser-check.mjs`.

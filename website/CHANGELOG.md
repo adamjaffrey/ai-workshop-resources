@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.192"
-  update_summary: "Standardise Playground spacing and align floating controls with content"
-  updated_at: "Mon 19 Oct 2026 at 06:34:34 pm AEDT (+11:00)"
+  doc_revision: "26.0.193"
+  update_summary: "Unify Playground control spacing and distance-based overflow fades"
+  updated_at: "Mon 19 Oct 2026 at 06:54:12 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.191 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 06:54:12 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Unify Playground control spacing and distance-based overflow fades
+
+### Changed
+
+- Standardise outer control spacing across tabs and expanded/mobile views without changing component specimens.
+- Lock selector rails and tabs to horizontal scrolling; strengthen edge fades and drive their appearance by scroll distance with immediate endpoint removal.
+- Preserve tab fades after selection and remove unintended vertical masking.
+- Place the Hover Preview Explainer alongside its label where space permits, enlarge its text and align disclosure chevrons.
+
+### Validation
+
+- All nine tabs at 320, 390, 768 and 1440px — passed for control spacing, scroll-axis locking, distance-based masks and explainer behaviour.
+- Spacing, expanded-preview, held-toggle/focus and icon-catalogue checks — passed.
+- Mobile and desktop screenshots — inspected. Physical-device Safari not tested.
+- Sites local production build v26.0.191 and generated version displays — passed. Specimen sources and main-app geometry unchanged.
 
 ## v26.0.190 — 2026-10-19
 
