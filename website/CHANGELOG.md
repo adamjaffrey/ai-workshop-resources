@@ -3,14 +3,45 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.164"
-  update_summary: "Anticipate fast scrolling when contracting the selector"
-  updated_at: "Mon 19 Oct 2026 at 01:18:38 pm AEDT (+11:00)"
+  doc_revision: "26.0.165"
+  update_summary: "Integrate travelling sparkles and the rainbow discovery burst"
+  updated_at: "Mon 19 Oct 2026 at 01:37:11 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.163 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 01:37:11 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Integrate travelling sparkles and the rainbow discovery burst
+
+### Changed
+
+- Apply the supplied preset: four-second sweep, zero gap, 400% particles, 500ms tail, 160% gravity, 16px ring, 60px hover height, 300% halo, 250% halo speed, 36px blur and 60% aurora intensity.
+- Bound the sheen to actual text and particle margins instead of blank footer columns. A narrower band starts each particle flash on arrival and fades its tail quickly, preserving one travelling movement.
+- Deepen light-theme particle colours and increase their size and brightness. Slow local twinkle clocks significantly near pointer gravity.
+- Replace the compressed dialog entrance with a heavily feathered rainbow burst from the final text endpoint, growing to measured modal/halo size before the stationary modal fades in.
+- Share a schema for 26 zero-based, bounded controls, including particle/twinkle/gravity tuning and reveal/burst/fade timing. Show only controls relevant to the current state; include every value in Copy and Reset.
+- Add Discovery Reveal to replay the full final sequence. Preserve theme-wave continuity, reduced motion, native modal focus and reopening.
+- Document settings, zero semantics and the updated shared animation.
+
+### Validation
+
+- Particle-flow browser check — passed in both themes, including progressive onset, no more than 33 simultaneous visible points in the final desktop sample, complete tail settling, day contrast, slower pointer twinkles, zero values and burst/fade order.
+- Playground browser check — passed across 16 width/theme/agent combinations, including control visibility, zero minima, Copy/Reset and modal parity.
+- Sheen, edge, timing and base discovery browser checks — passed, covering responsive masks, touch, keyboard focus, theme continuity and reduced motion.
+- `node website/tests/style-guide-browser-check.mjs` — passed.
+- `npm --prefix website run build` — passed; built v26.0.163 and shared controls verified.
+- Headless Chrome burst and halo screenshots — inspected. Physical iPhone Safari remains unverified.
 
 ## v26.0.162 — 2026-10-19
 
