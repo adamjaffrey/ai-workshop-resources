@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.1"
-  update_summary: "Document canonical URLs, redirects and public query parameters"
-  updated_at: "Tue 20 Oct 2026 at 09:27:13 am AEDT (+11:00)"
+  doc_revision: "26.0.2"
+  update_summary: "Shorten the Playground label in the canonical URL table"
+  updated_at: "Tue 20 Oct 2026 at 09:33:51 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -23,7 +23,7 @@ All paths in this document are relative to `https://workshop.adamjaffrey.chatgpt
 | QR Code And Copy Link | `https://workshop.adamjaffrey.chatgpt.site` | Destination title |
 | Resources | `/ai-workshop-resources` | AI Workshop Resources |
 | Resources Login | `/ai-workshop-resources?show-login=true` | AI Workshop Resources |
-| Component Playground | `/component-playground` | Component Playground |
+| Playground | `/component-playground` | Component Playground |
 | Playground Login | `/component-playground?show-login=true` | Component Playground |
 
 Every supported Playground section uses the same browser title as the Playground root. Page titles do not select or rename URL paths.
