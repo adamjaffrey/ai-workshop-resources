@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.221"
-  update_summary: "Rename Resources URLs and make login controls explicit"
-  updated_at: "Tue 20 Oct 2026 at 07:46:06 am AEDT (+11:00)"
+  doc_revision: "26.0.222"
+  update_summary: "Point the QR code and Copy Link to the site root"
+  updated_at: "Tue 20 Oct 2026 at 08:38:39 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.220 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 08:38:39 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Point the QR code and Copy Link to the site root
+
+### Changed
+
+- Encode exactly `https://workshop.adamjaffrey.chatgpt.site` in the Resources QR code, preserving its dimensions and quiet zone.
+- Align the QR Copy Link action, alternative text and documentation with that root-only address.
+
+### Validation
+
+- Independent macOS Vision QR decoding — passed with the exact requested URL.
+- QR Copy Link browser check — passed, including clipboard fallback, feedback and focus.
+- Required Playground source-parity browser suite — passed across mobile/desktop, both agents/themes and held states.
+- Local Sites build and generated version checks — passed with v26.0.220. Active LAN app, Playground and login form verified; no push or publication performed.
 
 ## v26.0.219 — 2026-10-20
 

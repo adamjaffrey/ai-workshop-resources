@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.144"
-  update_summary: "Rename Resources URLs and make login controls explicit"
-  updated_at: "Tue 20 Oct 2026 at 07:46:06 am AEDT (+11:00)"
+  doc_revision: "26.0.145"
+  update_summary: "Point the QR code and Copy Link to the site root"
+  updated_at: "Tue 20 Oct 2026 at 08:36:56 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -404,7 +404,7 @@ The Lucide Toy Brick favicon follows the Playground and its login page: light mo
 `/ai-workshop-resources` is canonical; the former `/workshop-resources` path remains a 301 alias. `/`, `/home`, `/index.html`, `/workshop`, `/resources`, `/ai` and `/workshop-resources` redirect there with 301 responses. The shared route table includes singular/plural workshop and resource combinations, plus homes and ais; the site-wide lowercase rule covers capitalisation without additional redirect entries. Queries survive redirects, including local login inspection. Local automatic sign-in and login/logout destinations use the canonical path.
 
 
-The Sites hostname is `workshop.adamjaffrey.chatgpt.site`. The previous `ai-workshop-resources.adamjaffrey.chatgpt.site` hostname redirects through Sites (observed HTTP 307); application aliases use 301. The public Copy Link action and QR code target `https://workshop.adamjaffrey.chatgpt.site/ai-workshop-resources`. Changing the Sites slug does not deploy a local application build.
+The Sites hostname is `workshop.adamjaffrey.chatgpt.site`. The previous `ai-workshop-resources.adamjaffrey.chatgpt.site` hostname redirects through Sites (observed HTTP 307); application aliases use 301. The public Copy Link action and QR code target `https://workshop.adamjaffrey.chatgpt.site`. Changing the Sites slug does not deploy a local application build.
 
 ## Explicit Login URLs
 
