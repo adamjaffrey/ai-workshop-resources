@@ -20,13 +20,15 @@ function renderPlaygroundIcons(){
   const label=alternate?use.split('-').map(word=>word[0].toUpperCase()+word.slice(1)).join(' '):heading?.textContent.trim()||control?.getAttribute('aria-label')||control?.textContent.trim()||'Breadcrumb';
   icons.get(key).usages.add((location===label?location:location+' → '+label)+' · '+use);
  }
+ const cropped=icons.get('lucide:arrow-up-right');
+ if(cropped){const original=cropped.svg.cloneNode(true);original.setAttribute('viewBox','0 0 24 24');original.classList.remove('link-arrow');icons.set('lucide:arrow-up-right',{...cropped,svg:original,variant:'original',usages:new Set(['Original Lucide source geometry; the hyperlink uses the cropped variant below.'])});icons.set('lucide:arrow-up-right:cropped',{...cropped,variant:'cropped'});}
  catalog.replaceChildren();
  const rank=item=>item.groups.has('playground')?0:item.groups.has('ui')?10+(uiOrder.includes(item.name)?uiOrder.indexOf(item.name):uiOrder.length):item.groups.has('headings')?100+headingOrder.indexOf(item.name):1000;
- for(const {svg,provider,name,usages,groups} of [...icons.values()].sort((a,b)=>rank(a)-rank(b)||a.name.localeCompare(b.name))){
-  const entry=document.createElement('section');entry.className='playground-icon-entry';entry.dataset.catalogIcon=name;entry.dataset.iconGroups=[...groups].join(' ');
+ for(const {svg,provider,name,usages,groups,variant} of [...icons.values()].sort((a,b)=>rank(a)-rank(b)||a.name.localeCompare(b.name))){
+  const entry=document.createElement('section');entry.className='playground-icon-entry';entry.dataset.catalogIcon=name;if(variant)entry.dataset.catalogVariant=variant;entry.dataset.iconGroups=[...groups].join(' ');
   const heading=document.createElement('h3'),sample=svg.cloneNode(true);
   sample.removeAttribute('id');sample.setAttribute('width','24');sample.setAttribute('height','24');sample.setAttribute('aria-hidden','true');
-  heading.append(sample,document.createTextNode(name));
+  if(variant==='cropped'){sample.style.width='8px';sample.style.height='8px';sample.setAttribute('width','8');sample.setAttribute('height','8');}heading.append(sample,document.createTextNode(name+(variant==='cropped'?' · Cropped for Links':'')));
   const list=document.createElement('ul');
   for(const usage of usages){const item=document.createElement('li');item.textContent=usage;list.append(item);}
   const link=document.createElement('a');

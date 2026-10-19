@@ -1,9 +1,11 @@
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
+import {createPhonePreview} from '../scripts/phone-preview.mjs';
+const {server}=createPhonePreview({autoLogin:true});await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try {
  const page=await browser.newPage({viewport:{width:390,height:320},reducedMotion:'no-preference'});
- const url=new URL('../outputs/workshop-resources-preview.html',import.meta.url).href;
+ const url='http://127.0.0.1:'+server.address().port;
  await page.goto(url);
  await page.waitForTimeout(250);
  assert.equal(await page.locator('.step-row.is-revealed').count(),0,'offscreen first pair must wait');
@@ -19,7 +21,7 @@ try {
   await page.waitForTimeout(800);
   const alignment=await page.locator('footer').evaluate(e=>{
    const f=e.getBoundingClientRect(),t=e.querySelector('.footer-meta').getBoundingClientRect(),b=e.querySelector('form button').getBoundingClientRect();
-   return b.top>=t.bottom?b.left-t.left:f.right-b.right;
+   return b.top>=t.bottom?(b.left+b.width/2)-(f.left+f.width/2):f.right-b.right;
   });
   assert.ok(Math.abs(alignment)<1,`footer action alignment at ${width}`);
   const footer=await page.locator('.footer-meta').evaluate(e=>{
@@ -34,4 +36,4 @@ try {
  await page.emulateMedia({reducedMotion:'reduce'});await page.goto(url);
  assert.equal(await page.locator('.step-marker').last().evaluate(e=>getComputedStyle(e).opacity),'1');
  console.log('PASS: offscreen first pair waits, step-text-driven paired reveals, reduced motion, footer wrap/separator, no overflow, and mobile lines at five widths');
-}finally{await browser.close();}
+}finally{await browser.close();server.close();}

@@ -39,12 +39,12 @@ export function mountWormHalo(controls){
   const rect=theme.getBoundingClientRect(),src=source.querySelector('img'),img=mark.querySelector('img'),size=src.getBoundingClientRect();
   img.style.width=size.width+'px';img.style.height=size.height+'px';
   const full=config.brand==='full'||(config.brand==='auto'&&innerWidth>660);
-  mark.querySelector('.brand-name').style.display=full?'':'none';
+  mark.querySelector('.brand-name').style.display=full?'':'none';mark.style.gap=full?'':'0';mark.style.width='max-content';host.style.display=innerWidth<320?'none':'grid';
   host.dataset.brandVariant=full?'full':'mark';
   const inset=Math.max(24,parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sticky-safe-top'))||0);
   host.style.top=(inset+rect.height/2)+'px';
   const bounds=mark.getBoundingClientRect(),clearance=Math.min(bounds.left-agent.getBoundingClientRect().right,rect.left-bounds.right);
-  const opacity=config.hold?1:(Number(getComputedStyle(agent).getPropertyValue('--sticky-shadow'))||0)*Math.max(0,Math.min(1,clearance/8));
+  const opacity=innerWidth<320?0:config.hold?1:(Number(getComputedStyle(agent).getPropertyValue('--sticky-shadow'))||0)*Math.max(0,Math.min(1,clearance/8));
   const key=JSON.stringify([bounds.width,bounds.height,config]);
   // Never fade the backdrop-filter's ancestor: that creates a new backdrop root.
   // Refresh the mask on re-entry as well, retaining all chosen configuration.

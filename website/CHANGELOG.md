@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.207"
-  update_summary: "Unify Playground specimen and container spacing"
-  updated_at: "Mon 19 Oct 2026 at 10:32:39 pm AEDT (+11:00)"
+  doc_revision: "26.0.208"
+  update_summary: "Refine responsive Playground specimens and controls"
+  updated_at: "Mon 19 Oct 2026 at 10:59:21 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.206 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 10:59:21 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine responsive Playground specimens and controls
+
+### Changed
+
+- Stack mobile login controls and let typography specimens fill available width up to their application limits.
+- Preserve one 24px specimen inset, restore focus-group divider clearance and keep agent selectors on one overflowing row.
+- Distinguish original and cropped Arrow Up Right icons and match JavaScript-disabled login preview spacing to other login states.
+- Centre the narrow floating brand, hide it below 320px and centre the fully stacked footer.
+- Limit expanded preview disclosures to Style Options and Preview Controls.
+
+### Validation
+
+- Responsive refinement checks passed at 300, 320, 390, 768 and 1440px in headless Chrome.
+- Playground source parity, specimen spacing and footer/reveal browser checks passed.
+- Existing worm-halo suite stops at an unrelated desktop grid-column expectation (expects three, receives two); dedicated brand-centering and visibility checks pass.
+- `npm --prefix website run build` — passed; generated server assets contain v26.0.206.
 
 ## v26.0.205 — 2026-10-19
 

@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.50"
-  update_summary: "Rename the Playground source-parity check"
-  updated_at: "Mon 19 Oct 2026 at 10:23:52 pm AEDT (+11:00)"
+  doc_revision: "26.0.51"
+  update_summary: "Centre the fully stacked mobile footer"
+  updated_at: "Mon 19 Oct 2026 at 10:53:09 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -192,7 +192,7 @@ Follow [Uxcel: Types of Cursors & When to Use Them](https://uxcel.com/lessons/ba
 
 - Default the selected coding agent to Codex. Persist an explicit Codex or Claude Code choice across login, logout and reload, and apply it before paint on both pages.
 - Derive branded colours from the shared agent accent: Codex #0285FF or Claude Code #D97757. Keep neutral surfaces and semantic error/success colours distinct.
-- Keep the footer action on the right, vertically centred when alongside the copyright and version text. Prefer a single row; next wrap version and copyright at their divider while retaining the right-aligned action. Only when the intact copyright and action cannot fit side-by-side, put the action below and left-align everything. Omit the divider and adjacent spacing whenever the text wraps.
+- Keep the footer action on the right, vertically centred when alongside the copyright and version text. Prefer a single row; next wrap version and copyright at their divider while retaining the right-aligned action. Only when the intact copyright and action cannot fit side-by-side, put the action below and centre-align the version, copyright and action. Omit the divider and adjacent spacing whenever the text wraps.
 - Define success, error, warning and information roles centrally in `website/lib/workshop-theme.mjs`, shared by both agents and both pages. Use theme-specific success/error/warning colours and contrasting success/warning fill text. Keep information neutral through `--info`, aliased to `--muted-text`. Warning is reserved for future caution states; do not introduce warning UI without a product need. Check status foregrounds against page, card, field, tinted and hover surfaces when changing the palette. Pair status colours with text or icons.
 - Source every error colour on both pages from `var(--error)` in `website/lib/workshop-theme.mjs`. Define it once per light/dark theme; Codex and Claude share those values. Error text, icons, borders, focus rings, password text/autofill and copy-failure controls must reference or inherit that token, with no per-agent overrides or hard-coded component colours.
 - New interface icons MUST come from the installed Lucide Icons definitions. Only when Lucide has no suitable icon may an agent propose an alternative; obtain Adam’s explicit approval before adding or using it. Document the suitability gap and, after approval, retain the alternative’s official source, licence and Playground representation. The two existing Lobe Icons agent logos have standing approval and require neither renewed approval nor repeated reminders. The existing Wavelength brand asset remains approved. Do not interpret this standing approval as permission for additional Lobe icons.

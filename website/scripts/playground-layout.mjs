@@ -17,6 +17,10 @@ nav[role=tablist]{border-bottom:0;padding-bottom:2px;background:none}
 .preview-dialog:not(.is-expanded)>.frame-wrap>.preview-expand{position:absolute;bottom:12px;right:12px;z-index:2;box-shadow:var(--floating-control-shadow);height:44px}
 .preview-dialog:not(.is-expanded)>.frame-wrap>.preview-expand .action-label{display:inline}
 .panel:not(.is-expanded){padding:24px}
+/* Reference documents supply their own 24px inset; avoid double padding. */
+.panel>.frame-wrap:has(#type-frame,#focus-frame,#errors-frame,#icons-frame,#link-type-frame){margin-inline:-24px;width:calc(100% + 48px);max-width:none;border:0;border-radius:0}
+.preview-dialog.is-expanded>details:not(.preview-settings):not(.preview-state-settings){display:none}
+
 /* Every inset surface has the same breathing room after its preceding controls. */
 .panel>.frame-wrap,.panel>#playground-icon-catalog,.panel>.samples{margin-top:var(--playground-inset-gap)}
 .panel>.state-tools,.panel>#copy,.panel>#icon-filter,.panel>.panel-options,.panel>.panel-actions{margin-bottom:0}
@@ -123,6 +127,7 @@ main.wrap{padding-top:24px}
    Expanded preview settings and the separately rendered hover explainer retain their layout. */
 .panel>details:not(.preview-settings):not(.preview-state-settings):not(.hover-help)>:not(summary),.panel>.feather-notice>details>:not(summary){margin-inline-start:26px}
 
+@media(max-width:660px){#login-preview .state-tools{flex-direction:column;gap:24px}#login-preview .state-tools>.choices{width:100%;flex:auto}#login-preview #login-destination{max-width:100%;width:100%}#login-destination .choice-options{flex-direction:row}}
 `;
 
 export const playgroundLayoutScript=String.raw`

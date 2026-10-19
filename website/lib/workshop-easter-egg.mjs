@@ -15,6 +15,7 @@ export const eggCSS = `
 .perspective { --egg-line: 24px; position:relative; display:grid; grid-template-columns:minmax(0,1fr) 1.2em minmax(0,1fr); grid-template-rows:auto auto; margin-top:max(40px,calc(var(--hover-height,60px) / 2)); margin-bottom:max(40px,calc(var(--hover-height,60px) / 2)); font-size:14px; line-height:var(--egg-line); color:var(--muted-text); }
 footer:has(> .perspective) { display:block; padding-top:0; }
 footer > .perspective { width:100%; }
+footer.is-stacked .footer-content { justify-content:center; text-align:center; }
 .footer-content { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px 24px; }
 .perspective-fragment,.perspective-ellipsis { font-size:14px; line-height:24px; color:var(--muted-text); }
 .perspective-fragment { margin:0; min-width:0; overflow-wrap:anywhere; position:relative; }
