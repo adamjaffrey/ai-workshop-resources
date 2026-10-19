@@ -30,3 +30,18 @@ test('local sign-in, session, logout and independent preview credentials',async(
     assert.equal((await handleRequest(req(),env)).status,401);
   }finally{await Promise.all([new Promise(resolve=>a.server.close(resolve)),new Promise(resolve=>b.server.close(resolve))]);}
 });
+
+test('automatic preview sign-in uses an isolated real session and retains login review',async()=>{
+ const {server,password}=createPhonePreview({autoLogin:true});server.listen(0,'127.0.0.1');await once(server,'listening');const origin='http://127.0.0.1:'+server.address().port;
+ try{
+  const first=await fetch(origin);assert.match(await first.text(),/id="workshop-content"/);assert.match(password,/^preview-/);
+  const cookie=first.headers.get('set-cookie').split(';')[0];assert.match(cookie,/^workshop_preview_session=/);
+  assert.equal((await fetch(origin+'/auth/session',{headers:{cookie}})).status,200);
+  assert.equal((await fetch(origin+'/auth/session')).status,401);
+  assert.match(await(await fetch(origin+'/?login=1')).text(),/id="access-form"/);
+  const logout=await fetch(origin+'/auth/logout',{method:'POST',headers:{cookie,origin},redirect:'manual'});assert.equal(logout.headers.get('location'),'/?login=1');
+  assert.equal((await fetch(origin+'/auth/session',{headers:{cookie}})).status,401);
+  // A stale cookie after a preview restart is replaced on the next normal visit.
+  const again=await fetch(origin,{headers:{cookie}});assert.match(await again.text(),/id="workshop-content"/);assert.notEqual(again.headers.get('set-cookie').split(';')[0],cookie);
+ }finally{await new Promise(r=>server.close(r));}
+});

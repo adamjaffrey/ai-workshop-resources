@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.100"
-  update_summary: "Document travelling sparkles and state-specific effect controls"
-  updated_at: "Mon 19 Oct 2026 at 01:32:55 pm AEDT (+11:00)"
+  doc_revision: "26.0.101"
+  update_summary: "Document the brand blur tuner and automatic preview sign-in"
+  updated_at: "Mon 19 Oct 2026 at 01:49:44 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -34,7 +34,7 @@ The tests cover unauthorised content delivery, forged cookies, fixed seven-day e
 
 ## Phone Preview Sign-In
 
-Run `npm --prefix website run preview:phone` with Node.js 24 or later. Open the printed network URL on a phone connected to the same Wi-Fi and use the generated `preview-…` password printed by that process. This server exercises the real authentication handler, success transition, authenticated resources and logout. Each restart generates a new random password and an empty in-memory database, invalidating previous preview sessions.
+Run `npm --prefix website run preview:phone` with Node.js 24 or later. Open the printed network URL on a phone connected to the same Wi-Fi; the launcher signs you in automatically. It still prints a generated `preview-…` password for manual login testing at `/?login=1`. This server exercises the real authentication handler, success transition, authenticated resources and logout. Each restart generates a new random password and an empty in-memory database, invalidating previous preview sessions.
 
 The preview script never reads `.env`, hosted secrets or production session storage. Its local verifier is passed only to its own handler calls. It is not imported by production entrypoints and supplies no production password bypass. Production continues to accept only its configured verifier. The local adapter translates the production cookie to a separate `workshop_preview_session` cookie without Secure so it works over LAN HTTP; HttpOnly and SameSite remain enabled. Production cookie settings are unchanged. Use only the printed test password in this HTTP preview.
 
@@ -187,7 +187,7 @@ Run `node website/tests/status-colours-browser-check.mjs` to verify success, err
 
 ## Local Component Playground
 
-Start `npm --prefix website run preview:phone`, then visit `/playground` on the printed local or LAN address. The previous `/style-guide` URL redirects to `/playground`. This route requires no password on the local preview server. On Sites, it shares the main app’s password and server-validated session: one login unlocks both pages, direct playground login returns to the playground, and expiry or logout relocks it. The generated playground is bundled server-side, never served as a public static asset. The regular site still requires the current local test password printed by the preview server. Do not open a browser automatically.
+Start `npm --prefix website run preview:phone`, then visit `/playground` on the printed local or LAN address. The previous `/style-guide` URL redirects to `/playground`. This route requires no password on the local preview server. On Sites, it shares the main app’s password and server-validated session: one login unlocks both pages, direct playground login returns to the playground, and expiry or logout relocks it. The generated playground is bundled server-side, never served as a public static asset. The user-facing preview launcher opens the main app already signed in through a real local session. It still prints a fresh temporary test password. Use `/?login=1` or Log Out to inspect the login form. Custom preview launchers must pass `{autoLogin:true}` to `createPhonePreview`; its low-level default remains false for authentication tests. Auto-login lives only in the local adapter, uses the unchanged server-side login handler and in-memory database, and never changes hosted authentication. Do not open a browser automatically.
 
 The playground reuses current login/resource markup, CSS, shared theme helpers and resource interactions. It provides light/dark and Codex/Claude controls, fixed sample widths, held hover styles, persistent simulated login states, simulated copy success/failure, colour-token swatches, source-derived typography specimens and a docked Style Inspector. The standard H2 is the real neutral login heading; the accent H2 is the real step heading. H4–H6 and general text/disabled-input specimens are omitted while absent from the app. Warning tokens are labelled reserved, with no fabricated warning component.
 
@@ -263,3 +263,7 @@ The shared `perspectiveControls` schema defines every slider’s label, default,
 Header Copy exports every setting and its explicit unit, including hidden controls. Header Reset restores the canonical defaults. Clipboard API, legacy local-HTTP copying and selectable-text fallback remain supported. Controls affect only this preview session; they do not save app defaults. The shared source specimen retains app typography, colours, target geometry, focus and animation. Its unrelated page content is hidden; the normal resource specimen remains complete. The inscription frame is 420px tall and the selected Success Dialog frame 520px; full-screen expansion fills the viewport.
 
 Validate with `node website/tests/perspective-timing-browser-check.mjs`, `node website/tests/perspective-flow-browser-check.mjs`, `node website/tests/perspective-browser-check.mjs`, `node website/tests/perspective-edge-browser-check.mjs`, `node website/tests/perspective-sheen-browser-check.mjs`, `node website/tests/perspective-playground-browser-check.mjs` and `node website/tests/style-guide-browser-check.mjs`, plus the existing theme-transition, theme-control-colour and Playground focus checks. Touch checks use browser emulation; physical-device Safari still requires user testing through the LAN preview.
+
+## Floating Brand Blur Experiment
+
+The Playground Branding tab mounts `workshop-worm-halo.mjs` over the canonical Resources specimen. It clones the original worm at its rendered size, centres it in the viewport, and aligns it with the floating control centres. The main app does not yet mount this experimental overlay. Sliders adjust pill width (48–200px), height (20–100px), backdrop blur (0–32px), feather (0–64px) and canvas tint (0–100%). Defaults are 96px, 44px, 12px, 24px and 35%. A feathered capsule alpha mask softens the blur and tint together; the logo remains crisp. Show Pill Bounds draws a thin dotted pre-feather outline. Hold Visible is initially enabled for tuning; disabling it follows the agent selector’s exact shadow opacity. Settings remain session-only; Reset restores defaults. The source logo, theme and agent colours remain shared, with no independent brand asset or new icon.

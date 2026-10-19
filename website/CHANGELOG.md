@@ -3,14 +3,44 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.165"
-  update_summary: "Integrate travelling sparkles and the rainbow discovery burst"
-  updated_at: "Mon 19 Oct 2026 at 01:37:11 pm AEDT (+11:00)"
+  doc_revision: "26.0.166"
+  update_summary: "Add a brand blur tuner and automatic local preview sign-in"
+  updated_at: "Mon 19 Oct 2026 at 01:58:50 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.164 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 01:58:50 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add a brand blur tuner and automatic local preview sign-in
+
+### Added
+
+- Add a Playground-only Branding experiment over the canonical Resources page, cloning the original worm at its responsive rendered size and centring it with the floating controls.
+- Add pill width, height, backdrop blur, feather and canvas tint sliders, a dotted pill-bounds checkbox, Hold Visible and Reset. Natural visibility follows the agent selector shadow opacity. Keep the main app overlay unmounted pending tuning.
+
+### Changed
+
+- Open user-facing local previews already signed in through the unchanged authentication handler, using a temporary local password and in-memory session database. Keep explicit login review at `/?login=1` and preserve logout revocation.
+- Document automatic preview sign-in as the required future handoff workflow in repository instructions. Retain explicit-auth test defaults and unchanged hosted protection.
+
+### Validation
+
+- `node --test website/tests/phone-preview.test.mjs website/tests/auth.test.mjs` — all 11 tests passed, including automatic local sessions and protected hosted access.
+- `node website/tests/worm-halo-browser-check.mjs` — passed at 320, 390, 768 and 1440px, both themes/agents, with sizing, alignment, sliders, bounds, reset and scroll-fade checks. Mobile screenshots inspected.
+- `node website/tests/style-guide-browser-check.mjs` — passed; intermittent existing copy-feedback timeouts occurred on intermediate runs, with no product change made for them.
+- `npm --prefix website run build` — passed; generated v26.0.164 verified and local automatic-login code absent from production bundle.
+- Wi-Fi app automatic sign-in, session endpoint, Playground and explicit login view — verified. Physical Safari/iPhone blur rendering remains for user review.
 
 ## v26.0.163 — 2026-10-19
 

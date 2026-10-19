@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.42"
-  update_summary: "Share centred shadows across floating Playground elements"
-  updated_at: "Mon 19 Oct 2026 at 11:30:41 am AEDT (+11:00)"
+  doc_revision: "26.0.43"
+  update_summary: "Open local previews signed in without weakening hosted authentication"
+  updated_at: "Mon 19 Oct 2026 at 01:49:44 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -28,6 +28,8 @@ metadata:
 - Maintain independent document revisions. Moving a governed document increments its document revision once; it does not renumber historical build entries or allocate an artefact version.
 
 ## Preview Delivery
+
+- Start all user-facing local previews already signed in. Use `npm --prefix website run preview:phone` (automatic login enabled), or pass `{autoLogin:true}` to `createPhonePreview` for custom ports. Continue generating and displaying the process’s temporary test password. The local adapter must obtain a real session through the unchanged server-side login handler, using only its in-memory preview database and temporary credential; never add an authentication bypass to application handlers, production builds or hosted Sites. Keep low-level authentication tests explicit (`autoLogin:false`, the factory default). Provide `/?login=1` for inspecting the real login form; local Log Out returns there. Verify a fresh browser opens Resources, the session endpoint recognises its cookie, logout invalidates it, and hosted access still requires authentication when changing this workflow.
 
 - For every future preview handoff in this project, provide the active server’s reachable Wi-Fi/LAN IPv4 address and port, never `localhost`, `127.0.0.1` or another loopback address. Adam reviews on his phone. Bind the server to the network interface, verify both app and Playground URLs, and state that the phone must be on the same Wi-Fi. Recheck the address and active process’s test password at each handoff. If LAN access is unavailable, explain the limitation rather than substituting a loopback link.
 

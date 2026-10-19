@@ -17,7 +17,7 @@ const assets=new Map([
   ['/assets/workshop-resources-qr.png','image/png'],
 ]);
 
-export function createPhonePreview({protectPlayground=false}={}) {
+export function createPhonePreview({protectPlayground=false,autoLogin=false}={}) {
   // Each process has a fresh credential and database. Never read .env or hosted secrets.
   const password='preview-'+randomBytes(6).toString('hex');
   const sql=new DatabaseSync(':memory:');
@@ -55,11 +55,25 @@ export function createPhonePreview({protectPlayground=false}={}) {
         for await(const chunk of req){size+=chunk.length;if(size>4096){res.writeHead(413);res.end('Request too large');return;}chunks.push(chunk);}
         body=Buffer.concat(chunks);
       }
+      if(autoLogin&&url.pathname==='/'&&url.searchParams.get('login')==='1')headers.delete('cookie');
+      let automaticCookie;
+      // Local preview only: obtain a real session through the unchanged auth handler.
+      // Test callers keep explicit login by default; the user-facing launcher opts in.
+      if(autoLogin && req.method==='GET' && url.pathname==='/' && url.searchParams.get('login')!=='1') {
+        const session=await handleRequest(new Request(new URL('/auth/session',url),{headers}),env);
+        if(session.status===401){
+          const login=await handleRequest(new Request(new URL('/auth/login',url),{method:'POST',headers:{origin:url.origin,'content-type':'application/x-www-form-urlencoded',accept:'application/json','cf-connecting-ip':req.socket.remoteAddress||'local'},body:new URLSearchParams({password})}),env);
+          if(login.status!==200)throw Error('Local automatic sign-in failed');
+          automaticCookie=login.headers.get('set-cookie');headers.set('cookie',automaticCookie.split(';')[0]);
+        }
+      }
       const response=await handleRequest(new Request(url,{method:req.method,headers,body}),env,Date.now(),{renderPlayground:()=>styleGuidePage({authenticated:true})});
       res.statusCode=response.status;
       for(const [key,value] of response.headers){
         res.setHeader(key,key==='set-cookie'?value.replace(COOKIE+'=',previewCookie+'=').replace('; Secure',''):value);
       }
+      if(automaticCookie)res.setHeader('set-cookie',automaticCookie.replace(COOKIE+'=',previewCookie+'=').replace('; Secure',''));
+      if(autoLogin&&url.pathname==='/auth/logout'&&response.status===303)res.setHeader('location','/?login=1');
       res.end(Buffer.from(await response.arrayBuffer()));
     } catch {res.writeHead(500);res.end('Local preview unavailable');}
   });
@@ -68,9 +82,9 @@ export function createPhonePreview({protectPlayground=false}={}) {
 }
 
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
-  const {server,password}=createPhonePreview();
+  const {server,password}=createPhonePreview({autoLogin:true});
   server.listen(8788,'0.0.0.0',()=>{
-    console.log('Local preview: http://localhost:8788/');
+    console.log('Local preview opens signed in. Use /?login=1 to inspect login.');
     for(const addresses of Object.values(networkInterfaces()))for(const address of addresses||[])
       if(address.family==='IPv4'&&!address.internal)console.log('Network preview: http://'+address.address+':8788/');
     console.log('Local-only test password: '+password);
