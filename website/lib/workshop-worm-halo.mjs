@@ -1,11 +1,11 @@
 // Experimental shared renderer; mounted only by the Playground until approved.
 export const wormHaloControls=[
- {key:'paddingX',label:'Horizontal Padding',min:0,max:100,step:1,value:12,unit:'px'},
- {key:'paddingY',label:'Vertical Padding',min:0,max:60,step:1,value:12,unit:'px'},
+ {key:'paddingX',label:'Horizontal Padding',min:0,max:100,step:1,value:8,unit:'px'},
+ {key:'paddingY',label:'Vertical Padding',min:0,max:60,step:1,value:8,unit:'px'},
  {key:'blur',label:'Backdrop Blur',min:0,max:100,step:1,value:36,unit:'px'},
- {key:'feather',label:'Feather Width',min:0,max:64,step:1,value:36,unit:'px'},
+ {key:'feather',label:'Feather Width',min:0,max:64,step:1,value:48,unit:'px'},
  {key:'radius',label:'Corner Radius',min:0,max:100,step:1,value:100,unit:'px'},
- {key:'tint',label:'Canvas Tint',min:0,max:100,step:1,value:50,unit:'%'},
+ {key:'tint',label:'Canvas Tint',min:0,max:100,step:1,value:48,unit:'%'},
 ];
 export function mountWormHalo(controls){
  const source=document.querySelector('.page-toolbar .brand'),agent=document.querySelector('.controls .toggle'),theme=document.querySelector('.page-toolbar .theme-toggle');
@@ -43,7 +43,8 @@ export function mountWormHalo(controls){
   host.dataset.brandVariant=full?'full':'mark';
   const inset=Math.max(24,parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sticky-safe-top'))||0);
   host.style.top=(inset+rect.height/2)+'px';
-  const opacity=config.hold?1:Number(getComputedStyle(agent).getPropertyValue('--sticky-shadow'))||0,bounds=mark.getBoundingClientRect();
+  const bounds=mark.getBoundingClientRect(),clearance=Math.min(bounds.left-agent.getBoundingClientRect().right,rect.left-bounds.right);
+  const opacity=config.hold?1:(Number(getComputedStyle(agent).getPropertyValue('--sticky-shadow'))||0)*Math.max(0,Math.min(1,clearance/8));
   const key=JSON.stringify([bounds.width,bounds.height,config]);
   // Never fade the backdrop-filter's ancestor: that creates a new backdrop root.
   // Refresh the mask on re-entry as well, retaining all chosen configuration.
@@ -57,7 +58,7 @@ export function mountWormHalo(controls){
  }
  const schedule=position;
  new MutationObserver(schedule).observe(agent,{attributes:true,attributeFilter:['style']});
- const geometryObserver=new ResizeObserver(schedule);geometryObserver.observe(source);geometryObserver.observe(theme);
+ const geometryObserver=new ResizeObserver(schedule);geometryObserver.observe(source);geometryObserver.observe(theme);geometryObserver.observe(agent);
  window.addEventListener('resize',schedule);document.fonts.ready.then(position);source.querySelector('img').addEventListener('load',position);
  position();return {configure};
 }

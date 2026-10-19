@@ -1,4 +1,4 @@
-import {isPlaygroundPath} from './workshop-playground-routes.mjs';
+import {isPlaygroundPath,playgroundRedirect} from './workshop-playground-routes.mjs';
 import { randomBytes, createHash, createHmac, scryptSync, timingSafeEqual } from 'node:crypto';
 import {loginMessages, loginRetryMessage, loginControlLabels} from './workshop-login-messages.mjs';
 import { loginPage, playgroundLoginPage, resourcePage } from './workshop-pages.mjs';
@@ -72,6 +72,8 @@ export async function handleRequest(request, env, now = Date.now(), options = {}
   const json = (data,status=200,extra={}) => reply(JSON.stringify(data),status,{'Content-Type':'application/json',...extra});
   const path = new URL(request.url).pathname;
   if (!['GET','HEAD','POST'].includes(request.method)) return reply('Method not allowed',405,{'Allow':'GET, HEAD, POST'});
+  const redirect=playgroundRedirect(path);
+  if(redirect&&['GET','HEAD'].includes(request.method))return reply(null,301,{Location:redirect+new URL(request.url).search});
   if (path==='/robots.txt') return reply('User-agent: *\nDisallow: /\n',200,{'Content-Type':'text/plain'});
   if (path==='/login.js' && request.method!=='POST') return reply(loginScript,200,{'Content-Type':'text/javascript; charset=utf-8'});
   const unavailable = () => {

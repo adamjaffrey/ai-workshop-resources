@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.173"
-  update_summary: "Soften rainbow trails and unify slider columns"
-  updated_at: "Mon 19 Oct 2026 at 03:01:58 pm AEDT (+11:00)"
+  doc_revision: "26.0.174"
+  update_summary: "Clear floating branding and standardise Playground controls"
+  updated_at: "Mon 19 Oct 2026 at 03:16:09 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.172 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 03:16:09 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Clear floating branding and standardise Playground controls
+
+### Changed
+
+- Start tablet selector contraction 32px before locking, retaining an 8px expansion buffer; gate experimental branding by actual control clearance.
+- Apply the preferred 8px padding, 36px blur, 48px outward feather, 100px corner radius and 48% tint defaults.
+- Use consistent responsive three-column slider grids and Lucide Copy/Reset controls.
+- Rename section routes to statuses and easter-egg, with query-preserving 301 redirects from errors, discovery and colors.
+
+### Validation
+
+- Sticky stability, branding geometry, animated clearance, slider columns and source-parity browser checks; route and authentication tests — passed.
+- Production build passed using saved placeholder geometry; LAN preview and automatic local session verified.
 
 ## v26.0.171 — 2026-10-19
 

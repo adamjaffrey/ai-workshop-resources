@@ -1,4 +1,4 @@
-import {isPlaygroundPath} from '../lib/workshop-playground-routes.mjs';
+import {isPlaygroundPath,playgroundRedirect} from '../lib/workshop-playground-routes.mjs';
 // Local-only adapter: never imported by application or production build entrypoints.
 import http from 'node:http';
 import {gzipSync} from 'node:zlib';
@@ -30,6 +30,8 @@ export function createPhonePreview({protectPlayground=false,autoLogin=false}={})
   const server=http.createServer(async(req,res)=>{
     try {
       const url=new URL(req.url,'http://'+req.headers.host);
+      const redirect=playgroundRedirect(url.pathname);
+      if(redirect&&['GET','HEAD'].includes(req.method)){res.writeHead(301,{Location:redirect+url.search});res.end();return;}
       if(!protectPlayground && ['GET','HEAD'].includes(req.method) && ['/style-guide','/style-guide/','/playground/'].includes(url.pathname)) {
         res.writeHead(308,{'Location':'/playground'+url.search,'Cache-Control':'no-store'});res.end();return;
       }

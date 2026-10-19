@@ -22,3 +22,13 @@ test('section paths are local previews but require hosted authentication',async(
   const js=await(await fetch(origin+'/login.js')).text();assert.match(js,/location.pathname.startsWith\('\/playground'\)/);
  }finally{await new Promise(r=>server.close(r));}
 });
+
+test('renamed sections permanently redirect with query strings',async()=>{
+ const {server}=createPhonePreview();await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
+ try{for(const [old,next] of [['errors','statuses'],['discovery','easter-egg'],['colors','colours']])for(const suffix of ['','/'])for(const method of ['GET','HEAD']){
+  const path='/playground/'+old+suffix+'?theme=dark';
+  const local=await fetch(origin+path,{method,redirect:'manual'}),hosted=await handleRequest(new Request('https://production.example'+path,{method}),{});
+  for(const response of [local,hosted]){assert.equal(response.status,301);assert.equal(response.headers.get('location'),'/playground/'+next+'?theme=dark');}
+  assert.equal((await fetch(origin+'/playground/'+next)).status,200);
+ }}finally{await new Promise(r=>server.close(r));}
+});
