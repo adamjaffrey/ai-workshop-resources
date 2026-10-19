@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.196"
-  update_summary: "Bring Playground tabs closer to their component panels"
-  updated_at: "Mon 19 Oct 2026 at 07:14:51 pm AEDT (+11:00)"
+  doc_revision: "26.0.197"
+  update_summary: "Inset external app and login text beside rounded surfaces"
+  updated_at: "Mon 19 Oct 2026 at 07:20:28 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.195 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 07:20:28 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Inset external app and login text beside rounded surfaces
+
+### Changed
+
+- Apply a shared 4px inline inset to step copy, the coding-agent label, descriptions above prompt panels, and the login password label and error row across all screen sizes.
+- Preserve panel positions and internal button, input and prompt padding; refresh the measured login-background geometry for the changed text layout.
+- Retain shared-source specimens; defer Playground-specific controls and layout to the next update.
+
+### Validation
+
+- `node website/tests/external-text-inset-browser-check.mjs` — passed at seven widths, both themes and both agents, including unchanged internal padding and no horizontal overflow.
+- Authentication, phone-preview and placeholder unit checks — passed (13 checks).
+- Local LAN app/session/login-error rendering and inherited specimen inset checks — passed; phone screenshots inspected.
+- Sites local production build and generated v26.0.195 displays — passed.
+- Existing `login-browser-check.mjs` error-message timeout and `style-guide-browser-check.mjs` toolbar-position assertion reproduce on unchanged HEAD; their full suites remain incomplete.
+- Optional archived word-geometry fixture is stale; direct live word comparison also finds a 2px initial word-baseline offset on both unchanged HEAD and this update. Full 1px word-geometry parity is not claimed.
 
 ## v26.0.194 — 2026-10-19
 
