@@ -19,7 +19,7 @@ export function initStickyControls() {
  const theme=document.querySelector('.page-toolbar .theme-toggle');
  const agent=document.querySelector('.controls .toggle');
  if(!theme||!agent)return;
- const mobile=matchMedia('(max-width:660px)'),motion=matchMedia('(prefers-reduced-motion:reduce)');
+ const mobile=matchMedia('(max-width:660px)'),compactLayout=matchMedia('(max-width:1023px)'),motion=matchMedia('(prefers-reduced-motion:reduce)');
  const items=[theme,agent].map(control=>{
   const slot=document.createElement('span');slot.className='sticky-control-slot';
   control.before(slot);slot.append(control);control.dataset.stickyControl='';
@@ -42,10 +42,10 @@ export function initStickyControls() {
   // Smooth approach speed; ignore pauses and reverse motion. Units are px/ms.
   speed=delta>0&&elapsed>0&&elapsed<120 ? speed*.5+(delta/elapsed)*.5 : 0;
   lastY=scrollY;lastTime=now;
-  const gap=agentBox.top-inset-items[0].height;
+  const gap=agentBox.top-inset-(mobile.matches?items[0].height:0);
   const contractGap=16+Math.min(64,Math.max(0,speed-.15)*180);
   // Latch the actual entry boundary. Deceleration alone cannot expand the control.
-  const shouldCompact=mobile.matches&&(compact ? !(delta<0&&gap>=expandGap) : gap<contractGap);
+  const shouldCompact=compactLayout.matches&&(compact ? !(delta<0&&gap>=expandGap) : gap<contractGap);
   if(shouldCompact!==compact){
    if(shouldCompact)expandGap=Math.max(24,contractGap);
    const duration=shouldCompact&&speed>.15?Math.max(100,Math.min(340,(gap-4)/speed*.75)):340;

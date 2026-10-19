@@ -3,14 +3,44 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.169"
-  update_summary: "Tune Easter Egg previews and resize Playground canvases"
-  updated_at: "Mon 19 Oct 2026 at 02:31:05 pm AEDT (+11:00)"
+  doc_revision: "26.0.170"
+  update_summary: "Adapt brand blur sizing and restore its scroll fade"
+  updated_at: "Mon 19 Oct 2026 at 02:37:04 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.168 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 02:37:04 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Adapt brand blur sizing and restore its scroll fade
+
+### Changed
+
+- Replace fixed pill dimensions with horizontal and vertical padding around the rendered brand. Increase blur adjustment to 100px and default Hold Visible to off.
+- Add Auto, Worm Only and Worm + Wordmark appearance choices. Auto uses the full brand above 660px and the worm on mobile; retain outward feathering and settings export.
+- Contract agent controls at tablet widths of 661–1023px, measuring thresholds from the theme control top rather than bottom so contraction happens one measured control height later. Preserve mobile timing and desktop labels.
+
+### Fixed
+
+- Fade the veil and mark separately instead of their shared ancestor, avoiding an unintended backdrop root. Refresh the mask on visibility re-entry using retained settings, without requiring a bounds toggle.
+
+### Validation
+
+- `node website/tests/worm-halo-browser-check.mjs` — passed, including repeated fade-out/return cycles, retained settings, appearance overrides, adaptive padding and 80px blur.
+- `node website/tests/sticky-controls-stability-check.mjs` — passed at 320, 390, 660, 768 and 1023px with zero layout drift and verified slow/fast thresholds.
+- `node website/tests/style-guide-browser-check.mjs` — passed.
+- `npm --prefix website run build` — passed; generated v26.0.168 verified.
+- Tablet screenshot and control-clearance check — passed; Wi-Fi app automatic sign-in and Playground verified. Physical Safari blur rendering remains for phone review.
 
 ## v26.0.167 — 2026-10-19
 
