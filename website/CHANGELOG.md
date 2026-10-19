@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.204"
-  update_summary: "Space colour-rule and Feather licence disclosures"
-  updated_at: "Mon 19 Oct 2026 at 08:18:57 pm AEDT (+11:00)"
+  doc_revision: "26.0.205"
+  update_summary: "Space the first Easter Egg disclosure from its introduction"
+  updated_at: "Mon 19 Oct 2026 at 08:20:05 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.203 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 08:20:05 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Space the first Easter Egg disclosure from its introduction
+
+### Changed
+
+- Use the same 16px explanation-to-disclosure gap above Viewing Modes as the colour-rule and Feather licence disclosures.
+
+### Validation
+
+- Headless checks of all three disclosures at 320, 390, 768 and 1440px — passed for 16px gaps, opening behaviour and no horizontal overflow.
+- Sites local production build, placeholder checks and generated v26.0.203 displays — passed.
+- Main app, Easter Egg Playground and login-form LAN endpoints — HTTP 200.
 
 ## v26.0.202 — 2026-10-19
 
