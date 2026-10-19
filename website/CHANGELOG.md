@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.193"
-  update_summary: "Unify Playground control spacing and distance-based overflow fades"
-  updated_at: "Mon 19 Oct 2026 at 06:54:12 pm AEDT (+11:00)"
+  doc_revision: "26.0.194"
+  update_summary: "Expand Playground content width to 1120px"
+  updated_at: "Mon 19 Oct 2026 at 07:01:47 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.192 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 07:01:47 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Expand Playground content width to 1120px
+
+### Changed
+
+- Widen the Playground header, controls and body to 1120px of content, retaining 24px side spacing on small displays.
+- Align floating controls and the inspector with the new content edges; retain specimen styling and vertical spacing.
+
+### Validation
+
+- Responsive spacing and floating-control checks at four widths — passed.
+- Sites local production build and generated v26.0.192 displays — passed.
 
 ## v26.0.191 — 2026-10-19
 

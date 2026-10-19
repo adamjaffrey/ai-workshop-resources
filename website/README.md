@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.127"
-  update_summary: "Unify Playground control spacing and distance-based overflow fades"
-  updated_at: "Mon 19 Oct 2026 at 06:54:12 pm AEDT (+11:00)"
+  doc_revision: "26.0.128"
+  update_summary: "Expand Playground content width to 1120px"
+  updated_at: "Mon 19 Oct 2026 at 07:01:47 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -327,7 +327,7 @@ Validate connected controls, typography, colour chips and header rhythm with `no
 
 Pointer focus for radio and checkbox controls follows the shared input-modality state: only Tab/Shift+Tab navigation enables visible rings. Clicking or tapping retains real focus without a ring. The shared selector controller focuses each direct radio target before starting its hold, compares focus transfer against the actual input, and cancels an abandoned hold without restoring selection focus. Native radio Space activation remains intact. Verify repeated and rapid holds, pointer/touch versus keyboard focus, and pinned iframe scrolling with `node website/tests/playground-toggle-hold-browser-check.mjs`.
 
-The Playground header, introduction, desktop style controls, tabs and panels share a maximum content width of 1080px. The body wrapper is 1128px including 24px padding on each side; header/control wrappers use a 1080px content limit with the same side spacing. The inspector aligns with those content edges. Narrow screens retain 24px side spacing; vertical spacing and main-app layout remain unchanged. Wider text naturally wraps onto fewer lines.
+The Playground header, introduction, desktop style controls, tabs and panels share a maximum content width of 1120px. The body wrapper is 1168px including 24px padding on each side; header/control wrappers use a 1120px content limit with the same side spacing. The inspector aligns with those content edges. Narrow screens retain 24px side spacing; vertical spacing and main-app layout remain unchanged. Wider text naturally wraps onto fewer lines.
 
 ### Overflow Cues and Selection Position
 
@@ -339,6 +339,6 @@ Hover Preview now offers Force Hover States, with help explaining that supported
 
 Validate masks, preserved borders, clamped centring, checkbox alignment, branded header spacing and the Step 3 gap with `node website/tests/playground-overflow-browser-check.mjs`.
 
-Toggle labels retain 16px before their selector and 32px separation from preceding content or control rows. Body paragraphs use the full available panel width. Floating controls align with the 1080px content edge, start centred on the brand row, and stop at a 24px top inset while scrolling. The mobile Style Options dialog has 24px top and side insets; its opening mask starts at the invoking button. Native disclosure markers are replaced by metadata-labelled Lucide Chevron Right icons, rotated when open. Validate with `node website/tests/playground-spacing-browser-check.mjs`.
+Toggle labels retain 16px before their selector and 32px separation from preceding content or control rows. Body paragraphs use the full available panel width. Floating controls align with the 1120px content edge, start centred on the brand row, and stop at a 24px top inset while scrolling. The mobile Style Options dialog has 24px top and side insets; its opening mask starts at the invoking button. Native disclosure markers are replaced by metadata-labelled Lucide Chevron Right icons, rotated when open. Validate with `node website/tests/playground-spacing-browser-check.mjs`.
 
 Outer Playground controls use shared spacing tokens: 4px within connected selectors, 8px within related actions and icon/label pairs, 16px between labels and controls, 24px between neighbouring groups or before inset previews, and 32px between stacked groups. Mobile Style Options uses one row-gap system without additive margins. Specimen documents retain their own spacing. Horizontal selector rails and tabs hide vertical overflow and reset accidental vertical offsets. Their 36px edge masks gain opacity with distance from an endpoint, retain their strength while approaching that endpoint, and disappear immediately at the endpoint tolerance. Tab and selector focus no longer removes those masks. The Hover Preview Explainer sits alongside its label where space permits, wraps on narrow layouts, and uses 14px/21px text with a centred Lucide chevron. Validate every tab at four widths with `node website/tests/playground-control-rhythm-browser-check.mjs`.

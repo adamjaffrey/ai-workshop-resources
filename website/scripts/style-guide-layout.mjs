@@ -34,11 +34,11 @@ nav[role=tablist]{border-bottom:0;padding-bottom:14px;background:linear-gradient
 
 /* Match the main app's pre-heading position and vertical type rhythm. */
 .wrap{padding-inline:24px}
-header.wrap{padding-top:40px;padding-bottom:0;width:calc(100% - 48px);max-width:1080px;padding-inline:0}
+header.wrap{padding-top:40px;padding-bottom:0;width:calc(100% - 48px);max-width:1120px;padding-inline:0}
 header.wrap .kicker{font-size:14px;line-height:21px;margin:0 0 24px}
 header.wrap #playground-title{font-size:48px;line-height:1.2;letter-spacing:-.045em;margin:0 0 24px}
 header.wrap p{font-size:16px;line-height:24px;margin:0;max-width:none}
-.playground-heading~.toolbar .wrap{padding-top:32px;padding-bottom:24px;width:calc(100% - 48px);max-width:1080px;padding-inline:0}
+.playground-heading~.toolbar .wrap{padding-top:32px;padding-bottom:24px;width:calc(100% - 48px);max-width:1120px;padding-inline:0}
 .choices legend{font-size:14px;line-height:21px;margin-bottom:16px}
 .choices .choice-options.segmented-toggle{display:inline-flex!important;flex-flow:row nowrap!important;align-items:center;position:relative;gap:4px!important;padding:4px!important;border:1px solid var(--control-border);border-radius:12px;background:var(--control-bg);max-width:100%;overflow-x:auto;scrollbar-width:thin;vertical-align:top}
 .choice-options.segmented-toggle .choice{flex:none;white-space:nowrap}
@@ -60,7 +60,7 @@ header.wrap p{font-size:16px;line-height:24px;margin:0;max-width:none}
 .tab-scroll-shell nav[role=tablist]{margin:0!important;background:none}
 .control-footer>.panel-options{min-height:50px;align-items:center}
 /* Shared label rhythm: 32px before a group, 16px from label to rail. */
-.wrap{max-width:1128px}p{max-width:none}
+.wrap{max-width:1168px}p{max-width:none}
 .panel>.choices,.panel>.control-footer{margin-top:32px}
 .state-tools,.toolbar #global-style-controls,.expanded-global-controls>#global-style-controls{row-gap:32px}
 #mobile-style-controls .primary-style-choices{row-gap:32px}
@@ -71,7 +71,7 @@ header.wrap p{font-size:16px;line-height:24px;margin:0;max-width:none}
 summary{list-style:none;cursor:pointer}summary::-webkit-details-marker{display:none}summary::marker{content:''}
 summary>.disclosure-chevron{width:18px;height:18px;vertical-align:-3px;margin-right:8px;transition:transform 160ms;flex:none}
 details[open]>summary>.disclosure-chevron{transform:rotate(90deg)}
-#back-to-top,body>#style-options{right:max(24px,calc((100vw - 1080px)/2));top:var(--floating-tools-top,43px)}
+#back-to-top,body>#style-options{right:max(24px,calc((100vw - 1120px)/2));top:var(--floating-tools-top,43px)}
 @media(max-width:660px){#back-to-top{top:calc(var(--floating-tools-top,43px) + 56px)}}
 #style-dialog{inset:24px 24px auto;margin:0;width:calc(100% - 48px);max-width:none;max-height:calc(100dvh - 48px)}
 
