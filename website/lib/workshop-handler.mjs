@@ -72,9 +72,8 @@ export async function handleRequest(request, env, now = Date.now(), options = {}
   const json = (data,status=200,extra={}) => reply(JSON.stringify(data),status,{'Content-Type':'application/json',...extra});
   const path = new URL(request.url).pathname;
   if (!['GET','HEAD','POST'].includes(request.method)) return reply('Method not allowed',405,{'Allow':'GET, HEAD, POST'});
-  if(['/home','/home/'].includes(path)&&['GET','HEAD'].includes(request.method))return reply(null,301,{Location:'/'+new URL(request.url).search});
   const redirect=playgroundRedirect(path);
-  if(redirect&&['GET','HEAD'].includes(request.method))return reply(null,301,{Location:redirect+new URL(request.url).search});
+  if(redirect&&['GET','HEAD'].includes(request.method))return reply(null,redirect.status,{Location:redirect.location+new URL(request.url).search});
   if (path==='/robots.txt') return reply('User-agent: *\nDisallow: /\n',200,{'Content-Type':'text/plain'});
   if (path==='/login.js' && request.method!=='POST') return reply(loginScript,200,{'Content-Type':'text/javascript; charset=utf-8'});
   const unavailable = () => {
@@ -119,7 +118,6 @@ export async function handleRequest(request, env, now = Date.now(), options = {}
     }
     const session=await readSession(request,env.DB,version,now);
     if(path==='/auth/session') return session?json({expiresAt:session.expires_at}):json({error:'Please sign in again.'},401,{'Set-Cookie':cookie('',now,0)});
-    if(['/style-guide','/style-guide/','/playground/'].includes(path)) return reply(null,308,{'Location':'/playground'});
     if(isPlaygroundPath(path) && session) {
       const html=options.renderPlayground ? await options.renderPlayground() : (await import('./workshop-playground.generated.mjs')).playgroundPage;
       return reply(html.replaceAll('__SESSION_EXPIRES__',String(session.expires_at)),200,{'Content-Type':'text/html; charset=utf-8','Content-Security-Policy':"default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"});

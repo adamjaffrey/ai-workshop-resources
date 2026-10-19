@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.120"
-  update_summary: "Document connected controls and refined Playground presentation"
-  updated_at: "Mon 19 Oct 2026 at 05:36:43 pm AEDT (+11:00)"
+  doc_revision: "26.0.121"
+  update_summary: "Document canonical Playground routes and direct aliases"
+  updated_at: "Mon 19 Oct 2026 at 05:45:24 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -271,7 +271,7 @@ Resources mounts `workshop-worm-halo.mjs` after its sticky controls. The Playgro
 
 ## Playground Section Links
 
-Direct URLs under `/playground/` select components, typography, colours, blocks, icons, statuses, focus, branding or easter-egg. Legacy errors, discovery and colors section paths permanently redirect (301) to statuses, easter-egg and colours, preserving query strings. Tab changes update browser history; Back and Forward restore the selected section. An explicit path takes precedence over the saved tab. Local section previews remain password-free; hosted paths require the same validated session, and login and session expiry retain the requested section. Unknown section paths return 404. The heading area uses the same theme surface as the selector toolbar for a continuous background.
+Direct URLs under `/playground/` select components, typography, colours, blocks-and-blur, icons, status-states, focus-and-selection, branding or easter-egg. Shared local/hosted GET/HEAD routing strips trailing slashes (except the root), then resolves aliases before issuing one redirect, preserving the query string. Section aliases are colors → colours; blocks and blur → blocks-and-blur; errors, statuses, status and states → status-states; focus and selection → focus-and-selection; discovery, easter and egg → easter-egg. These and home → / use 301; style-guide → /playground and slash-only canonicalisation use 308. All aliases accept trailing slashes and go directly to their final destination. POST paths are not normalised. Validate with `node --test website/tests/playground-route.test.mjs` and `node website/tests/playground-route-browser-check.mjs`. Tab changes update browser history; Back and Forward restore the selected section. An explicit path takes precedence over the saved tab. Local section previews remain password-free; hosted paths require the same validated session, and login and session expiry retain the requested section. Unknown section paths return 404. The heading area uses the same theme surface as the selector toolbar for a continuous background.
 
 ## Animation Performance and Settings Audit
 

@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.186"
-  update_summary: "Refine Playground hierarchy, selectors, links and Easter Egg entry"
-  updated_at: "Mon 19 Oct 2026 at 05:36:43 pm AEDT (+11:00)"
+  doc_revision: "26.0.187"
+  update_summary: "Canonicalise Playground URLs with direct query-preserving aliases"
+  updated_at: "Mon 19 Oct 2026 at 05:46:25 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.185 — 2026-10-19
+
+**Built at:** Mon 19 Oct 2026 at 05:46:25 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Canonicalise Playground URLs with direct query-preserving aliases
+
+### Changed
+
+- Match every section URL to its tab title in kebab case and retain browser-history navigation.
+- Resolve all 14 aliases and shared trailing-slash normalisation directly to the final destination for GET/HEAD requests, preserving query strings locally and in the hosted handler.
+- Preserve existing alias entry points and authentication; add first/last-word shortcuts and update the documented handoff paths.
+
+### Validation
+
+- Route, authentication and phone-preview tests — 16 passed, including all alias/slash variants, exact query preservation and no redirect chains.
+- Headless Chrome navigation — all nine tabs, clicks, reloads, alias arrival and Back/Forward passed at 390px and 1440px.
+- Sites local production build and saved geometry checks — passed; generated app and Playground display v26.0.185. Physical iPhone/Safari not tested.
 
 ## v26.0.184 — 2026-10-19
 

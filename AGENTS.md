@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.48"
-  update_summary: "Define exact update handoff wording and link selection"
-  updated_at: "Mon 19 Oct 2026 at 05:00:17 pm AEDT (+11:00)"
+  doc_revision: "26.0.49"
+  update_summary: "Document canonical Playground routes and direct aliases"
+  updated_at: "Mon 19 Oct 2026 at 05:45:24 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -100,10 +100,10 @@ Define `LOCAL_ORIGIN` as the active preview’s verified `http://WIFI-IP:PORT`, 
 | `components` | Components |
 | `typography` | Typography |
 | `colours` | Colours |
-| `blocks` | Blocks and Blur |
+| `blocks-and-blur` | Blocks and Blur |
 | `icons` | Icons |
-| `statuses` | Status States |
-| `focus` | Focus and Selection |
+| `status-states` | Status States |
+| `focus-and-selection` | Focus and Selection |
 | `branding` | Branding |
 | `easter-egg` | Easter Egg |
 

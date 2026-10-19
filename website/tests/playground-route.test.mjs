@@ -25,7 +25,7 @@ test('section paths are local previews but require hosted authentication',async(
 
 test('renamed sections permanently redirect with query strings',async()=>{
  const {server}=createPhonePreview();await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
- try{for(const [old,next] of [['errors','statuses'],['discovery','easter-egg'],['colors','colours']])for(const suffix of ['','/'])for(const method of ['GET','HEAD']){
+ try{for(const [old,next] of [['errors','status-states'],['discovery','easter-egg'],['colors','colours']])for(const suffix of ['','/'])for(const method of ['GET','HEAD']){
   const path='/playground/'+old+suffix+'?theme=dark';
   const local=await fetch(origin+path,{method,redirect:'manual'}),hosted=await handleRequest(new Request('https://production.example'+path,{method}),{});
   for(const response of [local,hosted]){assert.equal(response.status,301);assert.equal(response.headers.get('location'),'/playground/'+next+'?theme=dark');}
@@ -39,5 +39,25 @@ test('home redirects locally and on the hosted handler without bypassing login',
  try{for(const path of ['/home','/home/'])for(const method of ['GET','HEAD']){
   for(const response of [await fetch(origin+path+'?login=1',{method,redirect:'manual'}),await handleRequest(new Request('https://production.example'+path+'?login=1',{method}),{})]){assert.equal(response.status,301);assert.equal(response.headers.get('location'),'/?login=1');}
  }assert.match(await(await fetch(origin+'/home')).text(),/id="access-form"/);
+ }finally{await new Promise(r=>server.close(r));}
+});
+
+test('all aliases and slash variants redirect once locally and hosted, preserving exact queries',async()=>{
+ const {server}=createPhonePreview();await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
+ const aliases=[['/style-guide','/playground'],['/home','/'],['/playground/colors','/playground/colours'],['/playground/blocks','/playground/blocks-and-blur'],['/playground/blur','/playground/blocks-and-blur'],['/playground/errors','/playground/status-states'],['/playground/statuses','/playground/status-states'],['/playground/status','/playground/status-states'],['/playground/states','/playground/status-states'],['/playground/focus','/playground/focus-and-selection'],['/playground/selection','/playground/focus-and-selection'],['/playground/discovery','/playground/easter-egg'],['/playground/easter','/playground/easter-egg'],['/playground/egg','/playground/easter-egg']];
+ const canonical=['/playground',...['components','typography','colours','blocks-and-blur','icons','status-states','focus-and-selection','branding','easter-egg'].map(s=>'/playground/'+s)];
+ const query='?theme=dark&value=a%2Fb&value=c+d&empty=';
+ try{
+  for(const [source,target] of [...aliases,...canonical.map(p=>[p,p]),['/unknown/path','/unknown/path']])for(const suffix of ['','/','///'])for(const method of ['GET','HEAD']){
+   if(source===target&&!suffix)continue;
+   const requestPath=source+suffix+query;
+   const responses=[await fetch(origin+requestPath,{method,redirect:'manual'}),await handleRequest(new Request('https://production.example'+requestPath,{method}),{})];
+   for(const response of responses){assert.equal(response.status,source!==target&&source!=='/style-guide'?301:308,requestPath);assert.equal(response.headers.get('location'),target+query);if(method==='HEAD')assert.equal(await response.text(),'');}
+   // The destination itself must never issue a further redirect, even without hosted configuration.
+   for(const response of [await fetch(origin+target+query,{method,redirect:'manual'}),await handleRequest(new Request('https://production.example'+target+query,{method}),{})])assert.equal(response.headers.get('location'),null,target);
+  }
+  for(const target of canonical)assert.equal((await fetch(origin+target,{redirect:'manual'})).status,200);
+  const post=await fetch(origin+'/playground/blur/',{method:'POST',redirect:'manual'});assert.equal(post.status,404);assert.equal(post.headers.get('location'),null);
+  assert.equal((await fetch(origin+'/',{redirect:'manual'})).status,200);
  }finally{await new Promise(r=>server.close(r));}
 });
