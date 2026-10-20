@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.154"
-  update_summary: "Document the single specimen layout owner"
-  updated_at: "Tue 20 Oct 2026 at 06:44:25 pm AEDT (+11:00)"
+  doc_revision: "26.0.155"
+  update_summary: "Describe Resources step link copying and arrival behaviour"
+  updated_at: "Wed 21 Oct 2026 at 01:42:39 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -436,3 +436,7 @@ The Sites hostname is `workshop.adamjaffrey.chatgpt.site`. The previous `ai-work
 | `login=0`, `logged-in=true`, `logged-out=false` | `show-login=false` |
 
 All names and values are case-insensitive and redirect with 301 in the same hop as hostname/path corrections. Legacy aliases are redirect inputs only; runtime authentication reads `show-login`. Only true/false are accepted for `show-login`, `logged-in` and `logged-out`; only 1/0 are accepted for `login`. Unsupported login-selector values are removed by redirect. Duplicate valid selectors retain their order and the first resulting `show-login` value wins. These URLs act on the current session only; they never revoke another browser's session or grant access.
+
+## Resources Step Links
+
+Each Step N heading copies a descriptive anchor link with a hover-revealed exterior Lucide Hash, semantic success/failure icons and the shared prompt-copy cooldown. Opening the link scrolls to the step beneath the floating controls; preceding pairs fade out after landing and return only on upward scroll. Short step fragments remain aliases. See [URL Reference](URL-REFERENCE.md#resources-aliases), [Interface](../docs/agent-guidance/interface.md#resources-step-anchor-controls) and [Motion](../docs/agent-guidance/motion.md#resources-anchor-arrival) for the mappings and behaviour. Validate with `node website/tests/resource-anchors-browser-check.mjs` and the existing source/specimen parity checks. Playground heading-link work remains deferred.

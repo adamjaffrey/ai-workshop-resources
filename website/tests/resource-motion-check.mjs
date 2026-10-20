@@ -11,7 +11,7 @@ assert.deepEqual(await page.locator('.step-row').evaluateAll(rows => rows.map(ro
 )), [['-64px','-64px'],['64px','64px'],['-64px','-64px']]);
 assert.equal(await page.locator('.step-row').last().evaluate(e=>e.classList.contains('is-revealed')),false);
 await page.locator('[data-agent="claude-code"]').click();
-assert.ok(await page.locator('.toggle-indicator').evaluate(e=>e.getAnimations().length>0));
+assert.ok(await page.locator('.controls .toggle-indicator').evaluate(e=>e.getAnimations().length>0));
 await page.waitForTimeout(600);
 assert.ok(await page.locator('.toggle').evaluate(e=>{
  const indicator=e.querySelector('.toggle-indicator').getBoundingClientRect();
@@ -24,7 +24,8 @@ for (const row of await page.locator('.step-row').all()) {
  assert.ok(await row.evaluate(e=>e.classList.contains('is-revealed')));
 }
 for (const agent of ['claude-code','codex']) {
- await page.locator(`[data-agent="${agent}"]`).click();
+ if(await page.locator(`[data-agent="${agent}"]`).getAttribute("aria-pressed")!=="true")await page.locator(`[data-agent="${agent}"]`).click();
+ await page.waitForFunction(agent=>window.workshopAgent.current===agent,agent);
  for(const skill of ['system-blueprint-creator','system-build-assistant']) {
   assert.match(await page.locator(`code#${skill}`).textContent(), new RegExp('```\\nnpx[^\\n]+--agent '+agent+'[^\\n]+\\n```'));
  }
@@ -34,7 +35,7 @@ await page.waitForTimeout(800);
 await page.screenshot({path:'/tmp/workshop-motion-desktop.png',fullPage:true});
 await page.emulateMedia({reducedMotion:'reduce'});
 await page.locator('[data-agent="claude-code"]').click();
-assert.equal(await page.locator('.toggle-indicator').evaluate(e=>e.getAnimations().length),0);
+assert.equal(await page.locator('.controls .toggle-indicator').evaluate(e=>e.getAnimations().length),0);
 assert.deepEqual(errors,[]);
 await browser.close();
 console.log('PASS: toggle spring, final alignment, alternating scroll reveals, fenced commands and reduced motion');

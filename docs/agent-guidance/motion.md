@@ -3,9 +3,9 @@ name: motion-contract
 description: Preserve theme transitions, selector movement and card reveal timing.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.1"
-  update_summary: "Extract scoped guidance and record established decisions"
-  updated_at: "Tue 20 Oct 2026 at 04:58:39 pm AEDT (+11:00)"
+  doc_revision: "26.0.2"
+  update_summary: "Define Resources anchor arrival and upward restoration"
+  updated_at: "Wed 21 Oct 2026 at 01:42:39 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -50,3 +50,9 @@ Preserve the approved behaviour in `website/lib/workshop-theme.mjs`, `website/li
 - Pairs outside the initial group wait until the point 40px below the top of their step text is inside the viewport. Observe `.step-copy` with a 40px bottom inset on both desktop and mobile, revealing the marker and card together. This intentionally reveals stacked cards before their own top edge arrives. Fall back to observing the card only if a future pair has no step-text element. Resizing or scrolling later must not reapply the initial step-text exception.
 - Reveal each pair once. Honour reduced motion by showing content immediately and cancelling queued reveals; without IntersectionObserver, keep the content visible.
 - Validate short/tall phone, tablet and desktop viewports, breakpoint boundaries, step-text-only initial visibility, tiny slivers, multiple initial cards, later step-text thresholds and additional-card fixtures.
+
+## Resources Anchor Arrival
+
+- On opening a recognised Resources step anchor, wait for page load and stable font layout, show all step/card pairs during the journey, and ease-scroll to place the visible top of the Step N text 60px below the floating selectors' bottom edge. Pin the existing selectors and hold the existing Wavelength halo fully visible, including Step 1. Add only the bottom scroll room needed when the document would otherwise clamp the landing.
+- Only after landing, fade preceding step/card pairs out over 650ms with `cubic-bezier(.2,0,.2,1)`, preserving their layout space and making hidden pairs inert. Downward scrolling leaves them hidden; upward scrolling restores them with the same eased fade and releases the forced sticky/brand state. The normal initial card entrance sequence does not obscure an anchor journey.
+- Respect reduced motion for scrolling and fades. User wheel/touch/navigation-key input can interrupt arrival. Clicking a step copy control never initiates this journey.

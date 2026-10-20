@@ -1,19 +1,17 @@
+import {headingMetrics} from '../lib/workshop-heading-metrics.mjs';
 import ink from '../lib/workshop-icon-ink.generated.json' with {type:'json'};
 export const headingCapCSS=`
 :is(#playground-title,.section-heading h2,.url-reference-subheading,.playground-icon-entry h3)>svg{margin-top:var(--heading-icon-top,0px)!important;align-self:flex-start}
 `;
 export const headingCapScript=String.raw`
-const headingInk=${JSON.stringify(ink)},capCanvas=document.createElement('canvas'),capContext=capCanvas.getContext('2d');
+const headingInk=${JSON.stringify(ink)},measureHeading=${headingMetrics.toString()};
 let capFrame=0;
 function alignHeadingCaps(){
  capFrame=0;
  for(const title of document.querySelectorAll('#playground-title,.section-heading h2,.url-reference-subheading,.playground-icon-entry h3')){
   if(!title.getBoundingClientRect().width)continue;
   const icon=title.querySelector(':scope>svg');if(!icon)continue;
-  const c=getComputedStyle(title),fontSize=parseFloat(c.fontSize),lineHeight=parseFloat(c.lineHeight)||fontSize*1.2;
-  capContext.font=c.fontWeight+' '+c.fontSize+' '+c.fontFamily;const metrics=capContext.measureText('H');
-  const baseline=(lineHeight-metrics.fontBoundingBoxAscent-metrics.fontBoundingBoxDescent)/2+metrics.fontBoundingBoxAscent;
-  const centre=baseline-(metrics.actualBoundingBoxAscent-metrics.actualBoundingBoxDescent)/2;
+  const c=getComputedStyle(title),centre=measureHeading(title).centre;
   const box=icon.getAttribute('viewBox'),m=box==='0 0 24 24'?headingInk.icons[icon.dataset.iconName]:headingInk.variants[icon.dataset.iconName+':'+box],size=parseFloat(getComputedStyle(icon).height),scale=size/(m?.viewBox||24);
   title.style.setProperty('--heading-icon-top',(centre-size/2+((m?.bottom||0)-(m?.top||0))*scale/2)+'px');
   title.dataset.capCentre=String(centre);

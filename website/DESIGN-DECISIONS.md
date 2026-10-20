@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.17"
-  update_summary: "Preserve source line boxes and responsive heights in static captures"
-  updated_at: "Wed 21 Oct 2026 at 01:24:59 am AEDT (+11:00)"
+  doc_revision: "26.0.18"
+  update_summary: "Record Resources step anchors and exterior copy indicators"
+  updated_at: "Wed 21 Oct 2026 at 01:42:39 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -340,3 +340,11 @@ The following table preserves superseded README descriptions as history. The REA
 The prior mobile-layout ADR's observations about native iOS chrome, first-scroll flicker, table wrapping, selector-label dragging and state-specific H3 spacing are retained above. User confirmation of the iOS and flicker fixes is historical evidence, not a claim of new testing. Tables may intentionally scroll horizontally and grow vertically for enlarged text or future copy; the documented line-count expectations are not clipping limits. The mobile full-width background does not widen its tab content.
 
 Repository-wide permissions and task routing stay in [AGENTS.md](../AGENTS.md). Detailed active requirements stay in the scoped contracts. The earlier one-off capture permission remains expired. This log does not authorise publication, geometry capture, builds or preview restarts.
+
+## Resources Step Anchor Copying and Arrival
+
+**Decision:** Make the Step N text and exterior Hash region copy its descriptive anchor URL, leaving page position unchanged. Use an exterior indicator on the aligned edge without moving the text. Share link-hover colours, semantic feedback colours and prompt cooldown timings. Keep existing short fragments as client-side aliases. On anchor opening, scroll with the preceding content visible, land 60px below pinned selectors, hold the Wavelength halo visible, and only then fade previous pairs out. Restore them with an eased fade on upward scrolling only.
+
+**Rationale:** Adam explicitly selected a consistent heading-copy convention and an exterior icon, with tooltip-only visible feedback. He requested a visible scroll journey, a clear selected step and a fully visible brand even at Step 1. Hiding content only after arrival avoids scrolling past empty space; retaining layout space prevents jumps when earlier content returns. The gutter indicator is a deliberate exception to the existing paint boundary. Playground heading anchors and changes to its collapse controls remain deferred.
+
+**Owning Rules and Sources:** [Resources Controls](../docs/agent-guidance/interface.md#resources-step-anchor-controls), [Anchor Arrival](../docs/agent-guidance/motion.md#resources-anchor-arrival), [Fragment Routing](../docs/agent-guidance/authentication.md#resources-step-fragments), [URL Reference](URL-REFERENCE.md#resources-aliases), and `lib/workshop-resource-anchors.mjs`.

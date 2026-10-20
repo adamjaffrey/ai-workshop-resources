@@ -3,9 +3,9 @@ name: authentication-and-routing
 description: Preserve canonical routing, login states and the hidden navigation shortcut.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.1"
-  update_summary: "Extract scoped guidance and record established decisions"
-  updated_at: "Tue 20 Oct 2026 at 04:58:39 pm AEDT (+11:00)"
+  doc_revision: "26.0.2"
+  update_summary: "Document Resources fragment aliases and login preservation"
+  updated_at: "Wed 21 Oct 2026 at 01:42:39 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -19,6 +19,10 @@ Read the [local and hosted URL behaviour](delivery.md#local-and-hosted-url-behav
 ## Routing and Public Parameters
 
 Site-wide GET/HEAD requests remove a leading `www.` hostname and lowercase the path before resolving aliases in one 301 redirect; lowercase the names and values of known public query parameters (`agent`, `theme`, `show-login` and its legacy aliases) in that same redirect, preserving unrelated query components exactly and leaving POST paths unchanged. Map `login=1`, `logged-in=false` and `logged-out=true` to `show-login=true`; map `login=0`, `logged-in=true` and `logged-out=false` to `show-login=false`. Accept only true/false for the named boolean selectors and only 1/0 for legacy `login`; remove unsupported login-selector values by redirect. Preserve duplicate order, using the first valid resulting `show-login` value. Use 301 for every application canonical redirect, including slash-only corrections. Preserve descendants for every registered path alias with segment-boundary matching; `/` remains exact-only, and unknown descendants remain 404 until implemented. Support all ai/ais × workshop/workshops × resource/resources, style/styles × guide/guides, focus/focuses/foci × selection/selections, and easter/easters × egg/eggs variants. Canonicalise recognised agent/theme aliases to `codex`, `claude-code`, `light` and `dark` in that same hop. Remove unsupported or empty agent/theme values by 301; preserve unrelated query data. Include `/style`, `/styles`, `/guide` and `/guides` as Playground prefix aliases. Keep `website/URL-REFERENCE.md` and the Playground URL Reference tab aligned with routing and query parameter changes. Use AI Workshop Resources and Component Playground as the respective browser titles, including login pages. Maintain only lowercase redirect keys and public asset filenames. Hosting must accept the `www` hostname and supply its certificate before these redirects can run.
+
+## Resources Step Fragments
+
+Resources step anchors and short aliases are listed in [URL Reference](../../website/URL-REFERENCE.md#resources-aliases). Resolve recognised fragments in the client: fragments are not sent to the server, so their alias rewrites use `history.replaceState`, not HTTP redirects. Preserve the current path/query during alias rewrites, retain fragments through JavaScript login, and leave unknown fragments alone. Copied links use the canonical Resources path and descriptive fragment, retain the current query except `show-login`, and never initiate scrolling. Follow [Resources Anchor Arrival](motion.md#resources-anchor-arrival) for positioning.
 
 ## Website Login
 

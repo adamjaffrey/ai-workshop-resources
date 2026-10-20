@@ -55,7 +55,7 @@ window.addEventListener('message',async event=>{
   const selection=getComputedStyle(node,'::selection');focusItems.push({page,label,ring,html,selector:sourceSelector(node),selection:[selection.backgroundColor,selection.color],selectionTypography:specimenTypography(node),selectable:node.matches('input,pre,.intro'),selectionText:node.matches('input')?'••••••••':node.textContent.trim().slice(0,90)});
  };
  const add=(node,state)=>{if(!node)throw Error('Missing icon source: '+page+' '+state);items.push(iconSnapshot(node,page,state));};
- const addError=(node,state)=>{if(!node)throw Error('Missing error source: '+page+' '+state);const item=iconSnapshot(node,page,state,true),template=document.createElement('template');template.innerHTML=node.matches('.gate-panel,.code-wrap,.perspective-dialog')?node.outerHTML:item.html;const root=template.content.firstElementChild;if(node.matches('.gate-panel')){root.querySelector('input').setAttribute('value',node.querySelector('input').value);}if(node.matches('.gate-panel'))root.classList.add('full-login-context');Object.assign(root.style,{position:node.matches('.qr-copy,.code-wrap')?'relative':'static',height:'auto',maxHeight:'none',margin:'0'});preserveSpecimenSize(root,node);errors.push({...item,html:root.outerHTML,text:node.textContent.trim()});};
+ const addError=(node,state)=>{if(!node)throw Error('Missing error source: '+page+' '+state);const item=iconSnapshot(node,page,state,true),template=document.createElement('template');template.innerHTML=node.matches('.gate-panel,.code-wrap,.perspective-dialog')?node.outerHTML:item.html;const root=template.content.firstElementChild;if(node.matches('.gate-panel')){root.querySelector('input').setAttribute('value',node.querySelector('input').value);}if(node.matches('.gate-panel'))root.classList.add('full-login-context');Object.assign(root.style,{position:node.matches('.qr-copy,.code-wrap,.step-anchor')?'relative':'static',height:'auto',maxHeight:'none',margin:'0'});preserveSpecimenSize(root,node);errors.push({...item,html:root.outerHTML,text:node.textContent.trim()});};
  if(page==='login'){
   for(const state of ['neutral','loading','success','wrong']){await yieldCapture();window.demoLogin(state);finishCaptureMotion();captureFocus(document.querySelector('#workshop-password'),'Password · '+({neutral:'Neutral',loading:'Checking',success:'Success',wrong:'Incorrect Password'}[state]));if(state==='neutral')captureFocus(document.querySelector('.gate-submit'),'Unlock Resources · Keyboard Focus');document.querySelectorAll('[data-input-icon],[data-status-icon]').forEach(node=>{if(!node.hasAttribute('hidden'))add(node,state);});}
   parent.postMessage({guide:'focus-catalog-data',requestId:event.data.requestId,page,focusItems},'*');
@@ -78,6 +78,15 @@ window.addEventListener('message',async event=>{
   await agent('codex');agentTypography.push({agent:'codex',html:iconSnapshot(document.querySelector('.controls .toggle'),page,'Codex Selected',true).html});add(document.querySelector('[data-agent=codex] svg'),'Selected · Codex');
   await agent('claude-code');agentTypography.push({agent:'claude-code',html:iconSnapshot(document.querySelector('.controls .toggle'),page,'Claude Code Selected',true).html});add(document.querySelector('[data-agent="claude-code"] svg'),'Selected · Claude Code');await agent(savedAgent);
   document.querySelectorAll('.symbol svg').forEach(node=>add(node,'Step Icon'));
+  const stepAnchor=document.querySelector('.step-anchor');
+  if(stepAnchor){
+   window.workshopResourceAnchors.resetCopy(stepAnchor);stepAnchor.setAttribute('data-anchor-preview','');finishCaptureMotion();
+   add(stepAnchor.querySelector('.step-anchor-hash'),'Step Anchor · Copy Link');
+   await copy(stepAnchor,true);add(stepAnchor.querySelector('.step-anchor-success'),'Step Anchor · Link Copied');addError(stepAnchor,'Step Anchor Copy Success');
+   await copy(stepAnchor,false);add(stepAnchor.querySelector('.step-anchor-failure'),'Step Anchor · Copy Failed');addError(stepAnchor,'Step Anchor Copy Failure');
+   window.workshopResourceAnchors.resetCopy(stepAnchor);stepAnchor.removeAttribute('data-anchor-preview');
+  }
+
   const prompt=document.querySelector('.copy');
   const captureFeedback=state=>{const status=prompt.closest('article').querySelector('.status'),c=getComputedStyle(status);typographyFeedback.push({state,width:prompt.closest('.code-wrap').getBoundingClientRect().width,html:(()=>{const source=prompt.closest('.code-wrap'),clone=source.cloneNode(true);preserveSpecimenSize(clone,source);return clone.outerHTML;})(),typography:[c.fontFamily,c.fontSize,c.fontWeight,c.lineHeight,c.color],text:status.textContent});};
   if(prompt){setStatus(prompt,'');add(prompt.querySelector('.copy-icon'),'Prompt · Copy');captureButton(prompt,'prompt','neutral');await copy(prompt,true);captureFeedback('success');captureButton(prompt,'prompt','success');addError(prompt.closest('.code-wrap'),'Prompt Copy Success');add(prompt.querySelector('.success-icon'),'Prompt · Copied');await copy(prompt,false);captureFeedback('error');captureButton(prompt,'prompt','error');add(prompt.querySelector('.error-icon'),'Prompt · Copy Failed');addError(prompt.closest('.code-wrap'),'Prompt Copy Failure');setStatus(prompt,'');}
@@ -110,6 +119,7 @@ window.addEventListener('message',async event=>{
  if(item.state==='Selected · Codex')return 40;
  if(item.state==='Selected · Claude Code')return 41;
  if(item.state==='Step Icon')return 50;
+ if(item.state.startsWith('Step Anchor ·'))return 51;
  if(item.state.startsWith('Prompt ·'))return 60;
  if(item.state==='Log Out')return 90;
  return 75;

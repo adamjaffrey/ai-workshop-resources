@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.15"
-  update_summary: "Use cap-height caption leading with 12px QR spacing"
-  updated_at: "Wed 21 Oct 2026 at 01:02:56 am AEDT (+11:00)"
+  doc_revision: "26.0.16"
+  update_summary: "Define Resources step anchor copy controls"
+  updated_at: "Wed 21 Oct 2026 at 01:42:39 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -87,6 +87,14 @@ Run `node website/tests/playground-external-text-inset-browser-check.mjs` for me
 - Keep the baseline outside the content mask. Changes to outer padding, text-rail alignment or container width must not change feather width, fade progression, endpoint clearing, label padding or hit targets. Reuse the shared overflow implementation for new selection regions, including controls inside frames; do not invent separate per-control timing or gradients.
 - When adding or changing a control, check narrow phones, tablet/desktop widths and breakpoint boundaries; start, intermediate and final horizontal positions; reverse scrolling; resize from overflowing to fitting; longer labels and enlarged text; keyboard navigation/selection, pointer and touch input; focus-ring clearance; and inline, sticky, expanded and iframe states where applicable. Ensure the first and last choices remain reachable. Retain vertical scrolling in genuinely tall content panels and dialogs.
 - Run the tab-edge, scroll-axis, overflow-hints and relevant expanded/focus checks, and visually inspect populated mobile and desktop states. DOM coordinates alone are insufficient: check clipping, white-card containment of grey specimens, menu anchoring at page top and after scrolling, and the visible fades. Record which surfaces and states were actually checked and distinguish browser automation from physical-device testing.
+
+## Resources Step Anchor Controls
+
+- Clicking Step N or its exterior icon copies the canonical Resources step URL in place; it never scrolls. Keep Playground heading interactions unchanged until separately authorised.
+- Preserve the Step N text rail and typography. Put a 16px Lucide Hash in a 24px-wide exterior gutter slot: left of left-aligned steps, right of the right-aligned desktop step, and left again when mobile stacks the steps. This action indicator is an explicit exception to the normal gutter paint limit; it must stay inside the viewport and must not move heading text.
+- Keep the indicator invisible until the text/icon region is hovered or keyboard-focused, or feedback is active. Use the hand pointer throughout that region, the shared link-hover background behind the text, and the agent accent for Hash. Do not add press/hold stretching.
+- Copy success shows Lucide Check using the theme's success token; failure shows Lucide X using the error token. Visible confirmation text is limited to an icon tooltip. Announce results to assistive technology without adding visible text. Share success/failure hold and fade timings with prompt copying through `website/lib/workshop-copy-timing.mjs`.
+- Maintain the same Resources component in Playground specimens, including simulated clipboard outcomes and icon catalogue metadata. These specimens do not create Playground heading anchors.
 
 ## Title Case
 

@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.7"
-  update_summary: "Document shared Copy Text control and feedback"
-  updated_at: "Tue 20 Oct 2026 at 11:41:12 am AEDT (+11:00)"
+  doc_revision: "26.0.8"
+  update_summary: "Document Resources step anchors and short fragment aliases"
+  updated_at: "Wed 21 Oct 2026 at 01:42:39 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -76,6 +76,20 @@ Together with the canonical path, the table covers every ai/ais × workshop/work
 ```
 
 The example descendant remains 404 until implemented.
+
+Step links use the canonical Resources path with these fragments:
+
+| Step | Canonical Anchor URL | Legacy Fragment Alias |
+| --- | --- | --- |
+| Step 1 · Node.js Setup | `/ai-workshop-resources#step-1-node-js-setup` | `#step-1` |
+| Step 2 · System Blueprint Creator | `/ai-workshop-resources#step-2-system-blueprint-creator` | `#step-2` |
+| Step 3 · System Build Assistant | `/ai-workshop-resources#step-3-system-build-assistant` | `#step-3` |
+
+Fragments stay in the browser and are not sent to the server. Opening a short alias scrolls to the same destination and rewrites the address bar to the descriptive fragment with `history.replaceState`, without an extra Back-button stop. JavaScript login retains the requested fragment. Unknown fragments remain unchanged.
+
+Clicking Step N or its exterior Hash icon copies the full canonical step URL without scrolling or changing the address bar. Copying preserves the current query parameters except `show-login`. For example, `/ai-workshop-resources?agent=claude-code&theme=dark#step-2-system-blueprint-creator` retains those display preferences.
+
+Opening a recognised step URL scrolls the text to 60px below the floating selectors, with the floating Wavelength mark visible. Earlier step/card pairs fade out after landing and fade back in only when scrolling upwards. Their layout space is retained. Reduced-motion preferences are respected.
 
 ## Playground Root Aliases
 

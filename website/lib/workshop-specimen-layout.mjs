@@ -51,7 +51,9 @@ html:is([data-specimen-gallery=icons],[data-specimen-gallery=errors]) body{font:
 /* A source boundary owns its measured width. The viewport scrolls instead of
    forcing this component through the gallery's narrower responsive layout. */
 [data-specimen-width]{width:var(--specimen-width)!important;min-width:var(--specimen-width)!important;max-width:none!important;flex-shrink:0}
-.error-sample>.code-wrap{position:relative}
+.error-sample>.code-wrap,.error-sample>.step-anchor{position:relative}
+/* Step labels keep the text rail; their copy indicator uses the authorised gutter. */
+.icon-sample>.step-anchor{margin-inline-start:0!important}
 .feedback-preview .code-wrap{height:auto;overflow:visible}
 .feedback-preview .status{position:absolute}
 

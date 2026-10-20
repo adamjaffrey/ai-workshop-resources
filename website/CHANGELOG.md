@@ -3,14 +3,45 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.264"
-  update_summary: "Refresh and verify responsive anonymous backdrop geometry"
-  updated_at: "Wed 21 Oct 2026 at 01:32:47 am AEDT (+11:00)"
+  doc_revision: "26.0.265"
+  update_summary: "Add Resources step anchor copying and guided arrival"
+  updated_at: "Wed 21 Oct 2026 at 01:52:32 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.263 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 01:52:32 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add Resources step anchor copying and guided arrival
+
+### Added
+
+- Copy descriptive step URLs from Step N headings or exterior Lucide Hash indicators, with agent-coloured hover decoration, theme-aware Check/X feedback, icon-only tooltips and accessible announcements.
+- Resolve short step fragments as client-side aliases, retain the destination through login, and ease-scroll to 60px below the floating selectors measured against the visible heading text.
+- Hold the floating Wavelength mark visible, fade preceding step/card pairs out only after arrival, and restore them with an eased fade only on upward scrolling; retain layout space and honour reduced motion.
+
+### Changed
+
+- Share prompt/QR/heading copy cooldowns and heading cap-height metrics. Reuse canonical Resources controls in the Playground icon and status specimens; keep Playground heading-link changes deferred.
+- Document fragment mappings, interaction rules and the authorised exterior-gutter exception. Update regression expectations for text-aligned heading controls and the established toggle behaviour.
+
+### Validation
+
+- Resources anchor browser suite — passed 320, 390, 768 and 1440px Chrome layouts, both themes/agents, success/failure cooldowns, real login, directional restoration and reduced-motion WebKit mobile/desktop landings.
+- Playground source parity, specimen fidelity and mobile Chrome/WebKit parity — passed; feedback capture, typography, source dimensions and wheel chaining verified.
+- Seven-width external text/icon alignment matrix and Resources motion regression — passed.
+- URL Reference browser check and 13 authentication/placeholder unit tests — passed; saved anonymous geometry reused.
+- Sites build helper and compiled version checks — passed; Resources and generated Playground consistently display v26.0.263. Mobile emulation does not establish physical-device coverage.
 
 ## v26.0.262 — 2026-10-21
 

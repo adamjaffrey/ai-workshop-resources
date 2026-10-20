@@ -106,6 +106,12 @@
       "top": 1,
       "bottom": 1
     },
+    "hash": {
+      "left": 3,
+      "right": 3,
+      "top": 2,
+      "bottom": 2
+    },
     "key-square": {
       "left": 1,
       "right": 1,
