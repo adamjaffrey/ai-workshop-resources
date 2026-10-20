@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.251"
-  update_summary: "Move focus selector specimens one pixel right"
-  updated_at: "Tue 20 Oct 2026 at 06:35:16 pm AEDT (+11:00)"
+  doc_revision: "26.0.252"
+  update_summary: "Consolidate specimen rails and remove layered overrides"
+  updated_at: "Tue 20 Oct 2026 at 06:46:00 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.250 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 06:46:00 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Consolidate specimen rails and remove layered overrides
+
+### Changed
+
+- Give gallery layout one stylesheet, with a single 28px content inset and shared 4px rounded-boundary outdent. Remove superseded padding and width rules from the generator and app alignment sheet.
+- Separate scroll clearance from optical nudges. Remove captured page translation before applying the focus correction, preserving selector tracks at 25px and visible focus edges at 24px.
+- Apply the standalone X ink correction and bring the JavaScript fallback onto the common inset. Preserve source prompt widths and prevent delayed final-row padding in offscreen focus galleries.
+- Document ownership and add explicit checks for the single stylesheet and visible focus edge.
+
+### Validation
+
+- Source parity, seven-width rail and external alignment checks, nested alignment, and specimen clearance — passed.
+- Source widths, typography spacing, focus edges, icon motion, vertical scroll ownership and page-wheel chaining — passed.
+- Mobile focus final-row check and local LAN automatic sign-in — passed.
+- Local Sites build and generated bundle version/layout checks; saved anonymous backdrop geometry reused — passed.
 
 ## v26.0.249 — 2026-10-20
 

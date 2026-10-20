@@ -16,6 +16,8 @@ window.addEventListener('message',event=>{
   const row=document.createElement('section');row.className='focus-row';
   const title=document.createElement('h3');title.textContent=item.label;
   const preview=document.createElement('div');preview.className='focus-preview';preview.innerHTML=item.html;
+  // Discard page-positioning state before applying gallery optical alignment.
+  preview.firstElementChild?.style.removeProperty('translate');
   const target=preview.querySelector('[data-focus-target]');
   const prompt=preview.querySelector(':scope>.code-wrap');if(prompt){prompt.style.minWidth=prompt.style.width;prompt.style.maxWidth='none';}
   if(item.ring&&!preview.querySelector(':scope>.segmented-toggle')&&!['Copy Prompt · Keyboard Focus','QR Link · Keyboard Focus'].includes(item.label))preview.dataset.exteriorRing='';
@@ -28,6 +30,8 @@ window.addEventListener('message',event=>{
  section.replaceChildren(fragment);
  }
  catalog.dataset.captureId=event.data.requestId;
+ // Final-row spacing must be ready even when this iframe is outside the viewport.
+ maintainGallery();
  catalog.querySelectorAll('.segmented-toggle').forEach(e=>window.layoutWorkshopToggle(e));
 });
 new ResizeObserver(()=>{if(catalog.getBoundingClientRect().width)parent.postMessage({guide:'reference-height',height:window.measureWorkshopGallery?.()||Math.ceil(catalog.getBoundingClientRect().height+48)},'*');}).observe(catalog);

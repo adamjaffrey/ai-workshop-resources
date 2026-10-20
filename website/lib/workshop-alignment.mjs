@@ -6,7 +6,7 @@ const headingInkCSS=Object.entries(ink.icons).map(([name,{left}])=>`
 `).join('')+Object.entries(ink.variants).map(([key,m])=>{const [name,viewBox]=key.split(':');return `:is(#playground-title,.panel>.section-heading h2,.playground-icon-entry h3,.url-reference-subheading):has(>svg[data-icon-name="${name}"][viewBox="${viewBox}"]){--icon-ink-fraction:${m.left/m.viewBox}}`;}).join('');
 export function assertMeasuredHeadingIcon(name){if(!ink.icons[name])throw Error('Measure heading icon '+name+' with scripts/measure-alignment-icons.mjs');}
 export const alignmentCSS = String.raw`
-:root{--specimen-text-rail:28px;--optical-offset:4px;--external-text-inset:var(--optical-offset);--playground-external-text-inset:var(--optical-offset)}
+:root{--specimen-error-nudge:calc(-18px * ${ink.icons.x.left}/24);--specimen-text-rail:28px;--optical-offset:4px;--external-text-inset:var(--optical-offset);--playground-external-text-inset:var(--optical-offset)}
 #playground-title{--heading-icon-size:1em}
 :root{--disclosure-ink-inset:${ink.icons['chevron-right'].left/24*18}px}
 summary:has(>.disclosure-chevron){margin-inline-start:calc(-1 * var(--disclosure-ink-inset))}
@@ -76,69 +76,14 @@ body:has(#playground-title)>main.wrap{padding-inline:28px}
 /* Nested grey specimen surfaces, swatches and catalogues own the same rails. */
 .playground-icon-entry{padding-inline:28px}
 .swatch strong,.swatch code,.swatch small{padding-inline:16px}.swatch p{margin-inline:16px}
-body:has(>#icon-catalog),body:has(>#error-catalog),body:has(>#focus-catalog),body:has(>#link-type-specimens){padding-inline:var(--specimen-text-rail)}
-#type-specimens{padding-inline:var(--specimen-text-rail)!important}
-/* Gallery documents own the horizontal rail once. Scroll viewports extend
-   through that gutter so outdents and focus paint stay inside the grey frame. */
-.icon-sample:not(.error-sample),.focus-preview,.agent-preview{margin-inline:calc(-1 * var(--specimen-text-rail));padding:16px var(--specimen-text-rail);width:calc(100% + 2 * var(--specimen-text-rail));max-width:none;box-sizing:border-box}
-.variant-preview,.feedback-preview{margin-inline:0;padding:16px 0;max-width:100%;box-sizing:border-box;overflow:visible}
-.error-sample:not(:has(.fallback-context,.full-login-context)){margin-inline:0;padding:16px 0;overflow:visible}
-.error-sample:has(.full-login-context){margin-inline:-4px;width:calc(100% + 8px);padding-inline:0;overflow:visible}
-#errors-resources .error-sample:has(.fallback-context){margin-inline:-4px;padding-inline:20px!important}
-.focus-footer>form{margin-inline-start:-4px}
-.selection-preview{margin-inline:0;max-width:100%;padding-inline:0}
-.selection-example{margin-inline:-4px;padding-inline:16px}
-.icon-row>h3,.icon-row>.icon-meta,.focus-row>h3,.focus-row>.focus-meta{margin-inline:0}
-.type-row,.agent-row,.notice-type-row{padding-inline:0!important}
-/* Standalone rounded specimen roots use the specimen rail, while copied
-   interiors retain canonical app geometry and typography. */
-:is(.icon-sample,.focus-preview,.agent-preview,.variant-preview)>:is(button,.toggle,.theme-toggle,.symbol,.password-field,.qr-card,.code-wrap,.javascript-notice){margin-inline-start:-4px!important}
-.type-row [data-in-situ]:is(.password-field,.code-wrap),.type-row [data-type-sample].gate-submit{margin-inline-start:-4px;max-width:calc(100% + 8px)}
-.type-row footer:not(.is-stacked) button[data-type-sample]{margin-inline-start:calc(-1 * var(--optical-offset))}
-.type-row [data-in-situ].code-wrap{width:calc(100% + 8px);max-width:calc(var(--source-width,100%) + 8px)}
-.notice-type-row .javascript-notice{margin-inline:-4px;width:calc(100% + 8px);max-width:none}
-.feedback-preview>.code-wrap{margin-inline-start:-4px;width:calc(100% + 8px)}
 /* Square textareas, tables and code listings deliberately stay on the text rail. */
 #worm-copy-fallback,#perspective-copy-fallback{display:block}#worm-copy-fallback[hidden],#perspective-copy-fallback[hidden]{display:none}
 .inspector-dock{padding-inline:max(28px,calc((100vw - 1112px)/2))}
 .inspector-dock .inspector-bar,.inspector-dock .inspector-actions{margin-inline:-4px}
 /* Sources already render their link interiors; align the whole link surface. */
-.panel>a.workshop-link,.playground-icon-entry>a.workshop-link,.link-examples section>a.workshop-link,.icon-row>a.workshop-link{margin-inline-start:-4px}
-.icon-row>a.workshop-link{margin-inline:calc(-1 * var(--optical-offset));margin-top:16px}
+.panel>a.workshop-link,.playground-icon-entry>a.workshop-link,.link-examples section>a.workshop-link{margin-inline-start:-4px}
 .frame-wrap{padding:0;box-sizing:border-box}
-/* Isolated typography owns spacing; app type and control interiors remain native. */
-.type-row:not(.has-variants) .specimen-context:not([data-in-situ]){min-height:0!important;display:flow-root!important}
-.type-row [data-type-sample]:not(pre):not(input):not(button){margin-block:0!important}
-.type-row span[data-type-sample]{display:block}
-.type-row .brand-name[data-type-sample]{width:max-content}
-.type-row .specimen-context:has(>.controls-label){line-height:0}
-.type-row .controls-label[data-type-sample]{line-height:21px}
-.type-row .footer-meta[data-type-sample]{display:flex;align-items:flex-start;justify-content:flex-start;text-align:left}
-.type-row footer.specimen-context .footer-content{align-items:flex-start!important;justify-content:flex-start!important;text-align:left}
-.type-row footer.specimen-context form{align-self:flex-start!important;justify-self:start!important;width:max-content!important}
-.type-row footer button[data-type-sample]{margin-inline-start:-4px!important}
-/* Captured panel widths already include their boundaries: never add 8px twice. */
-.type-row [data-in-situ].code-wrap,.feedback-preview>.code-wrap{width:var(--source-width);min-width:var(--source-width);max-width:var(--source-width)}
-.feedback-grid{display:block!important;border:0!important;padding:0!important}
-.feedback-grid .feedback-row{width:100%;padding-block:24px}
-.prompt-specimen-viewport,.feedback-preview{margin-inline:calc(-1 * var(--specimen-text-rail));padding-inline:var(--specimen-text-rail);width:calc(100% + 2 * var(--specimen-text-rail));max-width:none!important;box-sizing:border-box;overflow-x:auto;overflow-y:hidden}
-.prompt-specimen-viewport{padding-block:8px;margin-block:-8px}
-.feedback-preview .code-wrap{height:auto;overflow:visible}
-/* Visible exterior rings need 6px extra clearance; selection excerpts stay put. */
-.focus-preview:has(>.segmented-toggle){padding-inline-start:calc(var(--specimen-text-rail) + 1px)}
-.focus-preview[data-exterior-ring]{padding-inline-start:calc(var(--specimen-text-rail) + 6px)}
-/* Correct the unboxed X group's visible ink, not icons inside action controls. */
-.type-row [data-type-sample].gate-error,.icon-sample>.gate-error{position:relative;left:calc(-18px * ${ink.icons.x.left}/24)}
 .panel:not(.is-expanded)>.frame-wrap{overflow-x:auto;overflow-y:hidden}
-body:has(>#icon-catalog),body:has(>#error-catalog),body:has(>#focus-catalog),body:has(>#link-type-specimens),body:has(>#type-specimens){overflow-y:hidden}
-.icon-sample,.focus-preview{overflow-y:hidden}
-.error-sample>.code-wrap{min-width:var(--source-width);max-width:none!important}
-.error-sample:has(.full-login-context,.fallback-context),.error-sample:has(>.code-wrap){margin-inline:calc(-1 * var(--specimen-text-rail))!important;padding-inline:var(--specimen-text-rail)!important;width:calc(100% + 2 * var(--specimen-text-rail));box-sizing:border-box;overflow-x:auto;overflow-y:hidden}
-.error-sample>.full-login-context,.error-sample>.fallback-context,.error-sample>.code-wrap{margin-inline-start:-4px!important}
-#error-catalog [data-gallery-last],#type-specimens>[data-gallery-last]{padding-bottom:0}
-[data-gallery-last]{border-bottom:0!important}
-#icon-catalog [data-gallery-last]{padding-bottom:0}
-body:has(>#icon-catalog){padding-bottom:16px}
 #panel-url-reference h3{border-top:1px solid var(--border);padding-top:16px}
 ${headingInkCSS}
 `;

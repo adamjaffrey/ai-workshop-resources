@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.153"
-  update_summary: "Document faithful specimen widths and page-owned inline scrolling"
-  updated_at: "Tue 20 Oct 2026 at 06:02:23 pm AEDT (+11:00)"
+  doc_revision: "26.0.154"
+  update_summary: "Document the single specimen layout owner"
+  updated_at: "Tue 20 Oct 2026 at 06:44:25 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -68,7 +68,7 @@ This protects content delivered by this website. The linked public GitHub reposi
 
 `lib/workshop-alignment.mjs` owns the site's two alignment rails. Text and square-edged elements use the text rail; designated rounded surfaces extend 4px outward. Page content therefore uses a 28px mobile text gutter and a 24px surface gutter. A nested panel establishes its own text rail from its interior padding. Control interiors keep their native padding; offsets never accumulate through every rounded descendant. Centred content stays centred. These rules cover login, dialogs, expanded views and the grey Playground specimen interiors as well as the main page and normal Playground panels.
 
-Playground gallery documents own one 28px text inset, with designated rounded specimen boundaries extending to 24px. Frame wrappers and rows add no further horizontal inset. Scroll viewports extend into the existing grey gutter to provide focus and shadow clearance; non-scrolling samples allow paint within the outer rounded frame. Full-page previews retain their native page gutters. Validate the gallery rails and containment with `node website/tests/specimen-rails-browser-check.mjs`.
+`lib/workshop-specimen-layout.mjs` owns Playground gallery layout in one stylesheet. Gallery documents use one 28px text inset, with designated rounded specimen boundaries extending to 24px. Frame wrappers and rows add no further horizontal inset. Optical nudges move individual specimens and never change that padding. Captured page-positioning state is removed before applying the gallery correction. Scroll viewports extend into the existing grey gutter to provide focus and shadow clearance; non-scrolling samples allow paint within the outer rounded frame. Full-page previews retain their native page gutters. Validate the gallery rails and containment with `node website/tests/specimen-rails-browser-check.mjs`.
 
 Leading unboxed heading icons use stroke-inclusive ink measurements from `lib/workshop-icon-ink.generated.json`. `node website/scripts/measure-alignment-icons.mjs` refreshes these measurements; `--check` verifies them against the installed Lucide definitions. Measurements scale with displayed icon size and distinguish cropped viewBoxes. The whole heading group moves, preserving its icon-to-text gap. The final login backdrop is checked against real Resources word geometry with `node website/tests/login-background-alignment-browser-check.mjs` at ten widths and two heights. Its source styles and footer wrapping are shared; anonymous prompt glyphs preserve only slash/hyphen punctuation for native wrapping. The complete future-change contract and rationale are in the repository's [Optical Alignment Contract](../docs/agent-guidance/interface.md#optical-alignment-contract).
 
