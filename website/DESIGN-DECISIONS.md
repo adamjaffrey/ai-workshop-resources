@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.21"
-  update_summary: "Record larger anchor icons and replacement-navigation correction"
-  updated_at: "Wed 21 Oct 2026 at 10:18:03 am AEDT (+11:00)"
+  doc_revision: "26.0.22"
+  update_summary: "Make anonymous backdrop inspection consistently non-interactive"
+  updated_at: "Wed 21 Oct 2026 at 10:28:34 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -348,3 +348,11 @@ Repository-wide permissions and task routing stay in [AGENTS.md](../AGENTS.md). 
 **Rationale:** Adam explicitly selected a consistent heading-copy convention and an exterior icon, with tooltip-only visible feedback. He requested a visible scroll journey, a clear selected step and a fully visible brand even at Step 1. The initial post-arrival fade was too conspicuous and fixed-duration scrolling made longer journeys frantic. Fading only during the final approach preserves visible context while completing the effects together. Retaining layout space prevents jumps when earlier content returns; only unavoidable landing space remains below the footer. The shorter icon cooldown reflects less feedback to read, and matching circled icons avoid isolated marks. The gutter indicator is a deliberate exception to the existing paint boundary. Playground heading anchors and changes to its collapse controls remain deferred.
 
 **Owning Rules and Sources:** [Resources Controls](../docs/agent-guidance/interface.md#resources-step-anchor-controls), [Anchor Arrival](../docs/agent-guidance/motion.md#resources-anchor-arrival), [Fragment Routing](../docs/agent-guidance/authentication.md#resources-step-fragments), [URL Reference](URL-REFERENCE.md#resources-aliases), and `lib/workshop-resource-anchors.mjs`.
+
+## Anonymous Capture Interaction Boundaries
+
+**Decision:** Keep anonymous content inert at every nesting level. Permit outer inspection scrolling only, with a default arrow cursor and no block-click selection. Lock the background when Password Panel is shown, and cover the entire captured login document with dimming. Apply the static policy to saved captures at delivery as well as future capture generation; retain the parent logo shortcut.
+
+**Rationale:** Recursively enabling iframe pointer access and scrolling exposed hand cursors and allowed a captured login background to scroll past its viewport-sized dimming. Outer scrolling is sufficient to inspect the composition. Locking existing overflow containers preserves responsive layout and text wrapping without making captured controls interactive.
+
+**Owning Rules and Sources:** [Backdrop Interaction and Scrolling Policy](../docs/agent-guidance/backdrops.md#interaction-and-scrolling-policy).

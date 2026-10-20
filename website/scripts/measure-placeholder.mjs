@@ -1,3 +1,4 @@
+import {prepareBackdropCapture} from './prepare-backdrop-capture.mjs';
 // Build-time only: measure rendered text, then serialise geometry without content.
 import {readFile, writeFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
@@ -19,6 +20,7 @@ try {
   const page = await browser.newPage({viewport: {width: 1440, height: 1000}, reducedMotion: 'reduce'});
   await page.goto(new URL('../outputs/workshop-resources-preview.html', import.meta.url).href);
   await page.evaluate(() => document.fonts.ready);
+  await page.evaluate(prepareBackdropCapture);
   const result = await page.evaluate(() => {
     const source = document.querySelector('main');
     // Freeze the visible initial state before cloning (no reveal/interaction scripts).

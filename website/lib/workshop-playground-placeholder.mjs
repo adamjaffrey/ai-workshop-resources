@@ -1,4 +1,6 @@
+import {staticBackdropDocument} from './workshop-backdrop-static.mjs';
 import geometry from './workshop-playground-placeholder.generated.json' with {type:'json'};
+const staticDocument=staticBackdropDocument(geometry.document);
 export const playgroundPlaceholderStyles=`
 .page-placeholder.playground-placeholder{position:fixed;inset:0;margin:0;padding:0;width:100%;max-width:none;height:100dvh;overflow:hidden}
 main.page-placeholder.playground-placeholder>iframe{display:block;border:0;width:100%!important;max-width:none!important;margin:0!important;height:100%!important;pointer-events:none}
@@ -8,7 +10,7 @@ export function playgroundPlaceholder(){
 }
 export function playgroundPlaceholderDocument(theme='light',agent='codex'){
  theme=theme==='dark'?'dark':'light';agent=['claude','claude-code'].includes(agent)?'claude-code':'codex';
- return geometry.document.replace(/<html\b[^>]*>|&lt;html\b.*?&gt;/g,tag=>tag.replace(/(data-theme=(?:&(?:amp;)*quot;|"))(?:light|dark)/g,'$1'+theme).replace(/(data-selected-agent=(?:&(?:amp;)*quot;|"))(?:codex|claude-code|claude)/g,'$1'+agent));
+ return staticDocument.replace(/<html\b[^>]*>|&lt;html\b.*?&gt;/g,tag=>tag.replace(/(data-theme=(?:&(?:amp;)*quot;|"))(?:light|dark)/g,'$1'+theme).replace(/(data-selected-agent=(?:&(?:amp;)*quot;|"))(?:codex|claude-code|claude)/g,'$1'+agent));
 }
 // Only this anonymous document is public; it contains no scripts or app actions.
 export const playgroundPlaceholderScript=`
@@ -28,23 +30,22 @@ new MutationObserver(sync).observe(document.body,{childList:true,subtree:true});
 export const playgroundPlaceholderPreviewScript=`
 window.workshopRenderBackdropPreview=(frame,theme,agent)=>{
  const value=Number(frame.dataset.blockStrength??40),strength=Number.isFinite(value)?Math.max(0,Math.min(100,value)):40;
- const state=theme+'|'+agent+'|'+strength;
+ const state=theme+'|'+agent+'|'+strength+'|'+document.body.dataset.review;
  if(frame.dataset.previewState===state)return;
  frame.dataset.previewState=state;
- let html=${JSON.stringify(geometry.document).replaceAll('<','\\u003c')};
+ let html=${JSON.stringify(staticDocument).replaceAll('<','\\u003c')};
  html=html.replaceAll('--ph-strength:40%','--ph-strength:'+strength+'%');
  html=html.replace(/<html\\b[^>]*>|&lt;html\\b.*?&gt;/g,tag=>tag.replace(/(data-theme=(?:&(?:amp;)*quot;|"))(?:light|dark)/g,'$1'+theme).replace(/(data-selected-agent=(?:&(?:amp;)*quot;|"))(?:codex|claude-code|claude)/g,'$1'+(agent==='claude'?'claude-code':'codex')));
- // Inspection-only scrolling; login backdrops retain their inert, clipped canvas.
- if(document.getElementById('preview-scrim')){
-  frame.parentElement.removeAttribute('inert');frame.style.pointerEvents='auto';frame.tabIndex=0;
-  const scrollDocument=source=>{
-   const doc=new DOMParser().parseFromString(source,'text/html');
-   doc.querySelectorAll('[inert]').forEach(el=>el.removeAttribute('inert'));
-   const style=doc.createElement('style');style.textContent='html,body{overflow-y:auto!important;overflow-x:auto!important;pointer-events:auto!important}iframe{pointer-events:auto!important}';doc.head.append(style);
-   doc.querySelectorAll('iframe[srcdoc]').forEach(child=>{child.srcdoc=scrollDocument(child.getAttribute('srcdoc'));child.tabIndex=0;});
-   return '<!doctype html>'+doc.documentElement.outerHTML;
-  };
-  html=scrollDocument(html);
+ // Only the outer document may scroll; nested captures remain inert and locked.
+ const inspecting=document.getElementById('preview-scrim')&&document.body.dataset.review!=='panel';
+ frame.parentElement.toggleAttribute('inert',!inspecting);
+ frame.style.pointerEvents=inspecting?'auto':'none';frame.tabIndex=inspecting?0:-1;
+ if(inspecting){
+  const doc=new DOMParser().parseFromString(html,'text/html');
+  doc.body.removeAttribute('inert');
+  Array.from(doc.body.children).forEach(el=>el.setAttribute('inert',''));
+  const style=doc.createElement('style');style.textContent='html,body{overflow:auto!important;pointer-events:auto!important}';doc.head.append(style);
+  html='<!doctype html>'+doc.documentElement.outerHTML;
  }
  frame.removeAttribute('src');frame.srcdoc=html;
 };

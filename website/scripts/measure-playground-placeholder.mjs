@@ -1,3 +1,4 @@
+import {staticBackdropDocument} from '../lib/workshop-backdrop-static.mjs';
 // Explicit initial capture or publication preparation only. Never imported by a build.
 import {writeFile,readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
@@ -54,7 +55,7 @@ try {
  const mobile=await page.evaluate(measurePlaygroundDocument,{frames});
  if(mobile.inspectorMetrics.length!==result.inspectorMetrics.length)throw Error('Inspector word count changed between capture widths');
  result.css+='\n@media(max-width:600px){'+mobile.inspectorMetrics.map((style,i)=>'.inspector-dock .ph-inspector-'+i+'{'+style.replaceAll(';','!important;')+'}').join('')+'}';
- let document=toDocument(result);
+ let document=staticBackdropDocument(toDocument(result));
  // The captured page already embeds assets; no runtime requests or original scripts/actions survive.
  for(const [name,mime] of [['wavelength-worm.png','image/png'],['markpro-bold.ttf','font/ttf']])document=document.replaceAll('/assets/'+name,'data:'+mime+';base64,'+(await readFile(new URL('../public/assets/'+name,import.meta.url))).toString('base64'));
  await writeFile(target,JSON.stringify({source:'components',layoutRevision:playgroundPlaceholderLayoutRevision,fingerprint:createHash('sha256').update(html).digest('hex'),words,document})+'\n');

@@ -3,9 +3,9 @@ name: anonymous-backdrop-contract
 description: Specify anonymous geometry, static capture and publication-only refresh.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.2"
-  update_summary: "Preserve tight line boxes and responsive embedded preview heights"
-  updated_at: "Wed 21 Oct 2026 at 01:24:59 am AEDT (+11:00)"
+  doc_revision: "26.0.3"
+  update_summary: "Lock nested captures and remove backdrop interaction feedback"
+  updated_at: "Wed 21 Oct 2026 at 10:28:34 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -37,5 +37,13 @@ This is a mandatory scoped contract incorporated by [AGENTS.md](../../AGENTS.md)
 - Before every future login-background geometry measurement or snapshot, normalise viewport-fixed positioning to document-anchored positioning and sticky positioning to normal document flow. Disable hover, active and focus-state styling, animations, transitions and scroll-driven state changes in the capture. Preserve initial responsive geometry and the existing cap-height, baseline and wrapping rules. Clear sticky inset offsets as well as sticky positioning so a discarded `top` offset cannot shift the static capture. Never change the real app or Playground's interactive behaviour to prepare a decorative capture.
 - For Components, keep the top-right tools anchored to the captured document and place the Style Inspector last in normal flow. Capture its expanded neutral state; do not retain live inspection readings, floating shadows or bottom viewport reservations. Apply the same static preparation to embedded specimens. Use `website/scripts/prepare-backdrop-capture.mjs` for this preparation and verify that no captured element remains fixed/sticky or changes on hover.
 - Embedded Components previews must retain their natural responsive heights. Capture whole-CSS-pixel height transitions from 320px through the outer content-width cap, using the same natural-height measurement as the live preview after each child frame’s resize observers settle, and save them as static media rules. Remove the captured desktop inline height; never restore scripts in a backdrop to measure it for visitors. Validate outer word positions and embedded preview/card bounds at both sides of responsive breakpoints.
-- Captured documents remain anonymous and script-disabled. Blocks and Blur may expose native scrolling to inspect them, but must not restore original actions, hover states or sticky behaviour. Verify that tool silhouettes leave the viewport when scrolled and the inspector appears only at the bottom.
+- Captured documents remain anonymous and script-disabled. Blocks and Blur may expose outer-document native scrolling to inspect them, but must not restore original actions, hover states or sticky behaviour. Verify that tool silhouettes leave the viewport when scrolled and the inspector appears only at the bottom.
 - Keep preview viewports constrained to their containing card's optical rails, including expanded views. A selected desktop Screen Width enlarges the iframe inside that viewport, not the surrounding viewport itself. In isolated specimens only, allow horizontal scroll chaining through the login overlay and root; retain production login containment and vertical behaviour. Preserve native horizontal and vertical scrolling; test touch gestures beginning inside the iframe, not only programmatic `scrollLeft` changes. Do not add gesture interception or disable vertical scrolling when a sizing correction resolves overflow. Test narrow phones, wide selected widths, Fit, and inline/expanded views; distinguish emulated touch from physical-device verification.
+
+### Interaction and Scrolling Policy
+
+- Both anonymous backdrops use the default arrow throughout. Disable hover, active, focus, selection, dragging, resizing and animation feedback; retain inert content and script-disabled captured frames. Apply the same static policy when creating captures and when rendering previously saved geometry, without remeasuring word dimensions.
+- In Blocks and Blur, allow only the outer inspection document to scroll in No Blur and Blur and Darken. Keep nested captured documents, controls and prompt areas locked, including captured login specimens. Never recursively remove inertness or enable pointer access in embedded frames. Remove block-click selection; the real controls outside the preview remain interactive.
+- Password Panel mode resets and locks the inspection background. Actual login panels retain keyboard access and their own scrolling for short viewports. Captured login dimming covers the entire captured document, including content beyond its initial viewport; it remains separate from the single background blur.
+- Preserve responsive widths, normal text wrapping and saved iframe height media rules. Lock existing overflow containers without imposing fixed content widths or replacing wrapped text with fixed lines. Test narrow and wide layouts, nested cursor/hit-target suppression, full-document dimming and switching between scrollable inspection and locked panel modes.
+- Preserve the parent login page’s coordinate-based Wavelength shortcut. It must not restore pointer targets, focusability or cursor feedback inside the anonymous capture.

@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.267"
-  update_summary: "Enlarge anchor icons and handle replacement navigation"
-  updated_at: "Wed 21 Oct 2026 at 10:21:32 am AEDT (+11:00)"
+  doc_revision: "26.0.268"
+  update_summary: "Make anonymous backdrops consistently non-interactive"
+  updated_at: "Wed 21 Oct 2026 at 10:32:13 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.266 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 10:32:13 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Make anonymous backdrops consistently non-interactive
+
+### Fixed
+
+- Keep nested anonymous frames inert and locked while allowing outer inspection scrolling. Remove captured hand/text cursors, hover/focus feedback and Resources block-click selection; retain the actual login controls and parent logo shortcut.
+- Cover the full captured login document with dimming and lock the background in Password Panel mode. Preserve responsive wrapping and saved frame height rules.
+- Apply static presentation rules to saved Components geometry and future capture generation without remeasuring existing geometry. Document the interaction boundary and update the Playground inspection guidance.
+
+### Validation
+
+- Anonymous content and saved-geometry unit tests — 4 passed.
+- Targeted backdrop interaction browser regression — passed in Chrome and WebKit at 390px and 1440px, including wheel input, nested hit-target/cursor suppression, full-document dimming and panel-mode locking.
+- Components backdrop matrix — passed at ten widths and two heights across themes and agents; outer alignment and embedded frame bounds passed at twelve widths and two heights within 1px.
+- Resources alignment — all non-footer words passed within 1px at ten widths and two heights across themes and agents. The unmodified full-page check reports the retained saved footer-version block differing from v26.0.266; no geometry remeasurement was performed for this internal build.
+- Playground source parity and logo shortcut regressions — passed. Mobile/desktop screenshots reviewed; no physical-device validation claimed.
+- Local website build and generated version checks — passed. LAN Main App and Playground endpoints returned HTTP 200.
 
 ## v26.0.265 — 2026-10-21
 

@@ -10,6 +10,9 @@ export function placeholderFromPage(_page, layoutRevision = placeholderLayoutRev
 }
 export const placeholderStyles = `
 .page-placeholder { --ph-strength:40%; --ph-blur:4px; --ph-surface:var(--page); pointer-events:none; user-select:none; filter:blur(var(--ph-blur)); }
+.page-placeholder,.page-placeholder *,.page-placeholder *::before,.page-placeholder *::after{cursor:default!important;user-select:none!important;animation:none!important;transition:none!important}
+.page-placeholder:not(.playground-placeholder) *{pointer-events:none!important}
+.page-placeholder pre{overflow:hidden!important}
 .page-placeholder article { --ph-surface:var(--card-bg); }
 .page-placeholder .code-wrap, .page-placeholder .qr-card { --ph-surface:var(--content-surface); }
 .page-placeholder .copy, .page-placeholder .theme-toggle button { --ph-surface:var(--surface); }

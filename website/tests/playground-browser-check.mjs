@@ -93,9 +93,10 @@ const dock=await p.locator('.inspector-dock').boundingBox();assert.ok(Math.abs(d
 await type.locator('[data-source-selector=".step-title"] output').hover();await p.waitForTimeout(260);assert.match(await p.locator('#inspection-summary').textContent(),/h2/);
 await p.click('#inspector-details');
 await p.click('[data-tab=blocks]');const blocks=p.frameLocator('#blocks-frame');
-await choose('review','clear');await p.locator('#blocks-frame').scrollIntoViewIfNeeded();await blocks.locator('body').evaluate(()=>scrollTo(0,0));await blocks.locator('.ph-word').first().click();
-await p.waitForFunction(()=>document.getElementById('block-report').textContent.startsWith('Selected word block'));
-assert.match(await p.locator('#block-report').textContent(),/Selected word block/);assert.equal(await blocks.locator('#block-highlight').isVisible(),true);
+await choose('review','clear');await p.locator('#blocks-frame').scrollIntoViewIfNeeded();
+assert.equal(await blocks.locator('.page-placeholder').getAttribute('inert'),'');
+assert.equal(await blocks.locator('.ph-word').first().evaluate(e=>getComputedStyle(e).cursor),'default');
+assert.equal(await blocks.locator('#block-highlight').isVisible(),false);
 await p.locator('#strength').fill('70');await p.locator('#blur').fill('8.5');await choose('review','blurred');
 assert.equal(await blocks.locator('.page-placeholder').evaluate(e=>getComputedStyle(e).filter),'blur(8.5px)');
 assert.equal(await blocks.locator('.page-placeholder').evaluate(e=>getComputedStyle(e).getPropertyValue('--ph-strength')),'70%');
@@ -111,5 +112,5 @@ await p.screenshot({path:'/tmp/playground-colours.png',fullPage:true});
 await p.click('[data-tab=components]');await p.locator('#login-frame').scrollIntoViewIfNeeded();await p.screenshot({path:'/tmp/playground-components.png'});
 await p.setViewportSize({width:390,height:844});await p.locator('#login-frame').scrollIntoViewIfNeeded();await p.screenshot({path:'/tmp/playground-mobile.png'});
 const production=await handleRequest(new Request('http://production/playground'),{});assert.notEqual(production.status,200);
-console.log('PASS: radios, docked/frozen/debounced inspector, block selection/blur controls, mobile/desktop, both agents/themes, all held login states, copy feedback, navigation containment, tokens, typography and unconfigured hosted access fails closed');
+console.log('PASS: radios, docked/frozen/debounced inspector, inert blocks/blur controls, mobile/desktop, both agents/themes, all held login states, copy feedback, navigation containment, tokens, typography and unconfigured hosted access fails closed');
 }finally{await b.close();await new Promise(r=>server.close(r));}

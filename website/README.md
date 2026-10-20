@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.157"
-  update_summary: "Describe larger anchor feedback and tighter icon spacing"
-  updated_at: "Wed 21 Oct 2026 at 10:18:03 am AEDT (+11:00)"
+  doc_revision: "26.0.158"
+  update_summary: "Document inert backdrops and outer-only inspection scrolling"
+  updated_at: "Wed 21 Oct 2026 at 10:28:34 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -135,6 +135,9 @@ The Login specimen also permits horizontal scroll chaining through its overlay a
 A decorative background is one fixed composition in document coordinates. Fixed/sticky controls and hover feedback would reveal page structure throughout scrolling and make the background appear interactive. Before measuring, `scripts/prepare-backdrop-capture.mjs` converts fixed positioning to document anchoring and sticky positioning to normal flow, disables interaction-state CSS and motion, and applies the same preparation to embedded specimens. The real Playground retains its live controls. The captured Style Inspector is an expanded neutral section at the bottom, rather than a persistent overlay. The top-right tool silhouettes scroll away with the page. Native inspection scrolling does not restore scripts or actions.
 
 Preview frames remain inside their card's optical rails. Choosing a wide Screen Width enlarges the iframe, while its surrounding viewport remains constrained and scrollable in both axes. Validate real touch gestures starting inside an overflowing iframe, returning to Fit, and inline/expanded states. A prior unlimited maximum width expanded the viewport itself, preventing horizontal overflow from becoming scrollable.
+
+
+Anonymous backdrop inspection permits only outer-document scrolling. Nested captures and prompt areas remain locked, use the default arrow and expose no hover, focus or block-click feedback. Password Panel mode locks the background, while captured login dimming covers the full document. These presentation rules also apply to existing saved geometry without measurement; responsive word wrapping and saved frame heights remain intact. See the [Interaction and Scrolling Policy](../docs/agent-guidance/backdrops.md#interaction-and-scrolling-policy).
 
 ### Validation
 
