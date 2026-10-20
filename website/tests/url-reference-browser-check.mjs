@@ -23,7 +23,8 @@ try{
   assert.ok((await page.locator('#playground-icon-catalog [data-catalog-icon="globe"]').textContent()).includes('playground-tab-url-reference'));
   for(const table of await panel.locator('.url-table').all()){
    assert.equal(await table.getAttribute('tabindex'),'0','Overflow table remains keyboard-accessible');
-   assert.ok(await table.locator('table').evaluate(e=>e.getBoundingClientRect().width>=600),'Keep columns readable');
+   assert.equal(await table.locator('table').evaluate(e=>getComputedStyle(e).minWidth),'0px','Allow compact content-sized columns');
+   assert.ok(await table.locator('td').evaluateAll(es=>es.every(e=>getComputedStyle(e).fontSize==='14px')),'Keep cell text consistent');
   }
   assert.equal(await panel.locator('a').count(),0,'Examples cannot log users out');
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,'No page overflow');

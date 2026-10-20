@@ -50,11 +50,12 @@ ${copyTextCSS}
 #panel-url-reference .copy .icon{width:18px;height:18px;flex:none;vertical-align:middle}
 @media(max-width:360px){#panel-url-reference .copy .icon{display:none}}
 #panel-url-reference{overflow-wrap:anywhere;min-width:0}
-#panel-url-reference .url-table{max-width:100%;overflow-x:auto}
-#panel-url-reference table{width:100%;min-width:600px;overflow-wrap:normal;border-collapse:collapse;text-align:left;font-size:14px}
-#panel-url-reference th,#panel-url-reference td{vertical-align:top;padding:12px 16px 12px 0;border-bottom:1px solid var(--border)}
+#panel-url-reference .url-table{max-width:100%;overflow-x:auto;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+#panel-url-reference table{width:auto;min-width:0;max-width:100%;table-layout:auto;overflow-wrap:normal;border-collapse:collapse;text-align:left;font-size:14px}
+#panel-url-reference th,#panel-url-reference td{font-size:14px;line-height:1.5;vertical-align:top;padding:12px 16px 12px 0;border-bottom:1px solid var(--border)}
 #panel-url-reference th:last-child,#panel-url-reference td:last-child{padding-right:0}
 #panel-url-reference th{color:var(--text)}
+#panel-url-reference table code{font-size:12.6px;white-space:nowrap;overflow-wrap:normal}
 #panel-url-reference code{font:0.9em/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
 #panel-url-reference .url-code-block{position:relative;margin:16px -4px;border:1px solid var(--panel-border);border-radius:12px;background:var(--content-surface);color:var(--text)}
 #panel-url-reference .code-header{min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--panel-border);padding:12px 20px}

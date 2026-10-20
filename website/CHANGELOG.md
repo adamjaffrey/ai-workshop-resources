@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.242"
-  update_summary: "Make the mobile sticky header eligible for browser edge tinting"
-  updated_at: "Tue 20 Oct 2026 at 03:12:29 pm AEDT (+11:00)"
+  doc_revision: "26.0.243"
+  update_summary: "Keep URL tables compact with consistent mobile typography"
+  updated_at: "Tue 20 Oct 2026 at 03:21:26 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.241 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 03:21:26 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Keep URL tables compact with consistent mobile typography
+
+### Changed
+
+- Disable automatic text inflation inside URL Reference table wrappers and explicitly size cells at 14px and inline code at 12.6px. Preserve browser zoom and typography outside the tables.
+- Remove the forced 600px minimum and full-panel width. Let tables size to content and available space, wrapping between aliases while keeping individual paths and parameters intact.
+- Preserve horizontal scrolling, keyboard access and contained overflow for tables whose content cannot fit the viewport.
+
+### Validation
+
+- Mobile-emulated table sizing checks — passed consistent cell/code sizes, text-size adjustment, intrinsic desktop widths and no page overflow at phone, tablet and desktop sizes.
+- URL Reference regression across four widths and both agents/themes, all-tab scroll checks and structure tests — passed.
+- Local production build — passed. Mobile and desktop Resources Aliases screenshots inspected; iOS font-inflation correction awaits physical-device confirmation.
 
 ## v26.0.240 — 2026-10-20
 
