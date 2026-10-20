@@ -14,7 +14,7 @@ for(const width of [320,390,660,661,768,1024,1440]){
   near(r.left,Math.max(24,(width-1120)/2),'text rail');near(r.shellLeft,width<=660?0:r.left,'header left');near(r.shellRight,width<=660?width:r.right,'header right');assert.equal(r.padding,'0px');assert.equal(r.labelPadding,'14px','keep tab interior padding');
   if(name==='start')near(r.first,r.left,'first indicator at scroll edge');if(name==='end'&&max>0)near(r.last,r.right,'last indicator at scroll edge');
   assert.equal(r.leftFade,position>2,name+' left fade');assert.equal(r.rightFade,max-position>2,name+' right fade');
-  if(r.leftFade||r.rightFade){assert.notEqual(r.mask,'none');assert.ok(r.mask.includes('108px'),'retain fade width');}
+  if(r.leftFade||r.rightFade){assert.notEqual(r.mask,'none');assert.ok(r.mask.includes(width<=660?'54px':'108px'),'retain fade width');}
  }
  if(max>80){
   await nav.evaluate(e=>{e.scrollLeft=0;});await p.waitForTimeout(80);
@@ -25,5 +25,5 @@ for(const width of [320,390,660,661,768,1024,1440]){
   }
  }
 }
-console.log('PASS: tab surface-rail endpoints and stronger 108px directional fades at seven widths');
+console.log('PASS: tab surface-rail endpoints and responsive directional fades at seven widths');
 }finally{await browser.close();server.close();}

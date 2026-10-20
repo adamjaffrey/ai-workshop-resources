@@ -27,6 +27,14 @@ try{
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'no outer page overflow');
     const inaccessible=await frame.locator('.icon-sample,.focus-preview,.agent-preview,.feedback-preview,.variant-preview,.specimen-viewport,.prompt-specimen-viewport').evaluateAll(es=>es.filter(e=>e.checkVisibility()).flatMap(e=>{if(!e.querySelector('[data-specimen-width]'))return ['missing source boundary'];if(e.scrollWidth<=e.clientWidth+1)return [];e.scrollLeft=e.scrollWidth;const reachable=e.scrollLeft>0;e.scrollLeft=0;return reachable?[]:['inaccessible horizontal overflow'];}));
     assert.deepEqual(inaccessible,[],'every rendered sample has a source width and horizontal access');
+    if(id==='focus'){
+     const original=await actual.locator('.intro').evaluate(readText);
+     const body=frame.locator('.focus-row').filter({has:frame.locator('h3', {hasText:'Body Text Selection'})});
+     for(const selector of ['[data-focus-target]','.selection-preview']){
+      const copy=await body.locator(selector).evaluate(readText);
+      for(const key of ['font','size','line','weight','glyphHeight'])assert.equal(copy[key],original[key],`${engine.name()} ${width}: body selection ${key} equals actual Resources`);
+     }
+    }
     if(id==='type'||id==='errors'){
      for(const success of [true,false]){
       const status=frame.locator(id==='type'?`[data-feedback=${success?'success':'error'}] .status`:`[data-state="Prompt Copy ${success?'Success':'Failure'}"] .status`);

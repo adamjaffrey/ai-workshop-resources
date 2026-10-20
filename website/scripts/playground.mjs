@@ -1,3 +1,4 @@
+import {updateHorizontalOverflow} from '../lib/workshop-overflow.mjs';
 import {specimenLayoutCSS} from '../lib/workshop-specimen-layout.mjs';
 import {createPlaygroundScheduler} from './playground-scheduler.mjs';
 import {galleryMaintenanceScript} from './playground-gallery-maintenance.mjs';
@@ -479,12 +480,10 @@ ${urlReferenceCSS}
  // Fade only edges with more controls beyond them; remove the hint at the end.
  const overflowControls=[...document.querySelectorAll('.choice-options,nav[role="tablist"],#global-style-controls,.expanded-state-controls,#style-dialog,#inspection,.section-heading h2')];
  let overflowFrame;
- const overflowStrength=new WeakMap();
+ const overflowStrength=new WeakMap(),updateOverflowEdges=${updateHorizontalOverflow.toString()};
  function refreshOverflow(){overflowFrame=0;for(const el of overflowControls){
-  const c=getComputedStyle(el),visible=el.getClientRects().length>0,horizontal=visible&&/auto|scroll/.test(c.overflowX);
-  const distances=[Math.max(0,el.scrollLeft),Math.max(0,el.scrollWidth-el.clientWidth-el.scrollLeft)],previous=overflowStrength.get(el)||[0,0];
-  const strength=distances.map((distance,i)=>horizontal&&distance>2?Math.max(previous[i],Math.min(1,distance/18)):0);overflowStrength.set(el,strength);
-  for(const [i,edge] of ['left','right'].entries()){el.toggleAttribute('data-overflow-'+edge,strength[i]>0);const value=String(1-strength[i]),property='--overflow-'+edge+'-alpha';if(el.style.getPropertyValue(property)!==value)el.style.setProperty(property,value);}
+  const c=getComputedStyle(el),visible=el.getClientRects().length>0;
+  overflowStrength.set(el,updateOverflowEdges(el,overflowStrength.get(el)));
   el.toggleAttribute('data-overflow-bottom',visible&&/auto|scroll/.test(c.overflowY)&&el.scrollHeight-el.clientHeight-el.scrollTop>2);
  }}
  function scheduleOverflow(){if(!overflowFrame)overflowFrame=requestAnimationFrame(refreshOverflow);}

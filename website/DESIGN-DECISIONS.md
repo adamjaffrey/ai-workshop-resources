@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.9"
-  update_summary: "Keep specimen paint, focus and derived text faithful"
-  updated_at: "Tue 20 Oct 2026 at 10:24:12 pm AEDT (+11:00)"
+  doc_revision: "26.0.10"
+  update_summary: "Preserve specimen context and reachable right-edge clearance"
+  updated_at: "Tue 20 Oct 2026 at 11:00:21 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -70,7 +70,7 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 
 ## Optical Rails and Specimen Clearance
 
-**Decision:** Text and square objects follow a text rail; designated rounded boundaries extend outward by 4px. Mobile text/surface gutters are 28px/24px. Apply an offset once per boundary, preserve native control interiors and centre centred content. Gallery documents own their inset in `lib/workshop-specimen-layout.mjs`; wrappers must not add another one. Gallery layout lives in one final sheet, separate from canonical component styles and held-focus simulation. Optical nudges move specimen roots without changing viewport padding; captured page positioning is removed first. Preserve paint clearance inside the grey frame for focus rings, outdents and login shadows; full-page previews retain native gutters. The requested focused-control examples move inward 6px without moving annotations, including the isolated QR button; theme and agent selector tracks use a 1px inward adjustment from the 24px surface rail after visual review. Their first option demonstrates focus independently of selection. The full Resources fallback boundary belongs to the specimen at 24px rather than the scroll viewport. The isolated QR caption aligns to the text rail; real QR cards remain centred. Standalone login-error groups compensate for measured X whitespace; table text aligns by removing first-cell padding.
+**Decision:** Text and square objects follow a text rail; designated rounded boundaries extend outward by 4px. Mobile text/surface gutters are 28px/24px. Apply an offset once per boundary, preserve native control interiors and centre centred content. Gallery documents own their inset in `lib/workshop-specimen-layout.mjs`; wrappers must not add another one. Gallery layout lives in one final sheet, separate from canonical component styles and held-focus simulation. Optical nudges move specimen roots without changing viewport padding; captured page positioning is removed first. Preserve paint clearance inside the grey frame for focus rings, outdents and login shadows; full-page previews retain native gutters. The requested focused-control examples move inward 6px without moving annotations, while the full QR card retains its own button inset and caption; theme and agent selector tracks use a 1px inward adjustment from the 24px surface rail after visual review. Their first option demonstrates focus independently of selection. Specimen scroll endpoints retain 24px of right clearance using a shared measured scroll-end extent; plain right padding was insufficient for overflowing nested blocks. Preserve captured theme-button widths so iframe mobile breakpoints do not move Moon left inside a desktop-sized track. The full Resources fallback boundary belongs to the specimen at 24px rather than the scroll viewport. The isolated QR caption aligns to the text rail; real QR cards remain centred. Standalone login-error groups compensate for measured X whitespace; table text aligns by removing first-cell padding.
 
 **Rationale:** Documented: rounded corners visually recede while SVG bounds can include invisible whitespace. The 4px correction was chosen through visual comparison, not as a universal standard. Repeated inset layers narrow specimens unnecessarily; clearance must protect paint without adding another content indent.
 
@@ -198,9 +198,9 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 
 ## Overflow Fades and Page Scrolling
 
-**Decision:** Use horizontal-only selection rails with native overflow access and vertical page-scroll chaining. Tab/selector fades use 108px feathers and 36px shoulders; other shared regions use 54px/18px. Preserve distance-driven strength, endpoint clearing and the baseline outside the mask. Expanded controls and iframe specimens follow the same contract.
+**Decision:** Use horizontal-only selection rails with native overflow access and vertical page-scroll chaining. Tab/selector fades use 108px feathers and 36px shoulders; other shared regions use 54px/18px. Mobile widths up to 660px halve these values to 54px/18px and 27px/9px respectively. All specimen overflow viewports now share the directional fade implementation with Playground controls; fitting specimens and reached endpoints have no fade. Preserve distance-driven strength, endpoint clearing and the baseline outside the mask. Expanded controls and iframe specimens follow the same contract.
 
-**Rationale:** Documented: earlier fades were too subtle for widely spaced labels. Fades indicate remaining content, so stale fades must clear when an edge is reached or content fits. Axis locking must not trap vertical gestures intended for the page. Older README 36px masks are superseded.
+**Rationale:** Documented: earlier fades were too subtle for widely spaced labels. Fades indicate remaining content, so stale fades must clear when an edge is reached or content fits. Axis locking must not trap vertical gestures intended for the page. Older README 36px masks are superseded. The user requested halved mobile fades because wide desktop feathers obscure too much of a narrow rail.
 
 **Owning Rules and Sources:** [Scrollable Control Contract](../docs/agent-guidance/interface.md#scrollable-control-style-and-validation). Primary README source: [Overflow Cues and Selection Position](README.md#overflow-cues-and-selection-position).
 

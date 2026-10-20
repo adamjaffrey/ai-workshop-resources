@@ -3,14 +3,45 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.256"
-  update_summary: "Align specimen paint and preserve meaningful overflow"
-  updated_at: "Tue 20 Oct 2026 at 10:24:12 pm AEDT (+11:00)"
+  doc_revision: "26.0.257"
+  update_summary: "Restore specimen context and consistent overflow clearance"
+  updated_at: "Tue 20 Oct 2026 at 11:00:21 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.255 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 11:00:21 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Restore specimen context and consistent overflow clearance
+
+### Fixed
+
+- Give all four specimen galleries a reachable 24px right-end gutter, including exterior focus paint, without retaining empty source-column width or counting padding twice.
+- Restore the complete QR focus card and caption, preserving the actual QR button dimensions and focus boundary. Preserve captured theme-button widths so narrow gallery media queries cannot shift Moon inside a wider track.
+- Centre Cross Mark where scroll limits permit; initially scroll Raised Hand and Black Rightwards Arrow to the right endpoint and White Heavy Check Mark to the left endpoint.
+
+### Changed
+
+- Share directional fade CSS and endpoint handling between Playground controls and every overflowing specimen viewport. Halve horizontal fade widths on mobile; clear fades at reached endpoints and when content fits.
+- Strengthen body-selection typography checks against independently rendered Resources text, including glyph height, and document the shared overflow and in-situ specimen rules.
+
+### Validation
+
+- `node website/tests/specimen-end-clearance-browser-check.mjs` — passed all 16 Chrome/WebKit viewport and theme/agent cases across four galleries, including exact right-end clearance, fade clearing, QR context and theme-button geometry.
+- `node website/tests/specimen-mobile-parity-browser-check.mjs` — passed all 16 cases, including Resources/body-selection font and glyph-height parity.
+- `node website/tests/specimen-optical-feedback-browser-check.mjs` — passed all eight agent/theme and mobile/desktop cases, including Unicode positioning and footer behaviour.
+- Source parity, seven-width external alignment, nested alignment, specimen fidelity, tab edges, scroll-axis ownership and overflow-hint checks — passed.
+- Mobile dark-mode body selection, full QR card, theme control and fades visually inspected. `npm --prefix website run build` — passed; generated v26.0.255 displays verified and saved backdrop geometry reused.
 
 ## v26.0.254 — 2026-10-20
 

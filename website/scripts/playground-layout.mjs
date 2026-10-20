@@ -1,3 +1,4 @@
+import {overflowFadeCSS} from '../lib/workshop-overflow.mjs';
 // Outer Playground tooling only; app specimens keep their canonical controls.
 export const playgroundLayoutCSS=String.raw`
 :root{--playground-inset-gap:32px;--control-related-gap:8px;--control-label-gap:16px;--control-column-gap:36px;--control-row-gap:32px}
@@ -60,7 +61,7 @@ header.wrap p{font-size:16px;line-height:24px;margin:0;max-width:none}
 .choices .choice-shell .choice-options.segmented-toggle{min-width:0;border:0;background:transparent;border-radius:11px}
 .choice-shell .choice-options{--overflow-left:0px;--overflow-right:0px;mask-image:linear-gradient(to right,transparent,#000 var(--overflow-left),#000 calc(100% - var(--overflow-right)),transparent);-webkit-mask-image:linear-gradient(to right,transparent,#000 var(--overflow-left),#000 calc(100% - var(--overflow-right)),transparent)}
 
-.choice-shell .choice-options[data-overflow-left],.choice-shell .choice-options[data-overflow-right],[data-overflow-left],[data-overflow-right]{mask-composite:intersect;-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,rgba(0,0,0,var(--overflow-left-alpha,1)) 0,rgba(0,0,0,var(--overflow-left-alpha,1)) var(--overflow-shoulder,18px),#000 var(--overflow-feather,54px),#000 calc(100% - var(--overflow-feather,54px)),rgba(0,0,0,var(--overflow-right-alpha,1)) calc(100% - var(--overflow-shoulder,18px)),rgba(0,0,0,var(--overflow-right-alpha,1))),linear-gradient(to bottom,#000 calc(100% - var(--overflow-bottom,0px)),transparent);-webkit-mask-image:linear-gradient(to right,rgba(0,0,0,var(--overflow-left-alpha,1)) 0,rgba(0,0,0,var(--overflow-left-alpha,1)) var(--overflow-shoulder,18px),#000 var(--overflow-feather,54px),#000 calc(100% - var(--overflow-feather,54px)),rgba(0,0,0,var(--overflow-right-alpha,1)) calc(100% - var(--overflow-shoulder,18px)),rgba(0,0,0,var(--overflow-right-alpha,1))),linear-gradient(to bottom,#000 calc(100% - var(--overflow-bottom,0px)),transparent)}
+${overflowFadeCSS}
 .tab-scroll-shell{position:relative;margin:4px 0 12px}.tab-scroll-shell::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--border);pointer-events:none}
 .tab-scroll-shell nav[role=tablist]{margin:0!important;padding-inline:0;background:none}
 .control-footer>.panel-options{min-height:50px;align-items:center}
@@ -129,6 +130,7 @@ summary,summary *,.hover-explainer,.hover-explainer *{cursor:pointer!important}
 main.wrap{padding-top:24px}
 .tab-scroll-shell{height:var(--tab-row-height);margin:0 0 16px;position:sticky;top:var(--sticky-tab-top,0px);z-index:11;background:var(--page);box-shadow:none}
 .choice-options,nav[role=tablist]{--overflow-feather:108px;--overflow-shoulder:36px}
+@media(max-width:660px){.choice-options,nav[role=tablist]{--overflow-feather:54px;--overflow-shoulder:18px}}
 .tab-scroll-shell nav[role=tablist]{padding-top:0}
 .tab-scroll-shell nav[role=tablist] button[aria-selected=true]{background:color-mix(in srgb,var(--agent-accent) 8%,var(--page))}
 .tab-scroll-shell::before{content:'';position:absolute;inset:-24px 0 100%;background:var(--page);pointer-events:none}

@@ -1,5 +1,7 @@
+import {overflowFadeCSS} from './workshop-overflow.mjs';
 // Gallery presentation only. Canonical component interiors remain app-owned.
 export const specimenLayoutCSS = String.raw`
+${overflowFadeCSS}
 /* Fixed source-width examples must not trigger mobile text inflation.
    Page zoom remains available. */
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
@@ -24,10 +26,11 @@ html:is([data-specimen-gallery=icons],[data-specimen-gallery=errors]) body{font:
 /* Scroll clearance, not a second content inset. The viewport reaches the grey
    boundary; its gutter restores the existing rail and protects focus paint. */
 :is(.icon-sample,.focus-preview,.agent-preview,.prompt-specimen-viewport,.feedback-preview,.specimen-viewport,.variant-preview){margin-inline:calc(-1 * var(--specimen-text-rail));padding:16px 0 16px var(--specimen-text-rail);width:calc(100% + 2 * var(--specimen-text-rail));max-width:none;box-sizing:border-box;overflow-x:auto;overflow-y:hidden}
+[data-specimen-scroll-end]::after{content:"";display:block;width:var(--specimen-scroll-end);height:0}
 .prompt-specimen-viewport{padding-block:8px;margin-block:-8px}
 .specimen-viewport{padding-block:8px;margin-block:-8px}
 .error-sample{display:flow-root}
-.error-sample:has(.full-login-context){padding-block:24px 64px;padding-inline-end:28px}
+.error-sample:has(.full-login-context){padding-block:24px 64px}
 @media(max-width:660px){.error-sample:has(.full-login-context){padding-block:20px 32px}}
 #errors-resources .fallback-context{outline:1px solid var(--border);outline-offset:-1px;border-radius:12px}
 .fallback-context{margin:0}
@@ -51,7 +54,7 @@ html:is([data-specimen-gallery=icons],[data-specimen-gallery=errors]) body{font:
 .feedback-preview .status{position:absolute}
 
 /* Optical exceptions move the specimen only, without redefining its inset. */
-.focus-preview{--specimen-optical-nudge:0px;padding-inline-end:6px}
+.focus-preview{--specimen-optical-nudge:0px}
 .focus-preview:has(>.segmented-toggle){--specimen-optical-nudge:1px}
 .focus-preview[data-exterior-ring]{--specimen-optical-nudge:6px}
 .focus-preview>*{translate:var(--specimen-optical-nudge) 0}

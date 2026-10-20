@@ -24,7 +24,7 @@ try{
    // Give each real rail a constrained width to exercise overflowing middle items.
    await p.evaluate(selector=>{const track=document.querySelector(selector);track.style.width='340px';track.style.maxWidth='340px';},selector);
    const result=await p.evaluate(selector=>{const t=document.querySelector(selector),items=[...t.children].filter(e=>e.matches('.choice,[role=tab]'));t.scrollLeft=0;const item=items[Math.floor(items.length/2)];revealPlaygroundOption(t,item);const r=item.getBoundingClientRect(),b=t.getBoundingClientRect();const middle={left:r.left-b.left,right:b.right-r.right,width:r.width,track:t.clientWidth,scroll:t.scrollLeft,max:t.scrollWidth-t.clientWidth};const before=t.scrollLeft;revealPlaygroundOption(t,item);const unchanged=t.scrollLeft===before;revealPlaygroundOption(t,items[0]);const first=t.scrollLeft;revealPlaygroundOption(t,items.at(-1));return {middle,unchanged,first,last:t.scrollLeft,max:t.scrollWidth-t.clientWidth,fade:getComputedStyle(t).getPropertyValue('--overflow-feather').trim()};},selector);
-   assert.equal(result.fade,'108px');assert.equal(result.first,0);assert.ok(Math.abs(result.last-result.max)<1);assert.ok(result.unchanged);
+   assert.equal(result.fade,width<=660?'54px':'108px');assert.equal(result.first,0);assert.ok(Math.abs(result.last-result.max)<1);assert.ok(result.unchanged);
    if(result.middle.max>0&&result.middle.scroll>1&&result.middle.scroll<result.middle.max-1){const clearance=width<=660?(result.middle.track-result.middle.width)/2:Math.min(108,(result.middle.track-result.middle.width)/2);assert.ok(result.middle.left>=clearance-2&&result.middle.right>=clearance-2,JSON.stringify(result));}
   }
  }

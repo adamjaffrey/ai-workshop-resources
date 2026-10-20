@@ -42,13 +42,11 @@ window.addEventListener('message',async event=>{
  const page=event.data.page,items=[],errors=[],typographyFeedback=[],agentTypography=[],buttonVariants=[],focusItems=[];
  const captureButton=(node,kind,state)=>{const c=getComputedStyle(node.querySelector('.copy-label')||node);buttonVariants.push({kind,state,html:iconSnapshot(node,page,state,true).html,typography:[c.fontFamily,c.fontSize,c.fontWeight,c.lineHeight,c.color]});};
  const captureFocus=(node,label,ring=true)=>{
-  const root=node.closest('.password-field')||node.closest('.qr-copy')||node.closest('.code-wrap')||node.closest('.segmented-toggle')||node.closest('.perspective')||node.closest('footer form[action="/auth/logout"]')||node;
-  const template=document.createElement('template');if(node.matches('.qr-copy'))template.innerHTML=iconSnapshot(node,page,'Focus',true).html;
-  const clone=template.content.firstElementChild||root.cloneNode(true),originals=[root,...root.querySelectorAll('*')],copies=[clone,...clone.querySelectorAll('*')];
+  const root=node.closest('.password-field')||node.closest('.qr-card')||node.closest('.code-wrap')||node.closest('.segmented-toggle')||node.closest('.perspective')||node.closest('footer form[action="/auth/logout"]')||node;
+  const clone=root.cloneNode(true),originals=[root,...root.querySelectorAll('*')],copies=[clone,...clone.querySelectorAll('*')];
   clone.style.removeProperty('outline');clone.style.removeProperty('outline-offset');
-  // Keep the captured QR geometry, but let the canonical held-focus rule reveal
-  // its overlay rather than freezing the resting opacity into the specimen.
-  clone.querySelector('.qr-copy-overlay')?.style.removeProperty('opacity');
+  // Retain source control geometry when the gallery iframe crosses a mobile breakpoint.
+  originals.forEach((original,i)=>{if(original.matches('.theme-toggle button,.qr-copy,.qr-copy img')){copies[i].style.width=getComputedStyle(original).width;copies[i].style.height=getComputedStyle(original).height;}});
   copies[originals.indexOf(node)].setAttribute('data-focus-target','');
   originals.forEach((n,i)=>{if(n instanceof HTMLInputElement)copies[i].setAttribute('value',n.value);});
   preserveSpecimenSize(clone,root);
@@ -135,13 +133,16 @@ window.addEventListener('message',event=>{if(event.source!==parent)return;if(eve
  const sample=document.createElement('div');sample.className='icon-sample';sample.innerHTML=item.html;sample.querySelectorAll('[data-input-icon=loading]').forEach(icon=>{for(const property of ['animation-name','animation-duration','animation-timing-function','animation-iteration-count','transform'])icon.style.removeProperty(property);});sample.querySelectorAll('input').forEach(e=>e.readOnly=true);
  const detail=document.createElement('p');detail.className='icon-meta';detail.textContent=(item.usage?'Use: '+item.usage+' · ':'')+item.page+' → '+item.selector+' · '+item.state+(item.width?' · '+Math.round(item.width)+' × '+Math.round(item.height)+'px':'')+' · '+item.colour+(item.src?' · '+(item.src.startsWith('data:')?'Embedded app image':item.src):'');row.append(title,sample,detail);
  if(url){const source=document.createElement('a');source.href=url;source.target='_blank';source.rel='noopener noreferrer';source.dataset.iconSource='';source.hidden=!showIconSources;source.textContent='View Source · '+name;row.append(source);}section.append(row);}
- filterIcons();
+ filterIcons();window.updateWorkshopGallery?.();
  for(const prompt of section.querySelectorAll('[data-unicode-target]')){
   const pre=prompt.querySelector('pre'),walker=document.createTreeWalker(pre,NodeFilter.SHOW_TEXT);
   while(walker.nextNode()){const index=walker.currentNode.textContent.indexOf(prompt.dataset.unicodeTarget);if(index<0)continue;
    const range=document.createRange();range.setStart(walker.currentNode,index);range.setEnd(walker.currentNode,index+prompt.dataset.unicodeTarget.length);
    const rect=range.getBoundingClientRect(),box=pre.getBoundingClientRect();pre.scrollTop+=rect.top-box.top-(pre.clientHeight-rect.height)/2;
-   const viewport=prompt.parentElement,v=viewport.getBoundingClientRect();if(rect.right>v.right||rect.left<v.left)viewport.scrollLeft+=rect.left-v.left-(viewport.clientWidth-rect.width)/2;
+   const viewport=prompt.parentElement,v=viewport.getBoundingClientRect(),symbol=prompt.dataset.unicodeTarget;
+   if(symbol==='✅')viewport.scrollLeft=0;
+   else if(symbol==='✋'||symbol.replace('\uFE0F','')==='➡')viewport.scrollLeft=viewport.scrollWidth;
+   else viewport.scrollLeft+=rect.left-v.left-(viewport.clientWidth-rect.width)/2;
    break;
   }
  }
