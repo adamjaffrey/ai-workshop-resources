@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.75"
-  update_summary: "Use a full-width sticky ancestor for mobile browser tinting"
-  updated_at: "Tue 20 Oct 2026 at 03:10:07 pm AEDT (+11:00)"
+  doc_revision: "26.0.76"
+  update_summary: "Simplify preview links and clarify Playground destinations"
+  updated_at: "Tue 20 Oct 2026 at 03:38:12 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -39,9 +39,9 @@ metadata:
 
 ## Preview Delivery
 
-- Select the Playground destination using the exact rules and title/slug mapping under Required Update Handoff: use the primary relevant section for a section-specific review, otherwise use `/component-playground`. Always use the verified active Wi-Fi address and port for local links.
+- Select the Playground destination using the exact rules and title/slug mapping under Required Update Handoff: link to a section only when that specific panel was worked on or discussed in the current chat work and is the primary review destination. For cross-cutting changes, multiple equally relevant panels, or no specifically worked-on/discussed panel, use `/component-playground`. Do not choose a subpage merely because it seems generally relevant. Always use the verified active Wi-Fi address and port for local links.
 
-- Start all user-facing local previews already signed in. Use `npm --prefix website run preview:phone` (automatic login enabled), or pass `{autoLogin:true}` to `createPhonePreview` for custom ports. Continue generating and displaying the process’s temporary test password. The local adapter must obtain a real session through the unchanged server-side login handler, using only its in-memory preview database and temporary credential; never add an authentication bypass to application handlers, production builds or hosted Sites. Keep low-level authentication tests explicit (`autoLogin:false`, the factory default). Provide `/ai-workshop-resources?show-login=true` for inspecting the real login form; local Log Out returns there. Verify a fresh browser opens Resources, the session endpoint recognises its cookie, logout invalidates it, and hosted access still requires authentication when changing this workflow.
+- Start all user-facing local previews already signed in. Use `npm --prefix website run preview:phone` (automatic login enabled), or pass `{autoLogin:true}` to `createPhonePreview` for custom ports. Continue generating and displaying the process’s temporary test password. The local adapter must obtain a real session through the unchanged server-side login handler, using only its in-memory preview database and temporary credential; never add an authentication bypass to application handlers, production builds or hosted Sites. Keep low-level authentication tests explicit (`autoLogin:false`, the factory default). Keep `/ai-workshop-resources?show-login=true` available for inspecting the real login form, but provide its link only when the user explicitly requests it; local Log Out returns there. Verify a fresh browser opens Resources, the session endpoint recognises its cookie, logout invalidates it, and hosted access still requires authentication when changing this workflow.
 
 - For every future preview handoff in this project, provide the active server’s reachable Wi-Fi/LAN IPv4 address and port, never `localhost`, `127.0.0.1` or another loopback address. Adam reviews on his phone. Bind the server to the network interface, verify both app and Playground URLs. Do not include routine “use the same Wi-Fi” reminders in messages or handoffs. Recheck the address and active process’s test password at each handoff. If LAN access is unavailable, explain the limitation rather than substituting a loopback link.
 
@@ -74,7 +74,7 @@ This is an exact output contract for every completed update in this repository, 
 
 1. Start with a concise change summary and verification result, normally one or two sentences.
 2. Emit **📦 Build and Delivery** and its four bullets in the exact order shown below.
-3. Emit **🔗 Local Preview** with exactly three link bullets: Main App, Playground and Login Form.
+3. Emit **🔗 Local Preview** with exactly two link bullets: Main App and Playground. Do not include a Login Form link in routine preview handoffs.
 4. Immediately follow with **🔑 Local App Test Password** and one fenced `text` block containing only the active process’s test password.
 5. Append **🌐 Live on Sites** only when publication succeeds for this update, or the user explicitly requests the existing live link. After every successful publication, include Main App and Playground links as two separate bullets.
 
@@ -102,9 +102,8 @@ If a build, commit, push or publication failed or was blocked, replace that item
 Define `LOCAL_ORIGIN` as the active preview’s verified `http://WIFI-IP:PORT`, without a trailing slash. Never hard-code an example IP address or port, assume the previous process still owns a port, substitute loopback, or show a production password.
 
 - Main App: `[Main App ↗](LOCAL_ORIGIN/ai-workshop-resources) — automatically signed in`. Link to `/ai-workshop-resources`, not a redirect alias, and do not put paths in the anchor text.
-- Playground, when exactly one section is the primary review destination: `[Playground > SECTION TITLE ↗](LOCAL_ORIGIN/component-playground/SECTION-SLUG) — automatically signed in`. Use the title/slug mapping below, not a raw slug or invented title.
+- Playground, only when that specific panel was worked on or discussed in the current chat work and exactly one section is the primary review destination: `[Playground > SECTION TITLE ↗](LOCAL_ORIGIN/component-playground/SECTION-SLUG) — automatically signed in`. Use the title/slug mapping below, not a raw slug or invented title.
 - Playground, for cross-cutting changes or no specific section: `[Playground ↗](LOCAL_ORIGIN/component-playground) — automatically signed in`.
-- Login Form: `[Login Form ↗](LOCAL_ORIGIN/ai-workshop-resources?show-login=true) — logged-out view`.
 
 | Section Slug | Section Title |
 |---|---|
@@ -119,9 +118,9 @@ Define `LOCAL_ORIGIN` as the active preview’s verified `http://WIFI-IP:PORT`, 
 | `easter-egg` | Easter Egg |
 | `url-reference` | URL Reference |
 
-Do not use “Preview link”, inline-code paths in labels, “password free”, “password-free”, “logged out state” or additional lock icons in these handoff bullets. The exact local phrase “automatically signed in” describes the no-password-entry review experience; it does not change the authentication implementation. The app obtains a real local session, while local Playground access remains password-free as documented above. Never apply this phrase to hosted access or imply that either local route bypasses hosted authentication. The login link revokes the current session before displaying the logged-out form.
+Do not use “Preview link”, inline-code paths in labels, “password free”, “password-free”, “logged out state” or additional lock icons in these handoff bullets. The exact local phrase “automatically signed in” describes the no-password-entry review experience; it does not change the authentication implementation. The app obtains a real local session, while local Playground access remains password-free as documented above. Never apply this phrase to hosted access or imply that either local route bypasses hosted authentication. If the user explicitly requests a login-form link, provide it separately from the routine two-link handoff; it revokes the current session before displaying the logged-out form.
 
-Verify the active process, LAN origin and all three destinations before handing them over. Read the password from that process’s startup output. Retained startup output is usable only after confirming that the same process is still serving those URLs; never copy a credential merely from a previous final response. If the process or password cannot be verified, restart and verify when safe and within scope, or use the unavailable case below.
+Verify the active process, LAN origin and both linked destinations before handing them over. Verify a login-form URL separately only when explicitly requested or required by the authentication changes being tested. Read the password from that process’s startup output. Retained startup output is usable only after confirming that the same process is still serving those URLs; never copy a credential merely from a previous final response. If the process or password cannot be verified, restart and verify when safe and within scope, or use the unavailable case below.
 
 If local preview is unavailable, retain **🔗 Local Preview** with `Unavailable — REASON.` and **🔑 Local App Test Password** with `Unavailable — no verified active preview password.` instead of links or a password block. Do not invent credentials or provide unverified URLs. If a deliberately passwordless preview has no test credential, state `Not applicable — this preview has no test password.` instead of a code block; the normal app preview still requires its generated test credential for manual login inspection.
 
@@ -131,7 +130,7 @@ Under **🌐 Live on Sites**, every successful publication must include two sepa
 
 ### Handoff Format
 
-Copy this structure literally for a successful new local build, replacing placeholders. For documentation-only work, use `unchanged, no new artefact produced.` and omit the preview and password sections as specified above. For a section-specific review, replace only the Playground bullet with the section form defined above. Do not emit placeholder text.
+Copy this structure literally for a successful new local build, replacing placeholders. For documentation-only work, use `unchanged, no new artefact produced.` and omit the preview and password sections as specified above. For a specifically worked-on or discussed panel that is the sole primary review destination, replace only the Playground bullet with the section form defined above. Do not emit placeholder text.
 
 ````markdown
 **📦 Build and Delivery**
@@ -145,7 +144,6 @@ Copy this structure literally for a successful new local build, replacing placeh
 
 - [Main App ↗](LOCAL_ORIGIN/ai-workshop-resources) — automatically signed in
 - [Playground ↗](LOCAL_ORIGIN/component-playground) — automatically signed in
-- [Login Form ↗](LOCAL_ORIGIN/ai-workshop-resources?show-login=true) — logged-out view
 
 **🔑 Local App Test Password**
 
