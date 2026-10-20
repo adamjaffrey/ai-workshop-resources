@@ -21,8 +21,11 @@ window.getSelection=()=>({removeAllRanges(){},addRange(){}});
 function finishCaptureMotion(){document.body.offsetHeight;document.getAnimations().forEach(a=>{if(a.effect?.getTiming().iterations!==Infinity)try{a.finish();}catch{}});}
 // MessageChannel yields are not subject to background iframe timer throttling.
 const captureChannel=new MessageChannel(),captureTasks=[];
-captureChannel.port1.onmessage=()=>captureTasks.shift()?.();
-const yieldCapture=()=>new Promise(resolve=>{captureTasks.push(resolve);captureChannel.port2.postMessage(null);});
+let capturePaused=false;
+window.addEventListener('message',event=>{if(event.source!==parent||event.data?.guide!=='capture-pause')return;capturePaused=event.data.paused;if(!capturePaused)captureChannel.port2.postMessage(null);});
+captureChannel.port1.onmessage=()=>{if(!capturePaused)captureTasks.shift()?.();};
+const superseded=Symbol('superseded capture');
+const yieldCapture=async()=>{await new Promise(resolve=>{captureTasks.push(resolve);captureChannel.port2.postMessage(null);});if(pendingIcons)throw superseded;};
 let capturingIcons=false,pendingIcons;
 window.addEventListener('message',async event=>{
  if(event.source!==parent||event.data?.guide!=='icon-catalog')return;
@@ -44,9 +47,9 @@ window.addEventListener('message',async event=>{
  const add=(node,state)=>{if(!node)throw Error('Missing icon source: '+page+' '+state);items.push(iconSnapshot(node,page,state));};
  const addError=(node,state)=>{if(!node)throw Error('Missing error source: '+page+' '+state);const item=iconSnapshot(node,page,state,true),template=document.createElement('template');template.innerHTML=node.matches('.gate-panel,.code-wrap,.perspective-dialog')?node.outerHTML:item.html;const root=template.content.firstElementChild;if(node.matches('.gate-panel')){root.querySelector('input').setAttribute('value',node.querySelector('input').value);}if(node.matches('.gate-panel'))root.classList.add('full-login-context');Object.assign(root.style,{position:node.matches('.qr-copy,.code-wrap')?'relative':'static',maxWidth:'100%',height:'auto',maxHeight:'none',margin:'0'});if(node.matches('.code-wrap'))root.style.width=item.width+'px';errors.push({...item,html:root.outerHTML,text:node.textContent.trim()});};
  if(page==='login'){
-  for(const state of ['neutral','loading','success','wrong']){window.demoLogin(state);finishCaptureMotion();captureFocus(document.querySelector('#workshop-password'),'Password · '+({neutral:'Neutral',loading:'Checking',success:'Success',wrong:'Incorrect Password'}[state]));if(state==='neutral')captureFocus(document.querySelector('.gate-submit'),'Unlock Resources · Keyboard Focus');document.querySelectorAll('[data-input-icon],[data-status-icon]').forEach(node=>{if(!node.hasAttribute('hidden'))add(node,state);});}
+  for(const state of ['neutral','loading','success','wrong']){await yieldCapture();window.demoLogin(state);finishCaptureMotion();captureFocus(document.querySelector('#workshop-password'),'Password · '+({neutral:'Neutral',loading:'Checking',success:'Success',wrong:'Incorrect Password'}[state]));if(state==='neutral')captureFocus(document.querySelector('.gate-submit'),'Unlock Resources · Keyboard Focus');document.querySelectorAll('[data-input-icon],[data-status-icon]').forEach(node=>{if(!node.hasAttribute('hidden'))add(node,state);});}
   parent.postMessage({guide:'focus-catalog-data',requestId:event.data.requestId,page,focusItems},'*');
-  for(const state of ['loading','success','empty','wrong','network','service','generic','limited','limitedLater','retryReady']){window.demoLogin(state);finishCaptureMotion();const status=document.getElementById('gate-error');addError(document.getElementById('access-form'),state);errors.at(-1).statusHtml=status.outerHTML;errors.at(-1).colour=getComputedStyle(status).color;}
+  for(const state of ['loading','success','empty','wrong','network','service','generic','limited','limitedLater','retryReady']){await yieldCapture();window.demoLogin(state);finishCaptureMotion();const status=document.getElementById('gate-error');addError(document.getElementById('access-form'),state);errors.at(-1).statusHtml=status.outerHTML;errors.at(-1).colour=getComputedStyle(status).color;}
   window.demoLogin('neutral');finishCaptureMotion();
  }else{
   for(const [selector,label,ring] of [['.intro','Body Text Selection',false],['pre','Prompt Text · Keyboard Focus',true],['.copy','Copy Prompt · Keyboard Focus',true],['.qr-copy','QR Link · Keyboard Focus',true],['footer form[action="/auth/logout"] button','Log Out · Keyboard Focus',true],['.theme-toggle [aria-pressed=true]','Colour Theme · Keyboard Focus',true],['.controls [aria-pressed=true]','Coding Agent · Keyboard Focus',true]])captureFocus(document.querySelector(selector),label,ring);
@@ -100,7 +103,7 @@ window.addEventListener('message',async event=>{
  if(item.state==='Log Out')return 90;
  return 75;
  };items.sort((a,b)=>rank(a)-rank(b));parent.postMessage({guide:'icon-catalog-data',requestId:event.data.requestId,page,items,errors,typographyFeedback,agentTypography,buttonVariants,noticeTypography,focusItems},'*');
- }finally{capturingIcons=false;if(pendingIcons){const data=pendingIcons;pendingIcons=null;window.dispatchEvent(new MessageEvent('message',{source:parent,data}));}}
+ }catch(error){if(error!==superseded)throw error;}finally{capturingIcons=false;if(pendingIcons){const data=pendingIcons;pendingIcons=null;window.dispatchEvent(new MessageEvent('message',{source:parent,data}));}}
 });`;
 
 export const iconGalleryScript = String.raw`

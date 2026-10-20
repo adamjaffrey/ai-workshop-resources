@@ -14,13 +14,16 @@ html,body{overflow-y:hidden}body{margin:0;padding:24px;font:14px/1.5 -apple-syst
 <ul><li>A short first-level bullet.</li><li>A longer first-level bullet that wraps on narrow screens so its hanging indentation can be inspected.</li><li>A parent item with nested detail.<ul><li>A nested bullet advances by one compact indent.</li><li>Use <code>div</code>, <code>section</code> and <code>.example-panel</code> for element and class references.</li></ul></li></ul>
 <p>Element names such as <code>button</code>, IDs such as <code>#example-control</code>, and filenames such as <code>workshop-theme.mjs</code> use the shared monospace font.</p></section>
 </div><script>
+let linkPalette='',linkTableReady=false;
 function refreshLinkTypography(){
+ const palette=document.documentElement.dataset.theme+'/'+document.documentElement.dataset.selectedAgent;if(linkPalette===palette)return;linkPalette=palette;
  window.decorateWorkshopLinks();
  const root=document.documentElement,savedTheme=root.dataset.theme,savedAgent=root.dataset.selectedAgent;
  const links=document.querySelectorAll('a'),normal=links[0],hover=links[1];
- const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
+ const canvas=document.createElement('canvas');canvas.width=1;canvas.height=1;const ctx=canvas.getContext('2d',{willReadFrequently:true});
  const hex=value=>{ctx.clearRect(0,0,1,1);ctx.fillStyle=value;ctx.fillRect(0,0,1,1);return '#'+[...ctx.getImageData(0,0,1,1).data].slice(0,3).map(n=>n.toString(16).padStart(2,'0')).join('').toUpperCase();};
  const opacity=value=>{ctx.clearRect(0,0,1,1);ctx.fillStyle=value;ctx.fillRect(0,0,1,1);return Math.round(ctx.getImageData(0,0,1,1).data[3]/255*100);};
+ if(!linkTableReady){
  const rows=[];
  for(const theme of ['light','dark'])for(const agent of ['codex','claude-code']){
   root.dataset.theme=theme;root.dataset.selectedAgent=agent;
@@ -30,6 +33,8 @@ function refreshLinkTypography(){
  if(savedTheme===undefined)delete root.dataset.theme;else root.dataset.theme=savedTheme;
  if(savedAgent===undefined)delete root.dataset.selectedAgent;else root.dataset.selectedAgent=savedAgent;
  const body=document.getElementById('link-colours');body.replaceChildren();for(const values of rows){const row=document.createElement('tr');for(const value of values){const cell=document.createElement('td');if(row.children.length===0){const [theme,agent]=value.split(' / ');for(const [i,word] of [theme,agent].entries()){if(i)cell.append(' / ');const code=document.createElement('code');code.textContent=word;cell.append(code);}}else cell.textContent=value;row.append(cell);}body.append(row);}
+ linkTableReady=true;
+ }
  const text=getComputedStyle(normal.querySelector('.link-label')),held=getComputedStyle(hover.querySelector('.link-label')),box=getComputedStyle(normal);
  document.getElementById('link-metrics').textContent='Text: '+hex(text.color)+' · Underline: '+hex(text.textDecorationColor)+' · Thickness: '+text.textDecorationThickness+' resting / '+held.textDecorationThickness+' hover · Underline offset: '+text.textUnderlineOffset+' · Layout padding: '+box.padding+' · Hover, focus and hit area: top +2px, right +1px; left/bottom unchanged'+' · Font: '+box.fontFamily+' · '+box.fontSize+' / '+box.lineHeight+' · Weight: '+box.fontWeight;
 }

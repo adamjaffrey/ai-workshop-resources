@@ -3,14 +3,43 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.245"
-  update_summary: "Widen hostname status and query effect columns"
-  updated_at: "Tue 20 Oct 2026 at 03:32:12 pm AEDT (+11:00)"
+  doc_revision: "26.0.246"
+  update_summary: "Keep Playground controls responsive with deferred tab updates"
+  updated_at: "Tue 20 Oct 2026 at 03:53:21 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.244 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 03:53:21 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Keep Playground controls responsive with deferred tab updates
+
+### Changed
+
+- Apply current settings immediately to the active tab and create inactive specimen documents on demand, retaining the latest state through rapid changes.
+- Warm inactive tabs in small idle batches after interaction stops; pause for scrolling, pointer movement, typing and held pointers, including interaction inside sandboxed specimens. Prioritise visible tab buttons, deliberate hover and keyboard focus; selecting a tab forces preparation.
+- Conceal stale specimen palettes until matching settings and captured gallery content are applied. Cache palette-specific captures, send only relevant settings and interrupt obsolete background captures between simulated states.
+- Batch swatch style reads, use one pixel read and cache results by theme/agent. Defer hidden swatches and retain the hyperlink reference table instead of rebuilding it for every control change.
+- Document the loading lifecycle and add focused browser coverage while retaining shared app sources, authentication and approved selector timing.
+
+### Validation
+
+- `node --test website/tests/auth.test.mjs website/tests/playground-structure.test.mjs` — passed all 12 checks.
+- `node website/tests/playground-browser-check.mjs` — passed source parity, both agents/themes at 320, 390, 768 and 1440px, held states, inspection and navigation containment.
+- `node website/tests/playground-connected-controls-browser-check.mjs` — passed responsive controls, keyboard selection and hyperlink styling.
+- `node website/tests/playground-scheduling-browser-check.mjs` — passed cold loading, latest-state delivery, hover warming, held-pointer pauses, idle catch-up, cached focus palettes, reduced motion and idle fallback at 390 and 1440px. With all tabs loaded and 4× CPU throttling, each tested control's largest frame gap was 17ms, compared with 183–217ms in the original baseline; an earlier new-code run measured 17–50ms.
+- Local production build and generated-artefact checks — passed; server-only Playground retains 12 deferred frames and displays v26.0.244. Saved backdrop geometry reused.
+- Website PVS validation and final metadata/diff checks — passed. LAN Main App and Playground returned HTTP 200 with a fresh automatic session; desktop/mobile screenshots inspected. Physical-device behaviour remains unverified.
 
 ## v26.0.243 — 2026-10-20
 
