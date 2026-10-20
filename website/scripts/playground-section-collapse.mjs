@@ -4,13 +4,13 @@ import ink from '../lib/workshop-icon-ink.generated.json' with {type:'json'};
 assertMeasuredHeadingIcon('chevron-down');
 const svg='<svg data-icon-provider="lucide" data-icon-name="chevron-down" data-icon-use="toggle-playground-section" aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+chevronDown.map(([tag,attrs])=>'<'+tag+' '+Object.entries(attrs).filter(([key])=>key!=='key').map(([key,value])=>key+'="'+value+'"').join(' ')+'></'+tag+'>').join('')+'</svg>';
 export const sectionCollapseCSS=`
-/* Compensate the 10px hit-target padding, measured SVG whitespace and 1px
-   panel border so the visible stroke stays 28px from the outer right edge. */
-[data-panel]>.panel>.section-heading{position:relative;padding-right:44px}
-[data-panel]>.panel>.section-heading>.section-collapse{position:absolute;right:calc(-11px - ${ink.icons['chevron-down'].right}px);top:calc(4px + (1.5em - 44px)/2);font-size:24px;display:grid;place-items:center;width:44px;height:44px;min-width:44px;padding:10px;border:0;border-radius:8px;background:transparent;color:var(--text);cursor:pointer;box-shadow:none}
-.section-collapse>svg{display:block;width:24px;height:24px;transition:transform 160ms ease}
+/* Keep the rotation pivot fixed; the down-state stroke has a 28px right inset. */
+[data-panel]>.panel>.section-heading{position:relative;padding-right:44px;isolation:isolate}
+[data-panel]>.panel>.section-heading>.section-collapse{position:absolute;inset:-4px;z-index:0;display:block;width:auto;height:auto;min-height:44px;padding:0;border:0;border-radius:8px;background:transparent;color:var(--text);cursor:pointer;box-shadow:none}
+[data-panel]>.panel:not(.is-expanded)>.section-heading h2{position:relative;z-index:1;pointer-events:none;user-select:none}
+[data-panel]>.panel:not(.is-expanded)>.section-heading :is(h2,h2 *,button,button *){cursor:pointer!important}
+.section-collapse>svg{position:absolute;right:calc(3px - ${ink.icons['chevron-down'].right}px);top:calc(var(--section-cap-y,22px) + 4px - 12px);display:block;width:24px;height:24px;transform-origin:center;transition:transform 160ms ease}
 .section-collapse:hover{background:var(--hover)!important}
-[data-panel]>.panel[data-collapsed]>.section-heading>.section-collapse{right:calc(-11px - ${ink.icons['chevron-right'].right}px)}
 [data-collapsed]>.section-heading>.section-collapse>svg{transform:rotate(-90deg)}
 [data-panel]>.panel[data-collapsed]>:not(.section-heading),[data-panel]>.panel[data-collapsed]>.section-heading>:not(h2):not(.section-collapse){display:none!important}
 [data-panel]>.panel[data-collapsed]>.section-heading{margin-bottom:0}

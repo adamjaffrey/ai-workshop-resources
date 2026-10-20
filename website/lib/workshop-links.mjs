@@ -3,6 +3,7 @@ import {__iconNode as arrow} from '../node_modules/lucide-react/dist/esm/icons/a
 // A 12-unit canvas at 8px preserves the original 24-unit/16px scale.
 export const linkArrowSVG='<svg class="link-arrow" data-icon-provider="lucide" data-icon-name="arrow-up-right" data-icon-use="follow-link" aria-hidden="true" viewBox="6 6 12 12" width="8" height="8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+arrow.map(([tag,attrs])=>'<'+tag+' '+Object.entries(attrs).filter(([key])=>key!=='key').map(([key,value])=>key+'="'+value+'"').join(' ')+'></'+tag+'>').join('')+'</svg>';
 export const linkCSS=`
+a.workshop-link[hidden]{display:none!important}
 .link-tail{white-space:nowrap}
 a.workshop-link[href]{display:inline-block;max-width:100%;padding:2px 3px;border-radius:5px;text-decoration:none;overflow-wrap:anywhere;vertical-align:baseline;position:relative;isolation:isolate;background-color:transparent;pointer-events:none}
 /* Preserve text/layout geometry; the adjusted surface is the native link's hit target. */

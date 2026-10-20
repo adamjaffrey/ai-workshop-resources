@@ -45,10 +45,11 @@ export const urlReferenceCSS=`
 #panel-url-reference th:last-child,#panel-url-reference td:last-child{padding-right:0}
 #panel-url-reference th{color:var(--text)}
 #panel-url-reference code{font:0.9em/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
-#panel-url-reference .url-code-block{position:relative;margin:16px -4px;border:1px solid var(--panel-border);border-radius:12px;background:var(--surface);color:var(--text)}
+#panel-url-reference .url-code-block{position:relative;margin:16px -4px;border:1px solid var(--panel-border);border-radius:12px;background:var(--content-surface);color:var(--text)}
 #panel-url-reference .code-header{min-height:56px;display:flex;align-items:center;border-bottom:1px solid var(--panel-border);padding:12px 20px}
 #panel-url-reference .code-label{font-size:12px;color:var(--muted-text)}
-#panel-url-reference pre{white-space:pre-wrap;margin:0;padding:16px 20px;max-height:320px;overflow:auto;border-radius:0 0 11px 11px}
+#panel-url-reference pre{white-space:pre-wrap;margin:0;padding:16px 20px;font:14px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;max-height:320px;overflow:auto;border-radius:0 0 11px 11px}
+#panel-url-reference pre code{font:inherit;color:inherit}
 #panel-url-reference pre:focus-visible{outline:3px solid var(--icon-ink);outline-offset:3px}
 #panel-url-reference li+li{margin-top:8px}
 #panel-url-reference h3{margin-top:24px}

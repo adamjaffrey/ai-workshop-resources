@@ -16,11 +16,11 @@ try{
   for(const value of ['agent=codex','agent=claude-code','theme=light','theme=dark','show-login=true','show-login=false','login=1','login=0','url-references'])assert.ok((await panel.innerText()).includes(value),value);
   const headingIcons=await panel.locator('h2>svg,h3>svg').evaluateAll(nodes=>nodes.map(svg=>({name:svg.dataset.iconName,use:svg.dataset.iconUse})));
   assert.equal(headingIcons.length,await panel.locator('h2,h3').count(),'Every reference heading has an icon');
-  assert.equal(await page.locator('#tab-url-reference svg').getAttribute('data-icon-name'),'file-code-corner');
+  assert.equal(await page.locator('#tab-url-reference svg').getAttribute('data-icon-name'),'map-pin-house');
   for(const {name,use} of headingIcons){
    assert.ok((await page.locator('#playground-icon-catalog [data-catalog-icon="'+name+'"]').first().textContent()).includes(use),'Catalogue includes '+use);
   }
-  assert.ok((await page.locator('#playground-icon-catalog [data-catalog-icon="file-code-corner"]').textContent()).includes('playground-tab-url-reference'));
+  assert.ok((await page.locator('#playground-icon-catalog [data-catalog-icon="map-pin-house"]').textContent()).includes('playground-tab-url-reference'));
   for(const table of await panel.locator('.url-table').all()){
    assert.equal(await table.getAttribute('tabindex'),'0','Overflow table remains keyboard-accessible');
    assert.ok(await table.locator('table').evaluate(e=>e.getBoundingClientRect().width>=600),'Keep columns readable');

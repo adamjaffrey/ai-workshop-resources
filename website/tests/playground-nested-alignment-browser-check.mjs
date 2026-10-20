@@ -24,7 +24,7 @@ try{
    await p.locator('[data-tab='+tab+']').click();const d=p.locator('#'+id+'-preview');await d.locator('.preview-expand').click();
    for(const details of await d.locator(':scope>.preview-settings,:scope>.preview-state-settings').all()){
     await details.evaluate(e=>e.open=true);
-    const geometry=await details.evaluate(e=>{const s=e.querySelector('summary'),r=document.createRange();r.selectNodeContents(s.lastChild);const body=e.querySelector('.expanded-global-controls,.expanded-state-controls');const child=body.querySelector('legend,.slider-label');return {heading:r.getBoundingClientRect().x,label:child?child.getBoundingClientRect().x-(child.matches('legend')?13:0):undefined,overflow:document.documentElement.scrollWidth>innerWidth};});
+    const geometry=await details.evaluate(e=>{const s=e.querySelector('summary'),r=document.createRange();r.selectNodeContents(s.lastChild);const body=e.querySelector('.expanded-global-controls,.expanded-state-controls');const child=body.querySelector('legend,.slider-label');return {heading:r.getBoundingClientRect().x,label:child?child.getBoundingClientRect().x:undefined,overflow:document.documentElement.scrollWidth>innerWidth};});
     if(geometry.label!==undefined)near(geometry.label,geometry.heading,id+' disclosure text');assert.equal(geometry.overflow,false,'no page overflow');
    }
    await p.keyboard.press('Escape');

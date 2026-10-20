@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.4"
-  update_summary: "Add URL Reference aliases and apply CMOS title case"
-  updated_at: "Tue 20 Oct 2026 at 10:30:35 am AEDT (+11:00)"
+  doc_revision: "26.0.5"
+  update_summary: "Match canonical Playground section rows to tab order"
+  updated_at: "Tue 20 Oct 2026 at 11:01:03 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -103,8 +103,8 @@ Section aliases work under the canonical Playground root and every root alias ab
 | `/component-playground/status-states` | `error`, `errors`, `status`, `statuses`, `state`, `states`, `status-state`, `statuses-state`, `statuses-states` |
 | `/component-playground/focus-and-selection` | `focus`, `focuses`, `foci`, `selection`, `selections`, `focus-and-selections`, `focuses-and-selection`, `focuses-and-selections`, `foci-and-selection`, `foci-and-selections` |
 | `/component-playground/branding` | `brand`, `brands`, `brandings` |
-| `/component-playground/url-reference` | `url`, `urls`, `reference`, `references`, `url-references`, `urls-reference`, `urls-references` |
 | `/component-playground/easter-egg` | `discovery`, `discoveries`, `easter`, `easters`, `egg`, `eggs`, `easter-eggs`, `easters-egg`, `easters-eggs` |
+| `/component-playground/url-reference` | `url`, `urls`, `reference`, `references`, `url-references`, `urls-reference`, `urls-references` |
 
 ```text
 /styles-guides/foci-and-selections/example

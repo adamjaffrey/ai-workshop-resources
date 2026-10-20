@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.229"
-  update_summary: "Add collapsible Playground sections with aligned chevrons"
-  updated_at: "Tue 20 Oct 2026 at 10:39:33 am AEDT (+11:00)"
+  doc_revision: "26.0.230"
+  update_summary: "Refine Playground section controls, specimen rails and icon references"
+  updated_at: "Tue 20 Oct 2026 at 11:01:43 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.228 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 11:01:43 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine Playground section controls, specimen rails and icon references
+
+### Changed
+
+- Make entire section heading rows accessible collapse buttons with full-row hover and hand cursors. Centre heading icon ink and disclosure chevrons against font cap height; rotate collapse chevrons anticlockwise around a fixed pivot.
+- Restore segmented-selector legends to their normal rail and align disclosure body copy with summary text. Reserve 16px on both sides of iframe viewports and highlighted specimens, and retain gallery dividers across source-group boundaries.
+- Respect hidden source links and align visible source labels with consistent spacing. Add empty Lobe, Unicode and Other family filters; catalogue actual cropped-arrow link usages, including both Typography examples and iframe source links.
+- Give URL Reference sections globally distinct heading icons, reorder canonical paths to match tabs, and match fenced code panels to Resources prompt surfaces and fonts.
+- Update repository alignment guidance and measured icon bounds. Advance the Playground layout cache key; reuse saved anonymous geometry for this internal build.
+
+### Validation
+
+- Browser checks — passed full-row collapse, keyboard focus, reflow and reload defaults at four widths; source parity, responsive optical alignment, disclosure bodies, source visibility, gallery dividers, icon families, cap-height alignment and URL Reference checks.
+- Scrolling checks — passed responsive tab edges and 180 selection regions without vertical movement or forced horizontal scrolling.
+- Build checks — passed source structure and production build; mobile screenshot reviewed. Physical-device testing was not performed.
 
 ## v26.0.227 — 2026-10-20
 

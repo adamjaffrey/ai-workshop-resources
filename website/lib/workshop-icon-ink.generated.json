@@ -6,177 +6,317 @@
   "icons": {
     "arrow-up-right": {
       "left": 6,
-      "right": 6
+      "right": 6,
+      "top": 6,
+      "bottom": 6
     },
     "arrow-up-to-line": {
       "left": 4,
-      "right": 4
+      "right": 4,
+      "top": 2,
+      "bottom": 2
     },
     "blocks": {
       "left": 1,
-      "right": 1
+      "right": 1,
+      "top": 1,
+      "bottom": 1
     },
-    "book-open": {
+    "case-sensitive": {
       "left": 1,
-      "right": 1
+      "right": 1,
+      "top": 5,
+      "bottom": 7
     },
     "check": {
       "left": 3,
-      "right": 3
+      "right": 3,
+      "top": 5,
+      "bottom": 6
     },
     "chevron-down": {
       "left": 5,
-      "right": 5
+      "right": 5,
+      "top": 8,
+      "bottom": 8
     },
     "chevron-right": {
       "left": 8,
-      "right": 8
+      "right": 8,
+      "top": 5,
+      "bottom": 5
     },
     "clipboard-list": {
       "left": 3,
-      "right": 3
+      "right": 3,
+      "top": 1,
+      "bottom": 1
     },
     "code-xml": {
       "left": 1,
-      "right": 1
-    },
-    "combine": {
-      "left": 2,
-      "right": 2
+      "right": 1,
+      "top": 3,
+      "bottom": 3
     },
     "copy": {
       "left": 1,
-      "right": 1
+      "right": 1,
+      "top": 1,
+      "bottom": 1
     },
     "egg": {
       "left": 3,
-      "right": 3
+      "right": 3,
+      "top": 1,
+      "bottom": 1
     },
     "ellipsis": {
       "left": 3,
-      "right": 3
+      "right": 3,
+      "top": 10,
+      "bottom": 10
     },
     "file-badge": {
       "left": 2,
-      "right": 3
+      "right": 3,
+      "top": 1,
+      "bottom": 1
     },
     "file-code-corner": {
       "left": 1,
-      "right": 3
+      "right": 3,
+      "top": 1,
+      "bottom": 1
     },
-    "key-round": {
+    "folder-tree": {
+      "left": 2,
+      "right": 2,
+      "top": 2,
+      "bottom": 2
+    },
+    "folders": {
       "left": 1,
-      "right": 0.95
+      "right": 1,
+      "top": 2,
+      "bottom": 2
+    },
+    "globe": {
+      "left": 1,
+      "right": 1,
+      "top": 1,
+      "bottom": 1
+    },
+    "key-square": {
+      "left": 1,
+      "right": 1,
+      "top": 1,
+      "bottom": 1
     },
     "layout-template": {
       "left": 2,
-      "right": 2
+      "right": 2,
+      "top": 2,
+      "bottom": 2
+    },
+    "library-big": {
+      "left": 2,
+      "right": 2.5,
+      "top": 2,
+      "bottom": 2
     },
     "list-checks": {
       "left": 2,
-      "right": 2
+      "right": 2,
+      "top": 4,
+      "bottom": 4
+    },
+    "list-filter": {
+      "left": 1,
+      "right": 1,
+      "top": 4,
+      "bottom": 4
+    },
+    "list-tree": {
+      "left": 2,
+      "right": 2,
+      "top": 4,
+      "bottom": 4
     },
     "loader-circle": {
       "left": 2,
-      "right": 2
+      "right": 2,
+      "top": 2,
+      "bottom": 2
     },
     "lock": {
       "left": 2,
-      "right": 2
+      "right": 2,
+      "top": 1,
+      "bottom": 1
     },
     "lock-keyhole": {
       "left": 2,
-      "right": 2
+      "right": 2,
+      "top": 1,
+      "bottom": 1
     },
     "log-out": {
       "left": 2,
-      "right": 2
+      "right": 2,
+      "top": 2,
+      "bottom": 2
+    },
+    "map-pin-house": {
+      "left": 1,
+      "right": 1,
+      "top": 1,
+      "bottom": 1
     },
     "maximize-2": {
       "left": 2,
-      "right": 2
+      "right": 2,
+      "top": 2,
+      "bottom": 2
     },
     "minimize-2": {
       "left": 2,
-      "right": 2
+      "right": 2,
+      "top": 2,
+      "bottom": 2
     },
     "monitor-down": {
       "left": 1,
-      "right": 1
+      "right": 1,
+      "top": 2,
+      "bottom": 2
     },
     "moon": {
       "left": 2,
-      "right": 2
+      "right": 2,
+      "top": 2,
+      "bottom": 2
     },
-    "mouse-pointer-click": {
-      "left": 1.2,
-      "right": 2
+    "navigation": {
+      "left": 2,
+      "right": 1,
+      "top": 1,
+      "bottom": 2
     },
     "palette": {
       "left": 1,
-      "right": 1
+      "right": 1,
+      "top": 1,
+      "bottom": 1
     },
     "panels-top-left": {
       "left": 2,
-      "right": 2
+      "right": 2,
+      "top": 2,
+      "bottom": 2
     },
     "rotate-ccw": {
       "left": 2,
-      "right": 2
+      "right": 2,
+      "top": 2,
+      "bottom": 2
     },
     "rotate-cw": {
       "left": 2,
-      "right": 2
-    },
-    "route": {
-      "left": 2,
-      "right": 2
+      "right": 2,
+      "top": 2,
+      "bottom": 2
     },
     "scan-search": {
       "left": 2,
-      "right": 2
+      "right": 2,
+      "top": 2,
+      "bottom": 2
     },
     "search": {
       "left": 2,
-      "right": 2
+      "right": 2,
+      "top": 2,
+      "bottom": 2
+    },
+    "server": {
+      "left": 1,
+      "right": 1,
+      "top": 1,
+      "bottom": 1
+    },
+    "settings-2": {
+      "left": 3,
+      "right": 3,
+      "top": 3,
+      "bottom": 3
     },
     "shapes": {
       "left": 2,
-      "right": 2
+      "right": 2,
+      "top": 1.6,
+      "bottom": 2
+    },
+    "shield-check": {
+      "left": 3,
+      "right": 3,
+      "top": 1,
+      "bottom": 1
     },
     "strikethrough": {
       "left": 3,
-      "right": 3
+      "right": 3,
+      "top": 3,
+      "bottom": 3
     },
     "sun": {
       "left": 1,
-      "right": 1
+      "right": 1,
+      "top": 1,
+      "bottom": 1
     },
     "tag": {
       "left": 1,
-      "right": 1
+      "right": 1,
+      "top": 1,
+      "bottom": 1
     },
     "text-cursor": {
       "left": 6,
-      "right": 6
+      "right": 6,
+      "top": 1,
+      "bottom": 1
     },
     "toy-brick": {
       "left": 2,
-      "right": 2
+      "right": 2,
+      "top": 3,
+      "bottom": 3
     },
     "type": {
       "left": 3,
-      "right": 3
+      "right": 3,
+      "top": 3,
+      "bottom": 3
+    },
+    "workflow": {
+      "left": 2,
+      "right": 2,
+      "top": 2,
+      "bottom": 2
     },
     "x": {
       "left": 5,
-      "right": 5
+      "right": 5,
+      "top": 5,
+      "bottom": 5
     }
   },
   "variants": {
     "arrow-up-right:6 6 12 12": {
       "left": 0,
       "right": 0,
+      "top": 0,
+      "bottom": 0,
       "viewBox": 12
     }
   }

@@ -52,7 +52,7 @@ body:has(#playground-title)>main.wrap{padding-inline:28px}
 .panel>.frame-wrap,.panel>#playground-icon-catalog,.panel>.samples{margin-inline:-4px;width:calc(100% + 8px);max-width:none}
 /* The preview viewport stays on its rails; only its iframe may exceed it. */
 .panel>.frame-wrap,.preview-dialog.is-expanded>.frame-wrap{min-width:0;max-width:calc(100% + 8px);overflow:auto}
-.choices legend{padding-inline:0;margin-inline-start:13px}.field>.slider-label,#hover .hover-explanation{padding-inline:0}
+.choices legend{padding-inline:0;margin-inline-start:0}.field>.slider-label,#hover .hover-explanation{padding-inline:0}
 .choices>.choice-shell,.choices>.choice-options:not(:has(.choice-shell)){margin-inline-start:-4px;max-width:calc(100% + 8px)}
 .panel-actions,.panel-options,.heading-actions{margin-inline-end:-4px}
 .control-footer>.panel-actions{margin-inline-end:-4px}
@@ -83,7 +83,7 @@ body:has(>#icon-catalog),body:has(>#error-catalog),body:has(>#focus-catalog),bod
 .error-sample:has(.full-login-context){margin-inline:0;padding-inline:var(--specimen-inset)}
 #errors-resources .error-sample:has(.fallback-context){margin-inline:-4px;padding-inline:20px!important}
 .focus-footer>form{margin-inline-start:-4px}
-.selection-preview{padding-inline:0}
+.selection-preview{margin-inline:var(--specimen-inset);max-width:calc(100% - 32px);padding-inline:0}
 .selection-example{margin-inline:-4px;padding-inline:16px}
 .icon-row>h3,.icon-row>.icon-meta,.focus-row>h3,.focus-row>.focus-meta{margin-inline:var(--specimen-inset)}
 .type-row,.agent-row,.notice-type-row{padding-inline:var(--specimen-inset)!important}
@@ -101,5 +101,8 @@ body:has(>#icon-catalog),body:has(>#error-catalog),body:has(>#focus-catalog),bod
 .inspector-dock .inspector-bar,.inspector-dock .inspector-actions{margin-inline:-4px}
 /* Sources already render their link interiors; align the whole link surface. */
 .panel>a.workshop-link,.playground-icon-entry>a.workshop-link,.link-examples section>a.workshop-link,.icon-row>a.workshop-link{margin-inline-start:-4px}
+.icon-row>a.workshop-link{margin-inline:calc(var(--specimen-inset) - var(--optical-offset));margin-top:16px}
+.frame-wrap{padding:var(--specimen-inset);box-sizing:border-box}
+[data-gallery-last]{border-bottom:0!important}
 ${headingInkCSS}
 `;

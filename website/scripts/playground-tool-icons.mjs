@@ -46,4 +46,13 @@ function filterPlaygroundIcons(){const value=document.querySelector('#playground
 document.getElementById('playground-icon-family').addEventListener('change',filterPlaygroundIcons);
 document.getElementById('playground-icon-filter').addEventListener('change',filterPlaygroundIcons);filterPlaygroundIcons();
 document.getElementById('show-playground-sources').addEventListener('change',event=>{document.querySelectorAll('[data-playground-source]').forEach(link=>link.hidden=!event.target.checked);});
+const frameLinkInventory=new Map();
+function refreshLinkInventory(){
+ const list=document.querySelector('[data-catalog-variant="cropped"] ul');if(!list)return;
+ const usages=new Set([...document.querySelectorAll('a[href]')].map(a=>{const panel=a.closest('.panel');return (panel?.querySelector('.section-heading h2')?.textContent.trim()||'Playground')+' → '+a.textContent.trim()+' · '+a.getAttribute('href');}));
+ for(const [name,links] of frameLinkInventory)for(const link of links)usages.add(name+' → '+link.label+' · '+link.href);
+ list.replaceChildren(...[...usages].map(text=>{const li=document.createElement('li');li.textContent=text;return li;}));
+}
+window.addEventListener('message',event=>{if(event.data?.guide!=='playground-links')return;const frame=[...document.querySelectorAll('#icons-frame,#link-type-frame')].find(f=>f.contentWindow===event.source);if(!frame)return;frameLinkInventory.set(frame.id==='link-type-frame'?'Typography':'App Icons and Symbols',event.data.links);refreshLinkInventory();});
+refreshLinkInventory();
 `;

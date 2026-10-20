@@ -42,14 +42,14 @@ try{
      const result=await heading.evaluate((e,icons)=>{const svg=e.querySelector('svg');if(!svg)return e.getBoundingClientRect().left;const r=svg.getBoundingClientRect();if(!icons[svg.dataset.iconName])throw Error('Missing measured icon '+svg.dataset.iconName);return r.x+icons[svg.dataset.iconName].left*r.width/24;},ink.icons);near(result,rail,'card heading ink');
      for(const copy of await panel.locator(':scope>p,:scope>.feather-notice>p').all())if(await copy.isVisible())near(await copy.evaluate(e=>e.getBoundingClientRect().left),rail,'card text');
      for(const choices of await panel.locator('.choices:visible').all()){
-      const legend=choices.locator('legend'),shell=choices.locator(':scope>.choice-shell');if(await shell.count())near((await legend.boundingBox()).x-(await shell.boundingBox()).x,17,'toggle label aligns with first option text');
+      const legend=choices.locator('legend'),shell=choices.locator(':scope>.choice-shell');if(await shell.count())near((await legend.boundingBox()).x-(await shell.boundingBox()).x,4,'toggle label stays on text rail');
      }
     }
    }
   }
   await p.locator('[data-tab=components]').click();await p.evaluate(()=>scrollTo(0,0));
   await headingInk(p,'#playground-title',Math.max(28,(width-1112)/2));
-  if(width<=660){await p.locator('body>#style-options').click();near(await x(p,'#theme legend')-await x(p,'#theme .choice-shell'),17,'mobile options');near(await x(p,'#style-dialog-title')+13,await x(p,'#agent legend'),'dialog heading rail');await p.keyboard.press('Escape');}
+  if(width<=660){await p.locator('body>#style-options').click();near(await x(p,'#theme legend')-await x(p,'#theme .choice-shell'),4,'mobile options');near(await x(p,'#style-dialog-title'),await x(p,'#agent legend'),'dialog heading rail');await p.keyboard.press('Escape');}
   for(const [tab,name] of [['components','login'],['components','resources'],['branding','branding'],['discovery','discovery'],['blocks','blocks']]){
    await p.locator('[data-tab='+tab+']').click();const dialog=p.locator('#'+name+'-preview');await dialog.locator('.preview-expand').click();
    const frame=await dialog.locator(':scope>.frame-wrap').boundingBox();near(frame.x,24,'expanded surface gutter');
