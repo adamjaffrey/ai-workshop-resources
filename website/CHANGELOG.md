@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.233"
-  update_summary: "Scope press motion and refine sticky Playground navigation"
-  updated_at: "Tue 20 Oct 2026 at 11:42:59 am AEDT (+11:00)"
+  doc_revision: "26.0.234"
+  update_summary: "Contain worm selection paint within its own bounds"
+  updated_at: "Tue 20 Oct 2026 at 11:46:38 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.232 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 11:46:38 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Contain worm selection paint within its own bounds
+
+### Fixed
+
+- Clip the worm's native selection backing to its own box so selecting the whole Resources or Playground page cannot cover the start of WAVELENGTH. Preserve the existing black/white worm, themed highlight colours and geometry through the shared renderer.
+
+### Changed
+
+- Extend the brand regression to compare opaque wordmark letter pixels before and after full-page selection, catching overlap that the earlier backing-colour checks missed.
+
+### Validation
+
+- `node website/tests/brand-selection-browser-check.mjs` — passed both pages at four widths, in both themes and for both agents (32 combinations), including wordmark ink, backing colours and floating geometry. A browser-only negative control with clipping disabled failed with 69 obscured letter pixels in the first case.
+- Safari 27.0.1 on macOS — full-page selection screenshots visually confirmed the complete wordmark on Resources and Playground in both themes. Physical iPhone Safari was not tested.
+- `node website/tests/playground-browser-check.mjs` — passed the complete Playground regression and source-parity suite.
+- `node --test website/tests/playground-structure.test.mjs website/tests/placeholder.test.mjs` — passed all three tests.
+- `npm --prefix website run build` — passed; generated Resources and authenticated Playground display v26.0.232.
 
 ## v26.0.231 — 2026-10-20
 

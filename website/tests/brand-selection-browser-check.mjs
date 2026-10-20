@@ -15,7 +15,23 @@ try {
   const before=await mark.boundingBox();assert.equal(before.width,width<=380?36:48);
   assert.equal(await mark.getAttribute('aria-hidden'),'true');
   assert.equal(await mark.evaluate(e=>getComputedStyle(e,'::after').backgroundColor),theme==='dark'?'rgb(255, 255, 255)':'rgb(0, 0, 0)');
-  await brand.evaluate(e=>{const range=document.createRange();range.selectNodeContents(e);getSelection().removeAllRanges();getSelection().addRange(range);});
+  // Establish the unobscured wordmark with only its text selected, then select
+  // the whole page. The worm's selection paint must not obscure opaque letter pixels.
+  const wordmark=brand.locator('.brand-name');
+  await wordmark.evaluate(e=>{const r=document.createRange();r.selectNodeContents(e);getSelection().removeAllRanges();getSelection().addRange(r);});
+  const reference=await wordmark.screenshot();
+  await brand.evaluate(e=>{const range=document.createRange();range.selectNodeContents(document.body);getSelection().removeAllRanges();getSelection().addRange(range);});
+  const actual=await wordmark.screenshot();
+  const ink=await wordmark.evaluate(async(e,{reference,actual})=>{
+   const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
+   async function decode(png){const image=new Image();image.src='data:image/png;base64,'+png;await image.decode();canvas.width=image.width;canvas.height=image.height;ctx.drawImage(image,0,0);return ctx.getImageData(0,0,image.width,image.height).data;}
+   const before=await decode(reference),after=await decode(actual);
+   ctx.fillStyle=getComputedStyle(e,'::selection').color;ctx.fillRect(0,0,1,1);const colour=ctx.getImageData(0,0,1,1).data;
+   let samples=0,missing=0;for(let i=0;i<before.length;i+=4){if([0,1,2].every(c=>Math.abs(before[i+c]-colour[c])<=3)){samples++;if([0,1,2].some(c=>Math.abs(after[i+c]-colour[c])>3))missing++;}}
+   return {samples,missing};
+  },{reference:reference.toString('base64'),actual:actual.toString('base64')});
+  assert.ok(ink.samples>30,'reference must contain opaque wordmark ink');
+  assert.equal(ink.missing,0,`unobscured WAVELENGTH: ${route}/${width}/${theme}/${agent}`);
   const png=await brand.screenshot();
   const pixels=await brand.evaluate(async(e,png)=>{
    const image=new Image();image.src='data:image/png;base64,'+png;await image.decode();const canvas=document.createElement('canvas');canvas.width=image.width;canvas.height=image.height;const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0);const bounds=e.getBoundingClientRect();
@@ -35,5 +51,5 @@ try {
   if(width===390&&agent==='codex')await brand.screenshot({path:`/private/tmp/wavelength-${route.split("/")[0]}-${theme}-selected.png`});
  }
  assert.deepEqual(errors,[]);
- console.log('PASS: selected backing pixels match text; ink and geometry preserved at four widths, both themes and agents.');
+ console.log('PASS: full-page selection preserves opaque WAVELENGTH letter pixels, backing colour, worm ink and geometry on both pages at four widths, both themes and agents.');
 } finally {await browser.close();await new Promise(resolve=>server.close(resolve));}

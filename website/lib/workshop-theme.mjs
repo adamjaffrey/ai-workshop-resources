@@ -113,8 +113,9 @@ button, button * { -webkit-user-select: none; user-select: none; -webkit-touch-c
 /* Retain saved anonymous backdrop image styling until its next capture. */
 :root[data-theme="dark"] .brand-mark img { filter: brightness(0) invert(1); }
 /* A selectable space supplies native highlight paint beneath the masked brand.
-   Keep the shape outside image filters so neither its ink nor backing is tinted. */
-.brand-worm { --brand-mark-width: 48px; display: inline-block; position: relative; width: var(--brand-mark-width); height: calc(var(--brand-mark-width) * 638 / 1590); font: calc(var(--brand-mark-width) * 638 / 1590)/1 monospace; letter-spacing: calc(var(--brand-mark-width) - 1ch); color: transparent; white-space: nowrap; }
+   Keep the shape outside image filters so neither its ink nor backing is tinted.
+   Clip native selection paint: the stretched space can paint past its range bounds. */
+.brand-worm { --brand-mark-width: 48px; display: inline-block; position: relative; width: var(--brand-mark-width); height: calc(var(--brand-mark-width) * 638 / 1590); font: calc(var(--brand-mark-width) * 638 / 1590)/1 monospace; letter-spacing: calc(var(--brand-mark-width) - 1ch); color: transparent; white-space: nowrap; overflow: clip; }
 .brand-worm::selection { color: transparent; background: var(--selection); }
 .brand-worm::after { content: ''; position: absolute; inset: 0; background: #000; mask: url('/assets/wavelength-worm.png') center/contain no-repeat; pointer-events: none; }
 :root[data-theme="dark"] .brand-worm::after { background: #fff; }
