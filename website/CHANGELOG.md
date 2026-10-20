@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.257"
-  update_summary: "Restore specimen context and consistent overflow clearance"
-  updated_at: "Tue 20 Oct 2026 at 11:00:21 pm AEDT (+11:00)"
+  doc_revision: "26.0.258"
+  update_summary: "Guard source captures against device text inflation"
+  updated_at: "Tue 20 Oct 2026 at 11:46:37 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.256 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 11:46:37 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Guard source captures against device text inflation
+
+### Fixed
+
+- Apply one explicit text-autosizing opt-out to both dedicated capture frames and displayed galleries, closing the gap where an enlarged source font could be copied into normal and highlighted specimens. Preserve the source font sizes and page zoom.
+- Remove the superseded specimen fade implementation so Icons and agent previews use the shared responsive masks without a competing override.
+
+### Changed
+
+- Check guard installation before source capture and display, accounting for Chrome computed-value normalisation and desktop WebKit lacking the iOS text-sizing property. Document the physical-device verification limit for the reported phone-only enlargement.
+
+### Validation
+
+- `node website/tests/specimen-mobile-parity-browser-check.mjs` — passed all 16 Chrome/WebKit cases, including guard presence in both source frames and all four galleries, Resources typography and body-selection glyph parity. Physical iPhone confirmation remains pending.
+- `node website/tests/specimen-end-clearance-browser-check.mjs` — passed all 16 cases, including exact 24px endpoints and the actual responsive mask widths.
+- `node website/tests/playground-browser-check.mjs` — passed source parity.
+- `npm --prefix website run build` — passed; generated v26.0.256 displays verified, saved backdrop geometry reused.
 
 ## v26.0.255 — 2026-10-20
 

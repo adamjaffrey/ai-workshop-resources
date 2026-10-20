@@ -1,5 +1,5 @@
 import {updateHorizontalOverflow} from '../lib/workshop-overflow.mjs';
-import {specimenLayoutCSS} from '../lib/workshop-specimen-layout.mjs';
+import {specimenLayoutCSS,specimenTextSizingCSS} from '../lib/workshop-specimen-layout.mjs';
 import {createPlaygroundScheduler} from './playground-scheduler.mjs';
 import {galleryMaintenanceScript} from './playground-gallery-maintenance.mjs';
 import {headingCapCSS,headingCapScript} from './playground-heading-alignment.mjs';
@@ -192,11 +192,9 @@ function sandboxDoc(html,extra='') {
  html=html.replace('<head>','<head>'+frameGuard+setup);
  html=html.replace('</head>',`<style>${hover}
 /* Let gestures chain to the containing Playground page or expanded viewport. */
-html,body,.access-gate{overscroll-behavior:auto!important}
-.icon-sample:not(.error-sample),.agent-preview{--reference-left:0px;--reference-right:0px;mask-image:linear-gradient(to right,transparent,#000 var(--reference-left),#000 calc(100% - var(--reference-right)),transparent)}</style></head>`);
- const referenceOverflow=`const observedSamples=new WeakSet();const sampleFade=e=>{e.style.setProperty('--reference-left',e.scrollLeft>2?'28px':'0px');e.style.setProperty('--reference-right',e.scrollWidth-e.clientWidth-e.scrollLeft>2?'28px':'0px');};const sampleResize=new ResizeObserver(entries=>entries.forEach(({target})=>sampleFade(target)));function watchSamples(){document.querySelectorAll('.icon-sample:not(.error-sample),.agent-preview').forEach(e=>{if(!observedSamples.has(e)){observedSamples.add(e);e.addEventListener('scroll',()=>sampleFade(e),{passive:true});sampleResize.observe(e);}sampleFade(e);});}new MutationObserver(watchSamples).observe(document.body,{subtree:true,childList:true});watchSamples();`;
+html,body,.access-gate{overscroll-behavior:auto!important}</style></head>`);
 
- return html.replace('</body>',`<script>document.querySelectorAll('button,a,pre,.qr-card').forEach(e=>e.setAttribute('data-demo-hover-item',''));${referenceOverflow}${extra}${galleryMaintenanceScript}${naturalPreviewScript}</script></body>`);
+ return html.replace('</body>',`<script>document.querySelectorAll('button,a,pre,.qr-card').forEach(e=>e.setAttribute('data-demo-hover-item',''));${extra}${galleryMaintenanceScript}${naturalPreviewScript}</script></body>`);
 }
 // Typography specimens clone real nodes, including ancestor classes needed by contextual CSS.
 const typeManifest=[
@@ -332,7 +330,7 @@ window.addEventListener('message',e=>{
  window.addEventListener('scroll',clearHighlight,true);window.addEventListener('resize',clearHighlight);
  `);
  const captureSetup='<script>const nativeMatchMedia=window.matchMedia.bind(window);window.matchMedia=q=>q==="(prefers-reduced-motion: reduce)"?{matches:true,media:q,addEventListener(){},removeEventListener(){}}:nativeMatchMedia(q);</script>';
- const captureDoc=html=>html.replace('<head>','<head>'+captureSetup).replace('</body>','<script>'+iconCaptureScript+'</script></body>');
+ const captureDoc=html=>html.replace('<head>','<head>'+captureSetup).replace('</head>','<style data-specimen-text-sizing>'+specimenTextSizingCSS+'</style></head>').replace('</body>','<script>'+iconCaptureScript+'</script></body>');
  const iconLogin=captureDoc(login),iconResources=captureDoc(resources);
  const icons=sandboxDoc(withTheme('<html><head><style>'+(specimenSourceStyles(loginPage)+eggCSS)+'</style></head><body><div id="icon-catalog"><div id="icons-resources"></div><div id="icons-login"></div></div></body></html>'),'const iconNames='+JSON.stringify(iconNames)+';'+iconGalleryScript);
  const errorStates=sandboxDoc(withTheme('<html><head><style>'+(specimenSourceStyles(loginPage)+eggCSS)+'</style></head><body><div id="error-catalog"><div id="errors-resources"></div><div id="errors-login"></div></div></body></html>'),errorGalleryScript);

@@ -20,6 +20,12 @@ try{
     const frame=page.frameLocator('#'+id+'-frame');await frame.locator('[data-specimen-width]').first().waitFor();
     await page.waitForFunction(id=>document.getElementById(id+'-frame').style.visibility!=='hidden',id);
     await page.waitForTimeout(150);
+    for(const selector of ['#'+id+'-frame','#icon-resources-source','#icon-login-source']){
+     const sizing=await page.frameLocator(selector).locator('html').evaluate(e=>({rule:[...document.querySelectorAll('style[data-specimen-layout],style[data-specimen-text-sizing]')].some(s=>s.textContent.includes('html{-webkit-text-size-adjust:none;text-size-adjust:none}')),supported:CSS.supports('text-size-adjust','none')||CSS.supports('-webkit-text-size-adjust','none'),computed:getComputedStyle(e).getPropertyValue('-webkit-text-size-adjust')}));
+     assert.ok(sizing.rule,selector+' installs text inflation protection before capture and display');
+     if(sizing.supported)assert.ok(['none','100%'].includes(sizing.computed),'Chrome computes none as 100%; supported engines must suppress autosizing');
+    }
+
     const height=await frame.locator('html').evaluate(e=>({viewport:innerHeight,content:e.scrollHeight}));assert.ok(height.content-height.viewport<2,`${id}: complete gallery is visible without internal vertical scrolling`);
     const failures=await frame.locator('body').evaluate(()=>[...document.querySelectorAll('[data-specimen-width]')].filter(e=>e.checkVisibility()).flatMap(e=>{const expected=parseFloat(e.style.getPropertyValue('--specimen-width')),actual=e.getBoundingClientRect().width;return Math.abs(actual-expected)>.6?[{element:e.tagName,class:e.className,expected,actual}]:[]}));
     assert.deepEqual(failures,[],`${engine.name()} ${width} ${id}: no squeezed source boundaries`);

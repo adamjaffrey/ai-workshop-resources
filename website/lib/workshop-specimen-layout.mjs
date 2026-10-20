@@ -1,10 +1,12 @@
 import {overflowFadeCSS} from './workshop-overflow.mjs';
+// Capture and display must agree before any computed font size is copied.
+export const specimenTextSizingCSS = 'html{-webkit-text-size-adjust:none;text-size-adjust:none}';
 // Gallery presentation only. Canonical component interiors remain app-owned.
 export const specimenLayoutCSS = String.raw`
 ${overflowFadeCSS}
 /* Fixed source-width examples must not trigger mobile text inflation.
    Page zoom remains available. */
-html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+${specimenTextSizingCSS}
 /* One content inset. The surrounding iframe adds none. */
 body{margin:0;padding-block:24px;padding-inline:0;background:var(--page);color:var(--text);overflow-y:hidden}
 :is(#type-specimens,#icon-catalog,#error-catalog,#focus-catalog,#link-type-specimens){padding-inline:var(--specimen-text-rail)}

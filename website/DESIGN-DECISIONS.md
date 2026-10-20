@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.10"
-  update_summary: "Preserve specimen context and reachable right-edge clearance"
-  updated_at: "Tue 20 Oct 2026 at 11:00:21 pm AEDT (+11:00)"
+  doc_revision: "26.0.11"
+  update_summary: "Guard source captures against device text inflation"
+  updated_at: "Tue 20 Oct 2026 at 11:46:37 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -87,6 +87,8 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 ## Typography, Title Case and Literal Values
 
 **Decision:** Derive specimens from actual brand, heading, body, prompt, QR, footer and login styles. Do not invent absent heading/input components. Use CMOS 18 title case for the specified headings and control-label categories, retaining sentence case for body/status copy. Render element names, selectors, filenames, query values and hexadecimal colours in monospace. Keep colour chips consistently sized at 1cap and decorative.
+
+**Capture Normalisation:** Apply the same explicit text-autosizing opt-out before reading source styles and when rendering galleries. A phone screenshot showed enlarged normal and selected body text despite passing desktop Chrome/WebKit comparisons. The previous guard covered only gallery display; automatic source-frame inflation is the suspected mechanism, and physical-phone confirmation remains necessary. The available desktop WebKit build does not support the text-sizing property, so its glyph-parity result cannot verify iOS autosizing. Do not replace the real font size with a smaller guessed value.
 
 **Rationale:** Documented: source-derived specimens prevent a second typography system; literals must remain exact and distinguishable from prose. CMOS is the chosen editorial convention. A separate rationale for each type size is not recorded.
 
