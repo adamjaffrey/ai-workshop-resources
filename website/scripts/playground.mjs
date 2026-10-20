@@ -262,7 +262,7 @@ export async function playgroundPage({authenticated=false,inlineAssets=true}={})
  const lucideLicence=await readFile(new URL("../public/assets/lucide-license.txt",import.meta.url),"utf8");
  const featherNotice=lucideLicence.slice(lucideLicence.indexOf("The MIT License"));
  const iconNames={};
- for(const name of ['sun','moon','copy','check','hash','monitor-down','clipboard-list','code-xml','log-out','lock','loader-circle','x']){
+ for(const name of ['sun','moon','copy','check','hash','circle-check','circle-x','monitor-down','clipboard-list','code-xml','log-out','lock','loader-circle','x']){
   const {__iconNode}=await import('../node_modules/lucide-react/dist/esm/icons/'+name+'.mjs');
   const signature=__iconNode.map(([tag,attrs])=>tag+JSON.stringify(Object.entries(attrs).filter(([key,value])=>key!=='key'&&!(key==='ry'&&value===attrs.rx)).map(([key,value])=>[key,String(value)]).sort())).sort().join('|');iconNames[signature]='Lucide · '+name;
  }

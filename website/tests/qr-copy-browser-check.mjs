@@ -32,16 +32,16 @@ try {
  assert.equal(await qr.evaluate(e=>document.activeElement===e),true);
  await page.emulateMedia({reducedMotion:'no-preference'});
  await qr.click();
- assert.equal(await qr.locator('.copy-content').evaluate(e=>e.getAnimations()[0].effect.getTiming().duration),180);
- await page.waitForTimeout(5050);
- assert.equal(await qr.locator('.copy-content').evaluate(e=>e.getAnimations()[0].effect.getTiming().duration),650);
+ assert.equal(await qr.locator('.copy-content').evaluate(e=>e.getAnimations()[0].effect.getTiming().duration),600);
+ await page.waitForTimeout(6050);
+ assert.equal(await qr.locator('.copy-content').evaluate(e=>e.getAnimations()[0].effect.getTiming().duration),600);
  await page.waitForTimeout(700);
  assert.equal(await qr.locator('.copy-label').textContent(),'Copy Link');
  // With the pointer gone, text and background share one exit animation.
  await qr.click();await page.mouse.move(0,0);
- await page.waitForTimeout(5050);
+ await page.waitForTimeout(6050);
  const exit=await qr.locator('.qr-copy-overlay').evaluate(e=>{const a=e.getAnimations()[0];return {duration:a.effect.getTiming().duration,easing:a.effect.getTiming().easing,opacity:getComputedStyle(e).opacity};});
- assert.equal(exit.duration,650);assert.equal(exit.easing,'ease-in-out');assert.ok(Number(exit.opacity)<1);
+ assert.equal(exit.duration,600);assert.equal(exit.easing,'ease-in-out');assert.ok(Number(exit.opacity)<1);
  assert.equal(await qr.locator('.copy-content').evaluate(e=>e.getAnimations().length),0);
  await page.waitForTimeout(700);
  assert.equal(await qr.locator('.qr-copy-overlay').evaluate(e=>getComputedStyle(e).opacity),'0');
@@ -52,5 +52,9 @@ try {
  await page.evaluate(()=>document.execCommand=()=>false);await qr.click();await page.getByText('Copy Failed',{exact:true}).waitFor();
  for(const width of [1440,390]){await page.setViewportSize({width,height:844});for(const selector of width===1440?['.qr-copy','[data-copy]']:['[data-copy]']){const button=page.locator(selector).first();await button.click();await page.waitForTimeout(220);assert.equal(await button.locator('.copy-label').textContent(),'Copy Failed');assert.equal(await button.locator('.error-icon').isVisible(),true);assert.equal(await button.locator('.copy-icon').isVisible(),false);assert.equal(await button.locator('.success-icon').isVisible(),false);assert.equal(await button.locator('.error-icon').evaluate(e=>getComputedStyle(e).color),await button.evaluate(e=>getComputedStyle(e).color));}}await cursors();
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+ await page.clock.install();const failed=page.locator('[data-copy]').first();await failed.click();await failed.evaluate(e=>e.closest('article').getAnimations({subtree:true}).forEach(a=>a.finish()));
+ await page.clock.fastForward(11999);assert.equal(await failed.locator('.copy-label').textContent(),'Copy Failed');assert.equal(await failed.locator('.copy-content').evaluate(e=>e.getAnimations().length),0);
+ await page.clock.fastForward(1);const failedExit=await failed.locator('.copy-content').evaluate(e=>{const a=e.getAnimations()[0];return {duration:a.effect.getTiming().duration,frames:a.effect.getKeyframes().map(k=>k.transform)};});assert.equal(failedExit.duration,600);assert.deepEqual(failedExit.frames,['translateY(0px)','translateY(-2px)']);
+ await failed.evaluate(e=>e.closest('article').getAnimations({subtree:true}).forEach(a=>a.finish()));await page.waitForTimeout(30);assert.equal(await failed.locator('.copy-label').textContent(),'Copy Prompt');
  console.log('QR Copy Link, fallback, error feedback, focus and pointer cursors passed');
 } finally {await browser.close();server.close();}

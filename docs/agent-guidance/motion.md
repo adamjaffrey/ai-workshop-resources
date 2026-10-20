@@ -3,9 +3,9 @@ name: motion-contract
 description: Preserve theme transitions, selector movement and card reveal timing.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.2"
-  update_summary: "Define Resources anchor arrival and upward restoration"
-  updated_at: "Wed 21 Oct 2026 at 01:42:39 am AEDT (+11:00)"
+  doc_revision: "26.0.3"
+  update_summary: "Synchronise anchor arrival at a bounded scroll speed"
+  updated_at: "Wed 21 Oct 2026 at 09:48:45 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -53,6 +53,7 @@ Preserve the approved behaviour in `website/lib/workshop-theme.mjs`, `website/li
 
 ## Resources Anchor Arrival
 
-- On opening a recognised Resources step anchor, wait for page load and stable font layout, show all step/card pairs during the journey, and ease-scroll to place the visible top of the Step N text 60px below the floating selectors' bottom edge. Pin the existing selectors and hold the existing Wavelength halo fully visible, including Step 1. Add only the bottom scroll room needed when the document would otherwise clamp the landing.
-- Only after landing, fade preceding step/card pairs out over 650ms with `cubic-bezier(.2,0,.2,1)`, preserving their layout space and making hidden pairs inert. Downward scrolling leaves them hidden; upward scrolling restores them with the same eased fade and releases the forced sticky/brand state. The normal initial card entrance sequence does not obscure an anchor journey.
-- Respect reduced motion for scrolling and fades. User wheel/touch/navigation-key input can interrupt arrival. Clicking a step copy control never initiates this journey.
+- On opening or re-entering a recognised Resources step URL, wait for page load and stable font layout. Scroll at a maximum cruise speed of 900 CSS px/s with 300ms acceleration/deceleration, extending the journey for longer distances rather than increasing speed. Allow at least 600ms for a short journey; reduced motion lands immediately. Place the visible top of Step N 60px below the floating selectors' bottom edge on desktop/tablet, or 30px at widths up to 660px.
+- Pin the existing selectors and hold the existing Wavelength halo, including Step 1. Over the final 600ms of travel, use one eased progress value for fading preceding step/card pairs out, bringing both selector shadows to full opacity, and revealing the Wavelength mark and veil. All complete with the scroll. Keep preceding pairs visible before this final interval, retain their layout space, and make them inert at arrival. The normal initial card entrance sequence must not obscure an anchor journey.
+- Downward scrolling leaves preceding pairs hidden; upward scrolling restores them over 600ms with `cubic-bezier(.2,0,.2,1)` and releases forced sticky/brand state. Add only the bottom scroll room needed to reach the anchor; trim it at subsequent landings and progressively after upward restoration when removal cannot clamp the scroll position. A near-footer landing can require visible space below the footer.
+- Respect reduced motion for scrolling and fades. User wheel/touch/navigation-key input can interrupt arrival and restore earlier content. Clicking a step copy control never initiates this journey. Follow the Interface contract for the temporary agent → theme → target-card keyboard route.

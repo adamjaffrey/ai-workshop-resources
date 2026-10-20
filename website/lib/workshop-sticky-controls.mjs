@@ -67,7 +67,7 @@ export function initStickyControls() {
    control.style.left=locked?r.left+'px':'';
    if(index===1)control.style.translate=(compact?document.querySelector('.page-toolbar').getBoundingClientRect().left-(parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--optical-offset'))||0)-r.left:0)+'px 0';
    control.style.top=locked?inset+'px':'';
-   control.style.setProperty('--sticky-shadow',String(Math.min(1,Math.max(0,(inset-r.top)/48))));
+   control.style.setProperty('--sticky-shadow',String(pinned?1:Math.min(1,Math.max(0,(inset-r.top)/48))));
   });
  }
  const schedule=()=>{if(!frame)frame=requestAnimationFrame(update);};

@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.155"
-  update_summary: "Describe Resources step link copying and arrival behaviour"
-  updated_at: "Wed 21 Oct 2026 at 01:42:39 am AEDT (+11:00)"
+  doc_revision: "26.0.156"
+  update_summary: "Document refined anchor arrival and copy feedback timings"
+  updated_at: "Wed 21 Oct 2026 at 09:48:45 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -213,11 +213,11 @@ The shared controller tracks pointer input versus Tab navigation, preserving rea
 
 Follow the [Circular Reveal contract](../docs/agent-guidance/motion.md#circular-reveal) and [Slider Movement and Colours contract](../docs/agent-guidance/motion.md#slider-movement-and-colours). Keep the theme toggle in its own transition layer and sample the actual reveal feather for its colours. Shared helpers own the precise endpoints, easing and timing; do not recreate them in specimens.
 
-The QR encodes `https://workshop.adamjaffrey.chatgpt.site/`, verified against the existing Sites project. Its button displays the installed Lucide Copy icon and Copy Link label on hover or keyboard focus, copies that same URL with a legacy clipboard fallback, and reports success or failure. Keep the overlay exactly inside the QR image; place the caption gap outside the button. Share the prompt-copy feedback lifecycle: green Lucide Check and text, 180ms ease-out entrance, 5000ms success hold (12000ms for failure), then 650ms ease-in-out exit; reduced motion skips the animation. Keep the 540px image and 48px white quiet zone. All enabled buttons and selector tracks use the pointer cursor.
+The QR encodes `https://workshop.adamjaffrey.chatgpt.site/`, verified against the existing Sites project. Its button displays the installed Lucide Copy icon and Copy Link label on hover or keyboard focus, copies that same URL with a legacy clipboard fallback, and reports success or failure. Keep the overlay exactly inside the QR image; place the caption gap outside the button. Share the prompt-copy feedback lifecycle: green Lucide Check and text, 600ms ease-out entrance with a 2px upward movement for success and no movement for failure, 6000ms success cooldown (12000ms for failure), then a 600ms ease-in-out exit with 2px upward movement for either result; reduced motion skips the animation. Keep the 540px image and 48px white quiet zone. All enabled buttons and selector tracks use the pointer cursor.
 
 After a wrong password, keep the padlock and password bullets red until the user edits the field. Refocusing or clicking alone preserves the error and its message. Editing clears the error and restores the neutral padlock and selected-agent focus accent, following the [login contract](../docs/agent-guidance/authentication.md#website-login). On success the bullets turn green for the opening transition; clear the input immediately before navigation. Keep user-facing errors concise enough for the one-line reserve at supported viewport sizes, while allowing growth for accessibility text scaling.
 
-Prompt-copy buttons show Prompt Copied on success. When QR feedback expires without hover or keyboard focus, its text and obscuring background exit together over 650ms with ease-in-out. While hovered or keyboard-focused, keep the background and reset the animated success text to Copy Link. Avoid a second background fade after feedback completes.
+Prompt-copy buttons show Prompt Copied on success. When QR feedback expires without hover or keyboard focus, its text and obscuring background exit together over 600ms with ease-in-out. While hovered or keyboard-focused, keep the background and reset the animated success text to Copy Link. Avoid a second background fade after feedback completes.
 
 Login recovery and success colours use 160ms cubic-bezier(.2,0,.2,1) fades, matching the agent-accent arrival duration; spinner/check entrances also fade over 160ms. Incorrect-password styling enters immediately. Reduced motion removes these transitions. Keep error colours cooler than Claude orange: #A20D60 in light mode and #FF85B2 in dark mode. Error text and the X remain independent non-colour indicators.
 
@@ -439,4 +439,4 @@ All names and values are case-insensitive and redirect with 301 in the same hop 
 
 ## Resources Step Links
 
-Each Step N heading copies a descriptive anchor link with a hover-revealed exterior Lucide Hash, semantic success/failure icons and the shared prompt-copy cooldown. Opening the link scrolls to the step beneath the floating controls; preceding pairs fade out after landing and return only on upward scroll. Short step fragments remain aliases. See [URL Reference](URL-REFERENCE.md#resources-aliases), [Interface](../docs/agent-guidance/interface.md#resources-step-anchor-controls) and [Motion](../docs/agent-guidance/motion.md#resources-anchor-arrival) for the mappings and behaviour. Validate with `node website/tests/resource-anchors-browser-check.mjs` and the existing source/specimen parity checks. Playground heading-link work remains deferred.
+Each Step N heading copies a descriptive anchor link with a hover-revealed Lucide Hash to its right, Circle Check/Circle X feedback, connected hover surfaces and accent-coloured hover text. Anchor results use a 3-second cooldown; their 600ms entry/exit motion is shared with prompt/QR feedback. Opening or re-entering the link scrolls at a bounded speed to 60px beneath the floating controls (30px on mobile); preceding pairs, selector shadows and the floating mark finish fading with the journey. Earlier pairs return only on upward scroll. The first three Tab stops after arrival are the agent selector, theme selector and target-card content. Short step fragments remain aliases. See [URL Reference](URL-REFERENCE.md#resources-aliases), [Interface](../docs/agent-guidance/interface.md#resources-step-anchor-controls) and [Motion](../docs/agent-guidance/motion.md#resources-anchor-arrival) for the mappings and behaviour. Validate with `node website/tests/resource-anchors-browser-check.mjs`, `node website/tests/resource-anchor-refinements-browser-check.mjs`, `node website/tests/qr-copy-browser-check.mjs` and the existing source/specimen parity checks. Playground heading-link work remains deferred.

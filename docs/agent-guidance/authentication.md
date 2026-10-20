@@ -3,9 +3,9 @@ name: authentication-and-routing
 description: Preserve canonical routing, login states and the hidden navigation shortcut.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.2"
-  update_summary: "Document Resources fragment aliases and login preservation"
-  updated_at: "Wed 21 Oct 2026 at 01:42:39 am AEDT (+11:00)"
+  doc_revision: "26.0.3"
+  update_summary: "Require repeated Resources fragment arrival handling"
+  updated_at: "Wed 21 Oct 2026 at 09:48:45 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -22,7 +22,7 @@ Site-wide GET/HEAD requests remove a leading `www.` hostname and lowercase the p
 
 ## Resources Step Fragments
 
-Resources step anchors and short aliases are listed in [URL Reference](../../website/URL-REFERENCE.md#resources-aliases). Resolve recognised fragments in the client: fragments are not sent to the server, so their alias rewrites use `history.replaceState`, not HTTP redirects. Preserve the current path/query during alias rewrites, retain fragments through JavaScript login, and leave unknown fragments alone. Copied links use the canonical Resources path and descriptive fragment, retain the current query except `show-login`, and never initiate scrolling. Follow [Resources Anchor Arrival](motion.md#resources-anchor-arrival) for positioning.
+Resources step anchors and short aliases are listed in [URL Reference](../../website/URL-REFERENCE.md#resources-aliases). Resolve recognised fragments in the client: fragments are not sent to the server, so their alias rewrites use `history.replaceState`, not HTTP redirects. Preserve the current path/query during alias rewrites, retain fragments through JavaScript login, and leave unknown fragments alone. Copied links use the canonical Resources path and descriptive fragment, retain the current query except `show-login`, and never initiate scrolling. Handle initial loads, reloads, history restoration and same-document re-entry of an unchanged recognised fragment; use the Navigation API where supported because unchanged fragments do not emit `hashchange`. Follow [Resources Anchor Arrival](motion.md#resources-anchor-arrival) for positioning.
 
 ## Website Login
 

@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.19"
-  update_summary: "Record standing LAN preview authorisation for phone review"
-  updated_at: "Wed 21 Oct 2026 at 07:53:38 am AEDT (+11:00)"
+  doc_revision: "26.0.20"
+  update_summary: "Record synchronized anchor travel and contained copy feedback"
+  updated_at: "Wed 21 Oct 2026 at 09:48:45 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -343,8 +343,8 @@ Repository-wide permissions and task routing stay in [AGENTS.md](../AGENTS.md). 
 
 ## Resources Step Anchor Copying and Arrival
 
-**Decision:** Make the Step N text and exterior Hash region copy its descriptive anchor URL, leaving page position unchanged. Use an exterior indicator on the aligned edge without moving the text. Share link-hover colours, semantic feedback colours and prompt cooldown timings. Keep existing short fragments as client-side aliases. On anchor opening, scroll with the preceding content visible, land 60px below pinned selectors, hold the Wavelength halo visible, and only then fade previous pairs out. Restore them with an eased fade on upward scrolling only.
+**Decision:** Make the Step N text and exterior Hash region copy its descriptive anchor URL, leaving page position unchanged. Keep every indicator after the text on the right without moving the text rail, with connected text/icon hover surfaces and accent hover text. Use Circle Check/Circle X to contain feedback visually. Share 600ms motion with prompt/QR feedback, while icon-only results use a shorter 3-second cooldown; prompt/QR success uses 6 seconds and failure 12 seconds. Keep existing short fragments as client-side aliases. On anchor opening or same-URL re-entry, cap scroll speed and land 60px below pinned selectors (30px on mobile). Synchronise previous-pair fade-out, selector shadows and the Wavelength reveal over the final 600ms of the journey. Route the first three Tab stops through agent, theme and target-card content. Restore them with an eased fade on upward scrolling only.
 
-**Rationale:** Adam explicitly selected a consistent heading-copy convention and an exterior icon, with tooltip-only visible feedback. He requested a visible scroll journey, a clear selected step and a fully visible brand even at Step 1. Hiding content only after arrival avoids scrolling past empty space; retaining layout space prevents jumps when earlier content returns. The gutter indicator is a deliberate exception to the existing paint boundary. Playground heading anchors and changes to its collapse controls remain deferred.
+**Rationale:** Adam explicitly selected a consistent heading-copy convention and an exterior icon, with tooltip-only visible feedback. He requested a visible scroll journey, a clear selected step and a fully visible brand even at Step 1. The initial post-arrival fade was too conspicuous and fixed-duration scrolling made longer journeys frantic. Fading only during the final approach preserves visible context while completing the effects together. Retaining layout space prevents jumps when earlier content returns; only unavoidable landing space remains below the footer. The shorter icon cooldown reflects less feedback to read, and matching circled icons avoid isolated marks. The gutter indicator is a deliberate exception to the existing paint boundary. Playground heading anchors and changes to its collapse controls remain deferred.
 
 **Owning Rules and Sources:** [Resources Controls](../docs/agent-guidance/interface.md#resources-step-anchor-controls), [Anchor Arrival](../docs/agent-guidance/motion.md#resources-anchor-arrival), [Fragment Routing](../docs/agent-guidance/authentication.md#resources-step-fragments), [URL Reference](URL-REFERENCE.md#resources-aliases), and `lib/workshop-resource-anchors.mjs`.

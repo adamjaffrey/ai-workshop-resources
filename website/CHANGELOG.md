@@ -3,14 +3,47 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.265"
-  update_summary: "Add Resources step anchor copying and guided arrival"
-  updated_at: "Wed 21 Oct 2026 at 01:52:32 am AEDT (+11:00)"
+  doc_revision: "26.0.266"
+  update_summary: "Refine anchor travel, focus and copy feedback"
+  updated_at: "Wed 21 Oct 2026 at 09:53:59 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.264 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 09:53:59 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine anchor travel, focus and copy feedback
+
+### Changed
+
+- Cap anchor scrolling at 900 CSS px/s with smooth acceleration/deceleration; synchronise earlier-card fading, selector shadows and Wavelength visibility over the final 600ms. Land 60px below selectors on desktop/tablet and 30px on mobile.
+- Put every Hash indicator to the right of Step N, connect its shorter hover surface to the wider text decoration, and lift hovered text to the existing accent colour. Use installed Lucide Circle Check and Circle X for contained feedback.
+- Share 600ms copy-motion keyframes: success enters upwards by 2px, failure enters without movement, and both exit upwards by 2px. Anchor results use a 3-second cooldown; prompt/QR success uses 6 seconds and failure 12 seconds.
+- Keep shared Playground specimens, icon metadata, URL Reference and owning contracts aligned with these behaviours.
+
+### Fixed
+
+- Re-entering the same anchor URL and reloading now replay arrival; the first three Tab stops route through agent, theme and the target card without jumping to the page top.
+- Apply both floating shadows at Step 1. Retain only necessary near-footer landing space and trim it safely on later landings or upward restoration.
+
+### Validation
+
+- Resources anchor and refinement browser checks — passed across mobile/desktop Chrome and WebKit, including bounded speed, synchronised effects, repeated navigation, reload, focus, cancellation, footer-space cleanup, feedback geometry and motion.
+- QR copy browser check — passed, including shared entry/exit animation, success cooldown, 12-second failure cooldown, fallback, focus and error feedback.
+- Playground source parity, specimen fidelity, mobile Chrome/WebKit parity and URL Reference checks — passed.
+- Sticky control and stability checks — passed across width/theme/agent combinations, normal scrolling and reduced motion.
+- Authentication and saved-backdrop source tests — 13 passed; existing backdrop geometry reused.
+- Local Sites build and generated version checks — passed; Resources, Playground and server output display v26.0.264. Headless mobile emulation and visual screenshots were reviewed; no physical-device validation is claimed.
 
 ## v26.0.263 — 2026-10-21
 

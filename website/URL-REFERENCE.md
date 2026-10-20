@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.8"
-  update_summary: "Document Resources step anchors and short fragment aliases"
-  updated_at: "Wed 21 Oct 2026 at 01:42:39 am AEDT (+11:00)"
+  doc_revision: "26.0.9"
+  update_summary: "Describe repeated anchor navigation and responsive landing"
+  updated_at: "Wed 21 Oct 2026 at 09:48:45 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -89,7 +89,7 @@ Fragments stay in the browser and are not sent to the server. Opening a short al
 
 Clicking Step N or its exterior Hash icon copies the full canonical step URL without scrolling or changing the address bar. Copying preserves the current query parameters except `show-login`. For example, `/ai-workshop-resources?agent=claude-code&theme=dark#step-2-system-blueprint-creator` retains those display preferences.
 
-Opening a recognised step URL scrolls the text to 60px below the floating selectors, with the floating Wavelength mark visible. Earlier step/card pairs fade out after landing and fade back in only when scrolling upwards. Their layout space is retained. Reduced-motion preferences are respected.
+Opening, reloading or re-entering a recognised step URL scrolls the text to 60px below the floating selectors, or 30px on mobile. Earlier step/card pairs fade out over the final 600ms of scrolling while the selector shadows and floating Wavelength mark fade in; all finish together. Earlier pairs fade back in only when scrolling upwards, retaining their layout space. Near-footer anchors may require extra bottom scroll room. Reduced-motion preferences are respected. The first three Tab stops after arrival are the agent selector, theme selector and target-card content.
 
 ## Playground Root Aliases
 
