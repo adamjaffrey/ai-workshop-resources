@@ -1,4 +1,12 @@
+import {resourcePage} from '../lib/workshop-resource-page.mjs';
 import {readFile} from 'node:fs/promises';
+
+// Reuse the real Resources control and its component rules, including state icons.
+const copyTextButton=resourcePage.match(/<button[^>]*class="copy"[\s\S]*?<\/button>/)[0]
+ .replace('class="copy"','class="copy url-copy"').replace(/ data-copy="[^"]*"/,'').replace(/aria-label="[^"]*"/,'aria-label="Copy Text" aria-live="polite"')
+ .replaceAll('nodejs-prompt','url-text').replace('Copy Prompt','Copy Text');
+const resourceStyles=[...resourcePage.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)].map(m=>m[1]).join('\n');
+const copyTextCSS=[...resourceStyles.matchAll(/([^{}]+)\{([^{}]*)\}/g)].filter(m=>m[1].includes('.copy')&&!m[1].includes('.copy .icon')).map(m=>m[1].replace(/\.copy(?![-\w])/g,'#panel-url-reference .copy')+'{'+m[2]+'}').join('\n');
 
 const escape=text=>text.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 // Deliberately limited to the reference document's Markdown vocabulary. No raw
@@ -18,7 +26,7 @@ export function renderUrlReference(markdown,renderHeading){
   if(line.startsWith('### ')){html+='<h3 class="url-reference-subheading">'+renderHeading(line.slice(4))+'</h3>';continue;}
   if(line.startsWith('```')){
    const code=[];while(++i<lines.length&&!lines[i].startsWith('```'))code.push(lines[i]);
-   html+='<div class="url-code-block code-wrap"><div class="code-header"><span class="code-label">'+escape(line.slice(3).trim()||'Example')+'</span><button type="button" class="url-copy" aria-live="polite">Copy</button></div><pre tabindex="0" aria-label="Code Example"><code>'+escape(code.join('\n'))+'</code></pre></div>';continue;
+   html+='<div class="url-code-block code-wrap"><div class="code-header"><span class="code-label">'+escape(line.slice(3).trim()||'Example')+'</span>'+copyTextButton+'</div><pre tabindex="0" aria-label="Code Example"><code>'+escape(code.join('\n'))+'</code></pre></div>';continue;
   }
   if(line.startsWith('|')){
    const rows=[];do{rows.push(lines[i]);i++;}while(i<lines.length&&lines[i].startsWith('|'));i--;
@@ -38,6 +46,9 @@ export async function urlReferencePanel(renderHeading){
  return '<div data-panel="url-reference" id="panel-url-reference" role="tabpanel" aria-labelledby="tab-url-reference" tabindex="0" hidden><p class="muted">URL mappings and query parameters, rendered from the repository’s URL-REFERENCE.md. Examples are text so inspecting a logout URL does not end your session.</p>'+renderUrlReference(markdown,renderHeading)+'</div>';
 }
 export const urlReferenceCSS=`
+${copyTextCSS}
+#panel-url-reference .copy .icon{width:18px;height:18px;flex:none;vertical-align:middle}
+@media(max-width:360px){#panel-url-reference .copy .icon{display:none}}
 #panel-url-reference{overflow-wrap:anywhere;min-width:0}
 #panel-url-reference .url-table{max-width:100%;overflow-x:auto}
 #panel-url-reference table{width:100%;min-width:600px;overflow-wrap:normal;border-collapse:collapse;text-align:left;font-size:14px}
@@ -71,7 +82,7 @@ for(const button of document.querySelectorAll('.url-copy')){
   const text=button.closest('.url-code-block').querySelector('pre code').textContent;
   let success=false;
   try{if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text);success=true;}else{const field=document.createElement('textarea');field.value=text;field.style.cssText='position:fixed;top:0;left:-10000px';document.body.append(field);try{field.select();success=document.execCommand('copy');}finally{field.remove();button.focus({preventScroll:true});}}}catch{}
-  clearTimeout(reset);button.dataset.result=success?'success':'error';button.textContent=success?'Copied':'Failed';reset=setTimeout(()=>{delete button.dataset.result;button.textContent='Copy';},2000);
+  clearTimeout(reset);button.dataset.result=success?'success':'error';button.dataset.copied=String(success);button.toggleAttribute('data-copy-error',!success);button.querySelector('.copy-label').textContent=success?'Text Copied':'Copy Failed';button.setAttribute('aria-label',success?'Text Copied':'Copy Failed');reset=setTimeout(()=>{delete button.dataset.result;delete button.dataset.copied;button.removeAttribute('data-copy-error');button.querySelector('.copy-label').textContent='Copy Text';button.setAttribute('aria-label','Copy Text');},2000);
  });
 }
 `;

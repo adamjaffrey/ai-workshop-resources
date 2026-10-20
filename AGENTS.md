@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.68"
-  update_summary: "Clarify bilateral specimen clearance and disclosure body alignment"
-  updated_at: "Tue 20 Oct 2026 at 11:01:03 am AEDT (+11:00)"
+  doc_revision: "26.0.69"
+  update_summary: "Restrict press animations to segmented selectors"
+  updated_at: "Tue 20 Oct 2026 at 11:41:12 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -231,6 +231,7 @@ Rounded corners visually recede from their bounding edge, while SVG icons can co
 - Designated rounded boundary components extend 4px outward from that rail. Full-width surfaces extend on both sides; intrinsic-width controls extend from their aligned edge. On mobile page layouts, the surface rail is 24px from the screen and the text rail is 28px. Expanded views use the same rails. Centred elements remain centred.
 - Use the single `--optical-offset` token. The component selectors in the shared module register existing scopes and surface boundaries. New scopes can use `.alignment-scope` with `--surface-padding`; full-width rounded children can use `.alignment-surface`. Square/text children stay on the scope's text rail. Do not automatically select all elements with a border radius.
 - In Playground specimen galleries, reserve a shared 16px safety inset on both sides (`--specimen-inset`) before applying the 4px optical extension. Keep focus rings, QR controls and login shadows inside this space; do not reduce wrapper padding to the optical offset. Iframe viewports also reserve that safety inset, while their source pages retain native page gutters. Preserve the inset in expanded views and refresh control measurements when revealing previously hidden frames.
+- Keep gallery row separators as the single divider source. Apply H3 top dividers only inside URL Reference; do not add global H3 borders to specimens. Use a 24px gap below Playground selector groups and retain 16px between their label and control.
 - Align disclosure body copy with its summary text. Keep segmented-selector legends on the normal text rail and preserve native button interior spacing.
 - Apply the extension once per component boundary. A button inside a toggle does not acquire a second outward offset. Nested cards and prompt panels establish their own text rail using their normal interior surface spacing plus 4px; their designated rounded children may extend back to that interior surface rail.
 - Retain native padding, icon gaps and centred alignment inside buttons, toggle options, password fields and badges. A rounded icon tile is itself the boundary; do not also compensate the icon inside that tile. Move icon-and-heading groups together so their internal gap remains unchanged.
@@ -268,6 +269,7 @@ Preserve the approved behaviour in `website/lib/workshop-theme.mjs`, `website/li
 
 ### Slider Movement and Colours
 
+- Restrict press/hold scale and stretch animations to agent selectors, theme selectors and Playground segmented selectors. Ordinary buttons, section headers, disclosure summaries and copy actions must not scale on press or hold.
 - Both agent and day/night selectors share **160ms travel + 60ms rebound + 60ms return + 60ms settling = 340ms total**. Preserve their existing bounce distances, squash/stretch and phase easing in `workshop-toggle.mjs`; held feedback remains 160ms. Start selection movement immediately, independently of the circular reveal.
 - Keep the day/night toggle in its own View Transition layer above the page reveal, with its old-control snapshot hidden. The page snapshot must not obscure or delay its movement.
 - Its colours must follow the circular feather, not change immediately with selection or run on a separate timer. Each animation frame, read the actual animated mask radius `r` and use the distance `d` between the reveal origin and the toggle's centre. Compute the light amount as `clamp((r - d) / min(300, r), 0, 1)`.

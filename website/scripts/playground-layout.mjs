@@ -7,7 +7,7 @@ export const playgroundLayoutCSS=String.raw`
 .playground-icon-entry h3{align-items:flex-start}.playground-icon-entry h3>svg{margin-top:1.5px}
 #playground-icon-filter .choice-options{flex-wrap:nowrap;overflow-x:auto}#playground-icon-filter .choice{flex:none;white-space:nowrap}
 nav[role=tablist] button{display:inline-flex;align-items:center;gap:8px}nav[role=tablist] button svg{width:20px;height:20px;flex:none}
-nav[role=tablist]{border-bottom:0;padding-bottom:2px;background:none}
+nav[role=tablist]{border-bottom:0;padding-bottom:0;gap:0!important;background:none}
 .panel-actions,.panel-options{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:var(--control-related-gap);margin-top:24px}
 .control-footer{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:var(--control-row-gap) var(--control-column-gap);margin-top:32px}.control-footer>.panel-actions,.control-footer>.panel-options{margin:0}.control-footer>.choices{flex:1;min-width:180px}.control-footer>.checkbox-controls{flex:1}.control-footer .panel-actions{margin-left:auto}
 .icon-button,.preview-expand{display:inline-flex;flex-direction:row;align-items:center;justify-content:center;gap:8px;width:max-content;max-width:100%;min-height:44px;white-space:nowrap}
@@ -90,7 +90,14 @@ details[open]>summary>.disclosure-chevron{transform:rotate(90deg)}
 /* Optical alignment belongs to external tooling labels, never specimens or control contents. */
 .choices legend{margin-bottom:var(--control-label-gap)}
 .choice-options,nav[role=tablist]{overflow-y:hidden!important;overscroll-behavior-y:none}
-summary{display:flex;align-items:center;gap:8px}summary>.disclosure-chevron{margin:0;vertical-align:initial}
+summary{display:flex;align-items:center;gap:8px;position:relative;border-radius:6px}
+summary::after,.hover-explainer::after{content:'';position:absolute;inset:-4px;border-radius:6px;cursor:pointer}
+summary:hover,.hover-explainer:hover{background:var(--hover);box-shadow:0 0 0 4px var(--hover)}
+summary,summary *,.hover-explainer,.hover-explainer *{cursor:pointer!important}
+.hover-explainer{position:relative}
+.icon-usages summary{font-size:14px;line-height:1.5;font-weight:600}
+.panel>.state-tools,.panel>.choices,.panel>.control-footer{margin-bottom:24px}
+.panel>.state-tools+*,.panel>.choices+*,.panel>.control-footer+*{margin-top:24px}summary>.disclosure-chevron{margin:0;vertical-align:initial}
 #hover legend{width:100%}.hover-label-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px 24px}
 .hover-explainer{display:inline-flex;align-items:center;gap:4px;border:0;padding:0;background:transparent;font-size:14px;line-height:21px;font-weight:400;color:var(--muted-text)}
 .hover-explainer svg{width:18px;height:18px;flex:none}.hover-explainer[aria-expanded=true] svg{transform:rotate(90deg)}
@@ -112,7 +119,7 @@ summary{display:flex;align-items:center;gap:8px}summary>.disclosure-chevron{marg
 .toolbar.controls-pinned .hover-explanation{display:none}
 .toolbar.controls-pinned .hover-explainer{visibility:hidden}
 main.wrap{padding-top:24px}
-.tab-scroll-shell{height:var(--tab-row-height);margin:0 0 16px}
+.tab-scroll-shell{height:var(--tab-row-height);margin:0 0 16px;position:sticky;top:var(--sticky-tab-top,0px);z-index:11;background:var(--page)}
 .tab-scroll-shell nav[role=tablist]{padding-top:0}
 [data-panel]>.panel:first-child{margin-top:0}
 
@@ -188,6 +195,7 @@ let stickyThreshold=Infinity,stickyWidth=0;
 function setStickyMetrics(){
  const height=stickyControls.getBoundingClientRect().height;
  stickyToolbar.style.setProperty('--toolbar-pinned-height',height+'px');
+ document.documentElement.style.setProperty('--sticky-tab-top',(stickyToolbar.classList.contains('controls-pinned')?height:0)+'px');
  document.documentElement.style.setProperty('--toolbar-height',(stickyToolbar.classList.contains('controls-pinned')?height:stickyToolbar.offsetHeight)+'px');
 }
 function updateStickyControls(){

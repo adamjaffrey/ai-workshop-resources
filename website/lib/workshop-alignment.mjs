@@ -106,6 +106,6 @@ body:has(>#icon-catalog),body:has(>#error-catalog),body:has(>#focus-catalog),bod
 [data-gallery-last]{border-bottom:0!important}
 #icon-catalog [data-gallery-last]{padding-bottom:0}
 body:has(>#icon-catalog){padding-bottom:16px}
-body:has(#playground-title) h3,body:has(>#icon-catalog) .icon-row>h3,body:has(>#focus-catalog) .focus-row>h3,#link-type-specimens h3{border-top:1px solid var(--border);padding-top:16px}
+#panel-url-reference h3{border-top:1px solid var(--border);padding-top:16px}
 ${headingInkCSS}
 `;

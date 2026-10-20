@@ -87,12 +87,6 @@ html, body { overflow-x: hidden; }
 [data-panel-heading]:focus { outline: none !important; box-shadow: none !important; }
 /* Button labels are controls; document and prompt text remain selectable. */
 button, button * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
-button:not(.segmented-toggle button) { transition: scale 120ms ease-out; }
-button:enabled:is(:active, .is-held):not(.segmented-toggle button) { scale: .97; }
-@media (prefers-reduced-motion: reduce) {
-  button:not(.segmented-toggle button) { transition: none; }
-  button:enabled:is(:active, .is-held):not(.segmented-toggle button) { scale: none; }
-}
 /* QR cards and prompt panels share one surface, independent of other controls. */
 .qr-card, #workshop-content .code-wrap, #workshop-content .status { background: var(--content-surface); }
 .segmented-toggle { cursor: pointer; position: relative; isolation: isolate; display: inline-flex; padding: 4px; gap: 4px; border-width: 1px; }
@@ -288,23 +282,6 @@ const script = `(() => {
     apply(true);
   });
   document.addEventListener('DOMContentLoaded', () => {
-    // Keep held feedback stable during long touches; native click still activates on release.
-    document.querySelectorAll('button').forEach(button => {
-      if (button.closest('.toggle, .theme-toggle')) return;
-      let pointer;
-      const release = () => { pointer = undefined; button.classList.remove('is-held'); };
-      button.addEventListener('pointerdown', event => {
-        if (!event.isPrimary || event.button !== 0 || button.disabled) return;
-        pointer = event.pointerId;
-        button.classList.add('is-held');
-      });
-      window.addEventListener('pointerup', event => { if (event.pointerId === pointer) release(); });
-      window.addEventListener('pointercancel', event => { if (event.pointerId === pointer) release(); });
-      button.addEventListener('pointerleave', release);
-      button.addEventListener('blur', release);
-      window.addEventListener('blur', release);
-      document.addEventListener('visibilitychange', () => { if (document.hidden) release(); });
-    });
     document.querySelectorAll('.theme-toggle:not(.ph-static)').forEach(control => { control.hidden = false; indicators.push(window.createWorkshopToggle(control)); });
     apply();
     document.querySelectorAll('[data-theme-choice]').forEach(button => button.addEventListener('click', () => {

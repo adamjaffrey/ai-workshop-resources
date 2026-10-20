@@ -19,7 +19,7 @@ try {
  const box=await copy.boundingBox();const cdp=await context.newCDPSession(page);
  await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:box.x+box.width/2,y:box.y+box.height/2}]});await page.waitForTimeout(650);
  assert.equal(await page.evaluate(()=>window.copyClicks),0);
- assert.equal(await copy.evaluate(e=>getComputedStyle(e).scale),'0.97');
+ assert.equal(await copy.evaluate(e=>getComputedStyle(e).scale),'none');
  assert.equal(await page.evaluate(()=>getSelection().toString()),'');
  await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
  assert.equal(await page.evaluate(()=>window.copyClicks),1);

@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.232"
-  update_summary: "Preserve worm colours with matching selection highlights"
-  updated_at: "Tue 20 Oct 2026 at 11:29:13 am AEDT (+11:00)"
+  doc_revision: "26.0.233"
+  update_summary: "Scope press motion and refine sticky Playground navigation"
+  updated_at: "Tue 20 Oct 2026 at 11:42:59 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.231 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 11:42:59 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Scope press motion and refine sticky Playground navigation
+
+### Changed
+
+- Remove generic ordinary-button press scaling and hold listeners. Retain the shared animated controller only for agent, theme and Playground segmented selectors; record this boundary in repository instructions.
+- Widen section-header hover targets another 4px per side without moving their icon pivot. Pin the adjacent, gap-free tab bar below desktop selectors and at the viewport top on mobile.
+- Remove global H3 borders that duplicated gallery row separators; retain H3 dividers only in URL Reference. Give disclosure summaries a shared hover target over the icon and text, with 14px semibold icon-usage labels matching their list typography.
+- Use the Resources copy-control markup and styles for URL examples, including mutually exclusive Copy, Check and X icons. Label the control Copy Text, with Text Copied and Copy Failed feedback.
+- Use 24px below Playground selector groups while preserving the 16px label gap. Refresh the URL reference wording and advance the Playground layout cache key, retaining saved anonymous geometry for this internal build.
+
+### Validation
+
+- Interaction checks — passed real Resources touch holds and keyboard activation without scale, retained segmented-selector hold behaviour, rapid header clicks, sticky tabs at phone/tablet/desktop widths and Copy Text typography/state parity.
+- Browser regressions — passed source parity, adjacent tab edges, existing pinned selectors, modal containment and single gallery dividers. Desktop and mobile screenshots reviewed; physical-device testing was not performed.
+- Build checks — passed source structure and production build. LAN app, Playground and real logged-out form verified using the new preview process.
 
 ## v26.0.230 — 2026-10-20
 
