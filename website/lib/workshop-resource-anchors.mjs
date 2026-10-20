@@ -4,7 +4,7 @@ import {__iconNode as check} from '../node_modules/lucide-react/dist/esm/icons/c
 import {__iconNode as cross} from '../node_modules/lucide-react/dist/esm/icons/circle-x.mjs';
 import {anchorCopyTiming,copyFrames} from './workshop-copy-timing.mjs';
 export const resourceAnchors = ['step-1-node-js-setup','step-2-system-blueprint-creator','step-3-system-build-assistant'];
-const svg=(nodes,name,state)=>`<svg class="step-anchor-${state}" data-icon-provider="lucide" data-icon-name="${name}" data-icon-use="step-anchor-${state}" aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${nodes.map(([tag,attrs])=>`<${tag} ${Object.entries(attrs).filter(([key])=>key!=='key').map(([key,value])=>`${key}="${value}"`).join(' ')}></${tag}>`).join('')}</svg>`;
+const svg=(nodes,name,state)=>`<svg class="step-anchor-${state}" data-icon-provider="lucide" data-icon-name="${name}" data-icon-use="step-anchor-${state}" aria-hidden="true" viewBox="0 0 24 24" width="${state==='hash'?20:24}" height="${state==='hash'?20:24}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${nodes.map(([tag,attrs])=>`<${tag} ${Object.entries(attrs).filter(([key])=>key!=='key').map(([key,value])=>`${key}="${value}"`).join(' ')}></${tag}>`).join('')}</svg>`;
 export const resourceAnchorCSS=`
 .step-anchor{position:relative;display:inline-block;padding:0;border:0;border-radius:5px;background:transparent;color:inherit;font:inherit;letter-spacing:inherit;line-height:inherit;text-align:inherit;vertical-align:top;isolation:isolate;cursor:pointer}
 .step-anchor,.step-anchor *{cursor:pointer!important;user-select:none}
@@ -12,11 +12,12 @@ export const resourceAnchorCSS=`
 .step-anchor:is(:hover,[data-anchor-preview])::before{background:var(--link-hover-bg)}
 .step-anchor:is(:hover,[data-anchor-preview]) .step-anchor-label{color:var(--agent-accent)}
 .step-anchor-label{transition:color 160ms cubic-bezier(.2,0,.2,1)}
-.step-anchor-icon{position:absolute;left:100%;top:calc(var(--step-cap-centre,19px) - 8px);height:16px;width:30px;display:flex;align-items:center;justify-content:flex-end;color:var(--agent-accent);opacity:0;transition:opacity 160ms cubic-bezier(.2,0,.2,1)}
-.step-anchor-icon::before{content:"";position:absolute;inset:-4px -4px -4px 6px;border-radius:0 5px 5px 0;background:transparent;z-index:-1;transition:background-color 160ms cubic-bezier(.2,0,.2,1)}
+.step-anchor-icon{position:absolute;left:calc(100% + 6px);top:calc(var(--step-cap-centre,19px) - 12px);height:24px;width:24px;display:flex;align-items:center;justify-content:center;color:var(--agent-accent);opacity:0;transition:opacity 160ms cubic-bezier(.2,0,.2,1)}
+.step-anchor-icon::before{content:"";position:absolute;inset:-2px -4px -2px 0;border-radius:0 5px 5px 0;background:transparent;z-index:-1;transition:background-color 160ms cubic-bezier(.2,0,.2,1)}
 .step-anchor:is(:hover,[data-anchor-preview]) .step-anchor-icon::before{background:var(--link-hover-bg)}
 .step-anchor:is(:hover,[data-result],[data-anchor-preview]) .step-anchor-icon,:root[data-focus-input="keyboard"] .step-anchor:focus .step-anchor-icon{opacity:1}
-.step-anchor-icon svg{position:absolute;width:16px;height:16px;opacity:0;transition:none}
+.step-anchor-icon svg{position:absolute;width:24px;height:24px;opacity:0;transition:none}
+.step-anchor-icon .step-anchor-hash{width:20px;height:20px}
 .step-anchor:not([data-result]) .step-anchor-hash{opacity:1}
 .step-anchor[data-result="success"] .step-anchor-success{opacity:1;color:var(--success)}
 .step-anchor[data-result="failure"] .step-anchor-failure{opacity:1;color:var(--error)}
@@ -59,7 +60,7 @@ export function initResourceAnchors(anchors,timing,measureHeading,frames){
    state.hold=setTimeout(()=>{button.setAttribute('data-cooling','');if(!motion.matches)state.animation=icon.animate(frames(success,true),{duration:timing.fade,easing:'ease-in-out',fill:'forwards'});state.fade=setTimeout(()=>{state.animation?.cancel();button.removeAttribute('data-result');button.removeAttribute('data-cooling');button.querySelector('.step-anchor-icon').title='Copy Link';status.textContent='';feedback.delete(button);},motion.matches?0:timing.fade);},success?timing.success:timing.failure);
   });
  }
- let generation=0,arriving=false,active=false,lastY=scrollY,focusRoute=null,trimRoom=false;
+ let generation=0,arriving=false,active=false,lastY=scrollY,focusRoute=null,trimRoom=false,writingURL=false;
  const restore=()=>{for(const row of rows){row.removeAttribute('data-anchor-hidden');row.removeAttribute('data-anchor-leaving');row.inert=false;}};
  function trim(){
   const room=parseFloat(root.style.getPropertyValue('--anchor-scroll-room'))||0;
@@ -85,7 +86,12 @@ export function initResourceAnchors(anchors,timing,measureHeading,frames){
  document.addEventListener('pointerdown',()=>{focusRoute=null;},{passive:true});
  window.addEventListener('scroll',()=>{const y=scrollY;if(!arriving&&active&&y<lastY-.5)release();if(!arriving&&trimRoom)trim();lastY=y;},{passive:true});
  const frame=()=>new Promise(resolve=>requestAnimationFrame(resolve));
- async function navigate(fragment){
+ function writeFragment(anchor){
+  if(location.hash==='#'+anchor)return;
+  writingURL=true;
+  try{history.replaceState(history.state,'',location.pathname+location.search+'#'+anchor);}finally{writingURL=false;}
+ }
+ async function navigate(fragment,rewrite=true){
   const anchor=canonical(fragment);if(!anchor){cancel();release();return;}
   const token=++generation;arriving=true;active=false;trimRoom=false;focusRoute=null;restore();root.dataset.resourceAnchorArriving='';root.style.setProperty('--anchor-arrival-progress','0');
   rows.forEach(row=>row.classList.add('is-revealed'));
@@ -117,7 +123,7 @@ export function initResourceAnchors(anchors,timing,measureHeading,frames){
    if(t<1)requestAnimationFrame(tick);else resolve();
   }requestAnimationFrame(tick);});
   if(token!==generation)return;
-  history.replaceState(history.state,'',location.pathname+location.search+'#'+anchor);
+  if(rewrite)writeFragment(anchor);
   leaving.forEach(row=>{row.setAttribute('data-anchor-hidden','');row.removeAttribute('data-anchor-leaving');row.inert=true;});
   delete root.dataset.resourceAnchorArriving;arriving=false;active=true;lastY=scrollY;trim();
   const next=rows[index].querySelector('article a[href],article button:not(:disabled),article [tabindex="0"]');
@@ -125,12 +131,21 @@ export function initResourceAnchors(anchors,timing,measureHeading,frames){
   document.activeElement?.blur();
  }
  // The Navigation API also observes re-entering an unchanged fragment in the
- // address bar. hashchange alone cannot observe that same-URL navigation.
+ // address bar, including replacement navigation. Suppress only our own URL
+ // rewrite; ignoring every replace event also ignores address-bar re-entry.
  let intercepted=false;
  window.navigation?.addEventListener('navigate',event=>{
   const url=new URL(event.destination.url);
-  if(event.canIntercept&&event.destination.sameDocument&&event.navigationType!=='replace'&&url.pathname===location.pathname&&canonical(url.hash)){
-   intercepted=true;event.intercept({focusReset:'manual',scroll:'manual',handler:()=>navigate(url.hash).finally(()=>{intercepted=false;})});
+  if(event.canIntercept&&event.destination.sameDocument&&!writingURL&&url.pathname===location.pathname&&url.search===location.search&&canonical(url.hash)){
+   intercepted=true;event.intercept({focusReset:'manual',scroll:'manual',handler:async()=>{
+    const done=window.navigation.transition?.finished;
+    await navigate(url.hash,false);
+    const token=generation;
+    // Rewriting history during an intercepted transition aborts that transition.
+    // Canonicalise aliases only once the browser has completed it.
+    const finish=()=>{if(token===generation&&location.hash===url.hash)writeFragment(canonical(url.hash));intercepted=false;};
+    if(done)done.then(finish,()=>{intercepted=false;});else setTimeout(finish,0);
+   }});
   }
  });
  window.addEventListener('hashchange',()=>{if(!intercepted)navigate(location.hash);});

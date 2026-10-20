@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.156"
-  update_summary: "Document refined anchor arrival and copy feedback timings"
-  updated_at: "Wed 21 Oct 2026 at 09:48:45 am AEDT (+11:00)"
+  doc_revision: "26.0.157"
+  update_summary: "Describe larger anchor feedback and tighter icon spacing"
+  updated_at: "Wed 21 Oct 2026 at 10:18:03 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -439,4 +439,4 @@ All names and values are case-insensitive and redirect with 301 in the same hop 
 
 ## Resources Step Links
 
-Each Step N heading copies a descriptive anchor link with a hover-revealed Lucide Hash to its right, Circle Check/Circle X feedback, connected hover surfaces and accent-coloured hover text. Anchor results use a 3-second cooldown; their 600ms entry/exit motion is shared with prompt/QR feedback. Opening or re-entering the link scrolls at a bounded speed to 60px beneath the floating controls (30px on mobile); preceding pairs, selector shadows and the floating mark finish fading with the journey. Earlier pairs return only on upward scroll. The first three Tab stops after arrival are the agent selector, theme selector and target-card content. Short step fragments remain aliases. See [URL Reference](URL-REFERENCE.md#resources-aliases), [Interface](../docs/agent-guidance/interface.md#resources-step-anchor-controls) and [Motion](../docs/agent-guidance/motion.md#resources-anchor-arrival) for the mappings and behaviour. Validate with `node website/tests/resource-anchors-browser-check.mjs`, `node website/tests/resource-anchor-refinements-browser-check.mjs`, `node website/tests/qr-copy-browser-check.mjs` and the existing source/specimen parity checks. Playground heading-link work remains deferred.
+Each Step N heading copies a descriptive anchor link with a hover-revealed 20px Lucide Hash 8px to its right and 24px Circle Check/Circle X feedback sharing the same centre, connected hover surfaces and accent-coloured hover text. Anchor results use a 3-second cooldown; their 600ms entry/exit motion is shared with prompt/QR feedback. Opening or re-entering the link scrolls at a bounded speed to 60px beneath the floating controls (30px on mobile); preceding pairs, selector shadows and the floating mark finish fading with the journey. Earlier pairs return only on upward scroll. The first three Tab stops after arrival are the agent selector, theme selector and target-card content. Short step fragments remain aliases. See [URL Reference](URL-REFERENCE.md#resources-aliases), [Interface](../docs/agent-guidance/interface.md#resources-step-anchor-controls) and [Motion](../docs/agent-guidance/motion.md#resources-anchor-arrival) for the mappings and behaviour. Validate with `node website/tests/resource-anchors-browser-check.mjs`, `node website/tests/resource-anchor-refinements-browser-check.mjs`, `node website/tests/qr-copy-browser-check.mjs` and the existing source/specimen parity checks. Playground heading-link work remains deferred.

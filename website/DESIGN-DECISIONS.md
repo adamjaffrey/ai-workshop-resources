@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.20"
-  update_summary: "Record synchronized anchor travel and contained copy feedback"
-  updated_at: "Wed 21 Oct 2026 at 09:48:45 am AEDT (+11:00)"
+  doc_revision: "26.0.21"
+  update_summary: "Record larger anchor icons and replacement-navigation correction"
+  updated_at: "Wed 21 Oct 2026 at 10:18:03 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -343,7 +343,7 @@ Repository-wide permissions and task routing stay in [AGENTS.md](../AGENTS.md). 
 
 ## Resources Step Anchor Copying and Arrival
 
-**Decision:** Make the Step N text and exterior Hash region copy its descriptive anchor URL, leaving page position unchanged. Keep every indicator after the text on the right without moving the text rail, with connected text/icon hover surfaces and accent hover text. Use Circle Check/Circle X to contain feedback visually. Share 600ms motion with prompt/QR feedback, while icon-only results use a shorter 3-second cooldown; prompt/QR success uses 6 seconds and failure 12 seconds. Keep existing short fragments as client-side aliases. On anchor opening or same-URL re-entry, cap scroll speed and land 60px below pinned selectors (30px on mobile). Synchronise previous-pair fade-out, selector shadows and the Wavelength reveal over the final 600ms of the journey. Route the first three Tab stops through agent, theme and target-card content. Restore them with an eased fade on upward scrolling only.
+**Decision:** Make the Step N text and exterior Hash region copy its descriptive anchor URL, leaving page position unchanged. Keep every indicator after the text on the right without moving the text rail, with connected text/icon hover surfaces and accent hover text. Use 24px Circle Check/Circle X to contain feedback visually, with a 20px Hash 8px after the text and one shared icon centre. The earlier 16px circles made their internal symbols too small. The agent-label layout gap is 16px, which would widen the former 14px icon gap; Adam instead selected 8px. Handle same-URL replacement navigation as well as push navigation, and delay alias rewrites until an intercepted transition finishes. Share 600ms motion with prompt/QR feedback, while icon-only results use a shorter 3-second cooldown; prompt/QR success uses 6 seconds and failure 12 seconds. Keep existing short fragments as client-side aliases. On anchor opening or same-URL re-entry, cap scroll speed and land 60px below pinned selectors (30px on mobile). Synchronise previous-pair fade-out, selector shadows and the Wavelength reveal over the final 600ms of the journey. Route the first three Tab stops through agent, theme and target-card content. Restore them with an eased fade on upward scrolling only.
 
 **Rationale:** Adam explicitly selected a consistent heading-copy convention and an exterior icon, with tooltip-only visible feedback. He requested a visible scroll journey, a clear selected step and a fully visible brand even at Step 1. The initial post-arrival fade was too conspicuous and fixed-duration scrolling made longer journeys frantic. Fading only during the final approach preserves visible context while completing the effects together. Retaining layout space prevents jumps when earlier content returns; only unavoidable landing space remains below the footer. The shorter icon cooldown reflects less feedback to read, and matching circled icons avoid isolated marks. The gutter indicator is a deliberate exception to the existing paint boundary. Playground heading anchors and changes to its collapse controls remain deferred.
 

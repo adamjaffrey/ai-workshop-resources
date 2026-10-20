@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.266"
-  update_summary: "Refine anchor travel, focus and copy feedback"
-  updated_at: "Wed 21 Oct 2026 at 09:53:59 am AEDT (+11:00)"
+  doc_revision: "26.0.267"
+  update_summary: "Enlarge anchor icons and handle replacement navigation"
+  updated_at: "Wed 21 Oct 2026 at 10:21:32 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.265 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 10:21:32 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Enlarge anchor icons and handle replacement navigation
+
+### Changed
+
+- Enlarge Hash to 20px and Circle Check/Circle X to 24px, retaining one shared centre. Place Hash 8px after Step N and adapt the connected hover surface to the larger feedback icons.
+- Update interface, routing, URL Reference and design guidance; retain existing scroll speed and copy feedback timings.
+
+### Fixed
+
+- Handle same-URL replacement navigation rather than ignoring all replace events. Suppress the controller’s own history rewrite, ignore query-only preference updates and defer alias canonicalisation until intercepted navigation completes to avoid aborting it.
+
+### Validation
+
+- Anchor refinement browser regression — passed in Chrome/WebKit at 390px and 1440px, including same-URL replacement navigation; the replacement case also passed over the actual LAN origin.
+- Rendered geometry and screenshots — verified 20/24px icon sizes, exact 8px Hash gap and unchanged icon centre on desktop/mobile.
+- Playground source parity, specimen fidelity and mobile Chrome/WebKit parity — passed across themes, agents and relevant widths.
+- Local Sites build and generated version checks — passed; app, Playground and server output display v26.0.265. Saved backdrop geometry reused; no physical-device validation claimed.
 
 ## v26.0.264 — 2026-10-21
 
