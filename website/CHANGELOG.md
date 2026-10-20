@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.236"
-  update_summary: "Refine Playground navigation, specimen widths and URL disclosures"
-  updated_at: "Tue 20 Oct 2026 at 12:50:32 pm AEDT (+11:00)"
+  doc_revision: "26.0.237"
+  update_summary: "Refine selector spacing, disclosure lists and colour specimens"
+  updated_at: "Tue 20 Oct 2026 at 01:10:38 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.235 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 01:10:38 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine selector spacing, disclosure lists and colour specimens
+
+### Changed
+
+- Move Typography list examples beneath the colour table and use canonical agent parameter values in its rows. Give equal-size colour chips an external outline so white fills remain visible.
+- Group consecutive selectors into naturally sized wrapping rows with 32px horizontal gaps. Increase slider-grid horizontal gaps to 32px while retaining 32px vertical separation and three-column limits.
+- Remove icon-location disclosure underlines and align list containers beneath summary text before applying shared bullet indentation.
+- Add hover fills to unselected Resources agent and theme options.
+- Restrict native login specimen width overrides to login controls, preserving prompt optical extension. Compare Typography parity against its own viewport, accounting for the edge-to-edge login preview.
+- Update repository spacing guidance and the Playground layout cache key.
+
+### Validation
+
+- Focused browser checks — passed Typography order, canonical agent labels, equal chip dimensions, wrapping selectors, disclosure indentation and Resources hover feedback.
+- Layout regression checks — passed control rhythm, expanded controls, external and nested alignment across seven widths, and mobile menu containment.
+- Source parity and interaction regression — passed both agents/themes, held login states, copy feedback and hosted fail-closed behavior.
+- Local production build and LAN preview verification — passed. No push or publication performed.
 
 ## v26.0.234 — 2026-10-20
 

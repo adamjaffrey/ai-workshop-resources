@@ -107,6 +107,7 @@ button, button * { -webkit-user-select: none; user-select: none; -webkit-touch-c
 .gate-panel .javascript-notice { margin:24px 0 0; }
 .theme-toggle button { display: grid; place-items: center; width: 44px; padding: 0; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--control-text); }
 .theme-toggle button:hover { color: var(--text); }
+#workshop-content :is(.theme-toggle,.controls .toggle) button[aria-pressed="false"]:hover { background:var(--hover); color:var(--text); }
 .theme-toggle button[aria-pressed="true"] { background: transparent; color: var(--text); }
 .theme-toggle button:focus-visible { outline: 3px solid var(--icon-ink); outline-offset: 3px; }
 .theme-toggle .icon { width: 20px; height: 20px; }

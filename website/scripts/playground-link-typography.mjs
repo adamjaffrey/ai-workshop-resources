@@ -7,11 +7,12 @@ body{margin:0;padding:24px;font:14px/1.5 -apple-system,BlinkMacSystemFont,'Segoe
 <div class="link-examples"><section><h3>Resting Link</h3>${playgroundHomeLink}</section><section><h3>Hover Link</h3>${playgroundHomeLink.replace('<a ', '<a data-link-preview="hover" ')}</section></div>
 <output id="link-metrics"></output><p>The text is underlined; the northeast arrow shares its colour without an underline. The padded hover background includes both. Visited links retain the same colours. The arrow indicates navigation; these specimen clicks are simulated.</p>
 <p class="selection-example">Select this text to inspect the current agent and theme’s text highlight.</p>
+
+<div class="colour-table"><table><caption>Colours Across Themes and Agents</caption><thead><tr><th>Theme / Agent</th><th>Text / Underline / Arrow</th><th>Hover Text / Fill</th><th>Selection Fill / Text</th></tr></thead><tbody id="link-colours"></tbody></table></div>
 <section class="list-examples" style="margin-block:32px;border-block:1px solid var(--border);padding-block:24px"><h3>Body Lists and Element Names</h3>
 <p>Shared body-copy styles. The marker sits near the left rail; wrapped text aligns with the item text.</p>
 <ul><li>A short first-level bullet.</li><li>A longer first-level bullet that wraps on narrow screens so its hanging indentation can be inspected.</li><li>A parent item with nested detail.<ul><li>A nested bullet advances by one compact indent.</li><li>Use <code>div</code>, <code>section</code> and <code>.example-panel</code> for element and class references.</li></ul></li></ul>
 <p>Element names such as <code>button</code>, IDs such as <code>#example-control</code>, and filenames such as <code>workshop-theme.mjs</code> use the shared monospace font.</p></section>
-<div class="colour-table"><table><caption>Colours Across Themes and Agents</caption><thead><tr><th>Theme / Agent</th><th>Text / Underline / Arrow</th><th>Hover Text / Fill</th><th>Selection Fill / Text</th></tr></thead><tbody id="link-colours"></tbody></table></div>
 </div><script>
 function refreshLinkTypography(){
  window.decorateWorkshopLinks();
@@ -24,7 +25,7 @@ function refreshLinkTypography(){
  for(const theme of ['light','dark'])for(const agent of ['codex','claude-code']){
   root.dataset.theme=theme;root.dataset.selectedAgent=agent;
   const c=getComputedStyle(normal),selection=getComputedStyle(normal,'::selection');
-  rows.push([theme+' / '+(agent==='codex'?'Codex':'Claude Code'),hex(c.color),hex(getComputedStyle(hover).color)+' / '+(theme==='dark'?hex(getComputedStyle(hover,'::before').backgroundColor):hex(getComputedStyle(root).getPropertyValue('--agent-accent').trim()))+' at '+opacity(getComputedStyle(hover,'::before').backgroundColor)+'% opacity',hex(selection.backgroundColor)+' / '+hex(selection.color)]);
+  rows.push([theme+' / '+agent,hex(c.color),hex(getComputedStyle(hover).color)+' / '+(theme==='dark'?hex(getComputedStyle(hover,'::before').backgroundColor):hex(getComputedStyle(root).getPropertyValue('--agent-accent').trim()))+' at '+opacity(getComputedStyle(hover,'::before').backgroundColor)+'% opacity',hex(selection.backgroundColor)+' / '+hex(selection.color)]);
  }
  if(savedTheme===undefined)delete root.dataset.theme;else root.dataset.theme=savedTheme;
  if(savedAgent===undefined)delete root.dataset.selectedAgent;else root.dataset.selectedAgent=savedAgent;

@@ -21,9 +21,9 @@ function alignHeadingCaps(){
  }
  for(const details of document.querySelectorAll('details[open]')){
   const summary=details.querySelector(':scope>summary');if(!summary||!summary.getBoundingClientRect().width)continue;
-  const text=[...summary.childNodes].find(n=>n.nodeType===3&&n.textContent.trim());if(!text)continue;
+  const text=[...summary.childNodes].find(n=>(n.nodeType===3&&n.textContent.trim())||(n.nodeType===1&&n.tagName!=='svg'&&n.textContent.trim()));if(!text)continue;
   const range=document.createRange();range.selectNodeContents(text);const x=range.getBoundingClientRect().left;
-  for(const body of details.querySelectorAll(':scope>p'))body.style.marginLeft=(x-details.getBoundingClientRect().left-parseFloat(getComputedStyle(details).paddingLeft))+'px';
+  for(const body of details.querySelectorAll(':scope>p,:scope>ul,:scope>ol'))body.style.marginLeft=(x-details.getBoundingClientRect().left-parseFloat(getComputedStyle(details).paddingLeft))+'px';
  }
 }
 document.addEventListener('toggle',scheduleHeadingCaps,true);

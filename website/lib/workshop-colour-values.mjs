@@ -1,7 +1,7 @@
 // Present colour literals consistently without changing their text or copied value.
 export const colourValueCSS=`
 .hex-value{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;white-space:nowrap}
-.hex-chip{display:inline-block;width:1cap;height:1cap;border-radius:2px;margin-left:.4em;background:var(--hex-colour);vertical-align:baseline;box-shadow:inset 0 0 0 1px #80808040}
+.hex-chip{display:inline-block;width:1cap;height:1cap;border-radius:2px;margin-left:.4em;background:var(--hex-colour);vertical-align:baseline;box-shadow:none;outline:1px solid #80808080;outline-offset:0}
 `;
 export const colourValueScript=String.raw`
 window.formatWorkshopColourValues=function(root=document.body){
