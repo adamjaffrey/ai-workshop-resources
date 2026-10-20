@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.13"
-  update_summary: "Use 9px caption gaps for optical QR spacing"
-  updated_at: "Wed 21 Oct 2026 at 12:08:30 am AEDT (+11:00)"
+  doc_revision: "26.0.14"
+  update_summary: "Match selection paint to native line height"
+  updated_at: "Wed 21 Oct 2026 at 12:14:52 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -152,7 +152,7 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 
 ## Focus, Cursors and Cancellation
 
-**Decision:** Use CSS Highlight ranges for held text selections, with source typography and selection colours; use an inline text-span fallback if unsupported. A paragraph background paints the full line height and exaggerates the native selection rectangle. Preserve real focus. Text fields show focused styling for every input method; other controls show rings for keyboard navigation. On panel opening focus its descriptive heading without a ring or software keyboard, then allow normal Tab navigation and restore invoking focus on close. Enabled controls show a hand throughout the target; disabled controls use not-allowed with enforced semantics. Disable selector-label selection/native drag and cancel dragstart; dragging outside a held selector must not drag its text or select a new value.
+**Decision:** Paint held text selections per source line box, with source typography and selection colours and no extra vertical padding. Use text ranges only to locate line widths. Direct desktop Chrome screenshots measured 24px native body-selection paint versus an 18px glyph range; CSS Highlight ranges made the simulation too small. The original oversized example came from added paragraph padding, not the source line height. Compare native and simulated painted pixels for every selection example rather than accepting glyph-height assertions. Preserve real focus. Text fields show focused styling for every input method; other controls show rings for keyboard navigation. On panel opening focus its descriptive heading without a ring or software keyboard, then allow normal Tab navigation and restore invoking focus on close. Enabled controls show a hand throughout the target; disabled controls use not-allowed with enforced semantics. Disable selector-label selection/native drag and cancel dragstart; dragging outside a held selector must not drag its text or select a new value.
 
 **Rationale:** Documented: hiding focus must not remove keyboard access; opening panels should not unexpectedly summon the mobile keyboard. The drag suppression fixes observed label dragging during cancelled holds. The old ADR recorded this cancellation defect; the current contract retains the rule.
 

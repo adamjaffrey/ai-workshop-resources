@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.260"
-  update_summary: "Tighten QR caption spacing for optical balance"
-  updated_at: "Wed 21 Oct 2026 at 12:09:01 am AEDT (+11:00)"
+  doc_revision: "26.0.261"
+  update_summary: "Match held selections to native painted height"
+  updated_at: "Wed 21 Oct 2026 at 12:17:06 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.259 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 12:17:06 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Match held selections to native painted height
+
+### Fixed
+
+- Replace glyph-height Highlight API painting with per-line selection backgrounds using captured source line height and colours. Retain zero added padding and avoid highlighting unused trailing space on the last line.
+- Replace the insufficient glyph-range regression assertion with a visible native-selection pixel comparison for all six desktop examples. Correct the governing explanation: the original oversize came from added padding; glyph bounds then made the replacement too small.
+
+### Validation
+
+- Actual Resources desktop Chrome body-text selection — measured 24px painted height versus an 18px glyph range.
+- `node website/tests/specimen-selection-qr-browser-check.mjs` — passed Chrome/WebKit at 390, 768 and 1440px in light/dark themes. Desktop Chrome native/held painted heights match exactly: body 24px, prompt 21px and four password examples 24px. WebKit checks cover rendering and source line heights, not native-selection pixel parity.
+- Live QR app and Focus specimen — confirmed 9px caption gaps, 12px top/side padding and a 203px card height; no further QR changes made.
+- `node website/tests/playground-browser-check.mjs` — passed source parity and interaction checks.
+- `node website/tests/playground-scroll-clearance-browser-check.mjs` — passed again, confirming the tablet tab-position correction remains in place.
+- `npm --prefix website run build` — passed; generated v26.0.259 displays verified. Saved backdrop geometry was not remeasured.
 
 ## v26.0.258 — 2026-10-21
 
