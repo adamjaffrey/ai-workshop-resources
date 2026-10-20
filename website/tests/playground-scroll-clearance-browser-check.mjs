@@ -18,7 +18,7 @@ try{
   assert.ok(Math.max(...positions)-Math.min(...positions)<.1,JSON.stringify({width,positions}));
   if(width===390){assert.equal(await p.locator('.tab-scroll-shell').evaluate(e=>getComputedStyle(e).marginBottom),'16px');assert.equal(await p.locator('.tab-scroll-shell').evaluate(e=>getComputedStyle(e,'::before').opacity),'1');}
   const gaps=await p.locator('.url-subsection').first().evaluate(e=>({expanded:getComputedStyle(e.querySelector('.section-heading')).marginBottom,next:getComputedStyle(e.nextElementSibling).marginTop}));assert.equal(gaps.expanded,'16px');
-  await p.locator('.url-subsection .section-collapse').first().click();assert.equal(await p.locator('.url-subsection').nth(1).evaluate(e=>getComputedStyle(e).marginTop),'20px');
+  await p.locator('.url-subsection .section-collapse').first().click();assert.equal(await p.locator('.url-subsection').nth(1).evaluate(e=>getComputedStyle(e).marginTop),'24px');
   await p.screenshot({path:'/tmp/scroll-clearance-'+width+'.png'});
   for(const selector of ['nav[role=tablist]','#width .choice-options']){
    // Give each real rail a constrained width to exercise overflowing middle items.

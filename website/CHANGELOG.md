@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.240"
-  update_summary: "Align selections clear of fades and stabilise sticky navigation"
-  updated_at: "Tue 20 Oct 2026 at 02:47:58 pm AEDT (+11:00)"
+  doc_revision: "26.0.241"
+  update_summary: "Balance URL headings and refine selector and mobile backgrounds"
+  updated_at: "Tue 20 Oct 2026 at 03:05:58 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.239 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 03:05:58 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Balance URL headings and refine selector and mobile backgrounds
+
+### Changed
+
+- Give collapsed URL subheadings 20px visible clearance from their hover boundary to the dividers above and below, retaining expanded heading-to-content spacing.
+- Match Playground unselected option hover text to Resources: darker in light mode and lighter in dark mode, retaining selected text colours.
+- Prevent native text/image dragging and selection within segmented controls while preserving cancelled presses, focus and keyboard activation.
+- Add a full-width fixed page-colour background at the mobile viewport edge, with the existing approach fade and tab-height coverage. This replaces reliance on an off-screen pseudo-element alone for embedded iOS browser colour extension, without changing the mobile panel gap.
+
+### Validation
+
+- Focused hover/drag, scroll-clearance and held-toggle browser checks — passed hover text parity, cancelled drags, unchanged selection, all-tab initial scroll stability, H3 spacing and fixed background geometry.
+- Full Playground regression, seven-width external/nested alignment and focus checks — passed.
+- Structure tests, local production build and LAN app/Playground/login verification — passed. Mobile screenshot inspected. ChatGPT's embedded iOS browser chrome cannot be reproduced in headless Chrome; physical-device confirmation remains necessary.
 
 ## v26.0.238 — 2026-10-20
 

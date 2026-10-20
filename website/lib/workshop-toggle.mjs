@@ -12,6 +12,8 @@ export const toggleScript = `window.layoutWorkshopToggle = function(toggle) {
 window.createWorkshopToggle = function(toggle, options = {}) {
     const reducedMotionQuery = matchMedia('(prefers-reduced-motion: reduce)');
     toggle.classList.add('segmented-toggle');
+    // A cancelled press must not start the browser's native text/image drag.
+    toggle.addEventListener('dragstart', event => event.preventDefault());
     const targetSelector=options.targetSelector || 'button';
     const focusTarget=target=>target.querySelector('input') || target;
     if(options.selectionSelector)toggle.dataset.selectionSelector=options.selectionSelector;

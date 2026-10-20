@@ -63,7 +63,7 @@ ${copyTextCSS}
 #panel-url-reference pre code{font:inherit;color:inherit}
 #panel-url-reference pre:focus-visible{outline:3px solid var(--icon-ink);outline-offset:3px}
 #panel-url-reference li+li{margin-top:8px}
-#panel-url-reference .url-reference-intro{margin:12px -4px 16px;padding:24px 28px;background:var(--surface);border:1px solid var(--border);border-radius:16px} .url-reference-intro>:first-child{margin-top:0}.url-reference-intro>:last-child{margin-bottom:0}#panel-url-reference .url-subsection{border-top:1px solid var(--border);padding-top:20px;margin-top:24px}#panel-url-reference .url-subsection h3{border:0;padding-top:0;margin:0}#panel-url-reference .url-subsection>.section-heading{margin-bottom:16px}#panel-url-reference .url-subsection[data-collapsed]>.section-heading{margin-bottom:0}#panel-url-reference .url-subsection[data-collapsed]+.url-subsection{margin-top:20px}
+#panel-url-reference .url-reference-intro{margin:12px -4px 16px;padding:24px 28px;background:var(--surface);border:1px solid var(--border);border-radius:16px} .url-reference-intro>:first-child{margin-top:0}.url-reference-intro>:last-child{margin-bottom:0}#panel-url-reference .url-subsection{border-top:1px solid var(--border);padding-top:24px;margin-top:24px}#panel-url-reference .url-subsection h3{border:0;padding-top:0;margin:0}#panel-url-reference .url-subsection>.section-heading{margin-bottom:16px}#panel-url-reference .url-subsection[data-collapsed]>.section-heading{margin-bottom:0}
 .url-copy[data-result=success]{color:var(--success)}
 .url-copy[data-result=error]{color:var(--error)}
 .icon-usages summary{display:flex;align-items:center;gap:4px;cursor:pointer}

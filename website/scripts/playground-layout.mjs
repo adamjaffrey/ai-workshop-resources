@@ -49,6 +49,7 @@ header.wrap p{font-size:16px;line-height:24px;margin:0;max-width:none}
 .choice-options.segmented-toggle .choice span{height:40px;display:flex;align-items:center;padding:0 12px;border:0;border-radius:8px;background:transparent;color:var(--control-text)}
 .choice-options.segmented-toggle .choice input:checked+span{background:transparent;color:var(--agent-ink)}
 .choice-options.segmented-toggle .choice:hover span{box-shadow:none;background:transparent}
+.choice-options.segmented-toggle .choice:hover input:not(:checked)+span{color:var(--text)}
 :root[data-focus-input="keyboard"] .choice-options.segmented-toggle .choice input:focus+span{outline-offset:-3px}
 #login-preview #login-destination{flex:0 1 auto;min-width:0;max-width:45%}
 @media(max-width:660px){header.wrap #playground-title{font-size:40px}header.wrap{padding-bottom:32px}header.wrap p{margin-bottom:0}#mobile-style-controls .primary-style-choices{display:flex;flex-wrap:wrap}.primary-style-choices>.choices{min-width:0;max-width:100%}}
@@ -131,7 +132,10 @@ main.wrap{padding-top:24px}
 .tab-scroll-shell nav[role=tablist]{padding-top:0}
 .tab-scroll-shell nav[role=tablist] button[aria-selected=true]{background:color-mix(in srgb,var(--agent-accent) 8%,var(--page))}
 .tab-scroll-shell::before{content:'';position:absolute;inset:-24px 0 100%;background:var(--page);pointer-events:none}
+.mobile-tab-backdrop{display:none}
 @media(max-width:660px){
+ .mobile-tab-backdrop{display:block;position:fixed;inset:0 0 auto;height:var(--mobile-tab-height,48px);background:var(--page);opacity:var(--mobile-header-fill,0);pointer-events:none;z-index:10}
+ .mobile-tab-backdrop::before{content:"";position:absolute;inset:-100vh 0 100%;background:inherit}
  .tab-scroll-shell{top:0;margin-bottom:16px}
  .tab-scroll-shell::before{top:-100vh;left:calc((100% - 100vw)/2);right:calc((100% - 100vw)/2);opacity:var(--mobile-header-fill,0)}
  .tab-scroll-shell.is-pinned::before{top:-100vh;left:calc((100% - 100vw)/2);right:calc((100% - 100vw)/2)}
@@ -155,7 +159,8 @@ main.wrap{padding-top:24px}
 export const playgroundLayoutScript=String.raw`
 const tabRail=document.querySelector('nav[role=tablist]'),tabShell=document.createElement('div');tabShell.className='tab-scroll-shell';const tabAnchor=document.createElement('div');tabAnchor.className='tab-scroll-anchor';tabRail.before(tabAnchor,tabShell);tabShell.append(tabRail);
 // Keep the native scrollbar in the lower gap, outside the tab row's layout height.
-const measureTabRow=()=>tabShell.style.setProperty('--tab-row-height',tabRail.querySelector('button').getBoundingClientRect().height+'px');
+const mobileTabBackdrop=document.createElement('div');mobileTabBackdrop.className='mobile-tab-backdrop';mobileTabBackdrop.setAttribute('aria-hidden','true');document.body.append(mobileTabBackdrop);
+const measureTabRow=()=>{const height=tabRail.querySelector('button').getBoundingClientRect().height+'px';tabShell.style.setProperty('--tab-row-height',height);mobileTabBackdrop.style.setProperty('--mobile-tab-height',height);};
 new ResizeObserver(measureTabRow).observe(tabRail);document.fonts.ready.then(measureTabRow);measureTabRow();
 const updateFloatingTools=()=>{const brand=document.querySelector('.playground-brand-row').getBoundingClientRect();document.documentElement.style.setProperty('--floating-tools-top',(innerWidth<=660?Math.max(24,brand.top+(brand.height-48)/2,tabShell.getBoundingClientRect().height+12-Math.max(0,tabShell.getBoundingClientRect().top)):Math.max(24,brand.top+(brand.height-48)/2))+'px');};
 addEventListener('scroll',updateFloatingTools,{passive:true});addEventListener('resize',updateFloatingTools);updateFloatingTools();
@@ -232,7 +237,7 @@ function updateStickyControls(){
  const eligible=innerWidth>660&&stickyControls.parentElement===stickyToolbar;
  stickyToolbar.style.setProperty('--toolbar-label-opacity',String(eligible?Math.max(0,Math.min(1,(stickyThreshold-scrollY)/64)):1));stickyToolbar.classList.toggle('controls-pinned',eligible&&scrollY>=stickyThreshold);
  setStickyMetrics();
- const tabs=document.querySelector('.tab-scroll-shell'),top=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sticky-tab-top'));const distance=tabs.getBoundingClientRect().top-top;tabs.classList.toggle('is-pinned',distance<=.5);tabs.style.setProperty('--mobile-header-fill',String(Math.max(0,Math.min(1,1-distance/64))));updateFloatingTools();
+ const tabs=document.querySelector('.tab-scroll-shell'),top=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sticky-tab-top'));const distance=tabs.getBoundingClientRect().top-top;tabs.classList.toggle('is-pinned',distance<=.5);const fill=String(Math.max(0,Math.min(1,1-distance/64)));tabs.style.setProperty('--mobile-header-fill',fill);mobileTabBackdrop.style.setProperty('--mobile-header-fill',fill);updateFloatingTools();
 }
 function measureStickyControls(){
  stickyToolbar.classList.remove('controls-pinned');
