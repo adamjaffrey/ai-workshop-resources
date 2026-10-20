@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.258"
-  update_summary: "Guard source captures against device text inflation"
-  updated_at: "Tue 20 Oct 2026 at 11:46:37 pm AEDT (+11:00)"
+  doc_revision: "26.0.259"
+  update_summary: "Compact QR spacing and text-range selection previews"
+  updated_at: "Wed 21 Oct 2026 at 12:02:57 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.257 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 12:02:57 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Compact QR spacing and text-range selection previews
+
+### Fixed
+
+- Size the canonical QR card to its content, removing the extra width introduced by its optical margins. Use 12px top/side padding, 12px above and below the caption line box, and an inward image outline; retain the complete focus specimen.
+- Paint all six held selection examples with text-range highlights instead of paragraph backgrounds and extra padding. Retain captured source typography and colours, with an inline fallback for browsers without the Highlight API.
+- Keep a minimum viewport footprint while lazy Playground panels load so tab landing is not clamped to a temporarily short document, resolving the tablet first-scroll movement.
+
+### Validation
+
+- Passed Chrome/WebKit checks for all six selection ranges, exact QR spacing, source font parity, 24px right clearance, responsive fades and theme controls across mobile, tablet and desktop widths.
+- Passed optical rail, nested alignment, tab landing/edge and horizontal scroll-axis regression checks. Inspected mobile selection and QR screenshots; physical-device font correction was confirmed by the user.
+- `npm --prefix website run build` — passed; generated v26.0.257 displays verified using saved backdrop geometry. Local preview refreshed; no publication performed.
 
 ## v26.0.256 — 2026-10-20
 

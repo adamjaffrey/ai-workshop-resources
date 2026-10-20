@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.11"
-  update_summary: "Guard source captures against device text inflation"
-  updated_at: "Tue 20 Oct 2026 at 11:46:37 pm AEDT (+11:00)"
+  doc_revision: "26.0.12"
+  update_summary: "Record native selection painting and compact QR geometry"
+  updated_at: "Tue 20 Oct 2026 at 11:58:12 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -152,7 +152,7 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 
 ## Focus, Cursors and Cancellation
 
-**Decision:** Preserve real focus. Text fields show focused styling for every input method; other controls show rings for keyboard navigation. On panel opening focus its descriptive heading without a ring or software keyboard, then allow normal Tab navigation and restore invoking focus on close. Enabled controls show a hand throughout the target; disabled controls use not-allowed with enforced semantics. Disable selector-label selection/native drag and cancel dragstart; dragging outside a held selector must not drag its text or select a new value.
+**Decision:** Use CSS Highlight ranges for held text selections, with source typography and selection colours; use an inline text-span fallback if unsupported. A paragraph background paints the full line height and exaggerates the native selection rectangle. Preserve real focus. Text fields show focused styling for every input method; other controls show rings for keyboard navigation. On panel opening focus its descriptive heading without a ring or software keyboard, then allow normal Tab navigation and restore invoking focus on close. Enabled controls show a hand throughout the target; disabled controls use not-allowed with enforced semantics. Disable selector-label selection/native drag and cancel dragstart; dragging outside a held selector must not drag its text or select a new value.
 
 **Rationale:** Documented: hiding focus must not remove keyboard access; opening panels should not unexpectedly summon the mobile keyboard. The drag suppression fixes observed label dragging during cancelled holds. The old ADR recorded this cancellation defect; the current contract retains the rule.
 
@@ -192,7 +192,7 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 
 ## Tab Landing and Overflow Selection
 
-**Decision:** Tab changes land at the start of the pinned region with header content scrolled away. Use whole CSS pixels for sticky heights/landing coordinates and exclude the region from scroll anchoring. Mobile middle options centre; tablet/desktop leave unobscured options still and reveal obscured options beyond the fade. First/last options align to actual boundaries without artificial end spacers. Apply the same policy to selector rails.
+**Decision:** Tab changes land at the start of the pinned region with header content scrolled away. Use whole CSS pixels for sticky heights/landing coordinates and exclude the region from scroll anchoring. Give tab panels a minimum viewport footprint while lazy frames populate; otherwise a temporarily short document clamps the landing before the tab can pin. Mobile middle options centre; tablet/desktop leave unobscured options still and reveal obscured options beyond the fade. First/last options align to actual boundaries without artificial end spacers. Apply the same policy to selector rails.
 
 **Rationale:** Documented: fractional positioning caused first-scroll jump/flicker, confirmed resolved after the fix. Preserving the inset destination avoids both stale scroll positions and unnecessary jumps to the page top. Fade clearance keeps an automatically revealed choice readable. Native horizontal scroll limits keep edge items reachable.
 
@@ -306,7 +306,7 @@ Adam requested these gallery refinements to compare real component dimensions, r
 
 ## QR Corner Geometry
 
-**Decision:** The later pre-split correction derives the inner QR link radius from the outer card radius minus padding and border, with the image inheriting the result. It superseded an earlier attempt to give all nested edges the same radius. The recorded example was 16px − 14px − 1px = 1px; it is historical geometry, not a universal radius to copy into another component.
+**Decision:** Size the shared card to its content, with 12px at the QR top/sides, 12px between QR and caption line box, and 12px below the caption. Paint the QR image outline inward. This replaces the stretched grid width that added 8px of unused space on the right; the optical outdent must move the card without widening it. The later pre-split correction derives the inner QR link radius from the outer card radius minus padding and border, with the image inheriting the result. It superseded an earlier attempt to give all nested edges the same radius. The recorded example was 16px − 14px − 1px = 1px; it is historical geometry, not a universal radius to copy into another component.
 
 **Rationale:** Documented: nested corners should be concentric and the keyboard focus outline should follow the same geometry. Subtracting inset distances preserves that relationship instead of matching unrelated bounding radii.
 

@@ -68,7 +68,9 @@ html:is([data-specimen-gallery=icons],[data-specimen-gallery=errors]) body{font:
 .focus-preview .focus-footer{width:calc(100% - var(--specimen-optical-nudge));display:block;margin:0;padding:0;border:0}
 .focus-preview .focus-footer button{width:auto!important}
 .focus-preview pre{max-height:160px}
-.selection-preview{width:fit-content;max-width:100%;margin-inline:0;padding:4px 0;overflow-wrap:anywhere}
+.selection-preview{width:fit-content;max-width:100%;margin-inline:0;padding:0;overflow-wrap:anywhere}
+.selection-preview::highlight(specimen-selection){background-color:var(--selection-preview-background);color:var(--selection-preview-foreground)}
+.selection-preview.selection-fallback>span{background-color:var(--selection-preview-background);color:var(--selection-preview-foreground)}
 .type-row [data-type-sample].gate-error,.icon-sample>.gate-error{translate:var(--specimen-error-nudge) 0}
 
 /* Isolate a typography sample from its copied ancestors' page layout, while

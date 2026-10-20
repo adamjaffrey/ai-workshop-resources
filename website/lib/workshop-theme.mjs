@@ -127,7 +127,7 @@ button, button * { -webkit-user-select: none; user-select: none; -webkit-touch-c
 .brand-worm::selection { color: transparent; background: var(--selection); }
 .brand-worm::after { content: ''; position: absolute; inset: 0; background: #000; mask: url('/assets/wavelength-worm.png') center/contain no-repeat; pointer-events: none; }
 :root[data-theme="dark"] .brand-worm::after { background: #fff; }
-.qr-card img { background: white; border-radius: inherit; outline: 1px solid var(--border); }
+.qr-card img { background: white; border-radius: inherit; outline: 1px solid var(--border); outline-offset: -1px; }
 :root[data-theme="dark"] .page-placeholder .ph-line, :root[data-theme="dark"] .ph-brand-mark { background: #707b8b; }
 :root[data-theme="dark"] .ph-toggle span:last-child { background: var(--control-bg); }
 @media (max-width: 380px) { .page-toolbar { gap: 8px; } .page-toolbar .brand { gap: 6px; } .page-toolbar .brand-name { font-size: 13px; } .page-toolbar .brand-worm { --brand-mark-width: 36px; } .page-toolbar .brand-mark img { width: 36px; } .theme-toggle button { width: 40px; } }

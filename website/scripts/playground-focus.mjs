@@ -22,12 +22,13 @@ window.addEventListener('message',event=>{
   if(item.ring&&!preview.querySelector(':scope>.segmented-toggle')&&!preview.querySelector(':scope>.qr-card')&&item.label!=='Copy Prompt · Keyboard Focus')preview.dataset.exteriorRing='';
   if(item.ring){target.setAttribute('data-held-focus','');for(let p=target.parentElement;p&&p!==preview;p=p.parentElement)p.setAttribute('data-held-focus-within','');}
   row.append(title,preview);
-  if(item.selectable){const selected=document.createElement('p');selected.className='selection-preview';selected.textContent=item.selectionText;for(const [property,value] of Object.entries(item.selectionTypography))selected.style.setProperty(property,value);selected.style.background=item.selection[0];selected.style.color=item.selection[1];row.append(selected);}
+  if(item.selectable){const selected=document.createElement('p');selected.className='selection-preview';selected.textContent=item.selectionText;for(const [property,value] of Object.entries(item.selectionTypography))selected.style.setProperty(property,value);selected.style.setProperty('--selection-preview-background',item.selection[0]);selected.style.setProperty('--selection-preview-foreground',item.selection[1]);if(!CSS.highlights){selected.classList.add('selection-fallback');const text=document.createElement('span');text.textContent=selected.textContent;selected.replaceChildren(text);}row.append(selected);}
   const detail=document.createElement('p');detail.className='focus-meta';detail.textContent=item.page+' → '+item.selector+(item.selectable?' · Selection: '+item.selection.join(' / '):' · Keyboard focus; control label is not selectable.');
   row.append(detail);fragment.append(row);
  }
  section.replaceChildren(fragment);
  }
+ if(CSS.highlights){const ranges=[...catalog.querySelectorAll('.selection-preview')].map(e=>{const range=document.createRange();range.selectNodeContents(e);return range;});CSS.highlights.set('specimen-selection',new Highlight(...ranges));}
  catalog.dataset.captureId=event.data.requestId;
  catalog.querySelectorAll('.segmented-toggle').forEach(e=>window.layoutWorkshopToggle(e));
 });
