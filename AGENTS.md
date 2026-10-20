@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.69"
-  update_summary: "Restrict press animations to segmented selectors"
-  updated_at: "Tue 20 Oct 2026 at 11:41:12 am AEDT (+11:00)"
+  doc_revision: "26.0.70"
+  update_summary: "Standardise control rhythm, slider grids and sticky navigation"
+  updated_at: "Tue 20 Oct 2026 at 12:35:36 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -231,7 +231,9 @@ Rounded corners visually recede from their bounding edge, while SVG icons can co
 - Designated rounded boundary components extend 4px outward from that rail. Full-width surfaces extend on both sides; intrinsic-width controls extend from their aligned edge. On mobile page layouts, the surface rail is 24px from the screen and the text rail is 28px. Expanded views use the same rails. Centred elements remain centred.
 - Use the single `--optical-offset` token. The component selectors in the shared module register existing scopes and surface boundaries. New scopes can use `.alignment-scope` with `--surface-padding`; full-width rounded children can use `.alignment-surface`. Square/text children stay on the scope's text rail. Do not automatically select all elements with a border radius.
 - In Playground specimen galleries, reserve a shared 16px safety inset on both sides (`--specimen-inset`) before applying the 4px optical extension. Keep focus rings, QR controls and login shadows inside this space; do not reduce wrapper padding to the optical offset. Iframe viewports also reserve that safety inset, while their source pages retain native page gutters. Preserve the inset in expanded views and refresh control measurements when revealing previously hidden frames.
-- Keep gallery row separators as the single divider source. Apply H3 top dividers only inside URL Reference; do not add global H3 borders to specimens. Use a 24px gap below Playground selector groups and retain 16px between their label and control.
+- Keep gallery row separators as the single divider source. Apply H3 top dividers only inside URL Reference; do not add global H3 borders to specimens. Use a shared 32px vertical separation above and below Playground control groups, including selectors, action buttons, checkboxes and sliders; adjacent groups share one gap. Retain 16px between selector labels and their controls, and preserve the 40px gap after the Resources agent selector. Slider labels and values use the selector-label font (14px/21px, weight 600). Keep slider hit targets 44px tall but use a 4px CSS label gap, giving approximately 16px to the visible thumb. Slider grids use the Playground Icons 280px minimum columns and 24px horizontal gap, capped at three columns, with 32px between rows.
+- Keep sticky tabs clear of mobile floating tools: reserve a side-by-side tool row with 24px between it and the tabs. Retain the whitespace above pinned tabs, tint the active tab, and extend only the grey background 4px beyond each content edge. Horizontal control strips must allow vertical scroll chaining while remaining vertically locked.
+- Share compact prose-list styles through `website/lib/workshop-body-type.mjs`: 20px hanging indentation, markers near the text rail, and one extra indent per nesting level. Demonstrate wrapped and nested lists in Typography. Render element/class/ID references and source filenames in monospace. Keep all applicable selectors, checkboxes, sliders and action buttons available in expanded previews, restoring them on close.
 - Align disclosure body copy with its summary text. Keep segmented-selector legends on the normal text rail and preserve native button interior spacing.
 - Apply the extension once per component boundary. A button inside a toggle does not acquire a second outward offset. Nested cards and prompt panels establish their own text rail using their normal interior surface spacing plus 4px; their designated rounded children may extend back to that interior surface rail.
 - Retain native padding, icon gaps and centred alignment inside buttons, toggle options, password fields and badges. A rounded icon tile is itself the boundary; do not also compensate the icon inside that tile. Move icon-and-heading groups together so their internal gap remains unchanged.

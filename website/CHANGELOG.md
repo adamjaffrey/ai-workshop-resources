@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.234"
-  update_summary: "Contain worm selection paint within its own bounds"
-  updated_at: "Tue 20 Oct 2026 at 11:46:38 am AEDT (+11:00)"
+  doc_revision: "26.0.235"
+  update_summary: "Unify Playground control rhythm and responsive navigation"
+  updated_at: "Tue 20 Oct 2026 at 12:36:48 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.233 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 12:36:48 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Unify Playground control rhythm and responsive navigation
+
+### Changed
+
+- Apply 32px vertical separation to Playground control groups, including actions, checkboxes and sliders, retaining the Resources 40px selector-to-content gap. Match slider labels/values to 14px semibold selector headings and reduce label-to-hit-target spacing to 4px while preserving 44px hit targets.
+- Give slider groups the Icons grid's container width, 280px minimum columns and 24px horizontal gap, capped at three columns. Keep 32px row gaps and preserve label rails in inline and expanded views.
+- Reserve a side-by-side mobile floating-tool row above sticky tabs with a 24px gap; retain desktop whitespace above pinned tabs. Tint the selected tab and extend only its grey backdrop 4px sideways. Allow vertical wheel scrolling to chain through horizontal selector/tab strips.
+- Share compact 20px hanging list indentation and monospace element references with Resources through the theme module. Add short, wrapped and nested list specimens to Typography; format source filenames and usage identifiers as code.
+- Give icon-location disclosures an accented chevron, subtle fill and boundary. Keep all applicable actions and checkboxes in expanded Preview Controls and restore their original placement on close.
+- Update repository guidance and the Playground layout cache key. Internal builds continue to reuse saved anonymous geometry.
+
+### Validation
+
+- Focused browser checks — passed slider columns and label clearance, mobile floating-tool hit targets, background overhang, real wheel scrolling, complete expanded controls and shared list specimens at phone/tablet/desktop widths.
+- Regression checks — passed source parity, expanded-preview state/focus restoration, optical and nested alignment at seven widths, menu containment, tab edges and 180 vertically locked selection regions.
+- Build and preview checks — passed source structure and production build. Populated mobile/desktop list screenshots reviewed; physical-device testing was not performed.
 
 ## v26.0.232 — 2026-10-20
 

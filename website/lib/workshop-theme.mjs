@@ -1,3 +1,4 @@
+import {bodyTypeCSS} from './workshop-body-type.mjs';
 import {themeAliases} from './workshop-url-preferences.mjs';
 import {playgroundFaviconScript} from './workshop-playground-brand.mjs';
 import {alignmentCSS} from './workshop-alignment.mjs';
@@ -294,7 +295,7 @@ const script = `(() => {
 })();`;
 
 export function withTheme(html, login = false) {
-  html = html.replace('</head>', `<style>${styles}\n${linkCSS}\n${colourValueCSS}\n${alignmentCSS}</style><script nonce="__NONCE__" data-workshop-theme>${agentScript}\n${playgroundFaviconScript}\n${toggleScript}\n${script}\n${linkScript}\n${colourValueScript}</script></head>`);
+  html = html.replace('</head>', `<style>${styles}\n${linkCSS}\n${colourValueCSS}\n${alignmentCSS}\n${bodyTypeCSS}</style><script nonce="__NONCE__" data-workshop-theme>${agentScript}\n${playgroundFaviconScript}\n${toggleScript}\n${script}\n${linkScript}\n${colourValueScript}</script></head>`);
   if (login) return html.replace('</h2>', `</h2><div class="gate-toolbar"><p class="eyebrow">Workshop Access</p>${control}</div>`);
   return html.replace('<div class="brand" aria-label="Wavelength">', '<div class="page-toolbar"><div class="brand" aria-label="Wavelength">')
     .replace('    <header class="page-header">', `    ${control}</div>\n    <header class="page-header">`);

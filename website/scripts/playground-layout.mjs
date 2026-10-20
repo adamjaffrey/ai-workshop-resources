@@ -1,6 +1,6 @@
 // Outer Playground tooling only; app specimens keep their canonical controls.
 export const playgroundLayoutCSS=String.raw`
-:root{--playground-inset-gap:24px;--control-related-gap:8px;--control-label-gap:16px;--control-column-gap:24px;--control-row-gap:32px}
+:root{--playground-inset-gap:32px;--control-related-gap:8px;--control-label-gap:16px;--control-column-gap:24px;--control-row-gap:32px}
 .egg-help{margin-top:12px}.egg-help summary{font-weight:600}.egg-help p{font-size:14px;color:var(--muted-text)}
 #playground-title{align-items:flex-start}#playground-title>svg{margin-top:.075em}
 .section-heading h2{align-items:flex-start}.section-heading h2>svg{align-self:flex-start;margin-top:calc((1.5em - 24px)/2)}
@@ -32,7 +32,8 @@ nav[role=tablist]{border-bottom:0;padding-bottom:0;gap:0!important;background:no
 .heading-actions{display:flex;align-items:center;gap:8px;flex:none;position:relative;z-index:2}
 .heading-actions:empty{display:none}.heading-actions button{width:44px;height:44px;padding:10px;box-shadow:none}
 .heading-actions button .action-label{display:none!important}
-.preview-dialog.is-expanded>.panel-actions{display:none}.preview-dialog.is-expanded>.frame-wrap{margin-top:16px}
+.preview-dialog.is-expanded>.panel-actions{display:none}
+.expanded-state-controls>:is(.choices,.state-tools,.panel-actions,.panel-options,.control-footer,.checkbox-controls){margin-block:32px}.expanded-state-controls>.panel-actions{display:flex;justify-content:flex-start}.preview-dialog.is-expanded>.frame-wrap{margin-top:16px}
 .preview-dialog.is-expanded .expanded-state-controls{padding-bottom:12px}
 
 /* Match the main app's pre-heading position and vertical type rhythm. */
@@ -83,21 +84,25 @@ details[open]>summary>.disclosure-chevron{transform:rotate(90deg)}
 
 /* Outer controls only: keep these tokens out of source specimen documents. */
 .state-tools,.toolbar #global-style-controls,.expanded-global-controls>#global-style-controls,#mobile-style-controls .primary-style-choices{gap:var(--control-row-gap) var(--control-column-gap)}
-.state-tools .field,.expanded-state-controls .field{margin-top:0;gap:16px}
+.state-tools:has(>.field){margin-inline:-4px;width:calc(100% + 8px);grid-template-columns:repeat(auto-fit,minmax(min(100%,max(280px,calc((100% - 48px)/3))),1fr));column-gap:24px;row-gap:32px}
+.state-tools:has(>.field)>*{padding-inline:4px}
+.state-tools .field,.expanded-state-controls .field{margin-top:0;gap:4px}
+.slider-label,.slider-label output{font:600 14px/21px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 .checkbox-controls{gap:32px 24px}.source-choice{gap:8px}
-.panel-actions{gap:8px}.panel-options{gap:32px 24px}
+.panel-actions{gap:32px 8px}.panel-options{gap:32px 24px}
 .control-footer{column-gap:24px;row-gap:32px}
 /* Optical alignment belongs to external tooling labels, never specimens or control contents. */
 .choices legend{margin-bottom:var(--control-label-gap)}
-.choice-options,nav[role=tablist]{overflow-y:hidden!important;overscroll-behavior-y:none}
+.choice-options,nav[role=tablist]{overflow-y:hidden!important;overscroll-behavior-y:auto}
 summary{display:flex;align-items:center;gap:8px;position:relative;border-radius:6px}
 summary::after,.hover-explainer::after{content:'';position:absolute;inset:-4px;border-radius:6px;cursor:pointer}
 summary:hover,.hover-explainer:hover{background:var(--hover);box-shadow:0 0 0 4px var(--hover)}
 summary,summary *,.hover-explainer,.hover-explainer *{cursor:pointer!important}
 .hover-explainer{position:relative}
-.icon-usages summary{font-size:14px;line-height:1.5;font-weight:600}
-.panel>.state-tools,.panel>.choices,.panel>.control-footer{margin-bottom:24px}
-.panel>.state-tools+*,.panel>.choices+*,.panel>.control-footer+*{margin-top:24px}summary>.disclosure-chevron{margin:0;vertical-align:initial}
+.icon-usages summary{font-size:14px;line-height:1.5;font-weight:600;padding:8px 0;border-bottom:1px solid var(--border);background:color-mix(in srgb,var(--agent-accent) 5%,var(--surface))}
+.icon-usages summary>svg{color:var(--icon-ink)}
+.panel>:is(.state-tools,.choices,.control-footer,.panel-actions,.panel-options,.checkbox-controls){margin-block:32px}
+.panel>:is(.state-tools,.choices,.control-footer,.panel-actions,.panel-options,.checkbox-controls)+*{margin-top:32px}summary>.disclosure-chevron{margin:0;vertical-align:initial}
 #hover legend{width:100%}.hover-label-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px 24px}
 .hover-explainer{display:inline-flex;align-items:center;gap:4px;border:0;padding:0;background:transparent;font-size:14px;line-height:21px;font-weight:400;color:var(--muted-text)}
 .hover-explainer svg{width:18px;height:18px;flex:none}.hover-explainer[aria-expanded=true] svg{transform:rotate(90deg)}
@@ -119,8 +124,16 @@ summary,summary *,.hover-explainer,.hover-explainer *{cursor:pointer!important}
 .toolbar.controls-pinned .hover-explanation{display:none}
 .toolbar.controls-pinned .hover-explainer{visibility:hidden}
 main.wrap{padding-top:24px}
-.tab-scroll-shell{height:var(--tab-row-height);margin:0 0 16px;position:sticky;top:var(--sticky-tab-top,0px);z-index:11;background:var(--page)}
+.tab-scroll-shell{height:var(--tab-row-height);margin:0 0 16px;position:sticky;top:var(--sticky-tab-top,0px);z-index:11;background:var(--page);box-shadow:4px 0 0 var(--page),-4px 0 0 var(--page)}
 .tab-scroll-shell nav[role=tablist]{padding-top:0}
+.tab-scroll-shell nav[role=tablist] button[aria-selected=true]{background:color-mix(in srgb,var(--agent-accent) 8%,var(--page))}
+.tab-scroll-shell::before{content:'';position:absolute;inset:-24px -4px 100%;background:var(--page);pointer-events:none}
+@media(max-width:660px){
+ .tab-scroll-shell{top:96px}
+ .tab-scroll-shell.is-pinned::before{top:-96px}
+ body>#style-options{top:var(--floating-tools-top,24px);right:24px}
+ #back-to-top{top:var(--floating-tools-top,24px);right:80px}
+}
 [data-panel]>.panel:first-child{margin-top:0}
 
 
@@ -146,7 +159,7 @@ const previewActionHomes=new WeakMap();
 function placePreviewActions(dialog,expanded){
  const footer=dialog.querySelector('.control-footer');if(footer){if(expanded){footer.before(Object.assign(document.createElement('span'),{id:'branding-footer-home',hidden:true}));dialog.querySelector('.expanded-state-controls').append(footer);}else document.getElementById('branding-footer-home')?.replaceWith(footer);}
  const heading=dialog.querySelector('.section-heading'),actions=heading.querySelector('.heading-actions');
- for(const {button,home} of previewActionHomes.get(dialog)||[]){if(expanded)actions.append(button);else home.before(button);}
+ for(const {button,home} of previewActionHomes.get(dialog)||[]){if(expanded){if(button.classList.contains("preview-expand"))actions.append(button);}else home.before(button);}
 }
 for(const dialog of document.querySelectorAll('.preview-dialog')){
  const heading=dialog.querySelector('.section-heading'),frame=dialog.querySelector('.frame-wrap');
@@ -195,13 +208,14 @@ let stickyThreshold=Infinity,stickyWidth=0;
 function setStickyMetrics(){
  const height=stickyControls.getBoundingClientRect().height;
  stickyToolbar.style.setProperty('--toolbar-pinned-height',height+'px');
- document.documentElement.style.setProperty('--sticky-tab-top',(stickyToolbar.classList.contains('controls-pinned')?height:0)+'px');
+ document.documentElement.style.setProperty('--sticky-tab-top',(innerWidth<=660?96:stickyToolbar.classList.contains('controls-pinned')?height+24:24)+'px');
  document.documentElement.style.setProperty('--toolbar-height',(stickyToolbar.classList.contains('controls-pinned')?height:stickyToolbar.offsetHeight)+'px');
 }
 function updateStickyControls(){
  const eligible=innerWidth>660&&stickyControls.parentElement===stickyToolbar;
  stickyToolbar.classList.toggle('controls-pinned',eligible&&scrollY>=stickyThreshold);
  setStickyMetrics();
+ const tabs=document.querySelector('.tab-scroll-shell'),top=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sticky-tab-top'));tabs.classList.toggle('is-pinned',tabs.getBoundingClientRect().top<=top+.5);
 }
 function measureStickyControls(){
  stickyToolbar.classList.remove('controls-pinned');
