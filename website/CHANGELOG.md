@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.253"
-  update_summary: "Preserve mobile specimen widths and inherited typography"
-  updated_at: "Tue 20 Oct 2026 at 07:08:08 pm AEDT (+11:00)"
+  doc_revision: "26.0.254"
+  update_summary: "Measure offscreen galleries before they become visible"
+  updated_at: "Tue 20 Oct 2026 at 07:12:28 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.252 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 07:12:28 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Measure offscreen galleries before they become visible
+
+### Fixed
+
+- Commit gallery height and final-row spacing in a shared microtask, avoiding animation-frame suspension in offscreen mobile iframes. Remove the separate focus-gallery workaround.
+- Extend mobile parity checks to reject incomplete iframe heights and internal vertical overflow before scrolling specimens into view.
+
+### Validation
+
+- Full Chrome/WebKit matrix at 320, 390, 768 and 1440px with both configured theme/agent pairs: source widths, rendered feedback parity, horizontal access, app isolation and full gallery height — passed.
+- Existing specimen fidelity and scroll checks, plus populated mobile icon-gallery visual inspection — passed.
+- Local Sites build and generated version/maintenance checks; saved backdrop geometry reused — passed.
 
 ## v26.0.251 — 2026-10-20
 

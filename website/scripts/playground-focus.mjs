@@ -29,8 +29,6 @@ window.addEventListener('message',event=>{
  section.replaceChildren(fragment);
  }
  catalog.dataset.captureId=event.data.requestId;
- // Final-row spacing must be ready even when this iframe is outside the viewport.
- maintainGallery();
  catalog.querySelectorAll('.segmented-toggle').forEach(e=>window.layoutWorkshopToggle(e));
 });
 new ResizeObserver(()=>{if(catalog.getBoundingClientRect().width)parent.postMessage({guide:'reference-height',height:window.measureWorkshopGallery?.()||Math.ceil(catalog.getBoundingClientRect().height+48)},'*');}).observe(catalog);

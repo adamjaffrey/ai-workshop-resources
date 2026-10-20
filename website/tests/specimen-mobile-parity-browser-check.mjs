@@ -19,6 +19,8 @@ try{
     await page.goto(`${origin}/component-playground/${slug}?theme=${theme}&agent=${agent}`);
     const frame=page.frameLocator('#'+id+'-frame');await frame.locator('[data-specimen-width]').first().waitFor();
     await page.waitForFunction(id=>document.getElementById(id+'-frame').style.visibility!=='hidden',id);
+    await page.waitForTimeout(150);
+    const height=await frame.locator('html').evaluate(e=>({viewport:innerHeight,content:e.scrollHeight}));assert.ok(height.content-height.viewport<2,`${id}: complete gallery is visible without internal vertical scrolling`);
     const failures=await frame.locator('body').evaluate(()=>[...document.querySelectorAll('[data-specimen-width]')].filter(e=>e.checkVisibility()).flatMap(e=>{const expected=parseFloat(e.style.getPropertyValue('--specimen-width')),actual=e.getBoundingClientRect().width;return Math.abs(actual-expected)>.6?[{element:e.tagName,class:e.className,expected,actual}]:[]}));
     assert.deepEqual(failures,[],`${engine.name()} ${width} ${id}: no squeezed source boundaries`);
     assert.equal(await frame.locator('html').evaluate(e=>e.scrollWidth>innerWidth+1),false,'overflow remains inside the grey frame');

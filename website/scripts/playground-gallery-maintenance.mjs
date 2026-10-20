@@ -14,6 +14,8 @@ function maintainGallery(){
  const links=[...document.querySelectorAll('a[data-icon-source],#link-type-specimens a[href]')].map(a=>({label:(a.closest('section')?.querySelector('h3')?.textContent.trim()||a.textContent.trim()),href:a.getAttribute('href')}));
  const signature=JSON.stringify(links);if(signature!==lastLinks){lastLinks=signature;parent.postMessage({guide:'playground-links',links},'*');}
 }
-new MutationObserver(()=>{if(!galleryTick)galleryTick=requestAnimationFrame(maintainGallery);}).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['hidden']});
+// Animation frames may be suspended for offscreen iframes. Geometry must be
+// committed before the user reaches the gallery, independent of painting.
+new MutationObserver(()=>{if(!galleryTick){galleryTick=1;queueMicrotask(maintainGallery);}}).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['hidden']});
 maintainGallery();
 `;
