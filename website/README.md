@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.150"
-  update_summary: "Use single specimen rails and preserve grey-frame paint clearance"
-  updated_at: "Tue 20 Oct 2026 at 05:09:46 pm AEDT (+11:00)"
+  doc_revision: "26.0.151"
+  update_summary: "Link the indexed design decision log and historical caveats"
+  updated_at: "Tue 20 Oct 2026 at 05:16:08 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -13,6 +13,8 @@ metadata:
 # Workshop Website Access
 
 See [Website URL Reference](URL-REFERENCE.md) for the complete canonical path, redirect, hostname, page-title and query-parameter reference.
+
+See the [Design Decision Log](DESIGN-DECISIONS.md) for an indexed consolidation of design choices, known rationale and authoritative rules, including pre-split history and notes where older README values have been superseded. Read the linked current contract before treating an historical implementation value as a requirement.
 
 ## Folder Map
 
@@ -124,7 +126,7 @@ Mark affected geometry with `placeholderLayoutRevision` (Resources) or `playgrou
 
 The scripts use installed headless Google Chrome and save anonymous geometry in `lib/workshop-placeholder.generated.json` and `lib/workshop-playground-placeholder.generated.json`. Internal rendering no longer rejects a pending layout revision. Source fingerprints record provenance only. Capture the Style Inspector as an expanded, neutral static section at the very bottom, without its floating shadow or reserved viewport spacing; the authenticated Playground retains its interactive dock. The public `/login-backdrop/components` endpoint serves only anonymous geometry, never app content or sessions. Components uses inert, script-disabled frame documents to preserve the canonical first tab's CSS and specimen layouts without leaking protected text, commands or actions. Both backdrops follow the selected theme and agent, with Codex blue as the default. Original text is replaced before delivery; geometry is never measured in a visitor's browser. Neither normal build startup nor preview controls launch measurement.
 
-The full publication and handoff contract is in [AGENTS.md](../AGENTS.md#blur-placeholder-geometry). Every successful Sites publication includes separate Main App and Playground link bullets under **🌐 Live on Sites**. Run the archived `test:blur-preview` only when explicitly requested.
+The full publication contract is in [Anonymous Backdrops](../docs/agent-guidance/backdrops.md#blur-placeholder-geometry), and the exact handoff wording is in [Preview and Delivery](../docs/agent-guidance/delivery.md). Every successful Sites publication includes separate Main App and Playground link bullets under **🌐 Live on Sites**. Run the archived `test:blur-preview` only when explicitly requested.
 
 ### Static Backdrop Capture
 

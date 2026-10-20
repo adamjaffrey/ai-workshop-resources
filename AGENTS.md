@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.78"
-  update_summary: "Use single specimen rails and preserve grey-frame paint clearance"
-  updated_at: "Tue 20 Oct 2026 at 05:09:46 pm AEDT (+11:00)"
+  doc_revision: "26.0.79"
+  update_summary: "Route design decisions to the single indexed log"
+  updated_at: "Tue 20 Oct 2026 at 05:16:08 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -39,7 +39,7 @@ metadata:
 
 ## Scoped Instructions
 
-This file owns repository-wide rules and routes detailed work to the contracts below. Those contracts are mandatory project instructions for their stated scope, not optional background reading. Read the relevant contract before editing that area; read Delivery before every completed-update handoff. Current user instructions take precedence. ADRs explain decisions and are non-normative; they do not supersede these contracts or grant permissions.
+This file owns repository-wide rules and routes detailed work to the contracts below. Those contracts are mandatory project instructions for their stated scope, not optional background reading. Read the relevant contract before editing that area; read Delivery before every completed-update handoff. Current user instructions take precedence. The indexed design decision log explains decisions and is non-normative; it does not supersede these contracts or grant permissions.
 
 | Work Area | Required Contract |
 |---|---|
@@ -49,7 +49,7 @@ This file owns repository-wide rules and routes detailed work to the contracts b
 | Theme transitions, selector movement or Resources card entrances | [Motion](docs/agent-guidance/motion.md), plus Interface for interaction/layout |
 | Anonymous login backdrops, geometry capture or Sites publication preparation | [Anonymous Backdrops](docs/agent-guidance/backdrops.md) |
 
-Keep cross-cutting policy here. Put precise implementation constraints and test matrices in the appropriate contract, and decision rationale in `docs/decisions/`. Update the owning document instead of copying its rules into multiple places. Do not move active requirements into an ADR without retaining a mandatory contract and a discoverable link.
+Keep cross-cutting policy here. Put precise implementation constraints and test matrices in the appropriate contract, and decision rationale in the single [Design Decision Log](website/DESIGN-DECISIONS.md). Read its relevant entry before changing an established design choice; record substantive new or revised decisions there in the same change as their owning rules, distinguishing known rationale from undocumented reasons. Use descriptive entry anchors; separate numbered ADR files are not required. Update the owning document instead of copying its rules into multiple places. Do not move active requirements into the decision log without retaining a mandatory contract and a discoverable link.
 
 ## Preview and Handoff Essentials
 
@@ -72,7 +72,7 @@ Keep cross-cutting policy here. Put precise implementation constraints and test 
 
 ## Recent Interface Learnings
 
-These constraints are detailed in the [Interface contract](docs/agent-guidance/interface.md); their rationale is recorded in [ADR 001](docs/decisions/001-mobile-playground-layout.md).
+These constraints are detailed in the [Interface contract](docs/agent-guidance/interface.md); their rationale is recorded in [Design Decision Log](website/DESIGN-DECISIONS.md).
 
 - Mobile URL tables need consistent cell/code typography and scoped text-autosizing control. Use intrinsic table sizing and content-aware columns, not a universal narrow width: keep hostname Status and Owner unwrapped and give Effect a 36–44ch measure; retain useful alias wrapping and horizontal access.
 - Keep sticky heights and tab landing coordinates on whole CSS pixels and exclude the sticky region from scroll anchoring to prevent the first-scroll flicker.
