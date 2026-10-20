@@ -155,10 +155,10 @@ main.wrap{padding-top:24px}
 @media(max-width:660px){#login-preview .state-tools{flex-direction:column;gap:var(--control-row-gap)}#login-preview .state-tools>.choices{width:100%;flex:auto}#login-preview #login-destination{max-width:100%;width:100%}#login-destination .choice-options{flex-direction:row}}
 
 /* One disclosure treatment for explanatory controls; body-sized where in prose. */
-.disclosure-accent>summary,.hover-explainer{color:var(--icon-ink);background:color-mix(in srgb,var(--agent-accent) 5%,var(--surface));font-weight:600}
+.disclosure-accent>summary,.hover-explainer{color:var(--text);background:color-mix(in srgb,var(--agent-accent) 5%,var(--surface));font-weight:600}
 .disclosure-accent>summary{font-size:16px;line-height:24px;padding-block:8px}
-.disclosure-accent>summary>.disclosure-chevron{color:var(--icon-ink)}
-.source-rules>.disclosure-body{margin-top:16px;margin-inline-start:calc(26px - var(--disclosure-ink-inset) - 4px)!important;padding:16px 3px;border:1px solid var(--border);border-radius:12px;background:var(--page)}
+.disclosure-accent>summary>.disclosure-chevron,.hover-explainer svg{color:var(--icon-ink)}
+.source-rules>.disclosure-body{margin-top:16px;margin-inline-start:calc(26px - var(--disclosure-ink-inset) - 4px)!important;padding:16px 24px;border:1px solid var(--border);border-radius:12px;background:var(--page)}
 .source-rules .rule-list>div:first-child{padding-top:0}.source-rules .rule-list>div:last-child{border-bottom:0;padding-bottom:0}
 .reference-intro-copy{margin-inline-start:calc(26px - var(--disclosure-ink-inset));margin-top:16px}
 .reference-intro-copy>:last-child{margin-bottom:0}

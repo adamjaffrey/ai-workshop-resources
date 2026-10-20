@@ -17,7 +17,8 @@ window.addEventListener('message',event=>{
   const title=document.createElement('h3');title.textContent=item.label;
   const preview=document.createElement('div');preview.className='focus-preview';preview.innerHTML=item.html;
   const target=preview.querySelector('[data-focus-target]');
-  if(item.ring&&!['Copy Prompt · Keyboard Focus','QR Link · Keyboard Focus'].includes(item.label))preview.dataset.exteriorRing='';
+  const prompt=preview.querySelector(':scope>.code-wrap');if(prompt){prompt.style.minWidth=prompt.style.width;prompt.style.maxWidth='none';}
+  if(item.ring&&!preview.querySelector(':scope>.segmented-toggle')&&!['Copy Prompt · Keyboard Focus','QR Link · Keyboard Focus'].includes(item.label))preview.dataset.exteriorRing='';
   if(item.ring){target.setAttribute('data-held-focus','');for(let p=target.parentElement;p&&p!==preview;p=p.parentElement)p.setAttribute('data-held-focus-within','');}
   row.append(title,preview);
   if(item.selectable){const selected=document.createElement('p');selected.className='selection-preview';selected.textContent=item.selectionText;selected.style.background=item.selection[0];selected.style.color=item.selection[1];row.append(selected);}

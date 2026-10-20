@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.4"
-  update_summary: "Record specimen spacing, overflow and icon ordering decisions"
-  updated_at: "Tue 20 Oct 2026 at 06:02:23 pm AEDT (+11:00)"
+  doc_revision: "26.0.5"
+  update_summary: "Refine typography gutters, selector alignment and disclosures"
+  updated_at: "Tue 20 Oct 2026 at 06:29:55 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -70,7 +70,7 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 
 ## Optical Rails and Specimen Clearance
 
-**Decision:** Text and square objects follow a text rail; designated rounded boundaries extend outward by 4px. Mobile text/surface gutters are 28px/24px. Apply an offset once per boundary, preserve native control interiors and centre centred content. Gallery documents own their inset; wrappers must not add another one. Preserve paint clearance inside the grey frame for focus rings, outdents and login shadows; full-page previews retain native gutters. The requested focused-control examples move inward 6px without moving annotations. Standalone login-error groups compensate for measured X whitespace; table text aligns by removing first-cell padding.
+**Decision:** Text and square objects follow a text rail; designated rounded boundaries extend outward by 4px. Mobile text/surface gutters are 28px/24px. Apply an offset once per boundary, preserve native control interiors and centre centred content. Gallery documents own their inset; wrappers must not add another one. Preserve paint clearance inside the grey frame for focus rings, outdents and login shadows; full-page previews retain native gutters. The requested focused-control examples move inward 6px without moving annotations, except theme and agent selector tracks, which remain on the 24px surface rail after visual review. Standalone login-error groups compensate for measured X whitespace; table text aligns by removing first-cell padding.
 
 **Rationale:** Documented: rounded corners visually recede while SVG bounds can include invisible whitespace. The 4px correction was chosen through visual comparison, not as a universal standard. Repeated inset layers narrow specimens unnecessarily; clearance must protect paint without adding another content indent.
 
@@ -94,7 +94,7 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 
 ## Lists and Disclosure Alignment
 
-**Decision:** Use shared compact list styling with 20px hanging indentation and one extra indent per nesting level. Align disclosure body copy beneath its summary text after the chevron/gap, then apply list indentation from that rail. Keep paragraph width available within the owning panel. Explanatory disclosures share the accent background/text treatment, with body-sized labels in prose and grey expanded colour-rule content.
+**Decision:** Use shared compact list styling with 20px hanging indentation and one extra indent per nesting level. Align disclosure body copy beneath its summary text after the chevron/gap, then apply list indentation from that rail. Keep paragraph width available within the owning panel. Explanatory disclosures use primary-text labels, accent chevrons and a tinted background, with body-sized labels in prose. The expanded colour-rule grey box has 24px horizontal content padding. These refinements supersede the earlier accent-coloured labels and flush-aligned colour-rule content.
 
 **Rationale:** Documented in the refinement requests: bullets were visually too far from the left edge, and disclosure copy should line up with its heading. The precise indentation is an agreed visual convention.
 

@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.3"
-  update_summary: "Specify specimen fidelity and icon catalogue maintenance"
-  updated_at: "Tue 20 Oct 2026 at 06:02:23 pm AEDT (+11:00)"
+  doc_revision: "26.0.4"
+  update_summary: "Refine typography gutters, selector alignment and disclosures"
+  updated_at: "Tue 20 Oct 2026 at 06:29:55 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -125,12 +125,12 @@ Apply this standard to:
 
 ### Gallery Presentation and Icon Maintenance
 
-- Keep 16px between isolated typography examples and their technical settings. Remove inherited ancestor minimum heights and outer margins only in isolated specimens; preserve the actual font, line height, colour and internal component padding. Align isolated footer text and Log Out examples to their gallery rails without changing the real footer layout.
-- Prompt text and the separate, vertically stacked Prompt Copy Success and Prompt Copy Failure rows retain the measured Resources prompt width from the 1440px capture viewport. Do not squeeze them to gallery width or add another optical extension to their measured width. Wide specimens may continue beneath the right grey boundary, with horizontal access and no paint on the white panel.
+- Keep 16px between isolated typography examples and their technical settings. Remove inherited ancestor minimum heights and outer margins only in isolated specimens; preserve the actual font, line height, colour and internal component padding. Align isolated footer text and Log Out examples to their gallery rails without changing the real footer layout. Show only the three labelled copy-button variants, keeping the underlying source sample hidden. The last Typography row must not add bottom padding on top of the container’s 24px gutter.
+- Prompt text (including both Focus and Selection prompt examples) and the separate, vertically stacked Prompt Copy Success and Prompt Copy Failure rows retain the measured Resources prompt width from the 1440px capture viewport. Do not squeeze them to gallery width or add another optical extension to their measured width. Wide specimens may continue beneath the right grey boundary, with horizontal access and no paint on the white panel.
 - Inline grey previews grow to content height and let vertical wheel/touch gestures scroll the Playground page. Do not add internal vertical scrolling to gallery wrappers. Expanded modal previews retain their native scrolling; real scrollable app components retain their source behaviour. Use natural content measurement rather than clipping tall inline content.
-- The specified Focus and Selection specimens receive a 6px inward correction for their exterior focus paint: prompt text, Log Out, theme selector, agent selector, password neutral/checking/success/incorrect, and Unlock Resources. Move only the demonstrated control; keep excerpts, labels and metadata on the text rail. Copy Prompt and QR controls retain their existing positions.
+- The specified Focus and Selection specimens receive a 6px inward correction for their exterior focus paint: prompt text, Log Out, password neutral/checking/success/incorrect, and Unlock Resources. Move only the demonstrated control; keep excerpts, labels and metadata on the text rail. Copy Prompt and QR controls retain their existing positions. Theme and agent selector tracks remain on the normal 24px surface rail; do not add a 6px indent to these tracks.
 - In Typography and Icons, move the standalone login-error icon/message group together by the X icon's measured leading SVG whitespace (3.75px at 18px). Preserve its icon-to-text gap and do not move icons inside buttons or fields. Remove the first column's left cell padding in the Colours Across Themes and Agents table rather than shifting its boundary.
-- Use the shared accent-coloured disclosure treatment for explanatory sections, including colour rules, icon licences, URL introduction, Easter Egg explanations and hover help. In prose, retain the body-sized label. Align expanded colour-rule copy under the summary text inside a grey surface.
+- Use primary-text disclosure labels with accent-coloured chevrons and the shared tinted background for explanatory sections, including colour rules, icon licences, URL introduction, Easter Egg explanations and hover help. In prose, retain the body-sized label. Keep the expanded colour-rule grey surface in its existing position and give its content 24px horizontal padding.
 - Order the Playground icon catalogue by purpose: Playground identity first; section and subsection headings in tab/page order; UI controls; then other uses. Deduplicate by provider/name (retaining deliberately distinct cropped variants), list all usage locations, and place an icon with multiple roles in its earliest category.
 - Whenever adding, changing or removing an icon, update its canonical library definition/usage metadata, inspect both app and Playground catalogues and filters, verify source/licence links and usage listings, and remove stale entries. Keep catalogue ordering derived from current heading DOM order, rather than a historical hard-coded inventory. Preserve real motion such as Loader Circle spinning, including reduced-motion behaviour; capture-time motion suppression must not freeze the gallery demonstration.
 - Run `node website/tests/playground-specimen-fidelity-browser-check.mjs` for source widths, spacing, optical exceptions, icon order/motion and inline scroll ownership, alongside the applicable source-parity and alignment checks.

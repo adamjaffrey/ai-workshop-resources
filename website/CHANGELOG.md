@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.249"
-  update_summary: "Refine specimen fidelity, optical alignment and scroll ownership"
-  updated_at: "Tue 20 Oct 2026 at 06:06:32 pm AEDT (+11:00)"
+  doc_revision: "26.0.250"
+  update_summary: "Fix remaining typography gaps and focus specimen alignment"
+  updated_at: "Tue 20 Oct 2026 at 06:32:12 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.248 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 06:32:12 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Fix remaining typography gaps and focus specimen alignment
+
+### Changed
+
+- Remove the final Typography row's duplicated bottom padding, retaining the single 24px grey-container gutter.
+- Stop isolated typography layout rules from exposing the hidden base Copy Prompt and Copy Link samples above their three labelled states.
+- Restore theme and agent focus selector tracks to the 24px surface rail. Retain actual captured widths for both Focus prompt panels instead of leaving a compressed 32px right gutter.
+- Use primary-text disclosure labels with accent chevrons; add 24px horizontal padding inside the expanded colour-source grey box.
+- Ensure captured login-context inline margins cannot override the shared Status States surface rail. Update the interface contract and design decisions with the refinements.
+
+### Validation
+
+- Source typography/state parity across themes, agents and mobile/desktop — passed.
+- Seven-width shared alignment and specimen rail/paint-clearance checks — passed.
+- Fidelity checks cover the single bottom gutter, hidden duplicate buttons, real Focus prompt widths, selector alignment, disclosure inset, source dimensions, motion and page scrolling — passed.
+- All eight disclosure labels and chevrons checked in light/dark themes. Mobile screenshots reviewed after layout settled, including copy states and the final Typography row.
+- Local Sites build passed; final bundles contain v26.0.248 and the fixes. Saved anonymous backdrop geometry reused; no publication performed.
 
 ## v26.0.247 — 2026-10-20
 
