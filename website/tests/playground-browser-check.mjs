@@ -92,7 +92,7 @@ const dock=await p.locator('.inspector-dock').boundingBox();assert.ok(Math.abs(d
 await type.locator('[data-source-selector=".step-title"] output').hover();await p.waitForTimeout(260);assert.match(await p.locator('#inspection-summary').textContent(),/h2/);
 await p.click('#inspector-details');
 await p.click('[data-tab=blocks]');const blocks=p.frameLocator('#blocks-frame');
-await choose('review','clear');await blocks.locator('.ph-word').first().click();
+await choose('review','clear');await p.locator('#blocks-frame').scrollIntoViewIfNeeded();await blocks.locator('body').evaluate(()=>scrollTo(0,0));await blocks.locator('.ph-word').first().click();
 await p.waitForFunction(()=>document.getElementById('block-report').textContent.startsWith('Selected word block'));
 assert.match(await p.locator('#block-report').textContent(),/Selected word block/);assert.equal(await blocks.locator('#block-highlight').isVisible(),true);
 await p.locator('#strength').fill('70');await p.locator('#blur').fill('8.5');await choose('review','blurred');

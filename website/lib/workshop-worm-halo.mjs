@@ -36,8 +36,8 @@ export function mountWormHalo(controls){
   Object.assign(outline.style,{width:width+'px',height:height+'px',borderRadius:radius+'px',display:config.outline?'block':'none'});
  }
  function position(){
-  const rect=theme.getBoundingClientRect(),src=source.querySelector('img'),img=mark.querySelector('img'),size=src.getBoundingClientRect();
-  img.style.width=size.width+'px';img.style.height=size.height+'px';
+  const rect=theme.getBoundingClientRect(),src=source.querySelector('.brand-worm'),img=mark.querySelector('.brand-worm'),size=src.getBoundingClientRect();
+  img.style.setProperty('--brand-mark-width',size.width+'px');
   const full=config.brand==='full'||(config.brand==='auto'&&innerWidth>660);
   mark.querySelector('.brand-name').style.display=full?'':'none';mark.style.gap=full?'':'0';mark.style.width='max-content';host.style.display=innerWidth<320?'none':'grid';
   host.dataset.brandVariant=full?'full':'mark';
@@ -60,7 +60,7 @@ export function mountWormHalo(controls){
  const schedule=position;
  new MutationObserver(schedule).observe(agent,{attributes:true,attributeFilter:['style']});
  const geometryObserver=new ResizeObserver(schedule);geometryObserver.observe(source);geometryObserver.observe(theme);geometryObserver.observe(agent);
- window.addEventListener('resize',schedule);document.fonts.ready.then(position);source.querySelector('img').addEventListener('load',position);
+ window.addEventListener('resize',schedule);document.fonts.ready.then(position);
  position();return {configure};
 }
 

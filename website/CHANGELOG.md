@@ -3,14 +3,44 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.231"
-  update_summary: "Polish section interactions, icon galleries and URL examples"
-  updated_at: "Tue 20 Oct 2026 at 11:20:33 am AEDT (+11:00)"
+  doc_revision: "26.0.232"
+  update_summary: "Preserve worm colours with matching selection highlights"
+  updated_at: "Tue 20 Oct 2026 at 11:29:13 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.230 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 11:29:13 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Preserve worm colours with matching selection highlights
+
+### Fixed
+
+- Draw the Wavelength worm from the existing asset as a separate mask above native selection paint, keeping it black in light mode and white in dark mode while its backing matches selected text.
+- Share the renderer across Resources, the Playground header, captured Icons specimens and floating branding. Retain existing dimensions, decorative accessibility semantics and saved login-backdrop image styling.
+
+### Changed
+
+- Add pixel-based selection checks for both pages at four widths, both themes and both agents, including floating-logo geometry. Refresh affected branding selectors and restore the Blocks test viewport before clicking its specimen.
+
+### Validation
+
+- `node website/tests/brand-selection-browser-check.mjs` — passed backing-colour pixels, worm ink, dimensions and floating alignment across both pages and all 32 combinations.
+- `node website/tests/playground-browser-check.mjs` — passed source parity and the complete Playground regression suite.
+- Safari 27.0.1 on macOS — passed integrated Resources and Playground header checks in light/dark mode; screenshots visually reviewed. Physical iPhone Safari was not tested.
+- `node website/tests/worm-halo-browser-check.mjs` — passed branding specimen geometry, theme/agent variants, settings and visibility after refreshing legacy route and grid expectations.
+- Icons gallery and saved dark login backdrop — passed targeted rendering checks.
+- `npm --prefix website run build` — passed; generated Resources and authenticated Playground display v26.0.230. Structure and placeholder tests passed; saved backdrop geometry was not remeasured.
 
 ## v26.0.229 — 2026-10-20
 

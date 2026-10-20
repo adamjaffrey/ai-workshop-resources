@@ -116,11 +116,18 @@ button:enabled:is(:active, .is-held):not(.segmented-toggle button) { scale: .97;
 .theme-toggle button:focus-visible { outline: 3px solid var(--icon-ink); outline-offset: 3px; }
 .theme-toggle .icon { width: 20px; height: 20px; }
 .gate-toolbar { display: flex; justify-content: flex-end; margin-bottom: 20px; }
+/* Retain saved anonymous backdrop image styling until its next capture. */
 :root[data-theme="dark"] .brand-mark img { filter: brightness(0) invert(1); }
+/* A selectable space supplies native highlight paint beneath the masked brand.
+   Keep the shape outside image filters so neither its ink nor backing is tinted. */
+.brand-worm { --brand-mark-width: 48px; display: inline-block; position: relative; width: var(--brand-mark-width); height: calc(var(--brand-mark-width) * 638 / 1590); font: calc(var(--brand-mark-width) * 638 / 1590)/1 monospace; letter-spacing: calc(var(--brand-mark-width) - 1ch); color: transparent; white-space: nowrap; }
+.brand-worm::selection { color: transparent; background: var(--selection); }
+.brand-worm::after { content: ''; position: absolute; inset: 0; background: #000; mask: url('/assets/wavelength-worm.png') center/contain no-repeat; pointer-events: none; }
+:root[data-theme="dark"] .brand-worm::after { background: #fff; }
 .qr-card img { background: white; border-radius: inherit; outline: 1px solid var(--border); }
 :root[data-theme="dark"] .page-placeholder .ph-line, :root[data-theme="dark"] .ph-brand-mark { background: #707b8b; }
 :root[data-theme="dark"] .ph-toggle span:last-child { background: var(--control-bg); }
-@media (max-width: 380px) { .page-toolbar { gap: 8px; } .page-toolbar .brand { gap: 6px; } .page-toolbar .brand-name { font-size: 13px; } .page-toolbar .brand-mark img { width: 36px; } .theme-toggle button { width: 40px; } }
+@media (max-width: 380px) { .page-toolbar { gap: 8px; } .page-toolbar .brand { gap: 6px; } .page-toolbar .brand-name { font-size: 13px; } .page-toolbar .brand-worm { --brand-mark-width: 36px; } .page-toolbar .brand-mark img { width: 36px; } .theme-toggle button { width: 40px; } }
 /* Cursor semantics apply to both login and resources, including child hit targets. */
 html, body { cursor: default; }
 :where(p, h1, h2, h3, h4, h5, h6, span, label, li, dt, dd, blockquote, figcaption, pre, code, strong, em, small, b, i, td, th) { cursor: text; }

@@ -53,7 +53,7 @@ header.wrap p{font-size:16px;line-height:24px;margin:0;max-width:none}
 @media(max-width:660px){header.wrap #playground-title{font-size:40px}header.wrap{padding-bottom:32px}header.wrap p{margin-bottom:0}#mobile-style-controls .primary-style-choices{display:flex;flex-wrap:wrap}.primary-style-choices>.choices{min-width:0;max-width:100%}}
 
 .playground-brand-row{display:flex;align-items:center;min-height:54px;margin-bottom:40px}.playground-brand-row .brand{margin:0}
-@media(max-width:380px){.playground-brand-row .brand{gap:6px}.playground-brand-row .brand-name{font-size:13px}.playground-brand-row .brand-mark img{width:36px}}
+@media(max-width:380px){.playground-brand-row .brand{gap:6px}.playground-brand-row .brand-name{font-size:13px}.playground-brand-row .brand-worm{--brand-mark-width:36px}.playground-brand-row .brand-mark img{width:36px}}
 .choice-shell{display:inline-flex;max-width:100%;min-width:0;border:1px solid var(--control-border);border-radius:12px;background:var(--control-bg);vertical-align:top;overflow:hidden}
 .choices .choice-shell .choice-options.segmented-toggle{min-width:0;border:0;background:transparent;border-radius:11px}
 .choice-shell .choice-options{--overflow-left:0px;--overflow-right:0px;mask-image:linear-gradient(to right,transparent,#000 var(--overflow-left),#000 calc(100% - var(--overflow-right)),transparent);-webkit-mask-image:linear-gradient(to right,transparent,#000 var(--overflow-left),#000 calc(100% - var(--overflow-right)),transparent)}
