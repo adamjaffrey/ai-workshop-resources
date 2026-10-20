@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.7"
-  update_summary: "Consolidate specimen layout ownership and optical adjustments"
-  updated_at: "Tue 20 Oct 2026 at 06:43:28 pm AEDT (+11:00)"
+  doc_revision: "26.0.8"
+  update_summary: "Preserve source widths and mobile specimen typography"
+  updated_at: "Tue 20 Oct 2026 at 07:04:53 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -214,7 +214,7 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 
 ## Playground Fidelity and Expanded Views
 
-**Decision:** Use actual app markup, messages, tokens and renderers for specimens; distinguish tooling annotations and simulated effects. Sandbox authentication/navigation/clipboard behaviour. Expanded views retain the same iframe/state and applicable controls, use native modal containment and restore focus/scroll on close. Keep gallery paint inside its grey frame. Isolated prompt specimens retain the real 1440px capture-page prompt width and show success/failure on separate rows. Narrow galleries permit horizontal inspection instead of scaling contexts. Inline previews grow to content height so vertical scrolling belongs to the Playground page; expanded modal views retain scrolling. This supersedes the earlier inline 70% viewport cap. Isolated typography annotations have a consistent 16px gap, independent of inherited toolbar heights or paragraph margins. Playground icons follow identity, page-ordered headings, UI controls and other uses; animated specimens retain motion unless reduced motion is requested.
+**Decision:** Use actual app markup, messages, tokens and renderers for specimens; distinguish tooling annotations and simulated effects. Sandbox authentication/navigation/clipboard behaviour. Expanded views retain the same iframe/state and applicable controls, use native modal containment and restore focus/scroll on close. Keep gallery paint inside its grey frame. Isolated prompt specimens retain the real 1440px capture-page prompt width and show success/failure on separate rows. Every narrow gallery retains measured source boundary widths and permits horizontal inspection instead of scaling contexts. Source widths come from the dedicated capture frames; hidden inline frames can report zero widths. Keep annotations responsive while specimen content overflows within the grey frame. Preserve inherited root typography and prevent mobile gallery text inflation; compare rendered glyph height as well as computed font values with the real app. Inline previews grow to content height so vertical scrolling belongs to the Playground page; expanded modal views retain scrolling. This supersedes the earlier inline 70% viewport cap. Isolated typography annotations have a consistent 16px gap, independent of inherited toolbar heights or paragraph margins. Playground icons follow identity, page-ordered headings, UI controls and other uses; animated specimens retain motion unless reduced motion is requested.
 
 **Rationale:** Documented: independent optical copies drift from production, while reloading an iframe loses the state being inspected. Full-context errors and login panels show meaningful surrounding layout. Shared source imports still require rendered parity checks; they do not prove every browser matches.
 

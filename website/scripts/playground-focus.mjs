@@ -19,7 +19,6 @@ window.addEventListener('message',event=>{
   // Discard page-positioning state before applying gallery optical alignment.
   preview.firstElementChild?.style.removeProperty('translate');
   const target=preview.querySelector('[data-focus-target]');
-  const prompt=preview.querySelector(':scope>.code-wrap');if(prompt){prompt.style.minWidth=prompt.style.width;prompt.style.maxWidth='none';}
   if(item.ring&&!preview.querySelector(':scope>.segmented-toggle')&&!['Copy Prompt · Keyboard Focus','QR Link · Keyboard Focus'].includes(item.label))preview.dataset.exteriorRing='';
   if(item.ring){target.setAttribute('data-held-focus','');for(let p=target.parentElement;p&&p!==preview;p=p.parentElement)p.setAttribute('data-held-focus-within','');}
   row.append(title,preview);

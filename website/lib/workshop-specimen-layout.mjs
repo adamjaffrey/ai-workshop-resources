@@ -1,5 +1,8 @@
 // Gallery presentation only. Canonical component interiors remain app-owned.
 export const specimenLayoutCSS = String.raw`
+/* Fixed source-width examples must not trigger mobile text inflation.
+   Page zoom remains available. */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 /* One content inset. The surrounding iframe adds none. */
 body{margin:0;padding-block:24px;padding-inline:0;background:var(--page);color:var(--text);overflow-y:hidden}
 :is(#type-specimens,#icon-catalog,#error-catalog,#focus-catalog,#link-type-specimens){padding-inline:var(--specimen-text-rail)}
@@ -20,9 +23,9 @@ html:is([data-specimen-gallery=icons],[data-specimen-gallery=errors]) body{font:
 
 /* Scroll clearance, not a second content inset. The viewport reaches the grey
    boundary; its gutter restores the existing rail and protects focus paint. */
-:is(.icon-sample,.focus-preview,.agent-preview,.prompt-specimen-viewport,.feedback-preview){margin-inline:calc(-1 * var(--specimen-text-rail));padding:16px var(--specimen-text-rail);width:calc(100% + 2 * var(--specimen-text-rail));max-width:none;box-sizing:border-box;overflow-x:auto;overflow-y:hidden}
+:is(.icon-sample,.focus-preview,.agent-preview,.prompt-specimen-viewport,.feedback-preview,.specimen-viewport,.variant-preview){margin-inline:calc(-1 * var(--specimen-text-rail));padding:16px var(--specimen-text-rail);width:calc(100% + 2 * var(--specimen-text-rail));max-width:none;box-sizing:border-box;overflow-x:auto;overflow-y:hidden}
 .prompt-specimen-viewport{padding-block:8px;margin-block:-8px}
-.variant-preview{padding-block:16px;padding-inline:0;overflow:visible}
+.specimen-viewport{padding-block:8px;margin-block:-8px}
 .error-sample{display:flow-root}
 .error-sample:has(.full-login-context){padding-block:24px 64px}
 @media(max-width:660px){.error-sample:has(.full-login-context){padding-block:20px 32px}}
@@ -37,13 +40,13 @@ html:is([data-specimen-gallery=icons],[data-specimen-gallery=errors]) body{font:
 .type-row [data-in-situ],.type-row [data-type-sample].gate-submit,
 .type-row footer button[data-type-sample],.notice-type-row .javascript-notice,
 .focus-footer>form{margin-inline-start:calc(-1 * var(--optical-offset))!important}
-.type-row .password-field[data-in-situ],.type-row [data-type-sample].gate-submit{max-width:var(--source-width,100%);width:calc(100% + 2 * var(--optical-offset))}
-.notice-type-row .javascript-notice{margin-block:0;width:calc(100% + 2 * var(--optical-offset));max-width:none}
+.notice-type-row .javascript-notice{margin-block:0}
 .selection-example{margin-inline:calc(-1 * var(--optical-offset));padding-inline:16px}
 .icon-row>a.workshop-link{margin-inline:calc(-1 * var(--optical-offset));margin-top:16px}
-/* Captured widths already include the boundary; never enlarge them by 8px. */
-.type-row [data-in-situ].code-wrap,.feedback-preview>.code-wrap{width:var(--source-width);min-width:var(--source-width);max-width:var(--source-width)}
-.error-sample>.code-wrap{min-width:var(--source-width);max-width:none!important;position:relative}
+/* A source boundary owns its measured width. The viewport scrolls instead of
+   forcing this component through the gallery's narrower responsive layout. */
+[data-specimen-width]{width:var(--specimen-width)!important;min-width:var(--specimen-width)!important;max-width:none!important;flex-shrink:0}
+.error-sample>.code-wrap{position:relative}
 .feedback-preview .code-wrap{height:auto;overflow:visible}
 .feedback-preview .status{position:absolute}
 
@@ -52,8 +55,8 @@ html:is([data-specimen-gallery=icons],[data-specimen-gallery=errors]) body{font:
 .focus-preview:has(>.segmented-toggle){--specimen-optical-nudge:1px}
 .focus-preview[data-exterior-ring]{--specimen-optical-nudge:6px}
 .focus-preview>*{translate:var(--specimen-optical-nudge) 0}
-.focus-context{padding:0;border:0;box-shadow:none;background:transparent;width:calc(100% - var(--specimen-optical-nudge));max-width:364px;margin:0}
-.focus-preview .segmented-toggle{max-width:none!important;width:max-content!important;white-space:nowrap}
+.focus-context{padding:0;border:0;box-shadow:none;background:transparent;width:max-content;max-width:none;margin:0}
+.focus-preview .segmented-toggle{white-space:nowrap}
 .focus-preview .segmented-toggle button{white-space:nowrap;flex-shrink:0}
 .focus-preview .qr-card{display:block}
 .focus-preview .qr-copy{position:relative}
@@ -82,7 +85,7 @@ html:is([data-specimen-gallery=icons],[data-specimen-gallery=errors]) body{font:
 .type-row footer.specimen-context .footer-content{align-items:flex-start!important;justify-content:flex-start!important;text-align:left}
 .type-row footer.specimen-context form{align-self:flex-start!important;justify-self:start!important;width:max-content!important}
 /* Source samples stay available for parity measurements but only variants paint. */
-.type-row.has-variants>.specimen-context,.has-variants>output{display:none!important}
+.type-row.has-variants>.specimen-viewport,.has-variants>output{display:none!important}
 .has-variants>.sample-label{margin-bottom:20px}
 .button-variants{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start}
 .button-variant{flex:1 1 160px;min-width:0;max-width:260px}

@@ -55,6 +55,7 @@ export function createPlaygroundScheduler({settings, specimenManifest, swatches}
    if(id==='focus-frame'){const requestId=++renderId;for(const data of Object.values(catalog))post(id,{guide:'focus-catalog-data',requestId,page:data.page,focusItems:data.focusItems});}
    if(['icons-frame','errors-frame'].includes(id))for(const data of Object.values(catalog))post(id,data);
    if(id==='type-frame')for(const data of Object.values(catalog)){
+    post(id,{guide:'typography-widths',page:data.page,items:data.typographyWidths});
     post(id,{guide:'typography-notice',item:data.noticeTypography});
     if(data.page==='resources')post(id,{guide:'typography-feedback',items:data.typographyFeedback,agents:data.agentTypography,buttons:data.buttonVariants});
     else {const wrong=data.errors.find(x=>x.state==='wrong');if(wrong)post(id,{guide:'typography-error',html:wrong.statusHtml});}
@@ -70,7 +71,7 @@ export function createPlaygroundScheduler({settings, specimenManifest, swatches}
   const key=paletteKey();
   if(!catalogCache.has(key)&&(!capturePending||captureKey!==key)&&['icon-login-source','icon-resources-source'].every(id=>ensure(id))){
    captureKey=key;capturePending=true;const id=++requestId;
-   for(const page of ['resources','login'])post('icon-'+page+'-source',{guide:'icon-catalog',page,requestId:id,settings:settings()});
+   for(const page of ['resources','login'])post('icon-'+page+'-source',{guide:'icon-catalog',page,requestId:id,settings:settings(),selectors:specimenManifest.filter(x=>x[0]===page).map(x=>x[1])});
   }
   const signature=typeKey();
   if(tab==='typography'&&!specimenCache.has(signature)&&(!specimenPending||specimenKey!==signature)&&['resources-frame','login-frame'].every(id=>ensure(id))){

@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.252"
-  update_summary: "Consolidate specimen rails and remove layered overrides"
-  updated_at: "Tue 20 Oct 2026 at 06:46:00 pm AEDT (+11:00)"
+  doc_revision: "26.0.253"
+  update_summary: "Preserve mobile specimen widths and inherited typography"
+  updated_at: "Tue 20 Oct 2026 at 07:08:08 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.251 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 07:08:08 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Preserve mobile specimen widths and inherited typography
+
+### Changed
+
+- Retain measured source boundaries across Typography, Icons, Status States, and Focus and Selection. Let every specimen viewport scroll horizontally instead of squeezing controls or full login contexts; keep annotations responsive.
+- Capture typography widths from measurable source frames, preserve inherited root fonts, and prevent automatic mobile text inflation in gallery documents. Keep Resources responsive width rules unchanged.
+- Add Chrome and WebKit coverage for source widths, horizontal access, app isolation, and copy-success/failure text compared with actual Resources, including rendered glyph height.
+- Update the interface contract and decision log with the shared sizing and mobile parity requirements.
+
+### Validation
+
+- Chrome and WebKit at 320, 390, 768 and 1440px, light/Codex and dark/Claude: source dimensions and actual copy-feedback typography — passed.
+- Additional 390px Chrome/WebKit checks: horizontal access and absence of gallery sizing in Resources — passed.
+- Existing source parity, specimen fidelity, seven-width rails, external alignment and nested alignment checks — passed.
+- Local Sites build, generated version/sizing checks, and LAN automatic sign-in; saved backdrop geometry reused — passed.
 
 ## v26.0.250 — 2026-10-20
 
