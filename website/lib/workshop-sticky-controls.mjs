@@ -18,6 +18,7 @@ export const stickyCSS = `
 export function initStickyControls() {
  const theme=document.querySelector('.page-toolbar .theme-toggle');
  const agent=document.querySelector('.controls .toggle');
+ const agentLabel=document.querySelector('.controls-label');
  if(!theme||!agent)return;
  const mobile=matchMedia('(max-width:660px)'),compactLayout=matchMedia('(max-width:1023px)'),motion=matchMedia('(prefers-reduced-motion:reduce)');
  const items=[theme,agent].map(control=>{
@@ -40,6 +41,8 @@ export function initStickyControls() {
   frame=0;
   const inset=Math.max(24,parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sticky-safe-top'))||0);
   const agentBox=items[1].slot.getBoundingClientRect();
+  // Match the Playground legends' final 64px approach fade without changing flow.
+  if(agentLabel)agentLabel.style.opacity=String(pinned?0:Math.max(0,Math.min(1,(agentBox.top-inset)/64)));
   const now=performance.now(),elapsed=now-lastTime,delta=scrollY-lastY;
   // Smooth approach speed; ignore pauses and reverse motion. Units are px/ms.
   speed=delta>0&&elapsed>0&&elapsed<120 ? speed*.5+(delta/elapsed)*.5 : 0;

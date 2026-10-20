@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.14"
-  update_summary: "Match selection paint to native line height"
-  updated_at: "Wed 21 Oct 2026 at 12:14:52 am AEDT (+11:00)"
+  doc_revision: "26.0.15"
+  update_summary: "Reuse the sticky legend fade on Resources"
+  updated_at: "Wed 21 Oct 2026 at 12:43:44 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -184,9 +184,9 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 
 ## Sticky Controls and Mobile Browser Chrome
 
-**Decision:** Resources controls preserve their layout slots and responsive contraction/expansion buffers. Playground mobile tabs pin at the top, with Style Options and Back to Top stacked below. Make the actual mobile sticky ancestor opaque and viewport-wide, retain the inset inner rail and normal 16px gap, and keep desktop geometry unchanged. Fade approaching labels/background over the documented interval.
+**Decision:** Resources controls preserve their layout slots and responsive contraction/expansion buffers. Playground mobile tabs pin at the top, with Style Options and Back to Top stacked below. Make the actual mobile sticky ancestor opaque and viewport-wide, retain the inset inner rail and normal 16px gap, and keep desktop geometry unchanged. Fade approaching labels/background over the documented interval. Resources “I’m Using” reuses the same 64px approach fade, remaining transparent while its selector is pinned and restoring on reverse scroll without changing layout.
 
-**Rationale:** Documented: reserved slots prevent layout jumps; reversal buffers prevent contraction flicker. The former ADR records that a full-width sibling behind an inset sticky ancestor did not cover translucent iOS chrome. The ancestor-based fix was user-confirmed; WebKit edge sampling considers the hit-tested element and its ancestors. It is applied by mobile layout rather than browser-name detection.
+**Rationale:** Documented: the Resources label should disappear as the selector settles, using the established legend fade rather than a separate timed animation. Reserved slots prevent layout jumps; reversal buffers prevent contraction flicker. The former ADR records that a full-width sibling behind an inset sticky ancestor did not cover translucent iOS chrome. The ancestor-based fix was user-confirmed; WebKit edge sampling considers the hit-tested element and its ancestors. It is applied by mobile layout rather than browser-name detection.
 
 **Owning Rules and Sources:** [Sticky Geometry](../docs/agent-guidance/interface.md#deterministic-rules); [Resources Contraction](README.md#persistent-page-controls). Primary README source: [Persistent Page Controls](README.md#persistent-page-controls).
 

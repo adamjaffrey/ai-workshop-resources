@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.261"
-  update_summary: "Match held selections to native painted height"
-  updated_at: "Wed 21 Oct 2026 at 12:17:06 am AEDT (+11:00)"
+  doc_revision: "26.0.262"
+  update_summary: "Fade the Resources label before its selector pins"
+  updated_at: "Wed 21 Oct 2026 at 12:48:35 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.260 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 12:48:35 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Fade the Resources label before its selector pins
+
+### Changed
+
+- Fade “I’m Using” over the final 64px of the agent selector’s approach to its sticky position, matching Playground legends. Restore it on reverse scroll while retaining layout space and selector behaviour.
+- Share the fade with Resources previews and document it in the interface contract and design decisions.
+- Give the existing Playground sticky test a bounded iframe height so its full-height preview can actually scroll.
+
+### Validation
+
+- `node website/tests/sticky-controls-browser-check.mjs` — passed 16 width/theme/agent combinations, forward/reverse opacity, pinned state, keyboard activation, reduced motion and the scrollable Playground preview.
+- `node website/tests/sticky-controls-stability-check.mjs` — passed contraction, reversal, collision and viewport-height stability checks.
+- `node website/tests/playground-browser-check.mjs` — passed source parity and interaction checks.
+- Focused WebKit checks at 390px and 1440px — passed forward/reverse fade; desktop/mobile screenshots inspected. Physical devices were not tested.
+- `npm --prefix website run build` — passed; v26.0.260 displays verified in Resources, generated Playground and standalone preview. Saved backdrop geometry was reused.
 
 ## v26.0.259 — 2026-10-21
 

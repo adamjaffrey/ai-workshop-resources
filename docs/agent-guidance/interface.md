@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.13"
-  update_summary: "Match selection paint to native line height"
-  updated_at: "Wed 21 Oct 2026 at 12:14:52 am AEDT (+11:00)"
+  doc_revision: "26.0.14"
+  update_summary: "Fade the Resources label as its selector approaches pinning"
+  updated_at: "Wed 21 Oct 2026 at 12:43:44 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -157,6 +157,8 @@ Apply this standard to:
 - Collapsed URL H3 headings have 20px visual clearance above and below their hover area. The current 24px subsection top padding/margin accounts for the 4px hover outdent. Preserve the expanded heading's 16px content gap; do not apply collapsed-only spacing corrections to expanded content. Keep dividers scoped to URL Reference so specimen row separators are not duplicated.
 
 ## Sticky Positioning and Selector Interaction
+
+- Fade the Resources “I’m Using” label over the final 64px before the agent selector pins, matching the Playground legend fade. Keep it transparent while pinned and restore opacity as scrolling reverses; preserve the label’s layout space. Apply this through the shared Resources sticky controller, including Playground app previews.
 
 - Keep sticky-control heights and tab landing positions on whole CSS pixels (`Math.ceil` in the current implementation), and exclude the toolbar, tab anchor and sticky shell from scroll anchoring. Preserve the existing inset tab landing position. Keep a minimum viewport footprint for panels while lazy frames populate so the browser cannot clamp the requested landing to a temporarily short page. Fractional landing coordinates previously caused a small jump/flicker on the first subsequent scroll; do not reintroduce them.
 - Selector labels are action targets: disable text selection and native dragging for the segmented control and descendants, and prevent `dragstart` in the shared toggle controller. Pressing, dragging outside and releasing must cancel cleanly without dragging label text or changing the selected value. Preserve real focus and keyboard operation.
