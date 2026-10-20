@@ -21,7 +21,7 @@ try {
    await p.evaluate(({theme,agent})=>{document.documentElement.dataset.theme=theme;document.documentElement.dataset.selectedAgent=agent;document.querySelector('.page-placeholder').style.filter='none';},{theme,agent});
    const projected=await p.locator('.ph-word').evaluateAll(es=>es.map(e=>{const r=e.getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height};}).filter(r=>r.width&&r.height));
    assert.equal(projected.length,original.length,'word count');
-   const differences=original.flatMap((r,i)=>Math.abs(r.x-projected[i].x)>1||Math.abs(r.y-projected[i].y)>1||Math.abs(r.width-projected[i].width)>1?[{i,original:r,projected:projected[i]}]:[]);
+   const differences=original.flatMap((r,i)=>Math.abs(r.x-projected[i].x)>1||Math.abs(r.y-projected[i].y)>1||Math.abs(r.width-projected[i].width)>1||Math.abs(r.height-projected[i].height)>1?[{i,original:r,projected:projected[i]}]:[]);
    assert.deepEqual(differences.slice(0,5),[],`${width}×${height} ${theme} ${agent}: ${differences.length} word mismatches`);
    assert.equal(await p.locator('.page-placeholder svg').count(),0,'no original icons leak into anonymous geometry');
   }

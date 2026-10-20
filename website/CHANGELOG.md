@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.263"
-  update_summary: "Fit QR caption leading to its capital-letter height"
-  updated_at: "Wed 21 Oct 2026 at 01:04:39 am AEDT (+11:00)"
+  doc_revision: "26.0.264"
+  update_summary: "Refresh and verify responsive anonymous backdrop geometry"
+  updated_at: "Wed 21 Oct 2026 at 01:32:47 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.262 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 01:32:47 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refresh and verify responsive anonymous backdrop geometry
+
+### Changed
+
+- Recapture Resources and Components geometry against the verified Sites v14 source baseline, advancing their independent layout revisions to 14 and 21.
+- Preserve tight source line boxes when replacing glyphs with anonymous blocks, preventing the QR caption from shifting down. Keep the approved QR dimensions and visible spacing unchanged.
+- Save embedded preview height transitions after child-frame resize callbacks settle; remove stale desktop inline heights and discarded sticky offsets from static captures.
+- Strengthen geometry checks with word heights, iframe heights, login-panel bounds and QR-card/caption bounds. Update the capture contract and decision record; correct stale test assumptions about canonical agent URLs and encoded nonbreaking spaces.
+
+### Validation
+
+- Resources alignment matrix — passed 20 viewport combinations across 320–1440px, both themes and agents; all 1222 word rectangles match within 1px.
+- Components alignment matrix — passed 24 viewport combinations, including embedded frame heights and login/QR bounds within 1px.
+- Anonymous backdrop browser checks — passed 20 viewport combinations, both themes and agents, with script-disabled anonymous content and containment.
+- QR caption browser checks — passed Chrome/WebKit; approved visible spacing and QR/card widths retained.
+- Placeholder unit tests and published-source revision preflight — passed.
+- Sites build helper — passed; compiled Resources and Playground display v26.0.262.
 
 ## v26.0.261 — 2026-10-21
 

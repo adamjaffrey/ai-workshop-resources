@@ -1,6 +1,6 @@
 // Capture preparation only: never apply this to an interactive app or Playground.
 export function prepareBackdropCapture({playground=false}={}) {
- const freezeCSS=css=>css.replace(/position\s*:\s*fixed\b/gi,'position:absolute').replace(/position\s*:\s*sticky\b/gi,'position:relative').replace(/:(?:hover|active|focus-visible|focus-within|focus)\b/g,':where([data-capture-interaction-disabled])');
+ const freezeCSS=css=>css.replace(/position\s*:\s*fixed\b/gi,'position:absolute').replace(/position\s*:\s*sticky\b/gi,'position:relative;inset:auto!important').replace(/:(?:hover|active|focus-visible|focus-within|focus)\b/g,':where([data-capture-interaction-disabled])');
  document.querySelectorAll('style').forEach(style=>{style.textContent=freezeCSS(style.textContent);});
  document.querySelectorAll('[style]').forEach(el=>{el.setAttribute('style',freezeCSS(el.getAttribute('style')));});
  document.documentElement.removeAttribute('data-demo-hover');

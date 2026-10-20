@@ -15,7 +15,7 @@ test('measured geometry includes prompt words without source text or actions', (
   assert.ok(geometry.words > 1000);
   assert.doesNotMatch(html, /system-blueprint-creator|system-build-assistant|github.com|href=|onclick=|data-copy=|<script|<title|<form|<svg/);
   assert.match(html, /aria-hidden="true" inert/);
-  assert.doesNotMatch(html.replace(/<[^>]*>/g, ''), /[^x\s/\-]/);
+  assert.doesNotMatch(html.replace(/<[^>]*>/g, '').replaceAll('&nbsp;', '\u00a0'), /[^x\s/\-]/);
   assert.match(html, /--ph-cap/);
   assert.doesNotMatch(html, /ph-code-line/);
 });

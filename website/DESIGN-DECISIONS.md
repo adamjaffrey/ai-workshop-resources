@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.16"
-  update_summary: "Use cap-height caption leading with 12px QR spacing"
-  updated_at: "Wed 21 Oct 2026 at 01:02:56 am AEDT (+11:00)"
+  doc_revision: "26.0.17"
+  update_summary: "Preserve source line boxes and responsive heights in static captures"
+  updated_at: "Wed 21 Oct 2026 at 01:24:59 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -242,7 +242,7 @@ Adam requested these gallery refinements to compare real component dimensions, r
 
 ## Anonymous Backdrops and Single Blur
 
-**Decision:** Build anonymous geometry from measured words/icons and cap-height/baseline rules. Only eligible equal-width prompt/slug words use transparent dummy glyphs with slash/hyphen wrapping preserved. Keep Resources and Components geometry separate; all Playground login routes share Components. Apply one 4px background blur and independent strength/scrim settings; local tuning never changes production defaults.
+**Decision:** Build anonymous geometry from measured words/icons and cap-height/baseline rules. Only eligible equal-width prompt/slug words use transparent dummy glyphs with slash/hyphen wrapping preserved. Keep Resources and Components geometry separate; all Playground login routes share Components. Empty glyph rectangles must preserve short source line boxes, including the QR caption’s `1cap` leading, rather than expanding them. Apply one 4px background blur and independent strength/scrim settings; local tuning never changes production defaults.
 
 **Rationale:** Documented: measured geometry preserves layout without exposing protected text; generic lines and unbreakable rectangles cannot reproduce native wrapping. A second backdrop-filter pass made theme snapshots dependent on backdrop compositing; the single background blur resolved the observed iPhone flicker. Strength/blur are rendering settings and do not require new geometry.
 
@@ -250,9 +250,9 @@ Adam requested these gallery refinements to compare real component dimensions, r
 
 ## Static Capture and Publication Boundaries
 
-**Decision:** Normalise sticky/fixed elements to document-anchored geometry during capture, disabling transient interaction styling. Keep the captured inspector last in normal flow, frames anonymous and script-disabled. Reuse saved geometry internally; refresh existing geometry only for authorised publication when relevant layout changed against the actual published source, or an explicit exception.
+**Decision:** Normalise sticky/fixed elements to document-anchored geometry during capture, disabling transient interaction styling and clearing discarded sticky inset offsets. Save responsive natural iframe heights as measured static media rules, using the live preview measurement function; a desktop inline height cannot represent a narrow preview. Keep the captured inspector last in normal flow, frames anonymous and script-disabled. Reuse saved geometry internally; refresh existing geometry only for authorised publication when relevant layout changed against the actual published source, or an explicit exception.
 
-**Rationale:** Documented: a decorative composition must scroll away instead of leaving live-looking silhouettes. Refreshing only affected geometry separates layout changes from colour/blur/timing edits. A local commit or saved Sites version is not proof of what is deployed. The expired one-off capture approval was removed during the instructions cleanup and is not standing permission.
+**Rationale:** Documented: a decorative composition must scroll away instead of leaving live-looking silhouettes. Refreshing only affected geometry separates layout changes from colour/blur/timing edits. A local commit or saved Sites version is not proof of what is deployed. The publication geometry check found that empty glyph blocks enlarged the tight QR caption line, and saved desktop iframe heights displaced later Components sections on mobile. These are capture/rendering corrections; the approved interactive app layout remains the source of truth. The expired one-off capture approval was removed during the instructions cleanup and is not standing permission.
 
 **Owning Rules and Sources:** [Static Capture](../docs/agent-guidance/backdrops.md#static-capture-behaviour-and-rationale); [Publication Rules](../docs/agent-guidance/backdrops.md#blur-placeholder-geometry). Primary README source: [Static Backdrop Capture](README.md#static-backdrop-capture).
 

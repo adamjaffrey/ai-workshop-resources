@@ -4,7 +4,7 @@ import {handleRequest} from '../lib/workshop-handler.mjs';
 import {playgroundPlaceholderDocument} from '../lib/workshop-playground-placeholder.mjs';
 import geometry from '../lib/workshop-playground-placeholder.generated.json' with {type:'json'};
 test('public backdrop is anonymous and cannot expose another tab or run code',async()=>{
- const response=await handleRequest(new Request('https://example.test/login-backdrop/components?theme=dark&agent=claude'),{});
+ const response=await handleRequest(new Request('https://example.test/login-backdrop/components?theme=dark&agent=claude-code'),{});
  assert.equal(response.status,200);
  const html=await response.text();
  assert.match(html,/<html[^>]*data-theme="dark" data-selected-agent="claude-code"/);

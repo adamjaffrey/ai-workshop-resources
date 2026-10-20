@@ -175,6 +175,7 @@ function measureNaturalPreview(){
  let height=panel?Math.max(600,Math.ceil(panel.getBoundingClientRect().height+48)):main?Math.ceil(main.getBoundingClientRect().bottom+scrollY+parseFloat(getComputedStyle(document.body).paddingBottom)):0;
  if(blocks){const placeholder=document.querySelector('.page-placeholder');if(placeholder)height=Math.max(height,Math.ceil(placeholder.getBoundingClientRect().bottom+scrollY));}
  if(height)parent.postMessage({guide:'natural-preview-height',height},'*');
+ return height;
 }
 const naturalResize=new ResizeObserver(measureNaturalPreview);for(const element of [document.body,...document.querySelectorAll('main,.gate-panel,.page-placeholder')])naturalResize.observe(element);
 window.addEventListener('resize',measureNaturalPreview);new MutationObserver(measureNaturalPreview).observe(document.body,{attributes:true,attributeFilter:['data-review']});document.fonts.ready.then(measureNaturalPreview);

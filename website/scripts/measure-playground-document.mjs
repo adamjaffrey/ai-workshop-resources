@@ -64,6 +64,12 @@ export function measurePlaygroundDocument({frames={}}={}) {
         word.style.width = `${rect.width / fontSize}em`;
         word.style.height = `${rect.height / fontSize}em`;
         word.style.verticalAlign = `${-descent}em`;
+        // Empty inline blocks must not enlarge a source line box shorter than its glyphs.
+        const lineHeight = parseFloat(css.lineHeight);
+        if (lineHeight < rect.height) {
+          word.style.verticalAlign = 'top';
+          word.style.marginBlock = `${(lineHeight - rect.height) / (2 * fontSize)}em`;
+        }
         fragment.append(word); words++;
       }
       // Preserve the anonymous flex text item (e.g. the two-word logout label).
@@ -79,7 +85,7 @@ export function measurePlaygroundDocument({frames={}}={}) {
       const allowed = svg ? new Set(['class','xmlns','viewBox','width','height','fill','fill-rule','stroke','stroke-width','stroke-linecap','stroke-linejoin','d','x','y','x1','x2','y1','y2','cx','cy','r','rx','ry','points']) : new Set(['class','id','style','hidden','open','type','checked','disabled','width','height','role','aria-selected','aria-pressed','data-panel','data-tab','data-review','data-inspect']);
       for (const attr of [...el.attributes]) if (!allowed.has(attr.name)) el.removeAttribute(attr.name);
       if (el.matches('pre code[id]')) el.removeAttribute('id');
-      if (el.tagName === 'IFRAME') { el.setAttribute('sandbox',''); el.setAttribute('tabindex','-1'); el.setAttribute('srcdoc', frames[original.id] || '<!doctype html><html><body></body></html>'); }
+      if (el.tagName === 'IFRAME') { el.style.removeProperty('--natural-frame-height'); el.setAttribute('sandbox',''); el.setAttribute('tabindex','-1'); el.setAttribute('srcdoc', frames[original.id] || '<!doctype html><html><body></body></html>'); }
       if (el.matches('input,textarea,select')) { el.removeAttribute('value'); el.removeAttribute('placeholder'); el.disabled=true; el.tabIndex=-1; }
       if (el.tagName === 'BUTTON') {el.type = 'button'; el.tabIndex = -1;}
       if (el.matches('.theme-toggle')) el.classList.add('ph-static');

@@ -21,8 +21,20 @@ try{
   });
   const projected=await frame.locator('.ph-word').evaluateAll(es=>es.map(e=>{const r=e.getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height};}).filter(r=>r.width&&r.height));
   assert.equal(projected.length,original.length,`${width} word count`);
-  const differences=original.flatMap((r,i)=>Math.abs(r.x-projected[i].x)>1||Math.abs(r.y-projected[i].y)>1||Math.abs(r.width-projected[i].width)>1?[{i,original:r,projected:projected[i]}]:[]);
+  const differences=original.flatMap((r,i)=>Math.abs(r.x-projected[i].x)>1||Math.abs(r.y-projected[i].y)>1||Math.abs(r.width-projected[i].width)>1||Math.abs(r.height-projected[i].height)>1?[{i,original:r,projected:projected[i]}]:[]);
   assert.deepEqual(differences.slice(0,5),[],`${width}x${height}: ${differences.length} differences`);
+  for(const id of ['login-frame','resources-frame']) {
+   const sourceElement=source.locator('#'+id),capturedElement=frame.locator('#'+id);
+   const sourceBox=await sourceElement.boundingBox(),capturedBox=await capturedElement.boundingBox();
+   assert.ok(Math.abs(sourceBox.height-capturedBox.height)<=1,`${width}x${height} ${id} responsive height`);
+   const sourceDoc=await (await sourceElement.elementHandle()).contentFrame(),capturedDoc=await (await capturedElement.elementHandle()).contentFrame();
+   await capturedDoc.evaluate(()=>document.fonts.ready);
+   for(const selector of id==='login-frame'?['.gate-panel']:['.qr-card','.qr-card figcaption']) {
+    const bounds=doc=>doc.locator(selector).first().evaluate(el=>{const r=el.getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height};});
+    const actual=await bounds(sourceDoc),saved=await bounds(capturedDoc);
+    for(const key of ['x','y','width','height'])assert.ok(Math.abs(actual[key]-saved[key])<=1,`${width}x${height} ${id} ${selector} ${key}: ${actual[key]} vs ${saved[key]}`);
+   }
+  }
   console.log(`PASS Components outer geometry: ${width}x${height}, ${original.length} words within 1px`);
  }
 }finally{await browser.close();for(const app of [local,hosted])await new Promise(r=>app.server.close(r));}

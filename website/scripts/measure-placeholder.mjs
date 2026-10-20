@@ -70,6 +70,12 @@ try {
         word.style.width = `${rect.width / fontSize}em`;
         word.style.height = `${rect.height / fontSize}em`;
         word.style.verticalAlign = `${-descent}em`;
+        // Empty inline blocks must not enlarge a source line box shorter than its glyphs.
+        const lineHeight = parseFloat(css.lineHeight);
+        if (lineHeight < rect.height) {
+          word.style.verticalAlign = 'top';
+          word.style.marginBlock = `${(lineHeight - rect.height) / (2 * fontSize)}em`;
+        }
         fragment.append(word); words++;
       }
       // Preserve the anonymous flex text item (e.g. the two-word logout label).
