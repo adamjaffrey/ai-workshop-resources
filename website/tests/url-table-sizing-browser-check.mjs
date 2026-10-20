@@ -10,7 +10,8 @@ try{
   const compact=await p.locator('[data-column-style=compact]').evaluateAll(es=>es.every(e=>getComputedStyle(e).whiteSpace==='nowrap'));assert.ok(compact);
   const prose=await p.locator('td[data-column-style=prose]').evaluateAll(es=>es.every(e=>e.getBoundingClientRect().width>=190));assert.ok(prose,'Explanatory columns retain a readable measure');
   const host=p.locator('.panel').filter({has:p.locator('h2',{hasText:'Hostname Redirects'})});
-  assert.ok(await host.locator('tbody tr').first().evaluate(e=>e.getBoundingClientRect().height<=68),'Hostname status should occupy at most two lines');
+  assert.ok(await host.locator('tbody tr').first().evaluate(e=>e.getBoundingClientRect().height<=47),'Hostname status should occupy one line');
+  assert.ok(await p.locator('td[data-column-style=effect]').evaluateAll(es=>es.every(e=>e.getBoundingClientRect().height<=67)),'Query effects should occupy at most two lines');
   await host.locator('.url-table').evaluate(e=>e.scrollLeft=e.scrollWidth);
   await host.locator('.url-table').screenshot({path:'/tmp/url-hostname-table-'+width+'.png'});
   assert.ok(tables.length>=8);for(const t of tables){assert.equal(t.min,'0px');assert.equal(t.adjust,'100%');assert.ok(t.cells.every(s=>s==='14px'));assert.ok(t.code.every(s=>Math.abs(parseFloat(s)-12.6)<.01));}

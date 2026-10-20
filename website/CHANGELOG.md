@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.244"
-  update_summary: "Size reference columns according to their content"
-  updated_at: "Tue 20 Oct 2026 at 03:26:59 pm AEDT (+11:00)"
+  doc_revision: "26.0.245"
+  update_summary: "Widen hostname status and query effect columns"
+  updated_at: "Tue 20 Oct 2026 at 03:32:12 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.243 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 03:32:12 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Widen hostname status and query effect columns
+
+### Changed
+
+- Keep the Hostname Redirects Status and Owner column on one line.
+- Give the Public Query Parameters Effect column a 36ch minimum and 44ch preferred maximum to avoid a third line containing an orphaned word.
+- Retain other columns' existing content-aware wrapping rules.
+
+### Validation
+
+- Mobile-emulated table checks — passed one-line hostname statuses and query effects of at most two lines at phone, tablet and desktop sizes, consistent typography and contained overflow.
+- Structure tests and local production build — passed. Mobile hostname status screenshot inspected.
 
 ## v26.0.242 — 2026-10-20
 
