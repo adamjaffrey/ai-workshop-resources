@@ -14,7 +14,7 @@ try{
     const failures=[];const near=(a,b)=>Math.abs(a-b)<.6;
     for(const e of document.querySelectorAll('.icon-row>h3,.focus-row>h3,#type-specimens>.type-row>.sample-label,#type-specimens>.agent-row>.sample-label'))if(e.checkVisibility()&&!near(e.getBoundingClientRect().left,28))failures.push(['text',e.textContent,e.getBoundingClientRect().left]);
     for(const e of document.querySelectorAll('.icon-sample:not(.error-sample)>button,.icon-sample:not(.error-sample)>.segmented-toggle,.focus-preview>.segmented-toggle,.agent-preview>.segmented-toggle,.full-login-context'))if(e.checkVisibility()){
-     const r=e.getBoundingClientRect(),w=e.parentElement.getBoundingClientRect();if(!near(r.left,e.closest('[data-exterior-ring]')?30:24))failures.push(['surface',e.className,r.left]);
+     const r=e.getBoundingClientRect(),w=e.parentElement.getBoundingClientRect();if(!near(r.left,e.closest('[data-exterior-ring]')?30:e.matches('.focus-preview>.segmented-toggle')?25:24))failures.push(['surface',e.className,r.left]);
      // A real scroll viewport must include the entire outset focus treatment.
      if(getComputedStyle(e.parentElement).overflowX!=='visible'&&r.left-w.left<8)failures.push(['focus clearance',e.className,r.left-w.left]);
     }

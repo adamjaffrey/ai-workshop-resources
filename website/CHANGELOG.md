@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.250"
-  update_summary: "Fix remaining typography gaps and focus specimen alignment"
-  updated_at: "Tue 20 Oct 2026 at 06:32:12 pm AEDT (+11:00)"
+  doc_revision: "26.0.251"
+  update_summary: "Move focus selector specimens one pixel right"
+  updated_at: "Tue 20 Oct 2026 at 06:35:16 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.249 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 06:35:16 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Move focus selector specimens one pixel right
+
+### Changed
+
+- Move only the Colour Theme and Coding Agent keyboard-focus specimen tracks 1px right, to 25px inside the grey frame. Keep headings and technical text on the 28px rail.
+- Record the optical exception in the interface contract and design log, and update the existing alignment assertions.
+
+### Validation
+
+- Headless Chrome at 390px and 1440px: both tracks at 25px and both headings at 28px — passed.
+- Shared alignment regression across seven widths, all tabs, both themes/agents and five expanded views — passed.
+- Local Sites build passed; generated bundles contain v26.0.249 and the one-pixel rule. Saved anonymous backdrop geometry reused.
 
 ## v26.0.248 — 2026-10-20
 

@@ -125,6 +125,7 @@ body:has(>#icon-catalog),body:has(>#error-catalog),body:has(>#focus-catalog),bod
 .prompt-specimen-viewport{padding-block:8px;margin-block:-8px}
 .feedback-preview .code-wrap{height:auto;overflow:visible}
 /* Visible exterior rings need 6px extra clearance; selection excerpts stay put. */
+.focus-preview:has(>.segmented-toggle){padding-inline-start:calc(var(--specimen-text-rail) + 1px)}
 .focus-preview[data-exterior-ring]{padding-inline-start:calc(var(--specimen-text-rail) + 6px)}
 /* Correct the unboxed X group's visible ink, not icons inside action controls. */
 .type-row [data-type-sample].gate-error,.icon-sample>.gate-error{position:relative;left:calc(-18px * ${ink.icons.x.left}/24)}
