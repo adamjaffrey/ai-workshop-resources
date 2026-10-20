@@ -13,8 +13,8 @@ try{
   assert.equal(await p.locator('#blocks-preview .state-tools').evaluate(e=>getComputedStyle(e).marginBottom),'32px');
   const columns=await p.locator('#blocks-preview .state-tools').evaluate(e=>getComputedStyle(e).gridTemplateColumns.split(' ').length);assert.equal(columns,width===1440?3:width===768?2:1,'Slider columns follow icon breakpoints');
   await p.evaluate(()=>scrollTo(0,900));await p.waitForTimeout(100);
-  const tab=p.locator('.tab-scroll-shell');const box=await tab.boundingBox();if(width<=660){for(const selector of ['body>#style-options','#back-to-top']){const b=await p.locator(selector).boundingBox();assert.ok(b.y+b.height<=box.y-23,selector+' leaves 24px gap');assert.equal(await p.locator(selector).evaluate(e=>{const r=e.getBoundingClientRect();return e.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));}),true);}}
-  assert.match(await tab.evaluate(e=>getComputedStyle(e).boxShadow),/4px/);
+  const tab=p.locator('.tab-scroll-shell');const box=await tab.boundingBox();if(width<=660){for(const selector of ['body>#style-options','#back-to-top']){const b=await p.locator(selector).boundingBox();assert.ok(b.y>=box.y+box.height+11,selector+' stays below tabs');assert.equal(await p.locator(selector).evaluate(e=>{const r=e.getBoundingClientRect();return e.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));}),true);}}
+  assert.equal(await tab.evaluate(e=>getComputedStyle(e).boxShadow),'none');
   await tab.hover();const start=await p.evaluate(()=>scrollY);await p.mouse.wheel(0,-200);await p.waitForTimeout(300);assert.ok(await p.evaluate(()=>scrollY)<start,'Vertical wheel chains over tabs');
   await p.locator('#tab-icons').click();await p.locator('#playground-icon-family').scrollIntoViewIfNeeded();const track=p.locator('#playground-icon-family .choice-options');await track.hover();const y=await p.evaluate(()=>scrollY);await p.mouse.wheel(0,200);await p.waitForTimeout(300);assert.ok(await p.evaluate(()=>scrollY)>y,'Vertical wheel chains over selector');
   for(const [id,tabName] of [['login','components'],['resources','components'],['blocks','blocks'],['branding','branding'],['discovery','discovery']]){

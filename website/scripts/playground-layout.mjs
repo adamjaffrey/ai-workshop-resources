@@ -1,6 +1,6 @@
 // Outer Playground tooling only; app specimens keep their canonical controls.
 export const playgroundLayoutCSS=String.raw`
-:root{--playground-inset-gap:32px;--control-related-gap:8px;--control-label-gap:16px;--control-column-gap:32px;--control-row-gap:32px}
+:root{--playground-inset-gap:32px;--control-related-gap:8px;--control-label-gap:16px;--control-column-gap:36px;--control-row-gap:32px}
 .egg-help{margin-top:12px}.egg-help summary{font-weight:600}.egg-help p{font-size:14px;color:var(--muted-text)}
 #playground-title{align-items:flex-start}#playground-title>svg{margin-top:.075em}
 .section-heading h2{align-items:flex-start}.section-heading h2>svg{align-self:flex-start;margin-top:calc((1.5em - 24px)/2)}
@@ -48,7 +48,7 @@ header.wrap p{font-size:16px;line-height:24px;margin:0;max-width:none}
 .choice-options.segmented-toggle .choice{flex:none;white-space:nowrap}
 .choice-options.segmented-toggle .choice span{height:40px;display:flex;align-items:center;padding:0 12px;border:0;border-radius:8px;background:transparent;color:var(--control-text)}
 .choice-options.segmented-toggle .choice input:checked+span{background:transparent;color:var(--agent-ink)}
-.choice-options.segmented-toggle .choice:hover span{box-shadow:none;background:color-mix(in srgb,var(--icon-ink) 8%,transparent)}
+.choice-options.segmented-toggle .choice:hover input:not(:checked)+span{box-shadow:none;background:var(--action-hover)}
 :root[data-focus-input="keyboard"] .choice-options.segmented-toggle .choice input:focus+span{outline-offset:-3px}
 #login-preview #login-destination{flex:0 1 auto;min-width:0;max-width:45%}
 @media(max-width:660px){header.wrap #playground-title{font-size:40px}header.wrap{padding-bottom:32px}header.wrap p{margin-bottom:0}#mobile-style-controls .primary-style-choices{display:flex;flex-wrap:wrap}.primary-style-choices>.choices{min-width:0;max-width:100%}}
@@ -59,7 +59,7 @@ header.wrap p{font-size:16px;line-height:24px;margin:0;max-width:none}
 .choices .choice-shell .choice-options.segmented-toggle{min-width:0;border:0;background:transparent;border-radius:11px}
 .choice-shell .choice-options{--overflow-left:0px;--overflow-right:0px;mask-image:linear-gradient(to right,transparent,#000 var(--overflow-left),#000 calc(100% - var(--overflow-right)),transparent);-webkit-mask-image:linear-gradient(to right,transparent,#000 var(--overflow-left),#000 calc(100% - var(--overflow-right)),transparent)}
 
-.choice-shell .choice-options[data-overflow-left],.choice-shell .choice-options[data-overflow-right],[data-overflow-left],[data-overflow-right]{mask-composite:intersect;-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,rgba(0,0,0,var(--overflow-left-alpha,1)),#000 36px,#000 calc(100% - 36px),rgba(0,0,0,var(--overflow-right-alpha,1))),linear-gradient(to bottom,#000 calc(100% - var(--overflow-bottom,0px)),transparent);-webkit-mask-image:linear-gradient(to right,rgba(0,0,0,var(--overflow-left-alpha,1)),#000 36px,#000 calc(100% - 36px),rgba(0,0,0,var(--overflow-right-alpha,1))),linear-gradient(to bottom,#000 calc(100% - var(--overflow-bottom,0px)),transparent)}
+.choice-shell .choice-options[data-overflow-left],.choice-shell .choice-options[data-overflow-right],[data-overflow-left],[data-overflow-right]{mask-composite:intersect;-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,rgba(0,0,0,var(--overflow-left-alpha,1)) 0,rgba(0,0,0,var(--overflow-left-alpha,1)) 18px,#000 54px,#000 calc(100% - 54px),rgba(0,0,0,var(--overflow-right-alpha,1)) calc(100% - 18px),rgba(0,0,0,var(--overflow-right-alpha,1))),linear-gradient(to bottom,#000 calc(100% - var(--overflow-bottom,0px)),transparent);-webkit-mask-image:linear-gradient(to right,rgba(0,0,0,var(--overflow-left-alpha,1)) 0,rgba(0,0,0,var(--overflow-left-alpha,1)) 18px,#000 54px,#000 calc(100% - 54px),rgba(0,0,0,var(--overflow-right-alpha,1)) calc(100% - 18px),rgba(0,0,0,var(--overflow-right-alpha,1))),linear-gradient(to bottom,#000 calc(100% - var(--overflow-bottom,0px)),transparent)}
 .tab-scroll-shell{position:relative;margin:4px 0 12px}.tab-scroll-shell::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--border);pointer-events:none}
 .tab-scroll-shell nav[role=tablist]{margin:0!important;padding-inline:0;background:none}
 .control-footer>.panel-options{min-height:50px;align-items:center}
@@ -124,15 +124,15 @@ summary,summary *,.hover-explainer,.hover-explainer *{cursor:pointer!important}
 .toolbar.controls-pinned .hover-explanation{display:none}
 .toolbar.controls-pinned .hover-explainer{visibility:hidden}
 main.wrap{padding-top:24px}
-.tab-scroll-shell{height:var(--tab-row-height);margin:0 0 16px;position:sticky;top:var(--sticky-tab-top,0px);z-index:11;background:var(--page);box-shadow:4px 0 0 var(--page),-4px 0 0 var(--page)}
+.tab-scroll-shell{height:var(--tab-row-height);margin:0 0 16px;position:sticky;top:var(--sticky-tab-top,0px);z-index:11;background:var(--page);box-shadow:none}
 .tab-scroll-shell nav[role=tablist]{padding-top:0}
 .tab-scroll-shell nav[role=tablist] button[aria-selected=true]{background:color-mix(in srgb,var(--agent-accent) 8%,var(--page))}
-.tab-scroll-shell::before{content:'';position:absolute;inset:-24px -4px 100%;background:var(--page);pointer-events:none}
+.tab-scroll-shell::before{content:'';position:absolute;inset:-24px 0 100%;background:var(--page);pointer-events:none}
 @media(max-width:660px){
- .tab-scroll-shell{top:96px}
- .tab-scroll-shell.is-pinned::before{top:-96px}
+ .tab-scroll-shell{top:0;margin-bottom:136px}
+ .tab-scroll-shell.is-pinned::before{top:0}
  body>#style-options{top:var(--floating-tools-top,24px);right:24px}
- #back-to-top{top:var(--floating-tools-top,24px);right:80px}
+ #back-to-top{top:calc(var(--floating-tools-top,24px) + 56px);right:24px}
 }
 [data-panel]>.panel:first-child{margin-top:0}
 
@@ -149,11 +149,11 @@ main.wrap{padding-top:24px}
 `;
 
 export const playgroundLayoutScript=String.raw`
-const tabRail=document.querySelector('nav[role=tablist]'),tabShell=document.createElement('div');tabShell.className='tab-scroll-shell';tabRail.before(tabShell);tabShell.append(tabRail);
+const tabRail=document.querySelector('nav[role=tablist]'),tabShell=document.createElement('div');tabShell.className='tab-scroll-shell';const tabAnchor=document.createElement('div');tabAnchor.className='tab-scroll-anchor';tabRail.before(tabAnchor,tabShell);tabShell.append(tabRail);
 // Keep the native scrollbar in the lower gap, outside the tab row's layout height.
 const measureTabRow=()=>tabShell.style.setProperty('--tab-row-height',tabRail.querySelector('button').getBoundingClientRect().height+'px');
 new ResizeObserver(measureTabRow).observe(tabRail);document.fonts.ready.then(measureTabRow);measureTabRow();
-const updateFloatingTools=()=>{const brand=document.querySelector('.playground-brand-row').getBoundingClientRect();document.documentElement.style.setProperty('--floating-tools-top',Math.max(24,brand.top+(brand.height-48)/2)+'px');};
+const updateFloatingTools=()=>{const brand=document.querySelector('.playground-brand-row').getBoundingClientRect();document.documentElement.style.setProperty('--floating-tools-top',(innerWidth<=660?Math.max(24,brand.top+(brand.height-48)/2,tabShell.getBoundingClientRect().height+12-Math.max(0,tabShell.getBoundingClientRect().top)):Math.max(24,brand.top+(brand.height-48)/2))+'px');};
 addEventListener('scroll',updateFloatingTools,{passive:true});addEventListener('resize',updateFloatingTools);updateFloatingTools();
 const previewActionHomes=new WeakMap();
 function placePreviewActions(dialog,expanded){
@@ -175,7 +175,7 @@ for(const dialog of document.querySelectorAll('.preview-dialog')){
   (expand?frame:row).append(button);
   const home=document.createComment('preview-action-home');button.after(home);homes.push({button,home});
  }
- if(row.children.length)frame.before(row);
+ const replay=dialog.querySelector('#perspective-replay');if(replay)row.append(replay);if(row.children.length)frame.before(row);
  previewActionHomes.set(dialog,homes);
 }
 // Checkboxes belong with their controls, never in the module heading.
@@ -208,14 +208,14 @@ let stickyThreshold=Infinity,stickyWidth=0;
 function setStickyMetrics(){
  const height=stickyControls.getBoundingClientRect().height;
  stickyToolbar.style.setProperty('--toolbar-pinned-height',height+'px');
- document.documentElement.style.setProperty('--sticky-tab-top',(innerWidth<=660?96:stickyToolbar.classList.contains('controls-pinned')?height+24:24)+'px');
+ document.documentElement.style.setProperty('--sticky-tab-top',(innerWidth<=660?0:stickyToolbar.classList.contains('controls-pinned')?height+25:24)+'px');
  document.documentElement.style.setProperty('--toolbar-height',(stickyToolbar.classList.contains('controls-pinned')?height:stickyToolbar.offsetHeight)+'px');
 }
 function updateStickyControls(){
  const eligible=innerWidth>660&&stickyControls.parentElement===stickyToolbar;
  stickyToolbar.classList.toggle('controls-pinned',eligible&&scrollY>=stickyThreshold);
  setStickyMetrics();
- const tabs=document.querySelector('.tab-scroll-shell'),top=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sticky-tab-top'));tabs.classList.toggle('is-pinned',tabs.getBoundingClientRect().top<=top+.5);
+ const tabs=document.querySelector('.tab-scroll-shell'),top=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sticky-tab-top'));tabs.classList.toggle('is-pinned',tabs.getBoundingClientRect().top<=top+.5);updateFloatingTools();
 }
 function measureStickyControls(){
  stickyToolbar.classList.remove('controls-pinned');
@@ -226,6 +226,12 @@ function measureStickyControls(){
  }else stickyThreshold=Infinity;
  stickyWidth=innerWidth;updateStickyControls();
 }
+function scrollToPlaygroundTab(){
+ const anchor=document.querySelector('.tab-scroll-anchor'),y=anchor.getBoundingClientRect().top+scrollY;
+ window.scrollTo({top:y,behavior:'instant'});updateStickyControls();
+ const top=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sticky-tab-top'))||0;
+ window.scrollTo({top:y-top,behavior:'instant'});updateStickyControls();
+}
 addEventListener('scroll',updateStickyControls,{passive:true});
 addEventListener('resize',measureStickyControls);
 new ResizeObserver(()=>{if(!stickyToolbar.classList.contains('controls-pinned')||stickyWidth!==innerWidth)measureStickyControls();else setStickyMetrics();}).observe(stickyControls);
@@ -234,7 +240,16 @@ document.fonts.ready.then(measureStickyControls);measureStickyControls();
 `;
 
 export const selectorRowCSS=`
-.selector-row{display:flex;flex-wrap:wrap;align-items:flex-start;gap:32px;min-width:0;max-width:100%;grid-column:1/-1}
+[data-panel]>.panel{margin-block:16px}
+#panel-url-reference .url-reference-intro{margin-bottom:16px}
+#perspective-replay{padding:10px;gap:8px}
+.preview-dialog.is-expanded .expanded-state-controls>:is(.selector-row,.state-tools,.choices,.panel-actions,.panel-options,.control-footer,.checkbox-controls){margin-block:32px}
+.preview-dialog.is-expanded .expanded-state-controls .field{margin-top:0;gap:4px}
+.preview-dialog.is-expanded .panel-actions{justify-content:flex-end}
+.panel:has(#link-type-frame)>.frame-wrap{max-height:none;overflow:visible}
+#link-type-frame{max-height:none}
+
+.selector-row{display:flex;flex-wrap:wrap;align-items:flex-start;gap:32px 36px;min-width:0;max-width:100%;grid-column:1/-1}
 .selector-row>.choices,#login-preview .selector-row>.choices{flex:0 0 auto;width:max-content;max-width:100%;min-width:0;margin:0}
 .selector-row .choice-shell{max-width:100%}
 `;

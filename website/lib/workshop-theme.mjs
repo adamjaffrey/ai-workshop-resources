@@ -19,7 +19,7 @@ const styles = `
   --floating-control-shadow: 0 0 12px #00000026, 0 0 28px #00000026; --agent-accent: #0285FF; --agent-ink: #fff; --page: #f3f3f3; --surface: #fff; --content-surface: #f8f9fa; --text: #1a1a1a;
   --muted-text: #5b6066; --border: #dedede; --panel-border: #d5d9dd;
   --control-border: #c7ccd1; --control-bg: #e9e9e9; --control-text: #454545;
-  --hover: #e9edf0; --field-bg: var(--content-surface); --field-border: #bfc4c9;
+  --action-hover:color-mix(in srgb,var(--control-bg) 88%,black); --hover: #e9edf0; --field-bg: var(--content-surface); --field-border: #bfc4c9;
   --success: #146c3e; --success-ink: #fff; --error: #85009b; --warning: #755600; --warning-ink: #fff; --info: var(--muted-text); --link: var(--icon-ink); --link-hover: var(--link); --link-hover-bg: color-mix(in srgb, var(--agent-accent) 10%, transparent);
   --icon-ink: color-mix(in srgb, var(--agent-accent) 80%, black);
   --card-bg: color-mix(in srgb, var(--agent-accent) 4%, white);
@@ -107,7 +107,8 @@ button, button * { -webkit-user-select: none; user-select: none; -webkit-touch-c
 .gate-panel .javascript-notice { margin:24px 0 0; }
 .theme-toggle button { display: grid; place-items: center; width: 44px; padding: 0; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--control-text); }
 .theme-toggle button:hover { color: var(--text); }
-#workshop-content :is(.theme-toggle,.controls .toggle) button[aria-pressed="false"]:hover { background:var(--hover); color:var(--text); }
+:is(.theme-toggle,.controls .toggle) button[aria-pressed="false"]:hover { background:var(--action-hover); color:var(--text); }
+.copy:hover{background:var(--action-hover)}
 .theme-toggle button[aria-pressed="true"] { background: transparent; color: var(--text); }
 .theme-toggle button:focus-visible { outline: 3px solid var(--icon-ink); outline-offset: 3px; }
 .theme-toggle .icon { width: 20px; height: 20px; }

@@ -9,7 +9,7 @@ try{
  const p=await browser.newPage({reducedMotion:'reduce'}),errors=[];p.on('pageerror',e=>errors.push(e.message));
  for(const width of [320,390,660,661,768,1024,1440]){
   await p.setViewportSize({width,height:1000});await p.goto('http://127.0.0.1:'+server.address().port+'/playground/typography');
-  near(await p.locator('.tab-scroll-shell').evaluate(e=>e.getBoundingClientRect().x),Math.max(28,(width-1112)/2),'square tab rail');
+  near(await p.locator('.tab-scroll-shell').evaluate(e=>e.getBoundingClientRect().x),Math.max(24,(width-1120)/2),'tab surface rail');
   const type=p.frameLocator('#type-frame');await type.locator('.notice-type-row').first().waitFor();
   const samples=await type.locator('body').evaluate(()=>{
    const out=[];for(const row of document.querySelectorAll('.notice-type-row')){const e=row.querySelector('.javascript-notice');out.push({name:'notice',gap:row.firstElementChild.getBoundingClientRect().x-e.getBoundingClientRect().x});}
@@ -18,7 +18,7 @@ try{
   });for(const {name,gap}of samples)near(gap,4,`${width} ${name}`);
   await p.locator('[data-tab=icons]').click();await p.locator('details').evaluateAll(es=>es.forEach(e=>e.open=true));
   for(const licence of await p.locator('.licence-text').all()){const gap=await licence.evaluate(e=>{const s=e.parentElement.querySelector('summary'),r=document.createRange();r.selectNodeContents(s.lastChild);return r.getBoundingClientRect().x-e.getBoundingClientRect().x;});near(gap,4,'licence surface');}
-  await p.locator('[data-tab=discovery]').click();await p.locator('#egg input[value=reveal]').evaluate(e=>e.click());near(await p.locator('#perspective-replay').evaluate(e=>e.closest('.state-tools').getBoundingClientRect().x-e.getBoundingClientRect().x),4,'replay surface');
+  await p.locator('[data-tab=discovery]').click();await p.locator('#egg input[value=reveal]').evaluate(e=>e.click());assert.equal(await p.locator('#perspective-replay').evaluate(e=>e.parentElement.className),'panel-actions','Replay shares the action row');
   for(const field of await p.locator('#discovery-preview .field:visible').all())near(await field.evaluate(e=>e.querySelector('.slider-label').getBoundingClientRect().x-e.querySelector('input').getBoundingClientRect().x),4,'rounded slider');
   for(const [tab,id]of [['components','login'],['components','resources'],['branding','branding'],['discovery','discovery'],['blocks','blocks']]){
    await p.locator('[data-tab='+tab+']').click();const d=p.locator('#'+id+'-preview');await d.locator('.preview-expand').click();

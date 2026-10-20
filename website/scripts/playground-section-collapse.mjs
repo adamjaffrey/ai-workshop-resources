@@ -11,6 +11,7 @@ html:has(#playground-title){scrollbar-gutter:stable}
 :is([data-panel]>.panel,.url-subsection):not(.is-expanded)>.section-heading :is(h2,h3){position:relative;z-index:1;pointer-events:none;user-select:none}
 :is([data-panel]>.panel,.url-subsection):not(.is-expanded)>.section-heading :is(h2,h2 *,h3,h3 *,button,button *){cursor:pointer!important}
 .section-collapse>svg{position:absolute;right:calc(11px - ${ink.icons['chevron-down'].right}px);top:calc(var(--section-cap-y,22px) + 4px - 12px);display:block;width:24px;height:24px;transform-origin:center;transition:transform 160ms ease}
+#panel-url-reference .url-subsection>.section-heading{min-height:0}#panel-url-reference .url-subsection>.section-heading>.section-collapse{min-height:0}
 .section-collapse:hover{background:var(--hover)!important}
 [data-collapsed]>.section-heading>.section-collapse>svg{transform:rotate(90deg)}
 [data-panel]>.panel[data-collapsed]>:not(.section-heading),[data-panel]>.panel[data-collapsed]>.section-heading>:not(h2):not(.section-collapse){display:none!important}

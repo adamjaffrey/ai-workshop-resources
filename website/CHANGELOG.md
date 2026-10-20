@@ -3,14 +3,43 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.237"
-  update_summary: "Refine selector spacing, disclosure lists and colour specimens"
-  updated_at: "Tue 20 Oct 2026 at 01:10:38 pm AEDT (+11:00)"
+  doc_revision: "26.0.238"
+  update_summary: "Refine sticky navigation and shared control presentation"
+  updated_at: "Tue 20 Oct 2026 at 02:01:12 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.236 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 02:01:12 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine sticky navigation and shared control presentation
+
+### Changed
+
+- Pin mobile tabs at the top and move Style Options and Back to Top with scroll position into a vertical stack beneath them. Retain desktop control placement and expose its 1px divider. Selecting another tab lands at the start of the pinned region.
+- Align tab boundaries with panel surfaces, remove the extra background overhang and separate white panels by 16px.
+- Apply a 36px selector layout gap to deliver 32px between optically outdented visible surfaces. Document the compensation in repository instructions.
+- Strengthen overflow hints with 54px horizontal fades and an 18px low-opacity shoulder, retaining endpoint clearing; increase vertical fade width to 30px and the colour-table fade to 42px.
+- Balance URL H3 hover boundaries. Add the colour-table top divider and monospaced parameter values; remove the list examples' bottom divider and excess spacing, and let the reference frame grow without nested vertical scrolling.
+- Group Replay Animation with Copy Values and Reset Defaults, matching button padding in inline and expanded views. Share control spacing across both views.
+- Use a shared darkening hover fill for unselected agent/theme options across Resources, login and Playground, including compact controls and prompt copy buttons.
+
+### Validation
+
+- Focused browser checks — passed mobile/desktop sticky geometry, tab landing, divider clearance, actual selector surface gaps, H3 balance, Typography sizing and expanded replay parity.
+- Regression checks — passed sticky controls, copy states, mobile menu containment, control rhythm, expanded preview restoration, fade endpoints and 180 selection regions without vertical scroll traps.
+- Full source-parity and interaction suite, seven-width external/nested alignment and LAN session/login verification — passed.
+- Local production build — passed. Mobile and desktop screenshots inspected; no physical-device testing, push or publication performed.
 
 ## v26.0.235 — 2026-10-20
 

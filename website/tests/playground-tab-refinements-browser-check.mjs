@@ -6,7 +6,7 @@ const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
  const page=await browser.newPage({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
  await page.goto('http://127.0.0.1:'+server.address().port+'/component-playground/typography');await page.waitForTimeout(3000);
- await page.evaluate(()=>scrollTo(0,1200));await page.locator('#tab-url-reference').click();assert.equal(await page.evaluate(()=>scrollY),0);
+ await page.evaluate(()=>scrollTo(0,1200));await page.locator('#tab-url-reference').click();await page.waitForTimeout(100);assert.ok(await page.evaluate(()=>scrollY)>100);
  assert.match(await page.locator('.url-reference-intro').textContent(),/implementation authorities/);
  const sub=page.locator('.url-subsection').first(),button=sub.locator(':scope>.section-heading>button');await button.click();assert.equal(await button.getAttribute('aria-expanded'),'false');
  assert.equal(await sub.locator(':scope>:not(.section-heading):visible').count(),0);
@@ -19,6 +19,6 @@ try{
  const notice=await frame.locator('.notice-type-row[data-page=resources]>div').evaluate(e=>({width:e.getBoundingClientRect().width,max:parseFloat(e.style.maxWidth)}));assert.ok(notice.max>0&&notice.width<=notice.max+1);
  const links=await page.locator('#link-type-frame').elementHandle().then(e=>e.contentFrame());assert.deepEqual(await links.locator('caption').evaluate(e=>{const c=getComputedStyle(e);return[c.fontSize,c.fontWeight,c.lineHeight]}),await links.locator('h3').first().evaluate(e=>{const c=getComputedStyle(e);return[c.fontSize,c.fontWeight,c.lineHeight]}));
  await page.locator('#tab-url-reference').click();await page.screenshot({path:'/tmp/playground-url-refinements.png'});
- await page.setViewportSize({width:390,height:844});await page.evaluate(()=>scrollTo(0,1800));await page.locator('#tab-components').click();assert.equal(await page.evaluate(()=>scrollY),0);await page.screenshot({path:'/tmp/playground-login-refinements.png'});
+ await page.setViewportSize({width:390,height:844});await page.evaluate(()=>scrollTo(0,1800));await page.locator('#tab-components').click();await page.waitForTimeout(100);assert.ok(await page.evaluate(()=>scrollY)>100);await page.screenshot({path:'/tmp/playground-login-refinements.png'});
  console.log('Tab reset, nested disclosures, login edges and source widths passed.');
 }finally{await browser.close();await new Promise(r=>server.close(r));}

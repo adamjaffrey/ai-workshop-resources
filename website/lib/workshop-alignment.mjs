@@ -57,7 +57,7 @@ body:has(#playground-title)>main.wrap{padding-inline:28px}
 .panel-actions,.panel-options,.heading-actions{margin-inline-end:-4px}
 .control-footer>.panel-actions{margin-inline-end:-4px}
 .panel-actions>button:first-child:last-child{margin-inline-start:0}
-.tab-scroll-shell{margin-inline:0;width:100%}
+.tab-scroll-shell{margin-inline:calc(-1 * var(--optical-offset));width:calc(100% + 2 * var(--optical-offset))}
 .field>input[type=range]{margin-inline:-4px;width:calc(100% + 8px)}
 #style-dialog{padding-inline:24px}
 #style-dialog #style-options{top:-1px;right:-1px}
