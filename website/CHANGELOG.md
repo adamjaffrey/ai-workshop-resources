@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.247"
-  update_summary: "Synchronise agent and theme across Resources and Playground"
-  updated_at: "Tue 20 Oct 2026 at 04:05:18 pm AEDT (+11:00)"
+  doc_revision: "26.0.248"
+  update_summary: "Unify specimen rails and remove duplicated horizontal padding"
+  updated_at: "Tue 20 Oct 2026 at 05:16:13 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.246 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 05:16:13 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Unify specimen rails and remove duplicated horizontal padding
+
+### Changed
+
+- Align gallery text 28px inside grey frames and designated rounded specimens at 24px; remove accumulated iframe, row and preview padding.
+- Extend scroll viewports into existing grey gutters for outdents and focus rings. Preserve visible overflow around complete login contexts and keep paint within the outer specimen frame.
+- Retain native full-page preview gutters and document the single-owner specimen spacing contract.
+- Replace padding-specific clearance assertions with rail and paint-clearance checks; wait for visible iframe control layout and measure settled geometry.
+
+### Validation
+
+- Seven-width specimen rail and containment checks, external/nested alignment, menu containment, expanded previews, sticky controls, tool focus, overflow and tab-edge checks — passed.
+- Source parity at mobile/desktop widths for both themes and agents, four-width specimen clearance, 180 horizontal-only selection regions and authentication tests — passed.
+- Populated mobile/desktop screenshots reviewed for controls, focus rings and held login shadows; physical-device testing remains manual.
+- Sites local build helper — passed; generated server bundles contain v26.0.246 and the new specimen rail token. Saved anonymous backdrop geometry reused.
 
 ## v26.0.245 — 2026-10-20
 

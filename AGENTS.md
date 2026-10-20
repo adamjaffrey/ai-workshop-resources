@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.77"
-  update_summary: "Scope agent guidance and preserve recent interface learnings"
-  updated_at: "Tue 20 Oct 2026 at 04:58:39 pm AEDT (+11:00)"
+  doc_revision: "26.0.78"
+  update_summary: "Use single specimen rails and preserve grey-frame paint clearance"
+  updated_at: "Tue 20 Oct 2026 at 05:09:46 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -64,7 +64,7 @@ Keep cross-cutting policy here. Put precise implementation constraints and test 
 - Canonical destinations are `/ai-workshop-resources` and `/component-playground`; browser titles are AI Workshop Resources and Component Playground, including login pages. Keep application canonical redirects at 301 and preserve the routing/query rules in the Authentication contract and shared URL Reference.
 - Preserve server-validated sessions, fail-closed errors and destination-specific login handling. Login backdrops must contain only anonymous geometry in inert, script-disabled frames, never protected text or authenticated pages.
 - Change shared app sources first and keep Playground specimens in parity in the same change. Do not make independent optical copies. Validate affected app/specimen behaviours across relevant widths, agents, themes and input methods; follow the scoped test requirements without claiming physical-device coverage from emulation.
-- Use shared theme, alignment, typography, icon and interaction helpers. Preserve the 4px optical extension, 16px specimen safety inset, 32px visible control-group gaps (36px layout gap where a 4px selector outdent applies), 40px Resources selector gap and 16px white-panel separation. Expanded views follow the same contracts.
+- Use shared theme, alignment, typography, icon and interaction helpers. Preserve the 4px optical extension, 28px specimen text rail and 24px rounded-surface rail, 32px visible control-group gaps (36px layout gap where a 4px selector outdent applies), 40px Resources selector gap and 16px white-panel separation. Expanded views follow the same contracts.
 - New interface icons come from installed Lucide definitions. Obtain explicit approval for alternatives only when Lucide has no suitable icon; the existing two Lobe agent logos and Wavelength brand asset remain approved. Preserve official icon names, sources, licences and usage metadata.
 - Use CMOS 18 title case for headings and control labels, with the categories and grammatical rules in Interface. Preserve literal identifiers, code and official names.
 - Only agent/theme selectors and Playground segmented selectors may stretch on press/hold. Ordinary buttons and disclosures must not inherit that animation. Preserve accessible focus, keyboard access and theme-aware hover states.

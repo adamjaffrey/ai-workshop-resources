@@ -6,7 +6,7 @@ const headingInkCSS=Object.entries(ink.icons).map(([name,{left}])=>`
 `).join('')+Object.entries(ink.variants).map(([key,m])=>{const [name,viewBox]=key.split(':');return `:is(#playground-title,.panel>.section-heading h2,.playground-icon-entry h3,.url-reference-subheading):has(>svg[data-icon-name="${name}"][viewBox="${viewBox}"]){--icon-ink-fraction:${m.left/m.viewBox}}`;}).join('');
 export function assertMeasuredHeadingIcon(name){if(!ink.icons[name])throw Error('Measure heading icon '+name+' with scripts/measure-alignment-icons.mjs');}
 export const alignmentCSS = String.raw`
-:root{--specimen-inset:16px;--optical-offset:4px;--external-text-inset:var(--optical-offset);--playground-external-text-inset:var(--optical-offset)}
+:root{--specimen-text-rail:28px;--optical-offset:4px;--external-text-inset:var(--optical-offset);--playground-external-text-inset:var(--optical-offset)}
 #playground-title{--heading-icon-size:1em}
 :root{--disclosure-ink-inset:${ink.icons['chevron-right'].left/24*18}px}
 summary:has(>.disclosure-chevron){margin-inline-start:calc(-1 * var(--disclosure-ink-inset))}
@@ -76,17 +76,20 @@ body:has(#playground-title)>main.wrap{padding-inline:28px}
 /* Nested grey specimen surfaces, swatches and catalogues own the same rails. */
 .playground-icon-entry{padding-inline:28px}
 .swatch strong,.swatch code,.swatch small{padding-inline:16px}.swatch p{margin-inline:16px}
-body:has(>#icon-catalog),body:has(>#error-catalog),body:has(>#focus-catalog),body:has(>#link-type-specimens){padding-inline:28px}
-#type-specimens{padding-inline:28px!important}
-.icon-sample:not(.error-sample),.focus-preview,.agent-preview,.variant-preview,.feedback-preview{margin-inline:0;padding:var(--specimen-inset);max-width:100%;box-sizing:border-box}
-.error-sample:not(:has(.fallback-context,.full-login-context)){margin-inline:0;padding:var(--specimen-inset)}
-.error-sample:has(.full-login-context){margin-inline:0;padding-inline:var(--specimen-inset)}
+body:has(>#icon-catalog),body:has(>#error-catalog),body:has(>#focus-catalog),body:has(>#link-type-specimens){padding-inline:var(--specimen-text-rail)}
+#type-specimens{padding-inline:var(--specimen-text-rail)!important}
+/* Gallery documents own the horizontal rail once. Scroll viewports extend
+   through that gutter so outdents and focus paint stay inside the grey frame. */
+.icon-sample:not(.error-sample),.focus-preview,.agent-preview{margin-inline:calc(-1 * var(--specimen-text-rail));padding:16px var(--specimen-text-rail);width:calc(100% + 2 * var(--specimen-text-rail));max-width:none;box-sizing:border-box}
+.variant-preview,.feedback-preview{margin-inline:0;padding:16px 0;max-width:100%;box-sizing:border-box;overflow:visible}
+.error-sample:not(:has(.fallback-context,.full-login-context)){margin-inline:0;padding:16px 0;overflow:visible}
+.error-sample:has(.full-login-context){margin-inline:-4px;width:calc(100% + 8px);padding-inline:0;overflow:visible}
 #errors-resources .error-sample:has(.fallback-context){margin-inline:-4px;padding-inline:20px!important}
 .focus-footer>form{margin-inline-start:-4px}
-.selection-preview{margin-inline:var(--specimen-inset);max-width:calc(100% - 32px);padding-inline:0}
+.selection-preview{margin-inline:0;max-width:100%;padding-inline:0}
 .selection-example{margin-inline:-4px;padding-inline:16px}
-.icon-row>h3,.icon-row>.icon-meta,.focus-row>h3,.focus-row>.focus-meta{margin-inline:var(--specimen-inset)}
-.type-row,.agent-row,.notice-type-row{padding-inline:var(--specimen-inset)!important}
+.icon-row>h3,.icon-row>.icon-meta,.focus-row>h3,.focus-row>.focus-meta{margin-inline:0}
+.type-row,.agent-row,.notice-type-row{padding-inline:0!important}
 /* Standalone rounded specimen roots use the specimen rail, while copied
    interiors retain canonical app geometry and typography. */
 :is(.icon-sample,.focus-preview,.agent-preview,.variant-preview)>:is(button,.toggle,.theme-toggle,.symbol,.password-field,.qr-card,.code-wrap,.javascript-notice){margin-inline-start:-4px!important}
@@ -101,8 +104,8 @@ body:has(>#icon-catalog),body:has(>#error-catalog),body:has(>#focus-catalog),bod
 .inspector-dock .inspector-bar,.inspector-dock .inspector-actions{margin-inline:-4px}
 /* Sources already render their link interiors; align the whole link surface. */
 .panel>a.workshop-link,.playground-icon-entry>a.workshop-link,.link-examples section>a.workshop-link,.icon-row>a.workshop-link{margin-inline-start:-4px}
-.icon-row>a.workshop-link{margin-inline:calc(var(--specimen-inset) - var(--optical-offset));margin-top:16px}
-.frame-wrap{padding:var(--specimen-inset);box-sizing:border-box}
+.icon-row>a.workshop-link{margin-inline:calc(-1 * var(--optical-offset));margin-top:16px}
+.frame-wrap{padding:0;box-sizing:border-box}
 [data-gallery-last]{border-bottom:0!important}
 #icon-catalog [data-gallery-last]{padding-bottom:0}
 body:has(>#icon-catalog){padding-bottom:16px}
