@@ -520,7 +520,18 @@ ${urlReferenceCSS}
   nodes.forEach((node,i)=>{const label=node.querySelector('small');if(label.textContent!==colours[i])label.textContent=colours[i];});
  }
  const scheduler=(${createPlaygroundScheduler.toString()})({settings,specimenManifest,swatches});
- fields.forEach(id=>$(id).addEventListener('change',()=>{if(id==='theme')blockOverrides.dim=false;if(id==='theme'||id==='agent'){try{localStorage.setItem(id==='theme'?'workshop-colour-theme':'workshop-selected-agent',$(id).value);}catch{}const url=new URL(location.href);if(url.searchParams.has(id)){url.searchParams.set(id,$(id).value);history.replaceState(null,'',url);}}sync();}));
+ // Shared storage listeners settle the outer palette without a document-wide animation.
+ // Feed received preferences through the same active/idle specimen scheduler as local controls.
+ window.workshopSyncPreferences=()=>{
+  let changed=false;
+  for(const [id,value] of [['agent',window.workshopAgent.current],['theme',document.documentElement.dataset.theme]]){
+   if($(id).value===value)continue;
+   $(id).value=value;changed=true;if(id==='theme')blockOverrides.dim=false;
+   const url=new URL(location.href);if(url.searchParams.has(id)){url.searchParams.set(id,value);history.replaceState(null,'',url);}
+  }
+  if(changed)sync();
+ };
+ fields.forEach(id=>$(id).addEventListener('change',()=>{if(id==='theme')blockOverrides.dim=false;if(id==='theme'||id==='agent'){try{localStorage.setItem(id==='theme'?'workshop-colour-theme':'workshop-selected-agent',$(id).value);}catch{}window.dispatchEvent(new StorageEvent('storage',{key:id==='theme'?'workshop-colour-theme':'workshop-selected-agent',newValue:$(id).value}));const url=new URL(location.href);if(url.searchParams.has(id)){url.searchParams.set(id,$(id).value);history.replaceState(null,'',url);}}sync();}));
  $('icon-filter').onchange=()=>$('icons-frame').contentWindow.postMessage({guide:'icon-filter',filter:document.querySelector('input[name=icon-filter]:checked').value},'*');
  $('show-sources').onchange=()=>{const show=$('show-sources').checked;$('icons-frame').contentWindow.postMessage({guide:'icon-sources',sources:show},'*');};
  $('reset').onclick=()=>{$('login-destination').value='resources';$('state').value='neutral';$('hover').value='off';$('copy').value='success';scheduler.reset();sync();};

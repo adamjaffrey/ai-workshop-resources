@@ -258,6 +258,7 @@ const script = `(() => {
       restoreControlColours = () => {};
     };
     reveal = document.startViewTransition(() => {
+      if (request !== revealRequest) return;
       apply(false, theme, false);
       const style = getComputedStyle(control);
       const next = tokens.map(token => style.getPropertyValue(token));
@@ -287,8 +288,15 @@ const script = `(() => {
   system.addEventListener('change', () => { if (!preference) apply(true); });
   window.addEventListener('storage', event => {
     if (event.key !== key && event.key !== null) return;
-    preference = valid(event.newValue) ? event.newValue : undefined;
-    apply(true);
+    // A newer preference from another tab supersedes an in-flight local reveal.
+    ++revealRequest;reveal?.skipTransition();reveal=undefined;restoreControlColours();
+    document.documentElement.classList.remove('theme-reveal');
+    ['--reveal-x','--reveal-y','--reveal-start','--reveal-radius'].forEach(property=>document.documentElement.style.removeProperty(property));
+    let value=event.newValue;
+    if(event.storageArea){try{value=localStorage.getItem(key);}catch{}}
+    preference = valid(value) ? value : undefined;
+    apply(!window.workshopSyncPreferences);
+    window.workshopSyncPreferences?.();
   });
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.theme-toggle:not(.ph-static)').forEach(control => { control.hidden = false; indicators.push(window.createWorkshopToggle(control)); });

@@ -28,6 +28,10 @@ export const agentScript = `(() => {
   };
   apply(current);
   window.addEventListener('storage',event=>{
-    if(event.key===key||event.key===null)apply(event.newValue, true);
+    if(event.key!==key&&event.key!==null)return;
+    let value=event.newValue;
+    if(event.storageArea){try{value=localStorage.getItem(key);}catch{}}
+    apply(value, !window.workshopSyncPreferences);
+    window.workshopSyncPreferences?.();
   });
 })();`;

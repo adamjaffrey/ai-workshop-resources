@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.148"
-  update_summary: "Document demand-driven Playground loading and idle warming"
-  updated_at: "Tue 20 Oct 2026 at 03:49:23 pm AEDT (+11:00)"
+  doc_revision: "26.0.149"
+  update_summary: "Document live cross-tab agent and theme synchronisation"
+  updated_at: "Tue 20 Oct 2026 at 04:00:33 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -242,6 +242,8 @@ The separate theme toggle layer moves immediately but blends its surface, border
 `scripts/playground-scheduler.mjs` owns the Playground's tab and specimen lifecycle. Initially only the selected tab and its required source frames receive runnable documents. Shared controls and the active tab receive the latest settings immediately. Inactive tabs retain the latest requested state and catch up one document at a time after at least 500ms without pointer movement, scrolling, typing or other interaction, using browser idle time where available and a timed fallback otherwise. Pointer holds pause background work until release; activity inside sandboxed specimens is relayed to the parent. Hiding the page stops background scheduling.
 
 Selecting a tab immediately prepares its dependencies; stale embedded palettes remain concealed until the matching settings and gallery content are applied. Keyboard focus and a deliberate 160ms mouse/pen hover warm the intended tab. Tab buttons scrolled into view receive higher background priority, without forcing work during scrolling. Hidden Easter Egg simulations remain stopped. Rapid changes supersede intermediate settings and obsolete capture responses are discarded. Icon/state captures yield between simulated states and pause for interaction when they are background work.
+
+Resources and Playground share agent/theme preferences through same-origin browser storage. Incoming changes update the Playground selectors, existing preference query parameters and active specimens through its scheduler; inactive specimens retain idle warming. The Playground settles its outer palette directly instead of running the shared whole-document colour animation. Local Playground selections also update the shared controllers' in-memory state. Received changes never write preferences back, and real storage events read the latest saved value so queued older events cannot restore stale choices. A newer received theme cancels an in-flight local circular reveal. Validate both directions, rapid updates, reloads and interruption with `node website/tests/playground-cross-tab-browser-check.mjs`.
 
 Colour swatches update only when their tab is prepared, read all computed styles before writing labels, use a single software-canvas pixel read to preserve derived colours and alpha, and cache results by theme and agent. Captured galleries are cached by palette/hover state and delivered only to their consumers. Live typography snapshots are invalidated by relevant source changes and width changes. The hyperlink specimen retains its four-palette reference table and refreshes its metrics only when its palette changes. All specimens continue to use the real application sources; the shared 340ms selector animation is unchanged.
 

@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.246"
-  update_summary: "Keep Playground controls responsive with deferred tab updates"
-  updated_at: "Tue 20 Oct 2026 at 03:53:21 pm AEDT (+11:00)"
+  doc_revision: "26.0.247"
+  update_summary: "Synchronise agent and theme across Resources and Playground"
+  updated_at: "Tue 20 Oct 2026 at 04:05:18 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.245 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 04:05:18 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Synchronise agent and theme across Resources and Playground
+
+### Changed
+
+- Update open Resources and Playground tabs from shared browser preferences, including selector state and active specimens. Preserve inactive-tab idle warming and avoid whole-document Playground colour animations.
+- Keep Playground controllers and existing preference query parameters current without writing received changes back to storage.
+- Read the latest saved preferences when processing queued storage events and cancel obsolete local theme reveals when a newer remote choice arrives.
+- Add real two-tab browser coverage and document the synchronisation lifecycle.
+
+### Validation
+
+- Cross-tab browser check — passed both directions, controls/specimens, rapid changes, interrupted theme reveals, URL/reload persistence and absence of Playground bulk transitions.
+- Theme transition and control-colour browser checks — passed.
+- Auth, reveal-radius and Playground structure tests — passed all 13 checks.
+- Playground browser check — passed source parity and responsive coverage for both agents/themes at 320, 390, 768 and 1440px.
+- Playground scheduling browser check — passed cold loading, latest-state delivery, warming, interaction pauses, cached palettes, reduced motion and idle fallback. With all tabs loaded and 4× CPU throttling, maximum frame gaps were 50ms for Agent/Theme and 17ms for Width/Hover, compared with the original 183–217ms baseline.
+- Production build and generated-artefact checks — passed with v26.0.245 and 12 deferred frames; saved backdrop geometry reused. LAN Main App and Playground returned HTTP 200, and a fresh automatic session was recognised. Physical-device behaviour remains unverified.
 
 ## v26.0.244 — 2026-10-20
 
