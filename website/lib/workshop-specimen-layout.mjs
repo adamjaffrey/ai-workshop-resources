@@ -30,7 +30,7 @@ html:is([data-specimen-gallery=icons],[data-specimen-gallery=errors]) body{font:
 .error-sample:has(.full-login-context){padding-block:24px 64px}
 @media(max-width:660px){.error-sample:has(.full-login-context){padding-block:20px 32px}}
 #errors-resources .error-sample:has(.fallback-context){border:1px solid var(--border);border-radius:12px}
-.fallback-context{max-width:100%;margin:0}
+.fallback-context{margin:0}
 .fallback-context .step-row,.fallback-context .step-row>*{opacity:1;transform:none}
 .error-sample pre{max-height:240px}
 
@@ -76,11 +76,10 @@ html:is([data-specimen-gallery=icons],[data-specimen-gallery=errors]) body{font:
 .type-row .specimen-context:has(>.controls-label){line-height:0}
 .type-row .controls-label[data-type-sample]{line-height:21px}
 .type-row .password-field[data-in-situ]{display:flex}
-.type-row .qr-copy{width:150px}
 .type-row .qr-copy-overlay{opacity:1}
 .type-row .copy-content{display:inline-flex}
 .type-row pre{max-height:none}
-.type-row .qr-card.specimen-context{width:max-content!important;max-width:100%!important}
+.type-row .qr-card.specimen-context{width:max-content!important}
 .type-row .footer-meta[data-type-sample]{display:flex;flex:none;width:100%;align-items:flex-start;justify-content:flex-start;text-align:left}
 .type-row footer.specimen-context .footer-content{align-items:flex-start!important;justify-content:flex-start!important;text-align:left}
 .type-row footer.specimen-context form{align-self:flex-start!important;justify-self:start!important;width:max-content!important}

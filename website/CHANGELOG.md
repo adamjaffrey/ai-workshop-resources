@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.254"
-  update_summary: "Measure offscreen galleries before they become visible"
-  updated_at: "Tue 20 Oct 2026 at 07:12:28 pm AEDT (+11:00)"
+  doc_revision: "26.0.255"
+  update_summary: "Remove redundant specimen sizing overrides"
+  updated_at: "Tue 20 Oct 2026 at 09:24:58 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.253 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 09:24:58 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Remove redundant specimen sizing overrides
+
+### Removed
+
+- Remove the fallback context maximum-width clamp, isolated QR ancestor maximum-width clamp and duplicate QR copy width. Preserve existing specimen layout and the shared captured-width authority.
+
+### Validation
+
+- Before-and-after geometry comparison across Typography, Icons, Status States and Focus and Selection at 320, 390, 768 and 1440px — unchanged positions, dimensions and scroll widths.
+- `node website/tests/playground-specimen-fidelity-browser-check.mjs` — passed, including source widths, focus corrections, spinner motion and scroll ownership.
+- `npm --prefix website run build` — passed; generated version displays match v26.0.253 and saved backdrop geometry was reused.
 
 ## v26.0.252 — 2026-10-20
 
