@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.262"
-  update_summary: "Fade the Resources label before its selector pins"
-  updated_at: "Wed 21 Oct 2026 at 12:48:35 am AEDT (+11:00)"
+  doc_revision: "26.0.263"
+  update_summary: "Fit QR caption leading to its capital-letter height"
+  updated_at: "Wed 21 Oct 2026 at 01:04:39 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.261 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 01:04:39 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Fit QR caption leading to its capital-letter height
+
+### Changed
+
+- Restore 12px card padding and the 12px QR-to-caption gap. Use `line-height:1cap` for the 14px uppercase caption so internal font leading no longer adds excess visible spacing.
+- Preserve the 150px QR image, 12px side padding and 176px outer card width. Apply the canonical change to Resources and its derived Playground specimens.
+- Add visible caption-ink clearance checks and update the shared spacing contract and existing QR expectations.
+
+### Validation
+
+- `node website/tests/qr-caption-browser-check.mjs` — passed Chrome/WebKit at 390px and 1440px in both themes. Resources visible gaps are 12px; fractional iframe screenshot coordinates introduce at most 1px rasterisation rounding. QR and card widths remain unchanged.
+- `node website/tests/playground-browser-check.mjs` — passed app/specimen source parity and interaction checks across widths, agents and themes.
+- `npm --prefix website run build` — passed; generated v26.0.261 displays verified. Saved backdrop geometry reused without remeasurement.
 
 ## v26.0.260 — 2026-10-21
 

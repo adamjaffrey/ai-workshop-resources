@@ -11,7 +11,7 @@ const p=await browser.newPage({viewport:{width,height:1000},reducedMotion:'reduc
 await p.goto(`${origin}/component-playground/focus-and-selection?theme=${theme}`);
 const f=p.frameLocator('#focus-frame');await f.locator('.selection-preview').last().waitFor();await p.waitForTimeout(150);
 assert.equal(await f.locator('.selection-preview').count(),6);
-assert.deepEqual(await f.locator('.qr-card').evaluate(qrGeometry),[12,12,12,9,9],`${engine.name()} ${width} ${theme} QR spacing`);
+assert.deepEqual(await f.locator('.qr-card').evaluate(qrGeometry),[12,12,12,12,12],`${engine.name()} ${width} ${theme} QR spacing`);
 const samples=f.locator('.selection-preview');
 for(let i=0;i<await samples.count();i++){
  const sample=samples.nth(i);await sample.evaluate(e=>e.scrollIntoView({block:'center'}));await p.evaluate(y=>scrollBy(0,y-450),(await sample.boundingBox()).y);await p.waitForTimeout(100);
@@ -32,7 +32,7 @@ for(let i=0;i<await samples.count();i++){
  }
  if(i<2){await p.evaluate(y=>scrollBy(0,y-450),(await sample.boundingBox()).y);await p.waitForTimeout(50);await p.screenshot({path:`/tmp/selection-${engine.name()}-${width}-${theme}-${i}.png`,clip:await sample.boundingBox()});}
 }
-if(width>660){await p.goto(`${origin}/ai-workshop-resources?theme=${theme}`);assert.deepEqual(await p.locator('#workshop-content .qr-card').evaluate(qrGeometry),[12,12,12,9,9],'Resources QR spacing');}
+if(width>660){await p.goto(`${origin}/ai-workshop-resources?theme=${theme}`);assert.deepEqual(await p.locator('#workshop-content .qr-card').evaluate(qrGeometry),[12,12,12,12,12],'Resources QR spacing');}
 console.log('PASS native selection height and QR spacing',engine.name(),width,theme);await p.close();
 }
 }finally{await browser.close();}}}finally{server.close();}
