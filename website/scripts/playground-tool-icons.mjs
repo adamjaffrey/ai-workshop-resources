@@ -2,6 +2,13 @@ import {linkArrowSVG} from '../lib/workshop-links.mjs';
 // Catalogue the real outer Playground DOM, including hidden/mobile controls.
 // Iframe app specimens belong exclusively to the separate app icon catalogue.
 export const playgroundIconCatalogScript = String.raw`
+function foldIconUsages(list){
+ const count=list.children.length;let details=list.closest('.icon-usages');
+ if(count<=5)return;
+ if(!details){details=document.createElement('details');details.className='icon-usages';const summary=document.createElement('summary');
+ const icon=document.querySelector('summary .disclosure-chevron').cloneNode(true);icon.dataset.iconUse='toggle-icon-usages';summary.append(icon,document.createElement('span'));details.append(summary);list.before(details);details.append(list);}
+ details.querySelector('summary span').textContent=count+' Locations';
+}
 function renderPlaygroundIcons(){
  const catalog=document.getElementById('playground-icon-catalog'),icons=new Map(),originalArrowUsages=new Set();
  const headingOrder=[...document.querySelectorAll('[data-tab]')].flatMap(tab=>[...document.querySelectorAll('[data-panel="'+tab.dataset.tab+'"] .section-heading h2 svg,[data-panel="'+tab.dataset.tab+'"] .url-reference-subheading svg')].map(svg=>svg.dataset.iconName));
@@ -37,7 +44,7 @@ function renderPlaygroundIcons(){
   const link=document.createElement('a');
   if(provider!=='lucide')throw Error('Add an official source route for Playground provider: '+provider);
   link.href='https://lucide.dev/icons/'+name;link.target='_blank';link.rel='noopener noreferrer';link.textContent='View Source · Lucide · '+name;window.decorateWorkshopLinks(link);link.hidden=!document.getElementById('show-playground-sources').checked;link.dataset.playgroundSource='';
-  entry.append(heading,list,link);catalog.append(entry);
+  entry.append(heading,list,link);catalog.append(entry);foldIconUsages(list);
  }
 }
 window.decorateWorkshopLinks();
@@ -51,7 +58,7 @@ function refreshLinkInventory(){
  const list=document.querySelector('[data-catalog-variant="cropped"] ul');if(!list)return;
  const usages=new Set([...document.querySelectorAll('a[href]')].map(a=>{const panel=a.closest('.panel');return (panel?.querySelector('.section-heading h2')?.textContent.trim()||'Playground')+' → '+a.textContent.trim()+' · '+a.getAttribute('href');}));
  for(const [name,links] of frameLinkInventory)for(const link of links)usages.add(name+' → '+link.label+' · '+link.href);
- list.replaceChildren(...[...usages].map(text=>{const li=document.createElement('li');li.textContent=text;return li;}));
+ list.replaceChildren(...[...usages].map(text=>{const li=document.createElement('li');li.textContent=text;return li;}));foldIconUsages(list);
 }
 window.addEventListener('message',event=>{if(event.data?.guide!=='playground-links')return;const frame=[...document.querySelectorAll('#icons-frame,#link-type-frame')].find(f=>f.contentWindow===event.source);if(!frame)return;frameLinkInventory.set(frame.id==='link-type-frame'?'Typography':'App Icons and Symbols',event.data.links);refreshLinkInventory();});
 refreshLinkInventory();

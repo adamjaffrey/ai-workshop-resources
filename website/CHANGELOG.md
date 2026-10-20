@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.230"
-  update_summary: "Refine Playground section controls, specimen rails and icon references"
-  updated_at: "Tue 20 Oct 2026 at 11:01:43 am AEDT (+11:00)"
+  doc_revision: "26.0.231"
+  update_summary: "Polish section interactions, icon galleries and URL examples"
+  updated_at: "Tue 20 Oct 2026 at 11:20:33 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.229 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 11:20:33 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Polish section interactions, icon galleries and URL examples
+
+### Changed
+
+- Extend section-header hover targets another 4px on each side, keep fixed button margins and reserve the page scrollbar gutter to avoid horizontal reflow during collapse. Collapsed chevrons now point left around their existing fixed pivot.
+- Collapse icon usage lists exceeding five locations into native disclosures, leaving source links independently visible. Reduce final App Icons row padding and size its iframe to the live contents, including optional sources.
+- Add presentation-only dividers above Playground H3 headings, without inserting redundant Markdown rules. Add working Copy buttons to URL code examples with brief Copied/Failed states and no explanatory messages.
+- Use Globe for URL Reference and Canonical Addresses and Page Titles, and the previously unused Split icon for Hostname Redirects. Place Easter Egg last in the tabs and canonical-path reference table.
+- Refresh measured icon bounds and advance the Playground layout cache key. This internal build retains saved anonymous backdrop geometry.
+
+### Validation
+
+- Interaction checks — passed rapid-click geometry at phone/desktop widths, left-facing chevrons, full-row hover extents, usage disclosure/source separation and clipboard success/failure.
+- Regression checks — passed all-section collapse and keyboard checks at four widths, URL Reference across themes/agents, source parity, gallery refinements and nested alignment at seven widths.
+- Build checks — passed source structure and production build; mobile code-panel screenshot visually reviewed. Physical-device testing was not performed.
 
 ## v26.0.228 — 2026-10-20
 

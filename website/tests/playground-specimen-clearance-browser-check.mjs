@@ -25,7 +25,7 @@ try{
   assert.equal(await page.locator('.playground-icon-entry:visible:not([data-icon-family=lucide])').count(),0);
   const cropped=page.locator('[data-catalog-variant=cropped]');
   assert.equal(await cropped.locator('h3 svg').getAttribute('viewBox'),'6 6 12 12');
-  assert.ok((await cropped.innerText()).includes('Typography → Resting Link'));
+  assert.ok((await cropped.textContent()).includes('Typography → Resting Link'));
   for(const [tab,frameId,selector] of [['icons','icons','.icon-sample'],['focus','focus','.focus-preview'],['errors','errors','.error-sample:has(.full-login-context)']]){
    await page.locator('#tab-'+tab).click();const frame=page.frameLocator('#'+frameId+'-frame');await frame.locator(selector).first().waitFor();
    const failures=await frame.locator(selector).evaluateAll(es=>es.filter(e=>e.checkVisibility()).flatMap(e=>{const r=e.getBoundingClientRect(),child=e.firstElementChild;if(!child)return [];const c=child.getBoundingClientRect(),padding=parseFloat(getComputedStyle(e).paddingLeft);return padding>=16&&c.left-r.left>=11.5?[]:[{class:e.className,padding,gap:c.left-r.left}];}));

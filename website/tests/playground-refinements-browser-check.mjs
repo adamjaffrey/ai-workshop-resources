@@ -17,7 +17,7 @@ try{
   for(const family of ['lobe','unicode','other']){await p.locator('#playground-icon-family input[value="'+family+'"]').check();assert.equal(await p.locator('.playground-icon-entry:visible').count(),0);assert.equal(await p.locator('#playground-icon-empty').isVisible(),true);}
   await p.locator('#playground-icon-family input[value="all"]').check();
   await p.locator('#tab-typography').click();await p.waitForTimeout(400);await p.locator('#tab-icons').click();
-  const uses=await p.locator('[data-catalog-variant="cropped"] ul').innerText();assert.match(uses,/Typography/);assert.match(uses,/lucide.dev/);assert.match(uses,/Licence/);
+  const uses=await p.locator('[data-catalog-variant="cropped"] ul').textContent();assert.match(uses,/Typography/);assert.match(uses,/lucide.dev/);assert.match(uses,/Licence/);
   for(const tab of await p.locator('[data-tab]').all()){
    await tab.click();await p.waitForTimeout(80);
    const issues=await p.evaluate(ink=>[...document.querySelectorAll('[data-panel]:not([hidden]) .section-heading h2')].flatMap(h=>{const i=h.querySelector(':scope>svg'),m=ink.icons[i?.dataset.iconName];if(!i||!m)return[];const r=i.getBoundingClientRect(),t=h.getBoundingClientRect(),centre=r.top+(r.height-m.bottom*r.height/24+m.top*r.height/24)/2,want=t.top+parseFloat(getComputedStyle(h).paddingTop)+Number(h.dataset.capCentre);return Math.abs(centre-want)>.8?[{title:h.textContent,centre,want}]:[];}),ink);assert.deepEqual(issues,[],'Heading ink centres match cap height');

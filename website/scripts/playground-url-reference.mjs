@@ -18,7 +18,7 @@ export function renderUrlReference(markdown,renderHeading){
   if(line.startsWith('### ')){html+='<h3 class="url-reference-subheading">'+renderHeading(line.slice(4))+'</h3>';continue;}
   if(line.startsWith('```')){
    const code=[];while(++i<lines.length&&!lines[i].startsWith('```'))code.push(lines[i]);
-   html+='<div class="url-code-block code-wrap"><div class="code-header"><span class="code-label">'+escape(line.slice(3).trim()||'Example')+'</span></div><pre tabindex="0" aria-label="Code Example"><code>'+escape(code.join('\n'))+'</code></pre></div>';continue;
+   html+='<div class="url-code-block code-wrap"><div class="code-header"><span class="code-label">'+escape(line.slice(3).trim()||'Example')+'</span><button type="button" class="url-copy" aria-live="polite">Copy</button></div><pre tabindex="0" aria-label="Code Example"><code>'+escape(code.join('\n'))+'</code></pre></div>';continue;
   }
   if(line.startsWith('|')){
    const rows=[];do{rows.push(lines[i]);i++;}while(i<lines.length&&lines[i].startsWith('|'));i--;
@@ -46,13 +46,32 @@ export const urlReferenceCSS=`
 #panel-url-reference th{color:var(--text)}
 #panel-url-reference code{font:0.9em/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
 #panel-url-reference .url-code-block{position:relative;margin:16px -4px;border:1px solid var(--panel-border);border-radius:12px;background:var(--content-surface);color:var(--text)}
-#panel-url-reference .code-header{min-height:56px;display:flex;align-items:center;border-bottom:1px solid var(--panel-border);padding:12px 20px}
+#panel-url-reference .code-header{min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--panel-border);padding:12px 20px}
 #panel-url-reference .code-label{font-size:12px;color:var(--muted-text)}
 #panel-url-reference pre{white-space:pre-wrap;margin:0;padding:16px 20px;font:14px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;max-height:320px;overflow:auto;border-radius:0 0 11px 11px}
 #panel-url-reference pre code{font:inherit;color:inherit}
 #panel-url-reference pre:focus-visible{outline:3px solid var(--icon-ink);outline-offset:3px}
 #panel-url-reference li+li{margin-top:8px}
 #panel-url-reference h3{margin-top:24px}
+.url-copy[data-result=success]{color:var(--success)}
+.url-copy[data-result=error]{color:var(--error)}
+.icon-usages summary{display:flex;align-items:center;gap:4px;cursor:pointer}
+.icon-usages summary::-webkit-details-marker{display:none}
+.icon-usages summary{list-style:none}
+.icon-usages[open] summary>svg{transform:rotate(90deg)}
+.icon-usages ul{margin-left:22px;padding-left:20px}
 .url-reference-subheading{display:flex;align-items:flex-start;gap:12px;line-height:1.5}
 .url-reference-subheading>svg{flex:none;margin-top:calc((1.5em - 24px)/2)}
+`;
+
+export const urlReferenceScript=String.raw`
+for(const button of document.querySelectorAll('.url-copy')){
+ let reset;
+ button.addEventListener('click',async()=>{
+  const text=button.closest('.url-code-block').querySelector('pre code').textContent;
+  let success=false;
+  try{if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text);success=true;}else{const field=document.createElement('textarea');field.value=text;field.style.cssText='position:fixed;top:0;left:-10000px';document.body.append(field);try{field.select();success=document.execCommand('copy');}finally{field.remove();button.focus({preventScroll:true});}}}catch{}
+  clearTimeout(reset);button.dataset.result=success?'success':'error';button.textContent=success?'Copied':'Failed';reset=setTimeout(()=>{delete button.dataset.result;button.textContent='Copy';},2000);
+ });
+}
 `;

@@ -30,7 +30,7 @@ try{
   await page.locator('#tab-components').click();const first=page.locator('#login-preview .section-collapse');await first.click();await page.locator('#tab-icons').click();await page.locator('#tab-components').click();assert.equal(await first.getAttribute('aria-expanded'),'false','State lasts within the current page');if([390,1440].includes(width)){await first.scrollIntoViewIfNeeded();await page.waitForTimeout(150);await page.screenshot({path:'/tmp/playground-collapse-'+width+'.png'});}
   await page.reload();assert.equal(await page.locator('[data-collapsed]').count(),0,'Reload expands every tab');
   await page.locator('#login-preview .preview-expand').click();assert.equal(await first.isVisible(),false,'Fullscreen keeps its existing controls');await page.keyboard.press('Escape');assert.equal(await first.isVisible(),true);
-  await page.locator('#tab-icons').click();assert.ok((await page.locator('[data-catalog-icon="chevron-down"]').innerText()).includes('toggle-playground-section'),'New icon appears in Playground catalogue');
+  await page.locator('#tab-icons').click();assert.ok((await page.locator('[data-catalog-icon="chevron-down"]').textContent()).includes('toggle-playground-section'),'New icon appears in Playground catalogue');
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
  }
  assert.deepEqual(errors,[]);console.log('PASS: all section controls, optical alignment, keyboard/pointer toggles, reflow, fullscreen compatibility and reload reset at four widths');

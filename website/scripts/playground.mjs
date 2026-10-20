@@ -1,7 +1,7 @@
 import {galleryMaintenanceScript} from './playground-gallery-maintenance.mjs';
 import {headingCapCSS,headingCapScript} from './playground-heading-alignment.mjs';
-import {__iconNode as referenceIcon0} from '../node_modules/lucide-react/dist/esm/icons/map-pin-house.mjs';
-import {__iconNode as referenceIcon1} from '../node_modules/lucide-react/dist/esm/icons/globe.mjs';
+import {__iconNode as referenceIcon0} from '../node_modules/lucide-react/dist/esm/icons/globe.mjs';
+import {__iconNode as referenceIcon1} from '../node_modules/lucide-react/dist/esm/icons/split.mjs';
 import {__iconNode as referenceIcon2} from '../node_modules/lucide-react/dist/esm/icons/case-sensitive.mjs';
 import {__iconNode as referenceIcon3} from '../node_modules/lucide-react/dist/esm/icons/folders.mjs';
 import {__iconNode as referenceIcon4} from '../node_modules/lucide-react/dist/esm/icons/folder-tree.mjs';
@@ -16,7 +16,7 @@ import {__iconNode as referenceIcon12} from '../node_modules/lucide-react/dist/e
 import {__iconNode as referenceIcon13} from '../node_modules/lucide-react/dist/esm/icons/library-big.mjs';
 import {sectionCollapseCSS,sectionCollapseScript} from './playground-section-collapse.mjs';
 import {resourcesShortcutScript} from '../lib/workshop-playground-shortcut.mjs';
-import {urlReferencePanel,urlReferenceCSS} from './playground-url-reference.mjs';
+import {urlReferencePanel,urlReferenceCSS,urlReferenceScript} from './playground-url-reference.mjs';
 import {playgroundPlaceholderPreviewScript} from '../lib/workshop-playground-placeholder.mjs';
 import {updateFooterWrap} from '../lib/workshop-footer-layout.mjs';
 import {assertMeasuredHeadingIcon} from '../lib/workshop-alignment.mjs';
@@ -87,8 +87,8 @@ const panelHeadingIcons=new Map([
   ['Easter Egg', [headingIcon14, 'egg']]
 ]);
 const urlHeadingIcons=new Map([
- ['Canonical Addresses and Page Titles',[referenceIcon0,'map-pin-house']],
- ['Hostname Redirects',[referenceIcon1,'globe']],
+ ['Canonical Addresses and Page Titles',[referenceIcon0,'globe']],
+ ['Hostname Redirects',[referenceIcon1,'split']],
  ['Global Canonicalisation',[referenceIcon2,'case-sensitive']],
  ['Resources Aliases',[referenceIcon3,'folders']],
  ['Playground Root Aliases',[referenceIcon4,'folder-tree']],
@@ -128,7 +128,7 @@ for(const [page,html] of [['Resources',resourcePage],['Login',loginPage]])for(co
 for(const [page,html] of [['Resources',resourcePage],['Login',loginPage]])for(const m of html.matchAll(/<([a-z][a-z0-9-]*)\b[^>]*?\s(fill|stroke|style)="([^"]*)"/gi))if(/#[0-9a-f]|\bwhite\b|\bblack\b|currentColor|transparent|color:|background:/i.test(m[3]))colourRules.push({page,selector:m[1]+' [markup attribute]',property:m[2],value:m[3]});
 const radios=(id,label,options)=>`<fieldset class="choices" id="${id}"><legend>${label}</legend><div class="choice-options">${options.map(([value,text],i)=>`<label class="choice"><input type="radio" name="${id}" value="${value}" ${i?'':'checked'}><span>${text}</span></label>`).join('')}</div></fieldset>`;
 const bridge=`
-window.addEventListener('message',e=>{if(e.source!==parent||e.data?.guide!=='measure-reference')return;window.workshopStickyControls?.refresh();document.querySelectorAll('.segmented-toggle').forEach(toggle=>window.layoutWorkshopToggle?.(toggle));const content=document.getElementById('type-specimens')||document.getElementById('icon-catalog')||document.getElementById('error-catalog');if(content?.getBoundingClientRect().width)parent.postMessage({guide:'reference-height',height:Math.ceil(content.getBoundingClientRect().height+(content.id==='type-specimens'?0:48))},'*');});
+window.addEventListener('message',e=>{if(e.source!==parent||e.data?.guide!=='measure-reference')return;window.workshopStickyControls?.refresh();document.querySelectorAll('.segmented-toggle').forEach(toggle=>window.layoutWorkshopToggle?.(toggle));const content=document.getElementById('type-specimens')||document.getElementById('icon-catalog')||document.getElementById('error-catalog');if(content?.getBoundingClientRect().width)parent.postMessage({guide:'reference-height',height:Math.ceil(content.getBoundingClientRect().height+(content.id==='type-specimens'?0:content.id==='icon-catalog'?40:48))},'*');});
 document.addEventListener('workshop:open-playground',event=>{event.preventDefault();parent.postMessage({guide:'notice',text:'Playground shortcut activated. Navigation is disabled in this specimen.'},'*');});
 let copyFailure=false;
 Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async()=>{if(copyFailure)throw Error('Simulated copy failure');}}});
@@ -368,7 +368,7 @@ ${urlReferenceCSS}
  ${radios('width','Screen Width',[['fluid','Fit'],['320','320px'],['390','390px'],['768','768px'],['1440','1440px']])}
  <div>${radios('hover','Hover Preview',[['off','Normal Interaction'],['on','Force Hover States']])}<details class="hover-help"><summary>How Hover Preview Works</summary><p class="inspector-hint">Force Hover States keeps all supported hover appearances visible in the previews, without pointing at each item. Normal Interaction restores browser behaviour. On touch screens, select Force Hover States; no long press is needed. Examples remain clickable. On touch screens without hover, tap the QR code once to reveal Copy Link, then again to simulate copying.</p></details></div>
  </div></div>
- <main class="wrap"><nav role="tablist" aria-label="Playground Sections">${['Components','Typography','Colours','Blocks','Icons','Errors','Focus','Branding','Discovery','url-reference'].map((s,i)=>`<button type="button" role="tab" id="tab-${s.toLowerCase()}" data-tab="${s.toLowerCase()}" aria-controls="panel-${s.toLowerCase()}" aria-selected="${!i}" tabindex="${i?-1:0}">${s==='url-reference'?'URL Reference':s==='Discovery'?'Easter Egg':s==='Blocks'?'Blocks and Blur':s==='Errors'?'Status States':s==='Focus'?'Focus and Selection':s}</button>`).join('')}</nav>
+ <main class="wrap"><nav role="tablist" aria-label="Playground Sections">${['Components','Typography','Colours','Blocks','Icons','Errors','Focus','Branding','url-reference','Discovery'].map((s,i)=>`<button type="button" role="tab" id="tab-${s.toLowerCase()}" data-tab="${s.toLowerCase()}" aria-controls="panel-${s.toLowerCase()}" aria-selected="${!i}" tabindex="${i?-1:0}">${s==='url-reference'?'URL Reference':s==='Discovery'?'Easter Egg':s==='Blocks'?'Blocks and Blur':s==='Errors'?'Status States':s==='Focus'?'Focus and Selection':s}</button>`).join('')}</nav>
 
 
  <div data-panel="components" id="panel-components" role="tabpanel" aria-labelledby="tab-components" tabindex="0"><dialog open class="panel preview-dialog" id="login-preview" role="region" aria-labelledby="login-preview-title"><div class="section-heading"><h2 id="login-preview-title" tabindex="-1" data-panel-heading>${panelHeading('Login and Password Field')}</h2><button type="button" id="reset" class="icon-button" aria-label="Reset Specimens" title="Reset Specimens">${lucide(resetIcon)}<span>Reset</span></button><button class="preview-expand" type="button" aria-label="Expand Preview" title="Expand Preview" aria-expanded="false"><span class="expand-icon">${lucide(expandIcon)}</span><span class="contract-icon" hidden>${lucide(contractIcon)}</span></button></div><details class="preview-settings" hidden><summary>Style Options</summary><div class="expanded-global-controls"></div></details><details class="preview-state-settings" hidden open><summary>Preview Controls</summary><div class="expanded-state-controls"></div></details><p class="muted">Source: workshop-pages.mjs + workshop-handler.mjs + workshop-login-messages.mjs. Real login markup, CSS, status renderer and shared messages, with persistent simulated outcomes. The app has a password field; no separate text-field component is defined. Click the input to inspect its focus ring; typing clears an incorrect-password error.</p><div class="state-tools">${radios('login-destination','Login Destination',[['resources','Resources'],['playground','Playground']])}${radios('state','Held Login State',[['neutral','Neutral'],['loading','Checking'],['success','Success'],['wrong','Incorrect Password'],['empty','Empty Field'],['network','Network Error'],['service','Service Error'],['generic','Unexpected Error'],['limited','Rate Limited'],['limitedLater','Rate Limit Without Timer'],['retryReady','Retry Available']])}</div><div class="frame-wrap"><iframe id="login-frame" title="Interactive Login Specimen" sandbox="allow-scripts" srcdoc="${esc(login)}"></iframe></div></dialog>
@@ -523,6 +523,7 @@ ${urlReferenceCSS}
   track.updateSelection=animate=>{update(animate);centre();};track.addEventListener('change',()=>{update(true);centre();});new ResizeObserver(centre).observe(track);update(false);centre();
  });
  ${playgroundStickyControlsScript}
+ ${urlReferenceScript}
  ${sectionCollapseScript}
  ${playgroundIconCatalogScript}
  ${headingCapScript}

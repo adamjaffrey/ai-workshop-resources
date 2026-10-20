@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.5"
-  update_summary: "Match canonical Playground section rows to tab order"
-  updated_at: "Tue 20 Oct 2026 at 11:01:03 am AEDT (+11:00)"
+  doc_revision: "26.0.6"
+  update_summary: "Place Easter Egg last and document code example copying"
+  updated_at: "Tue 20 Oct 2026 at 11:19:59 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -103,8 +103,8 @@ Section aliases work under the canonical Playground root and every root alias ab
 | `/component-playground/status-states` | `error`, `errors`, `status`, `statuses`, `state`, `states`, `status-state`, `statuses-state`, `statuses-states` |
 | `/component-playground/focus-and-selection` | `focus`, `focuses`, `foci`, `selection`, `selections`, `focus-and-selections`, `focuses-and-selection`, `focuses-and-selections`, `foci-and-selection`, `foci-and-selections` |
 | `/component-playground/branding` | `brand`, `brands`, `brandings` |
-| `/component-playground/easter-egg` | `discovery`, `discoveries`, `easter`, `easters`, `egg`, `eggs`, `easter-eggs`, `easters-egg`, `easters-eggs` |
 | `/component-playground/url-reference` | `url`, `urls`, `reference`, `references`, `url-references`, `urls-reference`, `urls-references` |
+| `/component-playground/easter-egg` | `discovery`, `discoveries`, `easter`, `easters`, `egg`, `eggs`, `easter-eggs`, `easters-egg`, `easters-eggs` |
 
 ```text
 /styles-guides/foci-and-selections/example
@@ -194,7 +194,7 @@ This is one application 301. It selects Claude Code and dark theme, revokes the 
 
 ## Playground Reference and Logo Navigation
 
-The Playground’s URL Reference tab at `/component-playground/url-reference` renders this document, including URL mappings and query parameter strings. Examples are non-clickable text, so inspecting `show-login=true` cannot accidentally log you out. Future URL or query changes must update this document and its Playground representation together.
+The Playground’s URL Reference tab at `/component-playground/url-reference` renders this document, including URL mappings and query parameter strings. Examples do not navigate, so inspecting `show-login=true` cannot accidentally log you out. Fenced code examples have a Copy button with brief Copied or Failed feedback. Future URL or query changes must update this document and its Playground representation together.
 
 Three primary-button clicks or taps on the Wavelength header brand within three seconds open the other page in a new tab/window (`_blank`, `noopener,noreferrer`). Resources opens `/component-playground`; Playground opens `/ai-workshop-resources`. Both use canonical paths and the same gesture handler. The original page stays open. Other clicks, window blur or visibility changes reset the sequence.
 
