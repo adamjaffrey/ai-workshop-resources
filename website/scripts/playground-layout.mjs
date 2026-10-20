@@ -116,7 +116,8 @@ summary,summary *,.hover-explainer,.hover-explainer *{cursor:pointer!important}
 .toolbar #global-style-controls>div:not(.primary-style-choices){max-width:none}
 
 /* Labels scroll normally; only the desktop control rails persist. */
-.toolbar{position:relative;top:auto}
+.toolbar{position:relative;top:auto;overflow-anchor:none}
+.tab-scroll-anchor,.tab-scroll-shell{overflow-anchor:none}
 .toolbar.controls-pinned{height:var(--toolbar-flow-height)}
 .toolbar.controls-pinned::before{content:'';position:fixed;inset:0 0 auto;height:var(--toolbar-pinned-height);background:var(--surface);border-bottom:1px solid var(--border)}
 .playground-heading~.toolbar.controls-pinned #global-style-controls{position:fixed;top:0;left:50%;transform:translateX(-50%);padding-top:24px;padding-bottom:40px;align-items:flex-start}
@@ -126,11 +127,13 @@ summary,summary *,.hover-explainer,.hover-explainer *{cursor:pointer!important}
 .toolbar.controls-pinned .hover-explainer{visibility:hidden}
 main.wrap{padding-top:24px}
 .tab-scroll-shell{height:var(--tab-row-height);margin:0 0 16px;position:sticky;top:var(--sticky-tab-top,0px);z-index:11;background:var(--page);box-shadow:none}
-.tab-scroll-shell nav[role=tablist]{padding-top:0;--overflow-feather:108px;--overflow-shoulder:36px}
+.choice-options,nav[role=tablist]{--overflow-feather:108px;--overflow-shoulder:36px}
+.tab-scroll-shell nav[role=tablist]{padding-top:0}
 .tab-scroll-shell nav[role=tablist] button[aria-selected=true]{background:color-mix(in srgb,var(--agent-accent) 8%,var(--page))}
 .tab-scroll-shell::before{content:'';position:absolute;inset:-24px 0 100%;background:var(--page);pointer-events:none}
 @media(max-width:660px){
- .tab-scroll-shell{top:0;margin-bottom:136px}
+ .tab-scroll-shell{top:0;margin-bottom:16px}
+ .tab-scroll-shell::before{top:-100vh;left:calc((100% - 100vw)/2);right:calc((100% - 100vw)/2);opacity:var(--mobile-header-fill,0)}
  .tab-scroll-shell.is-pinned::before{top:-100vh;left:calc((100% - 100vw)/2);right:calc((100% - 100vw)/2)}
  body>#style-options{top:var(--floating-tools-top,24px);right:24px}
  #back-to-top{top:calc(var(--floating-tools-top,24px) + 56px);right:24px}
@@ -193,13 +196,26 @@ for(const tab of document.querySelectorAll('[data-tab]')){
  if(!source)throw Error('Missing first panel icon for '+tab.dataset.tab);
  const icon=source.cloneNode(true);icon.dataset.iconUse='playground-tab-'+tab.dataset.tab;tab.prepend(icon);
 }
-function centerPlaygroundTab(tab){
- if(!tab)return;
- const nav=tab.parentElement;
- if(!matchMedia('(max-width:660px)').matches){const r=tab.getBoundingClientRect(),n=nav.getBoundingClientRect();if(r.left<n.left)nav.scrollLeft+=r.left-n.left;else if(r.right>n.right)nav.scrollLeft+=r.right-n.right;return;}
- const r=tab.getBoundingClientRect(),n=nav.getBoundingClientRect();
- nav.scrollTo({left:nav.scrollLeft+r.left+r.width/2-n.left-nav.clientWidth/2,behavior:'instant'});
+// Keep selected items clear of the same fade that the track renders.
+function revealPlaygroundOption(track,item){
+ if(!item||!track.clientWidth)return;
+ const items=[...track.children].filter(e=>e.matches('.choice,[role=tab]'));
+ const max=Math.max(0,track.scrollWidth-track.clientWidth);
+ const r=item.getBoundingClientRect(),t=track.getBoundingClientRect();
+ let left=track.scrollLeft;
+ if(item===items[0])left=0;
+ else if(item===items.at(-1))left=max;
+ else if(matchMedia('(max-width:660px)').matches)left+=r.left+r.width/2-t.left-track.clientWidth/2;
+ else{
+  const fade=parseFloat(getComputedStyle(track).getPropertyValue('--overflow-feather'))||108;
+  const clearance=Math.min(fade,Math.max(0,(track.clientWidth-r.width)/2));
+  if(r.left<t.left+clearance)left+=r.left-t.left-clearance;
+  else if(r.right>t.right-clearance)left+=r.right-t.right+clearance;
+ }
+ track.scrollTo({left:Math.max(0,Math.min(max,left)),behavior:'instant'});
 }
+function centerPlaygroundTab(tab){if(tab)revealPlaygroundOption(tab.parentElement,tab);}
+
 `;
 
 // The original toolbar footprint prevents layout jumps when its controls pin.
@@ -207,7 +223,7 @@ export const playgroundStickyControlsScript=String.raw`
 const stickyToolbar=document.querySelector('.toolbar'),stickyControls=document.getElementById('global-style-controls');
 let stickyThreshold=Infinity,stickyWidth=0;
 function setStickyMetrics(){
- const height=stickyControls.getBoundingClientRect().height;
+ const height=Math.ceil(stickyControls.getBoundingClientRect().height);
  stickyToolbar.style.setProperty('--toolbar-pinned-height',height+'px');
  document.documentElement.style.setProperty('--sticky-tab-top',(innerWidth<=660?0:stickyToolbar.classList.contains('controls-pinned')?height+25:24)+'px');
  document.documentElement.style.setProperty('--toolbar-height',(stickyToolbar.classList.contains('controls-pinned')?height:stickyToolbar.offsetHeight)+'px');
@@ -216,7 +232,7 @@ function updateStickyControls(){
  const eligible=innerWidth>660&&stickyControls.parentElement===stickyToolbar;
  stickyToolbar.style.setProperty('--toolbar-label-opacity',String(eligible?Math.max(0,Math.min(1,(stickyThreshold-scrollY)/64)):1));stickyToolbar.classList.toggle('controls-pinned',eligible&&scrollY>=stickyThreshold);
  setStickyMetrics();
- const tabs=document.querySelector('.tab-scroll-shell'),top=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sticky-tab-top'));tabs.classList.toggle('is-pinned',tabs.getBoundingClientRect().top<=top+.5);updateFloatingTools();
+ const tabs=document.querySelector('.tab-scroll-shell'),top=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sticky-tab-top'));const distance=tabs.getBoundingClientRect().top-top;tabs.classList.toggle('is-pinned',distance<=.5);tabs.style.setProperty('--mobile-header-fill',String(Math.max(0,Math.min(1,1-distance/64))));updateFloatingTools();
 }
 function measureStickyControls(){
  stickyToolbar.classList.remove('controls-pinned');
@@ -231,7 +247,7 @@ function scrollToPlaygroundTab(){
  const anchor=document.querySelector('.tab-scroll-anchor'),y=anchor.getBoundingClientRect().top+scrollY;
  window.scrollTo({top:y,behavior:'instant'});updateStickyControls();
  const top=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sticky-tab-top'))||0;
- window.scrollTo({top:y-top,behavior:'instant'});updateStickyControls();
+ window.scrollTo({top:Math.ceil(y-top),behavior:'instant'});updateStickyControls();
 }
 addEventListener('scroll',updateStickyControls,{passive:true});
 addEventListener('resize',measureStickyControls);

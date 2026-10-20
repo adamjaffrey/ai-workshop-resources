@@ -523,7 +523,7 @@ ${urlReferenceCSS}
  document.querySelectorAll('.choice-options').forEach(track=>{
   const shell=document.createElement('div');shell.className='choice-shell';track.before(shell);shell.append(track);
   const update=window.createWorkshopToggle(track,{targetSelector:'.choice',selectionSelector:'.choice:has(input:checked)',directOnly:true});
-  const centre=()=>{const selected=track.querySelector('input:checked')?.closest('.choice');if(!selected||!track.clientWidth)return;const r=selected.getBoundingClientRect(),t=track.getBoundingClientRect();track.scrollTo({left:track.scrollLeft+r.left+r.width/2-t.left-track.clientWidth/2,behavior:'instant'});};
+  const centre=()=>revealPlaygroundOption(track,track.querySelector('input:checked')?.closest('.choice'));
   track.updateSelection=animate=>{update(animate);centre();};track.addEventListener('change',()=>{update(true);centre();});new ResizeObserver(centre).observe(track);update(false);centre();
  });
  ${playgroundStickyControlsScript}

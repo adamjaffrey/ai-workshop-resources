@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.239"
-  update_summary: "Refine pinned labels, overflow fades and selector hover layers"
-  updated_at: "Tue 20 Oct 2026 at 02:25:27 pm AEDT (+11:00)"
+  doc_revision: "26.0.240"
+  update_summary: "Align selections clear of fades and stabilise sticky navigation"
+  updated_at: "Tue 20 Oct 2026 at 02:47:58 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.238 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 02:47:58 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Align selections clear of fades and stabilise sticky navigation
+
+### Changed
+
+- Share the 108px overflow fade and 36px shoulder between tabs and selector rails. Align first/last options to their scroll boundaries, centre middle options on mobile, and move tablet/desktop selections only when obscured by the fade.
+- Round sticky landing coordinates upward and exclude sticky controls from browser scroll anchoring. Retain the established tab-click landing position.
+- Restore the 16px mobile panel gap and fade in background coverage above the tab bar as it approaches the viewport top, preserving stacked floating tools.
+- Restore expanded URL H3 spacing and reduce the gap after collapsed H3 sections by 4px.
+- Document the shared selection visibility rules and mobile spacing.
+
+### Validation
+
+- Focused browser checks — passed first-scroll stability after every tab at phone, tablet and desktop widths, selection clearance, edge alignment, mobile spacing and collapsed H3 spacing.
+- Selector colour comparison — passed identical Resources agent/theme track backgrounds and matching Resources/Playground hover fills in both themes; no palette change needed.
+- Full Playground regression, seven-width external/nested alignment, tab edges, overflow hints, 180 scroll regions, sticky and expanded-view checks — passed.
+- Structure tests and local production build — passed. Mobile and desktop screenshots inspected. The reported flicker was not reproduced before the stabilisation change; physical-device translucent browser chrome remains unverified.
 
 ## v26.0.237 — 2026-10-20
 
