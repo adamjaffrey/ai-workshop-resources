@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.12"
-  update_summary: "Record native selection painting and compact QR geometry"
-  updated_at: "Tue 20 Oct 2026 at 11:58:12 pm AEDT (+11:00)"
+  doc_revision: "26.0.13"
+  update_summary: "Use 9px caption gaps for optical QR spacing"
+  updated_at: "Wed 21 Oct 2026 at 12:08:30 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -306,7 +306,7 @@ Adam requested these gallery refinements to compare real component dimensions, r
 
 ## QR Corner Geometry
 
-**Decision:** Size the shared card to its content, with 12px at the QR top/sides, 12px between QR and caption line box, and 12px below the caption. Paint the QR image outline inward. This replaces the stretched grid width that added 8px of unused space on the right; the optical outdent must move the card without widening it. The later pre-split correction derives the inner QR link radius from the outer card radius minus padding and border, with the image inheriting the result. It superseded an earlier attempt to give all nested edges the same radius. The recorded example was 16px − 14px − 1px = 1px; it is historical geometry, not a universal radius to copy into another component.
+**Decision:** Size the shared card to its content, with 12px at the QR top/sides, 9px between QR and caption line box, and 9px below the caption. The smaller caption gaps account for internal font leading and target approximately 12px of visible clearance. Paint the QR image outline inward. This replaces the stretched grid width that added 8px of unused space on the right; the optical outdent must move the card without widening it. The later pre-split correction derives the inner QR link radius from the outer card radius minus padding and border, with the image inheriting the result. It superseded an earlier attempt to give all nested edges the same radius. The recorded example was 16px − 14px − 1px = 1px; it is historical geometry, not a universal radius to copy into another component.
 
 **Rationale:** Documented: nested corners should be concentric and the keyboard focus outline should follow the same geometry. Subtracting inset distances preserves that relationship instead of matching unrelated bounding radii.
 

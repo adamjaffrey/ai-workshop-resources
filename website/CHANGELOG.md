@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.259"
-  update_summary: "Compact QR spacing and text-range selection previews"
-  updated_at: "Wed 21 Oct 2026 at 12:02:57 am AEDT (+11:00)"
+  doc_revision: "26.0.260"
+  update_summary: "Tighten QR caption spacing for optical balance"
+  updated_at: "Wed 21 Oct 2026 at 12:09:01 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.258 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 12:09:01 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Tighten QR caption spacing for optical balance
+
+### Changed
+
+- Use 9px above and below the QR caption line box, targeting approximately 12px of visible clearance after font leading. Keep QR top and side padding at 12px in the shared app source and derived specimens.
+- Update the owning guidance and existing regression expectations to match the requested spacing.
+
+### Validation
+
+- Source syntax and diff checks — passed.
+- `npm --prefix website run build` — passed; generated v26.0.258 displays verified, saved backdrop geometry reused.
+- Geometry remeasurement and browser geometry checks — deferred at the user’s request pending visual build approval.
 
 ## v26.0.257 — 2026-10-21
 
