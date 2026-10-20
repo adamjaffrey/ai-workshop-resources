@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.241"
-  update_summary: "Balance URL headings and refine selector and mobile backgrounds"
-  updated_at: "Tue 20 Oct 2026 at 03:05:58 pm AEDT (+11:00)"
+  doc_revision: "26.0.242"
+  update_summary: "Make the mobile sticky header eligible for browser edge tinting"
+  updated_at: "Tue 20 Oct 2026 at 03:12:29 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.240 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 03:12:29 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Make the mobile sticky header eligible for browser edge tinting
+
+### Changed
+
+- Make the actual mobile sticky tab container viewport-wide while preserving its 24px inner tab inset and inset divider. Apply the layout to all mobile browsers without user-agent detection; retain desktop and tablet geometry.
+- Remove the separate fixed background sibling. WebKit's edge heuristic examines the hit-tested element and its ancestors, requiring approximately viewport-wide containers; the narrower tab ancestor could hide that sibling from detection.
+- Retain the existing above-header background, scroll landing, floating tools and 16px panel gap. Document the ancestor requirement in repository instructions.
+
+### Validation
+
+- Focused mobile ancestor, tab-edge, sticky, all-tab scroll and seven-width external/nested alignment checks — passed; confirmed the top-edge hit target belongs to the viewport-wide sticky container and tab content remains inset.
+- Structure tests, full Playground regression, local production build and LAN app/Playground/login verification — passed.
+- Mobile screenshot inspected. WebKit source review identified a concrete mismatch with its sampling heuristic; the actual ChatGPT iOS embedded toolbar still requires physical-device confirmation.
 
 ## v26.0.239 — 2026-10-20
 

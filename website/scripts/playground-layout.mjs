@@ -132,11 +132,10 @@ main.wrap{padding-top:24px}
 .tab-scroll-shell nav[role=tablist]{padding-top:0}
 .tab-scroll-shell nav[role=tablist] button[aria-selected=true]{background:color-mix(in srgb,var(--agent-accent) 8%,var(--page))}
 .tab-scroll-shell::before{content:'';position:absolute;inset:-24px 0 100%;background:var(--page);pointer-events:none}
-.mobile-tab-backdrop{display:none}
 @media(max-width:660px){
- .mobile-tab-backdrop{display:block;position:fixed;inset:0 0 auto;height:var(--mobile-tab-height,48px);background:var(--page);opacity:var(--mobile-header-fill,0);pointer-events:none;z-index:10}
- .mobile-tab-backdrop::before{content:"";position:absolute;inset:-100vh 0 100%;background:inherit}
- .tab-scroll-shell{top:0;margin-bottom:16px}
+ /* WebKit samples the hit-tested fixed/sticky ancestor, not a backdrop sibling. */
+ .tab-scroll-shell.mobile-edge-header{top:0;margin-bottom:16px;width:100vw;margin-inline:calc((100% - 100vw)/2);padding-inline:24px;box-sizing:border-box}
+ .tab-scroll-shell::after{left:24px;right:24px}
  .tab-scroll-shell::before{top:-100vh;left:calc((100% - 100vw)/2);right:calc((100% - 100vw)/2);opacity:var(--mobile-header-fill,0)}
  .tab-scroll-shell.is-pinned::before{top:-100vh;left:calc((100% - 100vw)/2);right:calc((100% - 100vw)/2)}
  body>#style-options{top:var(--floating-tools-top,24px);right:24px}
@@ -157,10 +156,9 @@ main.wrap{padding-top:24px}
 `;
 
 export const playgroundLayoutScript=String.raw`
-const tabRail=document.querySelector('nav[role=tablist]'),tabShell=document.createElement('div');tabShell.className='tab-scroll-shell';const tabAnchor=document.createElement('div');tabAnchor.className='tab-scroll-anchor';tabRail.before(tabAnchor,tabShell);tabShell.append(tabRail);
+const tabRail=document.querySelector('nav[role=tablist]'),tabShell=document.createElement('div');tabShell.className='tab-scroll-shell mobile-edge-header';const tabAnchor=document.createElement('div');tabAnchor.className='tab-scroll-anchor';tabRail.before(tabAnchor,tabShell);tabShell.append(tabRail);
 // Keep the native scrollbar in the lower gap, outside the tab row's layout height.
-const mobileTabBackdrop=document.createElement('div');mobileTabBackdrop.className='mobile-tab-backdrop';mobileTabBackdrop.setAttribute('aria-hidden','true');document.body.append(mobileTabBackdrop);
-const measureTabRow=()=>{const height=tabRail.querySelector('button').getBoundingClientRect().height+'px';tabShell.style.setProperty('--tab-row-height',height);mobileTabBackdrop.style.setProperty('--mobile-tab-height',height);};
+const measureTabRow=()=>{const height=tabRail.querySelector('button').getBoundingClientRect().height+'px';tabShell.style.setProperty('--tab-row-height',height);};
 new ResizeObserver(measureTabRow).observe(tabRail);document.fonts.ready.then(measureTabRow);measureTabRow();
 const updateFloatingTools=()=>{const brand=document.querySelector('.playground-brand-row').getBoundingClientRect();document.documentElement.style.setProperty('--floating-tools-top',(innerWidth<=660?Math.max(24,brand.top+(brand.height-48)/2,tabShell.getBoundingClientRect().height+12-Math.max(0,tabShell.getBoundingClientRect().top)):Math.max(24,brand.top+(brand.height-48)/2))+'px');};
 addEventListener('scroll',updateFloatingTools,{passive:true});addEventListener('resize',updateFloatingTools);updateFloatingTools();
@@ -237,7 +235,7 @@ function updateStickyControls(){
  const eligible=innerWidth>660&&stickyControls.parentElement===stickyToolbar;
  stickyToolbar.style.setProperty('--toolbar-label-opacity',String(eligible?Math.max(0,Math.min(1,(stickyThreshold-scrollY)/64)):1));stickyToolbar.classList.toggle('controls-pinned',eligible&&scrollY>=stickyThreshold);
  setStickyMetrics();
- const tabs=document.querySelector('.tab-scroll-shell'),top=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sticky-tab-top'));const distance=tabs.getBoundingClientRect().top-top;tabs.classList.toggle('is-pinned',distance<=.5);const fill=String(Math.max(0,Math.min(1,1-distance/64)));tabs.style.setProperty('--mobile-header-fill',fill);mobileTabBackdrop.style.setProperty('--mobile-header-fill',fill);updateFloatingTools();
+ const tabs=document.querySelector('.tab-scroll-shell'),top=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sticky-tab-top'));const distance=tabs.getBoundingClientRect().top-top;tabs.classList.toggle('is-pinned',distance<=.5);const fill=String(Math.max(0,Math.min(1,1-distance/64)));tabs.style.setProperty('--mobile-header-fill',fill);updateFloatingTools();
 }
 function measureStickyControls(){
  stickyToolbar.classList.remove('controls-pinned');
