@@ -3,14 +3,45 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.255"
-  update_summary: "Remove redundant specimen sizing overrides"
-  updated_at: "Tue 20 Oct 2026 at 09:24:58 pm AEDT (+11:00)"
+  doc_revision: "26.0.256"
+  update_summary: "Align specimen paint and preserve meaningful overflow"
+  updated_at: "Tue 20 Oct 2026 at 10:24:12 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.254 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 10:24:12 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Align specimen paint and preserve meaningful overflow
+
+### Fixed
+
+- Align the isolated QR caption at 28px and place the full Resources fallback boundary at 24px, retaining its native page context.
+- Remove unused source-column width from transparent text specimens and unnecessary trailing scroll padding, while preserving boxed component widths, focus clearance and login shadows. Keep the compact Typography footer free of empty scrolling and the Icons bullet footer on its original overflowing single line.
+- Align the isolated QR button focus ring and demonstrate first-option keyboard focus independently of selected theme or agent. Preserve the canonical QR focus overlay.
+- Derive selection-example typography from the demonstrated source through a shared helper, including monospace prompt selections.
+- Show prompt Unicode characters in full source prompt containers, initially scrolled to the named character.
+
+### Changed
+
+- Document source-derived text typography, meaningful scroll extents, focus specimen boundaries and the distinct footer examples in the interface contract and design decision log.
+
+### Validation
+
+- `node website/tests/specimen-optical-feedback-browser-check.mjs` — passed at mobile and desktop widths for all four agent/theme combinations, including caption/fallback rails, QR focus overlay, selection fonts, Unicode visibility and both footer behaviours.
+- `node website/tests/specimen-mobile-parity-browser-check.mjs` — passed all 16 Chrome/WebKit viewport and theme/agent cases.
+- Specimen fidelity, seven-width specimen rails, external text alignment and Playground source-parity checks — passed; alignment checks reset intentionally pre-scrolled Unicode specimens before measuring their origin.
+- Populated mobile dark-mode specimens visually inspected; `npm --prefix website run build` passed with generated v26.0.254 displays and saved backdrop geometry reused.
 
 ## v26.0.253 — 2026-10-20
 

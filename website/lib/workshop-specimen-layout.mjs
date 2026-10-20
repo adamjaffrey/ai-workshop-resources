@@ -23,16 +23,16 @@ html:is([data-specimen-gallery=icons],[data-specimen-gallery=errors]) body{font:
 
 /* Scroll clearance, not a second content inset. The viewport reaches the grey
    boundary; its gutter restores the existing rail and protects focus paint. */
-:is(.icon-sample,.focus-preview,.agent-preview,.prompt-specimen-viewport,.feedback-preview,.specimen-viewport,.variant-preview){margin-inline:calc(-1 * var(--specimen-text-rail));padding:16px var(--specimen-text-rail);width:calc(100% + 2 * var(--specimen-text-rail));max-width:none;box-sizing:border-box;overflow-x:auto;overflow-y:hidden}
+:is(.icon-sample,.focus-preview,.agent-preview,.prompt-specimen-viewport,.feedback-preview,.specimen-viewport,.variant-preview){margin-inline:calc(-1 * var(--specimen-text-rail));padding:16px 0 16px var(--specimen-text-rail);width:calc(100% + 2 * var(--specimen-text-rail));max-width:none;box-sizing:border-box;overflow-x:auto;overflow-y:hidden}
 .prompt-specimen-viewport{padding-block:8px;margin-block:-8px}
 .specimen-viewport{padding-block:8px;margin-block:-8px}
 .error-sample{display:flow-root}
-.error-sample:has(.full-login-context){padding-block:24px 64px}
+.error-sample:has(.full-login-context){padding-block:24px 64px;padding-inline-end:28px}
 @media(max-width:660px){.error-sample:has(.full-login-context){padding-block:20px 32px}}
-#errors-resources .error-sample:has(.fallback-context){border:1px solid var(--border);border-radius:12px}
+#errors-resources .fallback-context{outline:1px solid var(--border);outline-offset:-1px;border-radius:12px}
 .fallback-context{margin:0}
 .fallback-context .step-row,.fallback-context .step-row>*{opacity:1;transform:none}
-.error-sample pre{max-height:240px}
+.error-sample pre,.icon-sample [data-unicode-target] pre{max-height:240px}
 
 /* One rounded-boundary adjustment. !important only defeats captured inline
    margins or isolation resets; it does not compete with other gallery offsets. */
@@ -51,7 +51,7 @@ html:is([data-specimen-gallery=icons],[data-specimen-gallery=errors]) body{font:
 .feedback-preview .status{position:absolute}
 
 /* Optical exceptions move the specimen only, without redefining its inset. */
-.focus-preview{--specimen-optical-nudge:0px}
+.focus-preview{--specimen-optical-nudge:0px;padding-inline-end:6px}
 .focus-preview:has(>.segmented-toggle){--specimen-optical-nudge:1px}
 .focus-preview[data-exterior-ring]{--specimen-optical-nudge:6px}
 .focus-preview>*{translate:var(--specimen-optical-nudge) 0}
@@ -76,6 +76,7 @@ html:is([data-specimen-gallery=icons],[data-specimen-gallery=errors]) body{font:
 .type-row .specimen-context:has(>.controls-label){line-height:0}
 .type-row .controls-label[data-type-sample]{line-height:21px}
 .type-row .password-field[data-in-situ]{display:flex}
+.type-row figcaption[data-type-sample]{text-align:left}
 .type-row .qr-copy-overlay{opacity:1}
 .type-row .copy-content{display:inline-flex}
 .type-row pre{max-height:none}

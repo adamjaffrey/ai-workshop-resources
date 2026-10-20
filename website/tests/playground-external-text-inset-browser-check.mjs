@@ -60,6 +60,9 @@ try{
   await p.locator('[data-tab=discovery]').click();await p.evaluate(()=>{document.getElementById('perspective-copy-fallback').hidden=false;document.getElementById('perspective-copy-status').textContent='Select and copy the settings below.'});near(await x(p,'#perspective-copy-status'),await x(p,'#perspective-copy-text'),'copy status and square field');
   if([390,1440].includes(width))for(const [tab,id] of [['icons','icons'],['errors','errors'],['focus','focus']]){
    await p.locator('[data-tab='+tab+']').click();const frame=p.frameLocator('#'+id+'-frame');await frame.locator('.icon-row,.focus-row').first().waitFor();
+   // Unicode prompts intentionally open scrolled to their symbol. Rail geometry
+   // is measured at the start; the dedicated Unicode check covers initial scroll.
+   await frame.locator('.icon-sample,.focus-preview').evaluateAll(es=>es.forEach(e=>e.scrollLeft=0));
    const problems=await frame.locator('body').evaluate(()=>[...document.querySelectorAll('.icon-sample>button,.icon-sample>.toggle,.icon-sample>.theme-toggle,.icon-sample>.code-wrap,.focus-preview>.code-wrap,.focus-preview>.segmented-toggle')].filter(e=>e.checkVisibility()).flatMap(e=>{const row=e.closest('.icon-row,.focus-row'),rail=row.querySelector('h3').getBoundingClientRect().left,r=e.getBoundingClientRect(),wrap=e.parentElement.getBoundingClientRect();return Math.abs(rail-r.left-(e.closest('[data-exterior-ring]')?-2:e.matches('.focus-preview>.segmented-toggle')?3:4))<.2&&r.left>=(getComputedStyle(e.parentElement).overflowX==='visible'?0:wrap.left)-.2?[]:[e.className+' rail '+rail+' surface '+r.left+' wrapper '+wrap.left];}));assert.deepEqual(problems,[],tab+' specimen surfaces and clipping clearance');
   }
   assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'no page overflow');

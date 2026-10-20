@@ -19,10 +19,10 @@ window.addEventListener('message',event=>{
   // Discard page-positioning state before applying gallery optical alignment.
   preview.firstElementChild?.style.removeProperty('translate');
   const target=preview.querySelector('[data-focus-target]');
-  if(item.ring&&!preview.querySelector(':scope>.segmented-toggle')&&!['Copy Prompt · Keyboard Focus','QR Link · Keyboard Focus'].includes(item.label))preview.dataset.exteriorRing='';
+  if(item.ring&&!preview.querySelector(':scope>.segmented-toggle')&&item.label!=='Copy Prompt · Keyboard Focus')preview.dataset.exteriorRing='';
   if(item.ring){target.setAttribute('data-held-focus','');for(let p=target.parentElement;p&&p!==preview;p=p.parentElement)p.setAttribute('data-held-focus-within','');}
   row.append(title,preview);
-  if(item.selectable){const selected=document.createElement('p');selected.className='selection-preview';selected.textContent=item.selectionText;selected.style.background=item.selection[0];selected.style.color=item.selection[1];row.append(selected);}
+  if(item.selectable){const selected=document.createElement('p');selected.className='selection-preview';selected.textContent=item.selectionText;for(const [property,value] of Object.entries(item.selectionTypography))selected.style.setProperty(property,value);selected.style.background=item.selection[0];selected.style.color=item.selection[1];row.append(selected);}
   const detail=document.createElement('p');detail.className='focus-meta';detail.textContent=item.page+' → '+item.selector+(item.selectable?' · Selection: '+item.selection.join(' / '):' · Keyboard focus; control label is not selectable.');
   row.append(detail);fragment.append(row);
  }

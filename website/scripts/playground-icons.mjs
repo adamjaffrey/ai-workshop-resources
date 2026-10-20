@@ -1,6 +1,9 @@
-import {preserveSpecimenSize} from './playground-specimen-source.mjs';
+import {preserveSpecimenSize,specimenTypography,specimenWidth,isTextSpecimen} from './playground-specimen-source.mjs';
 // Capture app specimens from isolated running frames, including their real state renderers.
 export const iconCaptureScript = String.raw`
+const specimenTypography = ${specimenTypography.toString()};
+const isTextSpecimen = ${isTextSpecimen.toString()};
+const specimenWidth = ${specimenWidth.toString()};
 const preserveSpecimenSize = ${preserveSpecimenSize.toString()};
 const unicodeNames={"©": "Copyright Sign", "⌘": "Place of Interest Sign", "✅": "White Heavy Check Mark", "✋": "Raised Hand", "❌": "Cross Mark", "➡": "Black Rightwards Arrow"};
 function unicodeLabel(character){return (unicodeNames[character.replace('\uFE0F','')]||"Unicode Character")+" · U+"+character.codePointAt(0).toString(16).toUpperCase().padStart(4,"0");}
@@ -35,28 +38,33 @@ window.addEventListener('message',async event=>{
  if(capturingIcons){pendingIcons=event.data;return;}capturingIcons=true;
  try{
  const requested=event.data.settings;if(requested){window.dispatchEvent(new StorageEvent('storage',{key:'workshop-colour-theme',newValue:requested.theme}));window.workshopAgent?.select(requested.agent);await yieldCapture();finishCaptureMotion();}
- const typographyWidths=(event.data.selectors||[]).map(selector=>{const node=document.querySelector(selector);if(!node)throw Error('Missing typography source '+selector);return{selector,width:(node.matches('pre,input')?(node.closest('.password-field,.code-wrap')||node):node).getBoundingClientRect().width};});
+ const typographyWidths=(event.data.selectors||[]).map(selector=>{const node=document.querySelector(selector);if(!node)throw Error('Missing typography source '+selector);return{selector,textWidth:isTextSpecimen(node)?node.getBoundingClientRect().width:null,width:specimenWidth(node.matches('pre,input')?(node.closest('.password-field,.code-wrap')||node):node)};});
  const page=event.data.page,items=[],errors=[],typographyFeedback=[],agentTypography=[],buttonVariants=[],focusItems=[];
  const captureButton=(node,kind,state)=>{const c=getComputedStyle(node.querySelector('.copy-label')||node);buttonVariants.push({kind,state,html:iconSnapshot(node,page,state,true).html,typography:[c.fontFamily,c.fontSize,c.fontWeight,c.lineHeight,c.color]});};
  const captureFocus=(node,label,ring=true)=>{
-  const root=node.closest('.password-field')||node.closest('.qr-card')||node.closest('.code-wrap')||node.closest('.segmented-toggle')||node.closest('.perspective')||node.closest('footer form[action="/auth/logout"]')||node;
-  const clone=root.cloneNode(true),originals=[root,...root.querySelectorAll('*')],copies=[clone,...clone.querySelectorAll('*')];
+  const root=node.closest('.password-field')||node.closest('.qr-copy')||node.closest('.code-wrap')||node.closest('.segmented-toggle')||node.closest('.perspective')||node.closest('footer form[action="/auth/logout"]')||node;
+  const template=document.createElement('template');if(node.matches('.qr-copy'))template.innerHTML=iconSnapshot(node,page,'Focus',true).html;
+  const clone=template.content.firstElementChild||root.cloneNode(true),originals=[root,...root.querySelectorAll('*')],copies=[clone,...clone.querySelectorAll('*')];
+  clone.style.removeProperty('outline');clone.style.removeProperty('outline-offset');
+  // Keep the captured QR geometry, but let the canonical held-focus rule reveal
+  // its overlay rather than freezing the resting opacity into the specimen.
+  clone.querySelector('.qr-copy-overlay')?.style.removeProperty('opacity');
   copies[originals.indexOf(node)].setAttribute('data-focus-target','');
   originals.forEach((n,i)=>{if(n instanceof HTMLInputElement)copies[i].setAttribute('value',n.value);});
   preserveSpecimenSize(clone,root);
   if(node.matches('.copy'))clone.style.position='relative';
   let html=clone.outerHTML;if(node.matches('footer form[action="/auth/logout"] button'))html='<footer class="focus-footer">'+html+'</footer>';if(page==='login')html='<div class="gate-panel '+document.getElementById('access-form').className+' focus-context">'+html+'</div>';
-  const selection=getComputedStyle(node,'::selection');focusItems.push({page,label,ring,html,selector:sourceSelector(node),selection:[selection.backgroundColor,selection.color],selectable:node.matches('input,pre,.intro'),selectionText:node.matches('input')?'••••••••':node.textContent.trim().slice(0,90)});
+  const selection=getComputedStyle(node,'::selection');focusItems.push({page,label,ring,html,selector:sourceSelector(node),selection:[selection.backgroundColor,selection.color],selectionTypography:specimenTypography(node),selectable:node.matches('input,pre,.intro'),selectionText:node.matches('input')?'••••••••':node.textContent.trim().slice(0,90)});
  };
  const add=(node,state)=>{if(!node)throw Error('Missing icon source: '+page+' '+state);items.push(iconSnapshot(node,page,state));};
  const addError=(node,state)=>{if(!node)throw Error('Missing error source: '+page+' '+state);const item=iconSnapshot(node,page,state,true),template=document.createElement('template');template.innerHTML=node.matches('.gate-panel,.code-wrap,.perspective-dialog')?node.outerHTML:item.html;const root=template.content.firstElementChild;if(node.matches('.gate-panel')){root.querySelector('input').setAttribute('value',node.querySelector('input').value);}if(node.matches('.gate-panel'))root.classList.add('full-login-context');Object.assign(root.style,{position:node.matches('.qr-copy,.code-wrap')?'relative':'static',height:'auto',maxHeight:'none',margin:'0'});preserveSpecimenSize(root,node);errors.push({...item,html:root.outerHTML,text:node.textContent.trim()});};
  if(page==='login'){
   for(const state of ['neutral','loading','success','wrong']){await yieldCapture();window.demoLogin(state);finishCaptureMotion();captureFocus(document.querySelector('#workshop-password'),'Password · '+({neutral:'Neutral',loading:'Checking',success:'Success',wrong:'Incorrect Password'}[state]));if(state==='neutral')captureFocus(document.querySelector('.gate-submit'),'Unlock Resources · Keyboard Focus');document.querySelectorAll('[data-input-icon],[data-status-icon]').forEach(node=>{if(!node.hasAttribute('hidden'))add(node,state);});}
   parent.postMessage({guide:'focus-catalog-data',requestId:event.data.requestId,page,focusItems},'*');
-  for(const state of ['loading','success','empty','wrong','network','service','generic','limited','limitedLater','retryReady']){await yieldCapture();window.demoLogin(state);finishCaptureMotion();const status=document.getElementById('gate-error');addError(document.getElementById('access-form'),state);errors.at(-1).statusHtml=status.outerHTML;errors.at(-1).colour=getComputedStyle(status).color;}
+  for(const state of ['loading','success','empty','wrong','network','service','generic','limited','limitedLater','retryReady']){await yieldCapture();window.demoLogin(state);finishCaptureMotion();const status=document.getElementById('gate-error');if(state==='wrong'){const boundary=typographyWidths.find(item=>item.selector==='#gate-error');if(boundary)boundary.width=specimenWidth(status);}addError(document.getElementById('access-form'),state);errors.at(-1).statusHtml=status.outerHTML;errors.at(-1).colour=getComputedStyle(status).color;}
   window.demoLogin('neutral');finishCaptureMotion();
  }else{
-  for(const [selector,label,ring] of [['.intro','Body Text Selection',false],['pre','Prompt Text · Keyboard Focus',true],['.copy','Copy Prompt · Keyboard Focus',true],['.qr-copy','QR Link · Keyboard Focus',true],['footer form[action="/auth/logout"] button','Log Out · Keyboard Focus',true],['.theme-toggle [aria-pressed=true]','Colour Theme · Keyboard Focus',true],['.controls [aria-pressed=true]','Coding Agent · Keyboard Focus',true]])captureFocus(document.querySelector(selector),label,ring);
+  for(const [selector,label,ring] of [['.intro','Body Text Selection',false],['pre','Prompt Text · Keyboard Focus',true],['.copy','Copy Prompt · Keyboard Focus',true],['.qr-copy','QR Link · Keyboard Focus',true],['footer form[action="/auth/logout"] button','Log Out · Keyboard Focus',true],['.theme-toggle button:first-of-type','Colour Theme · Keyboard Focus',true],['.controls button:first-of-type','Coding Agent · Keyboard Focus',true]])captureFocus(document.querySelector(selector),label,ring);
   parent.postMessage({guide:'focus-catalog-data',requestId:event.data.requestId,page,focusItems},'*');
   const savedTheme=document.documentElement.dataset.theme,savedAgent=window.workshopAgent.current;
   const theme=async value=>{window.dispatchEvent(new StorageEvent('storage',{key:'workshop-colour-theme',newValue:value}));await yieldCapture();finishCaptureMotion();};
@@ -92,7 +100,7 @@ window.addEventListener('message',async event=>{
  preserveSpecimenSize(context,contextSource);
  errors.push({page,state:'JavaScript Unavailable',selector:fallbackSource,colour:getComputedStyle(fallbackNode).color,html:context.outerHTML,text:fallbackNode.textContent});temporary.remove();
  const seen=new Set(),walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
- while(walker.nextNode()){const node=walker.currentNode,el=node.parentElement;if(el.closest('script,style,svg,.page-placeholder')||!el.checkVisibility({checkVisibilityCSS:true}))continue;for(const match of node.textContent.matchAll(/[\p{S}\p{Extended_Pictographic}]/gu)){const character=match[0]+(node.textContent[match.index+match[0].length]==='\uFE0F'?'\uFE0F':'');if(character.codePointAt(0)<128||seen.has(character))continue;seen.add(character);const snapshot=iconSnapshot(el,page,'Text'),excerpt=document.createElement('template');excerpt.innerHTML=snapshot.html;const sample=excerpt.content.firstElementChild;sample.textContent=node.textContent.split('\n').find(line=>line.includes(character));Object.assign(sample.style,{height:'auto',maxHeight:'none'});items.push({order:snapshot.order,symbol:character,label:unicodeLabel(character),page,state:'Source Text Excerpt',selector:sourceSelector(el),colour:getComputedStyle(el).color,html:sample.outerHTML});}}
+ while(walker.nextNode()){const node=walker.currentNode,el=node.parentElement;if(el.closest('script,style,svg,.page-placeholder')||!el.checkVisibility({checkVisibilityCSS:true}))continue;for(const match of node.textContent.matchAll(/[\p{S}\p{Extended_Pictographic}]/gu)){const character=match[0]+(node.textContent[match.index+match[0].length]==='\uFE0F'?'\uFE0F':'');if(character.codePointAt(0)<128||seen.has(character))continue;seen.add(character);const prompt=el.closest('pre')?.closest('.code-wrap'),snapshot=iconSnapshot(el,page,'Text'),excerpt=document.createElement('template');excerpt.innerHTML=snapshot.html;let sample=excerpt.content.firstElementChild;if(prompt){sample=prompt.cloneNode(true);preserveSpecimenSize(sample,prompt);sample.dataset.unicodeTarget=character;}else{sample.textContent=node.textContent.split('\n').find(line=>line.includes(character));Object.assign(sample.style,{height:'auto',maxHeight:'none'});}items.push({order:snapshot.order,symbol:character,label:unicodeLabel(character),page,state:prompt?'Full Prompt Context':'Source Text Excerpt',selector:sourceSelector(el),colour:getComputedStyle(el).color,html:sample.outerHTML});}}
  document.querySelectorAll('.footer-copyright:not(.page-placeholder *)').forEach(el=>{const c=getComputedStyle(el,'::before');if(c.content&&c.content!=='none'&&c.content!=='normal')items.push({order:[...document.querySelectorAll('*')].indexOf(el),symbol:c.content.replaceAll('"',''),label:'Bullet · U+2022',page,state:'Unwrapped Footer',selector:'.footer-copyright::before',colour:c.color,html:iconSnapshot(el.closest('.footer-meta'),page,'Footer').html});});
  const rank=item=>{
  if(page==='login'){if(item.svg?.includes('data-input-icon="lock"'))return item.state==='neutral'?0:1;return {loading:2,success:3,wrong:4}[item.state]??5;}
@@ -128,6 +136,15 @@ window.addEventListener('message',event=>{if(event.source!==parent)return;if(eve
  const detail=document.createElement('p');detail.className='icon-meta';detail.textContent=(item.usage?'Use: '+item.usage+' · ':'')+item.page+' → '+item.selector+' · '+item.state+(item.width?' · '+Math.round(item.width)+' × '+Math.round(item.height)+'px':'')+' · '+item.colour+(item.src?' · '+(item.src.startsWith('data:')?'Embedded app image':item.src):'');row.append(title,sample,detail);
  if(url){const source=document.createElement('a');source.href=url;source.target='_blank';source.rel='noopener noreferrer';source.dataset.iconSource='';source.hidden=!showIconSources;source.textContent='View Source · '+name;row.append(source);}section.append(row);}
  filterIcons();
+ for(const prompt of section.querySelectorAll('[data-unicode-target]')){
+  const pre=prompt.querySelector('pre'),walker=document.createTreeWalker(pre,NodeFilter.SHOW_TEXT);
+  while(walker.nextNode()){const index=walker.currentNode.textContent.indexOf(prompt.dataset.unicodeTarget);if(index<0)continue;
+   const range=document.createRange();range.setStart(walker.currentNode,index);range.setEnd(walker.currentNode,index+prompt.dataset.unicodeTarget.length);
+   const rect=range.getBoundingClientRect(),box=pre.getBoundingClientRect();pre.scrollTop+=rect.top-box.top-(pre.clientHeight-rect.height)/2;
+   const viewport=prompt.parentElement,v=viewport.getBoundingClientRect();if(rect.right>v.right||rect.left<v.left)viewport.scrollLeft+=rect.left-v.left-(viewport.clientWidth-rect.width)/2;
+   break;
+  }
+ }
 });`;
 
 export const errorGalleryScript = String.raw`
