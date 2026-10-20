@@ -106,6 +106,35 @@ body:has(>#icon-catalog),body:has(>#error-catalog),body:has(>#focus-catalog),bod
 .panel>a.workshop-link,.playground-icon-entry>a.workshop-link,.link-examples section>a.workshop-link,.icon-row>a.workshop-link{margin-inline-start:-4px}
 .icon-row>a.workshop-link{margin-inline:calc(-1 * var(--optical-offset));margin-top:16px}
 .frame-wrap{padding:0;box-sizing:border-box}
+/* Isolated typography owns spacing; app type and control interiors remain native. */
+.type-row .specimen-context:not([data-in-situ]){min-height:0!important;display:flow-root!important}
+.type-row [data-type-sample]:not(pre):not(input):not(button){margin-block:0!important}
+.type-row span[data-type-sample]{display:block}
+.type-row .brand-name[data-type-sample]{width:max-content}
+.type-row .specimen-context:has(>.controls-label){line-height:0}
+.type-row .controls-label[data-type-sample]{line-height:21px}
+.type-row .footer-meta[data-type-sample]{display:flex;align-items:flex-start;justify-content:flex-start;text-align:left}
+.type-row footer.specimen-context .footer-content{align-items:flex-start!important;justify-content:flex-start!important;text-align:left}
+.type-row footer.specimen-context form{align-self:flex-start!important;justify-self:start!important;width:max-content!important}
+.type-row footer button[data-type-sample]{margin-inline-start:-4px!important}
+/* Captured panel widths already include their boundaries: never add 8px twice. */
+.type-row [data-in-situ].code-wrap,.feedback-preview>.code-wrap{width:var(--source-width);min-width:var(--source-width);max-width:var(--source-width)}
+.feedback-grid{display:block!important;border:0!important;padding:0!important}
+.feedback-grid .feedback-row{width:100%;padding-block:24px}
+.prompt-specimen-viewport,.feedback-preview{margin-inline:calc(-1 * var(--specimen-text-rail));padding-inline:var(--specimen-text-rail);width:calc(100% + 2 * var(--specimen-text-rail));max-width:none!important;box-sizing:border-box;overflow-x:auto;overflow-y:hidden}
+.prompt-specimen-viewport{padding-block:8px;margin-block:-8px}
+.feedback-preview .code-wrap{height:auto;overflow:visible}
+/* Visible exterior rings need 6px extra clearance; selection excerpts stay put. */
+.focus-preview[data-exterior-ring]{padding-inline-start:calc(var(--specimen-text-rail) + 6px)}
+/* Correct the unboxed X group's visible ink, not icons inside action controls. */
+.type-row [data-type-sample].gate-error,.icon-sample>.gate-error{position:relative;left:calc(-18px * ${ink.icons.x.left}/24)}
+.panel:not(.is-expanded)>.frame-wrap{overflow-x:auto;overflow-y:hidden}
+body:has(>#icon-catalog),body:has(>#error-catalog),body:has(>#focus-catalog),body:has(>#link-type-specimens),body:has(>#type-specimens){overflow-y:hidden}
+.icon-sample,.focus-preview{overflow-y:hidden}
+.error-sample>.code-wrap{min-width:var(--source-width);max-width:none!important}
+.error-sample:has(.full-login-context,.fallback-context),.error-sample:has(>.code-wrap){margin-inline:calc(-1 * var(--specimen-text-rail))!important;padding-inline:var(--specimen-text-rail)!important;width:calc(100% + 2 * var(--specimen-text-rail));box-sizing:border-box;overflow-x:auto;overflow-y:hidden}
+.error-sample>.full-login-context,.error-sample>.fallback-context,.error-sample>.code-wrap{margin-inline-start:-4px}
+#error-catalog [data-gallery-last]{padding-bottom:0}
 [data-gallery-last]{border-bottom:0!important}
 #icon-catalog [data-gallery-last]{padding-bottom:0}
 body:has(>#icon-catalog){padding-bottom:16px}

@@ -153,6 +153,19 @@ main.wrap{padding-top:24px}
 .panel>details:not(.preview-settings):not(.preview-state-settings):not(.hover-help)>:not(summary),.panel>.feather-notice>details>:not(summary){margin-inline-start:26px}
 
 @media(max-width:660px){#login-preview .state-tools{flex-direction:column;gap:var(--control-row-gap)}#login-preview .state-tools>.choices{width:100%;flex:auto}#login-preview #login-destination{max-width:100%;width:100%}#login-destination .choice-options{flex-direction:row}}
+
+/* One disclosure treatment for explanatory controls; body-sized where in prose. */
+.disclosure-accent>summary,.hover-explainer{color:var(--icon-ink);background:color-mix(in srgb,var(--agent-accent) 5%,var(--surface));font-weight:600}
+.disclosure-accent>summary{font-size:16px;line-height:24px;padding-block:8px}
+.disclosure-accent>summary>.disclosure-chevron{color:var(--icon-ink)}
+.source-rules>.disclosure-body{margin-top:16px;margin-inline-start:calc(26px - var(--disclosure-ink-inset) - 4px)!important;padding:16px 3px;border:1px solid var(--border);border-radius:12px;background:var(--page)}
+.source-rules .rule-list>div:first-child{padding-top:0}.source-rules .rule-list>div:last-child{border-bottom:0;padding-bottom:0}
+.reference-intro-copy{margin-inline-start:calc(26px - var(--disclosure-ink-inset));margin-top:16px}
+.reference-intro-copy>:last-child{margin-bottom:0}
+/* Inline grey viewports grow vertically; only horizontal inspection scrolls. */
+.preview-dialog:not(.is-expanded)>.frame-wrap{max-height:none;overflow-x:auto;overflow-y:hidden}
+.preview-dialog:not(.is-expanded) iframe{height:var(--natural-frame-height,760px)!important;max-height:none}
+.panel>.frame-wrap:has(>#type-frame,>#icons-frame,>#errors-frame,>#focus-frame,>#link-type-frame){max-height:none;overflow-x:auto;overflow-y:hidden}
 `;
 
 export const playgroundLayoutScript=String.raw`

@@ -14,12 +14,12 @@ const escape=text=>text.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAl
 const inline=text=>text.split(/(`[^`]+`)/).map(part=>part.startsWith('`')?'<code>'+escape(part.slice(1,-1))+'</code>':escape(part.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'$1 ($2)'))).join('');
 export function renderUrlReference(markdown,renderHeading){
  const lines=markdown.replace(/^---\n[\s\S]*?\n---\n/,'').trim().split('\n');
- let html='<aside class="url-reference-intro" aria-label="About This Reference"><p class="muted">URL mappings and query parameters, rendered from the repository’s <code>URL-REFERENCE.md</code>. Examples are text so inspecting a logout URL does not end your session.</p>',subsection=false,section=false,sectionTitle='URL Reference';
+ let html='<aside class="url-reference-intro" aria-label="About This Reference"><details class="disclosure-accent"><summary>About This Reference</summary><div class="reference-intro-copy"><p class="muted">URL mappings and query parameters, rendered from the repository’s <code>URL-REFERENCE.md</code>. Examples are text so inspecting a logout URL does not end your session.</p>',subsection=false,section=false,sectionTitle='URL Reference';
  for(let i=0;i<lines.length;i++){
   const line=lines[i];
   if(!line.trim()||line.startsWith('# '))continue;
   if(line.startsWith('## ')){
-   if(subsection){html+='</div>';subsection=false;}if(section)html+='</section>';else html+='</aside>';
+   if(subsection){html+='</div>';subsection=false;}if(section)html+='</section>';else html+='</div></details></aside>';
    section=true;sectionTitle=line.slice(3);html+='<section class="panel"><div class="section-heading"><h2>'+renderHeading(line.slice(3))+'</h2></div>';continue;
   }
   if(!section){html+='<p class="muted">'+inline(line)+'</p>';continue;}

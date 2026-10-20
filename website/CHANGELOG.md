@@ -3,14 +3,43 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.248"
-  update_summary: "Unify specimen rails and remove duplicated horizontal padding"
-  updated_at: "Tue 20 Oct 2026 at 05:16:13 pm AEDT (+11:00)"
+  doc_revision: "26.0.249"
+  update_summary: "Refine specimen fidelity, optical alignment and scroll ownership"
+  updated_at: "Tue 20 Oct 2026 at 06:06:32 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.247 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 06:06:32 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine specimen fidelity, optical alignment and scroll ownership
+
+### Changed
+
+- Normalise isolated typography annotation gaps to 16px; remove inherited toolbar/paragraph spacing and align isolated footer examples.
+- Preserve actual captured Resources prompt widths; stack copy success/failure rows and allow horizontal inspection of wider specimens without scaling complete contexts.
+- Apply requested 6px focused-control corrections without shifting annotations; correct standalone X groups by measured whitespace and remove the colour table first-cell padding.
+- Restore Loader Circle motion with reduced-motion support; order Playground icons by identity, headings, UI and other uses, with a documented maintenance contract.
+- Unify explanatory disclosure styling, align colour-rule content within a grey surface and collapse the URL Reference introduction.
+- Grow inline grey previews to their natural height and preserve page wheel scrolling and expanded-view scroll restoration. Remove the final Status States row's duplicated 24px bottom space.
+
+### Validation
+
+- Source typography/state parity across themes, agents and mobile/desktop; seven-width external/nested alignment; four-width shadow clearance; 180 selection regions; expanded modal restoration — passed.
+- Fidelity checks compare real Resources prompt dimensions, annotation gaps, focus exceptions, footer alignment, disclosure text rails, icon order and spinning/reduced-motion states. All inline preview surfaces have no nested vertical scroll range; wheel events scroll the page.
+- Connection Failure, Sign-In Unavailable and Ready to Retry had equal spacing; no distinct one-pixel defect was reproduced. The final JavaScript row now has a 24px lower gutter.
+- Resources no-JavaScript notice verified at 342px wide on a 390px phone and 960px on a 1440px desktop, with natural wrapping. Mobile/desktop screenshots reviewed; physical-device review remains manual.
+- Local Sites build passed; final bundles contain v26.0.247 and the updated features. Components layout revision marked pending; saved anonymous backdrop geometry reused without remeasurement.
 
 ## v26.0.246 — 2026-10-20
 

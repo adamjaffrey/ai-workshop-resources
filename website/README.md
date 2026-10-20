@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.152"
-  update_summary: "Replace superseded design guidance with authoritative contract links"
-  updated_at: "Tue 20 Oct 2026 at 06:00:19 pm AEDT (+11:00)"
+  doc_revision: "26.0.153"
+  update_summary: "Document faithful specimen widths and page-owned inline scrolling"
+  updated_at: "Tue 20 Oct 2026 at 06:02:23 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -284,13 +284,15 @@ The neutral-token audit found every neutral role referenced. Light-mode `--field
 
 The source-parity browser check compares each typography specimen’s text, font family, size, weight, line height, letter spacing, colour and text transformation with its rendered app source in both themes/agents at desktop/mobile widths. It also checks shared login messages, compact controls, popover heading focus/restoration, spacing, one blur pass and independent scrim opacity. Reload a restarted local preview after editing source modules; these tools are generated from the server’s current imports, not a separate persisted design copy.
 
+Gallery spacing, focus exceptions, horizontal overflow and icon ordering follow the [gallery presentation and icon maintenance contract](../docs/agent-guidance/interface.md#gallery-presentation-and-icon-maintenance). Validate with `node website/tests/playground-specimen-fidelity-browser-check.mjs`.
+
 The Icons tab captures current app controls, SVGs, images and Unicode glyphs, including selected theme/agent and copy/login states. Icon Family filters show All, Lucide, Lobe, Unicode or Other. Show Sources defaults off and reveals separate Lucide/Lobe source links without making specimens external navigation targets. Licence panels explain Lucide’s ISC licence and Feather-derived MIT notice, and Lobe’s MIT licence. Error States renders all login and copy failures from the same live source messages and computed styles. Isolated capture frames suppress focus and selection side effects and finish transitions before capture; they never change production behaviour.
 
-Interactive login, resource and block previews use 70% of the viewport space remaining after the initially measured sticky toolbar, inspector and 32px breathing room, capped at 760px. Measure once after fonts load; opening controls does not resize the embedded preview. Expand Preview opens the existing preview in a native modal dialog without moving or reloading its iframe. Lucide Maximize 2 and Minimize 2 identify expand/contract actions. Relevant state controls and shared Style Options remain available inside the dialog; their collapsible sections preserve room on short screens. Closing or Escape restores page position and focus to the invoking control. Background scrolling is locked only while expanded. Typography, Icons and Error States instead measure their full content height and scroll with the playground page. Validate with `node website/tests/playground-expanded-preview-check.mjs`.
+Inline previews measure their natural content height so vertical scrolling belongs to the Playground page. Wide specimens retain horizontal access inside the grey container. Expand Preview opens the existing preview in a native modal dialog without moving or reloading its iframe. Lucide Maximize 2 and Minimize 2 identify expand/contract actions. Relevant state controls and shared Style Options remain available inside the dialog; their collapsible sections preserve room on short screens. Closing or Escape restores page position and focus to the invoking control. Background scrolling is locked only while expanded. Typography, Icons and Error States also measure their full content height and scroll with the playground page. Validate with `node website/tests/playground-expanded-preview-check.mjs`.
 
 App interface changes must update affected playground specimens, adapters and parity checks in the same change, following the [mandatory source-fidelity contract](../docs/agent-guidance/interface.md#mandatory-change-and-validation-contract). Validate against independently rendered main-app pages as well as the specimen source frames; shared imports alone do not prove rendered parity.
 
-Typography follows a curated brand, pre-heading, heading, body, prompt, QR, footer and login hierarchy. Icons follow page flow while keeping related controls, card icons, copy states and prompt symbols together. Copy controls show a resting type example plus success/failure prompt-panel examples captured through the real app renderer; the Icons view retains all captured icon variants. Keep helper feedback over the code panel in a clearly cropped context preview, and leave room around captured controls for their original outlines. The login error typography specimen holds the actual incorrect-password renderer output. Error States captures failures in their login form, QR button or prompt-copy button/status context. The toolbar uses Screen Width, and changing its radio controls preserves scroll position and focus.
+Typography follows a curated brand, pre-heading, heading, body, prompt, QR, footer and login hierarchy. Icons follow page flow while keeping related controls, card icons, copy states and prompt symbols together. Copy controls show a resting type example plus success/failure prompt-panel examples captured through the real app renderer; the Icons view retains all captured icon variants. Keep helper feedback over its real-width code panel on separate success/failure rows, and leave room around captured controls for their original outlines. The login error typography specimen holds the actual incorrect-password renderer output. Error States captures failures in their login form, QR button or prompt-copy button/status context. The toolbar uses Screen Width, and changing its radio controls preserves scroll position and focus.
 
 
 ## Easter Egg

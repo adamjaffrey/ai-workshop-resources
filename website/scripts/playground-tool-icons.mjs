@@ -34,7 +34,7 @@ function renderPlaygroundIcons(){
  const cropped=icons.get('lucide:arrow-up-right');
  if(cropped){const original=cropped.svg.cloneNode(true);original.setAttribute('viewBox','0 0 24 24');original.classList.remove('link-arrow');icons.set('lucide:arrow-up-right',{...cropped,svg:original,variant:'original',usages:new Set(['Original Lucide source geometry; hyperlinks use the cropped variant below.',...originalArrowUsages])});const template=document.createElement('template');template.innerHTML=${JSON.stringify(linkArrowSVG)};icons.set('lucide:arrow-up-right:cropped',{...cropped,svg:template.content.firstElementChild,groups:new Set(['ui']),variant:'cropped',usages:new Set(['Typography → Resting Link · follow-link','Typography → Hover Link · follow-link'])});}
  catalog.replaceChildren();
- const rank=item=>item.groups.has('playground')?0:item.groups.has('ui')?10+(uiOrder.includes(item.name)?uiOrder.indexOf(item.name):uiOrder.length):item.groups.has('headings')?100+headingOrder.indexOf(item.name):1000;
+ const rank=item=>item.groups.has('playground')?0:item.groups.has('headings')?10+Math.max(0,headingOrder.indexOf(item.name)):item.groups.has('ui')?1000+(uiOrder.includes(item.name)?uiOrder.indexOf(item.name):uiOrder.length):2000;
  for(const {svg,provider,name,usages,groups,variant} of [...icons.values()].sort((a,b)=>rank(a)-rank(b)||a.name.localeCompare(b.name))){
   const entry=document.createElement('section');entry.className='playground-icon-entry';entry.dataset.catalogIcon=name;entry.dataset.iconFamily=provider;if(variant)entry.dataset.catalogVariant=variant;entry.dataset.iconGroups=[...groups].join(' ');
   const heading=document.createElement('h3'),sample=svg.cloneNode(true);

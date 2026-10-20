@@ -8,7 +8,7 @@ try{
  const p=await browser.newPage({viewport:{width,height:844}}),errors=[];p.on('pageerror',e=>errors.push(e.message));await p.goto('http://127.0.0.1:'+server.address().port+'/playground');await p.waitForTimeout(500);
  for(const name of ['login','resources','blocks']){
  await p.click('[data-tab='+(name==='blocks'?'blocks':'components')+']');const dialog=p.locator('#'+name+'-preview'),frame=p.frameLocator('#'+name+'-frame');
- assert.ok((await p.locator('#'+name+'-frame').boundingBox()).height<=844*.7+1);
+ assert.ok((await p.locator('#'+name+'-frame').boundingBox()).height>=600);
  await frame.locator('body').evaluate(()=>window.previewSentinel='preserved');
  await dialog.locator('.preview-expand').scrollIntoViewIfNeeded();const before=await p.evaluate(()=>scrollY);
  await dialog.locator('.preview-expand').click();await p.waitForTimeout(100);
@@ -28,5 +28,5 @@ try{
  for(const [tab,id,content] of [['typography','type','#type-specimens'],['icons','icons','#icon-catalog'],['errors','errors','#error-catalog']]){await p.click('[data-tab='+tab+']');await p.waitForTimeout(500);const frame=p.frameLocator('#'+id+'-frame'),height=await frame.locator(content).evaluate(e=>e.getBoundingClientRect().height);assert.ok((await p.locator('#'+id+'-frame').boundingBox()).height>=height,JSON.stringify({id,height,frame:await p.locator('#'+id+'-frame').boundingBox()}));}
  assert.deepEqual(errors,[]);await p.close();
  }
- console.log('PASS: 70dvh inline cap, native expanded previews, shared controls/state, focus/Escape restoration and full-height reference galleries');
+ console.log('PASS: natural inline height, native expanded previews, shared controls/state, focus/Escape restoration and full-height reference galleries');
 }finally{await browser.close();server.close();}

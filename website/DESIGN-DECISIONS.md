@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.3"
-  update_summary: "Mark superseded README guidance as historical"
-  updated_at: "Tue 20 Oct 2026 at 06:00:19 pm AEDT (+11:00)"
+  doc_revision: "26.0.4"
+  update_summary: "Record specimen spacing, overflow and icon ordering decisions"
+  updated_at: "Tue 20 Oct 2026 at 06:02:23 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -70,7 +70,7 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 
 ## Optical Rails and Specimen Clearance
 
-**Decision:** Text and square objects follow a text rail; designated rounded boundaries extend outward by 4px. Mobile text/surface gutters are 28px/24px. Apply an offset once per boundary, preserve native control interiors and centre centred content. Gallery documents own their inset; wrappers must not add another one. Preserve paint clearance inside the grey frame for focus rings, outdents and login shadows; full-page previews retain native gutters.
+**Decision:** Text and square objects follow a text rail; designated rounded boundaries extend outward by 4px. Mobile text/surface gutters are 28px/24px. Apply an offset once per boundary, preserve native control interiors and centre centred content. Gallery documents own their inset; wrappers must not add another one. Preserve paint clearance inside the grey frame for focus rings, outdents and login shadows; full-page previews retain native gutters. The requested focused-control examples move inward 6px without moving annotations. Standalone login-error groups compensate for measured X whitespace; table text aligns by removing first-cell padding.
 
 **Rationale:** Documented: rounded corners visually recede while SVG bounds can include invisible whitespace. The 4px correction was chosen through visual comparison, not as a universal standard. Repeated inset layers narrow specimens unnecessarily; clearance must protect paint without adding another content indent.
 
@@ -94,7 +94,7 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 
 ## Lists and Disclosure Alignment
 
-**Decision:** Use shared compact list styling with 20px hanging indentation and one extra indent per nesting level. Align disclosure body copy beneath its summary text after the chevron/gap, then apply list indentation from that rail. Keep paragraph width available within the owning panel.
+**Decision:** Use shared compact list styling with 20px hanging indentation and one extra indent per nesting level. Align disclosure body copy beneath its summary text after the chevron/gap, then apply list indentation from that rail. Keep paragraph width available within the owning panel. Explanatory disclosures share the accent background/text treatment, with body-sized labels in prose and grey expanded colour-rule content.
 
 **Rationale:** Documented in the refinement requests: bullets were visually too far from the left edge, and disclosure copy should line up with its heading. The precise indentation is an agreed visual convention.
 
@@ -214,9 +214,11 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 
 ## Playground Fidelity and Expanded Views
 
-**Decision:** Use actual app markup, messages, tokens and renderers for specimens; distinguish tooling annotations and simulated effects. Sandbox authentication/navigation/clipboard behaviour. Expanded views retain the same iframe/state and applicable controls, use native modal containment and restore focus/scroll on close. Derive widths and controls from the selected specimen viewport; keep gallery paint inside its grey frame.
+**Decision:** Use actual app markup, messages, tokens and renderers for specimens; distinguish tooling annotations and simulated effects. Sandbox authentication/navigation/clipboard behaviour. Expanded views retain the same iframe/state and applicable controls, use native modal containment and restore focus/scroll on close. Keep gallery paint inside its grey frame. Isolated prompt specimens retain the real 1440px capture-page prompt width and show success/failure on separate rows. Narrow galleries permit horizontal inspection instead of scaling contexts. Inline previews grow to content height so vertical scrolling belongs to the Playground page; expanded modal views retain scrolling. This supersedes the earlier inline 70% viewport cap. Isolated typography annotations have a consistent 16px gap, independent of inherited toolbar heights or paragraph margins. Playground icons follow identity, page-ordered headings, UI controls and other uses; animated specimens retain motion unless reduced motion is requested.
 
 **Rationale:** Documented: independent optical copies drift from production, while reloading an iframe loses the state being inspected. Full-context errors and login panels show meaningful surrounding layout. Shared source imports still require rendered parity checks; they do not prove every browser matches.
+
+Adam requested these gallery refinements to compare real component dimensions, remove misleading inherited whitespace and avoid nested page scrolling. The exceptions are gallery presentation rules, not changes to production control geometry.
 
 **Owning Rules and Sources:** [Source Fidelity](../docs/agent-guidance/interface.md#playground-source-fidelity); [Expanded Preview Specification](README.md#mobile-controls-and-source-coverage). Primary README source: [Local Component Playground](README.md#local-component-playground).
 
