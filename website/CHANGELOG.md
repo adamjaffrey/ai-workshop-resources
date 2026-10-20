@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.235"
-  update_summary: "Unify Playground control rhythm and responsive navigation"
-  updated_at: "Tue 20 Oct 2026 at 12:36:48 pm AEDT (+11:00)"
+  doc_revision: "26.0.236"
+  update_summary: "Refine Playground navigation, specimen widths and URL disclosures"
+  updated_at: "Tue 20 Oct 2026 at 12:50:32 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.234 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 12:50:32 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine Playground navigation, specimen widths and URL disclosures
+
+### Changed
+
+- Reset scroll to the page top when selecting another Playground tab.
+- Let the full login viewport reach its rounded frame boundary, retaining safety padding for isolated specimens.
+- Preserve measured native widths for login controls and JavaScript notices in Typography; refresh source measurements when opening the tab. Match the colour comparison caption to the link example headings.
+- Contain the URL Reference introduction in an aligned surface and give each H3 subsection its own accessible full-row collapse control, independent of its parent section.
+- Advance the Playground anonymous layout cache key; internal builds reuse saved geometry.
+
+### Validation
+
+- Focused browser checks — passed tab scroll reset, independent nested disclosures, login frame padding, measured control/notice widths and caption typography.
+- Section collapse, URL Reference and specimen-clearance browser suites passed responsive checks; Playground structure test passed.
+- Sites local production build passed. No push or publication performed.
 
 ## v26.0.233 — 2026-10-20
 

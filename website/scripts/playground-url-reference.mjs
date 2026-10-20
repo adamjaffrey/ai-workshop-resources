@@ -14,16 +14,16 @@ const escape=text=>text.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAl
 const inline=text=>text.split(/(`[^`]+`)/).map(part=>part.startsWith('`')?'<code>'+escape(part.slice(1,-1))+'</code>':escape(part.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'$1 ($2)'))).join('');
 export function renderUrlReference(markdown,renderHeading){
  const lines=markdown.replace(/^---\n[\s\S]*?\n---\n/,'').trim().split('\n');
- let html='',section=false,sectionTitle='URL Reference';
+ let html='<aside class="url-reference-intro" aria-label="About This Reference"><p class="muted">URL mappings and query parameters, rendered from the repository’s <code>URL-REFERENCE.md</code>. Examples are text so inspecting a logout URL does not end your session.</p>',subsection=false,section=false,sectionTitle='URL Reference';
  for(let i=0;i<lines.length;i++){
   const line=lines[i];
   if(!line.trim()||line.startsWith('# '))continue;
   if(line.startsWith('## ')){
-   if(section)html+='</section>';
+   if(subsection){html+='</div>';subsection=false;}if(section)html+='</section>';else html+='</aside>';
    section=true;sectionTitle=line.slice(3);html+='<section class="panel"><div class="section-heading"><h2>'+renderHeading(line.slice(3))+'</h2></div>';continue;
   }
   if(!section){html+='<p class="muted">'+inline(line)+'</p>';continue;}
-  if(line.startsWith('### ')){html+='<h3 class="url-reference-subheading">'+renderHeading(line.slice(4))+'</h3>';continue;}
+  if(line.startsWith('### ')){if(subsection)html+='</div>';subsection=true;html+='<div class="url-subsection"><div class="section-heading"><h3 class="url-reference-subheading">'+renderHeading(line.slice(4))+'</h3></div>';continue;}
   if(line.startsWith('```')){
    const code=[];while(++i<lines.length&&!lines[i].startsWith('```'))code.push(lines[i]);
    html+='<div class="url-code-block code-wrap"><div class="code-header"><span class="code-label">'+escape(line.slice(3).trim()||'Example')+'</span>'+copyTextButton+'</div><pre tabindex="0" aria-label="Code Example"><code>'+escape(code.join('\n'))+'</code></pre></div>';continue;
@@ -38,12 +38,12 @@ export function renderUrlReference(markdown,renderHeading){
   }
   html+='<p>'+inline(line)+'</p>';
  }
- if(section)html+='</section>';
+ if(subsection)html+='</div>';if(section)html+='</section>';
  return html;
 }
 export async function urlReferencePanel(renderHeading){
  const markdown=await readFile(new URL('../URL-REFERENCE.md',import.meta.url),'utf8');
- return '<div data-panel="url-reference" id="panel-url-reference" role="tabpanel" aria-labelledby="tab-url-reference" tabindex="0" hidden><p class="muted">URL mappings and query parameters, rendered from the repository’s URL-REFERENCE.md. Examples are text so inspecting a logout URL does not end your session.</p>'+renderUrlReference(markdown,renderHeading)+'</div>';
+ return '<div data-panel="url-reference" id="panel-url-reference" role="tabpanel" aria-labelledby="tab-url-reference" tabindex="0" hidden>'+renderUrlReference(markdown,renderHeading)+'</div>';
 }
 export const urlReferenceCSS=`
 ${copyTextCSS}
@@ -63,7 +63,7 @@ ${copyTextCSS}
 #panel-url-reference pre code{font:inherit;color:inherit}
 #panel-url-reference pre:focus-visible{outline:3px solid var(--icon-ink);outline-offset:3px}
 #panel-url-reference li+li{margin-top:8px}
-#panel-url-reference h3{margin-top:24px}
+#panel-url-reference .url-reference-intro{margin:12px -4px 24px;padding:24px 28px;background:var(--surface);border:1px solid var(--border);border-radius:16px} .url-reference-intro>:first-child{margin-top:0}.url-reference-intro>:last-child{margin-bottom:0}#panel-url-reference .url-subsection{border-top:1px solid var(--border);padding-top:20px;margin-top:24px}#panel-url-reference .url-subsection h3{border:0;padding-top:0;margin:0}#panel-url-reference .url-subsection>.section-heading{margin-bottom:16px}#panel-url-reference .url-subsection[data-collapsed]>.section-heading{margin-bottom:0}
 .url-copy[data-result=success]{color:var(--success)}
 .url-copy[data-result=error]{color:var(--error)}
 .icon-usages summary{display:flex;align-items:center;gap:4px;cursor:pointer}

@@ -9,7 +9,7 @@ try{
  const page=await browser.newPage({reducedMotion:'reduce'}),errors=[];page.on('pageerror',e=>errors.push(e.message));
  for(const width of [320,390,768,1440]){
   await page.setViewportSize({width,height:1000});await page.goto(origin+'/component-playground/components');
-  const count=await page.locator('[data-panel]>.panel').count();assert.equal(await page.locator('.section-collapse').count(),count,'Every section has a collapse control');
+  const count=await page.locator('[data-panel]>.panel').count();assert.equal(await page.locator('[data-panel]>.panel>.section-heading>.section-collapse').count(),count,'Every section has a collapse control');
   for(const tab of await page.locator('[data-tab]').all()){
    await tab.click();const panels=page.locator('[data-panel]:visible>.panel');
    for(const panel of await panels.all()){
