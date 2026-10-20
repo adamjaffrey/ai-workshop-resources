@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.243"
-  update_summary: "Keep URL tables compact with consistent mobile typography"
-  updated_at: "Tue 20 Oct 2026 at 03:21:26 pm AEDT (+11:00)"
+  doc_revision: "26.0.244"
+  update_summary: "Size reference columns according to their content"
+  updated_at: "Tue 20 Oct 2026 at 03:26:59 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.242 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 03:26:59 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Size reference columns according to their content
+
+### Changed
+
+- Classify URL Reference columns by their semantic headings: compact addresses, titles and identifiers stay on one line; explanatory columns retain a 28ch minimum and 40ch preferred maximum; alias lists keep their existing wrapping.
+- Allow horizontal table scrolling instead of compressing status and explanatory text into narrow columns. Preserve consistent typography and mobile text-autosizing protection.
+
+### Validation
+
+- Mobile-emulated table checks — passed compact-cell no-wrap rules, readable prose widths, hostname status rows of at most two lines, intrinsic sizing and contained overflow across phone, tablet and desktop widths.
+- URL Reference regression across four widths and both themes/agents, structure tests and local production build — passed.
+- Mobile Resources Aliases and horizontally scrolled Hostname Redirects screenshots inspected; alias-list wrapping retained.
 
 ## v26.0.241 — 2026-10-20
 

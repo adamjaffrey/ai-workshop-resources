@@ -31,7 +31,11 @@ export function renderUrlReference(markdown,renderHeading){
   if(line.startsWith('|')){
    const rows=[];do{rows.push(lines[i]);i++;}while(i<lines.length&&lines[i].startsWith('|'));i--;
    const cells=row=>row.slice(1,-1).split('|').map(cell=>inline(cell.trim()));
-   html+='<div class="url-table" tabindex="0" role="region" aria-label="'+escape(sectionTitle)+' Table"><table><thead><tr>'+cells(rows[0]).map(cell=>'<th scope="col">'+cell+'</th>').join('')+'</tr></thead><tbody>'+rows.slice(2).map(row=>'<tr>'+cells(row).map(cell=>'<td>'+cell+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>';continue;
+   // Preserve compact identifiers; reserve a readable measure for explanatory prose.
+   const compact=new Set(['Purpose','Browser Title','Canonical Address or Path','Source Hostname','Destination Hostname','Canonical Path','Canonical Parameter']);
+   const prose=new Set(['Status and Owner','Effect','Result','Automatic Local Preview','Hosted Application','Request','Action']);
+   const kinds=rows[0].slice(1,-1).split('|').map(name=>compact.has(name.trim())?'compact':prose.has(name.trim())?'prose':'aliases');
+   html+='<div class="url-table" tabindex="0" role="region" aria-label="'+escape(sectionTitle)+' Table"><table><thead><tr>'+cells(rows[0]).map((cell,index)=>'<th scope="col" data-column-style="'+kinds[index]+'">'+cell+'</th>').join('')+'</tr></thead><tbody>'+rows.slice(2).map(row=>'<tr>'+cells(row).map((cell,index)=>'<td data-column-style="'+kinds[index]+'">'+cell+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>';continue;
   }
   if(line.startsWith('- ')){
    html+='<ul>';do{html+='<li>'+inline(lines[i].slice(2))+'</li>';i++;}while(i<lines.length&&lines[i].startsWith('- '));i--;html+='</ul>';continue;
@@ -55,6 +59,8 @@ ${copyTextCSS}
 #panel-url-reference th,#panel-url-reference td{font-size:14px;line-height:1.5;vertical-align:top;padding:12px 16px 12px 0;border-bottom:1px solid var(--border)}
 #panel-url-reference th:last-child,#panel-url-reference td:last-child{padding-right:0}
 #panel-url-reference th{color:var(--text)}
+#panel-url-reference [data-column-style=compact]{white-space:nowrap}
+#panel-url-reference [data-column-style=prose]{min-width:28ch;max-width:40ch}
 #panel-url-reference table code{font-size:12.6px;white-space:nowrap;overflow-wrap:normal}
 #panel-url-reference code{font:0.9em/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
 #panel-url-reference .url-code-block{position:relative;margin:16px -4px;border:1px solid var(--panel-border);border-radius:12px;background:var(--content-surface);color:var(--text)}
