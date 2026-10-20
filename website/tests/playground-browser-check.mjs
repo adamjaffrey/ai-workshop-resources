@@ -62,7 +62,7 @@ for(const width of [320,390,768,1440]){
 }
 await choose('hover','on');await p.waitForTimeout(350);
 assert.equal(await resources.locator('html').getAttribute('data-demo-hover'),'');
-assert.equal(await resources.locator('.copy').first().evaluate(e=>getComputedStyle(e).backgroundColor),await resources.locator('body').evaluate(e=>{const probe=document.createElement('span');probe.style.background='var(--action-hover)';e.append(probe);const colour=getComputedStyle(probe).backgroundColor;probe.remove();return colour;}));
+assert.equal(await resources.locator('.copy').first().evaluate(e=>getComputedStyle(e).backgroundColor),await resources.locator('body').evaluate(e=>{const probe=document.createElement('span');probe.style.background='var(--hover)';e.append(probe);const colour=getComputedStyle(probe).backgroundColor;probe.remove();return colour;}));
 await choose('width','320');await p.locator('#resources-frame').scrollIntoViewIfNeeded();for(let attempt=0;attempt<50&&await resources.locator('html').evaluate(()=>innerWidth)!==320;attempt++)await p.waitForTimeout(100);assert.equal(await resources.locator('html').evaluate(()=>innerWidth),320);
 await choose('width','fluid');await choose('hover','off');await p.waitForTimeout(800);
 const copyGap=await p.locator('#copy').evaluate(e=>e.nextElementSibling.getBoundingClientRect().top-e.getBoundingClientRect().bottom);assert.ok(copyGap>=20);

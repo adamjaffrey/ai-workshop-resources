@@ -32,7 +32,7 @@ const styles = `
 :root[data-theme="dark"] {
   --page: #101216; --surface: #191d23; --content-surface: var(--surface); --text: #f3f4f6; --muted-text: #b7bec8;
   --border: #363d48; --panel-border: #414b59; --control-border: #566171;
-  --control-bg: #252b34; --control-text: #c4cbd5; --hover: #303946;
+  --action-hover:color-mix(in srgb,var(--control-bg) 85%,white); --control-bg: #252b34; --control-text: #c4cbd5; --hover: #303946;
   --field-bg: #11151b; --field-border: var(--control-border); --success: #75d6a3; --success-ink: #101216; --error: #ff8dce; --warning: #e5c15c; --warning-ink: #101216;
   --link: var(--icon-ink); --link-hover: color-mix(in srgb, var(--agent-accent) 35%, white); --link-hover-bg: var(--selection); --icon-ink: color-mix(in srgb, var(--agent-accent) 55%, white);
   --card-bg: color-mix(in srgb, var(--agent-accent) 12%, #171b21);
@@ -107,8 +107,12 @@ button, button * { -webkit-user-select: none; user-select: none; -webkit-touch-c
 .gate-panel .javascript-notice { margin:24px 0 0; }
 .theme-toggle button { display: grid; place-items: center; width: 44px; padding: 0; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--control-text); }
 .theme-toggle button:hover { color: var(--text); }
-:is(.theme-toggle,.controls .toggle) button[aria-pressed="false"]:hover { background:var(--action-hover); color:var(--text); }
-.copy:hover{background:var(--action-hover)}
+/* Hover is below the moving indicator; labels remain above both layers. */
+.segmented-toggle button,.segmented-toggle .choice{position:relative}
+.segmented-toggle button::before,.segmented-toggle .choice::before{content:'';position:absolute;inset:0;border-radius:8px;z-index:-2;pointer-events:none;background:transparent}
+.segmented-toggle button[aria-pressed="false"]:hover::before,.segmented-toggle .choice:has(input:not(:checked)):hover::before{background:var(--action-hover)}
+:is(.theme-toggle,.controls .toggle) button[aria-pressed="false"]:hover { background:transparent; color:var(--text); }
+.copy:hover{background:var(--hover)}
 .theme-toggle button[aria-pressed="true"] { background: transparent; color: var(--text); }
 .theme-toggle button:focus-visible { outline: 3px solid var(--icon-ink); outline-offset: 3px; }
 .theme-toggle .icon { width: 20px; height: 20px; }

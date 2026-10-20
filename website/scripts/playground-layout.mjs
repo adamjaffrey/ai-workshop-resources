@@ -48,7 +48,7 @@ header.wrap p{font-size:16px;line-height:24px;margin:0;max-width:none}
 .choice-options.segmented-toggle .choice{flex:none;white-space:nowrap}
 .choice-options.segmented-toggle .choice span{height:40px;display:flex;align-items:center;padding:0 12px;border:0;border-radius:8px;background:transparent;color:var(--control-text)}
 .choice-options.segmented-toggle .choice input:checked+span{background:transparent;color:var(--agent-ink)}
-.choice-options.segmented-toggle .choice:hover input:not(:checked)+span{box-shadow:none;background:var(--action-hover)}
+.choice-options.segmented-toggle .choice:hover span{box-shadow:none;background:transparent}
 :root[data-focus-input="keyboard"] .choice-options.segmented-toggle .choice input:focus+span{outline-offset:-3px}
 #login-preview #login-destination{flex:0 1 auto;min-width:0;max-width:45%}
 @media(max-width:660px){header.wrap #playground-title{font-size:40px}header.wrap{padding-bottom:32px}header.wrap p{margin-bottom:0}#mobile-style-controls .primary-style-choices{display:flex;flex-wrap:wrap}.primary-style-choices>.choices{min-width:0;max-width:100%}}
@@ -59,7 +59,7 @@ header.wrap p{font-size:16px;line-height:24px;margin:0;max-width:none}
 .choices .choice-shell .choice-options.segmented-toggle{min-width:0;border:0;background:transparent;border-radius:11px}
 .choice-shell .choice-options{--overflow-left:0px;--overflow-right:0px;mask-image:linear-gradient(to right,transparent,#000 var(--overflow-left),#000 calc(100% - var(--overflow-right)),transparent);-webkit-mask-image:linear-gradient(to right,transparent,#000 var(--overflow-left),#000 calc(100% - var(--overflow-right)),transparent)}
 
-.choice-shell .choice-options[data-overflow-left],.choice-shell .choice-options[data-overflow-right],[data-overflow-left],[data-overflow-right]{mask-composite:intersect;-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,rgba(0,0,0,var(--overflow-left-alpha,1)) 0,rgba(0,0,0,var(--overflow-left-alpha,1)) 18px,#000 54px,#000 calc(100% - 54px),rgba(0,0,0,var(--overflow-right-alpha,1)) calc(100% - 18px),rgba(0,0,0,var(--overflow-right-alpha,1))),linear-gradient(to bottom,#000 calc(100% - var(--overflow-bottom,0px)),transparent);-webkit-mask-image:linear-gradient(to right,rgba(0,0,0,var(--overflow-left-alpha,1)) 0,rgba(0,0,0,var(--overflow-left-alpha,1)) 18px,#000 54px,#000 calc(100% - 54px),rgba(0,0,0,var(--overflow-right-alpha,1)) calc(100% - 18px),rgba(0,0,0,var(--overflow-right-alpha,1))),linear-gradient(to bottom,#000 calc(100% - var(--overflow-bottom,0px)),transparent)}
+.choice-shell .choice-options[data-overflow-left],.choice-shell .choice-options[data-overflow-right],[data-overflow-left],[data-overflow-right]{mask-composite:intersect;-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,rgba(0,0,0,var(--overflow-left-alpha,1)) 0,rgba(0,0,0,var(--overflow-left-alpha,1)) var(--overflow-shoulder,18px),#000 var(--overflow-feather,54px),#000 calc(100% - var(--overflow-feather,54px)),rgba(0,0,0,var(--overflow-right-alpha,1)) calc(100% - var(--overflow-shoulder,18px)),rgba(0,0,0,var(--overflow-right-alpha,1))),linear-gradient(to bottom,#000 calc(100% - var(--overflow-bottom,0px)),transparent);-webkit-mask-image:linear-gradient(to right,rgba(0,0,0,var(--overflow-left-alpha,1)) 0,rgba(0,0,0,var(--overflow-left-alpha,1)) var(--overflow-shoulder,18px),#000 var(--overflow-feather,54px),#000 calc(100% - var(--overflow-feather,54px)),rgba(0,0,0,var(--overflow-right-alpha,1)) calc(100% - var(--overflow-shoulder,18px)),rgba(0,0,0,var(--overflow-right-alpha,1))),linear-gradient(to bottom,#000 calc(100% - var(--overflow-bottom,0px)),transparent)}
 .tab-scroll-shell{position:relative;margin:4px 0 12px}.tab-scroll-shell::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--border);pointer-events:none}
 .tab-scroll-shell nav[role=tablist]{margin:0!important;padding-inline:0;background:none}
 .control-footer>.panel-options{min-height:50px;align-items:center}
@@ -120,17 +120,18 @@ summary,summary *,.hover-explainer,.hover-explainer *{cursor:pointer!important}
 .toolbar.controls-pinned{height:var(--toolbar-flow-height)}
 .toolbar.controls-pinned::before{content:'';position:fixed;inset:0 0 auto;height:var(--toolbar-pinned-height);background:var(--surface);border-bottom:1px solid var(--border)}
 .playground-heading~.toolbar.controls-pinned #global-style-controls{position:fixed;top:0;left:50%;transform:translateX(-50%);padding-top:24px;padding-bottom:40px;align-items:flex-start}
-.toolbar.controls-pinned legend{position:absolute;width:1px!important;height:1px;padding:0!important;margin:-1px!important;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.toolbar legend{opacity:var(--toolbar-label-opacity,1)}
+.toolbar.controls-pinned legend{opacity:0!important;position:absolute;width:1px!important;height:1px;padding:0!important;margin:-1px!important;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .toolbar.controls-pinned .hover-explanation{display:none}
 .toolbar.controls-pinned .hover-explainer{visibility:hidden}
 main.wrap{padding-top:24px}
 .tab-scroll-shell{height:var(--tab-row-height);margin:0 0 16px;position:sticky;top:var(--sticky-tab-top,0px);z-index:11;background:var(--page);box-shadow:none}
-.tab-scroll-shell nav[role=tablist]{padding-top:0}
+.tab-scroll-shell nav[role=tablist]{padding-top:0;--overflow-feather:108px;--overflow-shoulder:36px}
 .tab-scroll-shell nav[role=tablist] button[aria-selected=true]{background:color-mix(in srgb,var(--agent-accent) 8%,var(--page))}
 .tab-scroll-shell::before{content:'';position:absolute;inset:-24px 0 100%;background:var(--page);pointer-events:none}
 @media(max-width:660px){
  .tab-scroll-shell{top:0;margin-bottom:136px}
- .tab-scroll-shell.is-pinned::before{top:0}
+ .tab-scroll-shell.is-pinned::before{top:-100vh;left:calc((100% - 100vw)/2);right:calc((100% - 100vw)/2)}
  body>#style-options{top:var(--floating-tools-top,24px);right:24px}
  #back-to-top{top:calc(var(--floating-tools-top,24px) + 56px);right:24px}
 }
@@ -175,7 +176,7 @@ for(const dialog of document.querySelectorAll('.preview-dialog')){
   (expand?frame:row).append(button);
   const home=document.createComment('preview-action-home');button.after(home);homes.push({button,home});
  }
- const replay=dialog.querySelector('#perspective-replay');if(replay)row.append(replay);if(row.children.length)frame.before(row);
+ const replay=dialog.querySelector('#perspective-replay');if(replay)row.prepend(replay);if(row.children.length)frame.before(row);
  previewActionHomes.set(dialog,homes);
 }
 // Checkboxes belong with their controls, never in the module heading.
@@ -213,7 +214,7 @@ function setStickyMetrics(){
 }
 function updateStickyControls(){
  const eligible=innerWidth>660&&stickyControls.parentElement===stickyToolbar;
- stickyToolbar.classList.toggle('controls-pinned',eligible&&scrollY>=stickyThreshold);
+ stickyToolbar.style.setProperty('--toolbar-label-opacity',String(eligible?Math.max(0,Math.min(1,(stickyThreshold-scrollY)/64)):1));stickyToolbar.classList.toggle('controls-pinned',eligible&&scrollY>=stickyThreshold);
  setStickyMetrics();
  const tabs=document.querySelector('.tab-scroll-shell'),top=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sticky-tab-top'));tabs.classList.toggle('is-pinned',tabs.getBoundingClientRect().top<=top+.5);updateFloatingTools();
 }
@@ -242,7 +243,7 @@ document.fonts.ready.then(measureStickyControls);measureStickyControls();
 export const selectorRowCSS=`
 [data-panel]>.panel{margin-block:16px}
 #panel-url-reference .url-reference-intro{margin-bottom:16px}
-#perspective-replay{padding:10px;gap:8px}
+#perspective-replay{padding:10px;gap:8px}.panel-actions>button{margin-inline:0}
 .preview-dialog.is-expanded .expanded-state-controls>:is(.selector-row,.state-tools,.choices,.panel-actions,.panel-options,.control-footer,.checkbox-controls){margin-block:32px}
 .preview-dialog.is-expanded .expanded-state-controls .field{margin-top:0;gap:4px}
 .preview-dialog.is-expanded .panel-actions{justify-content:flex-end}

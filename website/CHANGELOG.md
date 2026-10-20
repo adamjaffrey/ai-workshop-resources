@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.238"
-  update_summary: "Refine sticky navigation and shared control presentation"
-  updated_at: "Tue 20 Oct 2026 at 02:01:12 pm AEDT (+11:00)"
+  doc_revision: "26.0.239"
+  update_summary: "Refine pinned labels, overflow fades and selector hover layers"
+  updated_at: "Tue 20 Oct 2026 at 02:25:27 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.237 — 2026-10-20
+
+**Built at:** Tue 20 Oct 2026 at 02:25:27 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine pinned labels, overflow fades and selector hover layers
+
+### Changed
+
+- Fade toolbar labels over the final 64px before pinning and hide them completely when pinned, preserving the existing tab navigation landing position.
+- Extend tab overflow fades to 108px with a 36px shoulder and cover the area above pinned mobile tabs with the page background.
+- Set the URL Reference introduction-to-section gap to 16px and reduce spacing below its H3 heading rows by 4px.
+- Place Replay Animation before Copy Values with an 8px visible gap in inline and expanded views.
+- Paint unselected selector hover fills behind the moving selection indicator. Darken them in light mode and lighten them in dark mode; keep selected fills unchanged on hover.
+- Restore the previous prompt copy hover colour and document the shared hover and fade rules.
+
+### Validation
+
+- Focused browser checks — passed pinned label visibility, URL spacing, inline/expanded action order and gaps, mobile background coverage and selector layer ordering.
+- Regression checks — passed control spacing, seven-width tab edges, sticky navigation, held selectors, theme colours and transitions, and the full Playground source-parity and interaction suite.
+- Structure tests and local production build — passed. Held light/dark selector screenshots inspected; physical mobile browser chrome remains untested.
 
 ## v26.0.236 — 2026-10-20
 
