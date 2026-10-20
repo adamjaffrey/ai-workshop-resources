@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.2"
-  update_summary: "Consolidate design decisions into one indexed log"
-  updated_at: "Tue 20 Oct 2026 at 05:13:43 pm AEDT (+11:00)"
+  doc_revision: "26.0.3"
+  update_summary: "Mark superseded README guidance as historical"
+  updated_at: "Tue 20 Oct 2026 at 06:00:19 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -318,7 +318,7 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 
 ## Superseded and Conflicting README Wording
 
-The README is the main historical source, but some paragraphs describe earlier iterations. The following reconciliation prevents those older statements becoming new requirements. This consolidation does not change executable behaviour or silently rewrite all historical README prose.
+The following table preserves superseded README descriptions as history. The README now replaces those conflicting prescriptions with links to the authoritative contracts; these older values must not be restored as current requirements. This documentation cleanup changes no executable behaviour.
 
 | Older Description | Current Authority or Treatment |
 |---|---|
@@ -329,7 +329,7 @@ The README is the main historical source, but some paragraphs describe earlier i
 | Playground starts in isolated Codex/light without reading the shared preference | The later [responsive lifecycle specification](README.md#responsive-updates-and-deferred-specimens) records shared same-origin preferences and latest-state synchronisation. |
 | The Playground favicon is always a white Toy Brick on Codex blue | The later [URL preferences and favicon specification](README.md#url-preferences-and-playground-favicon) defines agent/theme-dependent variants. |
 | Separate wrapper/row safety padding around already-inset gallery content | Follow the [single-owner gallery rail contract](../docs/agent-guidance/interface.md#deterministic-rules); protect paint within the existing grey gutter without multiplying content insets. |
-| Different historical Playground icon category orders, panel counts or expanded action placements | Treat these README passages as snapshots, not a new catalogue authority. Use the [source-fidelity contract](../docs/agent-guidance/interface.md#playground-source-fidelity) and actual shared renderer for a future change; this consolidation does not certify every historical count/order. |
+| Different historical Playground icon category orders, panel counts or expanded action placements | Historical snapshots of counts, ordering and action placement have been replaced in the README by contract/source links, not promoted into a new catalogue authority. Use the [source-fidelity contract](../docs/agent-guidance/interface.md#playground-source-fidelity) and actual shared renderer for a future change; this consolidation does not certify every historical count/order. |
 
 ## Consolidation Notes
 

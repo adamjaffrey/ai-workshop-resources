@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.79"
-  update_summary: "Route design decisions to the single indexed log"
-  updated_at: "Tue 20 Oct 2026 at 05:16:08 pm AEDT (+11:00)"
+  doc_revision: "26.0.80"
+  update_summary: "Require reuse of established rules and approval for departures"
+  updated_at: "Tue 20 Oct 2026 at 06:00:19 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -50,6 +50,12 @@ This file owns repository-wide rules and routes detailed work to the contracts b
 | Anonymous login backdrops, geometry capture or Sites publication preparation | [Anonymous Backdrops](docs/agent-guidance/backdrops.md) |
 
 Keep cross-cutting policy here. Put precise implementation constraints and test matrices in the appropriate contract, and decision rationale in the single [Design Decision Log](website/DESIGN-DECISIONS.md). Read its relevant entry before changing an established design choice; record substantive new or revised decisions there in the same change as their owning rules, distinguishing known rationale from undocumented reasons. Use descriptive entry anchors; separate numbered ADR files are not required. Update the owning document instead of copying its rules into multiple places. Do not move active requirements into the decision log without retaining a mandatory contract and a discoverable link.
+
+## Following Established Conventions
+
+- Follow the existing design and development rules, shared implementations and documented decisions wherever they apply. Read the relevant scoped contracts and design-log entries before proposing a new pattern; prefer reuse over introducing a parallel convention.
+- If the existing rules cannot reasonably meet the task, prepare a concrete suggestion based on the closest comparable previous decisions. Explain which rule would change, why it does not fit and the practical trade-offs, then ask the user to confirm before implementing that departure. Do not silently override an established rule or treat missing guidance as approval for an unrelated redesign.
+- An explicit user instruction already authorising that departure is sufficient; do not ask again. Routine work that follows the established rules needs no extra confirmation. After an approved change, update the owning rules and decision log together so future agents inherit the new decision.
 
 ## Preview and Handoff Essentials
 
