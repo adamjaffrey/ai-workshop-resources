@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.18"
-  update_summary: "Record Resources step anchors and exterior copy indicators"
-  updated_at: "Wed 21 Oct 2026 at 01:42:39 am AEDT (+11:00)"
+  doc_revision: "26.0.19"
+  update_summary: "Record standing LAN preview authorisation for phone review"
+  updated_at: "Wed 21 Oct 2026 at 07:53:38 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -316,7 +316,7 @@ Adam requested these gallery refinements to compare real component dimensions, r
 
 **Decision:** Three primary clicks/taps within three seconds on the header logo open the other canonical page in a new tab, in both login states, without adding a discoverable interactive control. Keep locked backdrop recognition outside the form and never bypass authentication. Routine local handoffs provide only verified Main App/Playground links; a login link is opt-in, and section links require a specifically discussed/worked-on primary destination.
 
-**Rationale:** Documented: this is an intentionally undisclosed navigation shortcut, an explicit exception to ordinary pointer affordances. The preview policy supports phone review and removes unnecessary login-form links. Its exact interaction and delivery wording remain in their contracts; this log grants no publishing or browser-opening permission.
+**Rationale:** Documented: this is an intentionally undisclosed navigation shortcut, an explicit exception to ordinary pointer affordances. The preview policy supports phone review and removes unnecessary login-form links. Adam explicitly authorised LAN preview generation, including server restarts, LAN binding and automatic local sign-in, on a standing basis to avoid repeated approval interruptions when creating preview links. GitHub pushes and Sites publication still require explicit approval for those actions; the repository instructions own this permission boundary. Its exact interaction and delivery wording remain in their contracts; this log grants no publishing or browser-opening permission.
 
 **Owning Rules and Sources:** [Hidden Shortcut](../docs/agent-guidance/authentication.md#hidden-playground-shortcut); [Delivery Contract](../docs/agent-guidance/delivery.md). Primary README source: [Phone Preview Sign-In](README.md#phone-preview-sign-in).
 

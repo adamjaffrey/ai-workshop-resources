@@ -3,9 +3,9 @@ name: preview-and-delivery
 description: Specify preview operation, authentication expectations and exact handoff wording.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.1"
-  update_summary: "Extract scoped guidance and record established decisions"
-  updated_at: "Tue 20 Oct 2026 at 04:58:39 pm AEDT (+11:00)"
+  doc_revision: "26.0.2"
+  update_summary: "Clarify standing LAN preview authorisation and external approval"
+  updated_at: "Wed 21 Oct 2026 at 07:53:38 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -15,6 +15,8 @@ metadata:
 This is a mandatory scoped contract incorporated by [AGENTS.md](../../AGENTS.md). Read it before changing the behaviours it covers. Paths and commands in code spans are relative to the repository root. Documentation-only work does not trigger the software checks listed here.
 
 ## Preview Operation
+
+- Apply the standing LAN preview authorisation in [Repository Instructions](../../AGENTS.md#preview-and-handoff-essentials) when generating preview links; no fresh approval is needed to start or restart the automatically signed-in LAN server. GitHub pushes and Sites publication remain separate actions requiring explicit user approval.
 
 - Select the Playground destination using the exact rules and title/slug mapping under Required Update Handoff: link to a section only when that specific panel was worked on or discussed in the current chat work and is the primary review destination. For cross-cutting changes, multiple equally relevant panels, or no specifically worked-on/discussed panel, use `/component-playground`. Do not choose a subpage merely because it seems generally relevant. Always use the verified active Wi-Fi address and port for local links.
 

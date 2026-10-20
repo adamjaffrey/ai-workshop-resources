@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.80"
-  update_summary: "Require reuse of established rules and approval for departures"
-  updated_at: "Tue 20 Oct 2026 at 06:00:19 pm AEDT (+11:00)"
+  doc_revision: "26.0.81"
+  update_summary: "Authorise LAN previews while retaining explicit publication approval"
+  updated_at: "Wed 21 Oct 2026 at 07:53:38 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -58,6 +58,9 @@ Keep cross-cutting policy here. Put precise implementation constraints and test 
 - An explicit user instruction already authorising that departure is sufficient; do not ask again. Routine work that follows the established rules needs no extra confirmation. After an approved change, update the owning rules and decision log together so future agents inherit the new decision.
 
 ## Preview and Handoff Essentials
+
+- Adam gives standing explicit approval to generate LAN previews whenever needed to create and verify preview links. This includes starting or restarting the local preview server, binding it to a LAN-accessible interface (including `0.0.0.0`), and using the established automatic local sign-in so devices on the LAN can review the content. Do not ask for fresh approval for these preview operations. Follow the Delivery contract for credentials and verification; this does not require a preview solely for documentation-only work.
+- Pushing to GitHub and publishing to Sites always require explicit user approval for those external actions. Standing LAN preview approval grants neither permission and does not authorise automatically opening a browser.
 
 - Never automatically open a user-facing browser or the Codex preview panel. Open a requested preview only on explicit instruction, using Chrome; headless validation is permitted for software work.
 - User-facing local previews use real automatic local sign-in (`preview:phone` or `createPhonePreview({autoLogin:true})`), never a production authentication bypass. Hosted Resources and Playground remain session-protected.
