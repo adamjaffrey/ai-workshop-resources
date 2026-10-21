@@ -19,8 +19,8 @@ try{for(const engine of [chromium,webkit]){const browser=await engine.launch(eng
  const x=box.split+21;
  await p.mouse.move(x,box.top+10);assert.equal(await button.getAttribute('data-region-hover'),'');await p.waitForTimeout(180);assert.equal(await row.evaluate(e=>getComputedStyle(e,'::before').opacity),'1','right hover tints whole header');assert.equal(await row.evaluate(e=>getComputedStyle(e,'::before').height),'50px','header tint stays 50px tall');
  await p.mouse.click(x,box.top+10);assert.equal(await button.getAttribute('aria-expanded'),'false');assert.equal(await p.evaluate(()=>window.copyCount),1);
- await p.waitForTimeout(200);assert.equal(await button.evaluate(e=>getComputedStyle(e).transitionDuration),'0.16s');
- await p.mouse.move(0,0);await p.waitForTimeout(200);assert.notEqual(await button.evaluate(e=>getComputedStyle(e).backgroundColor),'rgba(0, 0, 0, 0)');
+ await p.waitForTimeout(200);assert.equal(await button.evaluate(e=>getComputedStyle(e,'::before').transitionDuration),'0.16s');
+ await p.mouse.move(0,0);await p.waitForTimeout(200);assert.equal(await button.evaluate(e=>getComputedStyle(e,'::before').opacity),'1');
  const optical=await button.evaluate(e=>{const b=e.getBoundingClientRect(),s=e.querySelector('svg').getBoundingClientRect();return{x:(s.left+s.right-b.left-b.right)/2,y:(s.top+s.bottom-b.top-b.bottom)/2};});assert.ok(Math.abs(optical.x+1)<.1&&Math.abs(optical.y)<.1,'collapsed optical offset');
  await p.screenshot({path:'/tmp/heading-gap-'+engine.name()+'-'+width+'.png'});
  await button.click();await p.waitForTimeout(200);assert.equal(await button.getAttribute('aria-expanded'),'true');

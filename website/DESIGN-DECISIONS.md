@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.62"
-  update_summary: "Add the query summary heading and order login aliases"
-  updated_at: "Thu 22 Oct 2026 at 09:46:04 am AEDT (+11:00)"
+  doc_revision: "26.0.63"
+  update_summary: "Preserve heading paint and unify keyboard hover feedback"
+  updated_at: "Thu 22 Oct 2026 at 09:50:05 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -455,5 +455,13 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Decision:** Align the first line’s measured cap-height centre to the centre of its 50px chevron button. Adjust heading top padding using the shared font metrics; keep the button in place, the SVG centred in it and the collapsed optical correction unchanged.
 
 **Rationale:** Increasing the button height left its centred icon below the existing text. Moving only the icon would compromise centring inside the button; aligning the title preserves both relationships and the requested button insets.
+
+**Owning Rules:** [Interface](../docs/agent-guidance/interface.md#playground-heading-anchor-controls).
+
+## Unclipped Heading Paint and Immediate Hover
+
+**Decision:** Clip section-height transitions vertically only, preserving outdented H3 decoration. Reduce header top/bottom spacing from 24px to 20px. Switch hover paint instantly while keeping the collapsed-state tint on its own animated layer. Apply the full anchor hover decoration to keyboard focus.
+
+**Rationale:** Clipping both axes cut off the subsection edges during animation. Separate hover and state paint allows immediate pointer feedback without losing collapse timing. Keyboard users receive the same action indication.
 
 **Owning Rules:** [Interface](../docs/agent-guidance/interface.md#playground-heading-anchor-controls).

@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.309"
-  update_summary: "Add the query summary heading and order login aliases"
-  updated_at: "Thu 22 Oct 2026 at 09:47:26 am AEDT (+11:00)"
+  doc_revision: "26.0.310"
+  update_summary: "Fix H3 transition clipping and keyboard anchor decoration"
+  updated_at: "Thu 22 Oct 2026 at 09:50:34 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.308 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 09:50:34 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Fix H3 transition clipping and keyboard anchor decoration
+
+### Fixed
+
+- Clip section-height transitions vertically only so H3 left/right decorations remain visible.
+- Apply full shared hover decoration to keyboard-focused anchor-copy controls.
+
+### Changed
+
+- Reduce header top/bottom clearance to 20px while retaining the 50px paint height.
+- Make expand/collapse hover paint immediate, independently preserving the 160ms collapsed tint and chevron animation.
+
+### Validation
+
+- Seven URL H3 transition, spacing, immediate-hover and keyboard decoration checks in Chrome/WebKit at mobile and desktop widths — passed.
+- Responsive collapse controls, split actions and near-footer viewport regression checks — passed.
+- Production build using saved backdrop geometry — passed.
 
 ## v26.0.307 — 2026-10-22
 
