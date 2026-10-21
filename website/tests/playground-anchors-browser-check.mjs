@@ -1,0 +1,20 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+const reference=await readFile(new URL('../URL-REFERENCE.md',import.meta.url),'utf8');
+import {chromium,webkit} from 'playwright';
+import {createPhonePreview} from '../scripts/phone-preview.mjs';
+const {server}=createPhonePreview({autoLogin:true});await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
+try{for(const engine of [chromium,webkit]){const browser=await engine.launch(engine===chromium?{channel:'chrome'}:{});try{for(const width of [390,1440]){
+ const p=await browser.newPage({viewport:{width,height:1000},reducedMotion:'reduce'}),errors=[];p.on('pageerror',e=>errors.push(e.message));
+ await p.goto(origin+'/component-playground');await p.waitForFunction(()=>window.workshopPlaygroundAnchors?.entries.length>0);
+ const entries=await p.evaluate(()=>window.workshopPlaygroundAnchors.entries.map(e=>({id:e.id,path:e.path,level:e.title.tagName})));assert.equal(entries.length,31);for(const entry of entries)assert.ok(reference.includes('| `'+entry.path.split('/').pop()+'` | `#'+entry.id+'` |'),'documented anchor '+entry.id);assert.equal(entries.filter(e=>e.level==='H3').length,4);assert.equal(new Set(entries.map(e=>e.path+'#'+e.id)).size,entries.length);
+ await p.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async text=>window.lastCopiedAnchor=text}}));
+ for(const entry of entries){
+  await p.evaluate(async entry=>{const e=window.workshopPlaygroundAnchors.entries.find(e=>e.id===entry.id);e.panel.workshopSetCollapsed(true);await window.workshopPlaygroundAnchors.navigate(entry.path+'#'+entry.id);},entry);
+  const data=await p.evaluate(id=>{const e=window.workshopPlaygroundAnchors.entries.find(e=>e.id===id),r=e.target.getBoundingClientRect(),tabs=document.querySelector('.tab-scroll-shell').getBoundingClientRect(),button=e.row.querySelector('.section-collapse').getBoundingClientRect();return{gap:r.top-tabs.bottom,collapsed:e.panel.hasAttribute('data-collapsed'),hidden:e.panel.closest('[data-panel]').hidden,w:button.width,h:button.height,overflow:document.documentElement.scrollWidth>innerWidth+1}},entry.id);
+  assert.ok(Math.abs(data.gap-16)<=1,JSON.stringify({width,entry,data}));assert.equal(data.collapsed,false);assert.equal(data.hidden,false);assert.equal(data.w,44);assert.equal(data.h,44);assert.equal(data.overflow,false);
+  const before=await p.evaluate(()=>scrollY);await p.locator('.heading-anchor[data-anchor="'+entry.id+'"]').click();assert.equal(await p.evaluate(()=>window.lastCopiedAnchor),origin+entry.path+'#'+entry.id);assert.ok(Math.abs(await p.evaluate(()=>scrollY)-before)<1);assert.equal(await p.locator('.heading-anchor[data-anchor="'+entry.id+'"]').getAttribute('data-result'),'success');
+ }
+ assert.deepEqual(errors,[]);console.log('PASS every anchor, exact landing, collapsed reveal, copy and bounded chevron',engine.name(),width,entries.length);
+ await p.close();
+}}finally{await browser.close()}}}finally{await new Promise(r=>server.close(r))}

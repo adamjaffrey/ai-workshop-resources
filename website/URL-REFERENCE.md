@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.12"
-  update_summary: "Clarify Colours behind the existing backdrop endpoint"
-  updated_at: "Wed 21 Oct 2026 at 05:38:48 pm AEDT (+11:00)"
+  doc_revision: "26.0.13"
+  update_summary: "List all Playground heading fragments and navigation behaviour"
+  updated_at: "Thu 22 Oct 2026 at 02:00:31 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -131,6 +131,44 @@ Section aliases work under the canonical Playground root and every root alias ab
 The top-level aliases `/url`, `/urls`, `/reference`, `/references`, `/url-reference`, `/url-references`, `/urls-reference` and `/urls-references` also redirect directly to `/component-playground/url-reference` with 301. They preserve descendants, so `/URLS-REFERENCES/Example` redirects to `/component-playground/url-reference/example`. These aliases also work as section slugs beneath every Playground root alias. Query strings follow the same global canonicalisation rules.
 
 Only the root and listed canonical section pages currently exist. Pluralisation uses explicit mappings; it does not rewrite arbitrary descendant words.
+
+Every collapsible outer H2/H3 also has a copyable heading anchor. Combine `/component-playground/`, the tab slug and its fragment below; for example, `/component-playground/icons#playground-icons`. The four indented query-parameter subsections are H3 targets; embedded specimens do not receive anchors.
+
+| Tab Slug | Heading Fragment |
+| --- | --- |
+| `components` | `#login-and-password-field` |
+| `components` | `#resource-page-and-controls` |
+| `branding` | `#floating-brand-blur` |
+| `easter-egg` | `#easter-egg` |
+| `typography` | `#typography-and-text-styles` |
+| `typography` | `#defined-styles-used-in-playground` |
+| `typography` | `#text-styles-not-used-in-the-app` |
+| `focus-and-selection` | `#focus-rings-and-text-selection` |
+| `colours` | `#shared-colour-tokens` |
+| `colours` | `#all-app-colour-rules` |
+| `colours` | `#source-coverage` |
+| `blocks-and-blur` | `#blocks-and-blur` |
+| `icons` | `#app-icons-and-symbols` |
+| `icons` | `#playground-icons` |
+| `icons` | `#lucide-licence-isc-and-mit` |
+| `icons` | `#lobe-icons-licence-mit` |
+| `status-states` | `#status-states-and-fallbacks` |
+| `url-reference` | `#canonical-addresses-and-page-titles` |
+| `url-reference` | `#hostname-redirects` |
+| `url-reference` | `#global-canonicalisation` |
+| `url-reference` | `#resources-aliases` |
+| `url-reference` | `#playground-root-aliases` |
+| `url-reference` | `#playground-sections` |
+| `url-reference` | `#public-query-parameters` |
+| `url-reference` | `#agent-and-theme-aliases` |
+| `url-reference` | `#login-aliases-and-validation` |
+| `url-reference` | `#local-and-hosted-behaviour` |
+| `url-reference` | `#combined-example` |
+| `url-reference` | `#other-authentication-navigation-and-internal-parameters` |
+| `url-reference` | `#playground-reference-and-logo-navigation` |
+| `url-reference` | `#sources` |
+
+Clicking the heading or its assigned icon copies the canonical URL without moving the page. Only the bounded chevron toggles the section. Copied links retain the current query except `show-login`. Opening, reloading or re-entering an anchor selects its tab, opens the enclosing section and scrolls to 16px below the settled sticky tab bar. H2 targets use the card edge; H3 targets use the heading row. Earlier cards/content fade during the final 600ms of travel, retain layout space and return on upward scrolling. Fragments remain client-side and survive login. Unknown fragments remain unchanged. Selecting another tab clears the previous fragment.
 
 ## Public Query Parameters
 

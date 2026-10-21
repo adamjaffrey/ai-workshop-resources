@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.42"
-  update_summary: "Preserve the neutral QR keyline above interaction overlays"
-  updated_at: "Thu 22 Oct 2026 at 01:45:58 am AEDT (+11:00)"
+  doc_revision: "26.0.43"
+  update_summary: "Define Playground heading copy and chevron controls"
+  updated_at: "Thu 22 Oct 2026 at 02:00:31 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -96,7 +96,7 @@ Run `node website/tests/playground-external-text-inset-browser-check.mjs` for me
 
 ## Text Links, Anchor Links and Hover States
 
-These are global website rules for current and future text links and anchor-copy controls, including their Playground specimens. Reuse the shared implementation; do not create page-specific spacing or decoration variants. This does not authorise adding anchors to Playground headings, which remains deferred.
+These are global website rules for current and future text links and anchor-copy controls, including their Playground specimens. Reuse the shared implementation; do not create page-specific spacing or decoration variants.
 
 - **Anchor icon placement follows the text’s actual alignment:** right-aligned text receives its Hash icon on the left; all other text receives it on the right, including left-aligned, centred and justified text. Re-evaluate the side when alignment changes responsively. This is a general rule, not an exception tied to Step 2 or desktop. Reserve the icon slot on the appropriate side even while hidden so hover and feedback never move the label. Keep the label on its intended alignment rail. Check and X occupy the same side and slot as Hash. Navigation-link arrows remain after the linked text; the side-switching rule applies to anchor icons.
 - Use the shared inline link treatment in `workshop-links.mjs` and proportional icons in `workshop-link-icons.mjs`. Set link and anchor layout padding to zero. Native `box-decoration-break:clone` repeats the solid background and zero-blur box shadows on every wrapped line. Paint extends 0 top, .125em right, .05em bottom and .075em left without affecting text alignment, spacing or wrapping. Keep the base .2em radius. Do not measure line fragments or use a single positioned pseudo-element for these backgrounds. Standalone Playground links use normal text alignment without compensating negative margins. The painted extension is separate from the text box; do not reintroduce padding to create it.
@@ -125,7 +125,7 @@ These are global website rules for current and future text links and anchor-copy
 - The .2em gap is measured from the text box to the reserved icon slot, not to the nearest painted SVG stroke. The gap scales with the text's computed font size. Retain the non-wrapping wrapper rather than adding a literal non-breaking space that would add extra spacing.
 - Highlight extensions are CSS paint, not padding, margin, line height or extra whitespace. The current shared zero-blur shadow recipe is `-.05em .025em 0 .025em var(--link-hover-bg), .1em .025em 0 .025em var(--link-hover-bg)`. Along with the background, it paints the approved asymmetric extensions. Native cloned decoration repeats on every line, including continuation-line left and right edges; overlapping solid fills do not compound. No JavaScript measures or draws the highlight. JavaScript still decorates link markup and converts icon stroke units.
 - Keep the label and its actual link/control hit area clickable with a hand cursor. Painted shadows do not enlarge the browser's hit box. Retain real keyboard focus; navigation links currently use a 3px shared-ink outline with 3px offset for keyboard focus. Follow the global focus contract rather than substituting hover styling for focus.
-- Shared rendering lives in [workshop-links.mjs](../../website/lib/workshop-links.mjs), icon sizing and the single gap value in [workshop-link-icons.mjs](../../website/lib/workshop-link-icons.mjs), and anchor copying in [workshop-resource-anchors.mjs](../../website/lib/workshop-resource-anchors.mjs). New and dynamically inserted links must use the same renderer. Explicit `data-no-link-decoration` opt-outs are for intentional exceptions, not independent visual variants.
+- Shared rendering lives in [workshop-links.mjs](../../website/lib/workshop-links.mjs), icon sizing and the single gap value in [workshop-link-icons.mjs](../../website/lib/workshop-link-icons.mjs), and shared anchor copying in [workshop-anchor-copy.mjs](../../website/lib/workshop-anchor-copy.mjs). New and dynamically inserted links must use the same renderer. Explicit `data-no-link-decoration` opt-outs are for intentional exceptions, not independent visual variants.
 
 ### Exact Icons and Approved Derivatives
 
@@ -168,6 +168,14 @@ Production sizing uses a 24-unit viewBox at 1.2cap inside a fixed 1cap-wide slot
 - After anchor arrival, route the first forward Tab to the selected agent option, the second to the selected theme option, and the third to the first focusable control in the target card, without moving the page. Preserve selector arrow-key behaviour and resume normal tabbing in the card; pointer interaction or upward restoration releases the temporary route.
 - Maintain the same Resources component in Playground specimens, including simulated clipboard outcomes and icon catalogue metadata. These specimens do not create Playground heading anchors.
 
+## Playground Heading Anchor Controls
+
+- Apply the shared anchor treatment to every collapsible outer H2/H3 heading, including URL Reference subsections. Exclude embedded specimens. Keep each assigned heading icon and its alignment; clicking it or the heading copies the canonical URL in place. Enter and Space activate the focused copy control.
+- Only the separate 44px square button around the existing right chevron expands or collapses a section. Preserve its visual icon position, accessible name, expanded state, keyboard operation and retained in-page collapse state. Do not restore a full-row collapse overlay.
+- Use kebab-case heading-title fragments under the canonical tab path. Reject duplicate fragments within a tab. Opening an anchor selects its tab and expands its enclosing card and target subsection before landing. Keep existing fragments compatible when renaming headings; update the shared URL Reference and client aliases together.
+- Follow [Playground Anchor Arrival](motion.md#playground-anchor-arrival) for landing, fading and cancellation. After arrival, the first three forward Tab stops are the selected agent, selected theme and target heading copy control on desktop. On mobile use Style Options, the selected tab and target copy control. Resume normal DOM order afterwards; pointer input or upward restoration releases the temporary route.
+- Use the shared copy feedback implementation and timings; include the new usage metadata in the Playground icon catalogue. Validate every generated URL, collapsed targets, sticky geometry, same-URL re-entry, reload/history, keyboard focus and both clipboard outcomes in Chrome and WebKit at mobile and desktop widths. Verify preceding content restores only on upward scroll. Run `website/tests/playground-anchors-browser-check.mjs`, `website/tests/playground-anchor-interaction-browser-check.mjs` and `website/tests/playground-anchor-presentation-browser-check.mjs` with Node, alongside the section-collapse and source-parity checks.
+
 ## Shared Success and Failure Feedback
 
 Apply this convention to new transient success/failure feedback and reuse `website/lib/workshop-copy-timing.mjs` for the shared timings and keyframes. Use the closest existing feedback type below rather than inventing a separate animation or cooldown. Keep live components and their Playground specimens in parity. This section is the timing authority; [Navigation Links and Copy Feedback](../../website/DESIGN-DECISIONS.md#navigation-links-and-copy-feedback) records the rationale.
@@ -188,7 +196,7 @@ Apply this convention to new transient success/failure feedback and reuse `websi
 | Copy Prompt button icon and label | 6 seconds | 12 seconds |
 | Copy Prompt explainer panel | 6 seconds | 12 seconds |
 | QR Code Copy Link icon and label | 3 seconds | 6 seconds |
-| Step Anchor Copy icon | 3 seconds | 6 seconds |
+| Resources and Playground Anchor Copy icon | 3 seconds | 6 seconds |
 
 - Start the hold timer only after the entrance animation finishes, so each hold is fully visible for its complete duration. A new result cancels the previous result's animation and timer; it must not be cleared by an older callback. With reduced motion, skip fades and movement while retaining the full hold.
 - Failure entrances are deliberately quicker and simpler because they indicate a problem that needs prompt attention: fade only, without the decorative upward entrance movement. Failures remain visible twice as long as the corresponding success result to give the user time to understand the problem and act. Success can use the gentler upward entrance to confirm completion. Preserve this distinction in future feedback.

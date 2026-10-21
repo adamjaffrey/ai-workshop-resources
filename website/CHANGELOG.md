@@ -3,14 +3,48 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.296"
-  update_summary: "Refresh both login backdrops for publication"
-  updated_at: "Thu 22 Oct 2026 at 01:55:51 am AEDT (+11:00)"
+  doc_revision: "26.0.297"
+  update_summary: "Add copyable Playground headings and precise anchor landings"
+  updated_at: "Thu 22 Oct 2026 at 02:07:14 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.295 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 02:07:14 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add copyable Playground headings and precise anchor landings
+
+### Added
+
+- Add descriptive anchors to all 31 collapsible Playground H2/H3 headings, with the shared modified Hash, Check/X feedback, proportional icon slot and instant multiline hover treatment.
+- Land cards or subsection headings 16px below the settled sticky tabs, reveal collapsed targets, fade preceding content during final approach, and restore it on upward scrolling.
+- Support initial links, reloads, same-URL re-entry, history, login continuation and a keyboard route through the visible selectors to the target heading.
+
+### Changed
+
+- Limit section expansion/collapse to the existing chevron inside a 44px square target; heading activation copies without scrolling.
+- Share Resources and Playground clipboard feedback and distance-based scroll profiles, retaining Resources geometry and timings.
+- Catalogue the new anchor icon uses with correct modified-variant names, measurements and isolated sample styling; document the fragment inventory and design contracts.
+
+### Validation
+
+- All 31 anchors: collapsed reveal, canonical copy, 16px landing and chevron dimensions passed in Chrome/WebKit at 390px and 1440px.
+- Initial/repeated navigation, reload, focus routing, directional restoration and success/failure entry checks passed in both engines and widths.
+- Real login continuation, history, all four agent/theme combinations, icon gaps and synchronised arrival fading passed.
+- Resources regression and copy lifecycle checks passed, including actual LAN same-URL replacement navigation.
+- Section-collapse, seven-width optical alignment, icon measurement and 16 routing/backdrop unit checks passed.
+- Full Playground source-parity and inspector regression passed when run alone after an initial specimen-settling timeout.
+- Production build, generated version displays and PVS validation — passed; saved backdrop geometry reused.
 
 ## v26.0.294 — 2026-10-22
 

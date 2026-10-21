@@ -12,7 +12,7 @@ function alignHeadingCaps(){
   if(!title.getBoundingClientRect().width)continue;
   const icon=title.querySelector(':scope>svg');if(!icon)continue;
   const c=getComputedStyle(title),centre=measureHeading(title).centre;
-  const box=icon.getAttribute('viewBox'),m=box==='0 0 24 24'?headingInk.icons[icon.dataset.iconName]:headingInk.variants[icon.dataset.iconName+':'+box],size=parseFloat(getComputedStyle(icon).height),scale=size/(m?.viewBox||24);
+  const box=icon.getAttribute('viewBox'),m=icon.dataset.iconVariant?headingInk.variants[icon.dataset.iconVariant]:box==='0 0 24 24'?headingInk.icons[icon.dataset.iconName]:headingInk.variants[icon.dataset.iconName+':'+box],size=parseFloat(getComputedStyle(icon).height),scale=size/(m?.viewBox||24);
   title.style.setProperty('--heading-icon-top',(centre-size/2+((m?.bottom||0)-(m?.top||0))*scale/2)+'px');
   title.dataset.capCentre=String(centre);
   const row=title.closest('.section-heading');if(row)row.style.setProperty('--section-cap-y',(title.getBoundingClientRect().top-row.getBoundingClientRect().top+parseFloat(c.paddingTop)+centre)+'px');

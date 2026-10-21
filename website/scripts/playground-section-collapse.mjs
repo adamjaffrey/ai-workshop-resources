@@ -7,10 +7,10 @@ export const sectionCollapseCSS=`
 html:has(#playground-title){scrollbar-gutter:stable}
 /* Keep the rotation pivot fixed; the down-state stroke has a 28px right inset. */
 :is([data-panel]>.panel,.url-subsection)>.section-heading{position:relative;padding-right:44px;isolation:isolate}
-:is([data-panel]>.panel,.url-subsection)>.section-heading>.section-collapse{position:absolute;inset:-4px -12px;margin:0;z-index:0;display:block;width:auto;height:auto;min-height:44px;padding:0;border:0;border-radius:8px;background:transparent;color:var(--text);cursor:pointer;box-shadow:none}
-:is([data-panel]>.panel,.url-subsection):not(.is-expanded)>.section-heading :is(h2,h3){position:relative;z-index:1;pointer-events:none;user-select:none}
+:is([data-panel]>.panel,.url-subsection)>.section-heading>.section-collapse{position:absolute;right:-12px;top:calc(var(--section-cap-y,22px) - 22px);margin:0;z-index:0;display:block;width:44px;height:44px;min-height:44px;padding:0;border:0;border-radius:8px;background:transparent;color:var(--text);cursor:pointer;box-shadow:none}
+:is([data-panel]>.panel,.url-subsection):not(.is-expanded)>.section-heading :is(h2,h3){position:relative;z-index:1;user-select:none}
 :is([data-panel]>.panel,.url-subsection):not(.is-expanded)>.section-heading :is(h2,h2 *,h3,h3 *,button,button *){cursor:pointer!important}
-.section-collapse>svg{position:absolute;right:calc(11px - ${ink.icons['chevron-down'].right}px);top:calc(var(--section-cap-y,22px) + 4px - 12px);display:block;width:24px;height:24px;transform-origin:center;transition:transform 160ms ease}
+.section-collapse>svg{position:absolute;right:calc(11px - ${ink.icons['chevron-down'].right}px);top:10px;display:block;width:24px;height:24px;transform-origin:center;transition:transform 160ms ease}
 #panel-url-reference .url-subsection>.section-heading{min-height:0}#panel-url-reference .url-subsection>.section-heading>.section-collapse{min-height:0}
 .section-collapse:hover{background:var(--hover)!important}
 [data-collapsed]>.section-heading>.section-collapse>svg{transform:rotate(90deg)}
@@ -29,12 +29,14 @@ for(const [index,panel] of [...document.querySelectorAll('[data-panel]>.panel,.u
  const name=title.textContent.trim();button.setAttribute('aria-expanded','true');button.setAttribute('aria-label','Collapse '+name);
  const ids=[...panel.children].filter(e=>e!==heading).map((child,i)=>{if(!child.id)child.id='section-content-'+index+'-'+i;return child.id;});
  button.setAttribute('aria-controls',ids.join(' '));heading.append(button);let hiddenContent=[];
- button.addEventListener('click',()=>{
-  const collapsed=panel.toggleAttribute('data-collapsed');button.setAttribute('aria-expanded',String(!collapsed));button.setAttribute('aria-label',(collapsed?'Expand ':'Collapse ')+name);
+ panel.workshopSetCollapsed=collapsed=>{
+  if(panel.hasAttribute('data-collapsed')===collapsed)return;
+  panel.toggleAttribute('data-collapsed',collapsed);button.setAttribute('aria-expanded',String(!collapsed));button.setAttribute('aria-label',(collapsed?'Expand ':'Collapse ')+name);
   // Inline priority also overrides existing ID-specific display: flex !important.
   if(collapsed){hiddenContent=[...panel.children].filter(child=>child!==heading).map(child=>({child,display:child.style.getPropertyValue('display'),priority:child.style.getPropertyPriority('display')}));for(const {child} of hiddenContent)child.style.setProperty('display','none','important');}
   else{for(const {child,display,priority} of hiddenContent){if(display)child.style.setProperty('display',display,priority);else child.style.removeProperty('display');}hiddenContent=[];}
   if(!collapsed)requestAnimationFrame(()=>{for(const frame of panel.querySelectorAll('iframe'))frame.contentWindow.postMessage({guide:'measure-reference'},'*');});
- });
+ };
+ button.addEventListener('click',()=>{window.workshopPlaygroundAnchors?.leave();panel.workshopSetCollapsed(!panel.hasAttribute('data-collapsed'));});
 }
 `;

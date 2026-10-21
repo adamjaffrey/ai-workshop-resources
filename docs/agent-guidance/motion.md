@@ -3,9 +3,9 @@ name: motion-contract
 description: Preserve theme transitions, selector movement and card reveal timing.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.4"
-  update_summary: "Smooth anchor acceleration and preserve selector continuity"
-  updated_at: "Wed 21 Oct 2026 at 10:58:12 am AEDT (+11:00)"
+  doc_revision: "26.0.5"
+  update_summary: "Define shared Playground anchor travel and preceding-card fades"
+  updated_at: "Thu 22 Oct 2026 at 02:00:31 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -57,3 +57,10 @@ Preserve the approved behaviour in `website/lib/workshop-theme.mjs`, `website/li
 - Let the original selectors move naturally with the page and become sticky as their slots reach the sticky boundary; do not force-pin them before travel. Retain their pinned state at arrival and hold the existing Wavelength halo, including Step 1. Over the final 600ms of travel, use one eased progress value for fading preceding step/card pairs out, bringing both selector shadows to full opacity, and revealing the Wavelength mark and veil. All complete with the scroll. Keep preceding pairs visible before this final interval, retain their layout space, and make them inert at arrival. The normal initial card entrance sequence must not obscure an anchor journey.
 - Downward scrolling leaves preceding pairs hidden; upward scrolling restores them over 600ms with `cubic-bezier(.2,0,.2,1)` and releases forced sticky/brand state. Add only the bottom scroll room needed to reach the anchor; trim it at subsequent landings and progressively after upward restoration when removal cannot clamp the scroll position. A near-footer landing can require visible space below the footer.
 - Respect reduced motion for scrolling and fades. User wheel/touch/navigation-key input can interrupt arrival and restore earlier content. Clicking a step copy control never initiates this journey. Follow the Interface contract for the temporary agent → theme → target-card keyboard route.
+
+## Playground Anchor Arrival
+
+- Reuse the Resources distance-based journey: 1200 CSS px/s maximum cruise speed, smoothstep velocity during 300ms acceleration and deceleration, and at least 600ms total duration. Reduced motion lands immediately. Wait for fonts and active-tab specimen layout to settle before measuring; correct late layout changes only until the reader starts scrolling.
+- Land the outer H2 card top, or the H3 subsection heading-row top, 16px below the actual settled sticky tab bar. Use whole CSS-pixel scroll coordinates and the existing responsive sticky controller, letting controls pin naturally as the page travels. Do not apply the Resources 60/30px text clearance to Playground.
+- Fade earlier cards in the selected tab over the final 600ms of travel using the shared eased arrival progress. For an H3, also fade preceding content within its enclosing card without fading the ancestor containing the target. Retain all layout space and make hidden content inert after arrival. Restore over 600ms with the Resources easing on upward scroll; continuing downward leaves it hidden. Changing tab or using a chevron restores the normal page.
+- Add only the minimum bottom space needed for the destination; trim it safely on subsequent navigation and upward restoration. Wheel, touch and navigation-key input can cancel an in-progress journey. Copying a heading does not scroll. Follow the Interface contract for focus routing.

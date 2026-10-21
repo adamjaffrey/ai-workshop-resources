@@ -3,9 +3,9 @@ name: authentication-and-routing
 description: Preserve canonical routing, login states and the hidden navigation shortcut.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.5"
-  update_summary: "Use the selected Colours backdrop for Playground login"
-  updated_at: "Wed 21 Oct 2026 at 05:38:48 pm AEDT (+11:00)"
+  doc_revision: "26.0.6"
+  update_summary: "Document Playground client-side heading fragments"
+  updated_at: "Thu 22 Oct 2026 at 02:00:31 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -23,6 +23,10 @@ Site-wide GET/HEAD requests remove a leading `www.` hostname and lowercase the p
 ## Resources Step Fragments
 
 Resources step anchors and short aliases are listed in [URL Reference](../../website/URL-REFERENCE.md#resources-aliases). Resolve recognised fragments in the client: fragments are not sent to the server, so their alias rewrites use `history.replaceState`, not HTTP redirects. Preserve the current path/query during alias rewrites, retain fragments through JavaScript login, and leave unknown fragments alone. Copied links use the canonical Resources path and descriptive fragment, retain the current query except `show-login`, and never initiate scrolling. Handle initial loads, reloads, history restoration and same-document re-entry of an unchanged recognised fragment; use the Navigation API where supported because unchanged fragments do not emit `hashchange`. Handle both push and replacement navigation; suppress only the controller’s own history rewrite and ignore query-only preference updates. Canonicalise short aliases after an intercepted transition finishes, because changing history during it aborts the transition. Follow [Resources Anchor Arrival](motion.md#resources-anchor-arrival) for positioning.
+
+## Playground Heading Fragments
+
+Use the canonical tab path plus the kebab-case outer H2/H3 title, as listed in [URL Reference](../../website/URL-REFERENCE.md#playground-sections). Fragments are handled entirely in the client and do not alter server authentication or create new server routes. Copy retains current query parameters except `show-login`. Preserve fragments through login and path canonicalisation; leave unknown fragments unchanged. Handle initial load, reload, back/forward and same-URL replacement using the Navigation API where available, with hash/history events as fallbacks. Ignore query-only preference updates. Tab selection clears the old tab's fragment. Do not let native fragment scrolling run before active specimens and the sticky layout are ready; the controller owns the landing described in [Playground Anchor Arrival](motion.md#playground-anchor-arrival).
 
 ## Website Login
 

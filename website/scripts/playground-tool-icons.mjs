@@ -12,16 +12,16 @@ function foldIconUsages(list){
 }
 function renderPlaygroundIcons(){
  const catalog=document.getElementById('playground-icon-catalog'),icons=new Map(),originalArrowUsages=new Set();
- const headingOrder=[...document.querySelectorAll('[data-tab]')].flatMap(tab=>[...document.querySelectorAll('[data-panel="'+tab.dataset.tab+'"] .section-heading h2 svg,[data-panel="'+tab.dataset.tab+'"] .url-reference-subheading svg')].map(svg=>svg.dataset.iconName));
+ const headingOrder=[...document.querySelectorAll('[data-tab]')].flatMap(tab=>[...document.querySelectorAll('[data-panel="'+tab.dataset.tab+'"] .section-heading h2>svg,[data-panel="'+tab.dataset.tab+'"] .url-reference-subheading>svg')].map(svg=>svg.dataset.iconName));
  const uiOrder=['ellipsis','x','arrow-up-to-line','rotate-ccw','rotate-cw','copy','minimize-2','maximize-2','chevron-right','arrow-up-right'];
  for(const svg of document.querySelectorAll('svg[data-icon-provider]')){
   if(catalog.contains(svg))continue;
   const {iconProvider:provider,iconName:name,iconUse:use}=svg.dataset;
   if(!name||!use)throw Error('Missing Playground icon metadata');
   const key=provider+':'+name+(svg.dataset.iconVariant?':modified':'');
-  if(!icons.has(key))icons.set(key,{svg,provider,name,variant:svg.dataset.iconVariant?'modified':undefined,usages:new Set(),groups:new Set()});
+  if(!icons.has(key))icons.set(key,{svg,provider,name,variant:svg.dataset.iconVariant||undefined,usages:new Set(),groups:new Set()});
   const panel=svg.closest('.panel'),heading=svg.closest('h1,h2,h3'),control=svg.closest('button,summary');
- const group=svg.closest('#playground-title')?'playground':svg.closest('.section-heading h2,.url-reference-subheading,[data-tab]')?'headings':svg.closest('button,a,summary,.breadcrumbs')?'ui':'other';
+ const group=svg.closest('#playground-title')?'playground':svg.closest('.heading-anchor')?'ui':svg.closest('.section-heading h2,.url-reference-subheading,[data-tab]')?'headings':svg.closest('button,a,summary,.breadcrumbs')?'ui':'other';
  icons.get(key).groups.add(group);
   const location=panel?.querySelector('.section-heading h2')?.textContent.trim()||'Playground';
   // Hidden alternate icons describe their own action, not the button's resting label.
@@ -34,14 +34,14 @@ function renderPlaygroundIcons(){
  // Preserve canonical Lucide entries and catalogue approved derivatives separately.
  const template=document.createElement('template');template.innerHTML=${JSON.stringify(linkArrowSVG)};
  const modified=template.content.querySelector('svg');
- icons.set('lucide:arrow-up-right:modified',{svg:modified,provider:'lucide',name:'arrow-up-right',groups:new Set(['ui']),variant:'modified',usages:new Set(['Typography → Links · follow-link'])});
+ icons.set('lucide:arrow-up-right:modified',{svg:modified,provider:'lucide',name:'arrow-up-right',groups:new Set(['ui']),variant:'arrow-up-right-modified',usages:new Set(['Typography → Links · follow-link'])});
  catalog.replaceChildren();
  const rank=item=>item.groups.has('playground')?0:item.groups.has('headings')?10+Math.max(0,headingOrder.indexOf(item.name)):item.groups.has('ui')?1000+(uiOrder.includes(item.name)?uiOrder.indexOf(item.name):uiOrder.length):2000;
  for(const {svg,provider,name,usages,groups,variant} of [...icons.values()].sort((a,b)=>rank(a)-rank(b)||a.name.localeCompare(b.name))){
   const entry=document.createElement('section');entry.className='playground-icon-entry';entry.dataset.catalogIcon=name;entry.dataset.iconFamily=provider;if(variant)entry.dataset.catalogVariant=variant;entry.dataset.iconGroups=[...groups].join(' ');
   const heading=document.createElement('h3'),sample=svg.cloneNode(true);
-  sample.removeAttribute('id');sample.setAttribute('width','24');sample.setAttribute('height','24');sample.setAttribute('aria-hidden','true');
-  if(variant==='modified'){sample.classList.remove('text-link-icon','link-arrow');sample.style.cssText='width:24px;height:24px';}heading.append(sample,document.createTextNode(variant==='modified'?'Modified Arrow Up Right':name));
+  sample.removeAttribute('id');if(sample.classList.contains('text-link-icon')){sample.removeAttribute('style');sample.classList.remove('text-link-icon','link-arrow','step-anchor-hash','step-anchor-success','step-anchor-failure');sample.setAttribute('stroke-width','2');}sample.setAttribute('width','24');sample.setAttribute('height','24');sample.setAttribute('aria-hidden','true');
+  if(variant)sample.style.cssText='width:24px;height:24px';heading.append(sample,document.createTextNode(variant==='hash-modified'?'Modified Hash':variant==='arrow-up-right-modified'?'Modified Arrow Up Right':name));
   const list=document.createElement('ul');
   for(const usage of usages)list.append(iconUsageItem(usage));
   const link=document.createElement('a');
@@ -58,7 +58,7 @@ document.getElementById('playground-icon-filter').addEventListener('change',filt
 document.getElementById('show-playground-sources').addEventListener('change',event=>{document.querySelectorAll('[data-playground-source]').forEach(link=>link.hidden=!event.target.checked);});
 const frameLinkInventory=new Map();
 function refreshLinkInventory(){
- const list=document.querySelector('[data-catalog-variant="modified"] ul');if(!list)return;
+ const list=document.querySelector('[data-catalog-icon="arrow-up-right"][data-catalog-variant="arrow-up-right-modified"] ul');if(!list)return;
  const usages=new Set([...document.querySelectorAll('a[href]')].map(a=>{const panel=a.closest('.panel');return (panel?.querySelector('.section-heading h2')?.textContent.trim()||'Playground')+' → '+a.textContent.trim()+' · '+a.getAttribute('href');}));
  for(const [name,links] of frameLinkInventory)for(const link of links)usages.add(name+' → '+link.label+' · '+link.href);
  list.replaceChildren(...[...usages].map(iconUsageItem));foldIconUsages(list);

@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.49"
-  update_summary: "Preserve the neutral QR keyline above interaction overlays"
-  updated_at: "Thu 22 Oct 2026 at 01:45:58 am AEDT (+11:00)"
+  doc_revision: "26.0.50"
+  update_summary: "Record Playground heading anchors and shared arrival behaviour"
+  updated_at: "Thu 22 Oct 2026 at 02:00:31 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -44,6 +44,7 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 | [Theme and Preference Persistence](#theme-and-preference-persistence) | OS defaults, persistence, URLs and cross-tab state |
 | [Shared Surfaces and Shadows](#shared-surfaces-and-shadows) | Neutral surfaces, QR exception and shadow tokens |
 | [Icons and Source Catalogues](#icons-and-source-catalogues) | Library policy, metadata and catalogue provenance |
+| [Playground Heading Anchors](#playground-heading-anchors) | Heading copy, isolated chevrons and sticky landings |
 | [Navigation Links and Copy Feedback](#navigation-links-and-copy-feedback) | Link arrows, hover targets and clipboard feedback |
 | [QR Touch Interaction](#qr-touch-interaction) | Touch reveal versus direct activation |
 | [Focus, Cursors and Cancellation](#focus-cursors-and-cancellation) | Input modality, panel opening and cancelled drags |
@@ -367,7 +368,7 @@ Repository-wide permissions and task routing stay in [AGENTS.md](../AGENTS.md). 
 
 **Decision:** Make Step N and its reserved icon region copy the descriptive anchor URL in place. Use the native multiline highlight, modified Hash, common proportional icon slot and instant hover treatment described in [Navigation Links and Copy Feedback](#navigation-links-and-copy-feedback). Check and X use the same slot and .2em gap. Follow the global alignment rule: put this slot left of right-aligned anchor text and right of all other anchor text. Resources Step 2 is the current responsive example, not the scope of the rule. No underline appears on anchor-copy headings. Handle same-URL replacement navigation as well as push navigation, and delay alias rewrites until an intercepted transition finishes. Use 600ms success entry and all exits, 300ms opacity-only failure entry, ease-out entrances and ease-in exits. Fully visible holds begin after entry: 3/6 seconds for anchor and QR success/failure, 6/12 seconds for prompt feedback. Keep existing short fragments as client-side aliases. On anchor opening or same-URL re-entry, cap scroll speed at 1200 CSS px/s with eased 300ms velocity ramps, let the selector become sticky naturally, and land 60px below pinned selectors (30px on mobile). Synchronise previous-pair fade-out, selector shadows and the Wavelength reveal over the final 600ms of the journey. Route the first three Tab stops through agent, theme and target-card content. Restore them with an eased fade on upward scrolling only.
 
-**Rationale:** Adam explicitly selected a consistent heading-copy convention and an exterior icon, with tooltip-only visible feedback. He requested a visible scroll journey, a clear selected step and a fully visible brand even at Step 1. The initial post-arrival fade was too conspicuous and fixed-duration scrolling made longer journeys frantic. Fading only during the final approach preserves visible context while completing the effects together. Retaining layout space prevents jumps when earlier content returns; only unavoidable landing space remains below the footer. The shorter icon cooldown reflects less feedback to read, and connected hover surfaces now group the regular feedback marks. The current reserved inline slot and paint-only background supersede the earlier gutter indicator. Playground heading anchors and changes to its collapse controls remain deferred.
+**Rationale:** Adam explicitly selected a consistent heading-copy convention and an exterior icon, with tooltip-only visible feedback. He requested a visible scroll journey, a clear selected step and a fully visible brand even at Step 1. The initial post-arrival fade was too conspicuous and fixed-duration scrolling made longer journeys frantic. Fading only during the final approach preserves visible context while completing the effects together. Retaining layout space prevents jumps when earlier content returns; only unavoidable landing space remains below the footer. The shorter icon cooldown reflects less feedback to read, and connected hover surfaces now group the regular feedback marks. The current reserved inline slot and paint-only background supersede the earlier gutter indicator. Playground heading anchors were initially deferred and are now covered by the following decision.
 
 **Owning Rules and Sources:** [Resources Controls](../docs/agent-guidance/interface.md#resources-step-anchor-controls), [Anchor Arrival](../docs/agent-guidance/motion.md#resources-anchor-arrival), [Fragment Routing](../docs/agent-guidance/authentication.md#resources-step-fragments), [URL Reference](URL-REFERENCE.md#resources-aliases), and `lib/workshop-resource-anchors.mjs`.
 
@@ -400,3 +401,11 @@ Capture preserves each text node as a single anonymous layout item inside flex/g
 SVG placeholder paint uses the cached stroke-inclusive icon-ink bounds while retaining its layout box. Full-box paint overlapped disclosure labels because their alignment is based on visible chevron strokes, not SVG edges; clipping the decorative paint fixes that mismatch without changing real controls or remeasuring geometry.
 
 All Lucide icons and the two Lobe agent logos use cached visible bounds, including cropped-viewBox variants. Measure this small shared cache only when icon assets change; routine five-width captures reuse it without raster scans or extra viewport passes. Preserve SVG viewBox metadata when replacing paths with anonymous blocks. The block fills the visible artwork’s bounding rectangle, not its precise silhouette; transparent outer padding is excluded while internal holes remain filled.
+
+## Playground Heading Anchors
+
+**Decision:** Apply the Resources anchor-copy styling and feedback to every collapsible outer Playground H2/H3, retaining the decorative heading icons and limiting collapse/expand to a 44px square chevron target. Generate descriptive kebab-case fragments under each canonical tab path. Expand the target and its parent before travel. Reuse the Resources motion profile, with a Playground landing at the H2 card or H3 heading row 16px below the settled sticky tabs. Fade preceding cards/content during the final 600ms and restore on upward scroll. Embedded specimens are excluded.
+
+**Rationale:** Adam requested the same heading-copy convention across Resources and Playground. Separating the chevron action removes ambiguity about whether a heading click copies or collapses. The 16px landing preserves the normal gap between sticky tabs and the incoming section. Sharing copy and motion helpers prevents timing and icon-state drift, while a Playground controller accounts for lazy specimen heights, nested H3s and its different sticky layout.
+
+**Owning Rules and Sources:** [Heading Controls](../docs/agent-guidance/interface.md#playground-heading-anchor-controls), [Arrival Motion](../docs/agent-guidance/motion.md#playground-anchor-arrival), [Fragments](../docs/agent-guidance/authentication.md#playground-heading-fragments), [URL Inventory](URL-REFERENCE.md#playground-sections), `scripts/playground-anchors.mjs`, `lib/workshop-anchor-copy.mjs` and `lib/workshop-anchor-motion.mjs`.
