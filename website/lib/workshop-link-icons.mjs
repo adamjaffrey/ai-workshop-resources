@@ -23,7 +23,8 @@ export function sizeTextLinkIcons(root=document){
   svg.setAttribute('stroke-width',String(.08*font*factor*24/(1.2*cap)));
  }
 }
+export const textIconGap='.2em';
 export const textIconCSS=`
-.text-link-slot{position:relative;display:inline-block;width:1cap;height:0;vertical-align:baseline;margin-left:.2em;letter-spacing:0;flex:none}
+.text-link-slot{position:relative;display:inline-block;width:1cap;height:0;vertical-align:baseline;margin-left:${textIconGap};letter-spacing:0;flex:none}
 .text-link-slot>.text-link-icon{position:absolute;left:-10%;top:-1.1cap;width:1.2cap;height:1.2cap;overflow:visible}
 `;

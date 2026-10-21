@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.289"
-  update_summary: "Keep step-anchor text aligned when reserving icon space"
-  updated_at: "Thu 22 Oct 2026 at 01:07:19 am AEDT (+11:00)"
+  doc_revision: "26.0.290"
+  update_summary: "Use one shared 0.2em gap for every text-link icon"
+  updated_at: "Thu 22 Oct 2026 at 01:10:19 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.288 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 01:10:19 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Use one shared 0.2em gap for every text-link icon
+
+### Changed
+
+- Restore .2em spacing for all anchor icons on either side of text, sharing the same value as hyperlink arrows.
+- Preserve desktop Step 2 right alignment and mobile trailing icons.
+
+### Validation
+
+- Chrome and WebKit anchor gap, side, alignment and instant-hover checks — passed.
+- Local website build with saved backdrop geometry — passed.
 
 ## v26.0.287 — 2026-10-22
 
