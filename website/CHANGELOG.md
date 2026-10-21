@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.293"
-  update_summary: "Rename the approved modified link arrow consistently"
-  updated_at: "Thu 22 Oct 2026 at 01:28:54 am AEDT (+11:00)"
+  doc_revision: "26.0.294"
+  update_summary: "Align the QR card to the right surface rail"
+  updated_at: "Thu 22 Oct 2026 at 01:44:14 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.292 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 01:44:14 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Align the QR card to the right surface rail
+
+### Fixed
+
+- Size the Resources QR column to its content and right-align the card with the shared 4px outward extension, removing the 12px inset without changing the card or QR dimensions.
+- Document the shared layout rule and verify Resources and Playground alignment together.
+
+### Validation
+
+- Chrome and WebKit QR caption and right-edge checks — passed.
+- Playground source parity across four viewport widths, both agents and themes — passed.
+- Playground specimen fidelity — passed.
+- Local production build with saved backdrop geometry and generated version checks — passed.
 
 ## v26.0.291 — 2026-10-22
 

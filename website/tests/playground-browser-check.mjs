@@ -45,6 +45,11 @@ for(const width of [320,390,768,1440]){
   }
   assert.equal(await login.locator('html').getAttribute('data-theme'),theme);
   assert.equal(await resources.locator('html').getAttribute('data-selected-agent'),agent);
+  for(const consumer of [resources,actualResources]){
+   const qr=await consumer.locator('.page-header>.qr-card').evaluate(e=>({visible:getComputedStyle(e).display!=='none',width:e.getBoundingClientRect().width,extension:e.getBoundingClientRect().right-e.parentElement.getBoundingClientRect().right}));
+   if(qr.visible){assert.equal(qr.width,176);assert.equal(qr.extension,4,'Resources and Playground QR right rail');}
+  }
+
   for(const state of ['loading','success','wrong','empty','network','service','generic','limited','limitedLater','retryReady','neutral']){
    await choose('state',state);await p.waitForTimeout(40);
    const input=login.locator('#workshop-password');

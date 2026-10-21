@@ -5,14 +5,19 @@ import {createPhonePreview} from '../scripts/phone-preview.mjs';
 const {server}=createPhonePreview({autoLogin:true});await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const origin=`http://127.0.0.1:${server.address().port}`;
 try{for(const engine of [chromium,webkit]){const b=await engine.launch(engine===chromium?{channel:'chrome',headless:true}:{headless:true});try{
-for(const width of [390,1440])for(const theme of ['light','dark']){
+for(const width of [390,768,1440])for(const theme of ['light','dark']){
  const p=await b.newPage({viewport:{width,height:1000},reducedMotion:'reduce'});
  for(const page of ['resources','focus']){
+  if(page==='focus'&&width===768)continue; // Additional tablet coverage targets the changed Resources header.
   if(page==='resources'&&width<661)continue; // The real app hides the QR on mobile.
   await p.goto(origin+(page==='resources'?'/ai-workshop-resources':'/component-playground/focus-and-selection')+'?theme='+theme);
   const q=page==='resources'?p.locator('#workshop-content .qr-card'):p.frameLocator('#focus-frame').locator('.qr-card');await q.waitFor();
   await q.evaluate(e=>e.scrollIntoView({block:'center'}));await p.evaluate(y=>scrollBy(0,y-450),(await q.boundingBox()).y);await p.waitForTimeout(100);
   const g=await q.evaluate(e=>{const r=e.getBoundingClientRect(),q=e.querySelector('.qr-copy').getBoundingClientRect(),t=e.querySelector('figcaption'),c=getComputedStyle(e),canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');ctx.fillStyle=getComputedStyle(t).color;ctx.fillRect(0,0,1,1);return{width:r.width,qrWidth:q.width,qrHeight:q.height,padding:c.padding,qrBottom:q.bottom-r.top,ink:[...ctx.getImageData(0,0,1,1).data].slice(0,3)};});
+  if(page==='resources'){
+   const edge=await q.evaluate(e=>{const header=e.closest('.page-header');return e.getBoundingClientRect().right-header.getBoundingClientRect().right;});
+   assert.equal(edge,4,'QR card must extend 4px past the right text rail');
+  }
   assert.equal(g.width,176);assert.equal(g.qrWidth,150);assert.equal(g.qrHeight,150);assert.equal(g.padding,'12px');
   const png=await q.screenshot();const {data,info}=await sharp(png).removeAlpha().raw().toBuffer({resolveWithObject:true});const rows=[];
   for(let y=Math.ceil(g.qrBottom)+2;y<info.height-2;y++){let count=0;for(let x=10;x<info.width-10;x++){const n=(y*info.width+x)*info.channels;if(g.ink.every((v,i)=>Math.abs(data[n+i]-v)<16))count++;}if(count>8)rows.push(y);}

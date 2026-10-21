@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.47"
-  update_summary: "Rename the approved modified link arrow consistently"
-  updated_at: "Thu 22 Oct 2026 at 01:27:32 am AEDT (+11:00)"
+  doc_revision: "26.0.48"
+  update_summary: "Align the intrinsic QR column to the right surface rail"
+  updated_at: "Thu 22 Oct 2026 at 01:41:12 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -328,7 +328,7 @@ Adam requested these gallery refinements to compare real component dimensions, r
 
 ## QR Corner Geometry
 
-**Decision:** Size the shared card to its content, with 12px at the QR top/sides, 12px between QR and caption line box, and 12px below the caption. Use `line-height:1cap` to fit the uppercase caption to its capital-letter height without reducing its 14px font size. The earlier 9px gaps still left roughly 15px of visible clearance because the 21px line box contained about 10px of visible letters. Chrome/WebKit pixel checks now confirm 12px visible clearance in Resources, with at most 1px rasterisation rounding at fractional Playground iframe coordinates, while preserving the 150px QR size and 176px outer card width. Paint the QR image outline inward. This replaces the stretched grid width that added 8px of unused space on the right; the optical outdent must move the card without widening it. The later pre-split correction derives the inner QR link radius from the outer card radius minus padding and border, with the image inheriting the result. It superseded an earlier attempt to give all nested edges the same radius. The recorded example was 16px − 14px − 1px = 1px; it is historical geometry, not a universal radius to copy into another component.
+**Decision:** Size the shared card to its content, with 12px at the QR top/sides, 12px between QR and caption line box, and 12px below the caption. Use `line-height:1cap` to fit the uppercase caption to its capital-letter height without reducing its 14px font size. The earlier 9px gaps still left roughly 15px of visible clearance because the 21px line box contained about 10px of visible letters. Chrome/WebKit pixel checks now confirm 12px visible clearance in Resources, with at most 1px rasterisation rounding at fractional Playground iframe coordinates, while preserving the 150px QR size and 176px outer card width. Paint the QR image outline inward. The Resources header uses a content-sized QR column and explicit end alignment, with the shared 4px optical extension only on its right edge. This removes the stale 180px track and leftward margin that left the card 12px inside its intended right surface rail. This replaces the stretched grid width that added 8px of unused space on the right; the optical outdent must move the card without widening it. The later pre-split correction derives the inner QR link radius from the outer card radius minus padding and border, with the image inheriting the result. It superseded an earlier attempt to give all nested edges the same radius. The recorded example was 16px − 14px − 1px = 1px; it is historical geometry, not a universal radius to copy into another component.
 
 **Rationale:** Documented: nested corners should be concentric and the keyboard focus outline should follow the same geometry. Subtracting inset distances preserves that relationship instead of matching unrelated bounding radii.
 

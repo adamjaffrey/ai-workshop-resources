@@ -30,7 +30,7 @@ main:is(#workshop-content,.page-placeholder)>*{width:calc(100% - 56px);max-width
 :is(#workshop-content,.page-placeholder) .card-heading{margin-inline-start:calc(-1 * var(--optical-offset))}
 :is(#workshop-content,.page-placeholder) .controls>.toggle,:is(#workshop-content,.page-placeholder) .controls>.sticky-control-slot{margin-inline-start:calc(-1 * var(--optical-offset))}
 :is(#workshop-content,.page-placeholder) .page-toolbar>.theme-toggle,:is(#workshop-content,.page-placeholder) .page-toolbar>.sticky-control-slot{margin-inline-end:calc(-1 * var(--optical-offset))}
-:is(#workshop-content,.page-placeholder) .page-header>.qr-card{margin-inline:-4px}
+:is(#workshop-content,.page-placeholder) .page-header>.qr-card{margin-inline-start:0;margin-inline-end:calc(-1 * var(--optical-offset))}
 :is(#workshop-content,.page-placeholder) .footer-content>:is(form,.ph-form){margin-inline-end:calc(-1 * var(--optical-offset))}
 :is(#workshop-content,.page-placeholder) footer.is-stacked .footer-content>:is(form,.ph-form){margin-inline:0}
 @media(max-width:660px){:is(#workshop-content,.page-placeholder) .step-row>article{padding-inline:calc(24px + var(--optical-offset))}}
