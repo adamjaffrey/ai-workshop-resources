@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.60"
-  update_summary: "Connect alias tables and add collapsible anchor subsections"
-  updated_at: "Thu 22 Oct 2026 at 09:36:51 am AEDT (+11:00)"
+  doc_revision: "26.0.61"
+  update_summary: "Align section heading caps with centred chevron controls"
+  updated_at: "Thu 22 Oct 2026 at 09:41:40 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -447,5 +447,13 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Decision:** Use 12px outer-action button radii, including section chevrons, matching the floating controls. Keep header hover paint at 50px high. Separate action sizing from display so the ellipsis remains mobile-only and conditional replay buttons remain hidden when unavailable.
 
 **Rationale:** The shared size rule accidentally overrode desktop visibility. A sizing convention must not change when a control appears.
+
+**Owning Rules:** [Interface](../docs/agent-guidance/interface.md#playground-heading-anchor-controls).
+
+## Section Text and Chevron Vertical Alignment
+
+**Decision:** Align the first line’s measured cap-height centre to the centre of its 50px chevron button. Adjust heading top padding using the shared font metrics; keep the button in place, the SVG centred in it and the collapsed optical correction unchanged.
+
+**Rationale:** Increasing the button height left its centred icon below the existing text. Moving only the icon would compromise centring inside the button; aligning the title preserves both relationships and the requested button insets.
 
 **Owning Rules:** [Interface](../docs/agent-guidance/interface.md#playground-heading-anchor-controls).

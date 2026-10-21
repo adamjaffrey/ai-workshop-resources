@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.307"
-  update_summary: "Connect login mapping tables and add anchor subsections"
-  updated_at: "Thu 22 Oct 2026 at 09:39:18 am AEDT (+11:00)"
+  doc_revision: "26.0.308"
+  update_summary: "Align heading cap centres with section chevron buttons"
+  updated_at: "Thu 22 Oct 2026 at 09:42:08 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.306 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 09:42:08 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Align heading cap centres with section chevron buttons
+
+### Fixed
+
+- Use shared font metrics to align each normal section heading’s first-line cap centre with its 50px button centre.
+- Preserve button insets, centred 24px icons, collapsed optical correction and expanded specimen header conventions.
+
+### Validation
+
+- All 34 H2/H3 heading cap centres in expanded/collapsed states, Chrome/WebKit and mobile/desktop widths — passed.
+- Production build using saved backdrop geometry — passed.
 
 ## v26.0.305 — 2026-10-22
 
