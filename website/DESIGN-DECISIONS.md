@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.36"
-  update_summary: "Distinguish full-height palettes from capped page embeds"
-  updated_at: "Wed 21 Oct 2026 at 06:21:18 pm AEDT (+11:00)"
+  doc_revision: "26.0.37"
+  update_summary: "Define palette and page-embed terminology and rationale"
+  updated_at: "Wed 21 Oct 2026 at 06:27:45 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -218,13 +218,23 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 
 ## Playground Fidelity and Expanded Views
 
-**Decision:** Use actual app markup, messages, tokens and renderers for specimens; distinguish tooling annotations and simulated effects. Sandbox authentication/navigation/clipboard behaviour. Expanded views retain the same iframe/state and applicable controls, use native modal containment and restore focus/scroll on close. Keep gallery paint inside its grey frame. Isolated prompt specimens retain the real 1440px capture-page prompt width and show success/failure on separate rows. Every narrow gallery retains measured boxed-component widths and permits horizontal inspection instead of scaling contexts. The compact Typography footer has no empty scroll range; the Icons bullet example retains its unwrapped line and necessary horizontal access so its defining bullet remains visible. Transparent text discards unused source-column width while retaining room for its source lines; empty trailing scroll space is not part of a specimen. Keep paint clearance for rings and shadows. Source widths come from the dedicated capture frames; hidden inline frames can report zero widths. Keep annotations responsive while specimen content overflows within the grey frame. Preserve inherited root and derived-text typography through the shared capture helper, including selection examples, and prevent mobile gallery text inflation; compare rendered glyph height as well as computed font values with the real app. Prompt Unicode examples retain full source containers and initially scroll to the named character. Multi-specimen palettes grow to full content height without an internal vertical scroll region or Expand View. Embedded page previews retain Expand View and native internal scrolling, and their inline grey viewport is capped at 60% of the current browser visual viewport height. Expanded page previews use the available window height. This replaces both the older 70% cap and the later blanket content-height rule; the distinction is content purpose, not iframe transport. Isolated typography annotations have a consistent 16px gap, independent of inherited toolbar heights or paragraph margins. Playground icons follow identity, page-ordered headings, UI controls and other uses; animated specimens retain motion unless reduced motion is requested.
+**Decision:** Use actual app markup, messages, tokens and renderers for specimens; distinguish tooling annotations and simulated effects. Sandbox authentication/navigation/clipboard behaviour. Expanded views retain the same iframe/state and applicable controls, use native modal containment and restore focus/scroll on close. Keep gallery paint inside its grey frame. Isolated prompt specimens retain the real 1440px capture-page prompt width and show success/failure on separate rows. Every narrow gallery retains measured boxed-component widths and permits horizontal inspection instead of scaling contexts. The compact Typography footer has no empty scroll range; the Icons bullet example retains its unwrapped line and necessary horizontal access so its defining bullet remains visible. Transparent text discards unused source-column width while retaining room for its source lines; empty trailing scroll space is not part of a specimen. Keep paint clearance for rings and shadows. Source widths come from the dedicated capture frames; hidden inline frames can report zero widths. Keep annotations responsive while specimen content overflows within the grey frame. Preserve inherited root and derived-text typography through the shared capture helper, including selection examples, and prevent mobile gallery text inflation; compare rendered glyph height as well as computed font values with the real app. Prompt Unicode examples retain full source containers and initially scroll to the named character. Use the [palette/page-embed distinction](#specimen-palettes-and-page-embeds) for preview sizing, scrolling and Expand View. Isolated typography annotations have a consistent 16px gap, independent of inherited toolbar heights or paragraph margins. Playground icons follow identity, page-ordered headings, UI controls and other uses; animated specimens retain motion unless reduced motion is requested.
 
 **Rationale:** Documented: independent optical copies drift from production, while reloading an iframe loses the state being inspected. Full-context errors and login panels show meaningful surrounding layout. Shared source imports still require rendered parity checks; they do not prove every browser matches.
 
 Adam requested these gallery refinements to compare real component dimensions, remove misleading inherited whitespace and avoid nested page scrolling. The exceptions are gallery presentation rules, not changes to production control geometry.
 
 **Owning Rules and Sources:** [Source Fidelity](../docs/agent-guidance/interface.md#playground-source-fidelity); [Expanded Preview Specification](README.md#mobile-controls-and-source-coverage). Primary README source: [Local Component Playground](README.md#local-component-playground).
+
+## Specimen Palettes and Page Embeds
+
+**Decision:** A specimen palette groups multiple distinct examples for comparison. It grows to full content height, uses the outer Playground page for vertical scrolling, and has no Expand View button. A page embed presents a web page or part of one; its inline grey viewport is capped at 60% of the current browser visual viewport height and has native internal scrolling. Only page embeds offer Expand View, which uses the available modal window height. “Inline” and “expanded” describe presentation states, not different content categories. An iframe can implement either category.
+
+**Rationale:** Palettes are meant to be read and compared as part of the surrounding Playground page; a nested vertical scroll region interrupts that continuous browsing. Page embeds can contain long page layouts, so a bounded viewport prevents one preview from dominating the Playground while allowing inspection of its full content through internal scrolling. Expand View supplies more room when needed. The 60% maximum is Adam's chosen sizing preference; it replaces 70% and is not a measured universal usability threshold. Responsive content and text wrapping remain intact in both categories.
+
+**Superseded Rules:** This distinction replaces the original blanket 70% cap and the subsequent blanket content-height rule. The final clarification retains Expand View for page embeds only; the earlier request to remove it from page embeds was a typo. Do not infer scroll ownership or Expand View eligibility from the presence of an iframe.
+
+**Owning Rules:** [Specimen Palettes and Page Embeds](../docs/agent-guidance/interface.md#specimen-palettes-and-page-embeds), incorporated by the repository's mandatory Interface contract.
 
 ## Playground Scheduling and Inspection
 
