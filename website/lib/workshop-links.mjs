@@ -1,14 +1,15 @@
 import {textIcon,textIconCSS,sizeTextLinkIcons} from './workshop-link-icons.mjs';
 export const linkArrowSVG='<span class="text-link-slot">'+textIcon('arrow-up-right-modified-2','follow-link','link-arrow')+'</span>';
 const linkMotion='0ms';
-export const linkPaint={radius:'.2em',motion:linkMotion,padding:'0 .125em .05em .075em',fill:'var(--link-hover-bg)',underline:'text-decoration-color:currentColor;text-decoration-thickness:auto;text-decoration-skip-ink:auto;text-underline-offset:.1em'};
+export const linkPaint={radius:'.2em',motion:linkMotion,padding:'0',shadow:'-.05em .025em 0 .025em var(--link-hover-bg), .1em .025em 0 .025em var(--link-hover-bg)',fill:'var(--link-hover-bg)',underline:'text-decoration-color:currentColor;text-decoration-thickness:auto;text-decoration-skip-ink:auto;text-underline-offset:.1em'};
 export const linkCSS=`
 ${textIconCSS}
 a.workshop-link[hidden]{display:none!important}
 .link-tail{white-space:nowrap}
 a.workshop-link[href]{display:inline;max-width:100%;padding:${linkPaint.padding};border-radius:${linkPaint.radius};text-decoration:none;overflow-wrap:normal;vertical-align:baseline;position:relative;background-color:transparent;box-decoration-break:clone;-webkit-box-decoration-break:clone;transition:color ${linkPaint.motion}}
-/* Paint switches atomically to an opaque tint: overlapping line fragments never compound. */
-a.workshop-link[href]:hover,a.workshop-link[href][data-link-preview="hover"]{background-color:${linkPaint.fill};color:var(--link-hover)}
+/* Zero-blur shadows extend each cloned fragment without occupying inline space.
+   Paint switches atomically to an opaque tint: overlapping line fragments never compound. */
+a.workshop-link[href]:hover,a.workshop-link[href][data-link-preview="hover"]{background-color:${linkPaint.fill};box-shadow:${linkPaint.shadow};color:var(--link-hover)}
 a.workshop-link[href] .link-label{text-decoration-line:underline;${linkPaint.underline};transition:text-decoration-color ${linkPaint.motion}}
 a.workshop-link[href]:hover .link-label,a.workshop-link[href][data-link-preview="hover"] .link-label{text-decoration-color:transparent}
 a.workshop-link[href]:focus{outline:none!important}

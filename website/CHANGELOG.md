@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.287"
-  update_summary: "Unify highlight colours and make link hover effects instant"
-  updated_at: "Thu 22 Oct 2026 at 12:55:23 am AEDT (+11:00)"
+  doc_revision: "26.0.288"
+  update_summary: "Keep link highlight paint outside text layout"
+  updated_at: "Thu 22 Oct 2026 at 01:02:02 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.286 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 01:02:02 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Keep link highlight paint outside text layout
+
+### Changed
+
+- Set hyperlink and anchor padding to zero on all four sides; paint the highlight extensions with solid zero-blur CSS shadows cloned on each wrapped line.
+- Remove Playground link margin compensation so link text naturally aligns with surrounding text.
+- Retain instant hover, solid shared colours, and the reserved non-wrapping final-word/icon slot.
+
+### Validation
+
+- Chrome and WebKit link wrapping, zero-padding geometry, hover and copy-feedback checks — passed.
+- Resources anchor navigation and feedback checks — passed.
+- Seven-width Playground alignment regression and 390px/1440px visible text-rail checks — passed.
+- Populated mobile/desktop Typography screenshot inspection — passed.
+- Local website build using saved backdrop geometry — passed.
 
 ## v26.0.285 — 2026-10-22
 

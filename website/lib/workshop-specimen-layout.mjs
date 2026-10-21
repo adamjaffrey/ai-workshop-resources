@@ -47,8 +47,6 @@ html:is([data-specimen-gallery=icons],[data-specimen-gallery=errors]) body{font:
 .focus-footer>form{margin-inline-start:calc(-1 * var(--optical-offset))!important}
 .notice-type-row .javascript-notice{margin-block:0}
 .selection-example{margin-inline:calc(-1 * var(--optical-offset));padding-inline:16px}
-/* Cancel only the shared inline start padding so link text meets its rail. */
-.icon-row>a.workshop-link,#link-type-specimens .link-examples a.workshop-link,#link-type-specimens p>a.workshop-link:first-child{margin-inline-start:-.075em}
 /* A source boundary owns its measured width. The viewport scrolls instead of
    forcing this component through the gallery's narrower responsive layout. */
 [data-specimen-width]{width:var(--specimen-width)!important;min-width:var(--specimen-width)!important;max-width:none!important;flex-shrink:0}

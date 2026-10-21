@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.33"
-  update_summary: "Unify highlight colours and make link hover effects instant"
-  updated_at: "Thu 22 Oct 2026 at 12:53:53 am AEDT (+11:00)"
+  doc_revision: "26.0.34"
+  update_summary: "Keep link highlight paint outside text layout"
+  updated_at: "Thu 22 Oct 2026 at 01:00:40 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -97,7 +97,7 @@ Run `node website/tests/playground-external-text-inset-browser-check.mjs` for me
 ## Resources Step Anchor Controls
 
 - Clicking Step N or its exterior icon copies the canonical Resources step URL in place; it never scrolls. Keep Playground heading interactions unchanged until separately authorised.
-- Use the shared inline link treatment in `workshop-links.mjs` and proportional icons in `workshop-link-icons.mjs`. Native `box-decoration-break:clone` repeats the background, radius and padding on every wrapped line, including continuation-line left padding. Padding is 0 top, .125em right, .05em bottom and .075em left; radius is .2em. Do not measure line fragments or use a single positioned pseudo-element for these backgrounds. Standalone Playground links cancel their .075em start padding with an equal negative start margin so text meets the surrounding rail; do not reuse the old fixed 4px link outdent.
+- Use the shared inline link treatment in `workshop-links.mjs` and proportional icons in `workshop-link-icons.mjs`. Set link and anchor layout padding to zero. Native `box-decoration-break:clone` repeats the solid background and zero-blur box shadows on every wrapped line. Paint extends 0 top, .125em right, .05em bottom and .075em left without affecting text alignment, spacing or wrapping. Keep the base .2em radius. Do not measure line fragments or use a single positioned pseudo-element for these backgrounds. Standalone Playground links use normal text alignment without compensating negative margins.
 - Regular hyperlinks retain a resting underline with automatic thickness and ink skipping at .1em offset, hiding its colour on hover; show the approved modified Arrow Up Right 2 persistently. Anchor-copy labels have no underline at rest or on hover; hover reveals the background and modified Hash. Both use shared accessible link ink. Paint the solid theme-specific hover fill immediately so overlapping fragments never alpha-compound, including during entry/exit. Text, underline, background and Hash opacity change instantly, with no hover transition. Preserve keyboard focus and existing copy-result timing.
 - Keep the last word and icon in a non-wrapping tail, using a .2em CSS gap rather than adding a second literal space. Always reserve a 1cap slot, including when an anchor icon is hidden. Use the lab's common 24-unit SVG canvas at 1.2cap and a .08em stroke converted to viewBox units, multiplied by 1/1.3/1.5 for regular/semibold/bold text. Centre the canvas at the cap-height centre. Hash, Check and X share exactly the same slot, dimensions and gap; preserve their original internal geometry rather than independently stretching each symbol. The user-approved modified Hash and Arrow Up Right 2 are explicit Lucide derivative exceptions; retain the original official names, variant metadata and Lucide licence/source links.
 - Copy success shows Lucide Check using the theme's success token; failure shows Lucide X using the error token. Visible anchor confirmation text is limited to an icon tooltip, with an assistive-technology announcement. Follow [Shared Success and Failure Feedback](#shared-success-and-failure-feedback) for motion, hold durations and future reuse.

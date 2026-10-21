@@ -7,7 +7,7 @@ export const resourceAnchors = ['step-1-node-js-setup','step-2-system-blueprint-
 export const resourceAnchorCSS=`
 .step-anchor{position:relative;display:inline;padding:${linkPaint.padding};border:0;border-radius:${linkPaint.radius};background:transparent;color:inherit;font:inherit;letter-spacing:inherit;line-height:inherit;text-align:inherit;vertical-align:baseline;cursor:pointer;box-decoration-break:clone;-webkit-box-decoration-break:clone;transition:color ${linkPaint.motion}}
 .step-anchor,.step-anchor *{cursor:pointer!important;user-select:none}
-.step-anchor:is(:hover,[data-anchor-preview]){background:${linkPaint.fill};color:var(--link-hover)}
+.step-anchor:is(:hover,[data-anchor-preview]){background:${linkPaint.fill};box-shadow:${linkPaint.shadow};color:var(--link-hover)}
 .step-anchor-label{text-decoration:none}
 .step-anchor-icon{color:var(--link-hover);opacity:1}
 .step-anchor-icon svg{opacity:0;transition:none}

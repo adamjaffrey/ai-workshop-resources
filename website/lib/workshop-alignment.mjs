@@ -87,8 +87,6 @@ body:has(#playground-title)>main.wrap{padding-inline:28px}
 #worm-copy-fallback,#perspective-copy-fallback{display:block}#worm-copy-fallback[hidden],#perspective-copy-fallback[hidden]{display:none}
 .inspector-dock{padding-inline:max(28px,calc((100vw - 1192px)/2))}
 .inspector-dock .inspector-bar,.inspector-dock .inspector-actions{margin-inline:0}
-/* Align standalone link text with its rail; the highlight extends left. */
-.panel>a.workshop-link,.playground-icon-entry>a.workshop-link{margin-inline-start:-.075em}
 .frame-wrap{padding:0;box-sizing:border-box}
 .panel:not(.is-expanded)>.frame-wrap{overflow-x:auto;overflow-y:hidden}
 #panel-url-reference h3{border-top:1px solid var(--border);padding-top:16px}
