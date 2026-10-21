@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.37"
-  update_summary: "Consolidate global link spacing and alignment-driven anchor rules"
-  updated_at: "Thu 22 Oct 2026 at 01:11:39 am AEDT (+11:00)"
+  doc_revision: "26.0.39"
+  update_summary: "Document exact link icons and complete shared link conventions"
+  updated_at: "Thu 22 Oct 2026 at 01:15:30 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -106,6 +106,61 @@ These are global website rules for current and future text links and anchor-copy
 - Use the shared link ink, opaque hover/selection fill and contrasting selected-text foreground defined under [Website Appearance](#website-appearance). Both agents use the same blend percentages. Keep semantic success/error colours distinct; do not introduce local colour variants. Check normal-size link ink at a minimum 4.5:1 against the hover fill.
 - Hover styling is immediate on entry and exit; copy-result animations are separate and retain the durations, easing and fully visible holds in [Shared Success and Failure Feedback](#shared-success-and-failure-feedback). Preserve keyboard focus indicators, accessible names and result announcements. Icons remain decorative when the control already has an accessible name.
 
+### Link States and Layout
+
+| Property | Navigation Hyperlink | Anchor Copy |
+|---|---|---|
+| Resting label | Shared link ink, underlined | Existing heading/label colour, no underline |
+| Resting icon | Modified Arrow Up Right 2, always visible | Modified Hash hidden; space remains reserved |
+| Hover label | Shared link ink; underline becomes transparent | Shared link ink; no underline |
+| Hover background | Shared opaque fill and painted extensions | Same shared treatment |
+| Icon position | After the final word | Left for right-aligned text; right otherwise |
+| Text-to-slot gap | .2em | .2em on either side |
+| Padding, all four sides | 0 | 0 |
+| Hover entry and exit | Immediate, 0ms | Immediate, 0ms |
+| Activation | Follow the link | Copy its canonical anchor URL in place |
+
+- Apply the same hyperlink colours to visited links. The navigation arrow indicates following a link, not specifically an external destination. Do not add an underline to the SVG itself.
+- Underline settings are explicitly `text-decoration-thickness:auto`, `text-decoration-skip-ink:auto` and `text-underline-offset:.1em`. Only navigation hyperlinks show the underline at rest. Do not restore the abandoned `from-font` thickness or automatic underline offset.
+- The .2em gap is measured from the text box to the reserved icon slot, not to the nearest painted SVG stroke. The gap scales with the text's computed font size. Retain the non-wrapping wrapper rather than adding a literal non-breaking space that would add extra spacing.
+- Highlight extensions are CSS paint, not padding, margin, line height or extra whitespace. The current shared zero-blur shadow recipe is `-.05em .025em 0 .025em var(--link-hover-bg), .1em .025em 0 .025em var(--link-hover-bg)`. Along with the background, it paints the approved asymmetric extensions. Native cloned decoration repeats on every line, including continuation-line left and right edges; overlapping solid fills do not compound. No JavaScript measures or draws the highlight. JavaScript still decorates link markup and converts icon stroke units.
+- Keep the label and its actual link/control hit area clickable with a hand cursor. Painted shadows do not enlarge the browser's hit box. Retain real keyboard focus; navigation links currently use a 3px shared-ink outline with 3px offset for keyboard focus. Follow the global focus contract rather than substituting hover styling for focus.
+- Shared rendering lives in [workshop-links.mjs](../../website/lib/workshop-links.mjs), icon sizing and the single gap value in [workshop-link-icons.mjs](../../website/lib/workshop-link-icons.mjs), and anchor copying in [workshop-resource-anchors.mjs](../../website/lib/workshop-resource-anchors.mjs). New and dynamically inserted links must use the same renderer. Explicit `data-no-link-decoration` opt-outs are for intentional exceptions, not independent visual variants.
+
+### Exact Icons and Approved Derivatives
+
+| Use | Official Lucide Name and Source | Rendered Variant | Repository SVG Reference |
+|---|---|---|---|
+| Navigation hyperlink | [Arrow Up Right (`arrow-up-right`)](https://lucide.dev/icons/arrow-up-right) | User-approved `arrow-up-right-modified-2` | [Modified Arrow Up Right 2](../assets/link-icons/arrow-up-right-modified-2.svg) |
+| Anchor copy affordance | [Hash (`hash`)](https://lucide.dev/icons/hash) | User-approved `hash-modified` | [Modified Hash](../assets/link-icons/hash-modified.svg) |
+| Anchor copy success | [Check (`check`)](https://lucide.dev/icons/check) | Unmodified installed Lucide path | Imported by the shared icon renderer |
+| Anchor copy failure | [X (`x`)](https://lucide.dev/icons/x) | Unmodified installed Lucide paths | Imported by the shared icon renderer |
+
+The exact modified path definitions are also included here for direct inspection and reuse. Both use `viewBox="0 0 24 24"`, `fill="none"`, `stroke="currentColor"`, `stroke-linecap="round"` and `stroke-linejoin="round"`; the shared renderer computes the production stroke width.
+
+Modified Hash (`hash-modified`):
+
+```svg
+<path d="M16.5 3 L14.5 21"/>
+<path d="M4 16 L20 16"/>
+<path d="M4 8 L20 8"/>
+<path d="M9.5 3 L7.5 21"/>
+```
+
+Modified Arrow Up Right 2 (`arrow-up-right-modified-2`):
+
+```svg
+<path d="M20 4 L20 14.5"/>
+<path d="M4 20 L20 4"/>
+<path d="M9.5 4 L20 4"/>
+```
+
+The two SVG files are documentation reference exports of the exact production path geometry, not a second runtime source. Their standalone 24px canvas and stroke width 2 are reference values; production uses the cap-height sizing and text-relative stroke rules above. Keep the exports synchronised if the approved paths change. Do not replace the renderer's paths with an earlier arrow variant, a cropped viewBox, a Unicode arrow, Circle Check or Circle X. Those alternatives were explored and superseded.
+
+Preserve `data-icon-provider="lucide"`, the original official `data-icon-name`, a stable `data-icon-use`, and `data-icon-variant` for the two derivatives. Retain the [Lucide/Feather licence notices](../../website/public/assets/lucide-license.txt); the reference SVGs include the Lucide ISC notice. These two approved derivatives are specific exceptions to the installed-Lucide-only rule, not general permission to modify other icons.
+
+Production sizing uses a 24-unit viewBox at 1.2cap inside a fixed 1cap-wide slot, centred on the text cap-height centre. Target stroke thickness is `.08 × font-size × weight-factor` CSS pixels, converted to viewBox units by multiplying by `24 / (1.2 × cap-height-in-pixels)`. Current factors are 1 below weight 600, 1.3 from 600 to 699, and 1.5 from 700 upward. This is the approved regular/semibold/bold mapping, not a linear multiplier of the numeric font weight or a live H-stem measurement. The same canvas and stroke calculation apply to Hash, Check, X and the arrow; preserve each path's internal proportions.
+
 ## Resources Step Anchor Controls
 
 - Follow [Text Links, Anchor Links and Hover States](#text-links-anchor-links-and-hover-states), including alignment-driven icon placement. Resources Step 2 currently uses a leading icon above the mobile breakpoint and a trailing icon when its text becomes left-aligned.
@@ -187,6 +242,7 @@ Classify a preview by what it presents, not whether its implementation uses an i
 | Page embed | An embedded view of a web page or part of one, such as Login, Resources, Blocks and Blur, Branding, or Easter Egg | Give the embedded document native scrolling and cap its grey viewport, including the border, at 60% of the current browser visual viewport height. | Yes |
 
 - The 60% value is a maximum, not a requirement to stretch short content. Use the current browser viewport height, not document height or an iframe's own height. Recalculate when the browser or visual viewport resizes; do not deduct toolbar or inspector height before taking 60%.
+- Keep each inline page embed’s Expand View button persistently 12px inside the bottom-right border. Place it outside the iframe document and the horizontal scrolling region so neither axis moves the action. Preserve native content scrolling, the same iframe/state and the existing expanded header action. Verify all five page embeds at horizontal endpoints and after expand/contract with `website/tests/playground-expand-anchor-browser-check.mjs`.
 - Expanded page embeds use the available modal window height rather than the inline cap. Preserve their existing iframe and state, keyboard containment, controls and focus/scroll restoration; contracting restores the 60% maximum.
 - Preserve horizontal access for wide palette specimens and native scrolling inside actual app controls such as prompt fields. The palette restriction concerns its enclosing comparison region, not the demonstrated component's behaviour. A gallery implemented in an iframe is still a palette and must not inherit the page-embed cap.
 - In the Easter Egg page embed, the native top scroll boundary places Step 3's visible lettering 60px below the pinned selectors' bottom edge, or 30px when the embedded viewport is at most 660px wide. Reuse Resources anchor spacing and heading-ink measurement; this is not a card-edge measurement. Adjust preview layout padding rather than navigating to an anchor or intercepting scrolling. Preserve bottom-first initial positioning and normal scrolling through the specimen; apply the same boundary in Expand View. Preserve the source Step 3 marker/card margins; validate both heading clearance and card-to-heading placement against a real Resources anchor landing. Never cache anchor-icon alignment from zero-width hidden frames; refresh it when the heading becomes measurable.
