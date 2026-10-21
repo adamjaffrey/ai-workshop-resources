@@ -34,12 +34,12 @@ for(const width of [320,390,768,1440]){
   await choose('theme',theme);await choose('agent',agent);await p.waitForTimeout(500);
   const appShadow=await resources.locator('.page-toolbar .theme-toggle').evaluate(e=>getComputedStyle(e,'::after').boxShadow);
   assert.equal(await p.locator('#back-to-top').evaluate(e=>getComputedStyle(e).boxShadow),appShadow,'shared floating shadow');
-  assert.equal(await p.locator('#back-to-top').evaluate(e=>parseFloat(getComputedStyle(e).top)-(innerWidth<=660?56:0)),await p.locator('.playground-brand-row').evaluate(e=>{const r=e.getBoundingClientRect();const t=document.querySelector('.tab-scroll-shell').getBoundingClientRect();return innerWidth<=660?Math.max(24,r.top+(r.height-48)/2,t.height+12-Math.max(0,t.top)):Math.max(24,r.top+(r.height-48)/2);}),'floating top inset');
+  assert.equal(await p.locator('#back-to-top').evaluate(e=>parseFloat(getComputedStyle(e).top)-(innerWidth<=660?58:0)),await p.locator('.playground-brand-row').evaluate(e=>{const r=e.getBoundingClientRect();const t=document.querySelector('.tab-scroll-shell').getBoundingClientRect();return innerWidth<=660?Math.max(24,r.top+(r.height-50)/2,t.height+12-Math.max(0,t.top)):Math.max(24,r.top+(r.height-50)/2);}),'floating top inset');
   if(width<=660){
-   assert.equal(await p.locator('#style-options').evaluate(e=>e.getBoundingClientRect().top),await p.locator('.playground-brand-row').evaluate(e=>{const r=e.getBoundingClientRect();const t=document.querySelector('.tab-scroll-shell').getBoundingClientRect();return innerWidth<=660?Math.max(24,r.top+(r.height-48)/2,t.height+12-Math.max(0,t.top)):Math.max(24,r.top+(r.height-48)/2);}));
+   assert.equal(await p.locator('#style-options').evaluate(e=>e.getBoundingClientRect().top),await p.locator('.playground-brand-row').evaluate(e=>{const r=e.getBoundingClientRect();const t=document.querySelector('.tab-scroll-shell').getBoundingClientRect();return innerWidth<=660?Math.max(24,r.top+(r.height-50)/2,t.height+12-Math.max(0,t.top)):Math.max(24,r.top+(r.height-50)/2);}));
    assert.equal(await p.locator('#style-options').evaluate(e=>getComputedStyle(e).boxShadow),appShadow);
    await p.click('#style-options');
-   assert.equal(await p.locator('#style-dialog').evaluate(e=>e.getBoundingClientRect().top),await p.locator('.playground-brand-row').evaluate(e=>{const r=e.getBoundingClientRect();const t=document.querySelector('.tab-scroll-shell').getBoundingClientRect();return innerWidth<=660?Math.max(24,r.top+(r.height-48)/2,t.height+12-Math.max(0,t.top)):Math.max(24,r.top+(r.height-48)/2);}));
+   assert.equal(await p.locator('#style-dialog').evaluate(e=>e.getBoundingClientRect().top),await p.locator('.playground-brand-row').evaluate(e=>{const r=e.getBoundingClientRect();const t=document.querySelector('.tab-scroll-shell').getBoundingClientRect();return innerWidth<=660?Math.max(24,r.top+(r.height-50)/2,t.height+12-Math.max(0,t.top)):Math.max(24,r.top+(r.height-50)/2);}));
    assert.equal(await p.locator('#style-dialog').evaluate(e=>getComputedStyle(e).boxShadow),appShadow);
    await p.click('#style-options');
   }

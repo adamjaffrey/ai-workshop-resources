@@ -1,9 +1,11 @@
+import {linkSurfaceCSS,installLinkSurfaces} from './workshop-link-surfaces.mjs';
 import {textIcon,textIconCSS,sizeTextLinkIcons} from './workshop-link-icons.mjs';
 export const linkArrowSVG='<span class="text-link-slot">'+textIcon('arrow-up-right-modified','follow-link','link-arrow')+'</span>';
 const linkMotion='0ms';
 export const linkPaint={radius:'.2em',motion:linkMotion,padding:'0',shadow:'-.05em .025em 0 .025em var(--link-hover-bg), .1em .025em 0 .025em var(--link-hover-bg)',fill:'var(--link-hover-bg)',underline:'text-decoration-color:currentColor;text-decoration-thickness:auto;text-decoration-skip-ink:auto;text-underline-offset:.1em'};
 export const linkCSS=`
 ${textIconCSS}
+${linkSurfaceCSS}
 a.workshop-link[hidden]{display:none!important}
 .link-tail{white-space:nowrap}
 a.workshop-link[href]{display:inline;max-width:100%;padding:${linkPaint.padding};border-radius:${linkPaint.radius};text-decoration:none;overflow-wrap:normal;vertical-align:baseline;position:relative;background-color:transparent;box-decoration-break:clone;-webkit-box-decoration-break:clone;transition:color ${linkPaint.motion}}
@@ -35,6 +37,7 @@ window.addEventListener('resize',()=>window.sizeTextLinkIcons());
 document.fonts.ready.then(()=>window.sizeTextLinkIcons());
 document.addEventListener('DOMContentLoaded',()=>{
  window.decorateWorkshopLinks();
+ (${installLinkSurfaces.toString()})();
  new MutationObserver(records=>{for(const record of records)for(const node of record.addedNodes)if(node.nodeType===1)window.decorateWorkshopLinks(node);}).observe(document.body,{childList:true,subtree:true});
 });
 `;

@@ -89,7 +89,8 @@ ${copyTextCSS}
 .icon-usages summary::-webkit-details-marker{display:none}
 .icon-usages summary{list-style:none}
 .icon-usages[open] summary>svg{transform:rotate(90deg)}
-.icon-usages ul{margin-left:0;padding-left:var(--body-list-indent)}
+.icon-usages{margin-bottom:16px}
+.icon-usages ul{margin-left:0;margin-bottom:0;padding-left:var(--body-list-indent)}
 .url-reference-subheading{display:flex;align-items:flex-start;gap:12px;line-height:1.5}
 .url-reference-subheading>svg{flex:none;margin-top:calc((1.5em - 24px)/2)}
 `;

@@ -3,14 +3,49 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.311"
-  update_summary: "Restore action labels and correct collapsed subsection gaps"
-  updated_at: "Thu 22 Oct 2026 at 09:59:20 am AEDT (+11:00)"
+  doc_revision: "26.0.312"
+  update_summary: "Unify link hit areas and focus clearance with hover decoration"
+  updated_at: "Thu 22 Oct 2026 at 10:18:54 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.310 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 10:18:54 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Unify link hit areas and focus clearance with hover decoration
+
+### Added
+
+- Show source-captured, right-aligned Step 2 Hash, Check and X examples on the right text rail in Playground Status States.
+- Add shared native hit targets covering each hyperlink and anchor-copy hover fragment without changing text wrapping or layout padding.
+
+### Fixed
+
+- Keep keyboard focus rings outside all shared link decoration with at least 3px clearance, including large headings and wrapped links.
+- Preserve the same source-link gap below open and closed icon Locations disclosures without adding an expanded-list margin.
+- Update stale browser-check expectations for the existing 50px Playground controls and cover both gallery text rails.
+- Document the global hit-area and focus rules in the mandatory Interface contract, README and design decision log.
+
+### Validation
+
+- `npm --prefix website run build` and generated Resources/Playground version checks — passed; reused saved backdrop geometry.
+- `node website/tests/link-surfaces-browser-check.mjs` — passed in Chrome and WebKit at 320, 390, 768 and 1440px, covering pointer/touch activation, exterior keyboard rings, source gaps and right-aligned specimens.
+- `node website/tests/link-treatment-browser-check.mjs` and `node website/tests/anchor-icon-side-browser-check.mjs` — passed for wrapping, colours, responsive icon sides and feedback slots.
+- `node website/tests/playground-browser-check.mjs` — passed for app/specimen source parity.
+- `node website/tests/playground-specimen-fidelity-browser-check.mjs` and `node website/tests/specimen-mobile-parity-browser-check.mjs` — passed for source dimensions, glyphs and mobile Chrome/WebKit rendering.
+- External-text-inset, nested-alignment and menu-containment browser checks — passed across their required widths and states.
+- Mobile/desktop screenshots and both active LAN preview destinations — verified. Physical devices were not tested.
+- Website PVS validation, affected document metadata and Git whitespace checks — passed.
 
 ## v26.0.309 — 2026-10-22
 

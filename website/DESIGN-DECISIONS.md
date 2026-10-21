@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.64"
-  update_summary: "Restore action labels and single-owner collapsed H3 spacing"
-  updated_at: "Thu 22 Oct 2026 at 09:58:48 am AEDT (+11:00)"
+  doc_revision: "26.0.65"
+  update_summary: "Record shared link hit surfaces and exterior focus clearance"
+  updated_at: "Thu 22 Oct 2026 at 10:08:12 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -144,6 +144,8 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 **Approved Icon Modifications:** Adam supplied and compared modified Hash and Arrow Up Right variants in the icon palette, then selected `hash-modified` and `arrow-up-right-modified` for their visual balance with the text at body and heading sizes. Exact production-path reference exports are [Modified Hash](../docs/assets/link-icons/hash-modified.svg) and [Modified Arrow Up Right](../docs/assets/link-icons/arrow-up-right-modified.svg). The originals remain [Lucide Hash](https://lucide.dev/icons/hash) and [Lucide Arrow Up Right](https://lucide.dev/icons/arrow-up-right).
 
 **Geometry and Reason:** Compared with the installed Hash, the modified Hash moves the horizontal bars from y=9/15 to y=8/16 and moves the slanted stems outward by 0.5 viewBox units, giving the centre more space while preserving its overall height. The modified arrow expands the diagonal from the original 7–17 extent to 4–20 and uses 10.5-unit arrowhead arms, giving it a larger visible footprint in the common canvas. These are observable geometric changes supporting the optical balance chosen in the palette; the conversation does not establish a separate mathematical optimisation rationale for each coordinate. The common cap-height scale and weight-dependent stroke then keep the selected shapes consistent across text sizes. Plain Lucide Check and X were retained for feedback after the circled alternatives made the inner marks feel too small. Do not reintroduce the earlier cropped arrow, first modified arrow or Unicode arrow for these roles.
+
+**Hit Targets and Focus:** The shared link-surface helper gives every wrapped fragment a transparent native child target matching its painted extension. This preserves the approved zero-padding layout while making the whole decoration clickable, including native link context menus and modified clicks. The global keyboard outline sits beyond the largest extension with at least 3px clearance, rounded up to a whole pixel; the native continuous outline avoids overlapping per-line rings. CSS still paints highlights without JavaScript measurement. Status States captures the real right-aligned Step 2 with Hash/Check/X, making the existing alignment-driven rule explicit. Icon Locations disclosures own one constant source-link gap in both states, without a second expanded-list margin.
 
 **Rationale for the Revised Highlight:** Adam selected native CSS and then rejected layout padding because it indented wrapped links. Native cloned backgrounds with zero-blur shadows retain the painted extensions without runtime background measurement or changing paragraph spacing. Opaque fills prevent multiline overlap from becoming darker. Sharing the highlight fill between hover and text selection removes inconsistent reuse between light and dark themes. Instant hover effects keep text, underline and icon feedback simultaneous. Remove standalone link margin compensation now that the highlight no longer occupies layout space. The modified icon geometry and common reserved slot follow his lab selection. Leading icons on right-aligned anchor text preserve the text’s right edge instead of leaving an invisible icon-width indent. The same .2em gap applies on either side and to hyperlinks. The raw accent hover text had insufficient contrast for body links; reusing the existing ink role reduces colour variants while preserving agent identity.
 

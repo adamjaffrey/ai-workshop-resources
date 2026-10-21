@@ -32,6 +32,7 @@ html:is([data-specimen-gallery=icons],[data-specimen-gallery=errors]) body{font:
 .prompt-specimen-viewport{padding-block:8px;margin-block:-8px}
 .specimen-viewport{padding-block:8px;margin-block:-8px}
 .error-sample{display:flow-root}
+.error-sample[data-specimen-alignment=right]{text-align:right;padding-inline-end:var(--specimen-text-rail)}
 .error-sample:has(.full-login-context){padding-block:24px 64px}
 @media(max-width:660px){.error-sample:has(.full-login-context){padding-block:20px 32px}}
 #errors-resources .fallback-context{outline:1px solid var(--border);outline-offset:-1px;border-radius:12px}

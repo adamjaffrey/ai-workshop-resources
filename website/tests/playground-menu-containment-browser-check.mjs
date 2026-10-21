@@ -13,7 +13,7 @@ try{
    const dialog=p.locator('#style-dialog');await p.waitForTimeout(280);const panel=await dialog.boundingBox(),close=await dialog.locator('#style-options').boundingBox();
    near(panel.y,before.y,'panel emanates from button top');near(panel.x+panel.width,before.x+before.width,'panel right edge');
    for(const key of ['x','y','width','height'])near(close[key],before[key],'close button '+key);
-   const svg=await dialog.locator('.options-close svg').boundingBox();near(svg.width,24,'Lucide X width');near(svg.height,24,'Lucide X height');near(svg.x+12,close.x+24,'X centre');
+   const svg=await dialog.locator('.options-close svg').boundingBox();near(svg.width,24,'Lucide X width');near(svg.height,24,'Lucide X height');near(svg.x+12,close.x+close.width/2,'X centre');
    await dialog.locator('#style-options').click();await p.waitForTimeout(280);const restored=await p.locator('body>#style-options').boundingBox();near(restored.y,before.y,'restored origin');
   }
   await p.locator('[data-tab=components]').click();const gap=await p.evaluate(()=>document.querySelector('#state legend').getBoundingClientRect().top-document.querySelector('#login-destination .choice-shell').getBoundingClientRect().bottom);near(gap,32,'control-group gap');
@@ -22,5 +22,5 @@ try{
   }
  }
  await p.screenshot({path:'/tmp/playground-contained-specimens.png'});
- assert.deepEqual(errors,[]);console.log('PASS: menu origin at three scroll positions, stable 48px close control/24px X, 32px group spacing and five contained mobile reference frames');
+ assert.deepEqual(errors,[]);console.log('PASS: menu origin at three scroll positions, stable 50px close control/24px X, 32px group spacing and five contained mobile reference frames');
 }finally{await browser.close();server.close();}

@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.172"
-  update_summary: "Simplify canonical login and Claude URL components"
-  updated_at: "Thu 22 Oct 2026 at 09:24:01 am AEDT (+11:00)"
+  doc_revision: "26.0.173"
+  update_summary: "Document shared link hit targets and exterior focus rings"
+  updated_at: "Thu 22 Oct 2026 at 10:13:05 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -416,9 +416,9 @@ The [alignment contract](../docs/agent-guidance/interface.md#deterministic-rules
 
 Use the [sticky layout rules](../docs/agent-guidance/interface.md#deterministic-rules) and [whole-pixel positioning](../docs/agent-guidance/interface.md#sticky-positioning-and-selector-interaction) for the toolbar and tab rail. Preserve the toolbar footprint, fade labels fully before pinning, keep the mobile background viewport-wide and retain the normal panel gap. Do not derive new vertical space from the floating tools or scrollbar. Use `node website/tests/playground-sticky-toolbar-browser-check.mjs` for relevant changes.
 
-Shared hyperlink arrows retain the installed Lucide Arrow Up Right paths and 2-unit stroke, using a cropped `6 6 12 12` viewBox in an 8px square. This preserves the original 16px/24-unit rendering scale and removes 4px of empty space per side. A 1px vertical alignment preserves the original visible stroke position. The non-breaking space, link padding, underline, focus and hover treatments remain unchanged. Typography and icon specimens inherit the shared renderer.
+Shared hyperlinks use the approved Modified Arrow Up Right, while anchor-copy controls use Modified Hash and the installed Lucide Check/X feedback paths. The shared renderer scales these icons to text cap height and keeps the final word and icon together with a .2em gap. Right-aligned anchor text places the shared icon slot on the left; other alignments place it on the right. See the [global link rules](../docs/agent-guidance/interface.md#text-links-anchor-links-and-hover-states) for exact geometry and source references.
 
-Shared links keep their text, arrow and layout positions while using an adjusted hover/hit surface inset 2px from the original top and extended 1px beyond the original right. Left and bottom stay fixed. The anchor’s pseudo-element provides this native pointer/touch target; its original box and descendants do not receive pointer events. Keyboard focus remains on the native anchor and draws the shared 3px ring at its 3px offset around the adjusted surface. Theme colours, held hover and reduced motion use the same surface. Typography reads its computed fill rather than the transparent anchor background. Validate hit boundaries and all activation methods with `node website/tests/link-decoration-browser-check.mjs`. The normal and pinned desktop global-selector rows both retain 40px below their final control row.
+Shared hyperlinks and anchor-copy controls use native cloned hover decoration with zero layout padding. Transparent child targets match the painted extensions on each wrapped fragment, keeping text layout unchanged while supporting native pointer, touch and link actions. One shared keyboard-focus rule keeps the 3px outline at least 3px beyond the decoration. The implementation lives in `lib/workshop-link-surfaces.mjs`; the [Interface contract](../docs/agent-guidance/interface.md#text-links-anchor-links-and-hover-states) owns its dimensions and refresh rules. Validate with `node website/tests/link-surfaces-browser-check.mjs`. The normal and pinned desktop global-selector rows both retain 40px below their final control row.
 
 Typography, hyperlink, Icons, Status States and Focus and Selection specimens use inset rounded grey frames inside their white cards on mobile and desktop. Login Destination and Held Login State use the shared 32px stacked-group gap. Validate these relationships and menu opening at three scroll positions with `node website/tests/playground-menu-containment-browser-check.mjs`.
 
