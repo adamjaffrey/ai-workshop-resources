@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.22"
-  update_summary: "Align left disclosure chevrons and labels to fixed inset columns"
-  updated_at: "Wed 21 Oct 2026 at 03:28:53 pm AEDT (+11:00)"
+  doc_revision: "26.0.23"
+  update_summary: "Define reusable success and failure feedback conventions"
+  updated_at: "Wed 21 Oct 2026 at 03:34:27 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -93,9 +93,38 @@ Run `node website/tests/playground-external-text-inset-browser-check.mjs` for me
 - Clicking Step N or its exterior icon copies the canonical Resources step URL in place; it never scrolls. Keep Playground heading interactions unchanged until separately authorised.
 - Preserve the Step N text rail and typography. Use Lucide Hash, Check and X at a shared `0.625em` size: 20px alongside the 32px desktop heading and 17.5px alongside the 28px mobile heading. Centre every state on the cap-height centre and place its exterior slot 8px after the text box. This action indicator is an explicit exception to the normal gutter paint limit; it must stay inside the viewport and must not move heading text.
 - Keep the indicator invisible until the text/icon region is hovered or keyboard-focused, or feedback is active. Use the hand pointer throughout that region. Share hyperlink paint settings from `workshop-links.mjs`: `--link-hover-bg`, 160ms `cubic-bezier(.2,0,.2,1)` background transition, 5px radius, and a current-colour underline at `.18em` with `text-decoration-thickness:auto`. Let the browser choose the underline thickness; retain the same thickness policy on hover. Match the hyperlink text-area clearance (3px left, 4px right, 0px above and 2px below its line box), preserving heading layout. Join the shorter icon surface to that area. Both hyperlinks and hovered anchor text use the agent accent; anchor underlines appear only on hover. Do not add press/hold stretching.
-- Copy success shows Lucide Check using the theme's success token; failure shows Lucide X using the error token. Visible anchor confirmation text is limited to an icon tooltip, with an assistive-technology announcement. Share motion through `workshop-copy-timing.mjs`: success enters over 600ms with 2px upward movement; failure enters over 300ms with opacity only; both exit over 600ms with 2px upward movement. Every entrance uses `ease-out`; every exit uses `ease-in`. Start the fully visible hold only after the entrance finishes. Anchor and QR Copy Link holds are 3 seconds for success and 6 seconds for failure; Copy Prompt button and overlay holds are 6 seconds and 12 seconds respectively. Reduced motion skips movement and fades, retaining the full hold.
+- Copy success shows Lucide Check using the theme's success token; failure shows Lucide X using the error token. Visible anchor confirmation text is limited to an icon tooltip, with an assistive-technology announcement. Follow [Shared Success and Failure Feedback](#shared-success-and-failure-feedback) for motion, hold durations and future reuse.
 - After anchor arrival, route the first forward Tab to the selected agent option, the second to the selected theme option, and the third to the first focusable control in the target card, without moving the page. Preserve selector arrow-key behaviour and resume normal tabbing in the card; pointer interaction or upward restoration releases the temporary route.
 - Maintain the same Resources component in Playground specimens, including simulated clipboard outcomes and icon catalogue metadata. These specimens do not create Playground heading anchors.
+
+## Shared Success and Failure Feedback
+
+Apply this convention to new transient success/failure feedback and reuse `website/lib/workshop-copy-timing.mjs` for the shared timings and keyframes. Use the closest existing feedback type below rather than inventing a separate animation or cooldown. Keep live components and their Playground specimens in parity. This section is the timing authority; [Navigation Links and Copy Feedback](../../website/DESIGN-DECISIONS.md#navigation-links-and-copy-feedback) records the rationale.
+
+| Phase | Success | Failure |
+|---|---|---|
+| Entrance duration | 600ms | 300ms |
+| Entrance opacity | 0 → 1 | 0 → 1 |
+| Entrance movement | 2px below resting position → resting position | None |
+| Entrance easing | `ease-out` | `ease-out` |
+| Exit duration | 600ms | 600ms |
+| Exit opacity | 1 → 0 | 1 → 0 |
+| Exit movement | Resting position → 2px above resting position | Resting position → 2px above resting position |
+| Exit easing | `ease-in` | `ease-in` |
+
+| Feedback Type | Success Fully Visible Hold | Failure Fully Visible Hold |
+|---|---|---|
+| Copy Prompt button icon and label | 6 seconds | 12 seconds |
+| Copy Prompt explainer panel | 6 seconds | 12 seconds |
+| QR Code Copy Link icon and label | 3 seconds | 6 seconds |
+| Step Anchor Copy icon | 3 seconds | 6 seconds |
+
+- Start the hold timer only after the entrance animation finishes, so each hold is fully visible for its complete duration. A new result cancels the previous result's animation and timer; it must not be cleared by an older callback. With reduced motion, skip fades and movement while retaining the full hold.
+- Failure entrances are deliberately quicker and simpler because they indicate a problem that needs prompt attention: fade only, without the decorative upward entrance movement. Failures remain visible twice as long as the corresponding success result to give the user time to understand the problem and act. Success can use the gentler upward entrance to confirm completion. Preserve this distinction in future feedback.
+- For Copy Prompt, animate `.copy-content` (the button's icon and label, not its outer background/border) and the complete `.status` explainer panel together with the same start time. The panel's background and text fade and move as one unit; do not add a separate expansion or slide animation. They share the same hold and exit lifecycle.
+- QR feedback uses the same motion with the shorter holds above. Its ordinary hover/focus/touch-preview background has a separate 160ms opacity transition using `ease`. On feedback exit, fade the whole overlay if no hover, keyboard focus or touch-preview state remains; otherwise fade only its feedback content and restore Copy Link. Avoid a second background fade.
+- Anchor feedback animates the result icon only and returns to Hash after exit. Show Link Copied or Copy Failed in the icon tooltip and announce the outcome to assistive technology; do not add visible confirmation text alongside it.
+- Use the shared theme-aware `--success` and `--error` tokens. Preserve Lucide Check/X outcome indicators and accessible result announcements. Reuse the concise outcome label and, where recovery needs explanation, the existing explainer-panel pattern.
 
 ## Title Case
 

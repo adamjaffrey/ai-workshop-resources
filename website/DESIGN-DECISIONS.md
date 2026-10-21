@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.27"
-  update_summary: "Align left disclosure chevrons and labels to fixed inset columns"
-  updated_at: "Wed 21 Oct 2026 at 03:28:53 pm AEDT (+11:00)"
+  doc_revision: "26.0.28"
+  update_summary: "Record why failure feedback enters faster and holds longer"
+  updated_at: "Wed 21 Oct 2026 at 03:34:27 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -138,9 +138,9 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 
 **Decision:** Use the shared cropped Lucide Arrow Up Right, with an underlined text span and non-wrapping final-word/arrow tail. Preserve shared colour, hover and focus tokens, and the measured hit surface. Prompt and QR copy actions share success/failure feedback; keep code selectable and clipboard fallbacks available. Use the shared renderer rather than copies of its styles. Hyperlinks and Step anchors use `text-decoration-thickness:auto`, selected after comparing from-font, auto and fixed 1–2.5px options at both text sizes. Keep the existing `.18em` offset and hover-only underline for Step anchors. This supersedes the earlier fixed 1px and from-font treatments. The browser chooses the thickness; renderer differences are expected.
 
-**Rationale:** Documented: the non-wrapping tail prevents an orphaned arrow; the cropped viewBox removes empty SVG space without changing visible stroke scale. Hover/feedback lifecycles avoid a second background fade and retain keyboard visibility. Specific feedback durations are documented in the README, without a separate rationale for each value.
+**Rationale:** Documented: the non-wrapping tail prevents an orphaned arrow; the cropped viewBox removes empty SVG space without changing visible stroke scale. Hover/feedback lifecycles avoid a second background fade and retain keyboard visibility. Adam explicitly confirmed the success/failure distinction: failure indicates a problem, so it appears sooner with a shorter, opacity-only entrance and no decorative upward entrance movement. It stays visible twice as long as success so the user can read and respond. Success uses a gentler upward entrance to acknowledge completion. Fully visible holds begin after entry finishes, preserving the intended reading time. The prompt explainer needs longer holds than the shorter QR and anchor feedback. Future transient feedback should reuse these shared rules rather than introduce an independent timing pattern.
 
-**Owning Rules and Sources:** [Link Renderer](lib/workshop-links.mjs); [Copy and QR Feedback](README.md#theme-reveal-and-qr-sharing); [Focus Rules](../docs/agent-guidance/interface.md#focus-and-panel-opening). Primary README source: [Shared Navigation Links](README.md#shared-navigation-links).
+**Owning Rules and Sources:** [Shared Success and Failure Feedback](../docs/agent-guidance/interface.md#shared-success-and-failure-feedback); [Link Renderer](lib/workshop-links.mjs); [Copy and QR Feedback](README.md#theme-reveal-and-qr-sharing); [Focus Rules](../docs/agent-guidance/interface.md#focus-and-panel-opening). Primary README source: [Shared Navigation Links](README.md#shared-navigation-links).
 
 ## QR Touch Interaction
 
