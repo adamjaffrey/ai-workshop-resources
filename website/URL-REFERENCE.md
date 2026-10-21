@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.18"
-  update_summary: "Standardise Playground actions and shared anchor table widths"
-  updated_at: "Thu 22 Oct 2026 at 09:15:01 am AEDT (+11:00)"
+  doc_revision: "26.0.19"
+  update_summary: "Simplify canonical login and Claude URL components"
+  updated_at: "Thu 22 Oct 2026 at 09:24:01 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -22,9 +22,9 @@ All paths in this document are relative to `https://workshop.adamjaffrey.chatgpt
 | --- | --- | --- |
 | QR Code and Copy Link | `https://workshop.adamjaffrey.chatgpt.site` | Destination title |
 | Resources | `/ai-workshop-resources` | AI Workshop Resources |
-| Resources Login | `/ai-workshop-resources?show-login=true` | AI Workshop Resources |
+| Resources Login | `/ai-workshop-resources?login=false` | AI Workshop Resources |
 | Playground | `/component-playground` | Component Playground |
-| Playground Login | `/component-playground?show-login=true` | Component Playground |
+| Playground Login | `/component-playground?login=false` | Component Playground |
 
 Every supported Playground section uses the same browser title as the Playground root. Page titles do not select or rename URL paths.
 
@@ -132,7 +132,7 @@ Step links use the canonical Resources path with these fragments:
 
 Fragments stay in the browser and are not sent to the server. Opening a short alias scrolls to the same destination and rewrites the address bar to the descriptive fragment with `history.replaceState`, without an extra Back-button stop. JavaScript login retains the requested fragment. Unknown fragments remain unchanged.
 
-Clicking Step N or its exterior Hash icon copies the full canonical step URL without scrolling or changing the address bar. Copying preserves the current query parameters except `show-login`. For example, `/ai-workshop-resources?agent=claude-code&theme=dark`**`#step-2-system-blueprint-creator`** retains those display preferences.
+Clicking Step N or its exterior Hash icon copies the full canonical step URL without scrolling or changing the address bar. Copying preserves the current query parameters except `login`. For example, `/ai-workshop-resources?agent=claude&theme=dark`**`#step-2-system-blueprint-creator`** retains those display preferences.
 
 Opening, reloading or re-entering a recognised step URL (including same-URL replacement navigation) scrolls the text to 60px below the floating selectors, or 30px on mobile. Travel uses a baseline 1200 CSS px/s with eased 300ms acceleration/deceleration and increases speed to cap long journeys at three seconds; selectors become sticky naturally during travel. Earlier step/card pairs fade out over the final 600ms of scrolling while the selector shadows and floating Wavelength mark fade in; all finish together. Earlier pairs fade back in only when scrolling upwards, retaining their layout space. Near-footer anchors may require extra bottom scroll room. Reduced-motion preferences are respected. The first three Tab stops after arrival are the agent selector, theme selector and target-card content.
 
@@ -175,7 +175,7 @@ Every collapsible outer H2/H3 also has a copyable heading anchor. The inventory 
 | URL Reference | Sources (H2) | `/component-playground/url-reference`**`#sources`** | — |
 | Easter Egg | Easter Egg (H2) | `/component-playground/easter-egg`**`#easter-egg`** | — |
 
-Clicking the heading or its assigned icon copies the canonical URL without moving the page. The separate chevron and the empty right-hand header region toggle the section; a 20px neutral gap separates that region from the heading copy area. Copied links retain the current query except `show-login`. Opening, reloading or re-entering an anchor selects its tab, opens the enclosing section and scrolls to 16px below the settled sticky tab bar. H2 targets use the card edge; H3 targets use the heading row. Earlier cards/content fade during the final 600ms of travel, retain layout space and return on upward scrolling. Fragments remain client-side and survive login. Unknown fragments remain unchanged. Selecting another tab clears the previous fragment. If the header above the tabs is still visible, ordinary and same-document cross-tab anchor changes preserve the current scroll depth rather than forcing the tab bar to pin.
+Clicking the heading or its assigned icon copies the canonical URL without moving the page. The separate chevron and the empty right-hand header region toggle the section; a 20px neutral gap separates that region from the heading copy area. Copied links retain the current query except `login`. Opening, reloading or re-entering an anchor selects its tab, opens the enclosing section and scrolls to 16px below the settled sticky tab bar. H2 targets use the card edge; H3 targets use the heading row. Earlier cards/content fade during the final 600ms of travel, retain layout space and return on upward scrolling. Fragments remain client-side and survive login. Unknown fragments remain unchanged. Selecting another tab clears the previous fragment. If the header above the tabs is still visible, ordinary and same-document cross-tab anchor changes preserve the current scroll depth rather than forcing the tab bar to pin.
 
 ## Public Query Parameters
 
@@ -184,11 +184,11 @@ The portion after `?` is the query string. Each name/value pair is a query param
 | Canonical Parameter | Effect |
 | --- | --- |
 | `agent=codex` | Select Codex and blue branding |
-| `agent=claude-code` | Select Claude Code and orange branding |
+| `agent=claude` | Select Claude Code and orange branding |
 | `theme=light` | Select light theme |
 | `theme=dark` | Select dark theme |
-| `show-login=true` | Revoke the current session, clear its cookie and show the requested login form |
-| `show-login=false` | Reuse a valid session or show login; never authenticate automatically |
+| `login=false` | Revoke the current session, clear its cookie and show the requested login form |
+| `login=true` | Reuse a valid session or show login; never authenticate automatically |
 
 ### Agent and Theme Aliases
 
@@ -197,7 +197,7 @@ Use `agent` or its name alias `ai`, and `theme` or its name alias `mode`. Each a
 | Parameter Names | Accepted Values | Canonical Parameter |
 | --- | --- | --- |
 | `agent`, `ai` | `codex`, `chatgpt`, `chatgpt-codex` | `agent=codex` |
-| `agent`, `ai` | `claude-code`, `claude`, `code` | `agent=claude-code` |
+| `agent`, `ai` | `claude`, `claude-code`, `code` | `agent=claude` |
 | `theme`, `mode` | `light`, `day`, `sun` | `theme=light` |
 | `theme`, `mode` | `dark`, `night`, `moon` | `theme=dark` |
 
@@ -223,24 +223,33 @@ Choose the outcome you want, then use the value shown with any parameter name in
 | `show-login`, `logout`, `logged-out`, `loggedout` | `true` | `false` |
 | `hide-login`, `login`, `logged-in`, `loggedin` | `false` | `true` |
 
-**Show Login Form** becomes `show-login=true`: log out the current session and display the password form. **Keep Existing Session** becomes `show-login=false`: open the page if the current session is valid, otherwise display the password form. It never signs you in automatically or hides a required password form.
+**Show Login Form** becomes `login=false`: log out the current session and display the password form. **Keep Existing Session** becomes `login=true`: open the page if the current session is valid, otherwise display the password form. It never signs you in automatically or hides a required password form.
 
-For example, `login=1` and `hide-login=yes` become `show-login=false`; `logout=1` and `login=no` become `show-login=true`. `logout` is the inverse of `login`, and `hide-login` is the inverse of `show-login`.
+For example, `login=1` and `hide-login=yes` become `login=true`; `logout=1` and `login=no` become `login=false`. `logout` is the inverse of `login`, and `hide-login` is the inverse of `show-login`.
 
-The meaning of `login` has changed: `login=1` now means you want to be logged in. Existing links that used `login=1` to force the password form should use `show-login=true` or `logout=1` instead.
+`login=1` means you want to be logged in and redirects to `login=true`. Use `login=false` or its alias `logout=1` to log out. Older `show-login` links remain supported with inverse boolean logic.
 
-Aliases are redirect inputs only; authentication reads the resulting `show-login` parameter. Unsupported or empty values, such as `login=2` or `show-login=maybe`, are removed by 301 redirect. Valid duplicates retain their order across canonical names and aliases, with the first resulting `show-login` value taking effect. Boolean values apply only to login selectors; agent and theme selectors use the named values above.
+All alternative parameter names and boolean spellings above are aliases for the final canonical components below. Redirects rewrite them to `login` with a literal `true` or `false`; authentication reads only that canonical component.
 
-Successful login removes `show-login` before navigation, preventing a logout loop while preserving the requested section and unrelated query parameters. These actions affect the current session only; they do not authenticate users or revoke unrelated browser sessions.
+| Final Canonical Component | Result |
+| --- | --- |
+| `login=true` | Show the page if a valid session exists; otherwise show the password form. Never authenticate automatically. |
+| `login=false` | Revoke the current session, clear its cookie and show the password form. |
+
+Similarly, agent aliases end at `agent=codex` or `agent=claude`, and theme aliases end at `theme=light` or `theme=dark`.
+
+Unsupported or empty values, such as `login=2` or `show-login=maybe`, are removed by 301 redirect. Valid duplicates retain their order across canonical names and aliases, with the first resulting `login` value taking effect. Boolean values apply only to login selectors; agent and theme selectors use the named values above.
+
+Successful login removes `login` before navigation, preventing a logout loop while preserving the requested section and unrelated query parameters. These actions affect the current session only; they do not authenticate users or revoke unrelated browser sessions.
 
 ### Local and Hosted Behaviour
 
 | Request | Automatic Local Preview | Hosted Application |
 | --- | --- | --- |
-| Resources without `show-login` | Obtain a real local session automatically if needed | Require a valid session or password |
-| Playground without `show-login` | Allow anonymous preview access | Require a valid session or password |
-| Any supported page with `show-login=true` | Revoke the current session and show login | Same |
-| Any supported page with `show-login=false` | Require a valid session or show login | Same |
+| Resources without `login` | Obtain a real local session automatically if needed | Require a valid session or password |
+| Playground without `login` | Allow anonymous preview access | Require a valid session or password |
+| Any supported page with `login=false` | Revoke the current session and show login | Same |
+| Any supported page with `login=true` | Require a valid session or show login | Same |
 
 The explicit boolean behaviour applies to Resources, the Playground root and every supported Playground section. Future or unknown paths remain 404. Low-level local tests may disable automatic sign-in and protect the Playground explicitly.
 
@@ -248,7 +257,7 @@ The explicit boolean behaviour applies to Resources, the Playground root and eve
 
 ```text
 /STYLES/FOCI-AND-SELECTIONS/?AI=Claude&Mode=MOON&LoggedIn=NO&Token=AbC
-→ /component-playground/focus-and-selection?agent=claude-code&theme=dark&show-login=true&Token=AbC
+→ /component-playground/focus-and-selection?agent=claude&theme=dark&login=false&Token=AbC
 ```
 
 This is one application 301. It selects Claude Code and dark theme, revokes the current session and shows the Playground login form. `Token=AbC` is preserved.
@@ -258,15 +267,15 @@ This is one application 301. It selects Claude Code and dark theme, revokes the 
 | Action | Result |
 | --- | --- |
 | Successful non-JavaScript login POST | 303 See Other to `/ai-workshop-resources` |
-| Logout POST | 303 to `/ai-workshop-resources`; automatic local preview adds `?show-login=true` |
-| Successful JavaScript login | Browser navigation to the requested destination, removing `show-login` |
+| Logout POST | 303 to `/ai-workshop-resources`; automatic local preview adds `?login=false` |
+| Successful JavaScript login | Browser navigation to the requested destination, removing `login` |
 | Local ChatGPT sign-in/out tooling | `return_to` selects a validated same-origin destination; GET uses 302 and sign-out POST uses 303 |
 
 `return_to` is internal tooling, not a public display selector. Invalid or external destinations fall back to `/`. The decorative `/login-backdrop/components` endpoint retains its compatibility name and serves the selected anonymous Colours backdrop. It uses canonical `theme` and `agent` values to render anonymous geometry; it cannot grant access. No query parameter carries a password or grants a hosted session.
 
 ## Playground Reference and Logo Navigation
 
-The Playground’s URL Reference tab at `/component-playground/url-reference` renders this document, including URL mappings and query parameter strings. Examples do not navigate, so inspecting `show-login=true` cannot accidentally log you out. Fenced code examples have a Copy Text button using the Resources copy-control styling, with brief Text Copied or Copy Failed feedback. Future URL or query changes must update this document and its Playground representation together.
+The Playground’s URL Reference tab at `/component-playground/url-reference` renders this document, including URL mappings and query parameter strings. Examples do not navigate, so inspecting `login=false` cannot accidentally log you out. Fenced code examples have a Copy Text button using the Resources copy-control styling, with brief Text Copied or Copy Failed feedback. Future URL or query changes must update this document and its Playground representation together.
 
 Three primary-button clicks or taps on the Wavelength header brand within three seconds open the other page in a new tab/window (`_blank`, `noopener,noreferrer`). Resources opens `/component-playground`; Playground opens `/ai-workshop-resources`. Both use canonical paths and the same gesture handler. The original page stays open. Other clicks, window blur or visibility changes reset the sequence.
 

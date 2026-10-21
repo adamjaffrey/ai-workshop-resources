@@ -82,10 +82,10 @@ test('service failures preserve every login destination, background and query UR
   const e=failure==='missing-config'?{}:env();
   if(failure==='invalid-verifier')e.WORKSHOP_PASSWORD_VERIFIER='invalid';
   if(failure==='database')e.DB.prepare=()=>{throw Error('database unavailable');};
-  const request=get(path+'?theme=dark&agent=claude-code',COOKIE+'='+'a'.repeat(64));
+  const request=get(path+'?theme=dark&agent=claude',COOKIE+'='+'a'.repeat(64));
   const response=await handleRequest(request,e);const html=await response.text();
   assert.equal(response.status,503,path+' '+failure);assert.equal(response.headers.get('location'),null);
-  assert.equal(request.url,origin+path+'?theme=dark&agent=claude-code');
+  assert.equal(request.url,origin+path+'?theme=dark&agent=claude');
   assert.match(html,/Sign-in unavailable/);assert.match(html,/id="access-form"/);
   assert.equal(html.includes('class="page-placeholder playground-placeholder"'),path.startsWith('/component-playground'));
   if(path.startsWith('/component-playground'))assert.match(html,/src="\/login-backdrop\/components/);
@@ -93,17 +93,17 @@ test('service failures preserve every login destination, background and query UR
  }
 });
 
-test('show-login logs out hosted sessions and false never authenticates',async()=>{
+test('login=false logs out hosted sessions and true never authenticates',async()=>{
  for(const path of ['/ai-workshop-resources','/component-playground','/component-playground/icons']){
   const e=env(),now=1000000,cookie=await login(e,now);
   const options={renderPlayground:()=>'<div id="playground-title">protected</div>'};
-  const kept=await handleRequest(get(path+'?show-login=false',cookie),e,now+1,options);
+  const kept=await handleRequest(get(path+'?login=true',cookie),e,now+1,options);
   assert.doesNotMatch(await kept.text(),/id="access-form"/);
   assert.equal((await handleRequest(get('/auth/session',cookie),e,now+2)).status,200);
-  const out=await handleRequest(get(path+'?show-login=true',cookie),e,now+3,options);
+  const out=await handleRequest(get(path+'?login=false',cookie),e,now+3,options);
   assert.match(await out.text(),/id="access-form"/);assert.match(out.headers.get('set-cookie'),/Max-Age=0/);
   assert.equal((await handleRequest(get('/auth/session',cookie),e,now+4)).status,401);
-  const locked=await handleRequest(get(path+'?show-login=false',cookie),e,now+5,options);
+  const locked=await handleRequest(get(path+'?login=true',cookie),e,now+5,options);
   assert.match(await locked.text(),/id="access-form"/);
  }
 });

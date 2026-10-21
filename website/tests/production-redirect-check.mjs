@@ -27,7 +27,7 @@ console.log('PASS: canonical Resources, site-wide case and existing font redirec
 for(const method of ['GET','HEAD']){
  const response=await fetch(origin+'/COMPONENTS/ICON/?AI=Claude&Mode=MOON&LoggedIn=NO&Token=AbC%2FZ+Q',{method,redirect:'manual'});
  assert.equal(response.status,301);
- assert.equal(response.headers.get('location'),'/component-playground/icons?agent=claude-code&theme=dark&show-login=true&Token=AbC%2FZ+Q');
+ assert.equal(response.headers.get('location'),'/component-playground/icons?agent=claude&theme=dark&login=false&Token=AbC%2FZ+Q');
  const canonical=await fetch(origin+response.headers.get('location'),{method,redirect:'manual'});
  assert.equal(canonical.headers.get('location'),null);
 }
@@ -54,8 +54,8 @@ for(const alias of ['url','urls','reference','references','url-reference','url-r
 }
 console.log('PASS: URL Reference root/section aliases, plural combinations and descendants on the built Worker');
 
-for(const [query,value] of [['login=1','false'],['login=no','true'],['logout=yes','true'],['logout=0','false'],['hide-login=true','false'],['hide-login=no','true']])for(const method of ['GET','HEAD']){
+for(const [query,value] of [['login=1','true'],['login=no','false'],['logout=yes','false'],['logout=0','true'],['hide-login=true','true'],['hide-login=no','false']])for(const method of ['GET','HEAD']){
  const response=await fetch(origin+'/ai-workshop-resources?'+query,{method,redirect:'manual'});
- assert.equal(response.status,301);assert.equal(response.headers.get('location'),'/ai-workshop-resources?show-login='+value);
+ assert.equal(response.status,301);assert.equal(response.headers.get('location'),'/ai-workshop-resources?login='+value);
 }
 console.log('PASS: login intent, logout and hide-login aliases on the built Worker');

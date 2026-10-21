@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.57"
-  update_summary: "Standardise Playground actions and shared anchor table widths"
-  updated_at: "Thu 22 Oct 2026 at 09:15:01 am AEDT (+11:00)"
+  doc_revision: "26.0.58"
+  update_summary: "Simplify canonical login and Claude URL components"
+  updated_at: "Thu 22 Oct 2026 at 09:24:01 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -305,7 +305,7 @@ Adam requested these gallery refinements to compare real component dimensions, r
 
 ## Canonical URLs, Preferences and Favicons
 
-**Decision:** Use canonical Resources/Playground paths and shared alias parsing with application 301 redirects, descendant preservation and known-query normalisation. Preserve unrelated query data and never treat an alias as a new page. Explicit show-login=true revokes only the current session; false never authenticates. The Playground Toy Brick favicon follows agent and theme, including login. Keep the public mapping in one Markdown source rendered by Playground. Accept shared true/yes/1 and false/no/0 login value groups, inverting hide-login/login/logged-in/loggedin and mapping logout directly; parameter-name aliases ai and mode reuse the complete agent/theme vocabulary. Document equivalent boolean spellings in one table and parameter families by desired outcome in another. Adam found the true-group/false-group headings confusing and requested that login=true express logged-in intent, with logout and hide-login as inverse aliases. Existing login=1 links now preserve a valid session rather than revoke it; authentication is still required.
+**Decision:** Use canonical Resources/Playground paths and shared alias parsing with application 301 redirects, descendant preservation and known-query normalisation. Preserve unrelated query data and never treat an alias as a new page. Explicit login=false revokes only the current session; true never authenticates. The Playground Toy Brick favicon follows agent and theme, including login. Keep the public mapping in one Markdown source rendered by Playground. Accept shared true/yes/1 and false/no/0 login value groups, canonicalising to login and inverting show-login/logout/logged-out/loggedout; parameter-name aliases ai and mode reuse the complete agent/theme vocabulary. Canonical URL values are agent=claude and login=true/false; internal Claude Code identifiers and stored preferences stay unchanged. Adam requested single-word canonical components for simpler URLs. Use Lucide Anchor for the Anchor Links heading and retain Hash for its hover copy action. Document equivalent boolean spellings in one table and parameter families by desired outcome in another. Adam found the true-group/false-group headings confusing and requested that login=true express logged-in intent, with logout and hide-login as inverse aliases. Existing login=1 links now preserve a valid session rather than revoke it; authentication is still required.
 
 **Rationale:** Documented: lowercase keys avoid maintaining case permutations, aliases retain existing links, and descendant redirects permit later page additions without inventing content. Explicit booleans clarify the old login=1 ambiguity without granting access. A WWW redirect still requires hosting/DNS/TLS support; application code cannot provision it. The prior fixed-blue favicon description is superseded.
 

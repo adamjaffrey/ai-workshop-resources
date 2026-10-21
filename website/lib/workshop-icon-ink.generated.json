@@ -4,6 +4,12 @@
   "alphaThreshold": 32,
   "samplesPerUnit": 20,
   "icons": {
+    "anchor": {
+      "left": 2,
+      "right": 2,
+      "top": 1,
+      "bottom": 1
+    },
     "arrow-up-right": {
       "left": 6,
       "right": 6,

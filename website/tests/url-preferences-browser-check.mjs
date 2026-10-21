@@ -24,7 +24,7 @@ try{
  await page.goto(origin+'/Components/ICON?AGENT=Claude&Theme=Night');await check('claude-code','dark');
  assert.equal(new URL(page.url()).pathname,'/component-playground/icons');
  await page.fill('#workshop-password',password);await page.click('.gate-submit');await page.waitForSelector('#playground-title');await check('claude-code','dark',true);
- assert.equal(new URL(page.url()).search,'?agent=claude-code&theme=dark');
+ assert.equal(new URL(page.url()).search,'?agent=claude&theme=dark');
  const agents={codex:'codex',chatgpt:'codex','chatgpt-codex':'codex',claude:'claude-code','claude-code':'claude-code',code:'claude-code'};
  const themes={light:'light',day:'light',sun:'light',dark:'dark',night:'dark',moon:'dark'};
  for(const width of [390,1440]){
@@ -39,11 +39,12 @@ try{
  }
  await page.goto(origin+'/component-playground?agent=codex&theme=light');
  await page.locator('#agent input[value="claude-code"]').check();await page.locator('#theme input[value="dark"]').check();await check('claude-code','dark',true);
+ assert.equal(new URL(page.url()).searchParams.get('agent'),'claude','Selector writes the canonical URL value');
  await page.locator('[data-tab=icons]').click();await page.reload();await check('claude-code','dark',true);
  await page.goto(origin+'/component-playground?agent=__proto__&theme=unknown');await check('claude-code','dark',true);
  await context.request.post(origin+'/auth/logout',{headers:{origin},maxRedirects:0});
- await page.goto(origin+'/ai-workshop-resources?show-login=true&agent=chatgpt&theme=sun');await check('codex','light');
- await page.fill('#workshop-password',password);await page.click('.gate-submit');await page.waitForURL(url=>!url.searchParams.has('show-login'));await page.waitForSelector('#workshop-content');assert.equal(new URL(page.url()).searchParams.has('show-login'),false);await check('codex','light');
+ await page.goto(origin+'/ai-workshop-resources?login=false&agent=chatgpt&theme=sun');await check('codex','light');
+ await page.fill('#workshop-password',password);await page.click('.gate-submit');await page.waitForURL(url=>!url.searchParams.has('login'));await page.waitForSelector('#workshop-content');assert.equal(new URL(page.url()).searchParams.has('login'),false);await check('codex','light');
  await page.goto(origin+'/');await check('codex','light');
  // Unknown paths still canonicalise site-wide, then remain a genuine 404.
  const redirect=await context.request.get(origin+'/UNKNOWN/Path?Keep=Case',{maxRedirects:0});assert.equal(redirect.status(),301);assert.equal(redirect.headers().location,'/unknown/path?Keep=Case');
@@ -57,19 +58,19 @@ try{
   for(const width of [390,1440]){
    await page.setViewportSize({width,height:900});
    await page.goto(local+'/ai-workshop-resources?Logged-In=FALSE&Theme=MOON');
-   assert.equal(new URL(page.url()).search,'?show-login=true&theme=dark');
+   assert.equal(new URL(page.url()).search,'?login=false&theme=dark');
    await page.fill('#workshop-password',automatic.password);await page.click('.gate-submit');
-   await page.waitForURL(url=>!url.searchParams.has('show-login'));await page.waitForSelector('#workshop-content');assert.equal(new URL(page.url()).search,'?theme=dark');
+   await page.waitForURL(url=>!url.searchParams.has('login'));await page.waitForSelector('#workshop-content');assert.equal(new URL(page.url()).search,'?theme=dark');
    assert.equal((await context.request.get(local+'/auth/session')).status(),200);
-   await page.goto(local+'/ai-workshop-resources?show-login=true');await page.waitForSelector('#access-form');
+   await page.goto(local+'/ai-workshop-resources?login=false');await page.waitForSelector('#access-form');
    assert.equal((await context.request.get(local+'/auth/session')).status(),401);
-   await page.goto(local+'/component-playground/icons?show-login=false&Agent=CLAUDE&Theme=NIGHT');
-   await page.waitForSelector('#access-form');assert.equal(new URL(page.url()).search,'?show-login=false&agent=claude-code&theme=dark');
+   await page.goto(local+'/component-playground/icons?login=true&Agent=CLAUDE&Theme=NIGHT');
+   await page.waitForSelector('#access-form');assert.equal(new URL(page.url()).search,'?login=true&agent=claude&theme=dark');
    await page.fill('#workshop-password',automatic.password);await page.click('.gate-submit');
-   await page.waitForURL(url=>!url.searchParams.has('show-login'));await page.waitForSelector('#playground-title');
+   await page.waitForURL(url=>!url.searchParams.has('login'));await page.waitForSelector('#playground-title');
    assert.equal(new URL(page.url()).pathname,'/component-playground/icons');
    assert.equal((await context.request.get(local+'/auth/session')).status(),200);
-   await page.goto(local+'/component-playground/icons?show-login=true');await page.waitForSelector('#access-form');
+   await page.goto(local+'/component-playground/icons?login=false');await page.waitForSelector('#access-form');
    assert.equal((await context.request.get(local+'/auth/session')).status(),401);
   }
  }finally{await new Promise(r=>automatic.server.close(r));}

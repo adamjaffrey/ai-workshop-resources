@@ -22,7 +22,7 @@ try{
   await gap(p,'.controls-label','.controls .toggle','agent rail');
   await gap(p,'article .description','article .code-wrap','nested prompt rail');
   if(width<=660)await gap(p,'.step-copy','article','stacked panel rail');
-  await p.goto(origin+'/?show-login=true');await gap(p,'#gate-title','.password-field','login title');await gap(p,'#gate-description','.gate-submit','login intro');
+  await p.goto(origin+'/?login=false');await gap(p,'#gate-title','.password-field','login title');await gap(p,'#gate-description','.gate-submit','login intro');
   near(await x(p,'.gate-panel label'),await x(p,'#gate-title'),'password label');
   assert.ok(await x(p,'.gate-panel')>=23.9,'login surface keeps mobile gutter');
   await p.goto(origin);await p.evaluate(()=>document.querySelector('.perspective-dialog').showModal());await gap(p,'.perspective-dialog h2','.perspective-dialog button','Easter Egg dialog');

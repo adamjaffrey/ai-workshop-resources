@@ -7,7 +7,7 @@ try{
  const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
  for(const width of [390,1440]){
   await page.setViewportSize({width,height:1000});
-  for(const path of ['/ai-workshop-resources','/ai-workshop-resources?show-login=true','/component-playground/url-reference']){
+  for(const path of ['/ai-workshop-resources','/ai-workshop-resources?login=false','/component-playground/url-reference']){
    await page.goto(origin+path);
    const headings=await page.locator('h1,h2,h3,h4,h5,h6,th,caption,legend').allTextContents();
    for(const heading of headings)assert.doesNotMatch(heading,/\s(?:And|Or|The|Of|With|For|To|In)\s/,'CMOS small words: '+heading);

@@ -5,7 +5,7 @@ const {server,password}=createPhonePreview({autoLogin:true});await new Promise(r
 const b=await chromium.launch({channel:'chrome'});
 try{
 const p=await b.newPage({viewport:{width:390,height:900},reducedMotion:'reduce'});const hash='#typography-and-text-styles';
-await p.goto(base+'/component-playground/typography?show-login=true'+hash);await p.locator('#workshop-password').fill(password);await p.locator('.gate-submit').click();await p.waitForFunction(()=>document.documentElement.dataset.playgroundAnchorLanded==='typography-and-text-styles');assert.equal(new URL(p.url()).hash,hash);assert.ok(!p.url().includes('show-login'));
+await p.goto(base+'/component-playground/typography?login=false'+hash);await p.locator('#workshop-password').fill(password);await p.locator('.gate-submit').click();await p.waitForFunction(()=>document.documentElement.dataset.playgroundAnchorLanded==='typography-and-text-styles');assert.equal(new URL(p.url()).hash,hash);assert.ok(!p.url().includes('login='));
 for(const width of [390,1440]){
  await p.setViewportSize({width,height:900});
  for(const theme of ['light','dark'])for(const agent of ['codex','claude-code']){

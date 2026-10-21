@@ -52,7 +52,7 @@ export function initPlaygroundAnchors({select,tabPaths,sticky,scheduleCaps,insta
   copy.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();copy.click();}});
   const entry={panel,row,title,text,tab,path,id,copy,target:title.tagName==='H3'?row:panel};entries.push(entry);byURL.set(path+'#'+id,entry);
  }
- const urlFor=entry=>{const url=new URL(entry.path,location.origin);url.search=location.search;url.searchParams.delete('show-login');url.hash=entry.id;return url;};
+ const urlFor=entry=>{const url=new URL(entry.path,location.origin);url.search=location.search;url.searchParams.delete('login');url.hash=entry.id;return url;};
  const feedback=installCopy(entries.map(e=>e.copy),button=>urlFor(entries.find(e=>e.copy===button)),timing,frames);
  const room=document.createElement('div');room.className='playground-anchor-room';room.setAttribute('aria-hidden','true');document.body.append(room);
  const resolve=url=>{let hash;try{hash=decodeURIComponent(url.hash.slice(1));}catch{return null;}return byURL.get(url.pathname.replace(/\/$/,'')+'#'+hash)||null;};

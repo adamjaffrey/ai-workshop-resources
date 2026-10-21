@@ -13,7 +13,8 @@ try{
   const panel=page.locator('#panel-url-reference');await panel.waitFor({state:'visible'});
   assert.equal(await page.locator('#tab-url-reference').getAttribute('aria-selected'),'true');
   for(const heading of ['Hostname Redirects','Resources Aliases','Playground Root Aliases','Playground Sections','Public Query Parameters','Login Aliases and Validation'])assert.ok((await panel.innerText()).includes(heading),heading);
-  for(const value of ['agent=codex','agent=claude-code','theme=light','theme=dark','show-login=true','show-login=false','login=1','logout=1','hide-login=yes','Boolean Value','Accepted Spellings','Show Login Form','Keep Existing Session','chatgpt-codex','url-references'])assert.ok((await panel.innerText()).includes(value),value);
+  for(const value of ['agent=codex','agent=claude','theme=light','theme=dark','login=false','login=true','login=1','logout=1','hide-login=yes','Boolean Value','Accepted Spellings','Show Login Form','Keep Existing Session','chatgpt-codex','url-references','Final Canonical Component'])assert.ok((await panel.innerText()).includes(value),value);
+  assert.equal(await panel.locator('h2').filter({hasText:'Anchor Links'}).locator('svg').first().getAttribute('data-icon-name'),'anchor');
   const headingIcons=await panel.locator('h2>svg,h3>svg').evaluateAll(nodes=>nodes.map(svg=>({name:svg.dataset.iconName,use:svg.dataset.iconUse})));
   assert.equal(headingIcons.length,await panel.locator('h2,h3').count(),'Every reference heading has an icon');
   assert.equal(await page.locator('#tab-url-reference svg').getAttribute('data-icon-name'),'globe');
@@ -23,7 +24,7 @@ try{
   assert.ok((await page.locator('#playground-icon-catalog [data-catalog-icon="globe"]').textContent()).includes('playground-tab-url-reference'));
   for(const table of await panel.locator('.url-table').all()){
    assert.equal(await table.getAttribute('tabindex'),'0','Overflow table remains keyboard-accessible');
-   assert.equal(await table.locator('table').evaluate(e=>getComputedStyle(e).minWidth),'0px','Allow compact content-sized columns');
+   assert.equal(await table.locator('table').evaluate(e=>e.classList.contains('anchor-table')?getComputedStyle(e).minWidth==='1120px':getComputedStyle(e).minWidth==='0px'),true,'Allow compact content-sized columns');
    assert.ok(await table.locator('td').evaluateAll(es=>es.every(e=>getComputedStyle(e).fontSize==='14px')),'Keep cell text consistent');
   }
   assert.equal(await panel.locator('a').count(),0,'Examples cannot log users out');

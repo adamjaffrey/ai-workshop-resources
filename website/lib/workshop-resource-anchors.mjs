@@ -27,7 +27,7 @@ export function initResourceAnchors(anchors,timing,measureHeading,frames,anchorG
  const root=document.documentElement, rows=[...document.querySelectorAll('.step-row')];
  const motion=matchMedia('(prefers-reduced-motion:reduce)');
  const canonical=fragment=>{let value;try{value=decodeURIComponent(fragment.replace(/^#/,''));}catch{return null;}return anchors.includes(value)?value:anchors[/^step-([1-3])$/.exec(value)?.[1]-1]||null;};
- const copy=installCopy(document.querySelectorAll('.step-anchor'),button=>{const url=new URL('/ai-workshop-resources',location.origin==='null'?'https://workshop.adamjaffrey.chatgpt.site':location.origin);url.search=location.search;url.searchParams.delete('show-login');url.hash=button.dataset.anchor;return url;},timing,frames);
+ const copy=installCopy(document.querySelectorAll('.step-anchor'),button=>{const url=new URL('/ai-workshop-resources',location.origin==='null'?'https://workshop.adamjaffrey.chatgpt.site':location.origin);url.search=location.search;url.searchParams.delete('login');url.hash=button.dataset.anchor;return url;},timing,frames);
  let generation=0,arriving=false,active=false,lastY=scrollY,focusRoute=null,trimRoom=false,writingURL=false;
  const restore=()=>{for(const row of rows){row.removeAttribute('data-anchor-hidden');row.removeAttribute('data-anchor-leaving');row.inert=false;}};
  function trim(){

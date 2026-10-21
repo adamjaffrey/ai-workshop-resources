@@ -126,7 +126,7 @@ export async function handleRequest(request, env, now = Date.now(), options = {}
       if(request.headers.get('accept')?.includes('application/json')) return json({ok:true,expiresAt:expires},200,extra);
       return reply(null,303,{...extra,'Location':'/ai-workshop-resources'});
     }
-    const showLogin=(path==='/ai-workshop-resources'||isPlaygroundPath(path))&&new URL(request.url).searchParams.get('show-login')==='true';
+    const showLogin=(path==='/ai-workshop-resources'||isPlaygroundPath(path))&&new URL(request.url).searchParams.get('login')==='false';
     if(showLogin){
       const token=tokenFrom(request);
       if(token)await env.DB.prepare('DELETE FROM workshop_sessions WHERE token_hash = ?').bind(sha(token)).run();
@@ -255,6 +255,6 @@ form.addEventListener('submit',async event=>{
   password.setSelectionRange(password.value.length,password.value.length);password.readOnly=true;
   setStatus('success',loginMessages.success);button.removeAttribute('aria-busy');
   button.textContent=loginControlLabels.opening;
-  setTimeout(()=>{password.value='';const target=new URL(location.href);if(!target.pathname.startsWith('/component-playground')){target.pathname='/ai-workshop-resources';}target.searchParams.delete('show-login');location.replace(target.pathname+target.search+target.hash);},900);
+  setTimeout(()=>{password.value='';const target=new URL(location.href);if(!target.pathname.startsWith('/component-playground')){target.pathname='/ai-workshop-resources';}target.searchParams.delete('login');location.replace(target.pathname+target.search+target.hash);},900);
 });
 `;

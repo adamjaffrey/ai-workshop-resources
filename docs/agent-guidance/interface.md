@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.48"
-  update_summary: "Standardise Playground actions and shared anchor table widths"
-  updated_at: "Thu 22 Oct 2026 at 09:15:01 am AEDT (+11:00)"
+  doc_revision: "26.0.49"
+  update_summary: "Simplify canonical login and Claude URL components"
+  updated_at: "Thu 22 Oct 2026 at 09:24:01 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -280,7 +280,7 @@ Rationale and superseded rules: [Specimen Palettes and Page Embeds](../../websit
 - Held-state adapters may supply fixture data, simulated outcomes and time controls, but must use the app's renderers and messages. When app state transitions change, review every affected adapter in the same change. Keep intentional differences explicit: sample input, held transient states, isolated focus, and disabled real navigation, clipboard, session and authentication effects. Do not allow these exceptions to conceal visual or semantic drift.
 - Validate affected specimens against independently rendered main-app pages, not only against other playground frames. Compare text, computed typography, colours, icon geometry, state attributes and relevant interaction behaviour at 320, 390, 768 and 1440px, in light/dark mode and for Codex/Claude. Include relevant neutral, loading, success, failure, disabled, hover and focused states, plus pointer, keyboard and touch paths when affected.
 - Run the existing source-parity check (`node website/tests/playground-browser-check.mjs`) for app interface or specimen-source changes, plus focused checks for the changed behaviour. Add or extend regression coverage when fixing a parity defect. Resolve unexpected differences before declaring the work complete; report any unverified browser/device behaviour or intentional simulation difference honestly. Do not claim universal 100% parity based only on shared imports or a limited test pass.
-- Keep `/component-playground` canonical; redirect `/component`, `/components`, `/playground` and `/style-guide`, including descendants, with 301 responses. On Sites, protect the entire playground with the same server-validated session as the main app, including expiry and logout; never publish specimen HTML as a public static asset. On the local preview server, keep `/component-playground` password-free only when `show-login` is absent; either explicit boolean uses real session handling on every supported page. Keep testing controls distinct from app specimens, keep simulated actions sandboxed and never expose local test credentials or authentication bypasses through a production handler.
+- Keep `/component-playground` canonical; redirect `/component`, `/components`, `/playground` and `/style-guide`, including descendants, with 301 responses. On Sites, protect the entire playground with the same server-validated session as the main app, including expiry and logout; never publish specimen HTML as a public static asset. On the local preview server, keep `/component-playground` password-free only when `login` is absent; either explicit boolean uses real session handling on every supported page. Keep testing controls distinct from app specimens, keep simulated actions sandboxed and never expose local test credentials or authentication bypasses through a production handler.
 
 ## URL Reference Tables and Subsections
 

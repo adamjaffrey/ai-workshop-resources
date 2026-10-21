@@ -10,6 +10,7 @@ import {__iconNode as referenceIcon1} from '../node_modules/lucide-react/dist/es
 import {__iconNode as referenceIcon2} from '../node_modules/lucide-react/dist/esm/icons/case-sensitive.mjs';
 import {__iconNode as referenceIcon3} from '../node_modules/lucide-react/dist/esm/icons/folders.mjs';
 import {__iconNode as referenceIcon4} from '../node_modules/lucide-react/dist/esm/icons/folder-tree.mjs';
+import {__iconNode as anchorLinksIcon} from '../node_modules/lucide-react/dist/esm/icons/anchor.mjs';
 import {__iconNode as referenceIcon5} from '../node_modules/lucide-react/dist/esm/icons/list-tree.mjs';
 import {__iconNode as referenceIcon6} from '../node_modules/lucide-react/dist/esm/icons/list-filter.mjs';
 import {__iconNode as referenceIcon7} from '../node_modules/lucide-react/dist/esm/icons/settings-2.mjs';
@@ -101,7 +102,7 @@ const urlHeadingIcons=new Map([
  ['Resources Aliases',[referenceIcon3,'folders']],
  ['Playground Root Aliases',[referenceIcon4,'folder-tree']],
  ['Playground Sections',[referenceIcon5,'list-tree']],
- ['Anchor Links',[referenceIcon5,'list-tree']],
+ ['Anchor Links',[anchorLinksIcon,'anchor']],
  ['Public Query Parameters',[referenceIcon6,'list-filter']],
  ['Agent and Theme Aliases',[referenceIcon7,'settings-2']],
  ['Login Aliases and Validation',[referenceIcon8,'shield-check']],
@@ -556,11 +557,11 @@ ${urlReferenceCSS}
   for(const [id,value] of [['agent',window.workshopAgent.current],['theme',document.documentElement.dataset.theme]]){
    if($(id).value===value)continue;
    $(id).value=value;changed=true;if(id==='theme')blockOverrides.dim=false;
-   const url=new URL(location.href);if(url.searchParams.has(id)){url.searchParams.set(id,value);history.replaceState(null,'',url);}
+   const url=new URL(location.href);if(url.searchParams.has(id)){url.searchParams.set(id,id==='agent'&&value==='claude-code'?'claude':value);history.replaceState(null,'',url);}
   }
   if(changed)sync();
  };
- fields.forEach(id=>$(id).addEventListener('change',()=>{if(id==='theme')blockOverrides.dim=false;if(id==='theme'||id==='agent'){try{localStorage.setItem(id==='theme'?'workshop-colour-theme':'workshop-selected-agent',$(id).value);}catch{}window.dispatchEvent(new StorageEvent('storage',{key:id==='theme'?'workshop-colour-theme':'workshop-selected-agent',newValue:$(id).value}));const url=new URL(location.href);if(url.searchParams.has(id)){url.searchParams.set(id,$(id).value);history.replaceState(null,'',url);}}sync();}));
+ fields.forEach(id=>$(id).addEventListener('change',()=>{if(id==='theme')blockOverrides.dim=false;if(id==='theme'||id==='agent'){try{localStorage.setItem(id==='theme'?'workshop-colour-theme':'workshop-selected-agent',$(id).value);}catch{}window.dispatchEvent(new StorageEvent('storage',{key:id==='theme'?'workshop-colour-theme':'workshop-selected-agent',newValue:$(id).value}));const url=new URL(location.href);if(url.searchParams.has(id)){url.searchParams.set(id,id==='agent'&&$(id).value==='claude-code'?'claude':$(id).value);history.replaceState(null,'',url);}}sync();}));
  $('icon-filter').onchange=()=>$('icons-frame').contentWindow.postMessage({guide:'icon-filter',filter:document.querySelector('input[name=icon-filter]:checked').value},'*');
  $('show-sources').onchange=()=>{const show=$('show-sources').checked;$('icons-frame').contentWindow.postMessage({guide:'icon-sources',sources:show},'*');};
  $('reset').onclick=()=>{$('login-destination').value='resources';$('state').value='neutral';$('hover').value='off';$('copy').value='success';scheduler.reset();sync();};

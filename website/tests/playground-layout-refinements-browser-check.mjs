@@ -33,7 +33,7 @@ try{
   await page.locator('[data-tab=icons]').click();assert.equal(await page.locator('[data-playground-source]:visible').count(),0);await page.locator('#show-playground-sources').check();assert.ok(await page.locator('[data-playground-source]:visible').count()>0);await page.locator('#show-playground-sources').uncheck();
   await page.locator('[data-tab=discovery]').click();await page.locator('#egg input[value=complete]').check({force:true});await page.waitForTimeout(350);
   const replay=page.locator('#perspective-replay');assert.equal(await replay.locator('svg').getAttribute('data-icon-name'),'rotate-cw');assert.ok(await replay.evaluate(e=>e.offsetWidth<e.parentElement.clientWidth));
-  const frame=page.frameLocator('#discovery-frame');await frame.locator('[data-agent=claude-code]').click();assert.equal(await frame.locator('[data-agent=claude-code]').getAttribute('aria-pressed'),'true');
+  const frame=page.frameLocator('#discovery-frame');await frame.locator('[data-agent=claude]').click();assert.equal(await frame.locator('[data-agent=claude]').getAttribute('aria-pressed'),'true');
   assert.ok(await frame.locator('.controls .toggle').evaluate(e=>{const r=e.getBoundingClientRect();return r.width>0&&r.top>=0&&r.bottom<innerHeight&&r.right<=innerWidth;}),'visible agent selector '+width);
   await page.screenshot({path:'/tmp/playground-refinement-'+width+'.png'});
  }

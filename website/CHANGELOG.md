@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.304"
-  update_summary: "Standardise Playground action sizes and anchor table columns"
-  updated_at: "Thu 22 Oct 2026 at 09:15:44 am AEDT (+11:00)"
+  doc_revision: "26.0.305"
+  update_summary: "Simplify canonical login and Claude URLs and identify anchor links"
+  updated_at: "Thu 22 Oct 2026 at 09:27:27 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.303 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 09:27:27 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Simplify canonical login and Claude URLs and identify anchor links
+
+### Changed
+
+- Canonicalise every login-state alias to login=true (require an existing session) or login=false (revoke it); update authentication, preview suppression, successful-login cleanup and copied-anchor URLs together.
+- Canonicalise Claude URLs to agent=claude, including selector writes, while retaining claude-code aliases, saved preferences and internal styling identifiers.
+- Add a final canonical-components table and align the shared URL Reference, routing, delivery and interface documentation.
+- Use the installed Lucide Anchor icon for Anchor Links, with measured ink alignment and catalogue metadata; retain Hash for hover copy actions.
+- Update URL-table checks to recognise the previously established wide anchor table separately from compact tables.
+
+### Validation
+
+- Routing, authentication, preview and structure suites — all 31 passed; anonymous backdrop suite — 2 passed.
+- URL Reference, table sizing and URL preferences browser checks — passed, including final canonical components, Anchor catalogue usage and selector URL writes.
+- Resources anchors across four widths, both agents/themes and WebKit, plus destination-specific login-error browser checks — passed.
+- Production build with saved backdrops, built Worker redirect checks and final LAN canonical/session checks — passed.
+- Broad Playground parity limitation — unchanged baseline also fails the existing floating top inset assertion (44px actual versus 43px expected); focused checks above passed.
 
 ## v26.0.302 — 2026-10-22
 

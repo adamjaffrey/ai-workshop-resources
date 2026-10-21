@@ -56,13 +56,13 @@ function canonicalSearch(search){
    // Invalid login selectors are removed, never interpreted as authentication.
    if(!booleanValues.has(lower))return null;
    const value=booleanValues.get(lower);
-   const show=['hide-login','login','logged-in','loggedin'].includes(key)?!value:value;
-   return 'show-login='+show;
+   const login=['hide-login','login','logged-in','loggedin'].includes(key)?value:!value;
+   return 'login='+login;
   }
   if(!publicParameters.has(key))return part;
   const aliases=publicParameters.get(key);
   if(!Object.hasOwn(aliases,lower))return null;
-  const canonical=aliases[lower],canonicalKey=key==='ai'?'agent':key==='mode'?'theme':key;
+  const canonical=aliases[lower]==='claude-code'?'claude':aliases[lower],canonicalKey=key==='ai'?'agent':key==='mode'?'theme':key;
   if(name===canonicalKey&&value===canonical)return part;
   return new URLSearchParams([[canonicalKey,canonical]]).toString();
  }).filter(part=>part!==null).join('&');

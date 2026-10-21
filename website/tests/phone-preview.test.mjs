@@ -38,24 +38,24 @@ test('automatic preview sign-in uses an isolated real session and retains login 
   const cookie=first.headers.get('set-cookie').split(';')[0];assert.match(cookie,/^workshop_preview_session=/);
   assert.equal((await fetch(origin+'/auth/session',{headers:{cookie}})).status,200);
   assert.equal((await fetch(origin+'/auth/session')).status,401);
-  assert.match(await(await fetch(origin+'/?show-login=true')).text(),/id="access-form"/);
-  const logout=await fetch(origin+'/auth/logout',{method:'POST',headers:{cookie,origin},redirect:'manual'});assert.equal(logout.headers.get('location'),'/ai-workshop-resources?show-login=true');
+  assert.match(await(await fetch(origin+'/?login=false')).text(),/id="access-form"/);
+  const logout=await fetch(origin+'/auth/logout',{method:'POST',headers:{cookie,origin},redirect:'manual'});assert.equal(logout.headers.get('location'),'/ai-workshop-resources?login=false');
   assert.equal((await fetch(origin+'/auth/session',{headers:{cookie}})).status,401);
   // A stale cookie after a preview restart is replaced on the next normal visit.
   const again=await fetch(origin,{headers:{cookie}});assert.match(await again.text(),/id="workshop-content"/);assert.notEqual(again.headers.get('set-cookie').split(';')[0],cookie);
  }finally{await new Promise(r=>server.close(r));}
 });
 
-test('show-login aliases revoke sessions; false never creates a local session',async()=>{
+test('logout aliases revoke sessions; login=true never creates a local session',async()=>{
  const {server}=createPhonePreview({autoLogin:true});server.listen(0,'127.0.0.1');await once(server,'listening');const origin='http://127.0.0.1:'+server.address().port;
  try{
-  for(const query of ['show-login=true','login=0','hide-login=no','logout=yes','logged-in=false','logged-out=true','SHOW-LOGIN=TRUE']){
+  for(const query of ['login=false','login=0','hide-login=no','logout=yes','logged-in=false','logged-out=true','SHOW-LOGIN=TRUE']){
    const first=await fetch(origin+'/ai-workshop-resources');const cookie=first.headers.get('set-cookie').split(';')[0];
    const response=await fetch(origin+'/ai-workshop-resources?'+query,{headers:{cookie}});
-   assert.equal(new URL(response.url).search,'?show-login=true');assert.match(await response.text(),/id="access-form"/);
+   assert.equal(new URL(response.url).search,'?login=false');assert.match(await response.text(),/id="access-form"/);
    assert.equal((await fetch(origin+'/auth/session',{headers:{cookie}})).status,401);
   }
-  for(const query of ['show-login=false','login=1','hide-login=yes','logout=no','logged-in=true','logged-out=false']){
+  for(const query of ['login=true','login=1','hide-login=yes','logout=no','logged-in=true','logged-out=false']){
    assert.match(await(await fetch(origin+'/ai-workshop-resources?'+query)).text(),/id="access-form"/);
    const first=await fetch(origin+'/ai-workshop-resources');const cookie=first.headers.get('set-cookie').split(';')[0];
    assert.match(await(await fetch(origin+'/ai-workshop-resources?'+query,{headers:{cookie}})).text(),/id="workshop-content"/);
@@ -68,11 +68,11 @@ test('explicit login booleans enforce real sessions on every local page',async()
  const {server}=createPhonePreview({autoLogin:true});server.listen(0,'127.0.0.1');await once(server,'listening');const origin='http://127.0.0.1:'+server.address().port;
  try{
   for(const path of ['/ai-workshop-resources','/component-playground',...playgroundSections.map(section=>'/component-playground/'+section)]){
-   const locked=await fetch(origin+path+'?show-login=false');assert.match(await locked.text(),/id="access-form"/,path);
+   const locked=await fetch(origin+path+'?login=true');assert.match(await locked.text(),/id="access-form"/,path);
    assert.equal((await fetch(origin+'/auth/session')).status,401);
    const app=await fetch(origin+'/ai-workshop-resources');const cookie=app.headers.get('set-cookie').split(';')[0];
-   const unlocked=await fetch(origin+path+'?show-login=false',{headers:{cookie}});assert.doesNotMatch(await unlocked.text(),/id="access-form"/,path);
-   const logout=await fetch(origin+path+'?show-login=true',{headers:{cookie}});assert.match(await logout.text(),/id="access-form"/,path);
+   const unlocked=await fetch(origin+path+'?login=true',{headers:{cookie}});assert.doesNotMatch(await unlocked.text(),/id="access-form"/,path);
+   const logout=await fetch(origin+path+'?login=false',{headers:{cookie}});assert.match(await logout.text(),/id="access-form"/,path);
    assert.equal((await fetch(origin+'/auth/session',{headers:{cookie}})).status,401);
   }
   assert.equal((await fetch(origin+'/resources/day-1-resources')).status,404);

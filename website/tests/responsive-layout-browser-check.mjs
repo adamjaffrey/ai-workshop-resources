@@ -21,7 +21,7 @@ try {
   assert.equal(app.pre,width<=660?'16px':'20px');
   assert.equal(app.icon==='none',width<=380);assert.equal(app.qr==='none',width<=660);assert.equal(app.overflow,false);
   for(const path of ['/ai-workshop-resources','/component-playground']) {
-   await page.goto(origin+path+'?show-login=true');
+   await page.goto(origin+path+'?login=false');
    assert.equal(await page.locator('.gate-panel').evaluate(e=>getComputedStyle(e).padding),width<=660?'24px 28px':'32px 36px');
    assert.equal(await page.locator('.access-gate').evaluate(e=>getComputedStyle(e).padding),'24px');
   }

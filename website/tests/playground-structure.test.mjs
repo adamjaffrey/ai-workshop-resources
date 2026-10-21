@@ -20,7 +20,7 @@ test('every Playground tab has a matching panel and measured icon source',async(
   assert.match(panel[2],/class="section-heading"><h2[^>]*><svg data-icon-provider="lucide" data-icon-name="[^"]+"/,'Missing first panel icon for '+tab);
  }
  const reference=panels.find(match=>match[1]==='url-reference')[2];
- for(const text of ['Resources Aliases','Playground Root Aliases','Public Query Parameters','agent=codex','agent=claude-code','theme=light','theme=dark','show-login=true','show-login=false'])assert.ok(reference.includes(text),text);
+ for(const text of ['Resources Aliases','Playground Root Aliases','Public Query Parameters','agent=codex','agent=claude','theme=light','theme=dark','login=false','login=true'])assert.ok(reference.includes(text),text);
  const headings=[...reference.matchAll(/<h[23][^>]*>([\s\S]*?)<\/h[23]>/g)];
  for(const heading of headings)assert.match(heading[1],/^<svg data-icon-provider="lucide" data-icon-name="[^"]+" data-icon-use="[^"]+"/);
  for(const [index,match] of [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].entries())assert.doesNotThrow(()=>new Script(match[1]),'Inline script '+index);
