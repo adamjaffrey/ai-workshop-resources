@@ -14,6 +14,8 @@ html:has(#playground-title){scrollbar-gutter:stable}
 #panel-url-reference .panel .url-subsection{padding-top:20px}
 #panel-url-reference .panel .url-subsection>.section-heading{min-height:50px;margin-bottom:20px}
 #panel-url-reference .panel .url-subsection[data-collapsed]{padding-bottom:20px}
+#panel-url-reference .panel .url-subsection[data-collapsed]+.url-subsection{margin-top:0}
+#panel-url-reference .panel .url-subsection[data-collapsed]:last-child{padding-bottom:0}
 #panel-url-reference .panel .url-subsection[data-collapsed]>.section-heading{margin-bottom:0}
 .section-heading::before{content:"";position:absolute;top:0;left:-8px;right:-8px;height:50px;border-radius:12px;background:var(--hover);opacity:0;pointer-events:none;z-index:-1;transition:none}
 .section-heading:is([data-collapse-hover],:has(>.section-collapse:hover))::before{opacity:1}

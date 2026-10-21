@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.63"
-  update_summary: "Preserve heading paint and unify keyboard hover feedback"
-  updated_at: "Thu 22 Oct 2026 at 09:50:05 am AEDT (+11:00)"
+  doc_revision: "26.0.64"
+  update_summary: "Restore action labels and single-owner collapsed H3 spacing"
+  updated_at: "Thu 22 Oct 2026 at 09:58:48 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -463,5 +463,13 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Decision:** Clip section-height transitions vertically only, preserving outdented H3 decoration. Reduce header top/bottom spacing from 24px to 20px. Switch hover paint instantly while keeping the collapsed-state tint on its own animated layer. Apply the full anchor hover decoration to keyboard focus.
 
 **Rationale:** Clipping both axes cut off the subsection edges during animation. Separate hover and state paint allows immediate pointer feedback without losing collapse timing. Keyboard users receive the same action indication.
+
+**Owning Rules:** [Interface](../docs/agent-guidance/interface.md#playground-heading-anchor-controls).
+
+## Restore Descriptive Action Labels
+
+**Decision:** Restore visible text on Expand View, Contract View, Copy Values, Reset Defaults and Replay Animation at a consistent 50px height with intrinsic width. Retain square icon-only treatment for ellipsis/close, Back to Top and section chevrons. Place Contract View on the right surface rail. Give collapsed H3 bottom clearance one spacing owner, avoiding stacked subsection margins and card padding.
+
+**Rationale:** Forcing labelled actions into squares unintentionally removed their labels. The user wants their readable labels retained. The reported 44px H3 gap combined 20px padding and a 24px following margin.
 
 **Owning Rules:** [Interface](../docs/agent-guidance/interface.md#playground-heading-anchor-controls).

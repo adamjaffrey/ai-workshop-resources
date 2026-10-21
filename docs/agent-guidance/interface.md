@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.53"
-  update_summary: "Preserve heading paint and unify keyboard hover feedback"
-  updated_at: "Thu 22 Oct 2026 at 09:50:05 am AEDT (+11:00)"
+  doc_revision: "26.0.54"
+  update_summary: "Restore action labels and single-owner collapsed H3 spacing"
+  updated_at: "Thu 22 Oct 2026 at 09:58:48 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -288,7 +288,7 @@ Rationale and superseded rules: [Specimen Palettes and Page Embeds](../../websit
 - Size tables intrinsically (`width:auto`, `min-width:0`, `table-layout:auto`) inside horizontally scrollable wrappers. Do not force every table to fill its container or restore a blanket 600px minimum. Preserve normal prose wrapping and unbroken individual URL/code tokens; avoid `overflow-wrap:anywhere` on table prose.
 - Choose widths by column meaning in `website/scripts/playground-url-reference.mjs`: compact identity, title, path and hostname columns do not wrap; ordinary explanatory prose uses a 28–40ch measure; Effect uses 36–44ch. Keep Status and Owner unwrapped so short ownership labels do not produce orphaned second lines. Alias lists retain their narrower natural wrapping. A table may scroll horizontally rather than crush every column onto a phone screen.
 - Reassess these measures when copy changes. The current hostname ownership labels should occupy one line and Public Query Parameters effects at most two lines at the tested default mobile text size; these are current-copy regression expectations, not fixed-height limits. Allow extra height for enlarged text and longer future content. Use `website/tests/url-table-sizing-browser-check.mjs` and the URL Reference check for behavioural changes.
-- URL H3 heading areas have a minimum 50px height and 20px top/bottom clearance around the chevron target. Expanded headings retain a 20px content gap; collapsed headings retain 20px bottom padding. Keep dividers scoped to URL Reference so specimen row separators are not duplicated.
+- URL H3 heading areas have a minimum 50px height and 20px top/bottom clearance around the chevron target. Expanded headings retain a 20px content gap; collapsed headings have 20px clearance below the row: suppress the following subsection’s top margin, and let the outer card’s 20px bottom padding own the clearance for its final subsection. Keep dividers scoped to URL Reference so specimen row separators are not duplicated.
 
 ## Sticky Positioning and Selector Interaction
 
@@ -300,7 +300,7 @@ Rationale and superseded rules: [Specimen Palettes and Page Embeds](../../websit
 
 Anchor inventories live in one Anchor Links section of `website/URL-REFERENCE.md`, rendered directly by Playground. Resource Anchors and Playground Anchors are collapsible H3 subsections with their own copyable heading anchors and unique Lucide List Ordered and Signpost icons respectively. Separate Resources and Playground tables use Section, Heading, Canonical Anchor URL and Legacy Fragment Alias columns. Bold the fragment slug, retain visual tab/heading order, and give Section/Heading enough intrinsic width for one or two lines; preserve horizontal scrolling on mobile.
 
-Outer Playground icon actions use 50px square buttons with 12px corner radii, including ellipsis/close, Back to Top, replay, reset, copy values, expand/contract view and section chevrons. Preserve existing SVG sizes, accessible names and tooltip labels; hide action text in these squares. Selector segments, navigation tabs and embedded app specimens retain their own dimensions. Both anchor tables share fixed column proportions of 18% Section, 24% Heading, 46% Canonical Anchor URL and 12% Legacy Fragment Alias, with a 1120px minimum table width and horizontal scrolling. Fragment code inside strong emphasis explicitly uses weight 700.
+Outer Playground actions use 50px height and 12px corner radii. Replay Animation, Reset Defaults, Copy Values and Expand/Contract View retain visible text labels, intrinsic widths and 16px horizontal padding. Ellipsis/close, Back to Top and section chevrons remain 50px square icon-only controls. Preserve SVG sizes, accessible names and tooltips. Align Contract View at the right surface rail of its expanded heading row using automatic left margin on the action group. Selector segments, navigation tabs and embedded app specimens retain their own dimensions. Both anchor tables share fixed column proportions of 18% Section, 24% Heading, 46% Canonical Anchor URL and 12% Legacy Fragment Alias, with a 1120px minimum table width and horizontal scrolling. Fragment code inside strong emphasis explicitly uses weight 700.
 
 Shared action-size rules must not set display or override responsive visibility. Keep Style Options hidden on desktop and visible on mobile; preserve explicit hidden states for replay/conditional actions. Header hover paint remains 50px tall independently of wrapped heading height.
 

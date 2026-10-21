@@ -30,9 +30,9 @@ nav[role=tablist]{border-bottom:0;padding-bottom:0;gap:0!important;background:no
 .preview-dialog.is-expanded>.section-heading{display:flex;flex-wrap:nowrap;align-items:center;gap:8px;min-height:50px;flex:none}
 .preview-dialog.is-expanded>.section-heading h2{display:flex;align-items:center;flex:1 1 0;flex-basis:0;min-width:0;white-space:nowrap;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;padding:0;line-height:50px;height:50px}
 .preview-dialog.is-expanded>.section-heading h2>span{flex:none;min-width:max-content}.preview-dialog.is-expanded>.section-heading h2>svg{align-self:center;margin:0}
-.heading-actions{display:flex;align-items:center;gap:8px;flex:none;position:relative;z-index:2}
+.heading-actions{margin-left:auto;display:flex;align-items:center;gap:8px;flex:none;position:relative;z-index:2}
 .heading-actions:empty{display:none}.heading-actions button{width:50px;height:50px;padding:10px;box-shadow:none}
-.heading-actions button .action-label{display:none!important}
+.heading-actions button .action-label{display:inline}
 .preview-dialog.is-expanded>.panel-actions{display:none}
 .expanded-state-controls>:is(.selector-row,.choices,.state-tools,.panel-actions,.panel-options,.control-footer,.checkbox-controls){margin-block:32px}.expanded-state-controls>.panel-actions{display:flex;justify-content:flex-start}.preview-dialog.is-expanded>.frame-wrap{margin-top:16px}
 .preview-dialog.is-expanded .expanded-state-controls{padding-bottom:12px}
@@ -284,8 +284,9 @@ export const selectorRowCSS=`
 #panel-url-reference .url-reference-intro{margin-bottom:16px}
 #perspective-replay{padding:10px;gap:8px}
 /* Outer Playground actions share selector-group height; specimens stay canonical. */
-body :is(.icon-button,.preview-expand,#perspective-replay,#style-options,#back-to-top){width:50px;min-width:50px;max-width:50px;height:50px;min-height:50px;padding:0;border-radius:12px;align-items:center;justify-content:center}
-body :is(.icon-button,.preview-expand)>.action-label,body #perspective-replay>span{display:none!important}
+body :is(.icon-button,.preview-expand,#perspective-replay){width:max-content;min-width:50px;max-width:100%;height:50px;min-height:50px;padding:0 16px;border-radius:12px;align-items:center;justify-content:center}
+body :is(#style-options,#back-to-top){width:50px;min-width:50px;max-width:50px;height:50px;min-height:50px;padding:0;border-radius:12px;align-items:center;justify-content:center}
+body :is(.icon-button,.preview-expand)>.action-label,body #perspective-replay>span{display:inline}
 body #style-dialog #style-options{padding:0}
 body :is(.icon-button,.preview-expand,#perspective-replay)[hidden]{display:none!important}
 .panel-actions>button{margin-inline:0}

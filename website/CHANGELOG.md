@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.310"
-  update_summary: "Fix H3 transition clipping and keyboard anchor decoration"
-  updated_at: "Thu 22 Oct 2026 at 09:50:34 am AEDT (+11:00)"
+  doc_revision: "26.0.311"
+  update_summary: "Restore action labels and correct collapsed subsection gaps"
+  updated_at: "Thu 22 Oct 2026 at 09:59:20 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.309 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 09:59:20 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Restore action labels and correct collapsed subsection gaps
+
+### Fixed
+
+- Restore visible labels on Expand View, Contract View, Copy Values, Reset Defaults and Replay Animation, retaining 50px height and intrinsic width.
+- Keep Contract View aligned to the expanded header’s right surface rail.
+- Remove stacked margin/padding below collapsed H3 rows so both top and bottom clearance measure 20px, including final subsections.
+
+### Validation
+
+- Full tab and expanded-view label sweep across 29 action presentations per Chrome/WebKit mobile/desktop combination — passed.
+- Contract View right alignment and every collapsed H3 top/bottom clearance — passed.
+- Production build using saved backdrop geometry — passed.
 
 ## v26.0.308 — 2026-10-22
 
