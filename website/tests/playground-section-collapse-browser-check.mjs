@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
 import {createPhonePreview} from '../scripts/phone-preview.mjs';
-import ink from '../lib/workshop-icon-ink.generated.json' with {type:'json'};
 const {server}=createPhonePreview({autoLogin:true});await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const browser=await chromium.launch({channel:'chrome',headless:true});const origin='http://127.0.0.1:'+server.address().port;
 const near=(a,b,label)=>assert.ok(Math.abs(a-b)<.6,`${label}: ${a} expected ${b}`);
@@ -15,14 +14,14 @@ try{
    for(const panel of await panels.all()){
     const button=panel.locator(':scope>.section-heading>.section-collapse');
     const expandedHeight=(await panel.boundingBox()).height;
-    const geometry=await button.evaluate((e,right)=>{const p=e.closest('.panel').getBoundingClientRect(),r=e.querySelector('svg').getBoundingClientRect(),left=e.parentElement.querySelector('h2>svg').getBoundingClientRect();return{gap:p.right-(r.right-right),centre:r.y+r.height/2,leftCentre:left.y+left.height/2,size:r.width,leftSize:left.width};},ink.icons['chevron-down'].right);
-    near(geometry.gap,28,'visible right ink inset');near(geometry.size,geometry.leftSize,'matching icon size');
+    const geometry=await button.evaluate(e=>{const p=e.closest('.panel').getBoundingClientRect(),b=e.getBoundingClientRect(),r=e.querySelector('svg').getBoundingClientRect();return{gap:p.right-b.right-1,top:b.top-p.top-1,width:b.width,height:b.height,dx:(r.left+r.right-b.left-b.right)/2,dy:(r.top+r.bottom-b.top-b.bottom)/2,border:getComputedStyle(e).borderTopWidth};});
+    near(geometry.gap,24,'button right padding');near(geometry.top,24,'button top padding');near(geometry.width,44,'button width');near(geometry.height,44,'button height');near(geometry.dx,0,'SVG horizontal centre');near(geometry.dy,0,'SVG vertical centre');assert.equal(geometry.border,'1px');
     const next=await panel.evaluate(e=>e.nextElementSibling?e.nextElementSibling.getBoundingClientRect().top-e.getBoundingClientRect().top:undefined);
     await button.click({position:{x:18,y:18}});assert.equal(await button.getAttribute('aria-expanded'),'false');
     assert.ok((await panel.boundingBox()).height<expandedHeight,'Collapsed section shrinks');
     assert.equal(await panel.locator(':scope>:not(.section-heading):visible').count(),0,'Only heading row remains');
     assert.equal(await button.evaluate(e=>document.activeElement===e),true,'Pointer activation retains focus');
-    const right=await button.evaluate((e,inkRight)=>{const r=e.querySelector('svg').getBoundingClientRect();return e.closest('.panel').getBoundingClientRect().right-(r.right-inkRight);},ink.icons['chevron-right'].right);near(right,31,'collapsed ink retains fixed rotation pivot');
+    assert.ok(await button.evaluate(e=>{const p=e.closest('.panel').getBoundingClientRect(),b=e.getBoundingClientRect();return p.bottom-b.bottom-1>=23.5;}),'collapsed bottom padding is at least 24px for wrapped headings');
     if(next!==undefined)assert.ok(await panel.evaluate((e,y)=>e.nextElementSibling.getBoundingClientRect().top-e.getBoundingClientRect().top<y,next),'Following sections reflow upward');
     await button.focus();await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.checkVisibility()),true,'Tab skips collapsed contents');await page.keyboard.press('Shift+Tab');assert.equal(await button.evaluate(e=>document.activeElement===e),true);assert.ok(await button.evaluate(e=>parseFloat(getComputedStyle(e).outlineWidth)>=2),'Keyboard ring remains visible');await page.keyboard.press('Enter');assert.equal(await button.getAttribute('aria-expanded'),'true');
    }

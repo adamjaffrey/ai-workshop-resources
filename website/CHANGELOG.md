@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.297"
-  update_summary: "Add copyable Playground headings and precise anchor landings"
-  updated_at: "Thu 22 Oct 2026 at 02:07:14 am AEDT (+11:00)"
+  doc_revision: "26.0.298"
+  update_summary: "Clarify Playground chevron targets with borders and spacing"
+  updated_at: "Thu 22 Oct 2026 at 08:14:30 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.296 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 08:14:30 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Clarify Playground chevron targets with borders and spacing
+
+### Changed
+
+- Centre the 24px chevron SVG in a bordered 44px target on the 24px right surface rail, with 24px heading-area top/bottom spacing and room for wrapped headings.
+- Keep section icons neutral and document the separate heading-copy and chevron-toggle affordances.
+
+### Validation
+
+- Chrome section interaction, keyboard, reflow and fullscreen checks at four widths — passed.
+- All 31 H2/H3 anchor targets, centred chevrons and landings in Chrome and WebKit at mobile and desktop widths — passed.
+- Seven-width text/surface rail checks across both themes and agents — passed.
+- Production build using saved backdrop geometry — passed.
+
+- Known limitation: the existing mobile floating controls can overlap a section chevron near the sticky tabs; the requested 24px right rail is retained.
 
 ## v26.0.295 — 2026-10-22
 

@@ -1,17 +1,19 @@
 import {__iconNode as chevronDown} from '../node_modules/lucide-react/dist/esm/icons/chevron-down.mjs';
 import {assertMeasuredHeadingIcon} from '../lib/workshop-alignment.mjs';
-import ink from '../lib/workshop-icon-ink.generated.json' with {type:'json'};
 assertMeasuredHeadingIcon('chevron-down');
 const svg='<svg data-icon-provider="lucide" data-icon-name="chevron-down" data-icon-use="toggle-playground-section" aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+chevronDown.map(([tag,attrs])=>'<'+tag+' '+Object.entries(attrs).filter(([key])=>key!=='key').map(([key,value])=>key+'="'+value+'"').join(' ')+'></'+tag+'>').join('')+'</svg>';
 export const sectionCollapseCSS=`
 html:has(#playground-title){scrollbar-gutter:stable}
-/* Keep the rotation pivot fixed; the down-state stroke has a 28px right inset. */
-:is([data-panel]>.panel,.url-subsection)>.section-heading{position:relative;padding-right:44px;isolation:isolate}
-:is([data-panel]>.panel,.url-subsection)>.section-heading>.section-collapse{position:absolute;right:-12px;top:calc(var(--section-cap-y,22px) - 22px);margin:0;z-index:0;display:block;width:44px;height:44px;min-height:44px;padding:0;border:0;border-radius:8px;background:transparent;color:var(--text);cursor:pointer;box-shadow:none}
+/* The bordered target sits on the 24px surface rail; text retains its 28px rail. */
+[data-panel]>.panel:not(.is-expanded){padding-block:24px}
+:is([data-panel]>.panel,.url-subsection)>.section-heading{position:relative;padding-right:56px;min-height:44px;margin-bottom:24px;isolation:isolate}
+:is([data-panel]>.panel,.url-subsection)>.section-heading>.section-collapse{position:absolute;right:-4px;top:0;margin:0;z-index:0;display:grid;place-items:center;width:44px;height:44px;min-height:44px;padding:0;border:1px solid var(--control-border);border-radius:8px;background:transparent;color:var(--text);cursor:pointer;box-shadow:none}
 :is([data-panel]>.panel,.url-subsection):not(.is-expanded)>.section-heading :is(h2,h3){position:relative;z-index:1;user-select:none}
 :is([data-panel]>.panel,.url-subsection):not(.is-expanded)>.section-heading :is(h2,h2 *,h3,h3 *,button,button *){cursor:pointer!important}
-.section-collapse>svg{position:absolute;right:calc(11px - ${ink.icons['chevron-down'].right}px);top:10px;display:block;width:24px;height:24px;transform-origin:center;transition:transform 160ms ease}
-#panel-url-reference .url-subsection>.section-heading{min-height:0}#panel-url-reference .url-subsection>.section-heading>.section-collapse{min-height:0}
+.section-collapse>svg{display:block;width:24px;height:24px;transform-origin:center;transition:transform 160ms ease}
+#panel-url-reference .url-subsection>.section-heading{min-height:44px;margin-bottom:24px}
+#panel-url-reference .url-subsection[data-collapsed]{padding-bottom:24px}
+#panel-url-reference .url-subsection[data-collapsed]>.section-heading{margin-bottom:0}
 .section-collapse:hover{background:var(--hover)!important}
 [data-collapsed]>.section-heading>.section-collapse>svg{transform:rotate(90deg)}
 [data-panel]>.panel[data-collapsed]>:not(.section-heading),[data-panel]>.panel[data-collapsed]>.section-heading>:not(h2):not(.section-collapse){display:none!important}

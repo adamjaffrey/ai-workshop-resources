@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.50"
-  update_summary: "Record Playground heading anchors and shared arrival behaviour"
-  updated_at: "Thu 22 Oct 2026 at 02:00:31 am AEDT (+11:00)"
+  doc_revision: "26.0.51"
+  update_summary: "Define bordered and centred Playground chevron controls"
+  updated_at: "Thu 22 Oct 2026 at 08:12:44 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -404,7 +404,7 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 
 ## Playground Heading Anchors
 
-**Decision:** Apply the Resources anchor-copy styling and feedback to every collapsible outer Playground H2/H3, retaining the decorative heading icons and limiting collapse/expand to a 44px square chevron target. Generate descriptive kebab-case fragments under each canonical tab path. Expand the target and its parent before travel. Reuse the Resources motion profile, with a Playground landing at the H2 card or H3 heading row 16px below the settled sticky tabs. Fade preceding cards/content during the final 600ms and restore on upward scroll. Embedded specimens are excluded.
+**Decision:** Apply the Resources anchor-copy styling and feedback to every collapsible outer Playground H2/H3, retaining the decorative heading icons and limiting collapse/expand to a 44px square chevron target with a centred 24px SVG and a neutral 1px border. Use 24px top, bottom and right clearance around the normal heading button area, allowing wrapped headings to grow. Keep the decorative section icons neutral so the accent hash remains the copy affordance. Generate descriptive kebab-case fragments under each canonical tab path. Expand the target and its parent before travel. Reuse the Resources motion profile, with a Playground landing at the H2 card or H3 heading row 16px below the settled sticky tabs. Fade preceding cards/content during the final 600ms and restore on upward scroll. Embedded specimens are excluded.
 
 **Rationale:** Adam requested the same heading-copy convention across Resources and Playground. Separating the chevron action removes ambiguity about whether a heading click copies or collapses. The 16px landing preserves the normal gap between sticky tabs and the incoming section. Sharing copy and motion helpers prevents timing and icon-state drift, while a Playground controller accounts for lazy specimen heights, nested H3s and its different sticky layout.
 
