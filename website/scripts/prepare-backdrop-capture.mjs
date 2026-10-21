@@ -15,7 +15,7 @@ export function prepareBackdropCapture({playground=false,panel='components'}={})
    inspector.querySelectorAll('[aria-expanded]').forEach(el=>el.setAttribute('aria-expanded','true'));
    inspector.querySelector('#inspection-summary').textContent='No item selected yet.';
   }
-  style.textContent+=':root{--embedded-preview-height:70dvh!important}main.wrap{padding-bottom:24px!important}html{scroll-padding-bottom:0!important}.inspector-dock{position:static!important;inset:auto!important;width:auto!important;margin-top:24px;box-shadow:none!important;padding:24px!important;border:1px solid var(--control-border);border-radius:12px}.inspector-dock dl{height:auto!important;overflow:visible!important}';
+  style.textContent+=':root{--embedded-preview-height:60dvh!important}main.wrap{padding-bottom:24px!important}html{scroll-padding-bottom:0!important}.inspector-dock{position:static!important;inset:auto!important;width:auto!important;margin-top:24px;box-shadow:none!important;padding:24px!important;border:1px solid var(--control-border);border-radius:12px}.inspector-dock dl{height:auto!important;overflow:visible!important}';
  }
  document.head.append(style);
 }

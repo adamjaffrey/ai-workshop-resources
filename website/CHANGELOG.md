@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.282"
-  update_summary: "Shorten backdrop preview labels and reconcile iframe sizing"
-  updated_at: "Wed 21 Oct 2026 at 06:16:16 pm AEDT (+11:00)"
+  doc_revision: "26.0.283"
+  update_summary: "Cap page embeds at 60 percent and retain full-height palettes"
+  updated_at: "Wed 21 Oct 2026 at 06:22:57 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.281 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 06:22:57 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Cap page embeds at 60 percent and retain full-height palettes
+
+### Changed
+
+- Cap Login, Resources, Blocks and Blur, Branding and Easter Egg inline page previews at 60% of the current browser visual viewport, including frame borders. Update on viewport resize without deducting toolbar or inspector height.
+- Preserve full-height specimen palettes with outer-page vertical scrolling and no Expand View. Page embeds retain internal scrolling and Expand View; contracting restores the cap.
+- Update the Interface contract, design decision and README to distinguish palettes from page embeds. Reuse existing backdrop geometry.
+
+### Validation
+
+- All Playground tabs audited, five page embeds checked at three viewport sizes, expanded/contracted sizing and internal scrolling — passed.
+- Mobile/desktop specimen fidelity, palette scroll ownership and emulated mobile swipes in inline/expanded page embeds — passed.
+- Placeholder unit checks and production build — passed.
 
 ## v26.0.280 — 2026-10-21
 

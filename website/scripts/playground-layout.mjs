@@ -163,9 +163,9 @@ main.wrap{padding-top:24px}
 .source-rules .rule-list>div:first-child{padding-top:0}.source-rules .rule-list>div:last-child{border-bottom:0;padding-bottom:0}
 .reference-intro-copy{margin-inline-start:var(--disclosure-text-inset);margin-top:16px}
 .reference-intro-copy>:last-child{margin-bottom:0}
-/* Inline grey viewports grow vertically; only horizontal inspection scrolls. */
-.preview-dialog:not(.is-expanded)>.frame-wrap{max-height:none;overflow-x:auto;overflow-y:hidden}
-.preview-dialog:not(.is-expanded) iframe{height:var(--natural-frame-height,760px)!important;max-height:none}
+/* Page embeds are capped; multi-specimen palettes retain natural height. */
+.preview-dialog:not(.is-expanded)>.frame-wrap{max-height:var(--embedded-preview-height,60dvh);overflow-x:auto;overflow-y:hidden}
+.preview-dialog:not(.is-expanded) iframe{height:min(var(--natural-frame-height,760px),calc(var(--embedded-preview-height,60dvh) - 2px))!important;max-height:calc(var(--embedded-preview-height,60dvh) - 2px)}
 .panel>.frame-wrap:has(>#type-frame,>#icons-frame,>#errors-frame,>#focus-frame,>#link-type-frame){max-height:none;overflow-x:auto;overflow-y:hidden}
 `;
 

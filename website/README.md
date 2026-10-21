@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.167"
-  update_summary: "Describe current previews and corrected disclosure capture"
-  updated_at: "Wed 21 Oct 2026 at 05:48:41 pm AEDT (+11:00)"
+  doc_revision: "26.0.168"
+  update_summary: "Define palette and page-embed scrolling behaviour"
+  updated_at: "Wed 21 Oct 2026 at 06:21:43 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -297,7 +297,7 @@ Gallery spacing, focus exceptions, horizontal overflow and icon ordering follow 
 
 The Icons tab captures current app controls, SVGs, images and Unicode glyphs, including selected theme/agent and copy/login states. Icon Family filters show All, Lucide, Lobe, Unicode or Other. Show Sources defaults off and reveals separate Lucide/Lobe source links without making specimens external navigation targets. Licence panels explain Lucide’s ISC licence and Feather-derived MIT notice, and Lobe’s MIT licence. Error States renders all login and copy failures from the same live source messages and computed styles. Isolated capture frames suppress focus and selection side effects and finish transitions before capture; they never change production behaviour.
 
-Inline previews measure their natural content height so vertical scrolling belongs to the Playground page. Wide specimens retain horizontal access inside the grey container. Expand Preview opens the existing preview in a native modal dialog without moving or reloading its iframe. Lucide Maximize 2 and Minimize 2 identify expand/contract actions. Relevant state controls and shared Style Options remain available inside the dialog; their collapsible sections preserve room on short screens. Closing or Escape restores page position and focus to the invoking control. Background scrolling is locked only while expanded. Typography, Icons and Error States also measure their full content height and scroll with the playground page. Validate with `node website/tests/playground-expanded-preview-check.mjs`.
+Specimen palettes grow to their full content height, scroll with the outer Playground page and have no Expand View button. Wide specimens retain horizontal access inside the grey container. Embedded page previews have internal scrolling and a maximum inline height of 60% of the current browser visual viewport, updated on resize. Only page embeds offer Expand View, which opens the existing preview in a native modal dialog without moving or reloading its iframe. Lucide Maximize 2 and Minimize 2 identify expand/contract actions. Relevant state controls and shared Style Options remain available inside the dialog; their collapsible sections preserve room on short screens. Closing or Escape restores page position and focus to the invoking control. Background scrolling is locked only while expanded. Typography, Icons and Error States also measure their full content height and scroll with the playground page. Validate with `node website/tests/playground-expanded-preview-check.mjs`.
 
 App interface changes must update affected playground specimens, adapters and parity checks in the same change, following the [mandatory source-fidelity contract](../docs/agent-guidance/interface.md#mandatory-change-and-validation-contract). Validate against independently rendered main-app pages as well as the specimen source frames; shared imports alone do not prove rendered parity.
 

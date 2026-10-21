@@ -34,9 +34,14 @@ try{
   const groups=await p.locator('.playground-icon-entry').evaluateAll(es=>es.map(e=>e.dataset.iconGroups));assert.ok(groups[0].includes('playground'));let seenUI=false;for(const group of groups.slice(1)){if(group.includes('headings'))assert.equal(seenUI,false,'headings before UI');else if(group.includes('ui'))seenUI=true;}
   for(const [tab,id,ready] of [['typography','type','.feedback-row'],['icons','icons','.icon-row'],['errors','errors','.full-login-context'],['focus','focus','.focus-preview'],['components','resources','main'],['components','login','.gate-panel'],['blocks','blocks','.page-placeholder'],['branding','branding','main'],['discovery','discovery','main']]){
    await p.locator('[data-tab='+tab+']').click();const frame=p.locator('#'+id+'-frame');await frame.scrollIntoViewIfNeeded();await p.frameLocator('#'+id+'-frame').locator(ready).first().waitFor();await p.waitForTimeout(400);
-   const dimensions=await p.frameLocator('#'+id+'-frame').locator('html').evaluate(e=>({height:innerHeight,scroll:e.scrollHeight}));assert.ok(dimensions.scroll-dimensions.height<2,`${width} ${id} inner vertical range ${JSON.stringify(dimensions)}`);
+   const dimensions=await p.frameLocator('#'+id+'-frame').locator('html').evaluate(e=>({height:innerHeight,scroll:e.scrollHeight}));
+   const embedded=['resources','login','blocks','branding','discovery'].includes(id);
+   if(embedded){assert.ok(dimensions.height<=600,'Embedded page respects 60% viewport cap');}
+   else assert.ok(dimensions.scroll-dimensions.height<2,`${width} ${id} palette vertical range ${JSON.stringify(dimensions)}`);
    assert.equal(await frame.evaluate(e=>e.parentElement.scrollHeight-e.parentElement.clientHeight),0,'outer grey vertical range');
-   await frame.evaluate(e=>window.scrollTo(0,e.getBoundingClientRect().top+window.scrollY-160));await p.waitForTimeout(100);const box=await frame.boundingBox();await p.mouse.move(box.x+box.width/2,Math.max(0,box.y)+Math.min(120,box.height/2));const before=await p.evaluate(()=>scrollY);await p.mouse.wheel(0,150);await p.waitForTimeout(200);assert.ok(await p.evaluate(()=>scrollY)>before,`${id} wheel scrolls page`);
+   assert.equal(await p.locator('.preview-expand').count(),5,'Only page embeds offer Expand View');
+   if(!embedded){await frame.evaluate(e=>window.scrollTo(0,e.getBoundingClientRect().top+window.scrollY-160));await p.waitForTimeout(100);const box=await frame.boundingBox();await p.mouse.move(box.x+box.width/2,Math.max(0,box.y)+Math.min(120,box.height/2));const before=await p.evaluate(()=>scrollY);await p.mouse.wheel(0,150);await p.waitForTimeout(200);assert.ok(await p.evaluate(()=>scrollY)>before,`${id} wheel scrolls page`);}
+
   }
   await p.locator('[data-tab=colours]').click();const rules=p.locator('.source-rules');await rules.locator('summary').click();
   const alignment=await rules.evaluate(e=>{const range=document.createRange();range.selectNodeContents(e.querySelector('summary').lastChild);return{summary:range.getBoundingClientRect().left,body:e.querySelector('.rule-list>div').getBoundingClientRect().left};});near(alignment.body-alignment.summary,21,'colour disclosure additional inset');
@@ -48,5 +53,5 @@ try{
  }
  const p=await browser.newPage({viewport:{width:1440,height:1000},reducedMotion:'no-preference'});await p.goto(origin+'/component-playground/icons');const spinner=p.frameLocator('#icons-frame').locator('[data-state=loading] [data-input-icon=loading]');await spinner.waitFor();await spinner.evaluate(e=>e.closest('.icon-row').scrollIntoView({block:'center'}));assert.match(await spinner.evaluate(e=>getComputedStyle(e).animationName),/login-spin/);const first=await spinner.evaluate(e=>getComputedStyle(e).transform);await p.waitForTimeout(150);assert.notEqual(await spinner.evaluate(e=>getComputedStyle(e).transform),first);await p.emulateMedia({reducedMotion:'reduce'});assert.equal(await spinner.evaluate(e=>getComputedStyle(e).animationName),'none');
  const nojs=await browser.newPage({javaScriptEnabled:false});for(const width of [390,1440]){await nojs.setViewportSize({width,height:900});await nojs.goto(origin+'/ai-workshop-resources');console.log('Resources no-JS notice',width,await nojs.locator('.javascript-notice').evaluate(e=>({width:e.getBoundingClientRect().width,height:e.getBoundingClientRect().height,text:e.textContent.trim()})));}
- console.log('PASS: source widths, typography gaps, focused controls, ordered icons, spinner motion, no nested vertical scroll and wheel chaining');
+ console.log('PASS: source widths, typography gaps, focused controls, ordered icons, spinner motion, palette page scrolling, capped page embeds and wheel chaining');
 }finally{await browser.close();server.close();}
