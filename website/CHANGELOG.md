@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.285"
-  update_summary: "Restore Step 3 source spacing and fix hidden-frame hash alignment"
-  updated_at: "Wed 21 Oct 2026 at 06:38:31 pm AEDT (+11:00)"
+  doc_revision: "26.0.286"
+  update_summary: "Unify native link highlights and proportional icon feedback"
+  updated_at: "Thu 22 Oct 2026 at 12:14:16 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.284 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 12:14:16 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Unify native link highlights and proportional icon feedback
+
+### Changed
+
+- Use native cloned inline backgrounds with shared em padding and a solid fill on every wrapped line. Hyperlinks hide their underline on hover; Resources anchors reveal Hash without an underline.
+- Apply 80ms text/icon hover effects and immediate opaque fill changes to prevent overlapping alpha accumulation during transitions.
+- Adopt the approved modified Hash and Arrow Up Right 2 with cap-relative sizing, em strokes and a reserved non-wrapping final-word/icon tail. Keep success Check and failure X in the same anchor slot.
+- Consolidate resting/hovered link ink, improve Claude light contrast, and retain broader card, connector and selection palettes for separate review.
+- Update Playground native-link specimens, colour values, derivative icon provenance, and governing interface decisions.
+
+### Validation
+
+- Chrome and WebKit at 320, 390, 768 and 1440px: multiline links, reserved slots, success/failure states, all four theme/agent contrast pairs and opaque fills — passed; minimum measured hover contrast 4.66:1.
+- Anchor hover timing, reduced motion, Resources fragment navigation, same-URL re-entry, focus routing and arrival animation checks — passed.
+- Playground source parity, seven-width text/surface alignment and specimen fidelity checks — passed.
+- Icon ink generation, placeholder source tests, desktop/mobile screenshot inspection and production build — passed.
 
 ## v26.0.283 — 2026-10-21
 

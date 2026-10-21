@@ -24,7 +24,8 @@ try{
   near(await type.locator('footer button[data-type-sample]').evaluate(e=>e.getBoundingClientRect().left),24,'isolated footer button');
   await p.locator('[data-tab=errors]').click();const states=p.frameLocator('#errors-frame');await states.locator('.full-login-context').first().waitFor();await p.waitForTimeout(300);
   const stateGaps=[];for(const state of ['network','service','retryReady'])stateGaps.push(await states.locator('[data-state='+state+']').evaluate(r=>r.querySelector('.icon-meta').getBoundingClientRect().top-r.querySelector('.full-login-context').getBoundingClientRect().bottom));near(stateGaps[0],stateGaps[1],'connection/service spacing');near(stateGaps[0],stateGaps[2],'retry spacing');
-  near(await states.locator('[data-gallery-last] .icon-meta').evaluate(e=>innerHeight-e.getBoundingClientRect().bottom),24,'last annotation bottom');
+  // The iframe height is rounded up to a whole CSS pixel, as in Typography.
+  const stateBottomGap=await states.locator('[data-gallery-last] .icon-meta').evaluate(e=>innerHeight-e.getBoundingClientRect().bottom);assert.ok(stateBottomGap>=24&&stateBottomGap<25,'24px status gutter plus iframe pixel rounding');
   await p.locator('[data-tab=focus]').click();const focus=p.frameLocator('#focus-frame');await focus.locator('[data-exterior-ring]').first().waitFor();
   assert.equal(await focus.locator('#focus-login>.focus-row:last-child').getAttribute('data-gallery-last'),'');
   const focusOffsets=await focus.locator('[data-exterior-ring]').evaluateAll(es=>es.map(e=>({padding:parseFloat(getComputedStyle(e).paddingLeft),nudge:parseFloat(getComputedStyle(e).getPropertyValue('--specimen-optical-nudge')),label:e.closest('.focus-row').querySelector('h3').getBoundingClientRect().left})));assert.equal(focusOffsets.length,7);for(const r of focusOffsets){near(r.padding,28,'one content rail');near(r.nudge,6,'separate focus optical correction');near(r.label,28,'unchanged label');}

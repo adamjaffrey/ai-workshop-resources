@@ -1,25 +1,16 @@
-import ink from './workshop-icon-ink.generated.json' with {type:'json'};
+import {textIcon} from './workshop-link-icons.mjs';
 import {linkPaint} from './workshop-links.mjs';
 import {headingMetrics} from './workshop-heading-metrics.mjs';
-import {__iconNode as hash} from '../node_modules/lucide-react/dist/esm/icons/hash.mjs';
-import {__iconNode as check} from '../node_modules/lucide-react/dist/esm/icons/check.mjs';
-import {__iconNode as cross} from '../node_modules/lucide-react/dist/esm/icons/x.mjs';
 import {anchorCopyTiming,copyFrames} from './workshop-copy-timing.mjs';
 export const resourceAnchorGap=width=>width<=660?30:60;
 export const resourceAnchors = ['step-1-node-js-setup','step-2-system-blueprint-creator','step-3-system-build-assistant'];
-const iconBounds=name=>{const b=ink.icons[name];return {x:b.left,y:b.top,width:24-b.left-b.right,height:24-b.top-b.bottom};};
-const iconSlot=Math.max(...['hash','check','x'].map(name=>{const b=iconBounds(name);return b.width/b.height;}));
-const svg=(nodes,name,state)=>{const b=iconBounds(name);return `<svg class="step-anchor-${state}" data-icon-provider="lucide" data-icon-name="${name}" data-icon-use="step-anchor-${state}" aria-hidden="true" viewBox="${b.x} ${b.y} ${b.width} ${b.height}" width="${b.width}" height="${b.height}" style="width:${b.width/b.height}cap;height:1cap" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${nodes.map(([tag,attrs])=>`<${tag} ${Object.entries(attrs).filter(([key])=>key!=='key').map(([key,value])=>`${key}="${value}"`).join(' ')}></${tag}>`).join('')}</svg>`;};
 export const resourceAnchorCSS=`
-.step-anchor{--anchor-icon-slot:${iconSlot}cap;--anchor-ink-adjust:0px;position:relative;display:inline-block;padding:0;border:0;border-radius:${linkPaint.radius};background:transparent;color:inherit;font:inherit;letter-spacing:inherit;line-height:inherit;text-align:inherit;vertical-align:top;isolation:isolate;cursor:pointer}
+.step-anchor{position:relative;display:inline;padding:${linkPaint.padding};border:0;border-radius:${linkPaint.radius};background:transparent;color:inherit;font:inherit;letter-spacing:inherit;line-height:inherit;text-align:inherit;vertical-align:baseline;cursor:pointer;box-decoration-break:clone;-webkit-box-decoration-break:clone;transition:color ${linkPaint.motion}}
 .step-anchor,.step-anchor *{cursor:pointer!important;user-select:none}
-.step-anchor::before{content:"";position:absolute;inset:0 calc(-12px - var(--anchor-icon-slot) - var(--anchor-ink-adjust)) -2px -3px;border-radius:${linkPaint.radius};z-index:-1;transition:${linkPaint.transition}}
-.step-anchor:is(:hover,[data-anchor-preview])::before{background:${linkPaint.fill}}
-.step-anchor:is(:hover,[data-anchor-preview]) .step-anchor-label{color:var(--agent-accent)}
-.step-anchor-label{${linkPaint.underline};text-decoration-line:underline;text-decoration-color:transparent;transition:color ${linkPaint.motion},text-decoration-color ${linkPaint.motion}}
-.step-anchor:is(:hover,[data-anchor-preview]) .step-anchor-label{text-decoration-color:var(--agent-accent)}
-.step-anchor-icon{position:absolute;left:calc(100% + 8px + var(--anchor-ink-adjust));top:calc(var(--step-cap-centre,19px) - .5cap);height:1cap;width:var(--anchor-icon-slot);display:flex;align-items:center;justify-content:center;color:var(--agent-accent);opacity:1}
-.step-anchor-icon svg{position:absolute;left:0;top:0;opacity:0;transition:none}
+.step-anchor:is(:hover,[data-anchor-preview]){background:${linkPaint.fill};color:var(--link-hover)}
+.step-anchor-label{text-decoration:none}
+.step-anchor-icon{color:var(--link-hover);opacity:1}
+.step-anchor-icon svg{opacity:0;transition:none}
 .step-anchor-icon .step-anchor-hash{transition:opacity ${linkPaint.motion}}
 .step-anchor:not([data-result]):is(:hover,[data-anchor-preview]) .step-anchor-hash,:root[data-focus-input="keyboard"] .step-anchor:not([data-result]):focus .step-anchor-hash{opacity:1}
 .step-anchor[data-result="success"] .step-anchor-success{opacity:1;color:var(--success)}
@@ -34,7 +25,7 @@ html[data-resource-anchor-arriving] [data-sticky-control]::after{opacity:var(--a
 html[data-resource-anchor-arriving] .worm-halo>:is(.brand,.worm-halo-veil,.worm-halo-outline){opacity:var(--anchor-arrival-progress,0)!important}
 html[data-resource-anchor-arriving] .step-row[data-anchor-leaving]{opacity:calc(1 - var(--anchor-arrival-progress,0));transition:none}
 
-@media(prefers-reduced-motion:reduce){.step-anchor::before,.step-anchor-label,.step-anchor-icon,.step-anchor-icon svg,.step-row{transition:none!important}}
+@media(prefers-reduced-motion:reduce){.step-anchor,.step-anchor::before,.step-anchor-label,.step-anchor-icon,.step-anchor-icon svg,.step-row{transition:none!important}}
 `;
 export function initResourceAnchors(anchors,timing,measureHeading,frames,anchorGap){
  const root=document.documentElement, rows=[...document.querySelectorAll('.step-row')];
@@ -42,19 +33,8 @@ export function initResourceAnchors(anchors,timing,measureHeading,frames,anchorG
  const canonical=fragment=>{let value;try{value=decodeURIComponent(fragment.replace(/^#/,''));}catch{return null;}return anchors.includes(value)?value:anchors[/^step-([1-3])$/.exec(value)?.[1]-1]||null;};
  const status=document.createElement('span');status.className='step-anchor-announcement';status.setAttribute('role','status');document.body.append(status);
  const feedback=new WeakMap();
- const align=()=>document.querySelectorAll('.step-anchor').forEach(button=>{
-  // Hidden lazy frames have zero layout width; never cache that as icon spacing.
-  if(!button.getClientRects().length||!button.getBoundingClientRect().width)return;
-  button.style.setProperty('--step-cap-centre',measureHeading(button).centre+'px');
-  const label=button.querySelector('.step-anchor-label'),css=getComputedStyle(label),context=document.createElement('canvas').getContext('2d');
-  context.font=css.fontWeight+' '+css.fontSize+' '+css.fontFamily;
-  const tracking=parseFloat(css.letterSpacing)||0,hasTracking='letterSpacing' in context;
-  if(hasTracking)context.letterSpacing=tracking+'px';
-  const text=label.textContent,right=context.measureText(text).actualBoundingBoxRight+(hasTracking?0:tracking*Math.max(0,text.length-1));
-  button.style.setProperty('--anchor-ink-adjust',(right-button.getBoundingClientRect().width)+'px');
- });
- document.fonts.ready.then(align);window.addEventListener('resize',align);
- const headingResize=new ResizeObserver(align);document.querySelectorAll('.step-anchor').forEach(button=>headingResize.observe(button));align();
+ const align=()=>window.sizeTextLinkIcons?.();
+ document.fonts.ready.then(align);window.addEventListener('resize',align);align();
  for(const button of document.querySelectorAll('.step-anchor')){
   button.addEventListener('click',async()=>{
    const previous=feedback.get(button);if(previous){clearTimeout(previous.hold);clearTimeout(previous.fade);previous.animation?.cancel();}
@@ -177,7 +157,7 @@ export function withResourceAnchors(html){
  for(const [index,anchor] of resourceAnchors.entries()){
   const text='Step '+(index+1);
   html=html.replace(`aria-labelledby="step-${index+1}"`,`aria-labelledby="resource-step-${index+1}"`);
-  html=html.replace(`<h2 class="step-title" id="step-${index+1}">${text}</h2>`,`<h2 class="step-title" id="resource-step-${index+1}"><button type="button" class="step-anchor" data-anchor="${anchor}" aria-label="Copy Link to ${text}"><span class="step-anchor-label">${text}</span><span class="step-anchor-icon" title="Copy Link">${svg(hash,'hash','hash')}${svg(check,'check','success')}${svg(cross,'x','failure')}</span></button></h2>`);
+  html=html.replace(`<h2 class="step-title" id="step-${index+1}">${text}</h2>`,`<h2 class="step-title" id="resource-step-${index+1}"><button type="button" class="step-anchor" data-anchor="${anchor}" aria-label="Copy Link to ${text}"><span class="link-tail"><span class="step-anchor-label">${text}</span><span class="step-anchor-icon text-link-slot" title="Copy Link">${textIcon('hash-modified','step-anchor-hash','step-anchor-hash')}${textIcon('check','step-anchor-success','step-anchor-success')}${textIcon('x','step-anchor-failure','step-anchor-failure')}</span></span></button></h2>`);
  }
  const initial=`(()=>{const h=location.hash.slice(1);if(${JSON.stringify(resourceAnchors)}.includes(h)||/^step-[1-3]$/.test(h)){window.workshopInitialAnchor=location.hash;document.documentElement.dataset.resourceAnchorArriving='';history.replaceState(history.state,'',location.pathname+location.search);}})();`;
  return html.replace('</head>',`<style>${resourceAnchorCSS}</style><script nonce="__NONCE__">${initial}</script></head>`).replace('</body>',`<script nonce="__NONCE__">(${initResourceAnchors.toString()})(${JSON.stringify(resourceAnchors)},${JSON.stringify(anchorCopyTiming)},${headingMetrics.toString()},${copyFrames.toString()},${resourceAnchorGap.toString()});</script></body>`);

@@ -35,7 +35,7 @@ try{
   await page.waitForFunction(()=>!document.documentElement.hasAttribute('data-resource-anchor-arriving'));
   const button=page.locator('.step-anchor').nth(1);await button.hover();
   assert.equal(await button.evaluate(e=>getComputedStyle(e).cursor),'pointer');
-  const appearance=await button.evaluate(e=>{const probe=document.createElement('span');probe.style.background='var(--link-hover-bg)';document.body.append(probe);const expected=getComputedStyle(probe).backgroundColor;probe.remove();return {actual:getComputedStyle(e,'::before').backgroundColor,expected,icon:e.querySelector('.step-anchor-icon').getBoundingClientRect().toJSON(),text:e.getBoundingClientRect().toJSON()};});
+  const appearance=await button.evaluate(e=>{const probe=document.createElement('span');probe.style.background='var(--link-hover-bg)';document.body.append(probe);const expected=getComputedStyle(probe).backgroundColor;probe.remove();return {actual:getComputedStyle(e).backgroundColor,expected,icon:e.querySelector('.step-anchor-icon').getBoundingClientRect().toJSON(),text:e.querySelector('.step-anchor-label').getBoundingClientRect().toJSON()};});
   await page.waitForTimeout(200);assert.ok(appearance.icon.left>=appearance.text.right-.5,'exterior right indicator');
   await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async()=>{}}}));await button.click();
   const colours=await button.evaluate(e=>{const probe=document.createElement('span');probe.style.color='var(--success)';document.body.append(probe);const expected=getComputedStyle(probe).color;probe.remove();return {actual:getComputedStyle(e.querySelector('.step-anchor-success')).color,expected};});assert.equal(colours.actual,colours.expected);

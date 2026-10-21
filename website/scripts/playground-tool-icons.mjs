@@ -18,8 +18,8 @@ function renderPlaygroundIcons(){
   if(catalog.contains(svg))continue;
   const {iconProvider:provider,iconName:name,iconUse:use}=svg.dataset;
   if(!name||!use)throw Error('Missing Playground icon metadata');
-  const key=provider+':'+name;
-  if(!icons.has(key))icons.set(key,{svg,provider,name,usages:new Set(),groups:new Set()});
+  const key=provider+':'+name+(svg.dataset.iconVariant?':modified':'');
+  if(!icons.has(key))icons.set(key,{svg,provider,name,variant:svg.dataset.iconVariant?'modified':undefined,usages:new Set(),groups:new Set()});
   const panel=svg.closest('.panel'),heading=svg.closest('h1,h2,h3'),control=svg.closest('button,summary');
  const group=svg.closest('#playground-title')?'playground':svg.closest('.section-heading h2,.url-reference-subheading,[data-tab]')?'headings':svg.closest('button,a,summary,.breadcrumbs')?'ui':'other';
  icons.get(key).groups.add(group);
@@ -31,15 +31,17 @@ function renderPlaygroundIcons(){
  icons.get(key).usages.add(usage);
  if(name==='arrow-up-right'&&svg.getAttribute('viewBox')==='0 0 24 24')originalArrowUsages.add(usage);
  }
- const cropped=icons.get('lucide:arrow-up-right');
- if(cropped){const original=cropped.svg.cloneNode(true);original.setAttribute('viewBox','0 0 24 24');original.classList.remove('link-arrow');icons.set('lucide:arrow-up-right',{...cropped,svg:original,variant:'original',usages:new Set(['Original Lucide source geometry; hyperlinks use the cropped variant below.',...originalArrowUsages])});const template=document.createElement('template');template.innerHTML=${JSON.stringify(linkArrowSVG)};icons.set('lucide:arrow-up-right:cropped',{...cropped,svg:template.content.firstElementChild,groups:new Set(['ui']),variant:'cropped',usages:new Set(['Typography → Resting Link · follow-link','Typography → Hover Link · follow-link'])});}
+ // Preserve canonical Lucide entries and catalogue approved derivatives separately.
+ const template=document.createElement('template');template.innerHTML=${JSON.stringify(linkArrowSVG)};
+ const modified=template.content.querySelector('svg');
+ icons.set('lucide:arrow-up-right:modified',{svg:modified,provider:'lucide',name:'arrow-up-right',groups:new Set(['ui']),variant:'modified',usages:new Set(['Typography → Links · follow-link'])});
  catalog.replaceChildren();
  const rank=item=>item.groups.has('playground')?0:item.groups.has('headings')?10+Math.max(0,headingOrder.indexOf(item.name)):item.groups.has('ui')?1000+(uiOrder.includes(item.name)?uiOrder.indexOf(item.name):uiOrder.length):2000;
  for(const {svg,provider,name,usages,groups,variant} of [...icons.values()].sort((a,b)=>rank(a)-rank(b)||a.name.localeCompare(b.name))){
   const entry=document.createElement('section');entry.className='playground-icon-entry';entry.dataset.catalogIcon=name;entry.dataset.iconFamily=provider;if(variant)entry.dataset.catalogVariant=variant;entry.dataset.iconGroups=[...groups].join(' ');
   const heading=document.createElement('h3'),sample=svg.cloneNode(true);
   sample.removeAttribute('id');sample.setAttribute('width','24');sample.setAttribute('height','24');sample.setAttribute('aria-hidden','true');
-  if(variant==='cropped'){sample.style.width='8px';sample.style.height='8px';sample.setAttribute('width','8');sample.setAttribute('height','8');}heading.append(sample,document.createTextNode(name+(variant==='cropped'?' · Cropped for Links':'')));
+  if(variant==='modified'){sample.classList.remove('text-link-icon','link-arrow');sample.style.cssText='width:24px;height:24px';}heading.append(sample,document.createTextNode(name+(variant==='modified'?' · Modified for Links':'')));
   const list=document.createElement('ul');
   for(const usage of usages)list.append(iconUsageItem(usage));
   const link=document.createElement('a');
@@ -56,7 +58,7 @@ document.getElementById('playground-icon-filter').addEventListener('change',filt
 document.getElementById('show-playground-sources').addEventListener('change',event=>{document.querySelectorAll('[data-playground-source]').forEach(link=>link.hidden=!event.target.checked);});
 const frameLinkInventory=new Map();
 function refreshLinkInventory(){
- const list=document.querySelector('[data-catalog-variant="cropped"] ul');if(!list)return;
+ const list=document.querySelector('[data-catalog-variant="modified"] ul');if(!list)return;
  const usages=new Set([...document.querySelectorAll('a[href]')].map(a=>{const panel=a.closest('.panel');return (panel?.querySelector('.section-heading h2')?.textContent.trim()||'Playground')+' → '+a.textContent.trim()+' · '+a.getAttribute('href');}));
  for(const [name,links] of frameLinkInventory)for(const link of links)usages.add(name+' → '+link.label+' · '+link.href);
  list.replaceChildren(...[...usages].map(iconUsageItem));foldIconUsages(list);
