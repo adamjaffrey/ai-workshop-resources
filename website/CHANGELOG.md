@@ -3,14 +3,45 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.269"
-  update_summary: "Refine proportional anchor icons and full feedback holds"
-  updated_at: "Wed 21 Oct 2026 at 11:00:20 am AEDT (+11:00)"
+  doc_revision: "26.0.270"
+  update_summary: "Add five anonymous Playground backdrop comparisons"
+  updated_at: "Wed 21 Oct 2026 at 11:25:37 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.268 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 11:25:37 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add five anonymous Playground backdrop comparisons
+
+### Added
+
+- Capture Typography, Colours, Status States, Focus and Selection, and Branding as separate anonymous comparison documents, with populated nested specimens and responsive frame-height rules.
+- Offer all five through Background Preview in Blocks and Blur, using the existing screen width, theme, agent, layer, strength, blur and dimming controls. Label Components as current and retain it as the actual login backdrop.
+- Add explicit comparison capture tooling and browser regression coverage. Document the user-authorised comparison exception without permitting routine recapture.
+
+### Changed
+
+- Generalise capture preparation to a selected tab and preserve the structural attributes required by specimen galleries. Measure a script-free copy from the page top to exclude live scheduler mutations and pinned header state.
+
+### Validation
+
+- Five comparison captures — completed with 2,813 Typography, 7,005 Colours, 1,940 Status States, 1,224 Focus and Selection, and 1,522 Branding anonymous word blocks.
+- Comparison browser checks — passed in Chrome and WebKit at 320, 390, 768 and 1440px, including selector switching, anonymous nested content, inert/default-cursor treatment, themes and locked password-panel mode.
+- Existing Playground source-parity regression — passed across its mobile/desktop, theme/agent and interaction matrix.
+- Anonymous backdrop unit checks — 4 passed; active Resources and Components geometry files remain byte-for-byte unchanged.
+- Mobile and desktop screenshots — reviewed; no physical-device validation claimed.
+- Local website build and generated v26.0.268 displays — passed.
 
 ## v26.0.267 — 2026-10-21
 

@@ -1,5 +1,5 @@
 // Capture preparation only: never apply this to an interactive app or Playground.
-export function prepareBackdropCapture({playground=false}={}) {
+export function prepareBackdropCapture({playground=false,panel='components'}={}) {
  const freezeCSS=css=>css.replace(/position\s*:\s*fixed\b/gi,'position:absolute').replace(/position\s*:\s*sticky\b/gi,'position:relative;inset:auto!important').replace(/cursor\s*:[^;}]+/gi,'cursor:default!important').replace(/(overflow(?:-[xy])?\s*:)\s*(?:auto|scroll)\b/gi,'$1hidden').replace(/:(?:hover|active|focus-visible|focus-within|focus)\b/g,':where([data-capture-interaction-disabled])');
  document.querySelectorAll('style').forEach(style=>{style.textContent=freezeCSS(style.textContent);});
  document.querySelectorAll('[style]').forEach(el=>{el.setAttribute('style',freezeCSS(el.getAttribute('style')));});
@@ -7,7 +7,7 @@ export function prepareBackdropCapture({playground=false}={}) {
  const style=document.createElement('style');
  style.textContent='*,*::before,*::after{cursor:default!important;user-select:none!important;animation:none!important;transition:none!important}html{scroll-behavior:auto!important}';
  if(playground){
-  document.querySelectorAll('[data-panel]:not([data-panel="components"]),.catalog-sources,#style-dialog').forEach(el=>el.remove());
+  document.querySelectorAll('[data-panel]:not([data-panel="'+panel+'"]),.catalog-sources,#style-dialog').forEach(el=>el.remove());
   const inspector=document.querySelector('.inspector-dock');
   if(inspector){
    document.querySelector('main.wrap').append(inspector);

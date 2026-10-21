@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.23"
-  update_summary: "Record proportional icons and full feedback hold durations"
-  updated_at: "Wed 21 Oct 2026 at 10:58:12 am AEDT (+11:00)"
+  doc_revision: "26.0.24"
+  update_summary: "Keep alternative backdrop captures separate from login selection"
+  updated_at: "Wed 21 Oct 2026 at 11:07:12 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -356,3 +356,11 @@ Repository-wide permissions and task routing stay in [AGENTS.md](../AGENTS.md). 
 **Rationale:** Recursively enabling iframe pointer access and scrolling exposed hand cursors and allowed a captured login background to scroll past its viewport-sized dimming. Outer scrolling is sufficient to inspect the composition. Locking existing overflow containers preserves responsive layout and text wrapping without making captured controls interactive.
 
 **Owning Rules and Sources:** [Backdrop Interaction and Scrolling Policy](../docs/agent-guidance/backdrops.md#interaction-and-scrolling-policy).
+
+## Alternative Backdrop Comparison Previews
+
+**Decision:** Provide five explicitly requested tab captures through the existing Blocks and Blur preview controls, alongside Resources and Components. Keep the saved comparisons separate from the active Components geometry and make no production backdrop selection change.
+
+**Rationale:** A shared viewport and identical rendering controls make the alternatives comparable without changing the live login experience or adding competing preview controls. Capturing populated specimen frames retains the visual character of each tab while removing protected text and interactivity.
+
+**Owning Rules and Sources:** [Alternative Backdrop Comparisons](../docs/agent-guidance/backdrops.md#alternative-backdrop-comparisons).

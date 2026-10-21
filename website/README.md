@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.159"
-  update_summary: "Document proportional anchors and full copy feedback holds"
-  updated_at: "Wed 21 Oct 2026 at 10:58:12 am AEDT (+11:00)"
+  doc_revision: "26.0.160"
+  update_summary: "Describe the five Playground backdrop comparisons"
+  updated_at: "Wed 21 Oct 2026 at 11:07:12 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -118,7 +118,7 @@ Run `node website/scripts/preview-resources.mjs` from the repository root to gen
 
 ### Reuse And Remeasurement
 
-Resources and Components have independent saved geometry. Every Playground login route uses the first tab, Components, as its one shared backdrop; no other tabs are measured. The new Components backdrop receives one initial capture. Subsequent remeasurement of either backdrop happens only during explicitly authorised Sites publication preparation, and only if the visible layout changed since the latest successful publication. Internal builds and local previews reuse saved geometry even when its layout revision is pending.
+Resources and Components have independent saved geometry. Every Playground login route uses the first tab, Components, as its one shared backdrop; other tabs are captured only for explicitly requested comparison previews. The new Components backdrop receives one initial capture. Subsequent remeasurement of either backdrop happens only during explicitly authorised Sites publication preparation, and only if the visible layout changed since the latest successful publication. Internal builds and local previews reuse saved geometry even when its layout revision is pending.
 
 Before publication, obtain the latest successful Sites deployment, its saved version and exact source commit, then compare that source checkout with the candidate (including all intervening internal builds and uncommitted changes). A saved version, local commit or GitHub push alone is not evidence of publication. Review structure, spacing, fonts, text metrics, wrapping, breakpoints, word/icon dimensions and QR bounds/padding for each backdrop. Non-layout changes, identical-geometry version labels and footer-only changes below the visible background need no remeasurement. If the published source cannot be verified, resolve it before publishing.
 
@@ -127,6 +127,10 @@ Mark affected geometry with `placeholderLayoutRevision` (Resources) or `playgrou
 The scripts use installed headless Google Chrome and save anonymous geometry in `lib/workshop-placeholder.generated.json` and `lib/workshop-playground-placeholder.generated.json`. Internal rendering no longer rejects a pending layout revision. Source fingerprints record provenance only. Capture the Style Inspector as an expanded, neutral static section at the very bottom, without its floating shadow or reserved viewport spacing; the authenticated Playground retains its interactive dock. The public `/login-backdrop/components` endpoint serves only anonymous geometry, never app content or sessions. Components uses inert, script-disabled frame documents to preserve the canonical first tab's CSS and specimen layouts without leaking protected text, commands or actions. Both backdrops follow the selected theme and agent, with Codex blue as the default. Original text is replaced before delivery; geometry is never measured in a visitor's browser. Neither normal build startup nor preview controls launch measurement.
 
 The full publication contract is in [Anonymous Backdrops](../docs/agent-guidance/backdrops.md#blur-placeholder-geometry), and the exact handoff wording is in [Preview and Delivery](../docs/agent-guidance/delivery.md). Every successful Sites publication includes separate Main App and Playground link bullets under **🌐 Live on Sites**. Run the archived `test:blur-preview` only when explicitly requested.
+
+### Backdrop Comparisons
+
+Blocks and Blur offers Typography, Colours, Status States, Focus and Selection, and Branding as alternative Background Preview choices. Components remains the current login backdrop. Use the shared Screen Width, theme/agent, Preview Layer and blur controls to compare the saved anonymous captures. Choosing a preview never changes production selection. These explicitly requested captures live in `lib/workshop-backdrop-comparisons.generated.json` and are generated manually with `node website/scripts/measure-backdrop-comparisons.mjs` from the repository root; normal builds reuse them.
 
 ### Static Backdrop Capture
 

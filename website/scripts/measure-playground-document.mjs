@@ -1,5 +1,5 @@
 // Browser-side anonymisation using the same word, cap-height, glyph and icon rules as Resources.
-export function measurePlaygroundDocument({frames={}}={}) {
+export function measurePlaygroundDocument({frames={},preserveSpecimenLayout=false}={}) {
 
     const source = document.body;
     // Freeze the visible initial state before cloning (no reveal/interaction scripts).
@@ -83,6 +83,7 @@ export function measurePlaygroundDocument({frames={}}={}) {
       if (el.matches('script, style, noscript, title')) {el.remove(); continue;}
       const svg = el.closest('svg');
       const allowed = svg ? new Set(['class','xmlns','viewBox','width','height','fill','fill-rule','stroke','stroke-width','stroke-linecap','stroke-linejoin','d','x','y','x1','x2','y1','y2','cx','cy','r','rx','ry','points']) : new Set(['class','id','style','hidden','open','type','checked','disabled','width','height','role','aria-selected','aria-pressed','data-panel','data-tab','data-review','data-inspect']);
+      if(preserveSpecimenLayout)for(const name of ['data-exterior-ring','data-first-visible','data-gallery-last','data-in-situ','data-specimen-scroll-end','data-specimen-width','data-type-sample','data-unicode-target','data-source-selector','data-source-page'])allowed.add(name);
       for (const attr of [...el.attributes]) if (!allowed.has(attr.name)) el.removeAttribute(attr.name);
       if (el.matches('pre code[id]')) el.removeAttribute('id');
       if (el.tagName === 'IFRAME') { el.style.removeProperty('--natural-frame-height'); el.setAttribute('sandbox',''); el.setAttribute('tabindex','-1'); el.setAttribute('srcdoc', frames[original.id] || '<!doctype html><html><body></body></html>'); }
@@ -151,5 +152,5 @@ export function measurePlaygroundDocument({frames={}}={}) {
     clone.setAttribute('aria-hidden', 'true'); clone.setAttribute('inert', '');
     const css=[...document.querySelectorAll('style')].map(el=>el.textContent).join('\n').replace(/@font-face\s*\{[^}]*\}/g,'');
     const inspectorMetrics=[...clone.querySelectorAll('.inspector-dock .ph-word')].map((el,i)=>{el.classList.add('ph-inspector-'+i);return el.getAttribute('style');});
-    return {markup: clone.outerHTML, css, words, iconSizes, inspectorMetrics};
+    return {markup: clone.outerHTML, css, words, iconSizes, inspectorMetrics, gallery:preserveSpecimenLayout?document.documentElement.getAttribute('data-specimen-gallery'):null};
 }
