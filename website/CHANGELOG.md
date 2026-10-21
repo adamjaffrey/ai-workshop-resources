@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.270"
-  update_summary: "Add five anonymous Playground backdrop comparisons"
-  updated_at: "Wed 21 Oct 2026 at 11:25:37 am AEDT (+11:00)"
+  doc_revision: "26.0.271"
+  update_summary: "Use font-defined hyperlink and anchor underlines"
+  updated_at: "Wed 21 Oct 2026 at 02:12:33 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.269 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 02:12:33 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Use font-defined hyperlink and anchor underlines
+
+### Changed
+
+- Share font-defined underline thickness across hyperlinks and Step anchors, with an explicit auto compatibility fallback. Remove the fixed 1px hyperlink hover override; retain the existing offset and visibility rules.
+- Update interface guidance and the design decision log to explain font-driven thickness and renderer differences.
+
+### Validation
+
+- Headless Chrome and WebKit at 390px and 1440px in light/dark themes — both link types resolve to from-font; resting/hovered visibility and offset checks passed. Screenshots reviewed; WebKit renders the heading underline slightly heavier than Chrome. Installed Safari and physical devices were not tested.
+- Hyperlink interaction regression — hover, focus, pointer/touch/keyboard activation, hit bounds and theme/agent colours passed.
+- Local website build and generated version/underline checks — passed, reusing saved backdrop geometry.
 
 ## v26.0.268 — 2026-10-21
 
