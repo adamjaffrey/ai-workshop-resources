@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.30"
-  update_summary: "Match Easter Egg top boundary to Resources anchor spacing"
-  updated_at: "Wed 21 Oct 2026 at 06:32:01 pm AEDT (+11:00)"
+  doc_revision: "26.0.31"
+  update_summary: "Preserve source step margins and defer hidden icon measurement"
+  updated_at: "Wed 21 Oct 2026 at 06:38:00 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -179,7 +179,7 @@ Classify a preview by what it presents, not whether its implementation uses an i
 - The 60% value is a maximum, not a requirement to stretch short content. Use the current browser viewport height, not document height or an iframe's own height. Recalculate when the browser or visual viewport resizes; do not deduct toolbar or inspector height before taking 60%.
 - Expanded page embeds use the available modal window height rather than the inline cap. Preserve their existing iframe and state, keyboard containment, controls and focus/scroll restoration; contracting restores the 60% maximum.
 - Preserve horizontal access for wide palette specimens and native scrolling inside actual app controls such as prompt fields. The palette restriction concerns its enclosing comparison region, not the demonstrated component's behaviour. A gallery implemented in an iframe is still a palette and must not inherit the page-embed cap.
-- In the Easter Egg page embed, the native top scroll boundary places Step 3's visible lettering 60px below the pinned selectors' bottom edge, or 30px when the embedded viewport is at most 660px wide. Reuse Resources anchor spacing and heading-ink measurement; this is not a card-edge measurement. Adjust preview layout padding rather than navigating to an anchor or intercepting scrolling. Preserve bottom-first initial positioning and normal scrolling through the specimen; apply the same boundary in Expand View.
+- In the Easter Egg page embed, the native top scroll boundary places Step 3's visible lettering 60px below the pinned selectors' bottom edge, or 30px when the embedded viewport is at most 660px wide. Reuse Resources anchor spacing and heading-ink measurement; this is not a card-edge measurement. Adjust preview layout padding rather than navigating to an anchor or intercepting scrolling. Preserve bottom-first initial positioning and normal scrolling through the specimen; apply the same boundary in Expand View. Preserve the source Step 3 marker/card margins; validate both heading clearance and card-to-heading placement against a real Resources anchor landing. Never cache anchor-icon alignment from zero-width hidden frames; refresh it when the heading becomes measurable.
 - Check palette scroll ownership, every page-embed cap after resize, and Expand View/contract behaviour when changing preview layout. The focused checks are `website/tests/playground-frame-height-browser-check.mjs` and `website/tests/playground-specimen-fidelity-browser-check.mjs`.
 
 Rationale and superseded rules: [Specimen Palettes and Page Embeds](../../website/DESIGN-DECISIONS.md#specimen-palettes-and-page-embeds).

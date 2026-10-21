@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.284"
-  update_summary: "Align Easter Egg scroll-top spacing with Resources anchors"
-  updated_at: "Wed 21 Oct 2026 at 06:33:28 pm AEDT (+11:00)"
+  doc_revision: "26.0.285"
+  update_summary: "Restore Step 3 source spacing and fix hidden-frame hash alignment"
+  updated_at: "Wed 21 Oct 2026 at 06:38:31 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.283 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 06:38:31 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Restore Step 3 source spacing and fix hidden-frame hash alignment
+
+### Fixed
+
+- Remove the Easter Egg specimen's Step 3 marker-margin override, restoring the source desktop card-to-heading relationship while retaining the 60px/30px upper scroll boundary.
+- Skip zero-width hidden heading measurements and refresh shared anchor-icon alignment with ResizeObserver when layout becomes measurable. Prevent a cached whole-word-width offset from displacing the hover hash.
+
+### Validation
+
+- Direct comparison with signed-in Resources Step 3 anchor landings at matching iframe widths — passed for phone, tablet and desktop.
+- Hidden/resized/revealed iframe hash regression and inline/expanded upper-boundary checks — passed.
+- Desktop hover screenshot inspection, placeholder unit checks and production build — passed.
 
 ## v26.0.282 — 2026-10-21
 

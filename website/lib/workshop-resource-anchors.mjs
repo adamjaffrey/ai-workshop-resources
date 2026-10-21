@@ -43,6 +43,8 @@ export function initResourceAnchors(anchors,timing,measureHeading,frames,anchorG
  const status=document.createElement('span');status.className='step-anchor-announcement';status.setAttribute('role','status');document.body.append(status);
  const feedback=new WeakMap();
  const align=()=>document.querySelectorAll('.step-anchor').forEach(button=>{
+  // Hidden lazy frames have zero layout width; never cache that as icon spacing.
+  if(!button.getClientRects().length||!button.getBoundingClientRect().width)return;
   button.style.setProperty('--step-cap-centre',measureHeading(button).centre+'px');
   const label=button.querySelector('.step-anchor-label'),css=getComputedStyle(label),context=document.createElement('canvas').getContext('2d');
   context.font=css.fontWeight+' '+css.fontSize+' '+css.fontFamily;
@@ -51,7 +53,8 @@ export function initResourceAnchors(anchors,timing,measureHeading,frames,anchorG
   const text=label.textContent,right=context.measureText(text).actualBoundingBoxRight+(hasTracking?0:tracking*Math.max(0,text.length-1));
   button.style.setProperty('--anchor-ink-adjust',(right-button.getBoundingClientRect().width)+'px');
  });
- document.fonts.ready.then(align);window.addEventListener('resize',align);align();
+ document.fonts.ready.then(align);window.addEventListener('resize',align);
+ const headingResize=new ResizeObserver(align);document.querySelectorAll('.step-anchor').forEach(button=>headingResize.observe(button));align();
  for(const button of document.querySelectorAll('.step-anchor')){
   button.addEventListener('click',async()=>{
    const previous=feedback.get(button);if(previous){clearTimeout(previous.hold);clearTimeout(previous.fade);previous.animation?.cancel();}
