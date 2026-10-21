@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.20"
-  update_summary: "Connect alias tables and add collapsible anchor subsections"
-  updated_at: "Thu 22 Oct 2026 at 09:36:51 am AEDT (+11:00)"
+  doc_revision: "26.0.21"
+  update_summary: "Add the query summary heading and order login aliases"
+  updated_at: "Thu 22 Oct 2026 at 09:46:04 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -138,7 +138,7 @@ Opening, reloading or re-entering a recognised step URL (including same-URL repl
 
 ### Playground Anchors
 
-Every collapsible outer H2/H3 also has a copyable heading anchor. The inventory follows visible tab order, then heading order within each tab; H3 rows name their enclosing H2 section. The two Anchor Links subsections and four query-parameter subsections are H3 targets; embedded specimens do not receive anchors.
+Every collapsible outer H2/H3 also has a copyable heading anchor. The inventory follows visible tab order, then heading order within each tab; H3 rows name their enclosing H2 section. The two Anchor Links subsections and five query-parameter subsections are H3 targets; embedded specimens do not receive anchors.
 
 | Section | Heading | Canonical Anchor URL | Legacy Fragment Alias |
 | --- | --- | --- | --- |
@@ -168,6 +168,7 @@ Every collapsible outer H2/H3 also has a copyable heading anchor. The inventory 
 | URL Reference / Anchor Links | Resource Anchors (H3) | `/component-playground/url-reference`**`#resource-anchors`** | — |
 | URL Reference / Anchor Links | Playground Anchors (H3) | `/component-playground/url-reference`**`#playground-anchors`** | — |
 | URL Reference | Public Query Parameters (H2) | `/component-playground/url-reference`**`#public-query-parameters`** | — |
+| URL Reference / Public Query Parameters | Summary (H3) | `/component-playground/url-reference`**`#summary`** | — |
 | URL Reference / Public Query Parameters | Agent and Theme Aliases (H3) | `/component-playground/url-reference`**`#agent-and-theme-aliases`** | — |
 | URL Reference / Public Query Parameters | Login Aliases and Validation (H3) | `/component-playground/url-reference`**`#login-aliases-and-validation`** | — |
 | URL Reference / Public Query Parameters | Local and Hosted Behaviour (H3) | `/component-playground/url-reference`**`#local-and-hosted-behaviour`** | — |
@@ -181,7 +182,9 @@ Clicking the heading or its assigned icon copies the canonical URL without movin
 
 ## Public Query Parameters
 
-The portion after `?` is the query string. Each name/value pair is a query parameter. Parameter names and recognised values are case-insensitive through canonical redirects. Lists put the canonical name or value first, then aliases alphabetically, except for the explicitly ordered agent value lists below.
+### Summary
+
+The portion after `?` is the query string. Each name/value pair is a query parameter. Parameter names and recognised values are case-insensitive through canonical redirects. Lists put the canonical name or value first, then aliases alphabetically, except for the explicitly ordered agent values and login parameter names below.
 
 | Canonical Parameter | Effect |
 | --- | --- |
@@ -222,8 +225,8 @@ Choose the final canonical URL in a column heading, then use the value in that c
 
 | Parameter Names | Value for `login=true` | Value for `login=false` |
 | --- | --- | --- |
-| `login`, `hide-login`, `logged-in`, `loggedin` | `true` | `false` |
-| `logged-out`, `loggedout`, `logout`, `show-login` | `false` | `true` |
+| `login`, `loggedin`, `logged-in`, `hide-login` | `true` | `false` |
+| `logout`, `loggedout`, `logged-out`, `show-login` | `false` | `true` |
 
 All input names and boolean spellings above resolve to the two canonical column headings. Their effects follow in the same order:
 

@@ -298,6 +298,12 @@
       "top": 1,
       "bottom": 1
     },
+    "table-properties": {
+      "left": 2,
+      "right": 2,
+      "top": 2,
+      "bottom": 2
+    },
     "tag": {
       "left": 1,
       "right": 1,

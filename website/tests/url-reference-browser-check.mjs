@@ -15,7 +15,7 @@ try{
   for(const heading of ['Hostname Redirects','Resources Aliases','Playground Root Aliases','Playground Sections','Public Query Parameters','Login Aliases and Validation'])assert.ok((await panel.innerText()).includes(heading),heading);
   for(const value of ['agent=codex','agent=claude','theme=light','theme=dark','login=false','login=true','login=1','logout=1','hide-login=yes','Boolean Value','Accepted Spellings','Value for login=true','Value for login=false','chatgpt-codex','url-references','Final Canonical Component'])assert.ok((await panel.innerText()).includes(value),value);
   assert.equal(await panel.locator('h2').filter({hasText:'Anchor Links'}).locator('svg').first().getAttribute('data-icon-name'),'anchor');
-  for(const [heading,icon] of [['Resource Anchors','list-ordered'],['Playground Anchors','signpost']]){
+  for(const [heading,icon] of [['Resource Anchors','list-ordered'],['Playground Anchors','signpost'],['Summary','table-properties']]){
    assert.equal(await panel.locator('h3').filter({hasText:heading}).locator('svg').first().getAttribute('data-icon-name'),icon);
    assert.equal(await page.locator('.section-heading>h2>svg[data-icon-name="'+icon+'"],.section-heading>h3>svg[data-icon-name="'+icon+'"]').count(),1,'Unique heading icon '+icon);
   }

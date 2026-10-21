@@ -12,6 +12,7 @@ import {__iconNode as referenceIcon3} from '../node_modules/lucide-react/dist/es
 import {__iconNode as referenceIcon4} from '../node_modules/lucide-react/dist/esm/icons/folder-tree.mjs';
 import {__iconNode as resourceAnchorsIcon} from '../node_modules/lucide-react/dist/esm/icons/list-ordered.mjs';
 import {__iconNode as playgroundAnchorsIcon} from '../node_modules/lucide-react/dist/esm/icons/signpost.mjs';
+import {__iconNode as querySummaryIcon} from '../node_modules/lucide-react/dist/esm/icons/table-properties.mjs';
 import {__iconNode as anchorLinksIcon} from '../node_modules/lucide-react/dist/esm/icons/anchor.mjs';
 import {__iconNode as referenceIcon5} from '../node_modules/lucide-react/dist/esm/icons/list-tree.mjs';
 import {__iconNode as referenceIcon6} from '../node_modules/lucide-react/dist/esm/icons/list-filter.mjs';
@@ -108,6 +109,7 @@ const urlHeadingIcons=new Map([
  ['Resource Anchors',[resourceAnchorsIcon,'list-ordered']],
  ['Playground Anchors',[playgroundAnchorsIcon,'signpost']],
  ['Public Query Parameters',[referenceIcon6,'list-filter']],
+ ['Summary',[querySummaryIcon,'table-properties']],
  ['Agent and Theme Aliases',[referenceIcon7,'settings-2']],
  ['Login Aliases and Validation',[referenceIcon8,'shield-check']],
  ['Local and Hosted Behaviour',[referenceIcon9,'server']],

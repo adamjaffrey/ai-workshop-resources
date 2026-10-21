@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.308"
-  update_summary: "Align heading cap centres with section chevron buttons"
-  updated_at: "Thu 22 Oct 2026 at 09:42:08 am AEDT (+11:00)"
+  doc_revision: "26.0.309"
+  update_summary: "Add the query summary heading and order login aliases"
+  updated_at: "Thu 22 Oct 2026 at 09:47:26 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.307 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 09:47:26 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add the query summary heading and order login aliases
+
+### Changed
+
+- Give the Public Query Parameters overview a collapsible Summary H3, copyable summary anchor and unique installed Lucide Table Properties icon with measured alignment and catalogue metadata.
+- Order the login table names exactly as requested: login, loggedin, logged-in, hide-login; logout, loggedout, logged-out, show-login.
+- Update the anchor inventory and document the explicit ordering exception.
+
+### Validation
+
+- Generated structure, URL Reference and table-sizing checks — passed across the existing width, agent and theme matrix.
+- All 35 heading anchors — passed copy, collapse/reveal, exact landing and chevron checks in Chrome and WebKit at 390px and 1440px.
+- Production build with saved backdrops, document validation and LAN version/heading/exact-alias-order checks — passed.
 
 ## v26.0.306 — 2026-10-22
 
