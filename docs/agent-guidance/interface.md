@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.21"
-  update_summary: "Use automatic hyperlink and anchor underline thickness"
-  updated_at: "Wed 21 Oct 2026 at 03:13:08 pm AEDT (+11:00)"
+  doc_revision: "26.0.22"
+  update_summary: "Align left disclosure chevrons and labels to fixed inset columns"
+  updated_at: "Wed 21 Oct 2026 at 03:28:53 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -67,7 +67,7 @@ Rounded corners visually recede from their bounding edge, while SVG icons can co
 - Use the same theme-aware hover fill for unselected agent/theme options across Resources, login, Playground and compact controls: darker in light mode and lighter in dark mode. Paint hover fills below the animated selection indicator and labels above it, including during press/hold and travel. Keep selected options unchanged. Prompt copy buttons retain their original `--hover` fill. Align disclosure body copy with its summary text. Keep segmented-selector legends on the normal text rail and preserve native button interior spacing.
 - Apply the extension once per component boundary. A button inside a toggle does not acquire a second outward offset. Nested cards and prompt panels establish their own text rail using their normal interior surface spacing plus 4px; their designated rounded children may extend back to that interior surface rail.
 - Retain native padding, icon gaps and centred alignment inside buttons, toggle options, password fields and badges. A rounded icon tile is itself the boundary; do not also compensate the icon inside that tile. Move icon-and-heading groups together so their internal gap remains unchanged.
-- For an unboxed leading heading icon, align its visible stroke to the text rail by shifting the whole heading group by its measured leading whitespace at the rendered size. Never use a blanket 4px icon shift. The catalogue includes the cropped link-arrow variant separately. Disclosure bodies align beneath their summary text after the corrected chevron and gap. Button-contained icons keep their control padding.
+- For an unboxed leading heading icon, align its visible stroke to the text rail by shifting the whole heading group by its measured leading whitespace at the rendered size. Never use a blanket 4px icon shift. The catalogue includes the cropped link-arrow variant separately. For all left-chevron expandable text controls, centre the visible chevron ink 10px inward from the local content rail and start label text 20px inward, matching the prose-list text indent. Apply this to native summaries and button disclosures, including expanded preview controls, icon usage lists, hover explanations and Style Inspector controls. Keep the centre fixed in open and closed states, and align wrapped label lines and disclosure body copy with the label text. Preserve the separate 4px outdent and interior padding of rounded body surfaces. Right-hand section chevrons retain their existing placement. Other button-contained icons keep their control padding.
 - Run `node website/scripts/measure-alignment-icons.mjs` when adding/changing heading icons, changing their viewBox/stroke, or updating the icon library. Commit `website/lib/workshop-icon-ink.generated.json`; use `--check` to verify it. New heading icons must have measured entries before being introduced. Keep official paths and metadata intact.
 - Do not remove or add corrections merely because a component expands, becomes sticky or changes viewport width. Preserve the same rail relationship across states. Specimens consume canonical app styling; their surrounding annotations follow their own scope.
 

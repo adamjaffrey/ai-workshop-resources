@@ -8,8 +8,14 @@ export function assertMeasuredHeadingIcon(name){if(!ink.icons[name])throw Error(
 export const alignmentCSS = String.raw`
 :root{--specimen-error-nudge:calc(-18px * ${ink.icons.x.left}/24);--specimen-text-rail:28px;--optical-offset:4px;--external-text-inset:var(--optical-offset);--playground-external-text-inset:var(--optical-offset)}
 #playground-title{--heading-icon-size:1em}
-:root{--disclosure-ink-inset:${ink.icons['chevron-right'].left/24*18}px}
-summary:has(>.disclosure-chevron){margin-inline-start:calc(-1 * var(--disclosure-ink-inset))}
+/* A 20px marker column shares the prose-list indent. Lucide's visible ink is
+   centred in that column, with rotation around its own ink centre. */
+:root{--disclosure-text-inset:var(--body-list-indent,20px);--disclosure-marker-centre:10px}
+:is(summary:has(>.disclosure-chevron),.hover-explainer,#inspector-toggle,#inspector-details){display:grid;grid-template-columns:var(--disclosure-text-inset) minmax(0,1fr);align-items:center;column-gap:0;margin-inline-start:0;padding-inline-start:0;text-align:left}
+:is(summary:has(>.disclosure-chevron),.hover-explainer,#inspector-toggle,#inspector-details)>svg{width:18px;height:18px;margin:0;margin-inline-start:calc(var(--disclosure-marker-centre) - ${((ink.icons['chevron-right'].left + 24 - ink.icons['chevron-right'].right)/2)/24*18}px);transform-box:fill-box;transform-origin:center}
+#inspector-toggle{padding-inline:0!important}
+.hover-explainer{display:inline-grid}
+
 /* Public utility contract for future components. A scope owns its text rail. */
 .alignment-scope{padding-inline:calc(var(--surface-padding,24px) + var(--optical-offset))}
 .alignment-surface{margin-inline:calc(-1 * var(--optical-offset));width:calc(100% + 2 * var(--optical-offset));max-width:none}
@@ -66,20 +72,19 @@ body:has(#playground-title)>main.wrap{padding-inline:28px}
 .preview-dialog.is-expanded>.frame-wrap{max-width:calc(100% + 8px)}
 .preview-dialog.is-expanded>.preview-settings,.preview-dialog.is-expanded>.preview-state-settings{padding-inline:14px}
 .preview-dialog.is-expanded>.section-heading h2{padding-inline:0}
-.expanded-global-controls,.expanded-state-controls{padding-inline:4px;margin-inline-start:calc(22px - var(--disclosure-ink-inset))}
+.expanded-global-controls,.expanded-state-controls{padding-inline:4px;margin-inline-start:calc(var(--disclosure-text-inset) - var(--optical-offset))}
 .expanded-global-controls>#global-style-controls{margin-inline:-4px;padding-inline:4px}
 #perspective-replay{margin-inline-start:calc(-1 * var(--optical-offset))}
-.panel>.feather-notice>details>.licence-text{margin-inline-start:calc(26px - var(--disclosure-ink-inset) - var(--optical-offset));padding-inline:20px}
-/* Disclosure chevrons get their own measured ink correction; body text shares
-   the summary's text position, not the enclosing panel's edge. */
-.panel>details:not(.preview-settings):not(.preview-state-settings)>:not(summary),.panel>.feather-notice>details>:not(summary){margin-inline-start:calc(26px - var(--disclosure-ink-inset,5.25px))}
+.panel>.feather-notice>details>.licence-text{margin-inline-start:calc(var(--disclosure-text-inset) - var(--optical-offset));padding-inline:20px}
+/* Disclosure bodies share their summary text rail. */
+.panel>details:not(.preview-settings):not(.preview-state-settings)>:not(summary),.panel>.feather-notice>details>:not(summary){margin-inline-start:var(--disclosure-text-inset)}
 /* Nested grey specimen surfaces, swatches and catalogues own the same rails. */
 .playground-icon-entry{padding-inline:28px}
 .swatch strong,.swatch code,.swatch small{padding-inline:16px}.swatch p{margin-inline:16px}
 /* Square textareas, tables and code listings deliberately stay on the text rail. */
 #worm-copy-fallback,#perspective-copy-fallback{display:block}#worm-copy-fallback[hidden],#perspective-copy-fallback[hidden]{display:none}
 .inspector-dock{padding-inline:max(28px,calc((100vw - 1112px)/2))}
-.inspector-dock .inspector-bar,.inspector-dock .inspector-actions{margin-inline:-4px}
+.inspector-dock .inspector-bar,.inspector-dock .inspector-actions{margin-inline:0}
 /* Sources already render their link interiors; align the whole link surface. */
 .panel>a.workshop-link,.playground-icon-entry>a.workshop-link,.link-examples section>a.workshop-link{margin-inline-start:-4px}
 .frame-wrap{padding:0;box-sizing:border-box}

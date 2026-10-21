@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.273"
-  update_summary: "Restore shared clipping for the Typography link specimen"
-  updated_at: "Wed 21 Oct 2026 at 03:21:16 pm AEDT (+11:00)"
+  doc_revision: "26.0.274"
+  update_summary: "Align every left disclosure chevron and label to shared columns"
+  updated_at: "Wed 21 Oct 2026 at 03:31:28 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.272 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 03:31:28 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Align every left disclosure chevron and label to shared columns
+
+### Changed
+
+- Centre visible left-chevron ink at 10px and start labels at 20px from each local content rail, with the same centre in open and closed states and hanging wrapped labels.
+- Apply shared geometry to Inspect Source Declarations, the four Easter Egg explanations, About This Reference, the Feather-derived licence notice, icon Locations disclosures, Hover Preview Explainer, Style Inspector, More Details, and Style Options/Preview Controls in all five expanded component panels.
+- Retain disclosure body alignment and rounded-body surface padding; document the approved inset convention in the interface contract and design decision log.
+
+### Validation
+
+- `node website/tests/disclosure-marker-alignment-browser-check.mjs` — passed in Chrome and WebKit at 320, 390, 768 and 1440px, both themes/agents, open/closed states, five expanded panels, mobile hover help and keyboard activation. Mobile and desktop screenshots reviewed; physical devices not tested.
+- External text inset, nested alignment, menu containment, specimen fidelity, expanded preview and tool focus browser checks — passed.
+- `node --test website/tests/auth.test.mjs` — all 11 tests passed.
+- `npm --prefix website run build` — passed using saved backdrop geometry; built server version and shared geometry verified as v26.0.272.
+- Automatically signed-in LAN Resources and Playground destinations — HTTP 200 with the updated version and geometry.
 
 ## v26.0.271 — 2026-10-21
 

@@ -114,7 +114,7 @@ summary,summary *,.hover-explainer,.hover-explainer *{cursor:pointer!important}
 #mobile-style-controls #global-style-controls>*{min-width:0;max-width:100%}
 #mobile-style-controls .primary-style-choices,#mobile-style-controls .choices{margin:0}
 #hover legend{max-width:100%}
-#hover .hover-explanation{font-size:14px;line-height:21px;font-weight:400;margin:0 0 16px;color:var(--muted-text)}
+#hover .hover-explanation{font-size:14px;line-height:21px;font-weight:400;margin:0 0 16px var(--disclosure-text-inset);color:var(--muted-text)}
 .toolbar #global-style-controls>div:not(.primary-style-choices){max-width:none}
 
 /* Labels scroll normally; only the desktop control rails persist. */
@@ -150,9 +150,8 @@ main.wrap{padding-top:24px}
 .panel>p+details:has(>.rule-list),.panel>.feather-notice>p+details,.panel>p+.egg-help{margin-top:16px}
 /* White-card explanation only: never descend into specimen surfaces or frames. */
 .source-choice{font-family:inherit;font-size:14px;font-weight:600;line-height:1.5}
-/* Align disclosure bodies with the summary text after its 18px chevron + 8px gap.
-   Expanded preview settings and the separately rendered hover explainer retain their layout. */
-.panel>details:not(.preview-settings):not(.preview-state-settings):not(.hover-help)>:not(summary),.panel>.feather-notice>details>:not(summary){margin-inline-start:26px}
+/* Body offsets use the same shared text rail as disclosure labels. */
+.panel>details:not(.preview-settings):not(.preview-state-settings):not(.hover-help)>:not(summary),.panel>.feather-notice>details>:not(summary){margin-inline-start:var(--disclosure-text-inset)}
 
 @media(max-width:660px){#login-preview .state-tools{flex-direction:column;gap:var(--control-row-gap)}#login-preview .state-tools>.choices{width:100%;flex:auto}#login-preview #login-destination{max-width:100%;width:100%}#login-destination .choice-options{flex-direction:row}}
 
@@ -160,9 +159,9 @@ main.wrap{padding-top:24px}
 .disclosure-accent>summary,.hover-explainer{color:var(--text);background:color-mix(in srgb,var(--agent-accent) 5%,var(--surface));font-weight:600}
 .disclosure-accent>summary{font-size:16px;line-height:24px;padding-block:8px}
 .disclosure-accent>summary>.disclosure-chevron,.hover-explainer svg{color:var(--icon-ink)}
-.source-rules>.disclosure-body{margin-top:16px;margin-inline-start:calc(26px - var(--disclosure-ink-inset) - 4px)!important;padding:16px 24px;border:1px solid var(--border);border-radius:12px;background:var(--page)}
+.source-rules>.disclosure-body{margin-top:16px;margin-inline-start:calc(var(--disclosure-text-inset) - var(--optical-offset))!important;padding:16px 24px;border:1px solid var(--border);border-radius:12px;background:var(--page)}
 .source-rules .rule-list>div:first-child{padding-top:0}.source-rules .rule-list>div:last-child{border-bottom:0;padding-bottom:0}
-.reference-intro-copy{margin-inline-start:calc(26px - var(--disclosure-ink-inset));margin-top:16px}
+.reference-intro-copy{margin-inline-start:var(--disclosure-text-inset);margin-top:16px}
 .reference-intro-copy>:last-child{margin-bottom:0}
 /* Inline grey viewports grow vertically; only horizontal inspection scrolls. */
 .preview-dialog:not(.is-expanded)>.frame-wrap{max-height:none;overflow-x:auto;overflow-y:hidden}
