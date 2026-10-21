@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.19"
-  update_summary: "Simplify canonical login and Claude URL components"
-  updated_at: "Thu 22 Oct 2026 at 09:24:01 am AEDT (+11:00)"
+  doc_revision: "26.0.20"
+  update_summary: "Connect alias tables and add collapsible anchor subsections"
+  updated_at: "Thu 22 Oct 2026 at 09:36:51 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -120,7 +120,7 @@ Only the root and listed canonical section pages currently exist. Pluralisation 
 
 ## Anchor Links
 
-**Resources Anchors**
+### Resource Anchors
 
 Step links use the canonical Resources path with these fragments:
 
@@ -136,9 +136,9 @@ Clicking Step N or its exterior Hash icon copies the full canonical step URL wit
 
 Opening, reloading or re-entering a recognised step URL (including same-URL replacement navigation) scrolls the text to 60px below the floating selectors, or 30px on mobile. Travel uses a baseline 1200 CSS px/s with eased 300ms acceleration/deceleration and increases speed to cap long journeys at three seconds; selectors become sticky naturally during travel. Earlier step/card pairs fade out over the final 600ms of scrolling while the selector shadows and floating Wavelength mark fade in; all finish together. Earlier pairs fade back in only when scrolling upwards, retaining their layout space. Near-footer anchors may require extra bottom scroll room. Reduced-motion preferences are respected. The first three Tab stops after arrival are the agent selector, theme selector and target-card content.
 
-**Playground Anchors**
+### Playground Anchors
 
-Every collapsible outer H2/H3 also has a copyable heading anchor. The inventory follows visible tab order, then heading order within each tab; H3 rows name their enclosing H2 section. The four indented query-parameter subsections are H3 targets; embedded specimens do not receive anchors.
+Every collapsible outer H2/H3 also has a copyable heading anchor. The inventory follows visible tab order, then heading order within each tab; H3 rows name their enclosing H2 section. The two Anchor Links subsections and four query-parameter subsections are H3 targets; embedded specimens do not receive anchors.
 
 | Section | Heading | Canonical Anchor URL | Legacy Fragment Alias |
 | --- | --- | --- | --- |
@@ -165,6 +165,8 @@ Every collapsible outer H2/H3 also has a copyable heading anchor. The inventory 
 | URL Reference | Playground Root Aliases (H2) | `/component-playground/url-reference`**`#playground-root-aliases`** | — |
 | URL Reference | Playground Sections (H2) | `/component-playground/url-reference`**`#playground-sections`** | — |
 | URL Reference | Anchor Links (H2) | `/component-playground/url-reference`**`#anchor-links`** | — |
+| URL Reference / Anchor Links | Resource Anchors (H3) | `/component-playground/url-reference`**`#resource-anchors`** | — |
+| URL Reference / Anchor Links | Playground Anchors (H3) | `/component-playground/url-reference`**`#playground-anchors`** | — |
 | URL Reference | Public Query Parameters (H2) | `/component-playground/url-reference`**`#public-query-parameters`** | — |
 | URL Reference / Public Query Parameters | Agent and Theme Aliases (H3) | `/component-playground/url-reference`**`#agent-and-theme-aliases`** | — |
 | URL Reference / Public Query Parameters | Login Aliases and Validation (H3) | `/component-playground/url-reference`**`#login-aliases-and-validation`** | — |
@@ -179,7 +181,7 @@ Clicking the heading or its assigned icon copies the canonical URL without movin
 
 ## Public Query Parameters
 
-The portion after `?` is the query string. Each name/value pair is a query parameter. Parameter names and recognised values are case-insensitive through canonical redirects.
+The portion after `?` is the query string. Each name/value pair is a query parameter. Parameter names and recognised values are case-insensitive through canonical redirects. Lists put the canonical name or value first, then aliases alphabetically, except for the explicitly ordered agent value lists below.
 
 | Canonical Parameter | Effect |
 | --- | --- |
@@ -187,8 +189,8 @@ The portion after `?` is the query string. Each name/value pair is a query param
 | `agent=claude` | Select Claude Code and orange branding |
 | `theme=light` | Select light theme |
 | `theme=dark` | Select dark theme |
-| `login=false` | Revoke the current session, clear its cookie and show the requested login form |
 | `login=true` | Reuse a valid session or show login; never authenticate automatically |
+| `login=false` | Revoke the current session, clear its cookie and show the requested login form |
 
 ### Agent and Theme Aliases
 
@@ -197,9 +199,9 @@ Use `agent` or its name alias `ai`, and `theme` or its name alias `mode`. Each a
 | Parameter Names | Accepted Values | Canonical Parameter |
 | --- | --- | --- |
 | `agent`, `ai` | `codex`, `chatgpt`, `chatgpt-codex` | `agent=codex` |
-| `agent`, `ai` | `claude`, `claude-code`, `code` | `agent=claude` |
+| `agent`, `ai` | `claude`, `code`, `claude-code` | `agent=claude` |
 | `theme`, `mode` | `light`, `day`, `sun` | `theme=light` |
-| `theme`, `mode` | `dark`, `night`, `moon` | `theme=dark` |
+| `theme`, `mode` | `dark`, `moon`, `night` | `theme=dark` |
 
 Valid values override saved preferences before paint and become the saved preference. When no valid parameter remains, the saved preference is retained; without one, the agent defaults to Codex and the theme follows the system. Playground tab navigation preserves parameters. Changing a selector updates its corresponding parameter when present.
 
@@ -213,28 +215,24 @@ Every login parameter accepts these equivalent values:
 
 | Boolean Value | Accepted Spellings |
 | --- | --- |
-| `true` | `true`, `yes`, `1` |
-| `false` | `false`, `no`, `0` |
+| `true` | `true`, `1`, `yes` |
+| `false` | `false`, `0`, `no` |
 
-Choose the outcome you want, then use the value shown with any parameter name in that row. The equivalent spellings above work everywhere in this table.
+Choose the final canonical URL in a column heading, then use the value in that column with any parameter name in the row. Each cell is an input value; the column heading is the exact resulting URL component. Equivalent spellings from the table above work in every cell.
 
-| Parameter Names | Show Login Form | Keep Existing Session |
+| Parameter Names | Value for `login=true` | Value for `login=false` |
 | --- | --- | --- |
-| `show-login`, `logout`, `logged-out`, `loggedout` | `true` | `false` |
-| `hide-login`, `login`, `logged-in`, `loggedin` | `false` | `true` |
+| `login`, `hide-login`, `logged-in`, `loggedin` | `true` | `false` |
+| `logged-out`, `loggedout`, `logout`, `show-login` | `false` | `true` |
 
-**Show Login Form** becomes `login=false`: log out the current session and display the password form. **Keep Existing Session** becomes `login=true`: open the page if the current session is valid, otherwise display the password form. It never signs you in automatically or hides a required password form.
-
-For example, `login=1` and `hide-login=yes` become `login=true`; `logout=1` and `login=no` become `login=false`. `logout` is the inverse of `login`, and `hide-login` is the inverse of `show-login`.
-
-`login=1` means you want to be logged in and redirects to `login=true`. Use `login=false` or its alias `logout=1` to log out. Older `show-login` links remain supported with inverse boolean logic.
-
-All alternative parameter names and boolean spellings above are aliases for the final canonical components below. Redirects rewrite them to `login` with a literal `true` or `false`; authentication reads only that canonical component.
+All input names and boolean spellings above resolve to the two canonical column headings. Their effects follow in the same order:
 
 | Final Canonical Component | Result |
 | --- | --- |
 | `login=true` | Show the page if a valid session exists; otherwise show the password form. Never authenticate automatically. |
 | `login=false` | Revoke the current session, clear its cookie and show the password form. |
+
+For example, `show-login=true` uses the second row and the `login=false` column. It redirects to `login=false` and logs out. Conversely, `login=1` and `hide-login=yes` redirect to `login=true` and keep an existing valid session. `logout=1` redirects to `login=false`. All aliases are redirect inputs; authentication reads only canonical `login`.
 
 Similarly, agent aliases end at `agent=codex` or `agent=claude`, and theme aliases end at `theme=light` or `theme=dark`.
 
@@ -248,8 +246,8 @@ Successful login removes `login` before navigation, preventing a logout loop whi
 | --- | --- | --- |
 | Resources without `login` | Obtain a real local session automatically if needed | Require a valid session or password |
 | Playground without `login` | Allow anonymous preview access | Require a valid session or password |
-| Any supported page with `login=false` | Revoke the current session and show login | Same |
 | Any supported page with `login=true` | Require a valid session or show login | Same |
+| Any supported page with `login=false` | Revoke the current session and show login | Same |
 
 The explicit boolean behaviour applies to Resources, the Playground root and every supported Playground section. Future or unknown paths remain 404. Low-level local tests may disable automatic sign-in and protect the Playground explicitly.
 

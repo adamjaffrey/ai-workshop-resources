@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.50"
-  update_summary: "Correct action radii and preserve responsive visibility"
-  updated_at: "Thu 22 Oct 2026 at 09:28:52 am AEDT (+11:00)"
+  doc_revision: "26.0.51"
+  update_summary: "Connect alias tables and add collapsible anchor subsections"
+  updated_at: "Thu 22 Oct 2026 at 09:36:51 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -298,7 +298,7 @@ Rationale and superseded rules: [Specimen Palettes and Page Embeds](../../websit
 - Selector labels are action targets: disable text selection and native dragging for the segmented control and descendants, and prevent `dragstart` in the shared toggle controller. Pressing, dragging outside and releasing must cancel cleanly without dragging label text or changing the selected value. Preserve real focus and keyboard operation.
 - Use the shared foreground hover treatment as well as the shared fill: unselected labels darken in light mode and lighten in dark mode across Resources, login and Playground. Hover fills remain behind the moving selection indicator; selected options retain their established styling.
 
-Anchor inventories live in one Anchor Links section of `website/URL-REFERENCE.md`, rendered directly by Playground. Separate Resources and Playground tables use Section, Heading, Canonical Anchor URL and Legacy Fragment Alias columns. Bold the fragment slug, retain visual tab/heading order, and give Section/Heading enough intrinsic width for one or two lines; preserve horizontal scrolling on mobile.
+Anchor inventories live in one Anchor Links section of `website/URL-REFERENCE.md`, rendered directly by Playground. Resource Anchors and Playground Anchors are collapsible H3 subsections with their own copyable heading anchors and unique Lucide List Ordered and Signpost icons respectively. Separate Resources and Playground tables use Section, Heading, Canonical Anchor URL and Legacy Fragment Alias columns. Bold the fragment slug, retain visual tab/heading order, and give Section/Heading enough intrinsic width for one or two lines; preserve horizontal scrolling on mobile.
 
 Outer Playground icon actions use 50px square buttons with 12px corner radii, including ellipsis/close, Back to Top, replay, reset, copy values, expand/contract view and section chevrons. Preserve existing SVG sizes, accessible names and tooltip labels; hide action text in these squares. Selector segments, navigation tabs and embedded app specimens retain their own dimensions. Both anchor tables share fixed column proportions of 18% Section, 24% Heading, 46% Canonical Anchor URL and 12% Legacy Fragment Alias, with a 1120px minimum table width and horizontal scrolling. Fragment code inside strong emphasis explicitly uses weight 700.
 

@@ -148,6 +148,12 @@
       "top": 4,
       "bottom": 4
     },
+    "list-ordered": {
+      "left": 2.4,
+      "right": 2,
+      "top": 3,
+      "bottom": 3
+    },
     "list-tree": {
       "left": 2,
       "right": 2,
@@ -267,6 +273,12 @@
       "right": 3,
       "top": 1,
       "bottom": 1
+    },
+    "signpost": {
+      "left": 1,
+      "right": 1,
+      "top": 2,
+      "bottom": 2
     },
     "split": {
       "left": 2,

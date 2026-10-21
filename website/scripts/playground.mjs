@@ -10,6 +10,8 @@ import {__iconNode as referenceIcon1} from '../node_modules/lucide-react/dist/es
 import {__iconNode as referenceIcon2} from '../node_modules/lucide-react/dist/esm/icons/case-sensitive.mjs';
 import {__iconNode as referenceIcon3} from '../node_modules/lucide-react/dist/esm/icons/folders.mjs';
 import {__iconNode as referenceIcon4} from '../node_modules/lucide-react/dist/esm/icons/folder-tree.mjs';
+import {__iconNode as resourceAnchorsIcon} from '../node_modules/lucide-react/dist/esm/icons/list-ordered.mjs';
+import {__iconNode as playgroundAnchorsIcon} from '../node_modules/lucide-react/dist/esm/icons/signpost.mjs';
 import {__iconNode as anchorLinksIcon} from '../node_modules/lucide-react/dist/esm/icons/anchor.mjs';
 import {__iconNode as referenceIcon5} from '../node_modules/lucide-react/dist/esm/icons/list-tree.mjs';
 import {__iconNode as referenceIcon6} from '../node_modules/lucide-react/dist/esm/icons/list-filter.mjs';
@@ -103,6 +105,8 @@ const urlHeadingIcons=new Map([
  ['Playground Root Aliases',[referenceIcon4,'folder-tree']],
  ['Playground Sections',[referenceIcon5,'list-tree']],
  ['Anchor Links',[anchorLinksIcon,'anchor']],
+ ['Resource Anchors',[resourceAnchorsIcon,'list-ordered']],
+ ['Playground Anchors',[playgroundAnchorsIcon,'signpost']],
  ['Public Query Parameters',[referenceIcon6,'list-filter']],
  ['Agent and Theme Aliases',[referenceIcon7,'settings-2']],
  ['Login Aliases and Validation',[referenceIcon8,'shield-check']],

@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.306"
-  update_summary: "Correct button rounding and responsive action visibility"
-  updated_at: "Thu 22 Oct 2026 at 09:29:20 am AEDT (+11:00)"
+  doc_revision: "26.0.307"
+  update_summary: "Connect login mapping tables and add anchor subsections"
+  updated_at: "Thu 22 Oct 2026 at 09:39:18 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.305 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 09:39:18 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Connect login mapping tables and add anchor subsections
+
+### Changed
+
+- Name login mapping columns by their final canonical URL components and place the effects table immediately afterwards in matching true/false order.
+- Put canonical names first, alphabetise remaining aliases and use the requested agent-value ordering.
+- Promote Resource Anchors and Playground Anchors to collapsible H3s with copyable fragments; assign unique installed Lucide List Ordered and Signpost icons and update the complete anchor inventory.
+
+### Validation
+
+- Generated Playground structure and URL Reference/table-sizing browser checks — passed across phone, tablet and desktop widths and both agents/themes.
+- All 34 heading anchors — passed copy, collapse/reveal, exact landing and chevron checks in Chrome and WebKit at 390px and 1440px.
+- Icon uniqueness, catalogue usage, measured alignment, production build using saved backdrops and LAN destinations — passed.
+- Existing broad Playground parity limitation — floating top inset assertion still reports 44px versus 43px; this is the previously confirmed baseline failure, separate from the focused checks above.
 
 ## v26.0.304 — 2026-10-22
 
