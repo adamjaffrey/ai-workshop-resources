@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.288"
-  update_summary: "Keep link highlight paint outside text layout"
-  updated_at: "Thu 22 Oct 2026 at 01:02:02 am AEDT (+11:00)"
+  doc_revision: "26.0.289"
+  update_summary: "Keep step-anchor text aligned when reserving icon space"
+  updated_at: "Thu 22 Oct 2026 at 01:07:19 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.287 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 01:07:19 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Keep step-anchor text aligned when reserving icon space
+
+### Changed
+
+- Place the reserved Hash, Check and X slot before right-aligned desktop Step 2, retaining the heading text’s right edge.
+- Use a .1em anchor icon gap; left-aligned headings retain their trailing slot, including mobile Step 2.
+
+### Validation
+
+- Chrome and WebKit anchor side, text rail, responsive breakpoint and feedback-slot geometry — passed.
+- Instant-hover checks in Chrome and WebKit — passed.
+- Playground Icons and Typography visible link rails at 390px and 1440px — passed without further indentation corrections.
+- Secondary Playground specimen alignment at seven widths and five expanded views — passed.
+- Desktop/mobile Step 2 screenshots and local website build — passed.
 
 ## v26.0.286 — 2026-10-22
 

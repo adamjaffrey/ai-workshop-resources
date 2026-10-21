@@ -9,7 +9,12 @@ export const resourceAnchorCSS=`
 .step-anchor,.step-anchor *{cursor:pointer!important;user-select:none}
 .step-anchor:is(:hover,[data-anchor-preview]){background:${linkPaint.fill};box-shadow:${linkPaint.shadow};color:var(--link-hover)}
 .step-anchor-label{text-decoration:none}
-.step-anchor-icon{color:var(--link-hover);opacity:1}
+.step-anchor-icon{color:var(--link-hover);opacity:1;margin-left:.1em}
+/* Keep the text on its right rail; the reserved feedback slot leads it. */
+@media(min-width:661px){
+ .step-row:nth-child(even) .step-anchor>.link-tail{display:inline-flex;flex-direction:row-reverse;align-items:baseline}
+ .step-row:nth-child(even) .step-anchor-icon{margin-left:0;margin-right:.1em}
+}
 .step-anchor-icon svg{opacity:0;transition:none}
 .step-anchor-icon .step-anchor-hash{transition:opacity ${linkPaint.motion}}
 .step-anchor:not([data-result]):is(:hover,[data-anchor-preview]) .step-anchor-hash,:root[data-focus-input="keyboard"] .step-anchor:not([data-result]):focus .step-anchor-hash{opacity:1}
