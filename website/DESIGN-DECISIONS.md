@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.58"
-  update_summary: "Simplify canonical login and Claude URL components"
-  updated_at: "Thu 22 Oct 2026 at 09:24:01 am AEDT (+11:00)"
+  doc_revision: "26.0.59"
+  update_summary: "Correct action radii and preserve responsive visibility"
+  updated_at: "Thu 22 Oct 2026 at 09:28:52 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -439,5 +439,13 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Decision:** Standardise outer Playground icon action buttons at 50px square to match the selector groups’ outer height. Keep SVG sizes and the collapsed chevron optical correction. Move the chevron 4px right from its former rail, preserve 24px vertical padding, extend row tint rightward and use a 20px inactive split. Share anchor table widths with 46% reserved for canonical URLs and explicit bold fragment code.
 
 **Rationale:** Adam requested consistent outer control dimensions and greater URL readability. This changes standalone Playground actions without changing selector segments or embedded source specimens.
+
+**Owning Rules:** [Interface](../docs/agent-guidance/interface.md#playground-heading-anchor-controls).
+
+## Action Radius and Visibility Corrections
+
+**Decision:** Use 12px outer-action button radii, including section chevrons, matching the floating controls. Keep header hover paint at 50px high. Separate action sizing from display so the ellipsis remains mobile-only and conditional replay buttons remain hidden when unavailable.
+
+**Rationale:** The shared size rule accidentally overrode desktop visibility. A sizing convention must not change when a control appears.
 
 **Owning Rules:** [Interface](../docs/agent-guidance/interface.md#playground-heading-anchor-controls).

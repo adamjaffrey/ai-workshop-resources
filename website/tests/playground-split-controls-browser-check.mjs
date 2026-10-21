@@ -17,7 +17,7 @@ try{for(const engine of [chromium,webkit]){const browser=await engine.launch(eng
  await p.mouse.click(box.left+1,box.top+10);assert.equal(await p.evaluate(()=>window.copyCount),1);assert.equal(await button.getAttribute('aria-expanded'),'true');
  await p.mouse.click(box.split+4,box.top+10);assert.equal(await p.evaluate(()=>window.copyCount),1);assert.equal(await button.getAttribute('aria-expanded'),'true','neutral gap does nothing');
  const x=box.split+21;
- await p.mouse.move(x,box.top+10);assert.equal(await button.getAttribute('data-region-hover'),'');await p.waitForTimeout(180);assert.equal(await row.evaluate(e=>getComputedStyle(e,'::before').opacity),'1','right hover tints whole header');
+ await p.mouse.move(x,box.top+10);assert.equal(await button.getAttribute('data-region-hover'),'');await p.waitForTimeout(180);assert.equal(await row.evaluate(e=>getComputedStyle(e,'::before').opacity),'1','right hover tints whole header');assert.equal(await row.evaluate(e=>getComputedStyle(e,'::before').height),'50px','header tint stays 50px tall');
  await p.mouse.click(x,box.top+10);assert.equal(await button.getAttribute('aria-expanded'),'false');assert.equal(await p.evaluate(()=>window.copyCount),1);
  await p.waitForTimeout(200);assert.equal(await button.evaluate(e=>getComputedStyle(e).transitionDuration),'0.16s');
  await p.mouse.move(0,0);await p.waitForTimeout(200);assert.notEqual(await button.evaluate(e=>getComputedStyle(e).backgroundColor),'rgba(0, 0, 0, 0)');

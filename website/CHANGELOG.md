@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.305"
-  update_summary: "Simplify canonical login and Claude URLs and identify anchor links"
-  updated_at: "Thu 22 Oct 2026 at 09:27:27 am AEDT (+11:00)"
+  doc_revision: "26.0.306"
+  update_summary: "Correct button rounding and responsive action visibility"
+  updated_at: "Thu 22 Oct 2026 at 09:29:20 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.304 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 09:29:20 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Correct button rounding and responsive action visibility
+
+### Fixed
+
+- Match chevron and other outer action buttons to the floating controls’ 12px corner radius.
+- Keep header hover paint exactly 50px tall while preserving horizontal extensions.
+- Remove display from shared action sizing so the mobile ellipsis stays hidden on desktop; preserve conditional replay visibility.
+
+### Validation
+
+- Chrome/WebKit mobile and desktop action size, radius and responsive visibility checks — passed.
+- Header tint height, split interactions and near-footer viewport regressions — passed.
+- Production build using saved backdrop geometry — passed.
 
 ## v26.0.303 — 2026-10-22
 

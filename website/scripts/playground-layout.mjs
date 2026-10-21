@@ -284,9 +284,10 @@ export const selectorRowCSS=`
 #panel-url-reference .url-reference-intro{margin-bottom:16px}
 #perspective-replay{padding:10px;gap:8px}
 /* Outer Playground actions share selector-group height; specimens stay canonical. */
-body :is(.icon-button,.preview-expand,#perspective-replay,#style-options,#back-to-top){width:50px;min-width:50px;max-width:50px;height:50px;min-height:50px;padding:0;display:inline-flex;align-items:center;justify-content:center}
+body :is(.icon-button,.preview-expand,#perspective-replay,#style-options,#back-to-top){width:50px;min-width:50px;max-width:50px;height:50px;min-height:50px;padding:0;border-radius:12px;align-items:center;justify-content:center}
 body :is(.icon-button,.preview-expand)>.action-label,body #perspective-replay>span{display:none!important}
 body #style-dialog #style-options{padding:0}
+body :is(.icon-button,.preview-expand,#perspective-replay)[hidden]{display:none!important}
 .panel-actions>button{margin-inline:0}
 .preview-dialog.is-expanded .expanded-state-controls>:is(.selector-row,.state-tools,.choices,.panel-actions,.panel-options,.control-footer,.checkbox-controls){margin-block:32px}
 .preview-dialog.is-expanded .expanded-state-controls .field{margin-top:0;gap:4px}
