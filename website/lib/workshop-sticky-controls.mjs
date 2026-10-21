@@ -20,7 +20,7 @@ export function initStickyControls() {
  const agent=document.querySelector('.controls .toggle');
  const agentLabel=document.querySelector('.controls-label');
  if(!theme||!agent)return;
- const mobile=matchMedia('(max-width:660px)'),compactLayout=matchMedia('(max-width:1023px)'),motion=matchMedia('(prefers-reduced-motion:reduce)');
+ const mobile=matchMedia('(max-width:660px)'),compactLayout=matchMedia('(max-width:940px)'),motion=matchMedia('(prefers-reduced-motion:reduce)');
  const items=[theme,agent].map(control=>{
   const slot=document.createElement('span');slot.className='sticky-control-slot';
   control.before(slot);slot.append(control);control.dataset.stickyControl='';

@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.26"
-  update_summary: "Match visible icon strokes to cap height with one hover fill"
-  updated_at: "Wed 21 Oct 2026 at 03:48:09 pm AEDT (+11:00)"
+  doc_revision: "26.0.27"
+  update_summary: "Consolidate responsive tiers and define visible content caps"
+  updated_at: "Wed 21 Oct 2026 at 05:23:38 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -46,6 +46,12 @@ Follow [Uxcel: Types of Cursors & When to Use Them](https://uxcel.com/lessons/ba
 - Source every error colour on both pages from `var(--error)` in `website/lib/workshop-theme.mjs`. Define it once per light/dark theme; Codex and Claude share those values. Error text, icons, borders, focus rings, password text/autofill and copy-failure controls must reference or inherit that token, with no per-agent overrides or hard-coded component colours.
 - New interface icons MUST come from the installed Lucide Icons definitions. Only when Lucide has no suitable icon may an agent propose an alternative; obtain Adam’s explicit approval before adding or using it. Document the suitability gap and, after approval, retain the alternative’s official source, licence and Playground representation. The two existing Lobe Icons agent logos have standing approval and require neither renewed approval nor repeated reminders. The existing Wavelength brand asset remains approved. Do not interpret this standing approval as permission for additional Lobe icons.
 - Give every SVG icon a descriptive, stable `data-icon-use` identifying its purpose, plus `data-icon-name` for its official library name and `data-icon-provider` for its origin. Repeated uses may share a purpose name where they perform the same function. Preserve official Lucide and Lobe names independently of usage names; show both in the Playground and retain the original source links. Apply this to app and Playground tooling icons. Do not add redundant screen-reader labels to decorative icons whose controls already have accessible names.
+
+## Responsive Layout Tiers
+
+- Use inclusive `max-width` tiers of 380px, 660px and 940px for authored responsive layout rules. At 380px, compact branding/theme controls, copy icons and tight selector labels apply. At 660px, use the existing structural mobile layout and compact card, prompt, login and Playground/Inspector spacing. Preserve login panel padding at 24px vertically and 28px horizontally, including optical alignment; the overlay retains 24px outer padding.
+- Resources agent-selector contraction is eligible through 940px; above it, retain full labels. Preserve the existing mobile/tablet thresholds, reversal buffers and scroll behaviour.
+- Resources visible content remains capped at 960px: a 952px text rail with 4px outward surfaces. Playground visible content is capped at 1200px: a 1248px outer wrapper, 1192px alignment rail and 4px outward surfaces. Keep 24px outer surface gutters, header/tooling/Inspector alignment and the 320, 390, 768 and 1440px Screen Width choices.
 
 ## Optical Alignment Contract
 

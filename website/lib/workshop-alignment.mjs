@@ -33,11 +33,11 @@ main:is(#workshop-content,.page-placeholder)>*{width:calc(100% - 56px);max-width
 :is(#workshop-content,.page-placeholder) .page-header>.qr-card{margin-inline:-4px}
 :is(#workshop-content,.page-placeholder) .footer-content>:is(form,.ph-form){margin-inline-end:calc(-1 * var(--optical-offset))}
 :is(#workshop-content,.page-placeholder) footer.is-stacked .footer-content>:is(form,.ph-form){margin-inline:0}
-@media(max-width:700px){:is(#workshop-content,.page-placeholder) .step-row>article{padding-inline:calc(24px + var(--optical-offset))}}
+@media(max-width:660px){:is(#workshop-content,.page-placeholder) .step-row>article{padding-inline:calc(24px + var(--optical-offset))}}
 /* A prompt panel owns a new rail. Its square text area stays on that rail. */
 .code-header{padding-inline:20px}.code-header>.copy{margin-inline-end:calc(-1 * var(--optical-offset))}
 .code-wrap>pre,.code-wrap>.status:not(:empty){padding-inline:20px}
-@media(max-width:700px){.code-header,.code-wrap>pre,.code-wrap>.status:not(:empty){padding-inline:16px}}
+@media(max-width:660px){.code-header,.code-wrap>pre,.code-wrap>.status:not(:empty){padding-inline:16px}}
 .access-gate{padding:24px}
 /* Login uses the same scope, including hosted Playground login and held states. */
 .gate-panel:not(.specimen-context):not(.focus-context){padding-inline:calc(32px + var(--optical-offset))}
@@ -52,7 +52,7 @@ main:is(#workshop-content,.page-placeholder)>*{width:calc(100% - 56px);max-width
 :is(#workshop-content,.page-placeholder)>noscript>.javascript-notice{width:calc(100% - 48px);max-width:960px;margin-inline:auto}
 /* Playground page and all its normal/expanded panels. */
 body:has(#playground-title)>.playground-heading header.wrap,
-body:has(#playground-title)>.toolbar .wrap{width:calc(100% - 56px);max-width:1112px;padding-inline:0}
+body:has(#playground-title)>.toolbar .wrap{width:calc(100% - 56px);max-width:1192px;padding-inline:0}
 body:has(#playground-title)>main.wrap{padding-inline:28px}
 [data-panel]>.panel:not(.is-expanded){margin-inline:-4px;padding-inline:28px}
 .panel>.section-heading h2,.panel>p,.panel>.feather-notice>p{padding-inline:0}
@@ -85,7 +85,7 @@ body:has(#playground-title)>main.wrap{padding-inline:28px}
 .swatch strong,.swatch code,.swatch small{padding-inline:16px}.swatch p{margin-inline:16px}
 /* Square textareas, tables and code listings deliberately stay on the text rail. */
 #worm-copy-fallback,#perspective-copy-fallback{display:block}#worm-copy-fallback[hidden],#perspective-copy-fallback[hidden]{display:none}
-.inspector-dock{padding-inline:max(28px,calc((100vw - 1112px)/2))}
+.inspector-dock{padding-inline:max(28px,calc((100vw - 1192px)/2))}
 .inspector-dock .inspector-bar,.inspector-dock .inspector-actions{margin-inline:0}
 /* Sources already render their link interiors; align the whole link surface. */
 .panel>a.workshop-link,.playground-icon-entry>a.workshop-link,.link-examples section>a.workshop-link{margin-inline-start:-4px}

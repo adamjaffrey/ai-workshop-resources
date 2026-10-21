@@ -6,8 +6,8 @@ try{const page=await browser.newPage();const errors=[];page.on('pageerror',e=>er
 for(const width of [320,390,768,1440]){
  await page.setViewportSize({width,height:1000});await page.goto('http://127.0.0.1:'+server.address().port+'/playground/icons');await page.waitForTimeout(400);
  const button=page.locator(width<=660?'body>#style-options':'#back-to-top');
- const rect=await button.boundingBox();assert.equal(rect.y,43);assert.equal(width-rect.x-rect.width,Math.max(24,(width-1120)/2));
- assert.equal(await page.locator('header.wrap').evaluate(e=>e.clientWidth),Math.min(1120,width-48));
+ const rect=await button.boundingBox();assert.equal(rect.y,43);assert.equal(width-rect.x-rect.width,Math.max(24,(width-1200)/2));
+ assert.equal(await page.locator('header.wrap').evaluate(e=>e.clientWidth),Math.min(1192,width-56));
  assert.equal(await page.locator('.control-footer').first().evaluate(e=>getComputedStyle(e).marginTop),'32px');
  assert.equal(await page.locator('#icon-filter legend').evaluate(e=>getComputedStyle(e).marginBottom),'16px');
  assert.equal(await page.locator('.panel>p').first().evaluate(e=>getComputedStyle(e).maxWidth),'none');

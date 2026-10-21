@@ -48,7 +48,7 @@ try{
    }
   }
   await p.locator('[data-tab=components]').click();await p.evaluate(()=>scrollTo(0,0));
-  await headingInk(p,'#playground-title',Math.max(28,(width-1112)/2));
+  await headingInk(p,'#playground-title',Math.max(28,(width-1192)/2));
   if(width<=660){await p.locator('body>#style-options').click();near(await x(p,'#theme legend')-await x(p,'#theme .choice-shell'),4,'mobile options');near(await x(p,'#style-dialog-title'),await x(p,'#agent legend'),'dialog heading rail');await p.keyboard.press('Escape');}
   for(const [tab,name] of [['components','login'],['components','resources'],['branding','branding'],['discovery','discovery'],['blocks','blocks']]){
    await p.locator('[data-tab='+tab+']').click();const dialog=p.locator('#'+name+'-preview');await dialog.locator('.preview-expand').click();

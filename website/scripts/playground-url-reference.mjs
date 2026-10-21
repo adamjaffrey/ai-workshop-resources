@@ -52,7 +52,7 @@ export async function urlReferencePanel(renderHeading){
 export const urlReferenceCSS=`
 ${copyTextCSS}
 #panel-url-reference .copy .icon{width:18px;height:18px;flex:none;vertical-align:middle}
-@media(max-width:360px){#panel-url-reference .copy .icon{display:none}}
+@media(max-width:380px){#panel-url-reference .copy .icon{display:none}}
 #panel-url-reference{overflow-wrap:anywhere;min-width:0}
 #panel-url-reference .url-table{max-width:100%;overflow-x:auto;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 #panel-url-reference table{width:auto;min-width:0;max-width:100%;table-layout:auto;overflow-wrap:normal;border-collapse:collapse;text-align:left;font-size:14px}

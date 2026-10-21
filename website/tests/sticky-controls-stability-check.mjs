@@ -4,7 +4,7 @@ import {createPhonePreview} from '../scripts/phone-preview.mjs';
 const {server,password}=createPhonePreview();await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const origin='http://127.0.0.1:'+server.address().port,browser=await chromium.launch({channel:'chrome',headless:true});
 try {
- for(const width of [320,390,660,768,1023]) {
+ for(const width of [320,390,660,768,940]) {
  const context=await browser.newContext({viewport:{width,height:844},hasTouch:true});
  await context.request.post(origin+'/auth/login',{headers:{origin,accept:'application/json'},form:{password}});
  const page=await context.newPage();await page.goto(origin);await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(400);

@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.277"
-  update_summary: "Match visible anchor icons to cap height with one hover fill"
-  updated_at: "Wed 21 Oct 2026 at 03:51:31 pm AEDT (+11:00)"
+  doc_revision: "26.0.278"
+  update_summary: "Consolidate responsive tiers and widen the Playground"
+  updated_at: "Wed 21 Oct 2026 at 05:27:56 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.276 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 05:27:56 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Consolidate responsive tiers and widen the Playground
+
+### Changed
+
+- Consolidate authored layout boundaries at inclusive 380px, 660px and 940px; preserve 24px vertical/28px horizontal mobile login padding and remove superseded padding overrides.
+- Limit Resources agent-selector contraction to 940px while preserving scroll thresholds, reversal buffers, focus and reduced-motion behaviour.
+- Increase Playground visible content to 1200px with a 1248px wrapper and 1192px text rail across headers, panels, Inspector and floating controls; retain Resources’ 960px cap and existing Screen Width presets.
+- Update owning interface rules, design rationale and README; refresh cap assertions and the stale underline assertion to match the existing auto-thickness contract.
+
+### Validation
+
+- Responsive browser check — passed at 320, 380/381, 660/661, 940/941, 1008, 1248 and 1440px, including both login destinations, card/prompt padding, compact selector labels, overflow and actual content caps.
+- Nested alignment, menu containment, connected controls and source-parity browser checks — passed, including expanded views, keyboard controls, both themes/agents and held login states; mobile/desktop screenshots inspected.
+- Sticky controls — passed 24 width/theme/agent combinations including 940/941; stability, reversal buffers, speed-aware contraction and viewport-height changes passed.
+- Tab edges and selection scroll axes — passed; 180 selection regions had no vertical movement or forced horizontal scrolling.
+- Authentication and saved-placeholder unit checks — 13 passed. Local site build and generated version/cap assertions — passed; all saved anonymous geometry remained byte-for-byte unchanged.
+- Physical devices and Safari were not tested. Backdrop capture/comparison is intentionally deferred to the originating task.
 
 ## v26.0.275 — 2026-10-21
 

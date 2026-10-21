@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.31"
-  update_summary: "Record visible icon sizing and a continuous anchor hover surface"
-  updated_at: "Wed 21 Oct 2026 at 03:48:09 pm AEDT (+11:00)"
+  doc_revision: "26.0.32"
+  update_summary: "Record responsive consolidation and Playground width decision"
+  updated_at: "Wed 21 Oct 2026 at 05:23:38 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -77,6 +77,8 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 **Owning Rules and Sources:** [Optical Alignment Contract](../docs/agent-guidance/interface.md#optical-alignment-contract). Primary README source: [Shared Optical Alignment](README.md#shared-optical-alignment).
 
 ## Spacing and Responsive Control Grids
+
+**Responsive Consolidation:** Adam approved inclusive 380px, 660px and 940px authored layout tiers to replace the scattered 360/480/600/700/1023px thresholds. Keep the established 660px structural layout and final phone spacing, including 24px vertical/28px horizontal login panel padding. Resources contraction ends at 940px without changing its scroll thresholds or buffers. Resources retains its 960px visible cap; Playground grows to 1200px with a 1248px wrapper and 1192px alignment rail. This gives wider review space while preserving 24px gutters, 4px outdents and the existing screen-width presets. The [responsive tier contract](../docs/agent-guidance/interface.md#responsive-layout-tiers) owns these requirements. Saved anonymous geometry is deliberately unchanged in this layout update; the separately authorised capture review follows it.
 
 **Decision:** Use 32px visible separation around Playground control groups and between slider rows/columns; adjacent groups share one gap. A 36px horizontal layout gap compensates for a selector’s 4px outdent. Retain 40px after the Resources agent selector and 16px between white Playground panels. Labels normally have 16px to controls; sliders use a 4px CSS gap with a 44px target to achieve about 16px to the visible thumb. Slider labels/values use 14px/21px semibold styling. Grids use up to three columns with the documented 280px minimum and collapse naturally; selectors wrap at natural widths.
 

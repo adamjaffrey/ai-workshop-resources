@@ -9,7 +9,7 @@ try{
  const p=await browser.newPage({reducedMotion:'reduce'}),errors=[];p.on('pageerror',e=>errors.push(e.message));
  for(const width of [320,390,660,661,768,1024,1440]){
   await p.setViewportSize({width,height:1000});await p.goto('http://127.0.0.1:'+server.address().port+'/playground/typography');
-  near(await p.locator('nav[role=tablist]').evaluate(e=>e.getBoundingClientRect().x),Math.max(24,(width-1120)/2),'tab surface rail');
+  near(await p.locator('nav[role=tablist]').evaluate(e=>e.getBoundingClientRect().x),Math.max(24,(width-1200)/2),'tab surface rail');
   const type=p.frameLocator('#type-frame');await type.locator('.notice-type-row').first().waitFor();
   const samples=await type.locator('body').evaluate(()=>{
    const out=[];for(const row of document.querySelectorAll('.notice-type-row')){const e=row.querySelector('.javascript-notice');out.push({name:'notice',gap:row.firstElementChild.getBoundingClientRect().x-e.getBoundingClientRect().x});}
