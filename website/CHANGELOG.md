@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.301"
-  update_summary: "Expand query aliases with consistent boolean value groups"
-  updated_at: "Thu 22 Oct 2026 at 08:45:51 am AEDT (+11:00)"
+  doc_revision: "26.0.302"
+  update_summary: "Consolidate anchor tables and widen the heading action gap"
+  updated_at: "Thu 22 Oct 2026 at 08:56:42 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.300 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 08:56:42 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Consolidate anchor tables and widen the heading action gap
+
+### Changed
+
+- Add one Anchor Links section with separate Resources and Playground tables, using Section, Heading, Canonical Anchor URL and Legacy Fragment Alias columns; include the new section in its own ordered inventory.
+- Render bold fragment slugs from the same Markdown document and give section/heading labels intrinsic widths for one or two lines, preserving mobile table scrolling.
+- Increase the inactive action gap to 16px and extend the header tint 4px further left without moving its content or button.
+
+### Validation
+
+- All 32 Playground anchors and exact landing positions in Chrome/WebKit at mobile and desktop widths — passed.
+- Shared inventory, visual ordering, bold fragments, four-column layout and one-to-two-line labels — passed.
+- Split-area and near-footer viewport regression checks — passed.
+- Production build with saved backdrops and preserved concurrent alias changes — passed.
 
 ## v26.0.299 — 2026-10-22
 

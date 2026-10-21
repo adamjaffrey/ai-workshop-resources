@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.15"
-  update_summary: "Expand query aliases and document shared boolean value groups"
-  updated_at: "Thu 22 Oct 2026 at 08:43:19 am AEDT (+11:00)"
+  doc_revision: "26.0.16"
+  update_summary: "Consolidate anchor inventories and widen action separation"
+  updated_at: "Thu 22 Oct 2026 at 08:55:39 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -77,20 +77,6 @@ Together with the canonical path, the table covers every ai/ais × workshop/work
 
 The example descendant remains 404 until implemented.
 
-Step links use the canonical Resources path with these fragments:
-
-| Section | Heading | Canonical Anchor URL | Legacy Fragment Alias |
-| --- | --- | --- | --- |
-| Resources / Node.js Setup | Step 1 | `/ai-workshop-resources#step-1-node-js-setup` | `#step-1` |
-| Resources / System Blueprint Creator | Step 2 | `/ai-workshop-resources#step-2-system-blueprint-creator` | `#step-2` |
-| Resources / System Build Assistant | Step 3 | `/ai-workshop-resources#step-3-system-build-assistant` | `#step-3` |
-
-Fragments stay in the browser and are not sent to the server. Opening a short alias scrolls to the same destination and rewrites the address bar to the descriptive fragment with `history.replaceState`, without an extra Back-button stop. JavaScript login retains the requested fragment. Unknown fragments remain unchanged.
-
-Clicking Step N or its exterior Hash icon copies the full canonical step URL without scrolling or changing the address bar. Copying preserves the current query parameters except `show-login`. For example, `/ai-workshop-resources?agent=claude-code&theme=dark#step-2-system-blueprint-creator` retains those display preferences.
-
-Opening, reloading or re-entering a recognised step URL (including same-URL replacement navigation) scrolls the text to 60px below the floating selectors, or 30px on mobile. Travel uses a baseline 1200 CSS px/s with eased 300ms acceleration/deceleration and increases speed to cap long journeys at three seconds; selectors become sticky naturally during travel. Earlier step/card pairs fade out over the final 600ms of scrolling while the selector shadows and floating Wavelength mark fade in; all finish together. Earlier pairs fade back in only when scrolling upwards, retaining their layout space. Near-footer anchors may require extra bottom scroll room. Reduced-motion preferences are respected. The first three Tab stops after arrival are the agent selector, theme selector and target-card content.
-
 ## Playground Root Aliases
 
 Every alias below redirects with 301 to `/component-playground`, preserving descendants.
@@ -132,43 +118,64 @@ The top-level aliases `/url`, `/urls`, `/reference`, `/references`, `/url-refere
 
 Only the root and listed canonical section pages currently exist. Pluralisation uses explicit mappings; it does not rewrite arbitrary descendant words.
 
-Every collapsible outer H2/H3 also has a copyable heading anchor. The inventory follows visible tab order, then heading order within each tab; H3 rows name their enclosing H2 section. Combine `/component-playground/`, the tab slug and its fragment below; for example, `/component-playground/icons#playground-icons`. The four indented query-parameter subsections are H3 targets; embedded specimens do not receive anchors.
+## Anchor Links
 
-| Tab Slug | Heading Fragment | Section | Heading | Canonical Anchor URL |
-| --- | --- | --- | --- | --- |
-| `components` | `#login-and-password-field` | Components | Login and Password Field (H2) | `/component-playground/components#login-and-password-field` |
-| `components` | `#resource-page-and-controls` | Components | Resource Page and Controls (H2) | `/component-playground/components#resource-page-and-controls` |
-| `typography` | `#typography-and-text-styles` | Typography | Typography and Text Styles (H2) | `/component-playground/typography#typography-and-text-styles` |
-| `typography` | `#defined-styles-used-in-playground` | Typography | Defined Styles Used in Playground (H2) | `/component-playground/typography#defined-styles-used-in-playground` |
-| `typography` | `#text-styles-not-used-in-the-app` | Typography | Text Styles Not Used in the App (H2) | `/component-playground/typography#text-styles-not-used-in-the-app` |
-| `colours` | `#shared-colour-tokens` | Colours | Shared Colour Tokens (H2) | `/component-playground/colours#shared-colour-tokens` |
-| `colours` | `#all-app-colour-rules` | Colours | All App Colour Rules (H2) | `/component-playground/colours#all-app-colour-rules` |
-| `colours` | `#source-coverage` | Colours | Source Coverage (H2) | `/component-playground/colours#source-coverage` |
-| `blocks-and-blur` | `#blocks-and-blur` | Blocks and Blur | Blocks and Blur (H2) | `/component-playground/blocks-and-blur#blocks-and-blur` |
-| `icons` | `#app-icons-and-symbols` | Icons | App Icons and Symbols (H2) | `/component-playground/icons#app-icons-and-symbols` |
-| `icons` | `#playground-icons` | Icons | Playground Icons (H2) | `/component-playground/icons#playground-icons` |
-| `icons` | `#lucide-licence-isc-and-mit` | Icons | Lucide Licence · ISC and MIT (H2) | `/component-playground/icons#lucide-licence-isc-and-mit` |
-| `icons` | `#lobe-icons-licence-mit` | Icons | Lobe Icons Licence · MIT (H2) | `/component-playground/icons#lobe-icons-licence-mit` |
-| `status-states` | `#status-states-and-fallbacks` | Status States | Status States and Fallbacks (H2) | `/component-playground/status-states#status-states-and-fallbacks` |
-| `focus-and-selection` | `#focus-rings-and-text-selection` | Focus and Selection | Focus Rings and Text Selection (H2) | `/component-playground/focus-and-selection#focus-rings-and-text-selection` |
-| `branding` | `#floating-brand-blur` | Branding | Floating Brand Blur (H2) | `/component-playground/branding#floating-brand-blur` |
-| `url-reference` | `#canonical-addresses-and-page-titles` | URL Reference | Canonical Addresses and Page Titles (H2) | `/component-playground/url-reference#canonical-addresses-and-page-titles` |
-| `url-reference` | `#hostname-redirects` | URL Reference | Hostname Redirects (H2) | `/component-playground/url-reference#hostname-redirects` |
-| `url-reference` | `#global-canonicalisation` | URL Reference | Global Canonicalisation (H2) | `/component-playground/url-reference#global-canonicalisation` |
-| `url-reference` | `#resources-aliases` | URL Reference | Resources Aliases (H2) | `/component-playground/url-reference#resources-aliases` |
-| `url-reference` | `#playground-root-aliases` | URL Reference | Playground Root Aliases (H2) | `/component-playground/url-reference#playground-root-aliases` |
-| `url-reference` | `#playground-sections` | URL Reference | Playground Sections (H2) | `/component-playground/url-reference#playground-sections` |
-| `url-reference` | `#public-query-parameters` | URL Reference | Public Query Parameters (H2) | `/component-playground/url-reference#public-query-parameters` |
-| `url-reference` | `#agent-and-theme-aliases` | URL Reference / Public Query Parameters | Agent and Theme Aliases (H3) | `/component-playground/url-reference#agent-and-theme-aliases` |
-| `url-reference` | `#login-aliases-and-validation` | URL Reference / Public Query Parameters | Login Aliases and Validation (H3) | `/component-playground/url-reference#login-aliases-and-validation` |
-| `url-reference` | `#local-and-hosted-behaviour` | URL Reference / Public Query Parameters | Local and Hosted Behaviour (H3) | `/component-playground/url-reference#local-and-hosted-behaviour` |
-| `url-reference` | `#combined-example` | URL Reference / Public Query Parameters | Combined Example (H3) | `/component-playground/url-reference#combined-example` |
-| `url-reference` | `#other-authentication-navigation-and-internal-parameters` | URL Reference | Other Authentication Navigation and Internal Parameters (H2) | `/component-playground/url-reference#other-authentication-navigation-and-internal-parameters` |
-| `url-reference` | `#playground-reference-and-logo-navigation` | URL Reference | Playground Reference and Logo Navigation (H2) | `/component-playground/url-reference#playground-reference-and-logo-navigation` |
-| `url-reference` | `#sources` | URL Reference | Sources (H2) | `/component-playground/url-reference#sources` |
-| `easter-egg` | `#easter-egg` | Easter Egg | Easter Egg (H2) | `/component-playground/easter-egg#easter-egg` |
+**Resources Anchors**
 
-Clicking the heading or its assigned icon copies the canonical URL without moving the page. The separate chevron and the empty right-hand header region toggle the section; an 8px neutral gap separates that region from the heading copy area. Copied links retain the current query except `show-login`. Opening, reloading or re-entering an anchor selects its tab, opens the enclosing section and scrolls to 16px below the settled sticky tab bar. H2 targets use the card edge; H3 targets use the heading row. Earlier cards/content fade during the final 600ms of travel, retain layout space and return on upward scrolling. Fragments remain client-side and survive login. Unknown fragments remain unchanged. Selecting another tab clears the previous fragment. If the header above the tabs is still visible, ordinary and same-document cross-tab anchor changes preserve the current scroll depth rather than forcing the tab bar to pin.
+Step links use the canonical Resources path with these fragments:
+
+| Section | Heading | Canonical Anchor URL | Legacy Fragment Alias |
+| --- | --- | --- | --- |
+| Resources / Node.js Setup | Step 1 | `/ai-workshop-resources`**`#step-1-node-js-setup`** | `#step-1` |
+| Resources / System Blueprint Creator | Step 2 | `/ai-workshop-resources`**`#step-2-system-blueprint-creator`** | `#step-2` |
+| Resources / System Build Assistant | Step 3 | `/ai-workshop-resources`**`#step-3-system-build-assistant`** | `#step-3` |
+
+Fragments stay in the browser and are not sent to the server. Opening a short alias scrolls to the same destination and rewrites the address bar to the descriptive fragment with `history.replaceState`, without an extra Back-button stop. JavaScript login retains the requested fragment. Unknown fragments remain unchanged.
+
+Clicking Step N or its exterior Hash icon copies the full canonical step URL without scrolling or changing the address bar. Copying preserves the current query parameters except `show-login`. For example, `/ai-workshop-resources?agent=claude-code&theme=dark`**`#step-2-system-blueprint-creator`** retains those display preferences.
+
+Opening, reloading or re-entering a recognised step URL (including same-URL replacement navigation) scrolls the text to 60px below the floating selectors, or 30px on mobile. Travel uses a baseline 1200 CSS px/s with eased 300ms acceleration/deceleration and increases speed to cap long journeys at three seconds; selectors become sticky naturally during travel. Earlier step/card pairs fade out over the final 600ms of scrolling while the selector shadows and floating Wavelength mark fade in; all finish together. Earlier pairs fade back in only when scrolling upwards, retaining their layout space. Near-footer anchors may require extra bottom scroll room. Reduced-motion preferences are respected. The first three Tab stops after arrival are the agent selector, theme selector and target-card content.
+
+**Playground Anchors**
+
+Every collapsible outer H2/H3 also has a copyable heading anchor. The inventory follows visible tab order, then heading order within each tab; H3 rows name their enclosing H2 section. The four indented query-parameter subsections are H3 targets; embedded specimens do not receive anchors.
+
+| Section | Heading | Canonical Anchor URL | Legacy Fragment Alias |
+| --- | --- | --- | --- |
+| Components | Login and Password Field (H2) | `/component-playground/components`**`#login-and-password-field`** | — |
+| Components | Resource Page and Controls (H2) | `/component-playground/components`**`#resource-page-and-controls`** | — |
+| Typography | Typography and Text Styles (H2) | `/component-playground/typography`**`#typography-and-text-styles`** | — |
+| Typography | Defined Styles Used in Playground (H2) | `/component-playground/typography`**`#defined-styles-used-in-playground`** | — |
+| Typography | Text Styles Not Used in the App (H2) | `/component-playground/typography`**`#text-styles-not-used-in-the-app`** | — |
+| Colours | Shared Colour Tokens (H2) | `/component-playground/colours`**`#shared-colour-tokens`** | — |
+| Colours | All App Colour Rules (H2) | `/component-playground/colours`**`#all-app-colour-rules`** | — |
+| Colours | Source Coverage (H2) | `/component-playground/colours`**`#source-coverage`** | — |
+| Blocks and Blur | Blocks and Blur (H2) | `/component-playground/blocks-and-blur`**`#blocks-and-blur`** | — |
+| Icons | App Icons and Symbols (H2) | `/component-playground/icons`**`#app-icons-and-symbols`** | — |
+| Icons | Playground Icons (H2) | `/component-playground/icons`**`#playground-icons`** | — |
+| Icons | Lucide Licence · ISC and MIT (H2) | `/component-playground/icons`**`#lucide-licence-isc-and-mit`** | — |
+| Icons | Lobe Icons Licence · MIT (H2) | `/component-playground/icons`**`#lobe-icons-licence-mit`** | — |
+| Status States | Status States and Fallbacks (H2) | `/component-playground/status-states`**`#status-states-and-fallbacks`** | — |
+| Focus and Selection | Focus Rings and Text Selection (H2) | `/component-playground/focus-and-selection`**`#focus-rings-and-text-selection`** | — |
+| Branding | Floating Brand Blur (H2) | `/component-playground/branding`**`#floating-brand-blur`** | — |
+| URL Reference | Canonical Addresses and Page Titles (H2) | `/component-playground/url-reference`**`#canonical-addresses-and-page-titles`** | — |
+| URL Reference | Hostname Redirects (H2) | `/component-playground/url-reference`**`#hostname-redirects`** | — |
+| URL Reference | Global Canonicalisation (H2) | `/component-playground/url-reference`**`#global-canonicalisation`** | — |
+| URL Reference | Resources Aliases (H2) | `/component-playground/url-reference`**`#resources-aliases`** | — |
+| URL Reference | Playground Root Aliases (H2) | `/component-playground/url-reference`**`#playground-root-aliases`** | — |
+| URL Reference | Playground Sections (H2) | `/component-playground/url-reference`**`#playground-sections`** | — |
+| URL Reference | Anchor Links (H2) | `/component-playground/url-reference`**`#anchor-links`** | — |
+| URL Reference | Public Query Parameters (H2) | `/component-playground/url-reference`**`#public-query-parameters`** | — |
+| URL Reference / Public Query Parameters | Agent and Theme Aliases (H3) | `/component-playground/url-reference`**`#agent-and-theme-aliases`** | — |
+| URL Reference / Public Query Parameters | Login Aliases and Validation (H3) | `/component-playground/url-reference`**`#login-aliases-and-validation`** | — |
+| URL Reference / Public Query Parameters | Local and Hosted Behaviour (H3) | `/component-playground/url-reference`**`#local-and-hosted-behaviour`** | — |
+| URL Reference / Public Query Parameters | Combined Example (H3) | `/component-playground/url-reference`**`#combined-example`** | — |
+| URL Reference | Other Authentication Navigation and Internal Parameters (H2) | `/component-playground/url-reference`**`#other-authentication-navigation-and-internal-parameters`** | — |
+| URL Reference | Playground Reference and Logo Navigation (H2) | `/component-playground/url-reference`**`#playground-reference-and-logo-navigation`** | — |
+| URL Reference | Sources (H2) | `/component-playground/url-reference`**`#sources`** | — |
+| Easter Egg | Easter Egg (H2) | `/component-playground/easter-egg`**`#easter-egg`** | — |
+
+Clicking the heading or its assigned icon copies the canonical URL without moving the page. The separate chevron and the empty right-hand header region toggle the section; a 16px neutral gap separates that region from the heading copy area. Copied links retain the current query except `show-login`. Opening, reloading or re-entering an anchor selects its tab, opens the enclosing section and scrolls to 16px below the settled sticky tab bar. H2 targets use the card edge; H3 targets use the heading row. Earlier cards/content fade during the final 600ms of travel, retain layout space and return on upward scrolling. Fragments remain client-side and survive login. Unknown fragments remain unchanged. Selecting another tab clears the previous fragment. If the header above the tabs is still visible, ordinary and same-document cross-tab anchor changes preserve the current scroll depth rather than forcing the tab bar to pin.
 
 ## Public Query Parameters
 

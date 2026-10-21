@@ -11,7 +11,7 @@ const copyTextCSS=[...resourceStyles.matchAll(/([^{}]+)\{([^{}]*)\}/g)].filter(m
 const escape=text=>text.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 // Deliberately limited to the reference document's Markdown vocabulary. No raw
 // HTML or executable links: examples (especially logout URLs) are text only.
-const inline=text=>text.split(/(`[^`]+`)/).map(part=>part.startsWith('`')?'<code>'+escape(part.slice(1,-1))+'</code>':escape(part.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'$1 ($2)'))).join('');
+const inline=text=>text.split(/(\*\*[^*]+\*\*|`[^`]+`)/).map(part=>part.startsWith('**')?'<strong>'+inline(part.slice(2,-2))+'</strong>':part.startsWith('`')?'<code>'+escape(part.slice(1,-1))+'</code>':escape(part.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'$1 ($2)'))).join('');
 export function renderUrlReference(markdown,renderHeading){
  const lines=markdown.replace(/^---\n[\s\S]*?\n---\n/,'').trim().split('\n');
  let html='<aside class="url-reference-intro" aria-label="About This Reference"><details class="disclosure-accent"><summary>About This Reference</summary><div class="reference-intro-copy"><p class="muted">URL mappings and query parameters, rendered from the repository’s <code>URL-REFERENCE.md</code>. Examples are text so inspecting a logout URL does not end your session.</p>',subsection=false,section=false,sectionTitle='URL Reference';
@@ -34,7 +34,7 @@ export function renderUrlReference(markdown,renderHeading){
    // Preserve compact identifiers; reserve a readable measure for explanatory prose.
    const compact=new Set(['Purpose','Browser Title','Canonical Address or Path','Source Hostname','Destination Hostname','Canonical Path','Canonical Parameter','Status and Owner']);
    const prose=new Set(['Status and Owner','Effect','Result','Automatic Local Preview','Hosted Application','Request','Action']);
-   const kinds=rows[0].slice(1,-1).split('|').map(name=>name.trim()==='Effect'?'effect':compact.has(name.trim())?'compact':prose.has(name.trim())?'prose':'aliases');
+   const kinds=rows[0].slice(1,-1).split('|').map(name=>name.trim()==='Section'?'anchor-section':name.trim()==='Heading'?'anchor-heading':name.trim()==='Canonical Anchor URL'?'anchor-url':name.trim()==='Effect'?'effect':compact.has(name.trim())?'compact':prose.has(name.trim())?'prose':'aliases');
    html+='<div class="url-table" tabindex="0" role="region" aria-label="'+escape(sectionTitle)+' Table"><table><thead><tr>'+cells(rows[0]).map((cell,index)=>'<th scope="col" data-column-style="'+kinds[index]+'">'+cell+'</th>').join('')+'</tr></thead><tbody>'+rows.slice(2).map(row=>'<tr>'+cells(row).map((cell,index)=>'<td data-column-style="'+kinds[index]+'">'+cell+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>';continue;
   }
   if(line.startsWith('- ')){
@@ -63,6 +63,10 @@ ${copyTextCSS}
 #panel-url-reference [data-column-style=prose]{min-width:28ch;max-width:40ch}
 #panel-url-reference [data-column-style=effect]{min-width:36ch;max-width:44ch}
 #panel-url-reference table code{font-size:12.6px;white-space:nowrap;overflow-wrap:normal}
+#panel-url-reference [data-column-style=anchor-section]{min-width:26ch;max-width:32ch}
+#panel-url-reference [data-column-style=anchor-heading]{min-width:38ch;max-width:42ch}
+#panel-url-reference [data-column-style=anchor-url]{min-width:30ch;max-width:44ch;overflow-wrap:anywhere}
+#panel-url-reference [data-column-style=anchor-url] code{white-space:normal;overflow-wrap:anywhere}
 #panel-url-reference code{font:0.9em/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
 #panel-url-reference .url-code-block{position:relative;margin:16px -4px;border:1px solid var(--panel-border);border-radius:12px;background:var(--content-surface);color:var(--text)}
 #panel-url-reference .code-header{min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--panel-border);padding:12px 20px}

@@ -44,7 +44,7 @@ export function initPlaygroundAnchors({select,tabPaths,sticky,scheduleCaps,insta
   title.addEventListener('pointerleave',()=>copy.removeAttribute('data-anchor-preview'));
   title.addEventListener('click',event=>{if(!copy.contains(event.target)){copy.focus({preventScroll:true});copy.click();}});
   const toggle=row.querySelector('.section-collapse');
-  const side=event=>{const edge=title.getBoundingClientRect().right;return event.clientX<=edge?'copy':event.clientX<edge+8?'gap':'toggle';};
+  const side=event=>{const edge=title.getBoundingClientRect().right;return event.clientX<=edge?'copy':event.clientX<edge+16?'gap':'toggle';};
   const clearHover=()=>{copy.removeAttribute('data-anchor-preview');toggle?.removeAttribute('data-region-hover');row.removeAttribute('data-collapse-hover');row.style.cursor='';};
   row.addEventListener('pointermove',event=>{if(panel.classList.contains('is-expanded')||event.target.closest('button,input,label,select,a,summary')){clearHover();return;}const region=side(event);copy.toggleAttribute('data-anchor-preview',region==='copy');toggle?.toggleAttribute('data-region-hover',region==='toggle');row.toggleAttribute('data-collapse-hover',region==='toggle');row.style.cursor=region==='gap'?'default':'pointer';});
   row.addEventListener('pointerleave',clearHover);

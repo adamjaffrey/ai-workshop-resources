@@ -101,6 +101,7 @@ const urlHeadingIcons=new Map([
  ['Resources Aliases',[referenceIcon3,'folders']],
  ['Playground Root Aliases',[referenceIcon4,'folder-tree']],
  ['Playground Sections',[referenceIcon5,'list-tree']],
+ ['Anchor Links',[referenceIcon5,'list-tree']],
  ['Public Query Parameters',[referenceIcon6,'list-filter']],
  ['Agent and Theme Aliases',[referenceIcon7,'settings-2']],
  ['Login Aliases and Validation',[referenceIcon8,'shield-check']],

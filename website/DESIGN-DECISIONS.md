@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.54"
-  update_summary: "Expand query aliases and document shared boolean value groups"
-  updated_at: "Thu 22 Oct 2026 at 08:43:19 am AEDT (+11:00)"
+  doc_revision: "26.0.55"
+  update_summary: "Consolidate anchor inventories and widen action separation"
+  updated_at: "Thu 22 Oct 2026 at 08:55:39 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -425,3 +425,11 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Rationale:** A neutral split reduces ambiguous activation, and the row tint communicates the scope of collapse. A small interpolated optical correction balances the directional shape without snapping or disturbing its rotation. The anchor inventory follows visible tab and heading order, includes enclosing sections and full canonical URLs, and is rendered directly in the Playground from the same Markdown source.
 
 **Owning Rules:** [Heading Controls](../docs/agent-guidance/interface.md#playground-heading-anchor-controls) and [URL Reference](URL-REFERENCE.md).
+
+## Consolidated Anchor Reference and Wider Inactive Split
+
+**Decision:** Use a 16px inactive interval between header copy and collapse regions. Extend the row tint another 4px left without moving content. Consolidate Resources and Playground anchors in one Anchor Links section, retaining separate four-column tables and bold fragment slugs.
+
+**Rationale:** The wider neutral region clarifies the action boundary. One shared Markdown inventory keeps the document and Playground aligned. The 44px standalone chevron remains consistent with icon buttons; selector groups are taller because their 40px controls sit inside padding and a border.
+
+**Owning Rules:** [Interface](../docs/agent-guidance/interface.md#playground-heading-anchor-controls) and [Anchor Links](URL-REFERENCE.md#anchor-links).
