@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.29"
-  update_summary: "Record cap-height indicators and coordinated hover transitions"
-  updated_at: "Wed 21 Oct 2026 at 03:36:59 pm AEDT (+11:00)"
+  doc_revision: "26.0.30"
+  update_summary: "Inset disclosure chevrons and cover compact labels completely"
+  updated_at: "Wed 21 Oct 2026 at 03:41:33 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -96,9 +96,9 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 
 ## Lists and Disclosure Alignment
 
-**Decision:** Use shared compact list styling with 20px hanging indentation and one extra indent per nesting level. Centre the visible ink of every left disclosure chevron at a 10px inset from its local content rail, with label text at 20px to match prose lists. Use the same columns for summaries and button disclosures, including expanded settings, icon usage lists, hover help and the Style Inspector. Keep rotation centred on the visible ink, wrapped labels aligned and disclosure body copy beneath its label; nested lists retain their own indentation. Right-hand section chevrons retain their existing placement. Keep paragraph width available within the owning panel. Explanatory disclosures use primary-text labels, accent chevrons and a tinted background, with body-sized labels in prose. The expanded colour-rule grey box has 24px horizontal content padding. These refinements supersede the earlier accent-coloured labels and flush-aligned colour-rule content.
+**Decision:** Use shared compact list styling with 20px hanging indentation and one extra indent per nesting level. Centre the visible ink of every left disclosure chevron at a 12px inset from its local content rail, with label text at 20px to match prose lists. Use the same columns for summaries and button disclosures, including expanded settings, icon usage lists, hover help and the Style Inspector. Keep rotation centred on the visible ink, wrapped labels aligned and disclosure body copy beneath its label; nested lists retain their own indentation. Compact button disclosures size their backgrounds to the complete label with 10px right padding and wrap within the available width. Right-hand section chevrons retain their existing placement. Keep paragraph width available within the owning panel. Explanatory disclosures use primary-text labels, accent chevrons and a tinted background, with body-sized labels in prose. The expanded colour-rule grey box has 24px horizontal content padding. These refinements supersede the earlier accent-coloured labels and flush-aligned colour-rule content.
 
-**Rationale:** Documented in the refinement requests: bullets were visually too far from the left edge, and disclosure copy should line up with its heading. The precise indentation is an agreed visual convention. Adam subsequently requested a fixed 10px visible-chevron centre and 20px label inset across all left-chevron expandable sections so stacked labels align with bullet text and the chevron sits closer to its label.
+**Rationale:** Documented in the refinement requests: bullets were visually too far from the left edge, and disclosure copy should line up with its heading. The precise indentation is an agreed visual convention. Adam subsequently requested a fixed 10px visible-chevron centre and 20px label inset across all left-chevron expandable sections so stacked labels align with bullet text and the chevron sits closer to its label. He then requested moving every chevron another 2px right, establishing the current 12px centre, and ensuring compact backgrounds cover their full label length.
 
 **Owning Rules and Sources:** [Alignment Rules](../docs/agent-guidance/interface.md#deterministic-rules). Primary README source: [Shared Selection and Playground Typography](README.md#shared-selection-and-playground-typography).
 

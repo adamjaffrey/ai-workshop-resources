@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.275"
-  update_summary: "Synchronise link hover effects and size anchor icons to cap height"
-  updated_at: "Wed 21 Oct 2026 at 03:39:57 pm AEDT (+11:00)"
+  doc_revision: "26.0.276"
+  update_summary: "Inset disclosure chevrons and cover compact labels completely"
+  updated_at: "Wed 21 Oct 2026 at 03:43:32 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.274 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 03:43:32 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Inset disclosure chevrons and cover compact labels completely
+
+### Changed
+
+- Move every left disclosure chevron's visible centre from 10px to 12px while retaining the 20px label inset, including source rules, explanatory summaries, icon locations, expanded settings, hover help and inspector controls.
+- Size compact Hover Preview Explainer and More Details backgrounds to their full labels with 10px right padding; retain wrapping within available space, including enlarged text. Record the refined convention in the interface contract and design decision log.
+
+### Validation
+
+- Disclosure marker alignment browser check — Chrome/WebKit passed at 320, 390, 768 and 1440px, both themes/agents, open/closed states, all five expanded panels, keyboard activation, visible compact-label coverage and doubled hover-label text size. Mobile/desktop compact-control screenshots reviewed; physical devices not tested.
+- External text inset, nested alignment, menu containment and tool focus browser checks — passed.
+- Authentication tests — all 11 passed.
+- Local website build — passed using saved backdrop geometry; server artefact contains v26.0.274 and the updated geometry/background rules.
+- LAN Main App and Playground links — HTTP 200 with the updated version and chevron geometry.
 
 ## v26.0.273 — 2026-10-21
 

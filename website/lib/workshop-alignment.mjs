@@ -10,11 +10,13 @@ export const alignmentCSS = String.raw`
 #playground-title{--heading-icon-size:1em}
 /* A 20px marker column shares the prose-list indent. Lucide's visible ink is
    centred in that column, with rotation around its own ink centre. */
-:root{--disclosure-text-inset:var(--body-list-indent,20px);--disclosure-marker-centre:10px}
+:root{--disclosure-text-inset:var(--body-list-indent,20px);--disclosure-marker-centre:12px}
 :is(summary:has(>.disclosure-chevron),.hover-explainer,#inspector-toggle,#inspector-details){display:grid;grid-template-columns:var(--disclosure-text-inset) minmax(0,1fr);align-items:center;column-gap:0;margin-inline-start:0;padding-inline-start:0;text-align:left}
 :is(summary:has(>.disclosure-chevron),.hover-explainer,#inspector-toggle,#inspector-details)>svg{width:18px;height:18px;margin:0;margin-inline-start:calc(var(--disclosure-marker-centre) - ${((ink.icons['chevron-right'].left + 24 - ink.icons['chevron-right'].right)/2)/24*18}px);transform-box:fill-box;transform-origin:center}
 #inspector-toggle{padding-inline:0!important}
-.hover-explainer{display:inline-grid}
+/* Compact disclosures size their painted background around the complete label. */
+:is(.hover-explainer,#inspector-details){inline-size:max-content;max-inline-size:100%;min-inline-size:0;padding-inline-end:10px}
+:is(.hover-explainer,#inspector-details)>span{min-inline-size:0;overflow-wrap:anywhere}
 
 /* Public utility contract for future components. A scope owns its text rail. */
 .alignment-scope{padding-inline:calc(var(--surface-padding,24px) + var(--optical-offset))}
