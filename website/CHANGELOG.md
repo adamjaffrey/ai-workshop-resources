@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.295"
-  update_summary: "Keep the QR keyline visible through every interaction state"
-  updated_at: "Thu 22 Oct 2026 at 01:52:48 am AEDT (+11:00)"
+  doc_revision: "26.0.296"
+  update_summary: "Refresh both login backdrops for publication"
+  updated_at: "Thu 22 Oct 2026 at 01:55:51 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.294 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 01:55:51 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refresh both login backdrops for publication
+
+### Changed
+
+- Remeasure Resources and the shared Playground Colours backdrop at 380, 660, 940, 1008 and 1248px, incorporating the current QR placement and inner keyline.
+- Advance the independent saved geometry revisions to Resources 16 and Playground 23 under explicit publication authorisation.
+
+### Validation
+
+- Verified successful Sites version 16 and inspected its exact source commit `b728f3a9f0b22823c9ac8e540e0817b151df0ed5` before comparing current layout.
+- Five-width capture and backdrop anonymity, inertness, completeness and icon-state checks — passed.
+- Authentication and placeholder unit tests — 15 passed.
+- Publication geometry revision check, local production build and generated version check — passed.
 
 ## v26.0.293 — 2026-10-22
 
