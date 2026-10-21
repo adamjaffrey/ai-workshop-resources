@@ -9,6 +9,8 @@ try{
  const context=await browser.newContext({colorScheme:'light',reducedMotion:'reduce'}),page=await context.newPage();
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  const check=async(agent,theme,playground=false)=>{
+  // Selector synchronisation runs on DOMContentLoaded after login navigation.
+  await page.waitForLoadState('domcontentloaded');
   assert.equal(await page.locator('html').getAttribute('data-selected-agent'),agent);
   assert.equal(await page.locator('html').getAttribute('data-theme'),theme);
   if(playground){assert.equal(await page.locator('#agent input:checked').inputValue(),agent);assert.equal(await page.locator('#theme input:checked').inputValue(),theme);}
@@ -40,7 +42,7 @@ try{
  await page.locator('[data-tab=icons]').click();await page.reload();await check('claude-code','dark',true);
  await page.goto(origin+'/component-playground?agent=__proto__&theme=unknown');await check('claude-code','dark',true);
  await context.request.post(origin+'/auth/logout',{headers:{origin},maxRedirects:0});
- await page.goto(origin+'/ai-workshop-resources?login=1&agent=chatgpt&theme=sun');await check('codex','light');
+ await page.goto(origin+'/ai-workshop-resources?show-login=true&agent=chatgpt&theme=sun');await check('codex','light');
  await page.fill('#workshop-password',password);await page.click('.gate-submit');await page.waitForURL(url=>!url.searchParams.has('show-login'));await page.waitForSelector('#workshop-content');assert.equal(new URL(page.url()).searchParams.has('show-login'),false);await check('codex','light');
  await page.goto(origin+'/');await check('codex','light');
  // Unknown paths still canonicalise site-wide, then remain a genuine 404.

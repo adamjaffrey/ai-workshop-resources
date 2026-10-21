@@ -3,14 +3,49 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.302"
-  update_summary: "Consolidate anchor tables and widen the heading action gap"
-  updated_at: "Thu 22 Oct 2026 at 08:56:42 am AEDT (+11:00)"
+  doc_revision: "26.0.303"
+  update_summary: "Clarify login intent and repair Playground structure checks"
+  updated_at: "Thu 22 Oct 2026 at 09:08:39 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.301 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 09:08:39 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Clarify login intent and repair Playground structure checks
+
+### Added
+
+- Accept hide-login as the inverse of show-login, and logout as the inverse of login, with all six boolean spellings.
+
+### Changed
+
+- Reverse login so login=1/yes/true maps to show-login=false and login=0/no/false maps to show-login=true; session validation remains required.
+- Replace true-group/false-group documentation with separate boolean-spelling and desired-outcome tables in the shared URL Reference and Playground; document the changed meaning of existing login links.
+- Use explicit show-login=true URLs in login-form browser fixtures.
+
+### Fixed
+
+- Scope Playground structure checks to actual navigation tab buttons after excluding script content; retain matching-panel, icon and script-syntax checks.
+- Wait for DOMContentLoaded before asserting preference selector state after login navigation.
+
+### Validation
+
+- Structure, routing, authentication and preview tests — all 31 passed; standalone structure rerun passed.
+- URL Reference and table-sizing browser checks — passed across mobile, tablet and desktop widths, with both themes and agents in the reference matrix.
+- URL preferences browser check — passed for aliases, login continuity, saved preferences, selectors, favicons and mobile/desktop layouts.
+- Production build using saved backdrops and built Worker redirect checks, including login/logout/hide-login — passed.
+- LAN app/reference destinations and real-session preservation/revocation checks — passed.
 
 ## v26.0.300 — 2026-10-22
 

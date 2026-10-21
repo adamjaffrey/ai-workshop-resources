@@ -9,7 +9,7 @@ try {
   const page=await browser.newPage({reducedMotion:'reduce'});
   for(const width of [320,390,660,661,768,1024,1440]) for(const theme of ['light','dark']) for(const agent of ['codex','claude-code']) {
     await page.setViewportSize({width,height:900});
-    for(const path of ['/','/?login=1']) {
+    for(const path of ['/','/?show-login=true']) {
       await page.goto(origin+path);
       await page.evaluate(({theme,agent})=>{document.documentElement.dataset.theme=theme;window.workshopAgent.select(agent);},{theme,agent});
       const login=path.includes('login');

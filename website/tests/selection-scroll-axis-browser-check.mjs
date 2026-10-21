@@ -11,7 +11,7 @@ const issues=[];
 try {
  for(const width of [320,390,768,1440]) {
   await page.setViewportSize({width,height:900});
-  for(const path of ['/','/?login=1','/playground']) {
+  for(const path of ['/','/?show-login=true','/playground']) {
    await page.goto('http://127.0.0.1:'+server.address().port+path);
    const tabs=path==='/playground'?['components','typography','icons','focus','errors','colours','branding','discovery','blocks']:[null];
    for(const tab of tabs) {

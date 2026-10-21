@@ -43,7 +43,7 @@ export const isPlaygroundPath=path=>path===playgroundRoot||playgroundSections.so
 
 // Preserve unrelated query components byte-for-byte, including signed values.
 const publicParameters=new Map([['agent',agentAliases],['ai',agentAliases],['theme',themeAliases],['mode',themeAliases]]);
-const loginParameters=new Set(['show-login','login','logged-in','logged-out','loggedin','loggedout']);
+const loginParameters=new Set(['show-login','login','logged-in','logged-out','loggedin','loggedout','hide-login','logout']);
 const booleanValues=new Map([['true',true],['yes',true],['1',true],['false',false],['no',false],['0',false]]);
 function canonicalSearch(search){
  if(!search)return search;
@@ -56,7 +56,7 @@ function canonicalSearch(search){
    // Invalid login selectors are removed, never interpreted as authentication.
    if(!booleanValues.has(lower))return null;
    const value=booleanValues.get(lower);
-   const show=key==='logged-in'||key==='loggedin'?!value:value;
+   const show=['hide-login','login','logged-in','loggedin'].includes(key)?!value:value;
    return 'show-login='+show;
   }
   if(!publicParameters.has(key))return part;

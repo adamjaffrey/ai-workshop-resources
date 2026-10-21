@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.55"
-  update_summary: "Consolidate anchor inventories and widen action separation"
-  updated_at: "Thu 22 Oct 2026 at 08:55:39 am AEDT (+11:00)"
+  doc_revision: "26.0.56"
+  update_summary: "Clarify login intent and document inverse selector aliases"
+  updated_at: "Thu 22 Oct 2026 at 09:05:59 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -305,7 +305,7 @@ Adam requested these gallery refinements to compare real component dimensions, r
 
 ## Canonical URLs, Preferences and Favicons
 
-**Decision:** Use canonical Resources/Playground paths and shared alias parsing with application 301 redirects, descendant preservation and known-query normalisation. Preserve unrelated query data and never treat an alias as a new page. Explicit show-login=true revokes only the current session; false never authenticates. The Playground Toy Brick favicon follows agent and theme, including login. Keep the public mapping in one Markdown source rendered by Playground. Accept shared true/yes/1 and false/no/0 login value groups, inverting only logged-in/loggedin; parameter-name aliases ai and mode reuse the complete agent/theme vocabulary. Document value groups and parameter families instead of enumerating their Cartesian product.
+**Decision:** Use canonical Resources/Playground paths and shared alias parsing with application 301 redirects, descendant preservation and known-query normalisation. Preserve unrelated query data and never treat an alias as a new page. Explicit show-login=true revokes only the current session; false never authenticates. The Playground Toy Brick favicon follows agent and theme, including login. Keep the public mapping in one Markdown source rendered by Playground. Accept shared true/yes/1 and false/no/0 login value groups, inverting hide-login/login/logged-in/loggedin and mapping logout directly; parameter-name aliases ai and mode reuse the complete agent/theme vocabulary. Document equivalent boolean spellings in one table and parameter families by desired outcome in another. Adam found the true-group/false-group headings confusing and requested that login=true express logged-in intent, with logout and hide-login as inverse aliases. Existing login=1 links now preserve a valid session rather than revoke it; authentication is still required.
 
 **Rationale:** Documented: lowercase keys avoid maintaining case permutations, aliases retain existing links, and descendant redirects permit later page additions without inventing content. Explicit booleans clarify the old login=1 ambiguity without granting access. A WWW redirect still requires hosting/DNS/TLS support; application code cannot provision it. The prior fixed-blue favicon description is superseded.
 

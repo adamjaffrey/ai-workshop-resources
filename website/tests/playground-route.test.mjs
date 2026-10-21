@@ -37,7 +37,7 @@ test('renamed sections permanently redirect with query strings',async()=>{
 test('home redirects locally and on the hosted handler without bypassing login',async()=>{
  const {server}=createPhonePreview();await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
  try{for(const path of ['/home','/home/'])for(const method of ['GET','HEAD']){
-  for(const response of [await fetch(origin+path+'?login=1',{method,redirect:'manual'}),await handleRequest(new Request('https://production.example'+path+'?login=1',{method}),{})]){assert.equal(response.status,301);assert.equal(response.headers.get('location'),'/ai-workshop-resources?show-login=true');}
+  for(const response of [await fetch(origin+path+'?login=0',{method,redirect:'manual'}),await handleRequest(new Request('https://production.example'+path+'?login=0',{method}),{})]){assert.equal(response.status,301);assert.equal(response.headers.get('location'),'/ai-workshop-resources?show-login=true');}
  }assert.match(await(await fetch(origin+'/home')).text(),/id="access-form"/);
  }finally{await new Promise(r=>server.close(r));}
 });
@@ -101,7 +101,7 @@ test('Resources aliases, case, plural forms and queries share the canonical URL'
 test('public query names and values canonicalise without changing opaque parameters',async()=>{
  const {canonicalRedirect}=await import('../lib/workshop-playground-routes.mjs');
  for(const method of ['GET','HEAD']){
-  const response=await handleRequest(new Request('https://www.example.com/PLAYGROUND/ICON/?AGENT=Claude&Theme=MOON&LOGIN=1&Token=AbC%2FZ+Q&agent=CODEX',{method}),{});
+  const response=await handleRequest(new Request('https://www.example.com/PLAYGROUND/ICON/?AGENT=Claude&Theme=MOON&LOGIN=0&Token=AbC%2FZ+Q&agent=CODEX',{method}),{});
   assert.equal(response.status,301);
   const destination='https://example.com/component-playground/icons?agent=claude-code&theme=dark&show-login=true&Token=AbC%2FZ+Q&agent=codex';
   assert.equal(response.headers.get('location'),destination);
@@ -117,8 +117,8 @@ test('public query names and values canonicalise without changing opaque paramet
 
 test('login aliases redirect to explicit show-login booleans and invalid values disappear',async()=>{
  const {canonicalRedirect}=await import('../lib/workshop-playground-routes.mjs');
- for(const key of ['show-login','login','logged-in','loggedin','logged-out','loggedout'])for(const [inputs,truth] of [[['true','yes','1'],true],[['false','no','0'],false]])for(const input of inputs){
-  const alias=key+'='+input,value=String(['logged-in','loggedin'].includes(key)?!truth:truth);
+ for(const key of ['show-login','login','logged-in','loggedin','logged-out','loggedout','hide-login','logout'])for(const [inputs,truth] of [[['true','yes','1'],true],[['false','no','0'],false]])for(const input of inputs){
+  const alias=key+'='+input,value=String(['hide-login','login','logged-in','loggedin'].includes(key)?!truth:truth);
   for(const method of ['GET','HEAD']){
    const response=await handleRequest(new Request('https://www.example.com/Resources/?'+alias.toUpperCase()+'&Token=AbC',{method}),{});
    const destination='https://example.com/ai-workshop-resources?show-login='+value+'&Token=AbC';
@@ -130,7 +130,7 @@ test('login aliases redirect to explicit show-login booleans and invalid values 
   assert.deepEqual(canonicalRedirect(new URL('https://example.com/ai-workshop-resources?'+query)),{status:301,location:'/ai-workshop-resources'});
   assert.deepEqual(canonicalRedirect(new URL('https://example.com/ai-workshop-resources?'+query+'&Token=AbC')), {status:301,location:'/ai-workshop-resources?Token=AbC'});
  }
- assert.deepEqual(canonicalRedirect(new URL('https://example.com/ai-workshop-resources?login=0&logged-out=true')),{status:301,location:'/ai-workshop-resources?show-login=false&show-login=true'});
+ assert.deepEqual(canonicalRedirect(new URL('https://example.com/ai-workshop-resources?login=1&logged-out=true')),{status:301,location:'/ai-workshop-resources?show-login=false&show-login=true'});
 });
 
 test('all registered path alias families preserve descendants and word pluralisations',async()=>{

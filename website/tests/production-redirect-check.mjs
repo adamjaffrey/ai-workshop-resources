@@ -53,3 +53,9 @@ for(const alias of ['url','urls','reference','references','url-reference','url-r
  assert.equal(response.status,301);assert.equal(response.headers.get('location'),'/component-playground/url-reference'+(suffix?'/future-page':'')+'?theme=dark&Keep=AbC%2FZ+Q');
 }
 console.log('PASS: URL Reference root/section aliases, plural combinations and descendants on the built Worker');
+
+for(const [query,value] of [['login=1','false'],['login=no','true'],['logout=yes','true'],['logout=0','false'],['hide-login=true','false'],['hide-login=no','true']])for(const method of ['GET','HEAD']){
+ const response=await fetch(origin+'/ai-workshop-resources?'+query,{method,redirect:'manual'});
+ assert.equal(response.status,301);assert.equal(response.headers.get('location'),'/ai-workshop-resources?show-login='+value);
+}
+console.log('PASS: login intent, logout and hide-login aliases on the built Worker');

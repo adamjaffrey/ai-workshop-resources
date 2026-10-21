@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.16"
-  update_summary: "Consolidate anchor inventories and widen action separation"
-  updated_at: "Thu 22 Oct 2026 at 08:55:39 am AEDT (+11:00)"
+  doc_revision: "26.0.17"
+  update_summary: "Clarify login intent and document inverse selector aliases"
+  updated_at: "Thu 22 Oct 2026 at 09:05:59 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -209,14 +209,25 @@ The Playground favicon and its login-page favicon follow the selected agent and 
 
 ### Login Aliases and Validation
 
-All login selectors accept the same two value groups: **True** = `true`, `yes`, `1`; **False** = `false`, `no`, `0`. Use any value in the group with any parameter name in its row. The table shows the resulting canonical parameter without listing every combination.
+Every login parameter accepts these equivalent values:
 
-| Parameter Names | True Group | False Group |
+| Boolean Value | Accepted Spellings |
+| --- | --- |
+| `true` | `true`, `yes`, `1` |
+| `false` | `false`, `no`, `0` |
+
+Choose the outcome you want, then use the value shown with any parameter name in that row. The equivalent spellings above work everywhere in this table.
+
+| Parameter Names | Show Login Form | Keep Existing Session |
 | --- | --- | --- |
-| `show-login`, `login`, `logged-out`, `loggedout` | `show-login=true` | `show-login=false` |
-| `logged-in`, `loggedin` | `show-login=false` | `show-login=true` |
+| `show-login`, `logout`, `logged-out`, `loggedout` | `true` | `false` |
+| `hide-login`, `login`, `logged-in`, `loggedin` | `false` | `true` |
 
-`logged-in` and `loggedin` invert the value: saying you are not logged in shows the login form. For example, `loggedin=no` becomes `show-login=true`, while `loggedout=no` becomes `show-login=false`. The legacy `login` selector means show login, so `login=yes` has the same effect as `show-login=true`.
+**Show Login Form** becomes `show-login=true`: log out the current session and display the password form. **Keep Existing Session** becomes `show-login=false`: open the page if the current session is valid, otherwise display the password form. It never signs you in automatically or hides a required password form.
+
+For example, `login=1` and `hide-login=yes` become `show-login=false`; `logout=1` and `login=no` become `show-login=true`. `logout` is the inverse of `login`, and `hide-login` is the inverse of `show-login`.
+
+The meaning of `login` has changed: `login=1` now means you want to be logged in. Existing links that used `login=1` to force the password form should use `show-login=true` or `logout=1` instead.
 
 Aliases are redirect inputs only; authentication reads the resulting `show-login` parameter. Unsupported or empty values, such as `login=2` or `show-login=maybe`, are removed by 301 redirect. Valid duplicates retain their order across canonical names and aliases, with the first resulting `show-login` value taking effect. Boolean values apply only to login selectors; agent and theme selectors use the named values above.
 

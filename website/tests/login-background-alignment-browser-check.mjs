@@ -16,7 +16,7 @@ try {
     for(const m of n.textContent.matchAll(/\S+/gu)){const range=document.createRange();range.setStart(n,m.index);range.setEnd(n,m.index+m[0].length);const r=range.getBoundingClientRect();if(r.width&&r.height)words.push({text:m[0],x:r.x,y:r.y,width:r.width,height:r.height});}}
    return words;
   });
-  await p.goto(origin+'/?login=1');await p.evaluate(()=>document.fonts.ready);
+  await p.goto(origin+'/?show-login=true');await p.evaluate(()=>document.fonts.ready);
   for(const theme of ['light','dark'])for(const agent of ['codex','claude-code']){
    await p.evaluate(({theme,agent})=>{document.documentElement.dataset.theme=theme;document.documentElement.dataset.selectedAgent=agent;document.querySelector('.page-placeholder').style.filter='none';},{theme,agent});
    const projected=await p.locator('.ph-word').evaluateAll(es=>es.map(e=>{const r=e.getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height};}).filter(r=>r.width&&r.height));

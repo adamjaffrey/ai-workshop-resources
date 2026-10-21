@@ -6,7 +6,12 @@ import {playgroundPage} from '../scripts/playground.mjs';
 // Catch document-generation errors before browser startup or server permissions.
 test('every Playground tab has a matching panel and measured icon source',async()=>{
  const html=await playgroundPage({inlineAssets:false});
- const tabs=[...html.matchAll(/data-tab="([^"]+)"/g)].map(match=>match[1]);
+ const markup=html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,'');
+ const navigation=markup.match(/<nav\b[^>]*role="tablist"[^>]*>([\s\S]*?)<\/nav>/)?.[1];
+ assert.ok(navigation,'Missing Playground tab navigation');
+ const tabs=[...navigation.matchAll(/<button\b(?=[^>]*\brole="tab")(?=[^>]*\bdata-tab="([^"]+)")[^>]*>/g)].map(match=>match[1]);
+ assert.equal(tabs.length,10,'Inspect all ten actual navigation tabs');
+ assert.equal(new Set(tabs).size,tabs.length,'Tab names are unique');
  const panels=[...html.matchAll(/<div data-panel="([^"]+)"[^>]*>([\s\S]*?)(?=<div data-panel="|<div class="catalog-sources")/g)];
  assert.ok(tabs.includes('url-reference'));
  for(const tab of tabs){

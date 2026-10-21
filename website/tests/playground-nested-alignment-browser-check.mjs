@@ -31,7 +31,7 @@ try{
   }
  }
  const nojs=await browser.newPage({javaScriptEnabled:false});
- for(const width of [320,390,768,1440])for(const path of ['/','/?login=1']){
+ for(const width of [320,390,768,1440])for(const path of ['/','/?show-login=true']){
   await nojs.setViewportSize({width,height:844});await nojs.goto('http://127.0.0.1:'+server.address().port+path);
   const geometry=await nojs.locator('.javascript-notice').evaluate(e=>{const rail=document.querySelector('.gate-panel #gate-title')||document.querySelector('.page-header');return{gap:rail.getBoundingClientRect().x-e.getBoundingClientRect().x,right:e.getBoundingClientRect().right,overflow:document.documentElement.scrollWidth>innerWidth};});near(geometry.gap,4,'real no-script notice');assert.equal(geometry.overflow,false);
  }
