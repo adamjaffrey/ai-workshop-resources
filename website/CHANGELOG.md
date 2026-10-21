@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.276"
-  update_summary: "Inset disclosure chevrons and cover compact labels completely"
-  updated_at: "Wed 21 Oct 2026 at 03:43:32 pm AEDT (+11:00)"
+  doc_revision: "26.0.277"
+  update_summary: "Match visible anchor icons to cap height with one hover fill"
+  updated_at: "Wed 21 Oct 2026 at 03:51:31 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.275 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 03:51:31 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Match visible anchor icons to cap height with one hover fill
+
+### Changed
+
+- Crop installed Lucide Hash, Check and X viewBoxes to their verified stroke-inclusive bounds, matching visible height to 1cap while preserving aspect ratios.
+- Keep an 8px visible gap after the text, accounting for letter spacing, and reserve a fixed slot sized to the widest icon so state changes cannot shift the text or background.
+- Replace the shorter icon extension with one continuous rounded hover fill behind text, gap and slot; retain synchronised hover timing and existing copy-feedback behaviour.
+- Update the interface contract, design rationale and README.
+
+### Validation
+
+- Installed Lucide ink measurements — verified against the checked-in bounds.
+- Chrome/WebKit mobile and desktop geometry checks — visible height, 8px gap, stable slot/background across all three states, continuous fill and synchronised hover passed; result screenshots reviewed.
+- Copy lifecycle and Resources/Playground parity across four widths and both agent/theme combinations — passed.
+- Anchor scroll/focus/re-entry regression — passed in isolation after an initial concurrent-run speed-sampling failure, including actual LAN replacement navigation.
+- Local site build and generated version/geometry checks — passed using saved backdrop geometry. Installed Safari and physical devices were not tested.
 
 ## v26.0.274 — 2026-10-21
 
