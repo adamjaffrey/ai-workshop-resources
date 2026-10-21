@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.286"
-  update_summary: "Unify native link highlights and proportional icon feedback"
-  updated_at: "Thu 22 Oct 2026 at 12:14:16 am AEDT (+11:00)"
+  doc_revision: "26.0.287"
+  update_summary: "Unify highlight colours and make link hover effects instant"
+  updated_at: "Thu 22 Oct 2026 at 12:55:23 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.285 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 12:55:23 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Unify highlight colours and make link hover effects instant
+
+### Changed
+
+- Share hover and selection fills in both themes, with matching link-ink blend percentages for both agents.
+- Apply link text, underline and hash hover changes immediately while retaining copy-result animation timing.
+- Align standalone Playground source-link and Typography example text with the surrounding text rail.
+
+### Validation
+
+- Chrome and WebKit link treatment and instant-hover checks at mobile and desktop sizes — passed.
+- Seven-width Playground alignment regression check — passed.
+- Visible source-link and Typography text-rail checks at 390px and 1440px — passed.
+- Local website build with saved backdrop geometry — passed.
 
 ## v26.0.284 — 2026-10-22
 

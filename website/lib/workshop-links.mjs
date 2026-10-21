@@ -1,6 +1,6 @@
 import {textIcon,textIconCSS,sizeTextLinkIcons} from './workshop-link-icons.mjs';
 export const linkArrowSVG='<span class="text-link-slot">'+textIcon('arrow-up-right-modified-2','follow-link','link-arrow')+'</span>';
-const linkMotion='80ms ease-out';
+const linkMotion='0ms';
 export const linkPaint={radius:'.2em',motion:linkMotion,padding:'0 .125em .05em .075em',fill:'var(--link-hover-bg)',underline:'text-decoration-color:currentColor;text-decoration-thickness:auto;text-decoration-skip-ink:auto;text-underline-offset:.1em'};
 export const linkCSS=`
 ${textIconCSS}

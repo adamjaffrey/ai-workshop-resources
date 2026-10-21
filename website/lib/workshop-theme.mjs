@@ -21,11 +21,11 @@ const styles = `
   --control-border: #c7ccd1; --control-bg: #e9e9e9; --control-text: #454545;
   --action-hover:color-mix(in srgb,var(--control-bg) 88%,black); --hover: #e9edf0; --field-bg: var(--content-surface); --field-border: #bfc4c9;
   --success: #146c3e; --success-ink: #fff; --error: #85009b; --warning: #755600; --warning-ink: #fff; --info: var(--muted-text); --link: var(--icon-ink); --link-hover: var(--link); --link-hover-bg: color-mix(in srgb, var(--agent-accent) 10%, var(--surface));
-  --icon-ink: color-mix(in srgb, var(--agent-accent) 80%, black);
+  --icon-ink: color-mix(in srgb, var(--agent-accent) 75%, black);
   --card-bg: color-mix(in srgb, var(--agent-accent) 4%, white);
   --tile-bg: color-mix(in srgb, var(--agent-accent) 16%, white);
   --connector: color-mix(in srgb, var(--agent-accent) 35%, white);
-  --selection: color-mix(in srgb, var(--agent-accent) 30%, white);
+  --selection: var(--link-hover-bg);
   --selection-text: #1a1a1a; --gate-overlay: rgb(70 73 78 / 42%);
   color-scheme: light; color: var(--text); background: var(--page);
 }
@@ -38,15 +38,14 @@ const styles = `
   --card-bg: color-mix(in srgb, var(--agent-accent) 12%, #171b21);
   --tile-bg: color-mix(in srgb, var(--agent-accent) 24%, #171b21);
   --connector: color-mix(in srgb, var(--agent-accent) 45%, #171b21);
-  --selection: color-mix(in srgb, var(--agent-accent) 40%, #171b21);
+  --selection: var(--link-hover-bg);
   --selection-text: #fff; --gate-overlay: rgb(0 0 0 / 55%); color-scheme: dark;
 }
 :root[data-selected-agent="claude-code"] { --agent-accent: #D97757; }
-:root[data-selected-agent="claude-code"]:not([data-theme="dark"]) { --icon-ink: color-mix(in srgb,var(--agent-accent) 75%,black); }
 /* Shared selection colours apply to app pages, tooling and nested specimens. */
 ::selection { background: var(--selection); color: var(--selection-text); }
 /* Shared text-link treatment, including visited links. */
-a[href], a[href]:visited { color: var(--link); text-decoration-line: underline; text-decoration-thickness: auto; text-decoration-skip-ink: auto; text-underline-offset: .1em; transition: color 80ms ease-out; }
+a[href], a[href]:visited { color: var(--link); text-decoration-line: underline; text-decoration-thickness: auto; text-decoration-skip-ink: auto; text-underline-offset: .1em; transition: color 0ms; }
 a[href]:hover, a[href][data-link-preview="hover"] { background-color: var(--link-hover-bg); color: var(--link-hover); }
 @media (prefers-reduced-motion: reduce) { a[href] { transition: none; } }
 /* Contain viewport-wide motion at the root as well as the body (including Safari). */
