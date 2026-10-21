@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.294"
-  update_summary: "Align the QR card to the right surface rail"
-  updated_at: "Thu 22 Oct 2026 at 01:44:14 am AEDT (+11:00)"
+  doc_revision: "26.0.295"
+  update_summary: "Keep the QR keyline visible through every interaction state"
+  updated_at: "Thu 22 Oct 2026 at 01:52:48 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.293 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 01:52:48 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Keep the QR keyline visible through every interaction state
+
+### Fixed
+
+- Paint the neutral inner QR keyline above the image and interaction overlays, retaining its inward 1px boundary through hover, press, focus, touch preview, success/failure feedback and fades without changing dimensions or hit targets.
+- Record the shared keyline rule for Resources and its Playground specimens.
+
+### Validation
+
+- Chrome and WebKit border pixel checks across both themes and agents, including feedback fade midpoint — passed.
+- QR copy, touch and caption checks — passed.
+- Shared Playground source parity — passed on rerun after a typography-hover timeout.
+- Local production build, generated version checks and PVS validation — passed.
 
 ## v26.0.292 — 2026-10-22
 
