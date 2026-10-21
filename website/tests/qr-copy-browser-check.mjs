@@ -8,7 +8,7 @@ try {
  const page=await browser.newPage({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
  const origin='http://127.0.0.1:'+server.address().port;
  await page.goto(origin);
- const cursors=async()=>assert.deepEqual(await page.locator('button:visible:enabled, .segmented-toggle:visible').evaluateAll(es=>es.filter(e=>getComputedStyle(e).cursor!=='pointer').map(e=>e.outerHTML)),[]);
+ const cursors=async()=>assert.deepEqual(await page.locator('button:visible:enabled, .segmented-toggle:visible').evaluateAll(es=>es.filter(e=>!e.closest('[inert]')&&getComputedStyle(e).cursor!=='pointer').map(e=>e.outerHTML)),[]);
  await cursors();
  await page.locator('#workshop-password').fill(password);
  await page.getByRole('button',{name:'Unlock Resources',exact:true}).click();
@@ -33,15 +33,15 @@ try {
  await page.emulateMedia({reducedMotion:'no-preference'});
  await qr.click();
  assert.equal(await qr.locator('.copy-content').evaluate(e=>e.getAnimations()[0].effect.getTiming().duration),600);
- await page.waitForTimeout(6050);
+ await page.waitForTimeout(3650);
  assert.equal(await qr.locator('.copy-content').evaluate(e=>e.getAnimations()[0].effect.getTiming().duration),600);
  await page.waitForTimeout(700);
  assert.equal(await qr.locator('.copy-label').textContent(),'Copy Link');
  // With the pointer gone, text and background share one exit animation.
  await qr.click();await page.mouse.move(0,0);
- await page.waitForTimeout(6050);
+ await page.waitForTimeout(3650);
  const exit=await qr.locator('.qr-copy-overlay').evaluate(e=>{const a=e.getAnimations()[0];return {duration:a.effect.getTiming().duration,easing:a.effect.getTiming().easing,opacity:getComputedStyle(e).opacity};});
- assert.equal(exit.duration,600);assert.equal(exit.easing,'ease-in-out');assert.ok(Number(exit.opacity)<1);
+ assert.equal(exit.duration,600);assert.equal(exit.easing,'ease-in');assert.ok(Number(exit.opacity)<1);
  assert.equal(await qr.locator('.copy-content').evaluate(e=>e.getAnimations().length),0);
  await page.waitForTimeout(700);
  assert.equal(await qr.locator('.qr-copy-overlay').evaluate(e=>getComputedStyle(e).opacity),'0');

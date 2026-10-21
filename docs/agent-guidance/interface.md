@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.18"
-  update_summary: "Enlarge anchor indicators and tighten their spacing"
-  updated_at: "Wed 21 Oct 2026 at 10:18:03 am AEDT (+11:00)"
+  doc_revision: "26.0.19"
+  update_summary: "Unify link decoration and refine copy feedback motion"
+  updated_at: "Wed 21 Oct 2026 at 10:58:12 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -91,9 +91,9 @@ Run `node website/tests/playground-external-text-inset-browser-check.mjs` for me
 ## Resources Step Anchor Controls
 
 - Clicking Step N or its exterior icon copies the canonical Resources step URL in place; it never scrolls. Keep Playground heading interactions unchanged until separately authorised.
-- Preserve the Step N text rail and typography. Use a 20px Lucide Hash and 24px Circle Check/Circle X, centred in one fixed 24px exterior slot for every step and viewport. Place the slot 6px after the text box so the centred Hash starts 8px after it; larger feedback extends 2px farther on either side without changing the centre. This action indicator is an explicit exception to the normal gutter paint limit; it must stay inside the viewport and must not move heading text.
-- Keep the indicator invisible until the text/icon region is hovered or keyboard-focused, or feedback is active. Use the hand pointer throughout that region, the shared link-hover background behind the text with 6px horizontal clearance, and the agent accent for Hash and hovered text. Connect a shorter 28px-high icon hover surface to the taller text surface without overlap or a gap. Do not add press/hold stretching.
-- Copy success shows Lucide Circle Check using the theme's success token; failure shows Lucide Circle X using the error token. Visible confirmation text is limited to an icon tooltip. Announce results to assistive technology without adding visible text. Use shared copy-motion keyframes through `website/lib/workshop-copy-timing.mjs`: 600ms ease-out entrance, moving upwards 2px only for success; 600ms ease-in-out exit, moving upwards 2px for either result. Anchor feedback begins its exit 3000ms after either result. Prompt/QR feedback begins its exit after 6000ms for success or 12000ms for failure. Reduced motion skips movement and fades.
+- Preserve the Step N text rail and typography. Use Lucide Hash, Check and X at a shared `0.625em` size: 20px alongside the 32px desktop heading and 17.5px alongside the 28px mobile heading. Centre every state on the cap-height centre and place its exterior slot 8px after the text box. This action indicator is an explicit exception to the normal gutter paint limit; it must stay inside the viewport and must not move heading text.
+- Keep the indicator invisible until the text/icon region is hovered or keyboard-focused, or feedback is active. Use the hand pointer throughout that region. Share hyperlink paint settings from `workshop-links.mjs`: `--link-hover-bg`, 160ms `cubic-bezier(.2,0,.2,1)` background transition, 5px radius, and a 1px current-colour underline at `.18em`. Match the hyperlink text-area clearance (3px left, 4px right, 0px above and 2px below its line box), preserving heading layout. Join the shorter icon surface to that area. Both hyperlinks and hovered anchor text use the agent accent; anchor underlines appear only on hover. Do not add press/hold stretching.
+- Copy success shows Lucide Check using the theme's success token; failure shows Lucide X using the error token. Visible anchor confirmation text is limited to an icon tooltip, with an assistive-technology announcement. Share motion through `workshop-copy-timing.mjs`: success enters over 600ms with 2px upward movement; failure enters over 300ms with opacity only; both exit over 600ms with 2px upward movement. Every entrance uses `ease-out`; every exit uses `ease-in`. Start the fully visible hold only after the entrance finishes. Anchor and QR Copy Link holds are 3 seconds for success and 6 seconds for failure; Copy Prompt button and overlay holds are 6 seconds and 12 seconds respectively. Reduced motion skips movement and fades, retaining the full hold.
 - After anchor arrival, route the first forward Tab to the selected agent option, the second to the selected theme option, and the third to the first focusable control in the target card, without moving the page. Preserve selector arrow-key behaviour and resume normal tabbing in the card; pointer interaction or upward restoration releases the temporary route.
 - Maintain the same Resources component in Playground specimens, including simulated clipboard outcomes and icon catalogue metadata. These specimens do not create Playground heading anchors.
 

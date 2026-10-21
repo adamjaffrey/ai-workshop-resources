@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.10"
-  update_summary: "Clarify same-URL replacement navigation for step anchors"
-  updated_at: "Wed 21 Oct 2026 at 10:18:03 am AEDT (+11:00)"
+  doc_revision: "26.0.11"
+  update_summary: "Describe smooth anchor travel and natural selector pickup"
+  updated_at: "Wed 21 Oct 2026 at 10:58:12 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -89,7 +89,7 @@ Fragments stay in the browser and are not sent to the server. Opening a short al
 
 Clicking Step N or its exterior Hash icon copies the full canonical step URL without scrolling or changing the address bar. Copying preserves the current query parameters except `show-login`. For example, `/ai-workshop-resources?agent=claude-code&theme=dark#step-2-system-blueprint-creator` retains those display preferences.
 
-Opening, reloading or re-entering a recognised step URL (including same-URL replacement navigation) scrolls the text to 60px below the floating selectors, or 30px on mobile. Earlier step/card pairs fade out over the final 600ms of scrolling while the selector shadows and floating Wavelength mark fade in; all finish together. Earlier pairs fade back in only when scrolling upwards, retaining their layout space. Near-footer anchors may require extra bottom scroll room. Reduced-motion preferences are respected. The first three Tab stops after arrival are the agent selector, theme selector and target-card content.
+Opening, reloading or re-entering a recognised step URL (including same-URL replacement navigation) scrolls the text to 60px below the floating selectors, or 30px on mobile. Travel is capped at 1200 CSS px/s with eased 300ms acceleration/deceleration; selectors become sticky naturally during travel. Earlier step/card pairs fade out over the final 600ms of scrolling while the selector shadows and floating Wavelength mark fade in; all finish together. Earlier pairs fade back in only when scrolling upwards, retaining their layout space. Near-footer anchors may require extra bottom scroll room. Reduced-motion preferences are respected. The first three Tab stops after arrival are the agent selector, theme selector and target-card content.
 
 ## Playground Root Aliases
 

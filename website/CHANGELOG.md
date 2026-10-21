@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.268"
-  update_summary: "Make anonymous backdrops consistently non-interactive"
-  updated_at: "Wed 21 Oct 2026 at 10:32:13 am AEDT (+11:00)"
+  doc_revision: "26.0.269"
+  update_summary: "Refine proportional anchor icons and full feedback holds"
+  updated_at: "Wed 21 Oct 2026 at 11:00:20 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.267 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 11:00:20 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine proportional anchor icons and full feedback holds
+
+### Changed
+
+- Use regular Hash, Check and X at 0.625em (20px desktop, 17.5px mobile) with an 8px gap. Share hyperlink hover paint, accent text and underline styling while preserving the heading rail.
+- Scroll at up to 1200 CSS px/s with eased 300ms velocity ramps. Keep the original selector visible in flow until it reaches its sticky boundary, retaining synchronised arrival fades and same-URL navigation.
+- Start copy holds after entry completes. Anchor and QR success/failure hold for 3/6 seconds; prompt feedback retains 6/12 seconds. Use 600ms success entry/exits, 300ms opacity-only failure entry, ease-out entrances and ease-in exits.
+
+### Validation
+
+- Chrome/WebKit anchor arrival, aliases, replacement navigation, focus, responsive placement and interruption checks — passed; desktop/mobile screenshots inspected.
+- Full-hold lifecycle checks passed for every copy action and result; QR, prompt, hyperlink bounds/colours, sticky controls and URL Reference checks passed.
+- Resources/Playground source parity passed across Chrome/WebKit, four widths and both agent/theme combinations. Local site build passed using saved backdrop geometry; no physical-device testing or publication performed.
 
 ## v26.0.266 — 2026-10-21
 

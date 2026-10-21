@@ -1,23 +1,24 @@
+import {linkPaint} from './workshop-links.mjs';
 import {headingMetrics} from './workshop-heading-metrics.mjs';
 import {__iconNode as hash} from '../node_modules/lucide-react/dist/esm/icons/hash.mjs';
-import {__iconNode as check} from '../node_modules/lucide-react/dist/esm/icons/circle-check.mjs';
-import {__iconNode as cross} from '../node_modules/lucide-react/dist/esm/icons/circle-x.mjs';
+import {__iconNode as check} from '../node_modules/lucide-react/dist/esm/icons/check.mjs';
+import {__iconNode as cross} from '../node_modules/lucide-react/dist/esm/icons/x.mjs';
 import {anchorCopyTiming,copyFrames} from './workshop-copy-timing.mjs';
 export const resourceAnchors = ['step-1-node-js-setup','step-2-system-blueprint-creator','step-3-system-build-assistant'];
-const svg=(nodes,name,state)=>`<svg class="step-anchor-${state}" data-icon-provider="lucide" data-icon-name="${name}" data-icon-use="step-anchor-${state}" aria-hidden="true" viewBox="0 0 24 24" width="${state==='hash'?20:24}" height="${state==='hash'?20:24}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${nodes.map(([tag,attrs])=>`<${tag} ${Object.entries(attrs).filter(([key])=>key!=='key').map(([key,value])=>`${key}="${value}"`).join(' ')}></${tag}>`).join('')}</svg>`;
+const svg=(nodes,name,state)=>`<svg class="step-anchor-${state}" data-icon-provider="lucide" data-icon-name="${name}" data-icon-use="step-anchor-${state}" aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${nodes.map(([tag,attrs])=>`<${tag} ${Object.entries(attrs).filter(([key])=>key!=='key').map(([key,value])=>`${key}="${value}"`).join(' ')}></${tag}>`).join('')}</svg>`;
 export const resourceAnchorCSS=`
-.step-anchor{position:relative;display:inline-block;padding:0;border:0;border-radius:5px;background:transparent;color:inherit;font:inherit;letter-spacing:inherit;line-height:inherit;text-align:inherit;vertical-align:top;isolation:isolate;cursor:pointer}
+.step-anchor{position:relative;display:inline-block;padding:0;border:0;border-radius:${linkPaint.radius};background:transparent;color:inherit;font:inherit;letter-spacing:inherit;line-height:inherit;text-align:inherit;vertical-align:top;isolation:isolate;cursor:pointer}
 .step-anchor,.step-anchor *{cursor:pointer!important;user-select:none}
-.step-anchor::before{content:"";position:absolute;inset:0 -6px;border-radius:5px;z-index:-1;transition:background-color 160ms cubic-bezier(.2,0,.2,1)}
-.step-anchor:is(:hover,[data-anchor-preview])::before{background:var(--link-hover-bg)}
+.step-anchor::before{content:"";position:absolute;inset:0 -4px -2px -3px;border-radius:${linkPaint.radius};z-index:-1;transition:${linkPaint.transition}}
+.step-anchor:is(:hover,[data-anchor-preview])::before{background:${linkPaint.fill}}
 .step-anchor:is(:hover,[data-anchor-preview]) .step-anchor-label{color:var(--agent-accent)}
-.step-anchor-label{transition:color 160ms cubic-bezier(.2,0,.2,1)}
-.step-anchor-icon{position:absolute;left:calc(100% + 6px);top:calc(var(--step-cap-centre,19px) - 12px);height:24px;width:24px;display:flex;align-items:center;justify-content:center;color:var(--agent-accent);opacity:0;transition:opacity 160ms cubic-bezier(.2,0,.2,1)}
-.step-anchor-icon::before{content:"";position:absolute;inset:-2px -4px -2px 0;border-radius:0 5px 5px 0;background:transparent;z-index:-1;transition:background-color 160ms cubic-bezier(.2,0,.2,1)}
-.step-anchor:is(:hover,[data-anchor-preview]) .step-anchor-icon::before{background:var(--link-hover-bg)}
+.step-anchor-label{${linkPaint.underline}}
+.step-anchor:is(:hover,[data-anchor-preview]) .step-anchor-label{text-decoration-line:underline}
+.step-anchor-icon{position:absolute;left:calc(100% + 8px);top:calc(var(--step-cap-centre,19px) - .3125em);height:.625em;width:.625em;display:flex;align-items:center;justify-content:center;color:var(--agent-accent);opacity:0;transition:opacity 160ms cubic-bezier(.2,0,.2,1)}
+.step-anchor-icon::before{content:"";position:absolute;inset:-2px -4px -2px -4px;border-radius:0 ${linkPaint.radius} ${linkPaint.radius} 0;background:transparent;z-index:-1;transition:${linkPaint.transition}}
+.step-anchor:is(:hover,[data-anchor-preview]) .step-anchor-icon::before{background:${linkPaint.fill}}
 .step-anchor:is(:hover,[data-result],[data-anchor-preview]) .step-anchor-icon,:root[data-focus-input="keyboard"] .step-anchor:focus .step-anchor-icon{opacity:1}
-.step-anchor-icon svg{position:absolute;width:24px;height:24px;opacity:0;transition:none}
-.step-anchor-icon .step-anchor-hash{width:20px;height:20px}
+.step-anchor-icon svg{position:absolute;width:100%;height:100%;opacity:0;transition:none}
 .step-anchor:not([data-result]) .step-anchor-hash{opacity:1}
 .step-anchor[data-result="success"] .step-anchor-success{opacity:1;color:var(--success)}
 .step-anchor[data-result="failure"] .step-anchor-failure{opacity:1;color:var(--error)}
@@ -56,8 +57,9 @@ export function initResourceAnchors(anchors,timing,measureHeading,frames){
    if(feedback.get(button)!==state)return;
    const message=success?'Link Copied':'Copy Failed';button.dataset.result=success?'success':'failure';button.querySelector('.step-anchor-icon').title=message;status.textContent=message;
    const icon=button.querySelector(success?'.step-anchor-success':'.step-anchor-failure');
-   if(!motion.matches)state.animation=icon.animate(frames(success),{duration:timing.fade,easing:'ease-out'});
-   state.hold=setTimeout(()=>{button.setAttribute('data-cooling','');if(!motion.matches)state.animation=icon.animate(frames(success,true),{duration:timing.fade,easing:'ease-in-out',fill:'forwards'});state.fade=setTimeout(()=>{state.animation?.cancel();button.removeAttribute('data-result');button.removeAttribute('data-cooling');button.querySelector('.step-anchor-icon').title='Copy Link';status.textContent='';feedback.delete(button);},motion.matches?0:timing.fade);},success?timing.success:timing.failure);
+   if(!motion.matches){state.animation=icon.animate(frames(success),{duration:success?timing.fade:timing.failureEntry,easing:'ease-out'});try{await state.animation.finished;}catch{return;}}
+   if(feedback.get(button)!==state)return;
+   state.hold=setTimeout(()=>{button.setAttribute('data-cooling','');if(!motion.matches)state.animation=icon.animate(frames(success,true),{duration:timing.fade,easing:'ease-in',fill:'forwards'});state.fade=setTimeout(()=>{state.animation?.cancel();button.removeAttribute('data-result');button.removeAttribute('data-cooling');button.querySelector('.step-anchor-icon').title='Copy Link';status.textContent='';feedback.delete(button);},motion.matches?0:timing.fade);},success?timing.success:timing.failure);
   });
  }
  let generation=0,arriving=false,active=false,lastY=scrollY,focusRoute=null,trimRoom=false,writingURL=false;
@@ -96,12 +98,13 @@ export function initResourceAnchors(anchors,timing,measureHeading,frames){
   const token=++generation;arriving=true;active=false;trimRoom=false;focusRoute=null;restore();root.dataset.resourceAnchorArriving='';root.style.setProperty('--anchor-arrival-progress','0');
   rows.forEach(row=>row.classList.add('is-revealed'));
   await document.fonts.ready;await frame();await frame();if(token!==generation)return;
-  window.workshopStickyControls?.configure({pinned:true});window.workshopBrandHalo?.configure({hold:true});
+  window.workshopStickyControls?.configure({pinned:false});window.workshopBrandHalo?.configure({hold:true});
   await frame();if(token!==generation)return;
   const target=document.querySelector('.step-anchor[data-anchor="'+anchor+'"]');
   const textTop=target.getBoundingClientRect().top+measureHeading(target,target.querySelector('.step-anchor-label').textContent).top;
   const controls=[...document.querySelectorAll('[data-sticky-control]')];
-  const bottom=Math.max(...controls.map(control=>control.getBoundingClientRect().bottom));
+  const inset=Math.max(24,parseFloat(getComputedStyle(root).getPropertyValue('--sticky-safe-top'))||0);
+  const bottom=inset+Math.max(...controls.map(control=>control.offsetHeight));
   const destination=Math.max(0,scrollY+textTop-bottom-(innerWidth<=660?30:60));
   const existingRoom=parseFloat(root.style.getPropertyValue('--anchor-scroll-room'))||0;
   const extra=existingRoom+Math.max(0,Math.ceil(destination-(root.scrollHeight-innerHeight)));
@@ -109,13 +112,15 @@ export function initResourceAnchors(anchors,timing,measureHeading,frames){
   const index=anchors.indexOf(anchor),leaving=rows.slice(0,index);
   leaving.forEach(row=>row.setAttribute('data-anchor-leaving',''));
   const start=scrollY,distance=Math.abs(destination-start),began=performance.now();
-  // Cruise at no more than 900 CSS px/s, with 300ms acceleration/deceleration.
-  const ramp=300,duration=motion.matches?0:Math.max(600,distance/.9+ramp),cruise=duration-ramp;
+  // Cruise at no more than 1200 CSS px/s, with 300ms acceleration/deceleration.
+  const ramp=300,duration=motion.matches?0:Math.max(600,distance/1.2+ramp),cruise=duration-ramp;
   root.dataset.anchorScrollDuration=String(duration);
   await new Promise(resolve=>{function tick(now){
    if(token!==generation){resolve();return;}
    const elapsed=Math.min(duration,now-began),t=duration?elapsed/duration:1;
-   const travelled=elapsed<ramp?elapsed*elapsed/(2*ramp):elapsed>duration-ramp?cruise-(duration-elapsed)**2/(2*ramp):elapsed-ramp/2;
+   // Integral of smoothstep velocity: continuous acceleration at both ramp edges.
+   const rampDistance=t=>ramp*((t/ramp)**3-.5*(t/ramp)**4);
+   const travelled=elapsed<ramp?rampDistance(elapsed):elapsed>duration-ramp?cruise-rampDistance(duration-elapsed):elapsed-ramp/2;
    const progress=duration?travelled/cruise:1;
    const fade=duration?Math.max(0,Math.min(1,(elapsed-(duration-600))/600)):1;
    root.style.setProperty('--anchor-arrival-progress',String(fade*fade*(3-2*fade)));
@@ -123,6 +128,7 @@ export function initResourceAnchors(anchors,timing,measureHeading,frames){
    if(t<1)requestAnimationFrame(tick);else resolve();
   }requestAnimationFrame(tick);});
   if(token!==generation)return;
+  window.workshopStickyControls?.configure({pinned:true});
   if(rewrite)writeFragment(anchor);
   leaving.forEach(row=>{row.setAttribute('data-anchor-hidden','');row.removeAttribute('data-anchor-leaving');row.inert=true;});
   delete root.dataset.resourceAnchorArriving;arriving=false;active=true;lastY=scrollY;trim();
@@ -158,7 +164,7 @@ export function withResourceAnchors(html){
  for(const [index,anchor] of resourceAnchors.entries()){
   const text='Step '+(index+1);
   html=html.replace(`aria-labelledby="step-${index+1}"`,`aria-labelledby="resource-step-${index+1}"`);
-  html=html.replace(`<h2 class="step-title" id="step-${index+1}">${text}</h2>`,`<h2 class="step-title" id="resource-step-${index+1}"><button type="button" class="step-anchor" data-anchor="${anchor}" aria-label="Copy Link to ${text}"><span class="step-anchor-label">${text}</span><span class="step-anchor-icon" title="Copy Link">${svg(hash,'hash','hash')}${svg(check,'circle-check','success')}${svg(cross,'circle-x','failure')}</span></button></h2>`);
+  html=html.replace(`<h2 class="step-title" id="step-${index+1}">${text}</h2>`,`<h2 class="step-title" id="resource-step-${index+1}"><button type="button" class="step-anchor" data-anchor="${anchor}" aria-label="Copy Link to ${text}"><span class="step-anchor-label">${text}</span><span class="step-anchor-icon" title="Copy Link">${svg(hash,'hash','hash')}${svg(check,'check','success')}${svg(cross,'x','failure')}</span></button></h2>`);
  }
  const initial=`(()=>{const h=location.hash.slice(1);if(${JSON.stringify(resourceAnchors)}.includes(h)||/^step-[1-3]$/.test(h)){window.workshopInitialAnchor=location.hash;document.documentElement.dataset.resourceAnchorArriving='';history.replaceState(history.state,'',location.pathname+location.search);}})();`;
  return html.replace('</head>',`<style>${resourceAnchorCSS}</style><script nonce="__NONCE__">${initial}</script></head>`).replace('</body>',`<script nonce="__NONCE__">(${initResourceAnchors.toString()})(${JSON.stringify(resourceAnchors)},${JSON.stringify(anchorCopyTiming)},${headingMetrics.toString()},${copyFrames.toString()});</script></body>`);
