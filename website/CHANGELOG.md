@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.291"
-  update_summary: "Keep embedded page expand buttons anchored while scrolling"
-  updated_at: "Thu 22 Oct 2026 at 01:15:46 am AEDT (+11:00)"
+  doc_revision: "26.0.292"
+  update_summary: "Refresh current anonymous backdrops for Sites publication"
+  updated_at: "Thu 22 Oct 2026 at 01:21:35 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.290 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 01:21:35 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refresh current anonymous backdrops for Sites publication
+
+### Changed
+
+- Refresh Resources and Colours anonymous captures at the five contracted widths for the current published candidate.
+
+### Validation
+
+- Verified Sites version 15 successful deployment and its exact source commit before comparing layout changes.
+- Authentication and placeholder source tests — passed (13 tests).
+- Five-width backdrop anonymity, inertness, completeness and icon-state checks — passed.
+- Publication geometry revision check and website production build — passed.
 
 ## v26.0.289 — 2026-10-22
 
