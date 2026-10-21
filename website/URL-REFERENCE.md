@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.14"
-  update_summary: "Map all anchors and refine heading action feedback"
-  updated_at: "Thu 22 Oct 2026 at 08:33:48 am AEDT (+11:00)"
+  doc_revision: "26.0.15"
+  update_summary: "Expand query aliases and document shared boolean value groups"
+  updated_at: "Thu 22 Oct 2026 at 08:43:19 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -185,31 +185,33 @@ The portion after `?` is the query string. Each name/value pair is a query param
 
 ### Agent and Theme Aliases
 
-All recognised aliases redirect with 301 to the corresponding canonical value.
+Use `agent` or its name alias `ai`, and `theme` or its name alias `mode`. Each alias accepts every value of its canonical parameter. All recognised aliases redirect with 301 to the canonical name and value.
 
-| Alias | Canonical Parameter |
-| --- | --- |
-| `agent=chatgpt`, `agent=chatgpt-codex` | `agent=codex` |
-| `agent=claude`, `agent=code` | `agent=claude-code` |
-| `theme=day`, `theme=sun` | `theme=light` |
-| `theme=night`, `theme=moon` | `theme=dark` |
+| Parameter Names | Accepted Values | Canonical Parameter |
+| --- | --- | --- |
+| `agent`, `ai` | `codex`, `chatgpt`, `chatgpt-codex` | `agent=codex` |
+| `agent`, `ai` | `claude-code`, `claude`, `code` | `agent=claude-code` |
+| `theme`, `mode` | `light`, `day`, `sun` | `theme=light` |
+| `theme`, `mode` | `dark`, `night`, `moon` | `theme=dark` |
 
 Valid values override saved preferences before paint and become the saved preference. When no valid parameter remains, the saved preference is retained; without one, the agent defaults to Codex and the theme follows the system. Playground tab navigation preserves parameters. Changing a selector updates its corresponding parameter when present.
 
-Unsupported or empty `agent` and `theme` values are removed by 301 redirect, including values such as `agent=unknown`, `theme=`, `agent=__proto__` or a bare `theme` parameter. This is URL cleanup, not an HTTP error. Unknown parameter names remain untouched. Duplicate valid parameters retain their order; after invalid entries are removed, the first remaining value wins.
+Unsupported or empty `agent`, `ai`, `theme` and `mode` values are removed by 301 redirect, including values such as `agent=unknown`, `theme=`, `agent=__proto__` or a bare `theme` parameter. This is URL cleanup, not an HTTP error. Unknown parameter names remain untouched. Duplicate valid parameters retain their order; after invalid entries are removed, the first remaining value wins.
 
 The Playground favicon and its login-page favicon follow the selected agent and theme: light mode uses an agent-coloured tile with white strokes; dark mode uses a dark tile with agent-coloured strokes. Resources retains its static favicon.
 
 ### Login Aliases and Validation
 
-These aliases are redirect inputs only. Authentication reads the resulting `show-login` parameter.
+All login selectors accept the same two value groups: **True** = `true`, `yes`, `1`; **False** = `false`, `no`, `0`. Use any value in the group with any parameter name in its row. The table shows the resulting canonical parameter without listing every combination.
 
-| Alias | Canonical Parameter |
-| --- | --- |
-| `login=1`, `logged-in=false`, `logged-out=true` | `show-login=true` |
-| `login=0`, `logged-in=true`, `logged-out=false` | `show-login=false` |
+| Parameter Names | True Group | False Group |
+| --- | --- | --- |
+| `show-login`, `login`, `logged-out`, `loggedout` | `show-login=true` | `show-login=false` |
+| `logged-in`, `loggedin` | `show-login=false` | `show-login=true` |
 
-Only true/false are accepted for `show-login`, `logged-in` and `logged-out`; only 1/0 are accepted for legacy `login`. Unsupported values such as `login=true`, `login=2` or `show-login=yes` are removed by 301 redirect. Valid duplicates retain their order, with the first resulting `show-login` value taking effect.
+`logged-in` and `loggedin` invert the value: saying you are not logged in shows the login form. For example, `loggedin=no` becomes `show-login=true`, while `loggedout=no` becomes `show-login=false`. The legacy `login` selector means show login, so `login=yes` has the same effect as `show-login=true`.
+
+Aliases are redirect inputs only; authentication reads the resulting `show-login` parameter. Unsupported or empty values, such as `login=2` or `show-login=maybe`, are removed by 301 redirect. Valid duplicates retain their order across canonical names and aliases, with the first resulting `show-login` value taking effect. Boolean values apply only to login selectors; agent and theme selectors use the named values above.
 
 Successful login removes `show-login` before navigation, preventing a logout loop while preserving the requested section and unrelated query parameters. These actions affect the current session only; they do not authenticate users or revoke unrelated browser sessions.
 
@@ -227,7 +229,7 @@ The explicit boolean behaviour applies to Resources, the Playground root and eve
 ### Combined Example
 
 ```text
-/STYLES/FOCI-AND-SELECTIONS/?Agent=Claude&Theme=MOON&LOGIN=1&Token=AbC
+/STYLES/FOCI-AND-SELECTIONS/?AI=Claude&Mode=MOON&LoggedIn=NO&Token=AbC
 → /component-playground/focus-and-selection?agent=claude-code&theme=dark&show-login=true&Token=AbC
 ```
 

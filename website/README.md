@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.169"
-  update_summary: "Document exact link icons and complete shared link conventions"
-  updated_at: "Thu 22 Oct 2026 at 01:15:30 am AEDT (+11:00)"
+  doc_revision: "26.0.170"
+  update_summary: "Expand query aliases and document shared boolean value groups"
+  updated_at: "Thu 22 Oct 2026 at 08:43:19 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -439,12 +439,9 @@ The Sites hostname is `workshop.adamjaffrey.chatgpt.site`. The previous `ai-work
 
 `show-login=true` logs the current browser session out and displays the requested Resources or Playground login form. It deletes the server session and clears the cookie on both local previews and hosted Sites. Successful login removes this parameter before returning to the requested section, retaining other query parameters. `show-login=false` never logs anyone in: it uses an existing valid session or displays the password form. On all supported local pages, including every Playground section, either explicit value uses server session validation and suppresses automatic/anonymous access; visits without the parameter retain the normal automatic preview experience.
 
-| Alias | Canonical Parameter |
-| --- | --- |
-| `login=1`, `logged-in=false`, `logged-out=true` | `show-login=true` |
-| `login=0`, `logged-in=true`, `logged-out=false` | `show-login=false` |
+All login selectors accept `true`/`yes`/`1` and `false`/`no`/`0`. `show-login`, `login`, `logged-out` and `loggedout` use the value directly; `logged-in` and `loggedin` invert it. The parameter aliases `ai` and `mode` accept every agent and theme value respectively. See the [shared value-group tables](URL-REFERENCE.md#public-query-parameters), also rendered in the Playground.
 
-All names and values are case-insensitive and redirect with 301 in the same hop as hostname/path corrections. Legacy aliases are redirect inputs only; runtime authentication reads `show-login`. Only true/false are accepted for `show-login`, `logged-in` and `logged-out`; only 1/0 are accepted for `login`. Unsupported login-selector values are removed by redirect. Duplicate valid selectors retain their order and the first resulting `show-login` value wins. These URLs act on the current session only; they never revoke another browser's session or grant access.
+All names and recognised values are case-insensitive and redirect with 301 in the same hop as hostname/path corrections. Aliases are redirect inputs only; runtime authentication reads `show-login`. Unsupported or empty selector values are removed by redirect. Duplicate valid selectors retain their order across canonical names and aliases, and the first resulting canonical value wins. These URLs act on the current session only; they never revoke another browser's session or grant access.
 
 ## Resources Step Links
 

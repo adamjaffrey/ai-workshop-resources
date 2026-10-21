@@ -42,8 +42,9 @@ export function playgroundRedirect(path){
 export const isPlaygroundPath=path=>path===playgroundRoot||playgroundSections.some(section=>path===playgroundRoot+'/'+section);
 
 // Preserve unrelated query components byte-for-byte, including signed values.
-const publicParameters=new Map([['agent',agentAliases],['theme',themeAliases]]);
-const loginParameters=new Set(['show-login','login','logged-in','logged-out']);
+const publicParameters=new Map([['agent',agentAliases],['ai',agentAliases],['theme',themeAliases],['mode',themeAliases]]);
+const loginParameters=new Set(['show-login','login','logged-in','logged-out','loggedin','loggedout']);
+const booleanValues=new Map([['true',true],['yes',true],['1',true],['false',false],['no',false],['0',false]]);
 function canonicalSearch(search){
  if(!search)return search;
  const parts=search.slice(1).split('&').map(part=>{
@@ -52,19 +53,18 @@ function canonicalSearch(search){
   const [name,value]=entry,key=name.toLowerCase();
   const lower=value.toLowerCase();
   if(loginParameters.has(key)){
-   let show;
-   if(key==='login')show=lower==='1'?'true':lower==='0'?'false':undefined;
-   else if(lower==='true'||lower==='false')show=key==='logged-in'?(lower==='true'?'false':'true'):lower;
    // Invalid login selectors are removed, never interpreted as authentication.
-   if(show===undefined)return null;
+   if(!booleanValues.has(lower))return null;
+   const value=booleanValues.get(lower);
+   const show=key==='logged-in'||key==='loggedin'?!value:value;
    return 'show-login='+show;
   }
   if(!publicParameters.has(key))return part;
   const aliases=publicParameters.get(key);
   if(!Object.hasOwn(aliases,lower))return null;
-  const canonical=aliases[lower];
-  if(name===key&&value===canonical)return part;
-  return new URLSearchParams([[key,canonical]]).toString();
+  const canonical=aliases[lower],canonicalKey=key==='ai'?'agent':key==='mode'?'theme':key;
+  if(name===canonicalKey&&value===canonical)return part;
+  return new URLSearchParams([[canonicalKey,canonical]]).toString();
  }).filter(part=>part!==null).join('&');
  return parts?'?'+parts:'';
 }

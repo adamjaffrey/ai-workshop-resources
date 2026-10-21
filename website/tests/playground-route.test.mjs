@@ -117,7 +117,8 @@ test('public query names and values canonicalise without changing opaque paramet
 
 test('login aliases redirect to explicit show-login booleans and invalid values disappear',async()=>{
  const {canonicalRedirect}=await import('../lib/workshop-playground-routes.mjs');
- for(const [alias,value] of [['login=1','true'],['login=0','false'],['logged-in=true','false'],['logged-in=false','true'],['logged-out=true','true'],['logged-out=false','false'],['SHOW-LOGIN=TRUE','true'],['SHOW-LOGIN=FALSE','false']]){
+ for(const key of ['show-login','login','logged-in','loggedin','logged-out','loggedout'])for(const [inputs,truth] of [[['true','yes','1'],true],[['false','no','0'],false]])for(const input of inputs){
+  const alias=key+'='+input,value=String(['logged-in','loggedin'].includes(key)?!truth:truth);
   for(const method of ['GET','HEAD']){
    const response=await handleRequest(new Request('https://www.example.com/Resources/?'+alias.toUpperCase()+'&Token=AbC',{method}),{});
    const destination='https://example.com/ai-workshop-resources?show-login='+value+'&Token=AbC';
@@ -125,7 +126,7 @@ test('login aliases redirect to explicit show-login booleans and invalid values 
    assert.equal(canonicalRedirect(new URL(destination)),null);
   }
  }
- for(const query of ['login=true','login=false','login=2','login=-1','login=anything','login=','login','logged-in=1','logged-out=0','show-login=1','show-login=anything']){
+ for(const query of ['login=2','login=-1','login=anything','login=','login','loggedin=maybe','loggedout=','show-login=anything']){
   assert.deepEqual(canonicalRedirect(new URL('https://example.com/ai-workshop-resources?'+query)),{status:301,location:'/ai-workshop-resources'});
   assert.deepEqual(canonicalRedirect(new URL('https://example.com/ai-workshop-resources?'+query+'&Token=AbC')), {status:301,location:'/ai-workshop-resources?Token=AbC'});
  }
@@ -188,4 +189,18 @@ test('URL Reference shortcuts canonicalise roots, sections and descendants in on
   assert.equal((await fetch(origin+'/url-reference',{method:'POST',redirect:'manual'})).status,404,'POST does not canonicalise');
   assert.equal((await fetch(origin+'/component-playground/url-reference',{redirect:'manual'})).status,200,'Canonical destination does not redirect');
  }finally{await new Promise(resolve=>server.close(resolve));}
+});
+
+
+test('ai and mode accept every preference value and preserve mixed duplicate order',async()=>{
+ const {canonicalRedirect}=await import('../lib/workshop-playground-routes.mjs');
+ for(const [key,target,groups] of [['ai','agent',[['codex',['codex','chatgpt','chatgpt-codex']],['claude-code',['claude-code','claude','code']]]],['mode','theme',[['light',['light','day','sun']],['dark',['dark','night','moon']]]]]){
+  for(const [canonical,values] of groups)for(const value of values)for(const method of ['GET','HEAD']){
+   const response=await handleRequest(new Request('https://example.com/Resources/?'+key.toUpperCase()+'='+value.toUpperCase()+'&Keep=AbC%2FZ+Q',{method}),{});
+   assert.equal(response.status,301);assert.equal(response.headers.get('location'),'/ai-workshop-resources?'+target+'='+canonical+'&Keep=AbC%2FZ+Q');
+   assert.equal(canonicalRedirect(new URL(response.headers.get('location'),'https://example.com')),null);
+  }
+  for(const value of ['', 'unknown','__proto__','true','0'])assert.deepEqual(canonicalRedirect(new URL('https://example.com/ai-workshop-resources?'+key+'='+value+'&Keep=Case')),{status:301,location:'/ai-workshop-resources?Keep=Case'});
+ }
+ assert.deepEqual(canonicalRedirect(new URL('https://example.com/ai-workshop-resources?ai=bad&agent=claude&ai=codex&mode=moon&theme=light&loggedin=no&show-login=0')),{status:301,location:'/ai-workshop-resources?agent=claude-code&agent=codex&theme=dark&theme=light&show-login=true&show-login=false'});
 });

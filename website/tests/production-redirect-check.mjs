@@ -25,7 +25,7 @@ const font=await fetch(origin+'/assets/markpro-bold.ttf');assert.equal(font.stat
 console.log('PASS: canonical Resources, site-wide case and existing font redirects on the built Worker');
 
 for(const method of ['GET','HEAD']){
- const response=await fetch(origin+'/COMPONENTS/ICON/?AGENT=Claude&Theme=MOON&LOGIN=1&Token=AbC%2FZ+Q',{method,redirect:'manual'});
+ const response=await fetch(origin+'/COMPONENTS/ICON/?AI=Claude&Mode=MOON&LoggedIn=NO&Token=AbC%2FZ+Q',{method,redirect:'manual'});
  assert.equal(response.status,301);
  assert.equal(response.headers.get('location'),'/component-playground/icons?agent=claude-code&theme=dark&show-login=true&Token=AbC%2FZ+Q');
  const canonical=await fetch(origin+response.headers.get('location'),{method,redirect:'manual'});

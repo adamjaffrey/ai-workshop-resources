@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.300"
-  update_summary: "Map all anchors and refine header hover feedback"
-  updated_at: "Thu 22 Oct 2026 at 08:34:36 am AEDT (+11:00)"
+  doc_revision: "26.0.301"
+  update_summary: "Expand query aliases with consistent boolean value groups"
+  updated_at: "Thu 22 Oct 2026 at 08:45:51 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.299 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 08:45:51 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Expand query aliases with consistent boolean value groups
+
+### Added
+
+- Accept loggedin/loggedout alongside the hyphenated aliases, with true/false, yes/no and 1/0 accepted by every login selector; retain inverse logged-in semantics.
+- Accept ai as agent and mode as theme with the complete existing value vocabularies, canonical redirects and invalid-value cleanup.
+
+### Changed
+
+- Explain parameter families and shared value groups in compact tables in the URL Reference and its shared Playground rendering; align the routing contract, README and decision record.
+
+### Validation
+
+- Routing, authentication and local-preview suites — 30 tests passed, including every login boolean spelling and agent/theme alias value.
+- URL Reference and table-sizing browser checks — passed at mobile, tablet and desktop widths, across both agents and themes for the reference check.
+- Production build with saved backdrops, built Worker redirect checks and LAN app/reference/login destinations — passed.
+- Existing Playground structure-test limitation — reproduced on the unchanged committed source: its regex mistakes inline JavaScript template text for a tab; rendered-page checks passed.
 
 ## v26.0.298 — 2026-10-22
 
