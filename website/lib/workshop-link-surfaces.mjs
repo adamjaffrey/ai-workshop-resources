@@ -2,7 +2,9 @@
 // Backgrounds remain native CSS paint; these boxes own hit testing only.
 export const linkSurfaceCSS=`
 .workshop-link-surface{position:absolute;display:block;box-sizing:border-box;padding:0;margin:0;border:0;border-radius:.2em;background:transparent;pointer-events:auto;cursor:inherit}
-:root[data-focus-input="keyboard"] :is(a.workshop-link[href],.step-anchor):focus{outline:3px solid var(--icon-ink)!important;outline-offset:round(up,calc(3px + .125em),1px)!important}
+.workshop-link-focus{position:absolute;display:block;pointer-events:none;background:var(--icon-ink);opacity:0;mask-size:100% 100%;mask-repeat:no-repeat}
+:root[data-focus-input="keyboard"] :is(a.workshop-link[href],.step-anchor):focus:has(>.workshop-link-focus){outline:none!important}
+:root[data-focus-input="keyboard"] :is(a.workshop-link[href],.step-anchor):focus>.workshop-link-focus{opacity:1}
 `;
 export function installLinkSurfaces(){
  let pending=false;
@@ -28,11 +30,27 @@ export function installLinkSurfaces(){
     if(!surface.parentElement)link.append(surface);
    });
    old.slice(rects.length).forEach(el=>el.remove());
+   // The ring follows the union of the actual background and two shadow shapes.
+   // A mask subtracts the 3px clearance region from the 6px outer extent, so
+   // wrapped lines share one perimeter without internal overlapping outlines.
+   const shapes=rects.flatMap(r=>[
+    {x:r.left-origin.left,y:r.top-origin.top,w:r.width,h:r.height,r:.2*font},
+    {x:r.left-origin.left-.075*font,y:r.top-origin.top,w:r.width+.05*font,h:r.height+.05*font,r:.225*font},
+    {x:r.left-origin.left+.075*font,y:r.top-origin.top,w:r.width+.05*font,h:r.height+.05*font,r:.225*font}
+   ]);
+   const left=Math.min(...shapes.map(r=>r.x))-6,top=Math.min(...shapes.map(r=>r.y))-6;
+   const width=Math.max(...shapes.map(r=>r.x+r.w))+6-left,height=Math.max(...shapes.map(r=>r.y+r.h))+6-top;
+   const rectangles=(outset,fill)=>'<g fill="'+fill+'">'+shapes.map(r=>'<rect x="'+(r.x-left-outset)+'" y="'+(r.y-top-outset)+'" width="'+(r.w+2*outset)+'" height="'+(r.h+2*outset)+'" rx="'+(r.r+outset)+'"/>').join('')+'</g>';
+   const svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+width+'" height="'+height+'" viewBox="0 0 '+width+' '+height+'"><defs><mask id="ring" maskUnits="userSpaceOnUse" x="0" y="0" width="'+width+'" height="'+height+'">'+rectangles(6,'white')+rectangles(3,'black')+'</mask></defs><rect width="100%" height="100%" fill="white" mask="url(#ring)"/></svg>';
+   const focus=link.querySelector(':scope>.workshop-link-focus')||document.createElement('span');focus.className='workshop-link-focus';focus.setAttribute('aria-hidden','true');
+   Object.assign(focus.style,{left:left+'px',top:top+'px',width:width+'px',height:height+'px',maskImage:'url("data:image/svg+xml,'+encodeURIComponent(svg)+'")'});
+   if(!focus.parentElement)link.append(focus);
   }
  }
  window.refreshWorkshopLinkSurfaces=schedule;
- new MutationObserver(records=>{if(records.some(r=>!r.target.closest?.('.workshop-link-surface')&&[...r.addedNodes,...r.removedNodes].some(n=>!n.classList?.contains('workshop-link-surface'))))schedule();}).observe(document.body,{childList:true,subtree:true});
+ new MutationObserver(records=>{if(records.some(r=>!r.target.closest?.('.workshop-link-surface,.workshop-link-focus')&&[...r.addedNodes,...r.removedNodes].some(n=>!n.matches?.('.workshop-link-surface,.workshop-link-focus'))))schedule();}).observe(document.body,{childList:true,subtree:true});
  document.addEventListener('toggle',schedule,true);
+ document.addEventListener('focusin',event=>{if(event.target.matches('a.workshop-link[href],.step-anchor'))refresh();});
  window.addEventListener('resize',schedule);
  document.fonts.ready.then(schedule);schedule();
 }

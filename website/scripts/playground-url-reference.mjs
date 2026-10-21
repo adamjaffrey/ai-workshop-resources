@@ -47,7 +47,7 @@ export function renderUrlReference(markdown,renderHeading){
 }
 export async function urlReferencePanel(renderHeading){
  const markdown=await readFile(new URL('../URL-REFERENCE.md',import.meta.url),'utf8');
- return '<div data-panel="url-reference" id="panel-url-reference" role="tabpanel" aria-labelledby="tab-url-reference" tabindex="0" hidden>'+renderUrlReference(markdown,renderHeading)+'</div>';
+ return '<div data-panel="url-reference" id="panel-url-reference" role="tabpanel" aria-labelledby="tab-url-reference" hidden>'+renderUrlReference(markdown,renderHeading)+'</div>';
 }
 export const urlReferenceCSS=`
 ${copyTextCSS}

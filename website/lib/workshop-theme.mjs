@@ -1,3 +1,4 @@
+import {groupFocusCSS} from './workshop-group-focus.mjs';
 import {bodyTypeCSS} from './workshop-body-type.mjs';
 import {themeAliases} from './workshop-url-preferences.mjs';
 import {playgroundFaviconScript} from './workshop-playground-brand.mjs';
@@ -129,6 +130,7 @@ button, button * { -webkit-user-select: none; user-select: none; -webkit-touch-c
 :root[data-theme="dark"] .brand-worm::after { background: #fff; }
 .qr-card img { background: white; border-radius: inherit; }
 /* Keep the neutral inner keyline above every QR overlay without changing layout. */
+:root[data-focus-input="keyboard"] .qr-copy:focus .qr-copy-overlay { transition:none; }
 .qr-copy::after { content: ''; position: absolute; inset: 0; z-index: 1; border: 1px solid var(--border); border-radius: inherit; pointer-events: none; }
 :root[data-theme="dark"] .page-placeholder .ph-line, :root[data-theme="dark"] .ph-brand-mark { background: #707b8b; }
 :root[data-theme="dark"] .ph-toggle span:last-child { background: var(--control-bg); }
@@ -312,7 +314,7 @@ const script = `(() => {
 })();`;
 
 export function withTheme(html, login = false) {
-  html = html.replace('</head>', `<style data-workshop-theme-styles>${styles}\n${linkCSS}\n${colourValueCSS}\n${alignmentCSS}\n${bodyTypeCSS}</style><script nonce="__NONCE__" data-workshop-theme>${agentScript}\n${playgroundFaviconScript}\n${toggleScript}\n${script}\n${linkScript}\n${colourValueScript}</script></head>`);
+  html = html.replace('</head>', `<style data-workshop-theme-styles>${styles}\n${groupFocusCSS}\n${linkCSS}\n${colourValueCSS}\n${alignmentCSS}\n${bodyTypeCSS}</style><script nonce="__NONCE__" data-workshop-theme>${agentScript}\n${playgroundFaviconScript}\n${toggleScript}\n${script}\n${linkScript}\n${colourValueScript}</script></head>`);
   if (login) return html.replace('</h2>', `</h2><div class="gate-toolbar"><p class="eyebrow">Workshop Access</p>${control}</div>`);
   return html.replace('<div class="brand" aria-label="Wavelength">', '<div class="page-toolbar"><div class="brand" aria-label="Wavelength">')
     .replace('    <header class="page-header">', `    ${control}</div>\n    <header class="page-header">`);

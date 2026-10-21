@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.65"
-  update_summary: "Record shared link hit surfaces and exterior focus clearance"
-  updated_at: "Thu 22 Oct 2026 at 10:08:12 am AEDT (+11:00)"
+  doc_revision: "26.0.66"
+  update_summary: "Record action icon sizing and manual keyboard navigation"
+  updated_at: "Thu 22 Oct 2026 at 10:47:52 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -475,3 +475,15 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Rationale:** Forcing labelled actions into squares unintentionally removed their labels. The user wants their readable labels retained. The reported 44px H3 gap combined 20px padding and a 24px following margin.
 
 **Owning Rules:** [Interface](../docs/agent-guidance/interface.md#playground-heading-anchor-controls).
+
+## Action Icons and Manual Keyboard Navigation
+
+**Decision:** The listed outer Playground action icons use one 22px size and Lucide stroke width 2, with an 8px label gap. Sun/moon remain 20px inside their selector. This supersedes the earlier instruction to preserve individual action SVG sizes; alignment and outer control geometry stay unchanged.
+
+**Reason:** Adam requested matching visible action-icon weights and sizes, with the nested theme icons excluded.
+
+**Decision:** Each selector or tab bar is one Tab stop. Arrow keys browse focus with the grey hover treatment, and Enter/Space commits. Sections are not Tab stops. QR keyboard focus reveals Copy Link immediately. Scrolling selector focus rings sit outside the option and its mask; link focus rings follow the union of the actual asymmetric hover shapes with a 3px gap.
+
+**Reason:** Browsing should not unexpectedly change previews or navigate tabs. Earlier inset selector rings were clipped, and a symmetric native link-outline offset did not match asymmetric hover paint. Shared geometry and input handling replace per-control corrections.
+
+**Owner:** [Interface contract](../docs/agent-guidance/interface.md#focus-and-panel-opening), `workshop-group-focus.mjs`, `workshop-link-surfaces.mjs` and `playground-layout.mjs`.

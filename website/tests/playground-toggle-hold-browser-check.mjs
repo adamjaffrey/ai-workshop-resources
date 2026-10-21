@@ -11,7 +11,7 @@ try{
    assert.ok(await page.locator('#icon-filter .toggle-indicator').evaluate(e=>e.getAnimations().some(a=>a.effect.getTiming().fill==='forwards')),'repeat hold remains active '+width+' '+value);
    await page.mouse.up();assert.ok(await label.locator('input').isChecked());assert.equal(await label.locator('span').evaluate(e=>getComputedStyle(e).outlineStyle),'none');await page.waitForTimeout(20);
   }
-  await page.keyboard.press('Tab');await page.keyboard.press('Shift+Tab');assert.equal(await page.locator('#icon-filter input:checked+span').evaluate(e=>getComputedStyle(e).outlineStyle),'solid');
+  await page.keyboard.press('Tab');await page.keyboard.press('Shift+Tab');assert.equal(await page.locator('#icon-filter .workshop-group-ring').evaluate(e=>getComputedStyle(e).display),'block');
   await page.locator('#icon-filter input[value=lobe]').locator('..').click();assert.equal(await page.locator('#icon-filter input:checked+span').evaluate(e=>getComputedStyle(e).outlineStyle),'none');
   await page.locator('[data-tab=discovery]').click();const frame=page.frameLocator('#discovery-frame');await page.locator('#discovery-frame').scrollIntoViewIfNeeded();await page.waitForTimeout(600);
   for(const top of [0,10000,0]){await frame.locator('body').evaluate((_,top)=>scrollTo(0,top),top);await page.waitForTimeout(150);const positions=await frame.locator('.controls .toggle,.page-toolbar .theme-toggle').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().top));assert.ok(positions.every(y=>Math.abs(y-24)<.1),JSON.stringify(positions));}

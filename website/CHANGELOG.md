@@ -3,14 +3,45 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.312"
-  update_summary: "Unify link hit areas and focus clearance with hover decoration"
-  updated_at: "Thu 22 Oct 2026 at 10:18:54 am AEDT (+11:00)"
+  doc_revision: "26.0.313"
+  update_summary: "Unify action icons and manual keyboard focus"
+  updated_at: "Thu 22 Oct 2026 at 10:48:40 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.311 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 10:48:40 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Unify action icons and manual keyboard focus
+
+### Changed
+
+- Standardise outer action icons at 22px with matching Lucide stroke width, 8px label gaps and preserved button alignment; retain 20px sun/moon icons.
+- Share one Tab stop per theme, agent, segmented selector and tab bar. Arrow/Home/End keys browse with grey hover styling; Enter/Space activates. Remove section-container Tab stops.
+- Reveal QR Copy Link immediately on keyboard focus.
+
+### Fixed
+
+- Draw selector and tab rings outside the focused option without scroll-mask clipping.
+- Match link and anchor rings to the union of their actual asymmetric hover decoration, including wrapped fragments, with a uniform 3px gap.
+- Record the shared rules and rationale in the Interface contract, README and design decision log.
+
+### Validation
+
+- `npm --prefix website run build` — passed; saved backdrop geometry reused.
+- Control keyboard/focus and link-surface checks passed in Chromium and WebKit at 320, 390, 768 and 1440px, including grey keyboard hover, manual activation, icon sizes and ring geometry.
+- App/specimen parity, focus, toggle-hold, menu-containment, tab-edge, scroll-axis, overflow-hint, external-text-inset and nested-alignment checks passed.
+- Theme-transition and theme-control-colour checks passed. Mobile and desktop screenshots inspected; physical devices were not tested.
 
 ## v26.0.310 — 2026-10-22
 

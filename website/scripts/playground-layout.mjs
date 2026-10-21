@@ -51,13 +51,13 @@ header.wrap p{font-size:16px;line-height:24px;margin:0;max-width:none}
 .choice-options.segmented-toggle .choice input:checked+span{background:transparent;color:var(--agent-ink)}
 .choice-options.segmented-toggle .choice:hover span{box-shadow:none;background:transparent}
 .choice-options.segmented-toggle .choice:hover input:not(:checked)+span{color:var(--text)}
-:root[data-focus-input="keyboard"] .choice-options.segmented-toggle .choice input:focus+span{outline-offset:-3px}
+
 #login-preview #login-destination{flex:0 1 auto;min-width:0;max-width:45%}
 @media(max-width:660px){header.wrap #playground-title{font-size:40px}header.wrap{padding-bottom:32px}header.wrap p{margin-bottom:0}#mobile-style-controls .primary-style-choices{display:flex;flex-wrap:wrap}.primary-style-choices>.choices{min-width:0;max-width:100%}}
 
 .playground-brand-row{display:flex;align-items:center;min-height:54px;margin-bottom:40px}.playground-brand-row .brand{margin:0}
 @media(max-width:380px){.playground-brand-row .brand{gap:6px}.playground-brand-row .brand-name{font-size:13px}.playground-brand-row .brand-worm{--brand-mark-width:36px}.playground-brand-row .brand-mark img{width:36px}}
-.choice-shell{display:inline-flex;max-width:100%;min-width:0;border:1px solid var(--control-border);border-radius:12px;background:var(--control-bg);vertical-align:top;overflow:hidden}
+.choice-shell{position:relative;display:inline-flex;max-width:100%;min-width:0;border:1px solid var(--control-border);border-radius:12px;background:var(--control-bg);vertical-align:top;overflow:visible}
 .choices .choice-shell .choice-options.segmented-toggle{min-width:0;border:0;background:transparent;border-radius:11px}
 .choice-shell .choice-options{--overflow-left:0px;--overflow-right:0px;mask-image:linear-gradient(to right,transparent,#000 var(--overflow-left),#000 calc(100% - var(--overflow-right)),transparent);-webkit-mask-image:linear-gradient(to right,transparent,#000 var(--overflow-left),#000 calc(100% - var(--overflow-right)),transparent)}
 
@@ -65,6 +65,8 @@ ${overflowFadeCSS}
 .tab-scroll-shell{position:relative;margin:4px 0 12px}.tab-scroll-shell::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--border);pointer-events:none}
 .tab-scroll-shell nav[role=tablist]{margin:0!important;padding-inline:0;background:none}
 .control-footer>.panel-options{min-height:50px;align-items:center}
+body :is(.icon-button,.preview-expand,#perspective-replay,#style-options,#back-to-top) svg{width:22px;height:22px;flex:none;stroke-width:2}
+body :is(.icon-button,.preview-expand,#perspective-replay):has(.action-label){gap:8px}
 /* Shared label rhythm: 32px before a group, 16px from label to rail. */
 .wrap{max-width:1248px}p{max-width:none}
 .panel>.choices,.panel>.control-footer{margin-top:32px}

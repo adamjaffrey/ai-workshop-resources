@@ -1,8 +1,10 @@
+import {installGroupFocus} from './workshop-group-focus.mjs';
 // One press, hold and release controller for both segmented toggles.
 // Shared 340ms motion: 160ms travel, then three 60ms rebound/settling phases.
 export const toggleTiming = {arrival: 160, rebound: 60, return: 60, settle: 60};
 toggleTiming.duration = toggleTiming.arrival + toggleTiming.rebound + toggleTiming.return + toggleTiming.settle;
-export const toggleScript = `window.layoutWorkshopToggle = function(toggle) {
+export const toggleScript = `window.installWorkshopGroupFocus=${installGroupFocus.toString()};
+window.layoutWorkshopToggle = function(toggle) {
     const selected=toggle.querySelector(toggle.dataset.selectionSelector || '[aria-pressed="true"]'),indicator=toggle.querySelector('.toggle-indicator');
     if(!selected||!indicator)return;
     const left=selected.offsetLeft,width=selected.offsetWidth;
@@ -23,6 +25,7 @@ window.createWorkshopToggle = function(toggle, options = {}) {
     toggle.prepend(indicator);
     let toggleAnimation, held, releaseTimer;
     const selectedButton = () => toggle.querySelector(toggle.dataset.selectionSelector || '[aria-pressed="true"]');
+    const focusGroup=window.installWorkshopGroupFocus(toggle,{items:()=>[...toggle.querySelectorAll(targetSelector)].map(focusTarget),selected:()=>{const selected=selectedButton();return selected&&focusTarget(selected);},reveal:options.revealFocus,ringHost:options.ringHost});
     function snapshot() {
       const style = getComputedStyle(indicator);
       return {left: parseFloat(style.left), width: parseFloat(style.width), transform: style.transform};
@@ -30,6 +33,7 @@ window.createWorkshopToggle = function(toggle, options = {}) {
     function moveIndicator(animate = true, restoreFocus = true) {
       const selected = selectedButton();
       if (!selected) return;
+      if(restoreFocus)focusGroup.sync(focusTarget(selected));
       const previous = snapshot();
       clearTimeout(releaseTimer);
       held = undefined;
@@ -113,8 +117,8 @@ window.createWorkshopToggle = function(toggle, options = {}) {
         cancelPress();
       }
     });
-    new ResizeObserver(() => moveIndicator(false)).observe(toggle);
-    reducedMotionQuery.addEventListener('change', () => moveIndicator(false));
+    new ResizeObserver(() => moveIndicator(false, false)).observe(toggle);
+    reducedMotionQuery.addEventListener('change', () => moveIndicator(false, false));
     return moveIndicator;
 };
 `;

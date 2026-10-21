@@ -18,12 +18,12 @@ try{for(const engine of [chromium,webkit]){const browser=await engine.launch({he
   for(const agent of ['codex','claude-code'])for(const theme of ['light','dark']){
    await page.evaluate(({agent,theme})=>{document.documentElement.dataset.selectedAgent=agent;document.documentElement.dataset.theme=theme;},{agent,theme});
    await page.keyboard.press('Tab');await link.focus();
-   const ring=await link.evaluate(e=>{const s=getComputedStyle(e);return {width:s.outlineWidth,offset:parseFloat(s.outlineOffset),font:parseFloat(s.fontSize)};});assert.equal(ring.width,'3px');assert.ok(ring.offset>=3+.125*ring.font-.01,JSON.stringify({selector,ring}));
+   const ring=await link.evaluate(e=>{const focus=e.querySelector('.workshop-link-focus'),r=focus.getBoundingClientRect(),b=e.getBoundingClientRect(),font=parseFloat(getComputedStyle(e).fontSize);return {visible:getComputedStyle(focus).opacity,left:b.left-r.left,right:r.right-b.right,top:b.top-r.top,bottom:r.bottom-b.bottom,font};});assert.equal(ring.visible,'1');for(const [key,expected]of Object.entries({left:6+.075*ring.font,right:6+.125*ring.font,top:6,bottom:6+.05*ring.font}))assert.ok(Math.abs(ring[key]-expected)<.15,JSON.stringify(ring));
   }
  }
  await page.goto(origin+'/component-playground/icons');await page.locator('.icon-usages').first().waitFor();await page.locator('#show-playground-sources').check();
  const gap=()=>page.locator('.icon-usages').first().evaluate(e=>e.nextElementSibling.getBoundingClientRect().top-e.getBoundingClientRect().bottom);
- const heading=page.locator('.heading-anchor').filter({visible:true}).first();await page.keyboard.press('Tab');await heading.focus();assert.ok(await heading.evaluate(e=>parseFloat(getComputedStyle(e).outlineOffset)>=3+.125*parseFloat(getComputedStyle(e).fontSize)));
+ const heading=page.locator('.heading-anchor').filter({visible:true}).first();await page.keyboard.press('Tab');await heading.focus();assert.equal(await heading.locator('.workshop-link-focus').evaluate(e=>getComputedStyle(e).opacity),'1');
  const closed=await gap();await page.locator('.icon-usages summary').first().click();const opened=await gap();assert.ok(Math.abs(closed-opened)<.1,`source gap ${closed} / ${opened}`);
  await page.goto(origin+'/component-playground/status-states');const frame=page.frameLocator('#errors-frame');await frame.getByText('Right-Aligned Step 2 · Copy Failed',{exact:true}).waitFor();
  const examples=frame.locator('.icon-row').filter({has:frame.getByText('Right-Aligned Step 2 · Copy Link',{exact:true})});
