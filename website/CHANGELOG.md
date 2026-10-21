@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.299"
-  update_summary: "Refine split heading actions and stable bounded scrolling"
-  updated_at: "Thu 22 Oct 2026 at 08:24:08 am AEDT (+11:00)"
+  doc_revision: "26.0.300"
+  update_summary: "Map all anchors and refine header hover feedback"
+  updated_at: "Thu 22 Oct 2026 at 08:34:36 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.298 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 08:34:36 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Map all anchors and refine header hover feedback
+
+### Changed
+
+- Map all three Resources and 31 Playground heading anchors in visual order, with section, heading name and canonical URL in the shared URL reference rendered by Playground.
+- Add an 8px inactive split between heading copy and right-hand collapse regions; tint the entire header on collapse-region hover without adding a click overlay.
+- Retain 44px chevron buttons and interpolate a 1px optical offset with the collapsed rotation over 160ms.
+
+### Validation
+
+- Exact URL inventory, heading labels and tab/page order — passed.
+- Chrome/WebKit mobile and desktop split-region, neutral-gap, header tint, optical-offset and viewport regression checks — passed.
+- All 31 anchor landing checks and production build using saved backdrops — passed.
 
 ## v26.0.297 — 2026-10-22
 

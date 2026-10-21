@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.52"
-  update_summary: "Define split heading actions and bounded anchor travel"
-  updated_at: "Thu 22 Oct 2026 at 08:21:06 am AEDT (+11:00)"
+  doc_revision: "26.0.53"
+  update_summary: "Map all anchors and refine heading action feedback"
+  updated_at: "Thu 22 Oct 2026 at 08:33:48 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -417,3 +417,11 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Rationale:** The split provides a larger mobile toggle region without changing the copy convention. Long anchor trips are capped at three seconds while preserving the shared 300ms smooth acceleration/deceleration and final 600ms fades. Tab changes retain the current header scroll depth while the bar is not pinned, including cross-tab anchor changes, so changing content does not unnecessarily hide the header.
 
 **Owning Rules:** [Heading Controls](../docs/agent-guidance/interface.md#playground-heading-anchor-controls) and [Anchor Arrival](../docs/agent-guidance/motion.md#playground-anchor-arrival).
+
+## Heading Hit-Region Separation and Optical Chevron Balance
+
+**Decision:** Keep 44px square chevron buttons consistent with existing icon controls. Add an 8px inactive interval after the heading copy region. The right region and chevron hover tint the whole header row using a non-interactive background layer. Translate the collapsed left-pointing chevron 1px toward its tip, animating translation and rotation together over 160ms.
+
+**Rationale:** A neutral split reduces ambiguous activation, and the row tint communicates the scope of collapse. A small interpolated optical correction balances the directional shape without snapping or disturbing its rotation. The anchor inventory follows visible tab and heading order, includes enclosing sections and full canonical URLs, and is rendered directly in the Playground from the same Markdown source.
+
+**Owning Rules:** [Heading Controls](../docs/agent-guidance/interface.md#playground-heading-anchor-controls) and [URL Reference](URL-REFERENCE.md).

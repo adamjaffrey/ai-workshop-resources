@@ -44,11 +44,11 @@ export function initPlaygroundAnchors({select,tabPaths,sticky,scheduleCaps,insta
   title.addEventListener('pointerleave',()=>copy.removeAttribute('data-anchor-preview'));
   title.addEventListener('click',event=>{if(!copy.contains(event.target)){copy.focus({preventScroll:true});copy.click();}});
   const toggle=row.querySelector('.section-collapse');
-  const side=event=>event.clientX<=title.getBoundingClientRect().right?'copy':'toggle';
-  const clearHover=()=>{copy.removeAttribute('data-anchor-preview');toggle?.removeAttribute('data-region-hover');row.style.cursor='';};
-  row.addEventListener('pointermove',event=>{if(panel.classList.contains('is-expanded')||event.target.closest('button,input,label,select,a,summary')){clearHover();return;}const left=side(event)==='copy';copy.toggleAttribute('data-anchor-preview',left);toggle?.toggleAttribute('data-region-hover',!left);row.style.cursor='pointer';});
+  const side=event=>{const edge=title.getBoundingClientRect().right;return event.clientX<=edge?'copy':event.clientX<edge+8?'gap':'toggle';};
+  const clearHover=()=>{copy.removeAttribute('data-anchor-preview');toggle?.removeAttribute('data-region-hover');row.removeAttribute('data-collapse-hover');row.style.cursor='';};
+  row.addEventListener('pointermove',event=>{if(panel.classList.contains('is-expanded')||event.target.closest('button,input,label,select,a,summary')){clearHover();return;}const region=side(event);copy.toggleAttribute('data-anchor-preview',region==='copy');toggle?.toggleAttribute('data-region-hover',region==='toggle');row.toggleAttribute('data-collapse-hover',region==='toggle');row.style.cursor=region==='gap'?'default':'pointer';});
   row.addEventListener('pointerleave',clearHover);
-  row.addEventListener('click',event=>{if(panel.classList.contains('is-expanded')||title.contains(event.target)||event.target.closest('button,input,label,select,a,summary'))return;if(side(event)==='copy'){copy.focus({preventScroll:true});copy.click();}else toggle?.click();});
+  row.addEventListener('click',event=>{if(panel.classList.contains('is-expanded')||title.contains(event.target)||event.target.closest('button,input,label,select,a,summary'))return;if(side(event)==='copy'){copy.focus({preventScroll:true});copy.click();}else if(side(event)==='toggle')toggle?.click();});
   copy.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();copy.click();}});
   const entry={panel,row,title,text,tab,path,id,copy,target:title.tagName==='H3'?row:panel};entries.push(entry);byURL.set(path+'#'+id,entry);
  }

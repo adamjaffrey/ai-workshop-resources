@@ -10,18 +10,20 @@ html:has(#playground-title){scrollbar-gutter:stable}
 :is([data-panel]>.panel,.url-subsection)>.section-heading>.section-collapse{position:absolute;right:-4px;top:0;margin:0;z-index:0;display:grid;place-items:center;width:44px;height:44px;min-height:44px;padding:0;border:1px solid var(--control-border);border-radius:8px;background:transparent;color:var(--text);cursor:pointer;box-shadow:none;appearance:none;-webkit-tap-highlight-color:transparent;user-select:none;transition:background-color 160ms ease}
 :is([data-panel]>.panel,.url-subsection):not(.is-expanded)>.section-heading :is(h2,h3){position:relative;z-index:1;user-select:none}
 :is([data-panel]>.panel,.url-subsection):not(.is-expanded)>.section-heading :is(h2,h2 *,h3,h3 *,button,button *){cursor:pointer!important}
-.section-collapse>svg{display:block;width:24px;height:24px;transform-origin:center;transition:transform 160ms ease}
+.section-collapse>svg{display:block;width:24px;height:24px;transform:translateX(0) rotate(0deg);transform-origin:center;transition:transform 160ms ease}
 #panel-url-reference .url-subsection>.section-heading{min-height:44px;margin-bottom:24px}
 #panel-url-reference .url-subsection[data-collapsed]{padding-bottom:24px}
 #panel-url-reference .url-subsection[data-collapsed]>.section-heading{margin-bottom:0}
+.section-heading::before{content:"";position:absolute;inset:-4px;border-radius:8px;background:var(--hover);opacity:0;pointer-events:none;z-index:-1;transition:opacity 160ms ease}
+.section-heading:is([data-collapse-hover],:has(>.section-collapse:hover))::before{opacity:1}
 .section-collapse:is(:hover,[data-region-hover]){background:var(--hover)!important}
 :is([data-panel]>.panel,.url-subsection)[data-collapsed]>.section-heading>.section-collapse{background:var(--control-bg)}
-[data-collapsed]>.section-heading>.section-collapse>svg{transform:rotate(90deg)}
+[data-collapsed]>.section-heading>.section-collapse>svg{transform:translateX(-1px) rotate(90deg)}
 [data-panel]>.panel[data-collapsed]>:not(.section-heading),[data-panel]>.panel[data-collapsed]>.section-heading>:not(h2):not(.section-collapse){display:none!important}
 [data-panel]>.panel[data-collapsed]>.section-heading{margin-bottom:0}
 [data-panel]>.panel.is-expanded>.section-heading{padding-right:0}
 [data-panel]>.panel.is-expanded>.section-heading>.section-collapse{display:none}
-@media(prefers-reduced-motion:reduce){.section-collapse,.section-collapse>svg{transition:none}}
+@media(prefers-reduced-motion:reduce){.section-heading::before,.section-collapse,.section-collapse>svg{transition:none}}
 `;
 export const sectionCollapseScript=String.raw`
 // Keep native section children in place: existing specimen and expansion selectors
