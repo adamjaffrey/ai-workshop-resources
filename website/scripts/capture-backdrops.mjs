@@ -16,7 +16,7 @@ export async function embedAssets(html){
  return html;
 }
 export async function prepareSource(browser,kind){
- let html=kind==='resources'?resourcePage:await playgroundPage({includeBackdropComparisons:false});
+ let html=kind==='resources'?resourcePage:await playgroundPage();
  const fingerprint=createHash('sha256').update(html).digest('hex');
  if(kind==='resources'){
   const start=html.indexOf('    async function checkSession()'),end=html.indexOf('  </script>',start);

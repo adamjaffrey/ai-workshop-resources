@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.166"
-  update_summary: "Document five-width responsive capture and one-off comparison"
-  updated_at: "Wed 21 Oct 2026 at 05:38:48 pm AEDT (+11:00)"
+  doc_revision: "26.0.167"
+  update_summary: "Describe current previews and corrected disclosure capture"
+  updated_at: "Wed 21 Oct 2026 at 05:48:41 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -130,7 +130,7 @@ The full publication contract is in [Anonymous Backdrops](../docs/agent-guidance
 
 ### Backdrop Comparisons
 
-Blocks and Blur offers Typography, Colours, Status States, Focus and Selection, and Branding as alternative Background Preview choices. Colours is now the current login backdrop; previous alternatives remain reference captures. Use the shared Screen Width, theme/agent, Preview Layer and blur controls to compare the saved anonymous captures. Choosing a preview never changes production selection. These explicitly requested captures live in `lib/workshop-backdrop-comparisons.generated.json` and are generated manually with `node website/scripts/measure-backdrop-comparisons.mjs` from the repository root; normal builds reuse them.
+Blocks and Blur offers only Resources and Colours, using the current saved geometry from both login destinations. Historical alternatives remain in `lib/workshop-backdrop-comparisons.generated.json` as a local reference and are no longer loaded or shipped in the Playground. Preview selection never changes production settings or remeasures geometry.
 
 ### Static Backdrop Capture
 
@@ -147,7 +147,7 @@ Anonymous backdrop inspection permits only outer-document scrolling. Nested capt
 
 Routine geometry checks use `node website/tests/backdrop-capture-browser-check.mjs` at 380, 660, 940, 1008 and 1248px. Run the placeholder unit tests for content removal, endpoint security and saved-geometry reuse. Use relevant login/shortcut checks when their behaviour changes; older exhaustive word/Components alignment checks are historical diagnostics, not routine capture gates. `node website/scripts/capture-backdrops.mjs` explicitly refreshes both active backdrops in one command; ordinary builds never invoke it. It saves a shared responsive DOM and only changing word metrics as media overrides. Freeze visible control states without exposing hidden icons; retain native text wrapping and prompt glyph scaffolding. Full-document screenshots use a normal viewport height. Small decorative differences are acceptable; missing content, gross clipping, protected text and restored actions are not.
 
-The optional one-off diagnostic is `node website/scripts/compare-backdrops-once.mjs`. It compares actual 381/661/941/1009/1249px layouts against reflowed 660/940/1008/1248/1440px captures and writes local screenshots/results under `work/backdrop-comparison/`. The October 2026 Chrome check found identical sampled container bounds between direct and reflowed anonymous captures at all five pairs. Against the prepared source, Resources differed by at most 0.11px and Colours by about 46px; this Colours difference was shared by direct captures and did not accumulate through reflow. These are sampled container comparisons, not a claim of pixel-perfect parity or physical-device coverage.
+The optional one-off diagnostic is `node website/scripts/compare-backdrops-once.mjs`. It compares actual 381/661/941/1009/1249px layouts against reflowed 660/940/1008/1248/1440px captures and writes local screenshots/results under `work/backdrop-comparison/`. The October 2026 Chrome check found identical sampled container bounds between direct and reflowed anonymous captures at all five pairs. Against the prepared source, Resources differed by at most 0.11px and Colours by about 46px; this Colours difference was shared by direct captures and did not accumulate through reflow. The 46px difference was subsequently traced to disclosure words becoming separate grid cells and corrected by preserving one wrapping label item; the saved word measurements were unchanged. These are sampled container comparisons, not a claim of pixel-perfect parity or physical-device coverage.
 
 ## Agent Logos And Colours
 

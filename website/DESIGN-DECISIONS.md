@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.33"
-  update_summary: "Record lightweight Colours backdrop capture decision"
-  updated_at: "Wed 21 Oct 2026 at 05:38:48 pm AEDT (+11:00)"
+  doc_revision: "26.0.34"
+  update_summary: "Record disclosure grouping and removal of old preview choices"
+  updated_at: "Wed 21 Oct 2026 at 05:48:41 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -374,3 +374,5 @@ Repository-wide permissions and task routing stay in [AGENTS.md](../AGENTS.md). 
 **Rationale:** These are blurred decorative backgrounds, not replicas requiring pixel-level parity. Removing nested specimen frames eliminates their fixed-height clipping risk. The five-width process is faster and smaller than exhaustive width sweeps; normal builds reuse saved assets.
 
 **Owning Rules:** [Anonymous Backdrops](../docs/agent-guidance/backdrops.md#static-capture-behaviour-and-rationale).
+
+Capture preserves each text node as a single anonymous layout item inside flex/grid containers. Splitting a disclosure label into independent grid cells created extra rows (86px instead of 40px); grouping its word blocks fixes the layout while retaining native text wrapping and existing measurements. Blocks and Blur now exposes only the two active captures; retired alternatives are no longer embedded.

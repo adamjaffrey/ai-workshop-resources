@@ -72,8 +72,8 @@ export function measurePlaygroundDocument({frames={},preserveSpecimenLayout=fals
         }
         fragment.append(word); words++;
       }
-      // Preserve the anonymous flex text item (e.g. the two-word logout label).
-      if (/flex/.test(css.display) && node.textContent.trim()) { const label=document.createElement('span'); label.className='ph-flex-text'; label.append(fragment); target.replaceWith(label); }
+      // Preserve one anonymous text item in flex/grid (logout and disclosure labels).
+      if (/flex|grid/.test(css.display) && node.textContent.trim()) { const label=document.createElement('span'); label.className='ph-flex-text'; label.append(fragment); target.replaceWith(label); }
       else target.replaceWith(fragment);
     }
     for (let i = 0; i < cloneElements.length; i++) {

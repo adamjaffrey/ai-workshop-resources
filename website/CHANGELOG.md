@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.279"
-  update_summary: "Simplify backdrop capture and select Colours"
-  updated_at: "Wed 21 Oct 2026 at 05:40:48 pm AEDT (+11:00)"
+  doc_revision: "26.0.280"
+  update_summary: "Keep current backdrop choices and fix disclosure block flow"
+  updated_at: "Wed 21 Oct 2026 at 05:49:26 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.278 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 05:49:26 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Keep current backdrop choices and fix disclosure block flow
+
+### Changed
+
+- Show only Resources and Colours in Background Preview, both using the current five-width captures; stop embedding historical alternatives in the Playground.
+
+### Fixed
+
+- Keep disclosure words together as one anonymous grid text item beside the chevron. Repair the saved Colours structure without remeasuring word geometry, reducing the closed disclosure from 86px to its source height of 40px.
+- Preserve flex/grid text grouping in future captures while allowing the label to wrap naturally.
+
+### Validation
+
+- Five-width backdrop checks, hidden icon and grid disclosure regressions — passed.
+- Current Background Preview selection browser check — passed for both choices.
+- Build-time placeholder unit tests and `npm --prefix website run build` — passed; generated version is v26.0.278.
 
 ## v26.0.277 — 2026-10-21
 

@@ -27,15 +27,14 @@ new MutationObserver(sync).observe(document.body,{childList:true,subtree:true});
 
 // Only the authenticated Playground's isolated specimens use this inline source.
 // A sandboxed ancestor cannot load the same-origin-only production document.
-export function playgroundBackdropPreviewScript(comparisons={}){return `
-const backdropPreviewDocuments=${JSON.stringify(comparisons).replaceAll('<','\\u003c')};
+export function playgroundBackdropPreviewScript(){return `
 window.workshopRenderBackdropPreview=(frame,theme,agent)=>{
  const value=Number(frame.dataset.blockStrength??40),strength=Number.isFinite(value)?Math.max(0,Math.min(100,value)):40;
  const variant=frame.dataset.backdropVariant||'playground';
  const state=variant+'|'+theme+'|'+agent+'|'+strength+'|'+document.body.dataset.review;
  if(frame.dataset.previewState===state)return;
  frame.dataset.previewState=state;
- let html=backdropPreviewDocuments[variant]||${JSON.stringify(staticDocument).replaceAll('<','\\u003c')};
+ let html=${JSON.stringify(staticDocument).replaceAll('<','\\u003c')};
  html=html.replaceAll('--ph-strength:40%','--ph-strength:'+strength+'%');
  html=html.replace(/<html\\b[^>]*>|&lt;html\\b.*?&gt;/g,tag=>tag.replace(/(data-theme=(?:&(?:amp;)*quot;|"))(?:light|dark)/g,'$1'+theme).replace(/(data-selected-agent=(?:&(?:amp;)*quot;|"))(?:codex|claude-code|claude)/g,'$1'+(agent==='claude'?'claude-code':'codex')));
  // Only the outer document may scroll; nested captures remain inert and locked.

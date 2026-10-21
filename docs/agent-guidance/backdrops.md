@@ -3,9 +3,9 @@ name: anonymous-backdrop-contract
 description: Specify anonymous geometry, static capture and publication-only refresh.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.5"
-  update_summary: "Simplify active captures to five widths and select Colours"
-  updated_at: "Wed 21 Oct 2026 at 05:38:48 pm AEDT (+11:00)"
+  doc_revision: "26.0.6"
+  update_summary: "Keep two current previews and preserve grid text items"
+  updated_at: "Wed 21 Oct 2026 at 05:48:41 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -37,6 +37,7 @@ This is a mandatory scoped contract incorporated by [AGENTS.md](../../AGENTS.md)
 - Before every future login-background geometry measurement or snapshot, normalise viewport-fixed positioning to document-anchored positioning and sticky positioning to normal document flow. Disable hover, active and focus-state styling, animations, transitions and scroll-driven state changes in the capture. Preserve initial responsive geometry and the existing cap-height, baseline and wrapping rules. Clear sticky inset offsets as well as sticky positioning so a discarded `top` offset cannot shift the static capture. Never change the real app or Playground's interactive behaviour to prepare a decorative capture.
 - For the Playground backdrop, keep the top-right tools anchored to the captured document and place the Style Inspector last in normal flow. Capture its expanded neutral state; do not retain live inspection readings, floating shadows or bottom viewport reservations. Apply the same static preparation to embedded specimens. Use `website/scripts/prepare-backdrop-capture.mjs` for this preparation and verify that no captured element remains fixed/sticky or changes on hover.
 - Active Resources and Colours captures contain no nested specimen iframes. Use `website/scripts/capture-backdrops.mjs` at exactly 380, 660, 940, 1008 and 1248 CSS pixels with a normal 1000px viewport height; inspect full document height without enlarging the viewport. Save one responsive DOM with metric overrides only for words that change across these widths. Native CSS controls intermediate wrapping and normal container growth; never scale the entire capture or freeze whole prompt lines. No every-pixel height sweep, runtime measurement or routine +1px capture is required.
+- Preserve each original text node as one anonymous text item inside flex/grid layouts. In particular, keep disclosure-label word blocks inside one wrapping span beside the chevron, not as separate grid cells. This is a structural correction and does not require remeasuring saved word widths.
 - Freeze the settled visible state. Preserve hidden/invisible icon layers when replacing SVGs; an inactive loading/success layer must not become a visible block. Keep responsive CSS visibility separate from fixed control state. Lock scrolling without changing native text wrapping, and preserve intentionally bounded prompt windows.
 - Routine geometry validation uses the same five widths, with a small anonymity/state regression check and relevant login/shortcut checks. Accept minor decorative positioning differences. Detect missing content, gross clipping and reactivated state layers; do not require exhaustive word-coordinate parity. The opt-in `compare-backdrops-once.mjs` diagnostic compares 381/661/941/1009/1249px with reflowed captures from 660/940/1008/1248/1440px. It is a migration check, never a routine build/capture dependency.
 - Captured documents remain anonymous and script-disabled. Blocks and Blur may expose outer-document native scrolling to inspect them, but must not restore original actions, hover states or sticky behaviour. Verify that tool silhouettes leave the viewport when scrolled and the inspector appears only at the bottom.
@@ -53,7 +54,7 @@ This is a mandatory scoped contract incorporated by [AGENTS.md](../../AGENTS.md)
 ### Alternative Backdrop Comparisons
 
 - Adam explicitly requested initial captures of Typography, Colours, Status States, Focus and Selection, and Branding for comparison on 21 October 2026. Store these separately in `website/lib/workshop-backdrop-comparisons.generated.json`; capture with `website/scripts/measure-backdrop-comparisons.mjs`. These are historical comparison captures, not routine capture inputs. Adam subsequently selected Colours as the active Playground backdrop and explicitly authorised the five-width migration capture after the responsive layout update. This exception does not authorise automatic remeasurement during ordinary builds.
-- Expose the alternatives through Background Preview in Blocks and Blur, using the existing width, theme, agent, blur, strength, dimming and panel controls. Label Colours as current and explain that previous comparison captures are references only. Do not change the public backdrop endpoint or authentication behaviour.
+- Background Preview exposes only the current Resources and Colours captures. Historical comparison JSON is retained as a local reference but is not loaded or embedded by the Playground. Both current choices share the existing width, theme, agent, blur, strength, dimming and panel controls.
 - Populate dynamic galleries before capture; retain their structural specimen layout attributes, responsive frame heights and anonymous word/icon geometry. Keep all comparison documents inert and script-disabled, with the same outer-only inspection scrolling policy. Future active captures use Resources and Colours only; retain previous comparison documents without routine remeasurement.
 
 The public `/login-backdrop/components` path remains a compatibility name and now serves the selected Colours geometry; it does not expose the protected Components tab.

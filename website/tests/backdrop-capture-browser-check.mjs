@@ -24,6 +24,7 @@ try{
    assert.equal(await root.locator('*').evaluateAll(es=>es.every(e=>getComputedStyle(e).cursor==='default')),true);
    const last=kind==='resources'?p.locator('main footer'):p.locator('.inspector-dock');
    assert.ok(await last.evaluate(e=>e.getBoundingClientRect().bottom<=document.documentElement.scrollHeight+1),'Last section fits document');
+   if(kind==='colours'){assert.equal(await p.locator('.source-rules>summary>.ph-flex-text').count(),1);assert.equal(await p.locator('.source-rules>summary').evaluate(e=>e.getBoundingClientRect().height),40);}
    if(kind==='resources')assert.ok(await p.locator('pre .ph-code-word').count()>0,'Prompt scaffolding retained');
    await p.screenshot({path:new URL(`../work/backdrop-check/${kind}-${width}.png`,import.meta.url).pathname,fullPage:true});
    console.log(`PASS ${kind} ${width}: anonymous, inert cursors, complete document`);
@@ -36,4 +37,13 @@ try{
  assert.equal(await p.locator('.password-icon svg:visible').count(),1);
  assert.equal(await p.locator('.password-icon svg[hidden]').count(),2);
  console.log('PASS password state: one visible layer, two inactive layers remain hidden');
+ // A grid disclosure's anonymous words must remain one wrapping label item.
+ await p.setContent('<style>summary{display:grid;grid-template-columns:20px minmax(0,1fr);font:16px/24px Arial;padding:8px 0}svg{width:18px;height:18px}</style><details><summary><svg></svg>Inspect 200 Source Declarations</summary><p>Hidden body</p></details>');
+ const sourceHeight=await p.locator('summary').evaluate(e=>e.getBoundingClientRect().height);
+ const grid=await p.evaluate(measurePlaygroundDocument);
+ await p.setContent('<style>'+grid.css+placeholderBaseStyles+'</style>'+grid.markup);
+ assert.equal(await p.locator('summary').evaluate(e=>e.getBoundingClientRect().height),sourceHeight);
+ assert.equal(await p.locator('summary>.ph-flex-text').count(),1);
+ assert.equal(await p.locator('details').getAttribute('open'),null);
+ console.log('PASS grid disclosure: one label item and unchanged closed height');
 }finally{await browser.close();}
