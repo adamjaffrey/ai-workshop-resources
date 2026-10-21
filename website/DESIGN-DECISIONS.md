@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.51"
-  update_summary: "Define bordered and centred Playground chevron controls"
-  updated_at: "Thu 22 Oct 2026 at 08:12:44 am AEDT (+11:00)"
+  doc_revision: "26.0.52"
+  update_summary: "Define split heading actions and bounded anchor travel"
+  updated_at: "Thu 22 Oct 2026 at 08:21:06 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -409,3 +409,11 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Rationale:** Adam requested the same heading-copy convention across Resources and Playground. Separating the chevron action removes ambiguity about whether a heading click copies or collapses. The 16px landing preserves the normal gap between sticky tabs and the incoming section. Sharing copy and motion helpers prevents timing and icon-state drift, while a Playground controller accounts for lazy specimen heights, nested H3s and its different sticky layout.
 
 **Owning Rules and Sources:** [Heading Controls](../docs/agent-guidance/interface.md#playground-heading-anchor-controls), [Arrival Motion](../docs/agent-guidance/motion.md#playground-anchor-arrival), [Fragments](../docs/agent-guidance/authentication.md#playground-heading-fragments), [URL Inventory](URL-REFERENCE.md#playground-sections), `scripts/playground-anchors.mjs`, `lib/workshop-anchor-copy.mjs` and `lib/workshop-anchor-motion.mjs`.
+
+## Split Heading Actions and Bounded Travel
+
+**Decision:** The heading and area to its left copy its anchor; empty space to its right toggles collapse, alongside the existing bordered chevron. No full-width toggle overlay is used. Collapsed buttons use the neutral control fill; section height, tint and chevron rotation animate together over 160ms with `ease`. Reduced motion is immediate.
+
+**Rationale:** The split provides a larger mobile toggle region without changing the copy convention. Long anchor trips are capped at three seconds while preserving the shared 300ms smooth acceleration/deceleration and final 600ms fades. Tab changes retain the current header scroll depth while the bar is not pinned, including cross-tab anchor changes, so changing content does not unnecessarily hide the header.
+
+**Owning Rules:** [Heading Controls](../docs/agent-guidance/interface.md#playground-heading-anchor-controls) and [Anchor Arrival](../docs/agent-guidance/motion.md#playground-anchor-arrival).

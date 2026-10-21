@@ -13,6 +13,7 @@ ${anchorCopyCSS}
 [data-playground-anchor-leaving]{transition:opacity 600ms cubic-bezier(.2,0,.2,1)}
 [data-playground-anchor-hidden]{opacity:0!important;pointer-events:none}
 html[data-playground-anchor-arriving] [data-playground-anchor-leaving]{opacity:calc(1 - var(--playground-anchor-progress,0));transition:none}
+html[data-playground-disclosure-settling]{overflow-anchor:none}
 html[data-playground-anchor-arriving] .toolbar,html[data-playground-anchor-arriving] [data-panel]{overflow-anchor:none}
 .playground-anchor-room{height:var(--playground-anchor-room,0px);pointer-events:none}
 @media(prefers-reduced-motion:reduce){[data-playground-anchor-leaving]{transition:none}}
@@ -38,9 +39,16 @@ export function initPlaygroundAnchors({select,tabPaths,sticky,scheduleCaps,insta
    last.textContent=leading?first[1]:words[2];copy.replaceChildren(...(leading?[tail,document.createTextNode(first[2])]:words[1]?[document.createTextNode(words[1]),tail]:[tail]));
   };
   alignSide();window.addEventListener('resize',alignSide);
+  title.style.flex='0 1 auto';title.style.width='max-content';title.style.maxWidth='100%';
   title.addEventListener('pointerenter',()=>copy.setAttribute('data-anchor-preview',''));
   title.addEventListener('pointerleave',()=>copy.removeAttribute('data-anchor-preview'));
   title.addEventListener('click',event=>{if(!copy.contains(event.target)){copy.focus({preventScroll:true});copy.click();}});
+  const toggle=row.querySelector('.section-collapse');
+  const side=event=>event.clientX<=title.getBoundingClientRect().right?'copy':'toggle';
+  const clearHover=()=>{copy.removeAttribute('data-anchor-preview');toggle?.removeAttribute('data-region-hover');row.style.cursor='';};
+  row.addEventListener('pointermove',event=>{if(panel.classList.contains('is-expanded')||event.target.closest('button,input,label,select,a,summary')){clearHover();return;}const left=side(event)==='copy';copy.toggleAttribute('data-anchor-preview',left);toggle?.toggleAttribute('data-region-hover',!left);row.style.cursor='pointer';});
+  row.addEventListener('pointerleave',clearHover);
+  row.addEventListener('click',event=>{if(panel.classList.contains('is-expanded')||title.contains(event.target)||event.target.closest('button,input,label,select,a,summary'))return;if(side(event)==='copy'){copy.focus({preventScroll:true});copy.click();}else toggle?.click();});
   copy.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();copy.click();}});
   const entry={panel,row,title,text,tab,path,id,copy,target:title.tagName==='H3'?row:panel};entries.push(entry);byURL.set(path+'#'+id,entry);
  }
@@ -52,7 +60,16 @@ export function initPlaygroundAnchors({select,tabPaths,sticky,scheduleCaps,insta
  const frame=()=>new Promise(r=>requestAnimationFrame(r));
  function restore(){for(const el of hidden){el.removeAttribute('data-playground-anchor-hidden');el.inert=false;setTimeout(()=>{if(!hidden.includes(el))el.removeAttribute('data-playground-anchor-leaving');},motion.matches?0:600);}hidden=[];}
  function trim(){const amount=parseFloat(root.style.getPropertyValue('--playground-anchor-room'))||0;if(amount){const naturalMax=root.scrollHeight-innerHeight-amount;root.style.setProperty('--playground-anchor-room',Math.max(0,Math.ceil(scrollY-naturalMax))+'px');}}
- function leave(){generation++;arriving=false;active=null;followLayout=false;focusRoute=null;delete root.dataset.playgroundAnchorArriving;restore();trimRoom=true;trim();}
+ function leave(){root.removeAttribute('data-playground-disclosure-settling');generation++;arriving=false;active=null;followLayout=false;focusRoute=null;delete root.dataset.playgroundAnchorArriving;restore();trimRoom=true;trim();}
+ function prepareDisclosure(panel){
+  const y=scrollY,amount=parseFloat(root.style.getPropertyValue('--playground-anchor-room'))||0;
+  // Reserve space before any layout contraction, then retain only the amount
+  // needed to keep the reader's viewport stable. Trim on subsequent scrolling.
+  if(amount)root.style.setProperty('--playground-anchor-room',(amount+panel.getBoundingClientRect().height)+'px');
+  leave();trimRoom=false;root.setAttribute('data-playground-disclosure-settling','');
+  if(amount)root.style.setProperty('--playground-anchor-room',(amount+panel.getBoundingClientRect().height)+'px');
+  return ()=>{if(amount){correcting=true;const roomSize=parseFloat(root.style.getPropertyValue('--playground-anchor-room'))||0,naturalMax=root.scrollHeight-innerHeight-roomSize;root.style.setProperty('--playground-anchor-room',Math.max(0,Math.ceil(y-naturalMax))+'px');scrollTo({top:y,behavior:'instant'});sticky.update();lastY=scrollY;correcting=false;}const token=generation;setTimeout(()=>{if(token===generation){trimRoom=true;root.removeAttribute('data-playground-disclosure-settling');}},200);};
+ }
  function beforeTarget(entry){
   const result=[],parent=entry.panel.closest('[data-panel]'),card=entry.panel.closest('[data-panel]>.panel');
   for(const el of parent.children){if(el===card)break;if(el.matches('.panel'))result.push(el);}
@@ -86,12 +103,14 @@ export function initPlaygroundAnchors({select,tabPaths,sticky,scheduleCaps,insta
  function writeURL(url){if(location.href===url.href)return;writing=true;try{history.replaceState(history.state,'',url);}finally{writing=false;}}
  async function navigate(input=location.href,{rewrite=true}={}){
   const url=new URL(input,location.href),entry=resolve(url);if(!entry){leave();return false;}
+  const keepHeader=entry.tab!==document.querySelector('[data-tab][aria-selected=true]')?.dataset.tab&&!document.querySelector('.tab-scroll-shell').classList.contains('is-pinned'),savedY=scrollY;
   leave();document.querySelectorAll('[data-playground-anchor-leaving]').forEach(el=>el.removeAttribute('data-playground-anchor-leaving'));const token=++generation;arriving=true;trimRoom=false;root.dataset.playgroundAnchorArriving='';root.style.setProperty('--playground-anchor-progress','0');
   // Exit an expanded specimen before addressing its normal page section.
   for(const dialog of document.querySelectorAll('.preview-dialog.is-expanded'))dialog.querySelector('.preview-expand')?.click();
   select(tabButton(entry),false);
   entry.panel.closest('[data-panel]>.panel')?.workshopSetCollapsed?.(false);entry.panel.workshopSetCollapsed?.(false);
   await settle(entry,token);if(token!==generation)return false;
+  if(keepHeader){delete root.dataset.playgroundAnchorArriving;arriving=false;scrollTo({top:savedY,behavior:'instant'});sticky.update();if(rewrite)writeURL(urlFor(entry));return true;}
   hidden=beforeTarget(entry);for(const el of hidden){el.setAttribute('data-playground-anchor-leaving','');el.inert=false;}
   const start=scrollY;
   // Ensure the probe and final destination are reachable near the footer.
@@ -121,7 +140,7 @@ export function initPlaygroundAnchors({select,tabPaths,sticky,scheduleCaps,insta
  window.addEventListener('hashchange',historyArrival);window.addEventListener('popstate',historyArrival);window.addEventListener('pageshow',e=>{if(e.persisted)historyArrival();});
  let resizeFrame=0;const observe=new ResizeObserver(()=>{if(!active||!followLayout||arriving||resizeFrame)return;resizeFrame=requestAnimationFrame(()=>{resizeFrame=0;if(!active||!followLayout)return;correcting=true;const delta=active.target.getBoundingClientRect().top-stickyBottom()-16;if(Math.abs(delta)>1){const extra=Math.max(0,scrollY+delta-(root.scrollHeight-innerHeight));if(extra)root.style.setProperty('--playground-anchor-room',(parseFloat(root.style.getPropertyValue('--playground-anchor-room'))||0)+extra+'px');scrollTo({top:Math.ceil(scrollY+delta),behavior:'instant'});sticky.update();lastY=scrollY;}correcting=false;});});
  for(const panel of document.querySelectorAll('[data-panel]>.panel'))observe.observe(panel);
- window.workshopPlaygroundAnchors={navigate,leave,entries,resetCopy:feedback.resetCopy};
+ window.workshopPlaygroundAnchors={navigate,leave,prepareDisclosure,entries,resetCopy:feedback.resetCopy};
  const initial=window.workshopInitialPlaygroundURL||location.href;
  if(resolve(new URL(initial))){const start=()=>navigate(initial);if(document.readyState==='complete')start();else addEventListener('load',start,{once:true});}
  else if(window.workshopInitialPlaygroundURL)writeURL(new URL(initial));

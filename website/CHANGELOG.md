@@ -3,14 +3,44 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.298"
-  update_summary: "Clarify Playground chevron targets with borders and spacing"
-  updated_at: "Thu 22 Oct 2026 at 08:14:30 am AEDT (+11:00)"
+  doc_revision: "26.0.299"
+  update_summary: "Refine split heading actions and stable bounded scrolling"
+  updated_at: "Thu 22 Oct 2026 at 08:24:08 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.297 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 08:24:08 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine split heading actions and stable bounded scrolling
+
+### Changed
+
+- Split heading rows into left copy and right collapse regions without a full-row overlay; retain independent header controls and neutral section icons.
+- Synchronise the collapsed neutral tint, chevron rotation and section-height animation over 160ms; retain reduced-motion behaviour and keyboard focus while removing native tap highlight.
+- Cap shared Resources/Playground anchor travel at three seconds with existing acceleration/deceleration and arrival fades.
+- Preserve header scroll depth for regular and cross-tab anchor changes when the tab bar is not yet pinned.
+
+### Fixed
+
+- Reserve temporary bottom space before user section contraction and defer trimming so near-footer anchors do not jump or re-scroll during collapse.
+
+### Validation
+
+- Split-region, collapsed tint, preserved tab depth and near-footer viewport regression checks in Chrome and WebKit at mobile and desktop widths — passed.
+- All 31 anchor landing, re-entry, focus, restore and clipboard checks in Chrome and WebKit — passed.
+- Resources shared-motion regression and seven-width Playground alignment checks — passed.
+- Production build using saved backdrop geometry — passed.
 
 ## v26.0.296 — 2026-10-22
 
