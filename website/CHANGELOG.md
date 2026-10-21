@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.271"
-  update_summary: "Use font-defined hyperlink and anchor underlines"
-  updated_at: "Wed 21 Oct 2026 at 02:12:33 pm AEDT (+11:00)"
+  doc_revision: "26.0.272"
+  update_summary: "Use automatic hyperlink and anchor underline thickness"
+  updated_at: "Wed 21 Oct 2026 at 03:13:48 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.270 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 03:13:48 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Use automatic hyperlink and anchor underline thickness
+
+### Changed
+
+- Use auto for both hyperlink and Step anchor underline thickness, following the comparison review. Retain underline offset, hover background geometry and visibility rules.
+- Update the owning interface contract, README and design decision log.
+
+### Validation
+
+- Chrome/WebKit at mobile and desktop widths, light and dark themes — both link types use auto; offset and visibility checks passed, with heading screenshots reviewed. Installed Safari was not tested.
+- Hyperlink interaction regression — hit bounds, hover, focus and mouse/touch/keyboard activation passed.
+- Local website build and output checks — passed with saved backdrop geometry and v26.0.270.
 
 ## v26.0.269 — 2026-10-21
 

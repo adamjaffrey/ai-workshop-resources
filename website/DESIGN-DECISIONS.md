@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.25"
-  update_summary: "Record font-defined underlines with automatic fallback"
-  updated_at: "Wed 21 Oct 2026 at 02:11:55 pm AEDT (+11:00)"
+  doc_revision: "26.0.26"
+  update_summary: "Use automatic hyperlink and anchor underline thickness"
+  updated_at: "Wed 21 Oct 2026 at 03:13:08 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -136,7 +136,7 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 
 ## Navigation Links and Copy Feedback
 
-**Decision:** Use the shared cropped Lucide Arrow Up Right, with an underlined text span and non-wrapping final-word/arrow tail. Preserve shared colour, hover and focus tokens, and the measured hit surface. Prompt and QR copy actions share success/failure feedback; keep code selectable and clipboard fallbacks available. Use the shared renderer rather than copies of its styles. Hyperlinks and Step anchors use font-defined underline thickness, declaring `auto` before `from-font` for compatibility. Keep the existing `.18em` offset and hover-only underline for Step anchors. This replaces fixed 1px thickness: font metrics give bold headings a more appropriate underline weight, with some expected differences between browser/font renderers.
+**Decision:** Use the shared cropped Lucide Arrow Up Right, with an underlined text span and non-wrapping final-word/arrow tail. Preserve shared colour, hover and focus tokens, and the measured hit surface. Prompt and QR copy actions share success/failure feedback; keep code selectable and clipboard fallbacks available. Use the shared renderer rather than copies of its styles. Hyperlinks and Step anchors use `text-decoration-thickness:auto`, selected after comparing from-font, auto and fixed 1–2.5px options at both text sizes. Keep the existing `.18em` offset and hover-only underline for Step anchors. This supersedes the earlier fixed 1px and from-font treatments. The browser chooses the thickness; renderer differences are expected.
 
 **Rationale:** Documented: the non-wrapping tail prevents an orphaned arrow; the cropped viewBox removes empty SVG space without changing visible stroke scale. Hover/feedback lifecycles avoid a second background fade and retain keyboard visibility. Specific feedback durations are documented in the README, without a separate rationale for each value.
 

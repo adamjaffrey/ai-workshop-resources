@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.161"
-  update_summary: "Document font-defined hyperlink and anchor underlines"
-  updated_at: "Wed 21 Oct 2026 at 02:11:55 pm AEDT (+11:00)"
+  doc_revision: "26.0.162"
+  update_summary: "Use automatic hyperlink and anchor underline thickness"
+  updated_at: "Wed 21 Oct 2026 at 03:13:08 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -370,7 +370,7 @@ Control groups use natural-width wrapping rows rather than being forced onto one
 
 `lib/workshop-links.mjs` decorates navigation/source links with the installed Lucide Arrow Up Right, including dynamically generated catalogue links. Text has its own underlined span; the arrow inherits the same colour but is not underlined. A 2px vertical and 3px horizontal inset pads the entire hover target. The final word, non-breaking space and arrow form a non-wrapping tail, so the arrow cannot occupy a line alone. Both icon catalogues use `View Source · PROVIDER · ICON-NAME`. Playground source visibility remains separately controlled.
 
-Link text, visited text, arrows and underlines use `--link`, aliased to `--icon-ink`. Light mode mixes 80% agent accent with black: Codex `#026ACC`, Claude `#AE5F46`. Dark mode mixes 55% accent with white: Codex `#74BCFF`, Claude `#EAB4A3`. Hyperlinks and Step anchors share `text-decoration-thickness:auto; text-decoration-thickness:from-font`, using the font’s underline metrics with automatic fallback and the existing `.18em` offset. Hyperlink underlines remain visible in resting and hovered states; Step underlines appear only on hover. Hover text uses the agent accent, while the background uses the shared `--link-hover-bg` token. Resting link colours and selection colours remain distinct shared tokens derived from the same agent accent. Reduced motion disables the existing hover-colour transition.
+Link text, visited text, arrows and underlines use `--link`, aliased to `--icon-ink`. Light mode mixes 80% agent accent with black: Codex `#026ACC`, Claude `#AE5F46`. Dark mode mixes 55% accent with white: Codex `#74BCFF`, Claude `#EAB4A3`. Hyperlinks and Step anchors share `text-decoration-thickness:auto`, letting the browser choose the underline weight and the existing `.18em` offset. Hyperlink underlines remain visible in resting and hovered states; Step underlines appear only on hover. Hover text uses the agent accent, while the background uses the shared `--link-hover-bg` token. Resting link colours and selection colours remain distinct shared tokens derived from the same agent accent. Reduced motion disables the existing hover-colour transition.
 
 `node website/tests/playground-links-and-tabs-browser-check.mjs` checks link colours/decoration, source-label parity, mobile edge clamping, fade-aware tablet/desktop selection, scrollbar separation and native agent-selector parity.
 
