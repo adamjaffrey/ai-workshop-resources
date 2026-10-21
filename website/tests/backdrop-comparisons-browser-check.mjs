@@ -9,7 +9,7 @@ try{
  const blocks=await (await p.locator('#blocks-frame').elementHandle()).contentFrame();
  await blocks.waitForFunction(()=>typeof demoBlocks==='function');
  assert.deepEqual(await p.locator('input[name=block-destination]').evaluateAll(es=>es.map(e=>e.value)),['resources','playground']);
- assert.deepEqual(await p.locator('input[name=block-destination]').evaluateAll(es=>es.map(e=>e.parentElement.textContent.trim())),['AI Workshop Resources','Component Playground > Colours']);
+ assert.deepEqual(await p.locator('input[name=block-destination]').evaluateAll(es=>es.map(e=>e.parentElement.textContent.trim())),['Resources','Playground > Colours']);
  for(const destination of ['playground','resources']){
   await p.locator('input[name=block-destination][value='+destination+']').locator('..').click();
   await p.locator('input[name=review][value=clear]').locator('..').click();

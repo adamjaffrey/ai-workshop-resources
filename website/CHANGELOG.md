@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.281"
-  update_summary: "Use visible SVG bounds for blocks and rename backdrop choices"
-  updated_at: "Wed 21 Oct 2026 at 06:01:00 pm AEDT (+11:00)"
+  doc_revision: "26.0.282"
+  update_summary: "Shorten backdrop preview labels and reconcile iframe sizing"
+  updated_at: "Wed 21 Oct 2026 at 06:16:16 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.280 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 06:16:16 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Shorten backdrop preview labels and reconcile iframe sizing
+
+### Changed
+
+- Rename Background Preview options to Resources and Playground > Colours.
+- Audit Playground frame sizing against the current content-height rule; retain existing behaviour pending a decision about restoring the superseded 70% cap.
+
+### Validation
+
+- Mobile and desktop specimen fidelity, inline scroll ownership and wheel chaining — passed.
+- Both renamed backdrop options and selections — passed.
+- Placeholder unit checks and production build — passed.
 
 ## v26.0.279 — 2026-10-21
 
