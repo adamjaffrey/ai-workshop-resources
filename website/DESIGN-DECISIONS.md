@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.56"
-  update_summary: "Clarify login intent and document inverse selector aliases"
-  updated_at: "Thu 22 Oct 2026 at 09:05:59 am AEDT (+11:00)"
+  doc_revision: "26.0.57"
+  update_summary: "Standardise Playground actions and shared anchor table widths"
+  updated_at: "Thu 22 Oct 2026 at 09:15:01 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -433,3 +433,11 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Rationale:** The wider neutral region clarifies the action boundary. One shared Markdown inventory keeps the document and Playground aligned. The 44px standalone chevron remains consistent with icon buttons; selector groups are taller because their 40px controls sit inside padding and a border.
 
 **Owning Rules:** [Interface](../docs/agent-guidance/interface.md#playground-heading-anchor-controls) and [Anchor Links](URL-REFERENCE.md#anchor-links).
+
+## Fifty-Pixel Playground Actions
+
+**Decision:** Standardise outer Playground icon action buttons at 50px square to match the selector groups’ outer height. Keep SVG sizes and the collapsed chevron optical correction. Move the chevron 4px right from its former rail, preserve 24px vertical padding, extend row tint rightward and use a 20px inactive split. Share anchor table widths with 46% reserved for canonical URLs and explicit bold fragment code.
+
+**Rationale:** Adam requested consistent outer control dimensions and greater URL readability. This changes standalone Playground actions without changing selector segments or embedded source specimens.
+
+**Owning Rules:** [Interface](../docs/agent-guidance/interface.md#playground-heading-anchor-controls).

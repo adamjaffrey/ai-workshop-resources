@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.303"
-  update_summary: "Clarify login intent and repair Playground structure checks"
-  updated_at: "Thu 22 Oct 2026 at 09:08:39 am AEDT (+11:00)"
+  doc_revision: "26.0.304"
+  update_summary: "Standardise Playground action sizes and anchor table columns"
+  updated_at: "Thu 22 Oct 2026 at 09:15:44 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.302 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 09:15:44 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Standardise Playground action sizes and anchor table columns
+
+### Changed
+
+- Use 50px square outer Playground icon actions, including section chevrons, Style Options/close, Back to Top, replay, reset, copy values and expand/contract view; retain SVG sizes, accessible names and tooltip labels.
+- Move chevrons 4px right from the former rail, preserve 24px vertical clearance and optical correction, extend row tint rightward and increase the inactive gap to 20px.
+- Give both anchor tables identical column proportions, reserve 46% for canonical URLs and explicitly render fragment code at bold weight.
+
+### Validation
+
+- Chrome/WebKit action geometry, accessible names, shared table widths and computed fragment weight at mobile/desktop widths — passed.
+- Section-collapse, split action, inactive gap, optical correction and near-footer viewport checks — passed.
+- Production build with saved backdrop geometry — passed.
 
 ## v26.0.301 — 2026-10-22
 

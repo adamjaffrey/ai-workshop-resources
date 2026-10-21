@@ -11,11 +11,11 @@ nav[role=tablist] button{display:inline-flex;align-items:center;gap:8px}nav[role
 nav[role=tablist]{border-bottom:0;padding-bottom:0;gap:0!important;background:none}
 .panel-actions,.panel-options{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:var(--control-related-gap);margin-top:24px}
 .control-footer{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:var(--control-row-gap) var(--control-column-gap);margin-top:32px}.control-footer>.panel-actions,.control-footer>.panel-options{margin:0}.control-footer>.choices{flex:1;min-width:180px}.control-footer>.checkbox-controls{flex:1}.control-footer .panel-actions{margin-left:auto}
-.icon-button,.preview-expand{display:inline-flex;flex-direction:row;align-items:center;justify-content:center;gap:8px;width:max-content;max-width:100%;min-height:44px;white-space:nowrap}
+.icon-button,.preview-expand{display:inline-flex;flex-direction:row;align-items:center;justify-content:center;gap:8px;width:max-content;max-width:100%;min-height:50px;white-space:nowrap}
 .icon-button svg,.preview-expand svg{width:18px;height:18px;flex:none}.icon-button .action-label{display:inline}
 #perspective-replay{width:max-content;justify-self:start;grid-column:1/-1;align-self:end;margin:0;font-size:14px;font-weight:600;gap:8px}
 .preview-dialog:not(.is-expanded)>.frame-wrap{position:relative;isolation:isolate}
-.preview-dialog:not(.is-expanded)>.frame-wrap>.preview-expand{position:absolute;bottom:12px;right:12px;z-index:2;box-shadow:var(--floating-control-shadow);height:44px}
+.preview-dialog:not(.is-expanded)>.frame-wrap>.preview-expand{position:absolute;bottom:12px;right:12px;z-index:2;box-shadow:var(--floating-control-shadow);height:50px}
 .preview-dialog:not(.is-expanded)>.frame-wrap>.preview-expand .action-label{display:inline}
 .panel:not(.is-expanded){padding:24px}
 .preview-dialog.is-expanded>details:not(.preview-settings):not(.preview-state-settings){display:none}
@@ -27,11 +27,11 @@ nav[role=tablist]{border-bottom:0;padding-bottom:0;gap:0!important;background:no
 #login-preview .state-tools{display:flex!important;flex-flow:row nowrap;align-items:flex-start;gap:32px}
 #login-preview #login-destination{flex:0 0 auto}#login-preview #state{flex:1;min-width:0}
 /* Expanded actions share one fixed-height row; only the title scrolls. */
-.preview-dialog.is-expanded>.section-heading{display:flex;flex-wrap:nowrap;align-items:center;gap:8px;min-height:44px;flex:none}
-.preview-dialog.is-expanded>.section-heading h2{display:flex;align-items:center;flex:1 1 0;flex-basis:0;min-width:0;white-space:nowrap;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;padding:0;line-height:44px;height:44px}
+.preview-dialog.is-expanded>.section-heading{display:flex;flex-wrap:nowrap;align-items:center;gap:8px;min-height:50px;flex:none}
+.preview-dialog.is-expanded>.section-heading h2{display:flex;align-items:center;flex:1 1 0;flex-basis:0;min-width:0;white-space:nowrap;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;padding:0;line-height:50px;height:50px}
 .preview-dialog.is-expanded>.section-heading h2>span{flex:none;min-width:max-content}.preview-dialog.is-expanded>.section-heading h2>svg{align-self:center;margin:0}
 .heading-actions{display:flex;align-items:center;gap:8px;flex:none;position:relative;z-index:2}
-.heading-actions:empty{display:none}.heading-actions button{width:44px;height:44px;padding:10px;box-shadow:none}
+.heading-actions:empty{display:none}.heading-actions button{width:50px;height:50px;padding:10px;box-shadow:none}
 .heading-actions button .action-label{display:none!important}
 .preview-dialog.is-expanded>.panel-actions{display:none}
 .expanded-state-controls>:is(.selector-row,.choices,.state-tools,.panel-actions,.panel-options,.control-footer,.checkbox-controls){margin-block:32px}.expanded-state-controls>.panel-actions{display:flex;justify-content:flex-start}.preview-dialog.is-expanded>.frame-wrap{margin-top:16px}
@@ -78,9 +78,9 @@ summary{list-style:none;cursor:pointer}summary::-webkit-details-marker{display:n
 summary>.disclosure-chevron{width:18px;height:18px;vertical-align:-3px;margin-right:8px;transition:transform 160ms;flex:none}
 details[open]>summary>.disclosure-chevron{transform:rotate(90deg)}
 #back-to-top,body>#style-options{right:max(24px,calc((100vw - 1200px)/2));top:var(--floating-tools-top,43px)}
-@media(max-width:660px){#back-to-top{top:calc(var(--floating-tools-top,43px) + 56px)}}
+@media(max-width:660px){#back-to-top{top:calc(var(--floating-tools-top,43px) + 58px)}}
 #style-dialog{inset:var(--style-dialog-top,24px) 24px auto;margin:0;width:calc(100% - 48px);max-width:none;max-height:calc(100dvh - var(--style-dialog-top,24px) - 24px)}
-#style-options{width:48px;height:48px;padding:11px}
+#style-options{width:50px;height:50px;padding:12px}
 #style-options svg{display:block;width:24px;height:24px}
 #style-dialog #style-options{border:1px solid transparent;padding:11px}
 
@@ -141,7 +141,7 @@ main.wrap{padding-top:24px}
  .tab-scroll-shell::before{top:-100vh;left:calc((100% - 100vw)/2);right:calc((100% - 100vw)/2);opacity:var(--mobile-header-fill,0)}
  .tab-scroll-shell.is-pinned::before{top:-100vh;left:calc((100% - 100vw)/2);right:calc((100% - 100vw)/2)}
  body>#style-options{top:var(--floating-tools-top,24px);right:24px}
- #back-to-top{top:calc(var(--floating-tools-top,24px) + 56px);right:24px}
+ #back-to-top{top:calc(var(--floating-tools-top,24px) + 58px);right:24px}
 }
 [data-panel]>.panel:first-child{margin-top:0}
 
@@ -175,7 +175,7 @@ const tabRail=document.querySelector('nav[role=tablist]'),tabShell=document.crea
 // Keep the native scrollbar in the lower gap, outside the tab row's layout height.
 const measureTabRow=()=>{const height=tabRail.querySelector('button').getBoundingClientRect().height+'px';tabShell.style.setProperty('--tab-row-height',height);};
 new ResizeObserver(measureTabRow).observe(tabRail);document.fonts.ready.then(measureTabRow);measureTabRow();
-const updateFloatingTools=()=>{const brand=document.querySelector('.playground-brand-row').getBoundingClientRect();document.documentElement.style.setProperty('--floating-tools-top',(innerWidth<=660?Math.max(24,brand.top+(brand.height-48)/2,tabShell.getBoundingClientRect().height+12-Math.max(0,tabShell.getBoundingClientRect().top)):Math.max(24,brand.top+(brand.height-48)/2))+'px');};
+const updateFloatingTools=()=>{const brand=document.querySelector('.playground-brand-row').getBoundingClientRect();document.documentElement.style.setProperty('--floating-tools-top',(innerWidth<=660?Math.max(24,brand.top+(brand.height-50)/2,tabShell.getBoundingClientRect().height+12-Math.max(0,tabShell.getBoundingClientRect().top)):Math.max(24,brand.top+(brand.height-50)/2))+'px');};
 addEventListener('scroll',updateFloatingTools,{passive:true});addEventListener('resize',updateFloatingTools);updateFloatingTools();
 const previewActionHomes=new WeakMap();
 function placePreviewActions(dialog,expanded){
@@ -200,7 +200,7 @@ for(const dialog of document.querySelectorAll('.preview-dialog')){
   (expand?frame:row).append(button);
   const home=document.createComment('preview-action-home');button.after(home);homes.push({button,home});
  }
- const replay=dialog.querySelector('#perspective-replay');if(replay)row.prepend(replay);if(row.children.length)frame.before(row);
+ const replay=dialog.querySelector('#perspective-replay');if(replay){replay.setAttribute('aria-label','Replay Animation');replay.title='Replay Animation';row.prepend(replay);}if(row.children.length)frame.before(row);
  previewActionHomes.set(dialog,homes);
 }
 // Checkboxes belong with their controls, never in the module heading.
@@ -282,7 +282,12 @@ export const selectorRowCSS=`
 [data-panel]{min-height:calc(100dvh - var(--sticky-tab-top,24px))}
 [data-panel]>.panel{margin-block:16px}
 #panel-url-reference .url-reference-intro{margin-bottom:16px}
-#perspective-replay{padding:10px;gap:8px}.panel-actions>button{margin-inline:0}
+#perspective-replay{padding:10px;gap:8px}
+/* Outer Playground actions share selector-group height; specimens stay canonical. */
+body :is(.icon-button,.preview-expand,#perspective-replay,#style-options,#back-to-top){width:50px;min-width:50px;max-width:50px;height:50px;min-height:50px;padding:0;display:inline-flex;align-items:center;justify-content:center}
+body :is(.icon-button,.preview-expand)>.action-label,body #perspective-replay>span{display:none!important}
+body #style-dialog #style-options{padding:0}
+.panel-actions>button{margin-inline:0}
 .preview-dialog.is-expanded .expanded-state-controls>:is(.selector-row,.state-tools,.choices,.panel-actions,.panel-options,.control-footer,.checkbox-controls){margin-block:32px}
 .preview-dialog.is-expanded .expanded-state-controls .field{margin-top:0;gap:4px}
 .preview-dialog.is-expanded .panel-actions{justify-content:flex-end}

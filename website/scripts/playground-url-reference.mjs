@@ -35,7 +35,7 @@ export function renderUrlReference(markdown,renderHeading){
    const compact=new Set(['Purpose','Browser Title','Canonical Address or Path','Source Hostname','Destination Hostname','Canonical Path','Canonical Parameter','Status and Owner']);
    const prose=new Set(['Status and Owner','Effect','Result','Automatic Local Preview','Hosted Application','Request','Action']);
    const kinds=rows[0].slice(1,-1).split('|').map(name=>name.trim()==='Section'?'anchor-section':name.trim()==='Heading'?'anchor-heading':name.trim()==='Canonical Anchor URL'?'anchor-url':name.trim()==='Effect'?'effect':compact.has(name.trim())?'compact':prose.has(name.trim())?'prose':'aliases');
-   html+='<div class="url-table" tabindex="0" role="region" aria-label="'+escape(sectionTitle)+' Table"><table><thead><tr>'+cells(rows[0]).map((cell,index)=>'<th scope="col" data-column-style="'+kinds[index]+'">'+cell+'</th>').join('')+'</tr></thead><tbody>'+rows.slice(2).map(row=>'<tr>'+cells(row).map((cell,index)=>'<td data-column-style="'+kinds[index]+'">'+cell+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>';continue;
+   html+='<div class="url-table" tabindex="0" role="region" aria-label="'+escape(sectionTitle)+' Table"><table'+(kinds.includes('anchor-url')?' class="anchor-table"':'')+'><thead><tr>'+cells(rows[0]).map((cell,index)=>'<th scope="col" data-column-style="'+kinds[index]+'">'+cell+'</th>').join('')+'</tr></thead><tbody>'+rows.slice(2).map(row=>'<tr>'+cells(row).map((cell,index)=>'<td data-column-style="'+kinds[index]+'">'+cell+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>';continue;
   }
   if(line.startsWith('- ')){
    html+='<ul>';do{html+='<li>'+inline(lines[i].slice(2))+'</li>';i++;}while(i<lines.length&&lines[i].startsWith('- '));i--;html+='</ul>';continue;
@@ -67,6 +67,13 @@ ${copyTextCSS}
 #panel-url-reference [data-column-style=anchor-heading]{min-width:38ch;max-width:42ch}
 #panel-url-reference [data-column-style=anchor-url]{min-width:30ch;max-width:44ch;overflow-wrap:anywhere}
 #panel-url-reference [data-column-style=anchor-url] code{white-space:normal;overflow-wrap:anywhere}
+#panel-url-reference .anchor-table{table-layout:fixed;width:100%;min-width:1120px;max-width:none}
+#panel-url-reference .anchor-table :is(th,td){min-width:0;max-width:none}
+#panel-url-reference .anchor-table th:nth-child(1){width:18%}
+#panel-url-reference .anchor-table th:nth-child(2){width:24%}
+#panel-url-reference .anchor-table th:nth-child(3){width:46%}
+#panel-url-reference .anchor-table th:nth-child(4){width:12%}
+#panel-url-reference [data-column-style=anchor-url] strong code{font-weight:700}
 #panel-url-reference code{font:0.9em/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
 #panel-url-reference .url-code-block{position:relative;margin:16px -4px;border:1px solid var(--panel-border);border-radius:12px;background:var(--content-surface);color:var(--text)}
 #panel-url-reference .code-header{min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--panel-border);padding:12px 20px}

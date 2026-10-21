@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.17"
-  update_summary: "Clarify login intent and document inverse selector aliases"
-  updated_at: "Thu 22 Oct 2026 at 09:05:59 am AEDT (+11:00)"
+  doc_revision: "26.0.18"
+  update_summary: "Standardise Playground actions and shared anchor table widths"
+  updated_at: "Thu 22 Oct 2026 at 09:15:01 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -175,7 +175,7 @@ Every collapsible outer H2/H3 also has a copyable heading anchor. The inventory 
 | URL Reference | Sources (H2) | `/component-playground/url-reference`**`#sources`** | — |
 | Easter Egg | Easter Egg (H2) | `/component-playground/easter-egg`**`#easter-egg`** | — |
 
-Clicking the heading or its assigned icon copies the canonical URL without moving the page. The separate chevron and the empty right-hand header region toggle the section; a 16px neutral gap separates that region from the heading copy area. Copied links retain the current query except `show-login`. Opening, reloading or re-entering an anchor selects its tab, opens the enclosing section and scrolls to 16px below the settled sticky tab bar. H2 targets use the card edge; H3 targets use the heading row. Earlier cards/content fade during the final 600ms of travel, retain layout space and return on upward scrolling. Fragments remain client-side and survive login. Unknown fragments remain unchanged. Selecting another tab clears the previous fragment. If the header above the tabs is still visible, ordinary and same-document cross-tab anchor changes preserve the current scroll depth rather than forcing the tab bar to pin.
+Clicking the heading or its assigned icon copies the canonical URL without moving the page. The separate chevron and the empty right-hand header region toggle the section; a 20px neutral gap separates that region from the heading copy area. Copied links retain the current query except `show-login`. Opening, reloading or re-entering an anchor selects its tab, opens the enclosing section and scrolls to 16px below the settled sticky tab bar. H2 targets use the card edge; H3 targets use the heading row. Earlier cards/content fade during the final 600ms of travel, retain layout space and return on upward scrolling. Fragments remain client-side and survive login. Unknown fragments remain unchanged. Selecting another tab clears the previous fragment. If the header above the tabs is still visible, ordinary and same-document cross-tab anchor changes preserve the current scroll depth rather than forcing the tab bar to pin.
 
 ## Public Query Parameters
 

@@ -6,15 +6,15 @@ export const sectionCollapseCSS=`
 html:has(#playground-title){scrollbar-gutter:stable}
 /* The bordered target sits on the 24px surface rail; text retains its 28px rail. */
 [data-panel]>.panel:not(.is-expanded){padding-block:24px}
-:is([data-panel]>.panel,.url-subsection)>.section-heading{position:relative;padding-right:64px;min-height:44px;margin-bottom:24px;isolation:isolate;-webkit-tap-highlight-color:transparent}
-:is([data-panel]>.panel,.url-subsection)>.section-heading>.section-collapse{position:absolute;right:-4px;top:0;margin:0;z-index:0;display:grid;place-items:center;width:44px;height:44px;min-height:44px;padding:0;border:1px solid var(--control-border);border-radius:8px;background:transparent;color:var(--text);cursor:pointer;box-shadow:none;appearance:none;-webkit-tap-highlight-color:transparent;user-select:none;transition:background-color 160ms ease}
+:is([data-panel]>.panel,.url-subsection)>.section-heading{position:relative;padding-right:72px;min-height:50px;margin-bottom:24px;isolation:isolate;-webkit-tap-highlight-color:transparent}
+:is([data-panel]>.panel,.url-subsection)>.section-heading>.section-collapse{position:absolute;right:-8px;top:0;margin:0;z-index:0;display:grid;place-items:center;width:50px;height:50px;min-height:50px;padding:0;border:1px solid var(--control-border);border-radius:8px;background:transparent;color:var(--text);cursor:pointer;box-shadow:none;appearance:none;-webkit-tap-highlight-color:transparent;user-select:none;transition:background-color 160ms ease}
 :is([data-panel]>.panel,.url-subsection):not(.is-expanded)>.section-heading :is(h2,h3){position:relative;z-index:1;user-select:none}
 :is([data-panel]>.panel,.url-subsection):not(.is-expanded)>.section-heading :is(h2,h2 *,h3,h3 *,button,button *){cursor:pointer!important}
 .section-collapse>svg{display:block;width:24px;height:24px;transform:translateX(0) rotate(0deg);transform-origin:center;transition:transform 160ms ease}
-#panel-url-reference .url-subsection>.section-heading{min-height:44px;margin-bottom:24px}
+#panel-url-reference .url-subsection>.section-heading{min-height:50px;margin-bottom:24px}
 #panel-url-reference .url-subsection[data-collapsed]{padding-bottom:24px}
 #panel-url-reference .url-subsection[data-collapsed]>.section-heading{margin-bottom:0}
-.section-heading::before{content:"";position:absolute;inset:-4px -4px -4px -8px;border-radius:8px;background:var(--hover);opacity:0;pointer-events:none;z-index:-1;transition:opacity 160ms ease}
+.section-heading::before{content:"";position:absolute;inset:-4px -8px -4px -8px;border-radius:8px;background:var(--hover);opacity:0;pointer-events:none;z-index:-1;transition:opacity 160ms ease}
 .section-heading:is([data-collapse-hover],:has(>.section-collapse:hover))::before{opacity:1}
 .section-collapse:is(:hover,[data-region-hover]){background:var(--hover)!important}
 :is([data-panel]>.panel,.url-subsection)[data-collapsed]>.section-heading>.section-collapse{background:var(--control-bg)}
