@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.290"
-  update_summary: "Use one shared 0.2em gap for every text-link icon"
-  updated_at: "Thu 22 Oct 2026 at 01:10:19 am AEDT (+11:00)"
+  doc_revision: "26.0.291"
+  update_summary: "Keep embedded page expand buttons anchored while scrolling"
+  updated_at: "Thu 22 Oct 2026 at 01:15:46 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.289 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 01:15:46 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Keep embedded page expand buttons anchored while scrolling
+
+### Fixed
+
+- Keep all five inline page-embed Expand View buttons at the bottom-right corner while iframe content scrolls on either axis, preserving native scrolling and expanded state.
+- Separate the iframe scroll container from the floating action and document its shared positioning rule.
+
+### Validation
+
+- Chrome and WebKit regression checks at eight widths, all five embeds, horizontal endpoints, document scrolling, expand/contract and focus restoration — passed.
+- Frame-height, specimen-fidelity, menu-containment, external-text-inset and nested-alignment browser checks — passed.
+- Mobile and desktop screenshot inspection — passed; physical devices were not tested.
+- `npm --prefix website run build` using saved backdrop geometry — passed; generated server artefact contains the new scrolling layer.
 
 ## v26.0.288 — 2026-10-22
 

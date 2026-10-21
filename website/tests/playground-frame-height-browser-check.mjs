@@ -19,7 +19,7 @@ try{
    if(!embedded){assert.equal(await frame.locator('..').locator('.preview-expand').count(),0);continue;} // Palette scroll ownership is covered by the fidelity check.
    for(const viewport of [{width:1440,height:1000},{width:390,height:700},{width:940,height:500}]){
     await page.setViewportSize(viewport);await page.waitForTimeout(250);
-    const state=await frame.evaluate(e=>({id:e.id,height:e.getBoundingClientRect().height,cap:(visualViewport?.height||innerHeight)*.6,wrap:e.parentElement.getBoundingClientRect().height}));
+    const state=await frame.evaluate(e=>({id:e.id,height:e.getBoundingClientRect().height,cap:(visualViewport?.height||innerHeight)*.6,wrap:e.closest('.frame-wrap').getBoundingClientRect().height}));
     assert.ok(state.height<=state.cap+1,JSON.stringify(state));assert.ok(state.wrap<=state.cap+2,JSON.stringify(state));
     console.log('PASS',tab,viewport,state);
    }

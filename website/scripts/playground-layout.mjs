@@ -164,8 +164,9 @@ main.wrap{padding-top:24px}
 .reference-intro-copy{margin-inline-start:var(--disclosure-text-inset);margin-top:16px}
 .reference-intro-copy>:last-child{margin-bottom:0}
 /* Page embeds are capped; multi-specimen palettes retain natural height. */
-.preview-dialog:not(.is-expanded)>.frame-wrap{max-height:var(--embedded-preview-height,60dvh);overflow-x:auto;overflow-y:hidden}
+.preview-dialog:not(.is-expanded)>.frame-wrap{max-height:var(--embedded-preview-height,60dvh);overflow:clip}
 .preview-dialog:not(.is-expanded) iframe{height:min(var(--natural-frame-height,760px),calc(var(--embedded-preview-height,60dvh) - 2px))!important;max-height:calc(var(--embedded-preview-height,60dvh) - 2px)}
+.preview-dialog>.frame-wrap>.page-embed-scroll{width:100%;height:100%;overflow-x:auto;overflow-y:hidden}
 .panel>.frame-wrap:has(>#type-frame,>#icons-frame,>#errors-frame,>#focus-frame,>#link-type-frame){max-height:none;overflow-x:auto;overflow-y:hidden}
 `;
 
@@ -184,6 +185,9 @@ function placePreviewActions(dialog,expanded){
 }
 for(const dialog of document.querySelectorAll('.preview-dialog')){
  const heading=dialog.querySelector('.section-heading'),frame=dialog.querySelector('.frame-wrap');
+ // Keep the floating action outside both iframe and horizontal scroll ownership.
+ const scroller=document.createElement('div');scroller.className='page-embed-scroll';
+ const embeddedFrame=frame.querySelector('iframe');embeddedFrame.before(scroller);scroller.append(embeddedFrame);
  const row=document.createElement('div');row.className='panel-actions';
  const headingActions=document.createElement('div');headingActions.className='heading-actions';heading.append(headingActions);
  const homes=[];
