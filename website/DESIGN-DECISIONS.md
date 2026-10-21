@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.32"
-  update_summary: "Record responsive consolidation and Playground width decision"
-  updated_at: "Wed 21 Oct 2026 at 05:23:38 pm AEDT (+11:00)"
+  doc_revision: "26.0.33"
+  update_summary: "Record lightweight Colours backdrop capture decision"
+  updated_at: "Wed 21 Oct 2026 at 05:38:48 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -244,7 +244,7 @@ Adam requested these gallery refinements to compare real component dimensions, r
 
 ## Anonymous Backdrops and Single Blur
 
-**Decision:** Build anonymous geometry from measured words/icons and cap-height/baseline rules. Only eligible equal-width prompt/slug words use transparent dummy glyphs with slash/hyphen wrapping preserved. Keep Resources and Components geometry separate; all Playground login routes share Components. Empty glyph rectangles must preserve short source line boxes, including the QR caption’s `1cap` leading, rather than expanding them. Apply one 4px background blur and independent strength/scrim settings; local tuning never changes production defaults.
+**Decision:** Build anonymous geometry from measured words/icons and cap-height/baseline rules. Only eligible equal-width prompt/slug words use transparent dummy glyphs with slash/hyphen wrapping preserved. Keep Resources and Colours geometry separate; all Playground login routes share Colours. Empty glyph rectangles must preserve short source line boxes, including the QR caption’s `1cap` leading, rather than expanding them. Apply one 4px background blur and independent strength/scrim settings; local tuning never changes production defaults.
 
 **Rationale:** Documented: measured geometry preserves layout without exposing protected text; generic lines and unbreakable rectangles cannot reproduce native wrapping. A second backdrop-filter pass made theme snapshots dependent on backdrop compositing; the single background blur resolved the observed iPhone flicker. Strength/blur are rendering settings and do not require new geometry.
 
@@ -252,7 +252,7 @@ Adam requested these gallery refinements to compare real component dimensions, r
 
 ## Static Capture and Publication Boundaries
 
-**Decision:** Normalise sticky/fixed elements to document-anchored geometry during capture, disabling transient interaction styling and clearing discarded sticky inset offsets. Save responsive natural iframe heights as measured static media rules, using the live preview measurement function; a desktop inline height cannot represent a narrow preview. Keep the captured inspector last in normal flow, frames anonymous and script-disabled. Reuse saved geometry internally; refresh existing geometry only for authorised publication when relevant layout changed against the actual published source, or an explicit exception.
+**Decision:** Normalise sticky/fixed elements to document-anchored geometry during capture, disabling transient interaction styling and clearing discarded sticky inset offsets. Use Colours without nested specimen frames and normal responsive container growth. Capture five widths (380, 660, 940, 1008, 1248px) with one shared anonymous DOM and word-metric overrides; retire the every-pixel iframe-height sweep for active backdrops. Keep the captured inspector last in normal flow, frames anonymous and script-disabled. Reuse saved geometry internally; refresh existing geometry only for authorised publication when relevant layout changed against the actual published source, or an explicit exception.
 
 **Rationale:** Documented: a decorative composition must scroll away instead of leaving live-looking silhouettes. Refreshing only affected geometry separates layout changes from colour/blur/timing edits. A local commit or saved Sites version is not proof of what is deployed. The publication geometry check found that empty glyph blocks enlarged the tight QR caption line, and saved desktop iframe heights displaced later Components sections on mobile. These are capture/rendering corrections; the approved interactive app layout remains the source of truth. The expired one-off capture approval was removed during the instructions cleanup and is not standing permission.
 
@@ -366,3 +366,11 @@ Repository-wide permissions and task routing stay in [AGENTS.md](../AGENTS.md). 
 **Rationale:** A shared viewport and identical rendering controls make the alternatives comparable without changing the live login experience or adding competing preview controls. Capturing populated specimen frames retains the visual character of each tab while removing protected text and interactivity.
 
 **Owning Rules and Sources:** [Alternative Backdrop Comparisons](../docs/agent-guidance/backdrops.md#alternative-backdrop-comparisons).
+
+## Lightweight Backdrop Capture
+
+**Decision:** Adam selected Colours and authorised a five-width capture after layout consolidation. Freeze visible control state without restoring hidden loading/success icons, preserve responsive CSS and prompt glyph reflow, and accept small decorative geometry differences. Validate five routine widths; keep the +1px comparison and its 1440px reference as an explicit one-off diagnostic.
+
+**Rationale:** These are blurred decorative backgrounds, not replicas requiring pixel-level parity. Removing nested specimen frames eliminates their fixed-height clipping risk. The five-width process is faster and smaller than exhaustive width sweeps; normal builds reuse saved assets.
+
+**Owning Rules:** [Anonymous Backdrops](../docs/agent-guidance/backdrops.md#static-capture-behaviour-and-rationale).

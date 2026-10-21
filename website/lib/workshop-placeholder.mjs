@@ -8,7 +8,7 @@ export function placeholderFromPage(_page, layoutRevision = placeholderLayoutRev
   void layoutRevision;
   return geometry.markup;
 }
-export const placeholderStyles = `
+export const placeholderBaseStyles = `
 .page-placeholder { --ph-strength:40%; --ph-blur:4px; --ph-surface:var(--page); pointer-events:none; user-select:none; filter:blur(var(--ph-blur)); }
 .page-placeholder,.page-placeholder *,.page-placeholder *::before,.page-placeholder *::after{cursor:default!important;user-select:none!important;animation:none!important;transition:none!important}
 .page-placeholder:not(.playground-placeholder) *{pointer-events:none!important}
@@ -19,12 +19,15 @@ export const placeholderStyles = `
 .page-placeholder .toggle button:first-of-type { --ph-surface:var(--agent-accent); color:white; }
 .page-placeholder .symbol { --ph-surface:var(--tile-bg); }
 .page-placeholder .qr-card .ph-qr-block { background:color-mix(in srgb,#111 var(--ph-strength),white); }
+.ph-icon[hidden]{display:none!important}
 .ph-icon { display:inline-block; flex:none; vertical-align:middle; border-radius:2px; background:color-mix(in srgb,currentColor var(--ph-strength),var(--ph-surface)); }
 .ph-word { position:relative; display:inline-block; padding:0; margin:0; }
 .ph-code-word { display:inline; color:transparent; box-decoration-break:clone; -webkit-box-decoration-break:clone; background:linear-gradient(to bottom, transparent calc(100% - var(--ph-bottom) - var(--ph-cap)), color-mix(in srgb,var(--ph-ink,var(--text)) var(--ph-strength),var(--ph-surface)) calc(100% - var(--ph-bottom) - var(--ph-cap)) calc(100% - var(--ph-bottom)), transparent calc(100% - var(--ph-bottom))); }
 .ph-code-word::before { display:none; }
 .ph-word:not(.ph-code-word)::before { content:''; position:absolute; inset:auto 0 var(--ph-bottom); height:var(--ph-cap); border-radius:1px; background:color-mix(in srgb,currentColor var(--ph-strength),var(--ph-surface)); }
 `;
+
+export const placeholderStyles = placeholderBaseStyles + (geometry.metricCSS || '');
 
 export function synchroniseLoginLayout(login, resources, {blankBackground=false}={}) {
   // Retain every source layout layer (including sticky controls and the footer).

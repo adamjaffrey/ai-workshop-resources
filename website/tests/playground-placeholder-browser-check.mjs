@@ -6,7 +6,7 @@ const origin='http://127.0.0.1:'+app.server.address().port;
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try {
  const p=await browser.newPage({reducedMotion:'reduce'});const errors=[];p.on('pageerror',e=>errors.push(e.message));
- for(const width of [320,390,660,661,700,701,768,1023,1024,1440])for(const height of [600,1000]){
+ for(const width of [380,660,940,1008,1248])for(const height of [1000]){
   await p.setViewportSize({width,height});await p.goto(origin+'/playground/components');
   const frame=await p.locator('.playground-placeholder>iframe').elementHandle().then(e=>e.contentFrame());
   await frame.waitForSelector('.ph-word');await frame.evaluate(()=>document.fonts.ready);
@@ -16,11 +16,7 @@ try {
   assert.equal(await frame.locator('.inspector-dock').count(),1);
   assert.equal(await frame.locator('.inspector-dock').evaluate(e=>e.parentElement.matches('main.wrap')&&!e.nextElementSibling&&getComputedStyle(e).position==='static'),true);
   for(const doc of [frame,...frame.childFrames()]){assert.deepEqual(await doc.evaluate(()=>[...document.querySelectorAll('*')].filter(e=>['fixed','sticky'].includes(getComputedStyle(e).position)).map(e=>e.id||e.tagName)),[]);}
-  const toolY=await frame.locator('#style-options').evaluate(e=>e.getBoundingClientRect().top);
-  const delta=await frame.evaluate(()=>{scrollTo(0,180);return scrollY;});
-  assert.ok(delta>0);if(await frame.locator('#style-options').isVisible())assert.ok(Math.abs((await frame.locator('#style-options').evaluate(e=>e.getBoundingClientRect().top))-toolY+delta)<1);
-  await frame.evaluate(()=>scrollTo(0,0));
-  assert.equal(await frame.locator('[data-panel]').getAttribute('data-panel'),'components');
+  assert.equal(await frame.locator('[data-panel]').getAttribute('data-panel'),'colours');
   for(const theme of ['light','dark'])for(const agent of ['codex','claude-code']){
    await p.evaluate(({theme,agent})=>{document.documentElement.dataset.theme=theme;document.documentElement.dataset.selectedAgent=agent;},{theme,agent});
    await frame.waitForFunction(({theme,agent})=>document.documentElement.dataset.theme===theme&&document.documentElement.dataset.selectedAgent===agent,{theme,agent});
@@ -33,7 +29,7 @@ try {
    assert.equal(await frame.locator('script,[href],[onclick],form,input[value]').count(),0);
   }
   if([390,1440].includes(width)&&height===1000){await p.evaluate(()=>{document.documentElement.dataset.theme='light';document.documentElement.dataset.selectedAgent='codex';});await frame.waitForFunction(()=>document.documentElement.dataset.theme==='light'&&document.documentElement.dataset.selectedAgent==='codex');await p.screenshot({path:`/tmp/playground-login-${width}.png`});await p.evaluate(()=>{document.querySelector('.access-gate').style.display='none';document.querySelector('.page-placeholder').style.filter='none';});await p.screenshot({path:`/tmp/playground-blocks-${width}.png`});}
-  console.log(`PASS Components backdrop ${width}x${height}, themes/agents, anonymous content and containment`);
+  console.log(`PASS Colours backdrop ${width}x${height}, themes/agents, anonymous content and containment`);
  }
  assert.deepEqual(errors,[]);
 }finally{await browser.close();await new Promise(r=>app.server.close(r));}

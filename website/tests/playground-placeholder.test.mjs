@@ -9,7 +9,7 @@ test('public backdrop is anonymous and cannot expose another tab or run code',as
  const html=await response.text();
  assert.match(html,/<html[^>]*data-theme="dark" data-selected-agent="claude-code"/);
  assert.doesNotMatch(html,/<script|&lt;script|href=|onclick=|<form|&lt;form|system-blueprint-creator|system-build-assistant|github\.com\/adamjaffrey/);
- assert.doesNotMatch(html,/data-panel="(?:typography|colours|blocks|icons|errors|focus|branding|discovery)"/);
+ assert.doesNotMatch(html,/data-panel="(?:typography|components|blocks|icons|errors|focus|branding|discovery)"/);
  assert.match(response.headers.get('content-security-policy'),/script-src 'none'/);
  assert.match(response.headers.get('content-security-policy'),/frame-ancestors 'self'/);
  assert.equal(response.headers.get('set-cookie'),null);
@@ -18,5 +18,5 @@ test('public backdrop is anonymous and cannot expose another tab or run code',as
 test('backdrop parameters are allowlisted and default to Codex blue',()=>{
  assert.match(playgroundPlaceholderDocument('bad','bad'),/data-theme="light" data-selected-agent="codex"/);
  assert.doesNotMatch(playgroundPlaceholderDocument('<script>','" onload="bad'),/onload=|<script/);
- assert.equal(geometry.source,'components');assert.ok(geometry.words>1000);
+ assert.equal(geometry.source,'colours');assert.ok(geometry.words>1000);
 });

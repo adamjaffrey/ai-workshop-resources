@@ -3,9 +3,9 @@ name: authentication-and-routing
 description: Preserve canonical routing, login states and the hidden navigation shortcut.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.4"
-  update_summary: "Handle replacement navigation without recursive anchor rewrites"
-  updated_at: "Wed 21 Oct 2026 at 10:18:03 am AEDT (+11:00)"
+  doc_revision: "26.0.5"
+  update_summary: "Use the selected Colours backdrop for Playground login"
+  updated_at: "Wed 21 Oct 2026 at 05:38:48 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -26,9 +26,9 @@ Resources step anchors and short aliases are listed in [URL Reference](../../web
 
 ## Website Login
 
-- Keep every login error on its requested canonical page and preserve its section/query URL. Initial configuration/database failures use that destination's login template: Resources blocks for Resources, Components blocks for every Playground section, with the same blur, dimming and theme/agent handling. Password, throttling, network and service errors during submission remain inline without navigation. Service failures still return HTTP 503 and fail closed. Run `website/tests/login-error-destination-browser-check.mjs` when changing this handling.
+- Keep every login error on its requested canonical page and preserve its section/query URL. Initial configuration/database failures use that destination's login template: Resources blocks for Resources, Colours blocks for every Playground section, with the same blur, dimming and theme/agent handling. Password, throttling, network and service errors during submission remain inline without navigation. Service failures still return HTTP 503 and fail closed. Run `website/tests/login-error-destination-browser-check.mjs` when changing this handling.
 
-- Use measured anonymous blocks from the first Playground tab, Components, behind every Playground login route. Reuse that single Components backdrop for `/component-playground` and all section paths; do not measure each tab. Main-app login retains its Resources backdrop. Share the login panel, one background blur and dimming, and keep both destinations inspectable from the Components login specimen. Both backdrops follow the selected theme/agent, defaulting to Codex blue. Serve only anonymous geometry in inert, script-disabled backdrop frames; never embed the authenticated Playground or original protected text.
+- Use measured anonymous blocks from the Colours tab, behind every Playground login route. Reuse that single Colours backdrop for `/component-playground` and all section paths; do not measure each tab. Main-app login retains its Resources backdrop. Share the login panel, one background blur and dimming, and keep both destinations inspectable from the Components login specimen. Both backdrops follow the selected theme/agent, defaulting to Codex blue. Serve only anonymous geometry in inert, script-disabled backdrop frames; never embed the authenticated Playground or original protected text.
 
 - Sessions expire seven days after login, without extending on use. Keep this implementation detail in repository documentation, not the login page copy.
 - On initial load, focus the login heading with no visible focus ring. Tab order is the day/night toggle as one stop, password field, then unlock button on desktop and mobile.
@@ -42,5 +42,5 @@ Resources step anchors and short aliases are listed in [URL Reference](../../web
 
 ## Hidden Playground Shortcut
 
-- Three taps or primary-button clicks on the Wavelength header logo within three seconds open the other page in a new tab/window using `_blank` with `noopener,noreferrer`: Resources opens `/component-playground`, and Playground opens `/ai-workshop-resources`, leaving the original page open. Reuse the same gesture handler and timing on both pages. Only the header brand area activates it; other clicks, leaving the window or changing visibility reset the sequence. Keep the existing brand markup unchanged: no Tab stop, programmatic focusability, focus ring, button/link role, action-specific screen-reader label, tooltip, hover treatment or visible affordance. Screen readers should encounter only the existing brand content. On both locked pages, recognise the coordinates of the actual blurred backdrop logo through the scrim without adding a hotspot element; never intercept the login panel. The parent may read logo bounds from the anonymous Components iframe using `allow-same-origin`; the iframe remains inert and script-disabled (no `allow-scripts`, with CSP `script-src 'none'`). Never embed protected content or make the backdrop itself interactive. This intentionally undisclosed shortcut is an exception to the normal pointer-cursor rule. It does not grant access or bypass authentication.
+- Three taps or primary-button clicks on the Wavelength header logo within three seconds open the other page in a new tab/window using `_blank` with `noopener,noreferrer`: Resources opens `/component-playground`, and Playground opens `/ai-workshop-resources`, leaving the original page open. Reuse the same gesture handler and timing on both pages. Only the header brand area activates it; other clicks, leaving the window or changing visibility reset the sequence. Keep the existing brand markup unchanged: no Tab stop, programmatic focusability, focus ring, button/link role, action-specific screen-reader label, tooltip, hover treatment or visible affordance. Screen readers should encounter only the existing brand content. On both locked pages, recognise the coordinates of the actual blurred backdrop logo through the scrim without adding a hotspot element; never intercept the login panel. The parent may read logo bounds from the anonymous Colours iframe using `allow-same-origin`; the iframe remains inert and script-disabled (no `allow-scripts`, with CSP `script-src 'none'`). Never embed protected content or make the backdrop itself interactive. This intentionally undisclosed shortcut is an exception to the normal pointer-cursor rule. It does not grant access or bypass authentication.
 - Playground specimens exercise the same gesture handler but cancel navigation and report the simulated activation.

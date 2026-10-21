@@ -3,14 +3,43 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.278"
-  update_summary: "Consolidate responsive tiers and widen the Playground"
-  updated_at: "Wed 21 Oct 2026 at 05:27:56 pm AEDT (+11:00)"
+  doc_revision: "26.0.279"
+  update_summary: "Simplify backdrop capture and select Colours"
+  updated_at: "Wed 21 Oct 2026 at 05:40:48 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.277 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 05:40:48 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Simplify backdrop capture and select Colours
+
+### Changed
+
+- Select Colours for every Playground login, preserving the existing anonymous endpoint and logo shortcut.
+- Replace active every-pixel iframe sweeps with five widths (380, 660, 940, 1008, 1248px), one responsive DOM and compact word-metric overrides. Both active backdrops have no nested frames; the final capture took about six seconds in local Chrome.
+- Share anonymous word/icon conversion between Resources and Playground, retain prompt wrapping and freeze inactive icon layers instead of exposing their blocks.
+- Keep the +1px/1440px reference comparison opt-in and separate from routine capture/builds; retain historical alternative previews.
+
+### Validation
+
+- Independent responsive boundary, external text alignment and Playground spacing browser checks — passed against the layout handoff.
+- Five-width backdrop browser checks and hidden password-icon regression — passed.
+- Five-width hosted Colours login checks across themes/agents — passed.
+- Authentication and placeholder unit tests — passed.
+- Backdrop interaction and three-click/tap logo shortcut browser checks — passed.
+- One-off comparison — identical sampled container bounds between direct and reflowed anonymous captures for both backdrops at all five pairs. Source differences were at most 0.11px for Resources and approximately 46px for Colours; not pixel-perfect parity.
+- `npm --prefix website run build` and generated v26.0.277 display checks — passed. No physical-device coverage claimed.
 
 ## v26.0.276 — 2026-10-21
 

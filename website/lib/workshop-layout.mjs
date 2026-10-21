@@ -1,5 +1,5 @@
 // Increment the affected revision for layout changes; internal builds reuse saved geometry.
 // Refresh stale measurements only during authorised Sites publication preparation.
 // These are cache keys, not website artefact versions.
-export const placeholderLayoutRevision = 14;
-export const playgroundPlaceholderLayoutRevision = 21;
+export const placeholderLayoutRevision = 15;
+export const playgroundPlaceholderLayoutRevision = 22;

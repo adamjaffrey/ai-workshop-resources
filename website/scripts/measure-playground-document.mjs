@@ -1,7 +1,7 @@
 // Browser-side anonymisation using the same word, cap-height, glyph and icon rules as Resources.
-export function measurePlaygroundDocument({frames={},preserveSpecimenLayout=false}={}) {
+export function measurePlaygroundDocument({frames={},preserveSpecimenLayout=false,resources=false}={}) {
 
-    const source = document.body;
+    const source = resources ? document.querySelector('main') : document.body;
     // Freeze the visible initial state before cloning (no reveal/interaction scripts).
     source.querySelectorAll('.step-row').forEach(el => el.classList.remove('reveal-ready', 'is-revealed'));
     const clone = source.cloneNode(true);
@@ -37,7 +37,7 @@ export function measurePlaygroundDocument({frames={},preserveSpecimenLayout=fals
         word.style.setProperty('--ph-cap', `${capHeight}em`);
         word.style.setProperty('--ph-bottom', `${descent}em`);
         if (node.parentElement.closest('pre, .slug') && [...match[0]].every(char => Math.abs(canvas.measureText(char).width - canvas.measureText('x').width) < .01)) {
-          word.className = 'ph-word ph-code-word';
+          word.className = `ph-word ph-code-word ph-m-${index}-${match.index}`;
           if (node.parentElement.closest('.slug')) word.style.setProperty('--ph-ink', 'var(--muted-text)');
           // Prompt fonts are monospaced. Anonymous glyphs preserve native wrapping,
           // including native punctuation breaks, without sending any letters or digits.
@@ -54,13 +54,13 @@ export function measurePlaygroundDocument({frames={},preserveSpecimenLayout=fals
           for(const part of match[0].match(/[^/-]*[/-]|[^/-]+$/g)) {
             const piece=word.cloneNode(false),partRange=document.createRange();
             partRange.setStart(node,offset);partRange.setEnd(node,offset+part.length);
-            const box=partRange.getBoundingClientRect();piece.className='ph-word';
+            const box=partRange.getBoundingClientRect();piece.className=`ph-word ph-m-${index}-${offset}`;
             piece.style.width=`${box.width/fontSize}em`;piece.style.height=`${box.height/fontSize}em`;piece.style.verticalAlign=`${-descent}em`;
             fragment.append(piece);offset+=part.length;words++;
           }
           continue;
         }
-        word.className = 'ph-word';
+        word.className = `ph-word ph-m-${index}-${match.index}`;
         word.style.width = `${rect.width / fontSize}em`;
         word.style.height = `${rect.height / fontSize}em`;
         word.style.verticalAlign = `${-descent}em`;
@@ -123,7 +123,7 @@ export function measurePlaygroundDocument({frames={},preserveSpecimenLayout=fals
         }
         el.alt = '';
       }
-      if (el.tagName === 'FORM') {const replacement = document.createElement('div'); replacement.className=el.className; if(el.id)replacement.id=el.id; replacement.append(...el.childNodes); el.replaceWith(replacement);}
+      if (el.tagName === 'FORM') {const replacement = document.createElement('div'); replacement.className=el.className+' ph-form'; if(el.id)replacement.id=el.id; replacement.append(...el.childNodes); el.replaceWith(replacement);}
     }
     // Match each icon family to its largest measured layout box. Hidden variants
     // use their CSS dimensions, so Copy/Success states share the same geometry.
@@ -141,16 +141,22 @@ export function measurePlaygroundDocument({frames={},preserveSpecimenLayout=fals
       const group = iconSet(original), size = iconSizes[group];
       const block = document.createElementNS('http://www.w3.org/2000/svg','svg');
       block.setAttribute('class',`${original.getAttribute('class') || ''} ph-icon`);
-      for(const name of ['data-icon-use','data-icon-name','data-icon-provider'])if(original.hasAttribute(name))block.setAttribute(name,original.getAttribute(name));
+      for(const name of ['data-icon-use','data-icon-name','data-icon-provider','data-input-icon'])if(original.hasAttribute(name))block.setAttribute(name,original.getAttribute(name));
       block.dataset.phIconSet = group;
+      // Inactive layers must never become visible when their SVG is replaced.
+      if(original.hasAttribute('hidden'))block.setAttribute('hidden','');
+      // Keep inline state, but leave media-query visibility responsive through classes.
+      for(const property of ['display','visibility','opacity'])if(original.style[property])block.style[property]=original.style[property];
       const fontSize=parseFloat(getComputedStyle(original).fontSize);
       block.style.width = `${size.width/fontSize}em`;
       block.style.height = `${size.height/fontSize}em`;
       cloneElements[i].replaceWith(block);
     }
     clone.querySelectorAll('script,style,noscript,title,link,meta').forEach(el=>el.remove());
+    if(resources){clone.id='workshop-content';clone.className='page-placeholder';}
     clone.setAttribute('aria-hidden', 'true'); clone.setAttribute('inert', '');
-    const css=[...document.querySelectorAll('style')].map(el=>el.textContent).join('\n').replace(/@font-face\s*\{[^}]*\}/g,'');
+    const css=[...document.querySelectorAll('style')].map(el=>el.textContent).join('\n');
     const inspectorMetrics=[...clone.querySelectorAll('.inspector-dock .ph-word')].map((el,i)=>{el.classList.add('ph-inspector-'+i);return el.getAttribute('style');});
-    return {markup: clone.outerHTML, css, words, iconSizes, inspectorMetrics, gallery:preserveSpecimenLayout?document.documentElement.getAttribute('data-specimen-gallery'):null};
+    const metrics=Object.fromEntries([...clone.querySelectorAll('.ph-word')].map(el=>[[...el.classList].find(c=>c.startsWith('ph-m-')),el.getAttribute('style')]));
+    return {metrics,markup: clone.outerHTML, css, words, iconSizes, inspectorMetrics, gallery:preserveSpecimenLayout?document.documentElement.getAttribute('data-specimen-gallery'):null};
 }

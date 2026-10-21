@@ -5,7 +5,7 @@ import captures from '../lib/workshop-backdrop-comparisons.generated.json' with 
 import {playgroundPlaceholderDocument} from '../lib/workshop-playground-placeholder.mjs';
 const tabs=['typography','colours','errors','focus','branding'];
 assert.deepEqual(Object.keys(captures),tabs);
-assert.match(playgroundPlaceholderDocument(),/data-panel="components"/);
+assert.match(playgroundPlaceholderDocument(),/data-panel="colours"/);
 const app=createPhonePreview();await new Promise(r=>app.server.listen(0,'127.0.0.1',r));
 const engine=process.env.BACKDROP_WEBKIT?webkit:chromium;
 const browser=await engine.launch({headless:true,...(engine===chromium?{channel:'chrome'}:{})});
@@ -43,6 +43,6 @@ try{
   }
  }
  await blocks.evaluate(()=>demoBlocks({blockDestination:'playground',review:'clear'}));
- const current=await (await blocks.locator('.playground-placeholder>iframe').elementHandle()).contentFrame();await current.waitForSelector('[data-panel=components]');
+ const current=await (await blocks.locator('.playground-placeholder>iframe').elementHandle()).contentFrame();await current.waitForSelector('[data-panel=colours]');
  assert.deepEqual(errors,[]);
 }finally{await browser.close();await new Promise(r=>app.server.close(r));}

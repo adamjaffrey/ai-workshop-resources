@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.11"
-  update_summary: "Describe smooth anchor travel and natural selector pickup"
-  updated_at: "Wed 21 Oct 2026 at 10:58:12 am AEDT (+11:00)"
+  doc_revision: "26.0.12"
+  update_summary: "Clarify Colours behind the existing backdrop endpoint"
+  updated_at: "Wed 21 Oct 2026 at 05:38:48 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -204,7 +204,7 @@ This is one application 301. It selects Claude Code and dark theme, revokes the 
 | Successful JavaScript login | Browser navigation to the requested destination, removing `show-login` |
 | Local ChatGPT sign-in/out tooling | `return_to` selects a validated same-origin destination; GET uses 302 and sign-out POST uses 303 |
 
-`return_to` is internal tooling, not a public display selector. Invalid or external destinations fall back to `/`. The decorative `/login-backdrop/components` endpoint uses canonical `theme` and `agent` values to render anonymous geometry; it cannot grant access. No query parameter carries a password or grants a hosted session.
+`return_to` is internal tooling, not a public display selector. Invalid or external destinations fall back to `/`. The decorative `/login-backdrop/components` endpoint retains its compatibility name and serves the selected anonymous Colours backdrop. It uses canonical `theme` and `agent` values to render anonymous geometry; it cannot grant access. No query parameter carries a password or grants a hosted session.
 
 ## Playground Reference and Logo Navigation
 

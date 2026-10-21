@@ -27,10 +27,7 @@ try{
     await page.mouse.wheel(0,250);await page.waitForTimeout(200);
     assert.ok(await captured.evaluate(()=>scrollY)>0,'Wheel reaches outer document over inert content');
     await captured.evaluate(()=>scrollTo(0,0));
-    const login=captured.childFrames().find(f=>f.name()==='login-frame')||await (await captured.locator('#login-frame').elementHandle()).contentFrame();
-    assert.equal(await login.evaluate(()=>getComputedStyle(document.documentElement).overflowY),'hidden');
-    const cover=await login.evaluate(()=>({height:parseFloat(getComputedStyle(document.body,'::after').height),body:document.body.getBoundingClientRect().height,colour:getComputedStyle(document.body,'::after').backgroundColor}));
-    assert.ok(Math.abs(cover.height-cover.body)<1);assert.notEqual(cover.colour,'rgba(0, 0, 0, 0)');
+    assert.equal(captured.childFrames().length,0,'Colours has no nested captured frames');
    }
    if(await captured.evaluate(()=>document.documentElement.scrollHeight>innerHeight+200)){await captured.evaluate(()=>scrollTo(0,200));assert.ok(await captured.evaluate(()=>scrollY)>0,'Outer inspection scrolling');}
    await frame.evaluate(blockDestination=>window.demoBlocks({blockDestination,review:'panel'}),blockDestination);
