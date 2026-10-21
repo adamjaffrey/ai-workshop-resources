@@ -3,9 +3,9 @@ name: anonymous-backdrop-contract
 description: Specify anonymous geometry, static capture and publication-only refresh.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.6"
-  update_summary: "Keep two current previews and preserve grid text items"
-  updated_at: "Wed 21 Oct 2026 at 05:48:41 pm AEDT (+11:00)"
+  doc_revision: "26.0.7"
+  update_summary: "Keep SVG blocks inside their cached visible icon bounds"
+  updated_at: "Wed 21 Oct 2026 at 06:01:00 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -58,3 +58,7 @@ This is a mandatory scoped contract incorporated by [AGENTS.md](../../AGENTS.md)
 - Populate dynamic galleries before capture; retain their structural specimen layout attributes, responsive frame heights and anonymous word/icon geometry. Keep all comparison documents inert and script-disabled, with the same outer-only inspection scrolling policy. Future active captures use Resources and Colours only; retain previous comparison documents without routine remeasurement.
 
 The public `/login-backdrop/components` path remains a compatibility name and now serves the selected Colours geometry; it does not expose the protected Components tab.
+
+SVG icon blocks retain the original SVG layout box but paint only within the cached stroke-inclusive icon-ink bounds. Use the shared icon metadata; do not paint transparent SVG padding as a full square or alter the disclosure text rail. Apply this paint correction to saved documents without remeasurement.
+
+All Lucide icons and the two Lobe agent logos use cached visible bounds, including cropped-viewBox variants. Measure this small shared cache only when icon assets change; routine five-width captures reuse it without raster scans or extra viewport passes. Preserve SVG viewBox metadata when replacing paths with anonymous blocks. The block fills the visible artwork’s bounding rectangle, not its precise silhouette; transparent outer padding is excluded while internal holes remain filled.

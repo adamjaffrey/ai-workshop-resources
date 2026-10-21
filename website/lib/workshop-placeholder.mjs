@@ -1,3 +1,4 @@
+import iconInk from './workshop-icon-ink.generated.json' with {type:'json'};
 import {footerLayoutScript} from './workshop-footer-layout.mjs';
 import {placeholderLayoutRevision} from './workshop-layout.mjs';
 import geometry from './workshop-placeholder.generated.json' with {type: 'json'};
@@ -8,7 +9,13 @@ export function placeholderFromPage(_page, layoutRevision = placeholderLayoutRev
   void layoutRevision;
   return geometry.markup;
 }
+// Cached stroke-inclusive bounds: paint only the visible rectangle, retain layout.
+const inkRule=(selector,b,units=iconInk.viewBox)=>`${selector}{clip-path:inset(${b.top/units*100}% ${b.right/units*100}% ${b.bottom/units*100}% ${b.left/units*100}%);}`;
+export const backdropIconCSS=Object.entries(iconInk.icons).map(([name,b])=>inkRule(`.ph-icon[data-icon-provider="lucide"][data-icon-name="${name}"]`,b)).join('')
+ +Object.entries(iconInk.variants).map(([key,b])=>{const [name,viewBox]=key.split(':');return inkRule(`.ph-icon[data-icon-provider="lucide"][data-icon-name="${name}"][viewBox="${viewBox}"]`,b,b.viewBox);}).join('')
+ +Object.entries(iconInk.brands||{}).map(([name,b])=>inkRule(`.ph-icon[data-icon-provider="lobe"][data-icon-name="${name}"]`,b)).join('');
 export const placeholderBaseStyles = `
+${backdropIconCSS}
 .page-placeholder { --ph-strength:40%; --ph-blur:4px; --ph-surface:var(--page); pointer-events:none; user-select:none; filter:blur(var(--ph-blur)); }
 .page-placeholder,.page-placeholder *,.page-placeholder *::before,.page-placeholder *::after{cursor:default!important;user-select:none!important;animation:none!important;transition:none!important}
 .page-placeholder:not(.playground-placeholder) *{pointer-events:none!important}

@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.280"
-  update_summary: "Keep current backdrop choices and fix disclosure block flow"
-  updated_at: "Wed 21 Oct 2026 at 05:49:26 pm AEDT (+11:00)"
+  doc_revision: "26.0.281"
+  update_summary: "Use visible SVG bounds for blocks and rename backdrop choices"
+  updated_at: "Wed 21 Oct 2026 at 06:01:00 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.279 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 06:01:00 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Use visible SVG bounds for blocks and rename backdrop choices
+
+### Changed
+
+- Paint anonymous SVG blocks within cached visible artwork bounds, preserving layout boxes and excluding transparent padding. Cover all 52 shared Lucide icons, cropped variants and both agent logos without additional routine geometry measurements.
+- Preserve viewBox metadata during capture and apply paint corrections to saved backdrops without recapture.
+- Rename Background Preview options to AI Workshop Resources and Component Playground > Colours.
+
+### Fixed
+
+- Prevent full-box chevron paint from overlapping adjacent disclosure labels.
+
+### Validation
+
+- Both active backdrops at all five capture widths: every SVG uses cached bounds; chevron clearance, anonymous content and inert feedback checks passed.
+- Cropped-viewBox, hidden password state and disclosure grouping regressions passed.
+- Both preview labels and choices, icon-cache verification and production build — passed.
 
 ## v26.0.278 — 2026-10-21
 

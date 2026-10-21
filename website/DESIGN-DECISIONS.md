@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.34"
-  update_summary: "Record disclosure grouping and removal of old preview choices"
-  updated_at: "Wed 21 Oct 2026 at 05:48:41 pm AEDT (+11:00)"
+  doc_revision: "26.0.35"
+  update_summary: "Keep SVG blocks inside their cached visible icon bounds"
+  updated_at: "Wed 21 Oct 2026 at 06:01:00 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -376,3 +376,7 @@ Repository-wide permissions and task routing stay in [AGENTS.md](../AGENTS.md). 
 **Owning Rules:** [Anonymous Backdrops](../docs/agent-guidance/backdrops.md#static-capture-behaviour-and-rationale).
 
 Capture preserves each text node as a single anonymous layout item inside flex/grid containers. Splitting a disclosure label into independent grid cells created extra rows (86px instead of 40px); grouping its word blocks fixes the layout while retaining native text wrapping and existing measurements. Blocks and Blur now exposes only the two active captures; retired alternatives are no longer embedded.
+
+SVG placeholder paint uses the cached stroke-inclusive icon-ink bounds while retaining its layout box. Full-box paint overlapped disclosure labels because their alignment is based on visible chevron strokes, not SVG edges; clipping the decorative paint fixes that mismatch without changing real controls or remeasuring geometry.
+
+All Lucide icons and the two Lobe agent logos use cached visible bounds, including cropped-viewBox variants. Measure this small shared cache only when icon assets change; routine five-width captures reuse it without raster scans or extra viewport passes. Preserve SVG viewBox metadata when replacing paths with anonymous blocks. The block fills the visible artwork’s bounding rectangle, not its precise silhouette; transparent outer padding is excluded while internal holes remain filled.

@@ -1,3 +1,4 @@
+import {backdropIconCSS} from './workshop-placeholder.mjs';
 // Shared by capture and delivery: saved geometry remains reusable without measurement.
 export function freezeBackdropCSS(css) {
  return css.replace(/:(?:hover|active|focus-visible|focus-within|focus)\b/g,':where([data-capture-interaction-disabled])')
@@ -14,6 +15,8 @@ body>.access-gate{background:transparent!important}
 `;
 // Apply the same policy to embedded srcdoc documents, at every escaping depth.
 export function staticBackdropDocument(html) {
+ // Refresh this paint-only rule on saved documents without geometry measurement.
+ if(!html.includes('data-backdrop-icon-ink'))html=html.replace('</head>','<style data-backdrop-icon-ink>'+backdropIconCSS+'</style></head>');
  if(html.includes('data-backdrop-static'))return html;
  html=freezeBackdropCSS(html);
  return html.replace(/(<|&(?:amp;)*lt;)\/head(>|&(?:amp;)*gt;)/g,(tag,open)=>{

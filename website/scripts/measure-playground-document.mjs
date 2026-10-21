@@ -141,7 +141,7 @@ export function measurePlaygroundDocument({frames={},preserveSpecimenLayout=fals
       const group = iconSet(original), size = iconSizes[group];
       const block = document.createElementNS('http://www.w3.org/2000/svg','svg');
       block.setAttribute('class',`${original.getAttribute('class') || ''} ph-icon`);
-      for(const name of ['data-icon-use','data-icon-name','data-icon-provider','data-input-icon'])if(original.hasAttribute(name))block.setAttribute(name,original.getAttribute(name));
+      for(const name of ['data-icon-use','data-icon-name','data-icon-provider','data-input-icon','viewBox'])if(original.hasAttribute(name))block.setAttribute(name,original.getAttribute(name));
       block.dataset.phIconSet = group;
       // Inactive layers must never become visible when their SVG is replaced.
       if(original.hasAttribute('hidden'))block.setAttribute('hidden','');
