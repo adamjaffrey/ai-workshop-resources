@@ -283,8 +283,6 @@ export const selectorRowCSS=`
 .preview-dialog.is-expanded .expanded-state-controls>:is(.selector-row,.state-tools,.choices,.panel-actions,.panel-options,.control-footer,.checkbox-controls){margin-block:32px}
 .preview-dialog.is-expanded .expanded-state-controls .field{margin-top:0;gap:4px}
 .preview-dialog.is-expanded .panel-actions{justify-content:flex-end}
-.panel:has(#link-type-frame)>.frame-wrap{max-height:none;overflow:visible}
-#link-type-frame{max-height:none}
 
 .selector-row{display:flex;flex-wrap:wrap;align-items:flex-start;gap:32px 36px;min-width:0;max-width:100%;grid-column:1/-1}
 .selector-row>.choices,#login-preview .selector-row>.choices{flex:0 0 auto;width:max-content;max-width:100%;min-width:0;margin:0}

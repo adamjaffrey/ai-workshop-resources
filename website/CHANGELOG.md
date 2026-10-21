@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.272"
-  update_summary: "Use automatic hyperlink and anchor underline thickness"
-  updated_at: "Wed 21 Oct 2026 at 03:13:48 pm AEDT (+11:00)"
+  doc_revision: "26.0.273"
+  update_summary: "Restore shared clipping for the Typography link specimen"
+  updated_at: "Wed 21 Oct 2026 at 03:21:16 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.271 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 03:21:16 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Restore shared clipping for the Typography link specimen
+
+### Fixed
+
+- Keep the link specimen's grey background inside its rounded frame by removing the conflicting overflow override and redundant height exception. Use the same clipping and content-height rules as neighbouring specimen galleries.
+
+### Validation
+
+- Chrome and WebKit at 320, 390, 768 and 1440px, both themes and agents — shared clipping and full content height passed; mobile and desktop screenshots reviewed. Chrome corner hit-testing passed; WebKit uses rectangular hit-testing despite visually rounded clipping. Physical devices were not tested.
+- Playground menu containment, specimen fidelity, external text inset and nested alignment browser checks — passed.
+- Authentication tests, local website build and generated active styles/version checks — passed with saved backdrop geometry and v26.0.271.
 
 ## v26.0.270 — 2026-10-21
 
