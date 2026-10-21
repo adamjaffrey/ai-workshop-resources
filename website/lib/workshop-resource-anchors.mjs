@@ -12,14 +12,14 @@ export const resourceAnchorCSS=`
 .step-anchor::before{content:"";position:absolute;inset:0 -4px -2px -3px;border-radius:${linkPaint.radius};z-index:-1;transition:${linkPaint.transition}}
 .step-anchor:is(:hover,[data-anchor-preview])::before{background:${linkPaint.fill}}
 .step-anchor:is(:hover,[data-anchor-preview]) .step-anchor-label{color:var(--agent-accent)}
-.step-anchor-label{${linkPaint.underline}}
-.step-anchor:is(:hover,[data-anchor-preview]) .step-anchor-label{text-decoration-line:underline}
-.step-anchor-icon{position:absolute;left:calc(100% + 8px);top:calc(var(--step-cap-centre,19px) - .3125em);height:.625em;width:.625em;display:flex;align-items:center;justify-content:center;color:var(--agent-accent);opacity:0;transition:opacity 160ms cubic-bezier(.2,0,.2,1)}
+.step-anchor-label{${linkPaint.underline};text-decoration-line:underline;text-decoration-color:transparent;transition:color ${linkPaint.motion},text-decoration-color ${linkPaint.motion}}
+.step-anchor:is(:hover,[data-anchor-preview]) .step-anchor-label{text-decoration-color:var(--agent-accent)}
+.step-anchor-icon{position:absolute;left:calc(100% + 8px);top:calc(var(--step-cap-centre,19px) - .5cap);height:1cap;width:1cap;display:flex;align-items:center;justify-content:center;color:var(--agent-accent);opacity:1}
 .step-anchor-icon::before{content:"";position:absolute;inset:-2px -4px -2px -4px;border-radius:0 ${linkPaint.radius} ${linkPaint.radius} 0;background:transparent;z-index:-1;transition:${linkPaint.transition}}
 .step-anchor:is(:hover,[data-anchor-preview]) .step-anchor-icon::before{background:${linkPaint.fill}}
-.step-anchor:is(:hover,[data-result],[data-anchor-preview]) .step-anchor-icon,:root[data-focus-input="keyboard"] .step-anchor:focus .step-anchor-icon{opacity:1}
 .step-anchor-icon svg{position:absolute;width:100%;height:100%;opacity:0;transition:none}
-.step-anchor:not([data-result]) .step-anchor-hash{opacity:1}
+.step-anchor-icon .step-anchor-hash{transition:opacity ${linkPaint.motion}}
+.step-anchor:not([data-result]):is(:hover,[data-anchor-preview]) .step-anchor-hash,:root[data-focus-input="keyboard"] .step-anchor:not([data-result]):focus .step-anchor-hash{opacity:1}
 .step-anchor[data-result="success"] .step-anchor-success{opacity:1;color:var(--success)}
 .step-anchor[data-result="failure"] .step-anchor-failure{opacity:1;color:var(--error)}
 

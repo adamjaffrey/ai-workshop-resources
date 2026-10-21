@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.274"
-  update_summary: "Align every left disclosure chevron and label to shared columns"
-  updated_at: "Wed 21 Oct 2026 at 03:31:28 pm AEDT (+11:00)"
+  doc_revision: "26.0.275"
+  update_summary: "Synchronise link hover effects and size anchor icons to cap height"
+  updated_at: "Wed 21 Oct 2026 at 03:39:57 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.273 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 03:39:57 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Synchronise link hover effects and size anchor icons to cap height
+
+### Changed
+
+- Size Hash, Check and X SVG boxes to 1cap, retaining the 8px gap and cap-centred alignment.
+- Share the 160ms hover curve across anchor text, underline, backgrounds and Hash opacity. Animate underline colour instead of switching decoration visibility; keep the icon container opaque to prevent compounded background fading.
+- Apply the same transition to hyperlink text, underline and arrow colour alongside its existing background transition. Preserve shared fill, radius, relative text-area clearance, automatic underline thickness and reduced-motion behaviour.
+- Update interface instructions, README and design rationale in the same change.
+
+### Validation
+
+- Chrome/WebKit hover regression at 390px and 1440px — cap sizing, five coordinated anchor transitions, matched intermediate background colours, hyperlink colour/background timing and reduced motion passed; screenshots reviewed.
+- Copy-feedback lifecycle, hyperlink hit/hover/focus and responsive anchor regressions — passed. All copy outcome holds and animation durations retained.
+- Resources/Playground parity at 320px, 390px, 768px and 1440px across Chrome/WebKit and agent/theme combinations — passed.
+- Local site build and version/style checks — passed with saved backdrop geometry. Installed Safari and physical devices were not tested.
 
 ## v26.0.272 — 2026-10-21
 
