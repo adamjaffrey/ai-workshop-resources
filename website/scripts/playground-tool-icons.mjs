@@ -41,7 +41,7 @@ function renderPlaygroundIcons(){
   const entry=document.createElement('section');entry.className='playground-icon-entry';entry.dataset.catalogIcon=name;entry.dataset.iconFamily=provider;if(variant)entry.dataset.catalogVariant=variant;entry.dataset.iconGroups=[...groups].join(' ');
   const heading=document.createElement('h3'),sample=svg.cloneNode(true);
   sample.removeAttribute('id');sample.setAttribute('width','24');sample.setAttribute('height','24');sample.setAttribute('aria-hidden','true');
-  if(variant==='modified'){sample.classList.remove('text-link-icon','link-arrow');sample.style.cssText='width:24px;height:24px';}heading.append(sample,document.createTextNode(name+(variant==='modified'?' · Modified for Links':'')));
+  if(variant==='modified'){sample.classList.remove('text-link-icon','link-arrow');sample.style.cssText='width:24px;height:24px';}heading.append(sample,document.createTextNode(variant==='modified'?'Modified Arrow Up Right':name));
   const list=document.createElement('ul');
   for(const usage of usages)list.append(iconUsageItem(usage));
   const link=document.createElement('a');

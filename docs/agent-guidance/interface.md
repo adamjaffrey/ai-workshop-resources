@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.39"
-  update_summary: "Document exact link icons and complete shared link conventions"
-  updated_at: "Thu 22 Oct 2026 at 01:15:30 am AEDT (+11:00)"
+  doc_revision: "26.0.40"
+  update_summary: "Rename the approved modified link arrow consistently"
+  updated_at: "Thu 22 Oct 2026 at 01:27:32 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -100,8 +100,8 @@ These are global website rules for current and future text links and anchor-copy
 
 - **Anchor icon placement follows the text’s actual alignment:** right-aligned text receives its Hash icon on the left; all other text receives it on the right, including left-aligned, centred and justified text. Re-evaluate the side when alignment changes responsively. This is a general rule, not an exception tied to Step 2 or desktop. Reserve the icon slot on the appropriate side even while hidden so hover and feedback never move the label. Keep the label on its intended alignment rail. Check and X occupy the same side and slot as Hash. Navigation-link arrows remain after the linked text; the side-switching rule applies to anchor icons.
 - Use the shared inline link treatment in `workshop-links.mjs` and proportional icons in `workshop-link-icons.mjs`. Set link and anchor layout padding to zero. Native `box-decoration-break:clone` repeats the solid background and zero-blur box shadows on every wrapped line. Paint extends 0 top, .125em right, .05em bottom and .075em left without affecting text alignment, spacing or wrapping. Keep the base .2em radius. Do not measure line fragments or use a single positioned pseudo-element for these backgrounds. Standalone Playground links use normal text alignment without compensating negative margins. The painted extension is separate from the text box; do not reintroduce padding to create it.
-- Regular hyperlinks retain a resting underline with automatic thickness and ink skipping at .1em offset, hiding its colour on hover; show the approved modified Arrow Up Right 2 persistently. Anchor-copy labels have no underline at rest or on hover; hover reveals the background and modified Hash. Both use shared accessible link ink. Paint the solid theme-specific hover fill immediately so overlapping fragments never alpha-compound, including during entry/exit. Text, underline, background and Hash opacity change instantly, with no hover transition. Preserve keyboard focus and existing copy-result timing.
-- Keep a trailing icon with the final word in a non-wrapping tail; keep a leading anchor icon with the first word (or keep the complete short label together), using a .2em CSS gap for all navigation links and anchor-copy icons on either side rather than adding a second literal space. Reuse the shared `textIconGap` value; do not define separate left/right or hyperlink/anchor gap values. Always reserve a 1cap slot, including when an anchor icon is hidden. Use the lab's common 24-unit SVG canvas at 1.2cap and a .08em stroke converted to viewBox units, multiplied by 1/1.3/1.5 for regular/semibold/bold text. Centre the canvas at the cap-height centre. Hash, Check and X share exactly the same slot, dimensions and gap; preserve their original internal geometry rather than independently stretching each symbol. The user-approved modified Hash and Arrow Up Right 2 are explicit Lucide derivative exceptions; retain the original official names, variant metadata and Lucide licence/source links.
+- Regular hyperlinks retain a resting underline with automatic thickness and ink skipping at .1em offset, hiding its colour on hover; show the approved Modified Arrow Up Right persistently. Anchor-copy labels have no underline at rest or on hover; hover reveals the background and modified Hash. Both use shared accessible link ink. Paint the solid theme-specific hover fill immediately so overlapping fragments never alpha-compound, including during entry/exit. Text, underline, background and Hash opacity change instantly, with no hover transition. Preserve keyboard focus and existing copy-result timing.
+- Keep a trailing icon with the final word in a non-wrapping tail; keep a leading anchor icon with the first word (or keep the complete short label together), using a .2em CSS gap for all navigation links and anchor-copy icons on either side rather than adding a second literal space. Reuse the shared `textIconGap` value; do not define separate left/right or hyperlink/anchor gap values. Always reserve a 1cap slot, including when an anchor icon is hidden. Use the lab's common 24-unit SVG canvas at 1.2cap and a .08em stroke converted to viewBox units, multiplied by 1/1.3/1.5 for regular/semibold/bold text. Centre the canvas at the cap-height centre. Hash, Check and X share exactly the same slot, dimensions and gap; preserve their original internal geometry rather than independently stretching each symbol. The user-approved modified Hash and Modified Arrow Up Right are explicit Lucide derivative exceptions; retain the original official names, variant metadata and Lucide licence/source links.
 - Copy success shows Lucide Check using the theme's success token; failure shows Lucide X using the error token. Visible anchor confirmation text is limited to an icon tooltip, with an assistive-technology announcement. Follow [Shared Success and Failure Feedback](#shared-success-and-failure-feedback) for motion, hold durations and future reuse.
 - Use the shared link ink, opaque hover/selection fill and contrasting selected-text foreground defined under [Website Appearance](#website-appearance). Both agents use the same blend percentages. Keep semantic success/error colours distinct; do not introduce local colour variants. Check normal-size link ink at a minimum 4.5:1 against the hover fill.
 - Hover styling is immediate on entry and exit; copy-result animations are separate and retain the durations, easing and fully visible holds in [Shared Success and Failure Feedback](#shared-success-and-failure-feedback). Preserve keyboard focus indicators, accessible names and result announcements. Icons remain decorative when the control already has an accessible name.
@@ -111,7 +111,7 @@ These are global website rules for current and future text links and anchor-copy
 | Property | Navigation Hyperlink | Anchor Copy |
 |---|---|---|
 | Resting label | Shared link ink, underlined | Existing heading/label colour, no underline |
-| Resting icon | Modified Arrow Up Right 2, always visible | Modified Hash hidden; space remains reserved |
+| Resting icon | Modified Arrow Up Right, always visible | Modified Hash hidden; space remains reserved |
 | Hover label | Shared link ink; underline becomes transparent | Shared link ink; no underline |
 | Hover background | Shared opaque fill and painted extensions | Same shared treatment |
 | Icon position | After the final word | Left for right-aligned text; right otherwise |
@@ -131,7 +131,7 @@ These are global website rules for current and future text links and anchor-copy
 
 | Use | Official Lucide Name and Source | Rendered Variant | Repository SVG Reference |
 |---|---|---|---|
-| Navigation hyperlink | [Arrow Up Right (`arrow-up-right`)](https://lucide.dev/icons/arrow-up-right) | User-approved `arrow-up-right-modified-2` | [Modified Arrow Up Right 2](../assets/link-icons/arrow-up-right-modified-2.svg) |
+| Navigation hyperlink | [Arrow Up Right (`arrow-up-right`)](https://lucide.dev/icons/arrow-up-right) | User-approved `arrow-up-right-modified` | [Modified Arrow Up Right](../assets/link-icons/arrow-up-right-modified.svg) |
 | Anchor copy affordance | [Hash (`hash`)](https://lucide.dev/icons/hash) | User-approved `hash-modified` | [Modified Hash](../assets/link-icons/hash-modified.svg) |
 | Anchor copy success | [Check (`check`)](https://lucide.dev/icons/check) | Unmodified installed Lucide path | Imported by the shared icon renderer |
 | Anchor copy failure | [X (`x`)](https://lucide.dev/icons/x) | Unmodified installed Lucide paths | Imported by the shared icon renderer |
@@ -147,7 +147,7 @@ Modified Hash (`hash-modified`):
 <path d="M9.5 3 L7.5 21"/>
 ```
 
-Modified Arrow Up Right 2 (`arrow-up-right-modified-2`):
+Modified Arrow Up Right (`arrow-up-right-modified`):
 
 ```svg
 <path d="M20 4 L20 14.5"/>

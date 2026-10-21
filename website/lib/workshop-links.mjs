@@ -1,5 +1,5 @@
 import {textIcon,textIconCSS,sizeTextLinkIcons} from './workshop-link-icons.mjs';
-export const linkArrowSVG='<span class="text-link-slot">'+textIcon('arrow-up-right-modified-2','follow-link','link-arrow')+'</span>';
+export const linkArrowSVG='<span class="text-link-slot">'+textIcon('arrow-up-right-modified','follow-link','link-arrow')+'</span>';
 const linkMotion='0ms';
 export const linkPaint={radius:'.2em',motion:linkMotion,padding:'0',shadow:'-.05em .025em 0 .025em var(--link-hover-bg), .1em .025em 0 .025em var(--link-hover-bg)',fill:'var(--link-hover-bg)',underline:'text-decoration-color:currentColor;text-decoration-thickness:auto;text-decoration-skip-ink:auto;text-underline-offset:.1em'};
 export const linkCSS=`

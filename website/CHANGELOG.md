@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.292"
-  update_summary: "Refresh current anonymous backdrops for Sites publication"
-  updated_at: "Thu 22 Oct 2026 at 01:21:35 am AEDT (+11:00)"
+  doc_revision: "26.0.293"
+  update_summary: "Rename the approved modified link arrow consistently"
+  updated_at: "Thu 22 Oct 2026 at 01:28:54 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.291 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 01:28:54 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Rename the approved modified link arrow consistently
+
+### Changed
+
+- Use `arrow-up-right-modified` and Modified Arrow Up Right throughout source, specimens, tests, documentation, reference SVGs and saved metadata without changing icon geometry.
+
+### Validation
+
+- Chrome and WebKit shared link checks — passed.
+- Installed icon ink measurement comparison — passed.
+- Tracked-file search for obsolete names — no remaining references.
+- Local website build with saved backdrop geometry — passed.
 
 ## v26.0.290 — 2026-10-22
 
@@ -173,7 +196,7 @@ Unify native link highlights and proportional icon feedback
 
 - Use native cloned inline backgrounds with shared em padding and a solid fill on every wrapped line. Hyperlinks hide their underline on hover; Resources anchors reveal Hash without an underline.
 - Apply 80ms text/icon hover effects and immediate opaque fill changes to prevent overlapping alpha accumulation during transitions.
-- Adopt the approved modified Hash and Arrow Up Right 2 with cap-relative sizing, em strokes and a reserved non-wrapping final-word/icon tail. Keep success Check and failure X in the same anchor slot.
+- Adopt the approved modified Hash and Modified Arrow Up Right with cap-relative sizing, em strokes and a reserved non-wrapping final-word/icon tail. Keep success Check and failure X in the same anchor slot.
 - Consolidate resting/hovered link ink, improve Claude light contrast, and retain broader card, connector and selection palettes for separate review.
 - Update Playground native-link specimens, colour values, derivative icon provenance, and governing interface decisions.
 

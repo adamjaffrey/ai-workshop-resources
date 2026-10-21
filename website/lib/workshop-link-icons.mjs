@@ -3,7 +3,7 @@ import {__iconNode as check} from '../node_modules/lucide-react/dist/esm/icons/c
 import {__iconNode as cross} from '../node_modules/lucide-react/dist/esm/icons/x.mjs';
 const paths={
  'hash-modified':'<path d="M16.5 3 L14.5 21"/><path d="M4 16 L20 16"/><path d="M4 8 L20 8"/><path d="M9.5 3 L7.5 21"/>',
- 'arrow-up-right-modified-2':'<path d="M20 4 L20 14.5"/><path d="M4 20 L20 4"/><path d="M9.5 4 L20 4"/>',
+ 'arrow-up-right-modified':'<path d="M20 4 L20 14.5"/><path d="M4 20 L20 4"/><path d="M9.5 4 L20 4"/>',
 };
 const nodes=list=>list.map(([tag,attrs])=>`<${tag} ${Object.entries(attrs).filter(([key])=>key!=='key').map(([key,value])=>`${key}="${value}"`).join(' ')}></${tag}>`).join('');
 paths.check=nodes(check);paths.x=nodes(cross);
