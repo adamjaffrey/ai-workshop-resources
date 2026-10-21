@@ -1,3 +1,5 @@
+import {resourceAnchorGap} from '../lib/workshop-resource-anchors.mjs';
+import {headingMetrics} from '../lib/workshop-heading-metrics.mjs';
 import {updateHorizontalOverflow} from '../lib/workshop-overflow.mjs';
 import {specimenLayoutCSS,specimenTextSizingCSS} from '../lib/workshop-specimen-layout.mjs';
 import {createPlaygroundScheduler} from './playground-scheduler.mjs';
@@ -292,8 +294,19 @@ export async function playgroundPage({authenticated=false,inlineAssets=true}={})
  if(start<0||end<0)throw Error('Resource session boundary missing');
  resources=resources.slice(0,start)+resources.slice(end);
  const discovery=sandboxDoc(resources, `let lastEgg,eggActive=true;
+const eggHeadingMetrics=${headingMetrics.toString()},eggAnchorGap=${resourceAnchorGap.toString()};
+function sizeEggTopBoundary(){
+ const main=document.querySelector('main'),heading=document.querySelector('.step-row:last-child .step-anchor');
+ if(!heading)return;
+ const text=heading.querySelector('.step-anchor-label').textContent;
+ const bottom=Math.max(...[...document.querySelectorAll('[data-sticky-control]')].map(e=>e.getBoundingClientRect().bottom));
+ const top=heading.getBoundingClientRect().top+scrollY+eggHeadingMetrics(heading,text).top;
+ const padding=parseFloat(getComputedStyle(main).paddingTop)+bottom+eggAnchorGap(innerWidth)-top;
+ main.style.setProperty('--egg-context-top',Math.max(0,padding)+'px');
+}
+
 function positionEgg(){
- const bottom=()=>{window.scrollTo({top:document.documentElement.scrollHeight,behavior:'instant'});window.workshopStickyControls?.configure({pinned:true});document.querySelectorAll('.segmented-toggle').forEach(toggle=>window.layoutWorkshopToggle(toggle));window.workshopBrandHalo?.configure({hold:true,brand:'auto'});};
+ const bottom=()=>{window.workshopStickyControls?.configure({pinned:true});sizeEggTopBoundary();window.scrollTo({top:document.documentElement.scrollHeight,behavior:'instant'});document.querySelectorAll('.segmented-toggle').forEach(toggle=>window.layoutWorkshopToggle(toggle));window.workshopBrandHalo?.configure({hold:true,brand:'auto'});};
  bottom();requestAnimationFrame(()=>{bottom();requestAnimationFrame(bottom);});document.fonts.ready.then(bottom);
 }
 window.addEventListener('resize',()=>{if(eggActive)positionEgg();});
@@ -306,7 +319,7 @@ window.addEventListener('message',e=>{
  const active=e.data.eggActive!==false,activeChanged=active!==eggActive;eggActive=active;
  if(e.data.perspective)window.workshopPerspective.configure(e.data.perspective);
  if(e.data.egg!==lastEgg||activeChanged){lastEgg=e.data.egg;window.workshopPerspective.preview(eggActive?lastEgg:'locked',{loop:eggActive});if(eggActive)positionEgg();}
-});`).replace('</head>','<style>/* Isolated source specimen: hide unrelated app content only. */ main > :not(.cards,footer,.perspective,.perspective-dialog,.page-toolbar,.page-header){display:none!important}.cards>.step-row:not(:last-child){display:none!important}.cards>.step-row:last-child{opacity:1!important;transform:none!important}.cards>.step-row:last-child article,.cards>.step-row:last-child .step-marker{opacity:1!important;transform:none!important}.page-toolbar .brand{visibility:hidden}.page-header{display:block!important;margin-block:0!important}.page-header>.qr-card,.page-header>div>:not(.controls){display:none!important}.controls-label{display:none!important}main{padding-top:98px!important}.page-toolbar,.page-header{position:absolute;top:0;left:0;right:0;margin-block:0!important}.cards>.step-row:last-child .step-marker{margin-top:0!important}</style></head>');
+});`).replace('</head>','<style>/* Isolated source specimen: hide unrelated app content only. */ main > :not(.cards,footer,.perspective,.perspective-dialog,.page-toolbar,.page-header){display:none!important}.cards>.step-row:not(:last-child){display:none!important}.cards>.step-row:last-child{opacity:1!important;transform:none!important}.cards>.step-row:last-child article,.cards>.step-row:last-child .step-marker{opacity:1!important;transform:none!important}.page-toolbar .brand{visibility:hidden}.page-header{display:block!important;margin-block:0!important}.page-header>.qr-card,.page-header>div>:not(.controls){display:none!important}.controls-label{display:none!important}main{padding-top:var(--egg-context-top,98px)!important}.page-toolbar,.page-header{position:absolute;top:0;left:0;right:0;margin-block:0!important}.cards>.step-row:last-child .step-marker{margin-top:0!important}</style></head>');
  const branding=sandboxDoc(resources,`const halo=window.workshopBrandHalo;window.addEventListener('message',e=>{if(e.source===parent&&e.data?.guide==='worm-halo')halo.configure(e.data.settings);});`);
  resources=sandboxDoc(resources);
  let blocks=loginPage.replace(/<script[^>]*src="\/login.js"[^>]*><\/script>/,'');

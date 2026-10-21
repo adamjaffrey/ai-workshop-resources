@@ -5,6 +5,7 @@ import {__iconNode as hash} from '../node_modules/lucide-react/dist/esm/icons/ha
 import {__iconNode as check} from '../node_modules/lucide-react/dist/esm/icons/check.mjs';
 import {__iconNode as cross} from '../node_modules/lucide-react/dist/esm/icons/x.mjs';
 import {anchorCopyTiming,copyFrames} from './workshop-copy-timing.mjs';
+export const resourceAnchorGap=width=>width<=660?30:60;
 export const resourceAnchors = ['step-1-node-js-setup','step-2-system-blueprint-creator','step-3-system-build-assistant'];
 const iconBounds=name=>{const b=ink.icons[name];return {x:b.left,y:b.top,width:24-b.left-b.right,height:24-b.top-b.bottom};};
 const iconSlot=Math.max(...['hash','check','x'].map(name=>{const b=iconBounds(name);return b.width/b.height;}));
@@ -35,7 +36,7 @@ html[data-resource-anchor-arriving] .step-row[data-anchor-leaving]{opacity:calc(
 
 @media(prefers-reduced-motion:reduce){.step-anchor::before,.step-anchor-label,.step-anchor-icon,.step-anchor-icon svg,.step-row{transition:none!important}}
 `;
-export function initResourceAnchors(anchors,timing,measureHeading,frames){
+export function initResourceAnchors(anchors,timing,measureHeading,frames,anchorGap){
  const root=document.documentElement, rows=[...document.querySelectorAll('.step-row')];
  const motion=matchMedia('(prefers-reduced-motion:reduce)');
  const canonical=fragment=>{let value;try{value=decodeURIComponent(fragment.replace(/^#/,''));}catch{return null;}return anchors.includes(value)?value:anchors[/^step-([1-3])$/.exec(value)?.[1]-1]||null;};
@@ -114,7 +115,7 @@ export function initResourceAnchors(anchors,timing,measureHeading,frames){
   const controls=[...document.querySelectorAll('[data-sticky-control]')];
   const inset=Math.max(24,parseFloat(getComputedStyle(root).getPropertyValue('--sticky-safe-top'))||0);
   const bottom=inset+Math.max(...controls.map(control=>control.offsetHeight));
-  const destination=Math.max(0,scrollY+textTop-bottom-(innerWidth<=660?30:60));
+  const destination=Math.max(0,scrollY+textTop-bottom-anchorGap(innerWidth));
   const existingRoom=parseFloat(root.style.getPropertyValue('--anchor-scroll-room'))||0;
   const extra=existingRoom+Math.max(0,Math.ceil(destination-(root.scrollHeight-innerHeight)));
   root.style.setProperty('--anchor-scroll-room',extra+'px');
@@ -176,5 +177,5 @@ export function withResourceAnchors(html){
   html=html.replace(`<h2 class="step-title" id="step-${index+1}">${text}</h2>`,`<h2 class="step-title" id="resource-step-${index+1}"><button type="button" class="step-anchor" data-anchor="${anchor}" aria-label="Copy Link to ${text}"><span class="step-anchor-label">${text}</span><span class="step-anchor-icon" title="Copy Link">${svg(hash,'hash','hash')}${svg(check,'check','success')}${svg(cross,'x','failure')}</span></button></h2>`);
  }
  const initial=`(()=>{const h=location.hash.slice(1);if(${JSON.stringify(resourceAnchors)}.includes(h)||/^step-[1-3]$/.test(h)){window.workshopInitialAnchor=location.hash;document.documentElement.dataset.resourceAnchorArriving='';history.replaceState(history.state,'',location.pathname+location.search);}})();`;
- return html.replace('</head>',`<style>${resourceAnchorCSS}</style><script nonce="__NONCE__">${initial}</script></head>`).replace('</body>',`<script nonce="__NONCE__">(${initResourceAnchors.toString()})(${JSON.stringify(resourceAnchors)},${JSON.stringify(anchorCopyTiming)},${headingMetrics.toString()},${copyFrames.toString()});</script></body>`);
+ return html.replace('</head>',`<style>${resourceAnchorCSS}</style><script nonce="__NONCE__">${initial}</script></head>`).replace('</body>',`<script nonce="__NONCE__">(${initResourceAnchors.toString()})(${JSON.stringify(resourceAnchors)},${JSON.stringify(anchorCopyTiming)},${headingMetrics.toString()},${copyFrames.toString()},${resourceAnchorGap.toString()});</script></body>`);
 }

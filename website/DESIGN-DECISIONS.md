@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.37"
-  update_summary: "Define palette and page-embed terminology and rationale"
-  updated_at: "Wed 21 Oct 2026 at 06:27:45 pm AEDT (+11:00)"
+  doc_revision: "26.0.38"
+  update_summary: "Match Easter Egg top boundary to Resources anchor spacing"
+  updated_at: "Wed 21 Oct 2026 at 06:32:01 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -233,6 +233,8 @@ Adam requested these gallery refinements to compare real component dimensions, r
 **Rationale:** Palettes are meant to be read and compared as part of the surrounding Playground page; a nested vertical scroll region interrupts that continuous browsing. Page embeds can contain long page layouts, so a bounded viewport prevents one preview from dominating the Playground while allowing inspection of its full content through internal scrolling. Expand View supplies more room when needed. The 60% maximum is Adam's chosen sizing preference; it replaces 70% and is not a measured universal usability threshold. Responsive content and text wrapping remain intact in both categories.
 
 **Superseded Rules:** This distinction replaces the original blanket 70% cap and the subsequent blanket content-height rule. The final clarification retains Expand View for page embeds only; the earlier request to remove it from page embeds was a typo. Do not infer scroll ownership or Expand View eligibility from the presence of an iframe.
+
+**Easter Egg Top Boundary:** The isolated Step 3 preview uses the Resources anchor's visible-text clearance at its natural scroll-top boundary: 60px below the pinned selectors, or 30px at embedded widths up to 660px. Matching the existing anchor metric gives consistent context while using layout padding preserves native scrolling and avoids an unwanted anchor journey or scroll clamp. The card edge is not the reference, and the initial bottom-focused Easter Egg presentation remains unchanged.
 
 **Owning Rules:** [Specimen Palettes and Page Embeds](../docs/agent-guidance/interface.md#specimen-palettes-and-page-embeds), incorporated by the repository's mandatory Interface contract.
 

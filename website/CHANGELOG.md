@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.283"
-  update_summary: "Cap page embeds at 60 percent and retain full-height palettes"
-  updated_at: "Wed 21 Oct 2026 at 06:22:57 pm AEDT (+11:00)"
+  doc_revision: "26.0.284"
+  update_summary: "Align Easter Egg scroll-top spacing with Resources anchors"
+  updated_at: "Wed 21 Oct 2026 at 06:33:28 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.282 — 2026-10-21
+
+**Built at:** Wed 21 Oct 2026 at 06:33:28 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Align Easter Egg scroll-top spacing with Resources anchors
+
+### Changed
+
+- Use the shared Resources anchor gap and heading-ink metrics for the Easter Egg preview's native top boundary: 60px below pinned selectors, or 30px at embedded widths up to 660px.
+- Adjust preview top padding instead of navigating to an anchor or intercepting scrolling. Preserve bottom-first presentation, normal scrolling and Expand View.
+- Document that clearance is measured to visible Step 3 lettering, not the card edge. Reuse saved backdrop geometry.
+
+### Validation
+
+- Inline and expanded Easter Egg top-boundary checks across five window widths — passed.
+- Resources anchor landings at 320, 390, 768 and 1440px — passed.
+- Placeholder unit checks and production build — passed.
 
 ## v26.0.281 — 2026-10-21
 
