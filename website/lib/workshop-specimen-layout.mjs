@@ -7,6 +7,10 @@ ${overflowFadeCSS}
 /* Fixed source-width examples must not trigger mobile text inflation.
    Page zoom remains available. */
 ${specimenTextSizingCSS}
+/* Galleries expand to their content; only their parent viewport scrolls.
+   Native focus scrolling must not shift rows inside the measured iframe. */
+html[data-specimen-gallery]{overflow:clip}
+html[data-specimen-gallery] body{overflow:clip}
 /* One content inset. The surrounding iframe adds none. */
 body{margin:0;padding-block:24px;padding-inline:0;background:var(--page);color:var(--text);overflow-y:hidden}
 :is(#type-specimens,#icon-catalog,#error-catalog,#focus-catalog,#link-type-specimens){padding-inline:var(--specimen-text-rail)}

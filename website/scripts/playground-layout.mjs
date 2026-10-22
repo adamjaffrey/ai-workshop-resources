@@ -69,7 +69,7 @@ header.wrap p{font-size:16px;line-height:24px;margin:0;max-width:none}
 .choice-shell .choice-options{--overflow-left:0px;--overflow-right:0px;mask-image:linear-gradient(to right,transparent,#000 var(--overflow-left),#000 calc(100% - var(--overflow-right)),transparent);-webkit-mask-image:linear-gradient(to right,transparent,#000 var(--overflow-left),#000 calc(100% - var(--overflow-right)),transparent)}
 
 ${overflowFadeCSS}
-.tab-scroll-shell{position:relative;margin:4px 0 12px}.tab-scroll-shell::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--agent-accent);pointer-events:none}
+.tab-scroll-shell{position:relative;margin:4px 0 12px}.tab-scroll-shell::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--agent-accent);pointer-events:none}
 .tab-scroll-shell nav[role=tablist]{margin:0!important;padding-inline:4px;background:none}
 .control-footer>.panel-options{min-height:50px;align-items:center}
 body :is(.icon-button,.preview-expand,#perspective-replay,#style-options,#back-to-top) svg{width:22px;height:22px;flex:none;stroke-width:2}
@@ -141,7 +141,7 @@ main.wrap{padding-top:24px}
 .choice-options,nav[role=tablist]{--overflow-feather:108px;--overflow-shoulder:36px}
 @media(max-width:660px){.choice-options,nav[role=tablist]{--overflow-feather:54px;--overflow-shoulder:18px}}
 .tab-scroll-shell nav[role=tablist]{padding-top:0}
-.tab-scroll-shell nav[role=tablist] button{border-bottom-color:transparent!important}
+.tab-scroll-shell nav[role=tablist] button{border-bottom:0!important}
 .tab-scroll-shell nav[role=tablist] button[aria-selected=true]{background:var(--agent-accent);color:var(--agent-ink);border-bottom-color:transparent}
 .tab-scroll-shell nav[role=tablist] button:not([aria-selected=true]):hover,:root[data-focus-input=keyboard] .tab-scroll-shell nav[role=tablist] button:not([aria-selected=true]):focus{background:var(--action-hover);color:var(--text)}
 :root[data-focus-input=keyboard] .tab-scroll-shell nav[role=tablist] button[aria-selected=true]:focus{background:var(--agent-accent);color:var(--agent-ink)}

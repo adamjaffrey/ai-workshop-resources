@@ -3,14 +3,44 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.319"
-  update_summary: "Refine focus boundaries and static specimen navigation"
-  updated_at: "Thu 22 Oct 2026 at 01:07:30 pm AEDT (+11:00)"
+  doc_revision: "26.0.320"
+  update_summary: "Correct transparent focus paint and keyboard navigation"
+  updated_at: "Thu 22 Oct 2026 at 01:34:55 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.318 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 01:34:55 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Correct transparent focus paint and keyboard navigation
+
+### Changed
+
+- Clear the browser popover background on the shared exterior focus overlay so rings never cover their controls or specimen rows.
+- Keep full-height gallery roots from scrolling internally when keyboard focus moves, preserving row geometry and preloaded specimen states.
+- Retain silent heading focus when Style Options opens, send the next Tab to X in both browsers, and restore ellipsis focus after closure.
+- Restart Resources title navigation after a blank top-area click and round the text-sized Easter Egg focus rectangle.
+- Remove the selected tab border and its reserved height; use a 2px full-width accent underline.
+- Preserve 24px below iframe content while retaining separate collapsed-section spacing; allow URL H3 collapsed rows to use their measured balanced height.
+- Update the owning Interface contract and decision log.
+
+### Validation
+
+- `npm --prefix website run build` — passed using saved backdrop geometry; generated artefacts display v26.0.318.
+- Focus-boundary and wrapped-heading checks — passed in Chrome and WebKit at 320, 390, 768 and 1440px, including transparent overlays, heading restart, menu Tab order and stable row geometry.
+- Nested keyboard-region regression checks — passed in both engines at 390 and 1440px.
+- Rendered mobile X and specimen-row focus screenshots — inspected; content remains visible. Exact iframe bottom clearance (24px) and tab rail thickness (2px) checks — passed.
+- Physical devices were not tested.
 
 ## v26.0.317 — 2026-10-22
 

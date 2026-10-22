@@ -33,7 +33,7 @@ footer.is-stacked .footer-content { justify-content:center; text-align:center; }
 .perspective-discover[hidden] { display:none; }
 .perspective{border-radius:8px}
 :root[data-focus-input="keyboard"] .perspective-discover:focus{outline:none!important}
-:root[data-focus-input="keyboard"] .perspective:has(.perspective-discover:focus)::before{content:"";position:absolute;left:calc(var(--secret-left,0px) - 3px);top:calc(var(--secret-top,0px) - 3px);width:calc(var(--secret-width,100%) + 6px);height:calc(var(--secret-height,100%) + 6px);border-radius:0;outline:3px solid var(--icon-ink);pointer-events:none}
+:root[data-focus-input="keyboard"] .perspective:has(.perspective-discover:focus)::before{content:"";position:absolute;left:calc(var(--secret-left,0px) - 3px);top:calc(var(--secret-top,0px) - 3px);width:calc(var(--secret-width,100%) + 6px);height:calc(var(--secret-height,100%) + 6px);border-radius:8px;outline:3px solid var(--icon-ink);pointer-events:none}
 /* All glyphs crop the same area-sized colour field, including the ellipsis. */
 .perspective-fragment::after,.perspective-ellipsis::after { content:attr(data-sheen-text); position:absolute; inset:0; pointer-events:none; user-select:none; visibility:visible; color:transparent; background-image:var(--wave-paint,none); background-size:var(--wave-width) var(--wave-height); background-position:var(--wave-offset-x) var(--wave-offset-y); background-repeat:no-repeat; filter:brightness(var(--sheen-strength,1)); background-clip:text; -webkit-background-clip:text; opacity:0; }
 .perspective-ellipsis { position:relative; display:inline-block; }

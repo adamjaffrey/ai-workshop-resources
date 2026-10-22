@@ -1,6 +1,6 @@
 // Keyboard behaviour shared by the outer Playground and its sandbox documents.
 export const playgroundKeyboardCSS=`
-.workshop-focus-overlay{position:fixed;pointer-events:none;z-index:2147483647;margin:0;padding:0;inset:auto;box-sizing:border-box;border:3px solid var(--icon-ink);border-radius:9px;display:none}
+.workshop-focus-overlay{position:fixed;pointer-events:none;z-index:2147483647;margin:0;padding:0;inset:auto;background:transparent;box-shadow:none;max-width:none;max-height:none;overflow:visible;box-sizing:border-box;border:3px solid var(--icon-ink);border-radius:9px;display:none}
 :root[data-focus-input=keyboard] [data-overlay-focus]{outline:none!important}
 :root[data-focus-input=keyboard] [data-overlay-focus]+span,:root[data-focus-input=keyboard] .source-choice:has([data-overlay-focus]),:root[data-focus-input=keyboard] .password-field:has([data-overlay-focus]){outline:none!important}
 .code-wrap:has(pre[data-overlay-focus])::after{display:none!important}

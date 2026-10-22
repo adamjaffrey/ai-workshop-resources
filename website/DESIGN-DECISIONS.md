@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.72"
-  update_summary: "Clarify focus boundaries and static focus specimens"
-  updated_at: "Thu 22 Oct 2026 at 01:03:50 pm AEDT (+11:00)"
+  doc_revision: "26.0.73"
+  update_summary: "Correct transparent focus paint and keyboard navigation"
+  updated_at: "Thu 22 Oct 2026 at 01:33:44 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -532,10 +532,12 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 
 ## Specimen Focus Boundaries and Menu Transitions
 
-**Decision:** Keep interactive keyboard behaviour in ordinary specimens, but make Focus and Selection a static, sequential row-level demonstration. Use one exterior ring per target, following the real container corners, and suppress the original prompt pseudo-ring when the shared overlay paints focus. Hide the Style Options ring during both animations and return focus to its X/ellipsis button only after completion.
+**Decision:** Keep interactive keyboard behaviour in ordinary specimens, but make Focus and Selection a static, sequential row-level demonstration. Use one exterior ring per target, following the real container corners, and suppress the original prompt pseudo-ring when the shared overlay paints focus. Hide the Style Options ring during both animations and retain silent heading focus on opening, route the next Tab to X, and restore the ellipsis button only after closing completes.
 
 **Reason:** Adam identified competing specimen rings, clipping during menu closure and preloaded focus examples being disturbed by live interaction. The explicit row-only exception preserves those examples without removing useful interaction from other panels.
 
 **Additional Refinements:** Prioritise the real H1 before theme/QR controls while leaving specimen tab order local; preserve normal visited-title ink. Fit the secret inscription ring to both text halves as a rectangle. Use a full accent tab underline with 4px content insets and no second selection marker, make rate-limit CTAs visibly inactive, and balance collapsed headings using actual first/last-line ink rather than cap height alone.
 
 **Owner:** [Interface](../docs/agent-guidance/interface.md#playground-keyboard-and-nested-scrolling).
+
+**Focus Follow-up:** Explicitly clear the UA popover background so top-layer rings never obscure their targets. Full-height gallery roots do not scroll internally during row navigation. Round the text-sized secret ring, restart title navigation after blank top-area clicks, remove the tab marker’s reserved height and use a 2px accent rail. Let measured collapsed heights override the URL H3 minimum, and keep iframe bottom clearance at 24px independently of collapsed spacing. These corrections respond to visual and keyboard review of the previous implementation.

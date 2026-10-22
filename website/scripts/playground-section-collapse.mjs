@@ -6,6 +6,7 @@ export const sectionCollapseCSS=`
 html:has(#playground-title){scrollbar-gutter:stable}
 /* The bordered target sits on the 24px surface rail; text retains its 28px rail. */
 [data-panel]>.panel:not(.is-expanded){padding-block:20px}
+[data-panel]>.panel:has(iframe):not(.is-expanded):not([data-collapsed]){padding-bottom:24px}
 :is([data-panel]>.panel,.url-subsection)>.section-heading{position:relative;padding-right:72px;min-height:50px;margin-bottom:20px;isolation:isolate;-webkit-tap-highlight-color:transparent}
 :is([data-panel]>.panel,.url-subsection)>.section-heading>.section-collapse{position:absolute;right:-8px;top:0;margin:0;z-index:0;display:grid;place-items:center;width:50px;height:50px;min-height:50px;padding:0;border:1px solid var(--control-border);border-radius:12px;background:transparent;color:var(--text);cursor:pointer;box-shadow:none;isolation:isolate;appearance:none;-webkit-tap-highlight-color:transparent;user-select:none;transition:none}
 :is([data-panel]>.panel,.url-subsection):not(.is-expanded)>.section-heading :is(h2,h3){position:relative;z-index:1;user-select:none}
@@ -16,7 +17,7 @@ html:has(#playground-title){scrollbar-gutter:stable}
 #panel-url-reference .panel .url-subsection[data-collapsed]{padding-bottom:20px}
 #panel-url-reference .panel .url-subsection[data-collapsed]+.url-subsection{margin-top:0}
 #panel-url-reference .panel .url-subsection[data-collapsed]:last-child{padding-bottom:0}
-#panel-url-reference .panel .url-subsection[data-collapsed]>.section-heading{margin-bottom:0}
+#panel-url-reference .panel .url-subsection[data-collapsed]>.section-heading{margin-bottom:0;min-height:var(--collapsed-heading-height,50px)}
 .section-heading::before{content:"";position:absolute;top:0;left:-8px;right:-8px;height:100%;border-radius:12px;background:var(--hover);opacity:0;pointer-events:none;z-index:-1;transition:none}
 .section-heading:is([data-collapse-hover],:has(>.section-collapse:hover),:has(>.section-collapse:active))::before,:root[data-focus-input="keyboard"] .section-heading:has(>.section-collapse:focus)::before{opacity:1}
 .section-collapse::before,.section-collapse::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;opacity:0}

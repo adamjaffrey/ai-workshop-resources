@@ -153,12 +153,23 @@ a.page-title-link:focus{outline:none}
 const script = `(() => {
   const key = 'workshop-colour-theme';
   document.documentElement.dataset.focusInput = 'pointer';
+  let restartTitleNavigation = false;
   document.addEventListener('keydown', event => {
-    if (event.key === 'Tab') document.documentElement.dataset.focusInput = 'keyboard';
+    if (event.key === 'Tab') {
+      document.documentElement.dataset.focusInput = 'keyboard';
+      if (restartTitleNavigation && !event.shiftKey) {
+        const title = document.querySelector('.page-header .page-title-link');
+        if (title) { event.preventDefault(); title.focus({preventScroll:true}); }
+      }
+      restartTitleNavigation = false;
+    }
   }, true);
   document.addEventListener('pointerdown', event => {
     document.documentElement.dataset.focusInput = 'pointer';
     if (!event.isPrimary || event.button !== 0) return;
+    const interactive = event.target.closest('button,a[href],input,select,textarea,summary,[tabindex]');
+    const header = document.querySelector('.page-header');
+    restartTitleNavigation = !interactive && Boolean(header) && event.clientY >= 0 && event.clientY <= header.getBoundingClientRect().bottom && scrollY < 40;
     const target = event.target.closest('button, a[href], pre[tabindex]');
     if (target && !target.disabled) target.focus({preventScroll: true});
   }, true);

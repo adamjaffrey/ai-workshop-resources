@@ -472,11 +472,12 @@ ${urlReferenceCSS}
   if(!reduced.matches){optionsAnimation=styleDialog.animate([{clipPath:open?compact:expanded},{clipPath:open?expanded:compact}],{duration:240,easing:'cubic-bezier(.2,0,.2,1)',fill:'both'});try{await optionsAnimation.finished;}catch{return;}}
   if(optionsOpen!==open)return;
   if(!open){styleDialog.close();optionsHome.before(optionsButton);unlockOptionsBackground(restore);}
-  optionsAnimation?.cancel();optionsAnimation=null;document.documentElement.removeAttribute("data-options-transition");if(restore)optionsButton.focus({preventScroll:true});
+  optionsAnimation?.cancel();optionsAnimation=null;document.documentElement.removeAttribute("data-options-transition");if(!open&&restore)optionsButton.focus({preventScroll:true});
  }
  function positionControls(){document.documentElement.removeAttribute("data-options-transition");optionsAnimation?.cancel();optionsOpen=false;optionsIcon(false);if(styleDialog.open)styleDialog.close();optionsHome.before(optionsButton);unlockOptionsBackground(false);(document.querySelector('.preview-dialog.is-expanded .expanded-global-controls')||(mobileStyle.matches?$('mobile-style-controls'):toolbar)).append(globalControls);}
  positionControls();mobileStyle.addEventListener('change',positionControls);
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&optionsOpen){e.preventDefault();setOptions(false);}});
+ styleDialog.addEventListener('keydown',e=>{if(e.key==='Tab'&&!e.shiftKey&&e.target===$('style-dialog-title')){e.preventDefault();optionsButton.focus({preventScroll:true});}});
  styleDialog.addEventListener('cancel',e=>{e.preventDefault();setOptions(false);});
  styleDialog.addEventListener('click',e=>{const r=styleDialog.getBoundingClientRect();if(optionsOpen&&e.target===styleDialog&&(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)){e.preventDefault();setOptions(false);}});
  reduced.addEventListener('change',()=>{if(reduced.matches){optionsAnimation?.finish();}});
