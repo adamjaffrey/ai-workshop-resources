@@ -3,14 +3,66 @@ name: website-backlog
 description: Record unfinished proposed work for the workshop website.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.5"
-  update_summary: "Remove unused tab overlay geometry and retain the native ring"
-  updated_at: "Thu 22 Oct 2026 at 06:15:52 pm AEDT (+11:00)"
+  doc_revision: "26.0.6"
+  update_summary: "Add palette simplification, contrast and colour origin work"
+  updated_at: "Thu 22 Oct 2026 at 08:08:50 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Website Backlog
+
+## Simplify the Colour Palette
+
+**Added at:** Thu 22 Oct 2026 at 08:08:50 pm AEDT (+11:00)
+
+**Added by:** Adam Jaffrey
+
+**Addition assisted by agent:** ChatGPT Codex
+
+### Outcome
+
+Consolidate the website colour palette into a simpler, more consistent set of colours.
+
+### Acceptance Criteria
+
+- Review the existing palette and consolidate redundant or unnecessarily similar colours.
+- Apply the simplified palette consistently across the website and shared Playground specimens, preserving clear roles across agents and themes.
+
+## Improve Light-Mode Selection and Link Hover Colours
+
+**Added at:** Thu 22 Oct 2026 at 08:08:50 pm AEDT (+11:00)
+
+**Added by:** Adam Jaffrey
+
+**Addition assisted by agent:** ChatGPT Codex
+
+### Outcome
+
+Make text-selection highlights and link/anchor hover colours more visible for both Codex and Claude in light mode.
+
+### Acceptance Criteria
+
+- Adjust the text-selection highlight and link/anchor hover colours for both Codex and Claude light themes.
+- Verify clear visibility and readable text in the app and matching Playground specimens.
+
+## Document Palette Colour Blend Origins
+
+**Added at:** Thu 22 Oct 2026 at 08:08:50 pm AEDT (+11:00)
+
+**Added by:** Adam Jaffrey
+
+**Addition assisted by agent:** ChatGPT Codex
+
+### Outcome
+
+Document the blend origins of every palette colour in Playground > Colours and the repository instructions.
+
+### Acceptance Criteria
+
+- Identify the source colours and blend proportions or derivation used for each palette colour.
+- Show those origins alongside the palette in Playground > Colours and record them in the owning repository instruction contract.
+- Keep both descriptions consistent with the implemented palette; identify any colour that is not derived from a blend.
 
 ## Render Final Page Structure Before JavaScript Setup
 
