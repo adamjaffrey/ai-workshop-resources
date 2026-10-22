@@ -8,8 +8,8 @@ ${textIconCSS}
 ${linkSurfaceCSS}
 a.page-title-link{position:relative;isolation:isolate}
 .workshop-title-paint{position:absolute;pointer-events:none;z-index:-1;border-radius:${linkPaint.radius};opacity:0}
-a.page-title-link:is(:hover,[data-link-preview="hover"]),:root[data-focus-input="keyboard"] a.page-title-link:focus{color:var(--link-hover);background:transparent}
-a.page-title-link:is(:hover,[data-link-preview="hover"])>.workshop-title-paint,:root[data-focus-input="keyboard"] a.page-title-link:focus>.workshop-title-paint{opacity:1;background:${linkPaint.fill};box-shadow:${linkPaint.shadow}}
+a.page-title-link[href]:is(:hover,[data-link-preview="hover"]),:root[data-focus-input="keyboard"] a.page-title-link[href]:focus{color:var(--link-hover);background:transparent}
+a.page-title-link[href]:is(:hover,[data-link-preview="hover"])>.workshop-title-paint,:root[data-focus-input="keyboard"] a.page-title-link[href]:focus>.workshop-title-paint{opacity:1;background:${linkPaint.fill};box-shadow:${linkPaint.shadow}}
 
 a.workshop-link[hidden]{display:none!important}
 .link-tail{white-space:nowrap}

@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.175"
-  update_summary: "Document keyboard navigation in nested Playground specimens"
-  updated_at: "Thu 22 Oct 2026 at 11:55:45 am AEDT (+11:00)"
+  doc_revision: "26.0.176"
+  update_summary: "Clarify focus boundaries and static focus specimens"
+  updated_at: "Thu 22 Oct 2026 at 01:03:50 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -451,6 +451,6 @@ Each Step N heading copies a descriptive anchor link with hover-revealed Lucide 
 
 ### Keyboard Navigation in Playground Embeds
 
-The outer Playground and sandbox documents share `scripts/playground-keyboard.mjs`. Scrollable regions have labelled focus stops for arrow-key panning; contained controls retain their own keyboard navigation. Cloned theme/agent controls use the same manual-activation group handler, and disabled fields remain disabled exactly as in the app. Enter and Space toggle enabled checkboxes. Real focus rings remain outside clipping boundaries, reveal their target and inherit keyboard modality when entering an iframe. Expanded disclosure rings surround their entire border; slider rings follow the visible thumb height. The [Interface contract](../docs/agent-guidance/interface.md#playground-keyboard-and-nested-scrolling) owns the complete rules and validation.
+The outer Playground and sandbox documents share `scripts/playground-keyboard.mjs`. Scrollable regions have labelled focus stops for arrow-key panning; contained controls retain their own keyboard navigation. Focus and Selection is the exception: each whole specimen row is one Tab stop, its preview is inert, and its preloaded demonstration remains untouched. Cloned theme/agent controls use the same manual-activation group handler, and disabled fields remain disabled exactly as in the app. Enter and Space toggle enabled checkboxes. Real focus rings remain outside clipping boundaries, reveal their target and inherit keyboard modality when entering an iframe. Expanded disclosure rings surround their entire border; slider rings follow the visible thumb height. The [Interface contract](../docs/agent-guidance/interface.md#playground-keyboard-and-nested-scrolling) owns the complete rules and validation.
 
 Easter Egg iframe entry follows agent, then theme. Switching to After Closing Dialog does not run user-dialog focus restoration. Right-aligned anchor examples begin at their right edge and avoid scrolling when their content fits. Selected and hovered tabs share selector colour tokens, and their focus ring has a straight bottom edge.

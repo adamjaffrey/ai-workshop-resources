@@ -26,9 +26,9 @@ window.addEventListener('message',event=>{
  for(const page of ['resources','login']){
  const section=document.getElementById('focus-'+page),signature=JSON.stringify(focusCache[page].focusItems);if(section.captureSignature===signature)continue;section.captureSignature=signature;const fragment=document.createDocumentFragment();
  for(const item of focusCache[page].focusItems){
-  const row=document.createElement('section');row.className='focus-row';
+  const row=document.createElement('section');row.className='focus-row';row.tabIndex=0;row.setAttribute('role','group');row.setAttribute('aria-label',item.label);
   const title=document.createElement('h3');title.textContent=item.label;
-  const preview=document.createElement('div');preview.className='focus-preview';preview.innerHTML=item.html;
+  const preview=document.createElement('div');preview.className='focus-preview';preview.inert=true;preview.innerHTML=item.html;
   // Discard page-positioning state before applying gallery optical alignment.
   preview.firstElementChild?.style.removeProperty('translate');
   const target=preview.querySelector('[data-focus-target]');

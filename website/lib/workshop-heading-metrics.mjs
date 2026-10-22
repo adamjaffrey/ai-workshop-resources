@@ -7,5 +7,5 @@ export function headingMetrics(element,text='H'){
  const metrics=context.measureText(text);
  const ascent=metrics.fontBoundingBoxAscent??size*.8,descent=metrics.fontBoundingBoxDescent??size*.2;
  const baseline=(height-ascent-descent)/2+ascent;
- return {top:baseline-metrics.actualBoundingBoxAscent,centre:baseline-(metrics.actualBoundingBoxAscent-metrics.actualBoundingBoxDescent)/2};
+ return {bottom:baseline+metrics.actualBoundingBoxDescent,top:baseline-metrics.actualBoundingBoxAscent,centre:baseline-(metrics.actualBoundingBoxAscent-metrics.actualBoundingBoxDescent)/2};
 }

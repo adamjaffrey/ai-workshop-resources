@@ -3,14 +3,46 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.318"
-  update_summary: "Prevent intermediate page setup from flickering on load"
-  updated_at: "Thu 22 Oct 2026 at 12:46:49 pm AEDT (+11:00)"
+  doc_revision: "26.0.319"
+  update_summary: "Refine focus boundaries and static specimen navigation"
+  updated_at: "Thu 22 Oct 2026 at 01:07:30 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.317 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 01:07:30 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine focus boundaries and static specimen navigation
+
+### Changed
+
+- Put the real H1 before theme and QR controls in native Tab order and preserve normal resting/visited title and icon ink; keep captured links in ordinary specimen order.
+- Fit the Easter Egg ring to both text halves as one square-cornered rectangle instead of the full content rail.
+- Hide the Style Options ring during both opening and closing transitions, then focus its X or ellipsis button after the animation completes.
+- Remove the separate tab selection marker, use an accent-coloured full rail underline and inset the tab contents by 4px at each end.
+- Match focus overlays to rounded fallback and iframe containers, remove duplicate prompt rings and paint focus promptly in offscreen WebKit frames.
+- Make Focus and Selection a row-by-row keyboard demonstration with inert specimen previews, preserving all preloaded states; retain interactive controls elsewhere.
+- Give rate-limited login CTAs a neutral disabled appearance without resizing them or changing their disabled semantics.
+- Balance collapsed heading decoration using actual first/last-line ink, including descenders, while preserving section margins and cap alignment.
+- Update the Interface contract, decision log and README for these behaviours.
+
+### Validation
+
+- `npm --prefix website run build` — passed using saved backdrop geometry; generated artefacts display v26.0.317.
+- Focus-boundary checks — passed in Chromium and WebKit at 320, 390, 768 and 1440px, including both menu transitions, title order/ink, static focus rows, inactive CTA and rounded containers.
+- Wrapped-heading and shared-control keyboard regression checks — passed in both engines at all four widths; nested keyboard-region checks passed at 390 and 1440px.
+- First-paint regression checks — passed for both pages in both engines at all four widths, including delayed assets and restored-scroll refreshes.
+- Secret-text and collapsed mobile heading screenshots inspected. Both LAN destinations returned HTTP 200 with the new version. Physical devices were not tested.
 
 ## v26.0.316 — 2026-10-22
 

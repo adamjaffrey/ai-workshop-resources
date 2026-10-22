@@ -2,6 +2,8 @@ import {overflowFadeCSS} from '../lib/workshop-overflow.mjs';
 // Outer Playground tooling only; app specimens keep their canonical controls.
 export const playgroundLayoutCSS=String.raw`
 html[data-preview-restoring]{overflow-anchor:none}
+:root[data-options-transition] #style-options{outline:none!important}
+:root[data-options-transition] .workshop-focus-overlay{visibility:hidden!important}
 :root{--playground-inset-gap:32px;--control-related-gap:8px;--control-label-gap:16px;--control-column-gap:36px;--control-row-gap:32px}
 .egg-help{margin-top:12px}.egg-help summary{font-weight:600}.egg-help p{font-size:14px;color:var(--muted-text)}
 #playground-title{align-items:flex-start}#playground-title>svg{margin-top:.075em}
@@ -67,8 +69,8 @@ header.wrap p{font-size:16px;line-height:24px;margin:0;max-width:none}
 .choice-shell .choice-options{--overflow-left:0px;--overflow-right:0px;mask-image:linear-gradient(to right,transparent,#000 var(--overflow-left),#000 calc(100% - var(--overflow-right)),transparent);-webkit-mask-image:linear-gradient(to right,transparent,#000 var(--overflow-left),#000 calc(100% - var(--overflow-right)),transparent)}
 
 ${overflowFadeCSS}
-.tab-scroll-shell{position:relative;margin:4px 0 12px}.tab-scroll-shell::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--border);pointer-events:none}
-.tab-scroll-shell nav[role=tablist]{margin:0!important;padding-inline:0;background:none}
+.tab-scroll-shell{position:relative;margin:4px 0 12px}.tab-scroll-shell::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--agent-accent);pointer-events:none}
+.tab-scroll-shell nav[role=tablist]{margin:0!important;padding-inline:4px;background:none}
 .control-footer>.panel-options{min-height:50px;align-items:center}
 body :is(.icon-button,.preview-expand,#perspective-replay,#style-options,#back-to-top) svg{width:22px;height:22px;flex:none;stroke-width:2}
 body :is(.icon-button,.preview-expand,#perspective-replay):has(.action-label){gap:8px}
@@ -139,7 +141,8 @@ main.wrap{padding-top:24px}
 .choice-options,nav[role=tablist]{--overflow-feather:108px;--overflow-shoulder:36px}
 @media(max-width:660px){.choice-options,nav[role=tablist]{--overflow-feather:54px;--overflow-shoulder:18px}}
 .tab-scroll-shell nav[role=tablist]{padding-top:0}
-.tab-scroll-shell nav[role=tablist] button[aria-selected=true]{background:var(--agent-accent);color:var(--agent-ink);border-bottom-color:var(--agent-accent)}
+.tab-scroll-shell nav[role=tablist] button{border-bottom-color:transparent!important}
+.tab-scroll-shell nav[role=tablist] button[aria-selected=true]{background:var(--agent-accent);color:var(--agent-ink);border-bottom-color:transparent}
 .tab-scroll-shell nav[role=tablist] button:not([aria-selected=true]):hover,:root[data-focus-input=keyboard] .tab-scroll-shell nav[role=tablist] button:not([aria-selected=true]):focus{background:var(--action-hover);color:var(--text)}
 :root[data-focus-input=keyboard] .tab-scroll-shell nav[role=tablist] button[aria-selected=true]:focus{background:var(--agent-accent);color:var(--agent-ink)}
 .tab-scroll-shell>.workshop-group-ring{border-radius:8px 8px 0 0}

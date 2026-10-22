@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.61"
-  update_summary: "Keep initial page setup out of visible frames"
-  updated_at: "Thu 22 Oct 2026 at 12:44:49 pm AEDT (+11:00)"
+  doc_revision: "26.0.62"
+  update_summary: "Clarify focus boundaries and static focus specimens"
+  updated_at: "Thu 22 Oct 2026 at 01:03:50 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -23,8 +23,8 @@ This is a mandatory scoped contract incorporated by [AGENTS.md](../../AGENTS.md)
 - Keep selector and tab focus rings 3px thick with 3px exterior clearance. Playground scrolling groups use an unmasked sibling ring following the focused option, outside the inner scrolling track; never inset the ring or let the fade mask clip it.
 - Reveal the QR Copy Link overlay immediately on keyboard focus, with no delayed fade. Preserve existing pointer/touch reveal and copy-feedback timing.
 - After a segmented selector changes, focus the newly selected mode for mouse, touch and keyboard activation, including activation from track padding or gaps. Apply the same rule to agent and day/night selectors.
-- On opening any modal, dialog or popover panel, focus its descriptive heading with `tabindex="-1"` and prevent scrolling. The heading must never display a focus ring, regardless of input method. Do not initially focus a text field or open the software keyboard.
-- The Playground Style Options menu is visually a popover but uses native modal dialog containment. While open, block background interaction and scrolling. Close with X, Escape or an outside tap without activating the background, then restore the previous scroll position and invoking control focus.
+- On opening any modal, dialog or popover panel, focus its descriptive heading with `tabindex="-1"` and prevent scrolling. The heading must never display a focus ring, regardless of input method. Do not initially focus a text field or open the software keyboard. The Style Options transition below is the explicit exception for its final focus destination.
+- The Playground Style Options menu is visually a popover but uses native modal dialog containment. While open, block background interaction and scrolling. Close with X, Escape or an outside tap without activating the background, then restore the previous scroll position. Hide its button focus ring throughout both opening and closing animations; after the animation finishes, focus the same button in its X or ellipsis state. Pointer activation remains ring-free; keyboard activation restores the ring only after the transition.
 - The first Tab after heading focus must reach the first visible, enabled interactive element in logical DOM order and display its keyboard focus ring. Preserve the login order: day/night selector as one stop, password, then unlock.
 - Use the shared panel-heading focus helper for custom panels and the shared opening handling for native dialogs/popovers. Every such panel must have an accessible heading. Preserve native modal containment and focus restoration to the invoking control when a panel closes.
 - Validate initial/opening focus, Tab/Shift+Tab navigation, keyboard activation, pointer/touch ring suppression, input focus and selector destination focus on desktop and mobile layouts when modifying these flows.
@@ -34,9 +34,9 @@ This is a mandatory scoped contract incorporated by [AGENTS.md](../../AGENTS.md)
 - Use `playground-keyboard.mjs` in the outer Playground and every sandbox document. Pass keyboard modality into frames before Tab entry so the first focused control has a visible ring. Restore arrow navigation for cloned selector groups with the shared manual-activation controller; retain the real app's disabled/read-only states. Enter toggles enabled checkboxes, as Space does.
 - Give overflowing specimen regions and full-page embed viewports a separate labelled Tab stop and an exterior ring. Arrow keys pan only while that region itself is focused; arrows on a contained selector, slider or field keep their control meaning. Preserve nested horizontal and vertical panning. Avoid implicit, unmarked scroll-container focus stops.
 - Reveal the actual focused target inside its scrolling ancestors, with room for the ring. Only the active iframe may ask its parent to reveal a target; inactive frames must never move the page. Frame entry starts at the first eligible control (last on reverse entry), instead of resuming a stale target. In the Easter Egg embed, the agent precedes the theme selector. Changing preview states must not restore focus to an unrelated iframe control.
-- Draw actual keyboard focus above clipping and fade layers through a non-interactive focus overlay, retaining the shared 3px ring and 3px gap. For expanded disclosure summaries, enclose the complete bordered disclosure. Preserve existing anchor-specific ring contours. Scroller padding must provide paint clearance without moving the established text rails; suppress masks while browsing focused content. A range input keeps its 44px hit target, but its ring follows the visible 28px thumb-and-keyline height, with 3px clearance above and below.
-- Focus and Selection specimens keep their held example rings when idle. While a specimen has real keyboard focus, show its actual target instead of a competing held ring.
-- Selected tabs use `--agent-accent` and `--agent-ink`; unselected hover/keyboard focus uses `--action-hover` and `--text`, matching the selectors. Tab rings follow the rounded top corners and straight bottom edge.
+- Draw actual keyboard focus above clipping and fade layers through a non-interactive focus overlay, retaining the shared 3px ring and 3px gap. For expanded disclosure summaries, enclose the complete bordered disclosure. Preserve existing anchor-specific ring contours. Scroller padding must provide paint clearance without moving the established text rails; suppress masks while browsing focused content. Use each container’s actual corner radii, including page iframe shells and the rounded JavaScript Unavailable context. Give that full-page context its own focus stop even when it fits horizontally. Render overlays in the top layer where available and suppress the prompt container’s native pseudo-element ring when the shared overlay owns focus. A range input keeps its 44px hit target, but its ring follows the visible 28px thumb-and-keyline height, with 3px clearance above and below.
+- Focus and Selection is a static demonstration: each complete specimen row is one labelled keyboard stop, and its specimen preview is inert. Do not enter or alter its preloaded focus/selection states. Other Playground panels retain interactive controls and separate scrolling stops.
+- Selected tabs use `--agent-accent` and `--agent-ink`; unselected hover/keyboard focus uses `--action-hover` and `--text`, matching the selectors. Tab rings follow the rounded top corners and straight bottom edge. Remove the separate selected-tab bottom marker; use the agent accent for the full rail underline and inset the tab contents by 4px at both ends.
 - Right-aligned anchor specimens use their natural content width and begin at the right scroll endpoint, with no right fade. Only narrow containers should overflow to the left. Preserve the existing right text rail.
 - Validate with `playground-keyboard-regions-browser-check.mjs`, manual-control checks, expanded-preview and gallery alignment checks in Chromium and WebKit. Verify enabled login fields, disabled states, nested scrolling, frame entry/exit, actual focus visibility and pointer suppression.
 
@@ -51,6 +51,8 @@ Follow [Uxcel: Types of Cursors & When to Use Them](https://uxcel.com/lessons/ba
 - Preserve these distinctions in normal, hover, focus and disabled states. Do not use `pointer-events: none` merely to style a disabled control if it prevents the intended not-allowed cursor from appearing.
 
 ## Website Appearance
+
+- Disabled rate-limit login CTAs use the shared neutral control fill, muted text and inset border; preserve their size and disabled semantics, and keep loading/success appearances distinct.
 
 
 - Default the selected coding agent to Codex. Persist an explicit Codex or Claude Code choice across login, logout and reload, and apply it before paint on both pages.
@@ -331,15 +333,15 @@ Heading collapse height animations clip vertically only (`overflow-x: visible; o
 
 ### Collapsed Heading and Expanded Header Geometry
 
-- Collapsed Playground heading rows extend their 50px base height by one compact line-height for every additional text line. Preserve the first-line cap centre, giving the grey decoration equal clearance above and below visible text at all widths.
+- Measure the actual first and last text-line ink, including descenders, when sizing collapsed Playground heading rows. Preserve the first-line cap centre and the 50px minimum control height, giving the grey decoration equal clearance above and below wrapped text without changing section margins. Cache measurements by typography, title and width.
 - Expanded heading titles consume all width remaining beside the intrinsic-width, right-aligned Contract View group. Override captured heading width/flex constraints in this state; scroll the title only when it truly does not fit. Preserve page scroll position while the toolbar and restored controls settle on contraction.
 - Outdent Playground icon catalogue Locations disclosures by 4px on each side.
 
 ## Page Titles and Discovery Focus
 
-- The Resources and Playground H1 headings navigate to their canonical page roots as ordinary keyboard-focusable links. Preserve heading typography and omit section-anchor copying, hash icons and link arrows. Use the shared anchor hover/keyboard-focus fill, ink and optical shadow decoration on each wrapped line. The shared link-surface mask encloses the union of all painted fragments with a 3px exterior gap and 3px ring; hit areas cover that paint too. Status States demonstrates the clickable title treatment and both left- and right-aligned Step 2 anchor-copy styles.
+- The Resources and Playground H1 headings navigate to their canonical page roots as ordinary keyboard-focusable links. Make the real page title the first native Tab stop, before theme and QR controls, using one priority stop per page; captured specimen links remain in ordinary row order. Resting and visited title text/icons retain the theme’s normal text ink. Preserve heading typography and omit section-anchor copying, hash icons and link arrows. Use the shared anchor hover/keyboard-focus fill, ink and optical shadow decoration on each wrapped line. The shared link-surface mask encloses the union of all painted fragments with a 3px exterior gap and 3px ring; hit areas cover that paint too. Status States demonstrates the clickable title treatment and both left- and right-aligned Step 2 anchor-copy styles.
 - Scale Playground H3 heading icons to 1em and retain measured cap-height alignment and optical outdents.
-- The Easter Egg keyboard focus ring encloses both halves of the inscription as one rounded block, including after closing and reopening its success dialog. Keep the dialog capped at 440px and exclude dialogs from normal page-child width rules so the rainbow path and displayed modal use identical geometry.
+- The Easter Egg keyboard focus ring encloses the measured text bounds of both halves as one square-cornered rectangle, never the full page rail, including after closing and reopening its success dialog. Keep the dialog capped at 440px and exclude dialogs from normal page-child width rules so the rainbow path and displayed modal use identical geometry.
 - The Style Options ellipsis and its X state share the same 50px control and exterior 3px ring with 3px clearance; moving into the dialog must not clip or resize that ring.
 
 ## Initial Page Presentation

@@ -465,16 +465,16 @@ ${urlReferenceCSS}
  const optionsButton=$('style-options'),optionsHome=$('options-home'),reduced=matchMedia('(prefers-reduced-motion: reduce)');
  function optionsIcon(open){optionsButton.setAttribute('aria-expanded',open);optionsButton.setAttribute('aria-label',open?'Close Style Options':'Style Options');optionsButton.title=open?'Close Style Options':'Style Options';optionsButton.querySelector('.options-more').hidden=open;optionsButton.querySelector('.options-close').hidden=!open;}
  async function setOptions(open,restore=true){
-  optionsOpen=open;optionsAnimation?.cancel();optionsIcon(open);
+  optionsOpen=open;optionsAnimation?.cancel();document.documentElement.setAttribute("data-options-transition","");optionsIcon(open);
   if(open)styleDialog.style.setProperty('--style-dialog-top',optionsButton.getBoundingClientRect().top+'px');
   const compact='inset(0px 0px calc(100% - 48px) calc(100% - 48px) round 12px)',expanded='inset(0px 0px 0px 0px round 12px)';
   if(open){lockOptionsBackground();$('style-dialog-title').after(optionsButton);styleDialog.showModal();window.workshopFocusPanel(styleDialog);styleDialog.scrollTo(0,0);}
   if(!reduced.matches){optionsAnimation=styleDialog.animate([{clipPath:open?compact:expanded},{clipPath:open?expanded:compact}],{duration:240,easing:'cubic-bezier(.2,0,.2,1)',fill:'both'});try{await optionsAnimation.finished;}catch{return;}}
   if(optionsOpen!==open)return;
   if(!open){styleDialog.close();optionsHome.before(optionsButton);unlockOptionsBackground(restore);}
-  optionsAnimation?.cancel();optionsAnimation=null;
+  optionsAnimation?.cancel();optionsAnimation=null;document.documentElement.removeAttribute("data-options-transition");if(restore)optionsButton.focus({preventScroll:true});
  }
- function positionControls(){optionsAnimation?.cancel();optionsOpen=false;optionsIcon(false);if(styleDialog.open)styleDialog.close();optionsHome.before(optionsButton);unlockOptionsBackground(false);(document.querySelector('.preview-dialog.is-expanded .expanded-global-controls')||(mobileStyle.matches?$('mobile-style-controls'):toolbar)).append(globalControls);}
+ function positionControls(){document.documentElement.removeAttribute("data-options-transition");optionsAnimation?.cancel();optionsOpen=false;optionsIcon(false);if(styleDialog.open)styleDialog.close();optionsHome.before(optionsButton);unlockOptionsBackground(false);(document.querySelector('.preview-dialog.is-expanded .expanded-global-controls')||(mobileStyle.matches?$('mobile-style-controls'):toolbar)).append(globalControls);}
  positionControls();mobileStyle.addEventListener('change',positionControls);
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&optionsOpen){e.preventDefault();setOptions(false);}});
  styleDialog.addEventListener('cancel',e=>{e.preventDefault();setOptions(false);});

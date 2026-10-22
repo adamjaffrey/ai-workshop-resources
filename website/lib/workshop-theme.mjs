@@ -135,9 +135,11 @@ button, button * { -webkit-user-select: none; user-select: none; -webkit-touch-c
 :root[data-theme="dark"] .page-placeholder .ph-line, :root[data-theme="dark"] .ph-brand-mark { background: #707b8b; }
 :root[data-theme="dark"] .ph-toggle span:last-child { background: var(--control-bg); }
 @media (max-width: 380px) { .page-toolbar { gap: 8px; } .page-toolbar .brand { gap: 6px; } .page-toolbar .brand-name { font-size: 13px; } .page-toolbar .brand-worm { --brand-mark-width: 36px; } .page-toolbar .brand-mark img { width: 36px; } .theme-toggle button { width: 40px; } }
+.gate-panel:has(.gate-error.is-error) .gate-submit:disabled{background:var(--control-bg);color:var(--muted-text);box-shadow:inset 0 0 0 1px var(--control-border);cursor:not-allowed}
 /* Cursor semantics apply to both login and resources, including child hit targets. */
 html, body { cursor: default; }
 a.page-title-link{display:block;width:fit-content;max-width:100%;color:inherit;text-decoration:none;border-radius:8px;cursor:pointer}
+a.page-title-link[href]:is(:link,:visited){color:var(--text)}
 a.page-title-link h1,a.page-title-link h1 *{cursor:inherit}
 a.page-title-link:focus{outline:none}
 :root[data-focus-input="keyboard"] a.page-title-link:focus{outline:3px solid var(--icon-ink);outline-offset:3px}
@@ -320,7 +322,7 @@ const script = `(() => {
 export function withTheme(html, login = false) {
   html=html.replace(/<h1\b[^>]*>[\s\S]*?<\/h1>/g,heading=>{
     const path=heading.includes('Component Playground')?'/component-playground':heading.includes('AI Workshop Resources')?'/ai-workshop-resources':null;
-    return path?`<a class="page-title-link" data-no-link-decoration href="${path}">${heading}</a>`:heading;
+    return path?`<a class="page-title-link" tabindex="1" data-no-link-decoration href="${path}">${heading}</a>`:heading;
   });
   html = html.replace('</head>', `<style data-workshop-theme-styles>${styles}\n${groupFocusCSS}\n${linkCSS}\n${colourValueCSS}\n${alignmentCSS}\n${bodyTypeCSS}</style><script nonce="__NONCE__" data-workshop-theme>${agentScript}\n${playgroundFaviconScript}\n${toggleScript}\n${script}\n${linkScript}\n${colourValueScript}</script></head>`);
   if (login) return html.replace('</h2>', `</h2><div class="gate-toolbar"><p class="eyebrow">Workshop Access</p>${control}</div>`);

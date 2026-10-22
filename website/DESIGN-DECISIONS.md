@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.71"
-  update_summary: "Record stable first-paint preparation"
-  updated_at: "Thu 22 Oct 2026 at 12:44:49 pm AEDT (+11:00)"
+  doc_revision: "26.0.72"
+  update_summary: "Clarify focus boundaries and static focus specimens"
+  updated_at: "Thu 22 Oct 2026 at 01:03:50 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -529,3 +529,13 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Rationale:** Refreshes exposed intermediate DOM states: independent buttons before selector assembly, missing tab icons, actions before relocation and obsolete hover help before replacement. Hidden theme measurements could also reserve an incorrect sticky footprint, while font/image arrival changed branding and QR presentation. Preparing before presentation addresses these related symptoms without changing the established final layout. A four-second release avoids an indefinitely blank page if an asset stalls.
 
 **Owning Rules and Sources:** [Initial Page Presentation](../docs/agent-guidance/interface.md#initial-page-presentation), `lib/workshop-first-paint.mjs`, `lib/workshop-sticky-controls.mjs` and `scripts/playground.mjs`.
+
+## Specimen Focus Boundaries and Menu Transitions
+
+**Decision:** Keep interactive keyboard behaviour in ordinary specimens, but make Focus and Selection a static, sequential row-level demonstration. Use one exterior ring per target, following the real container corners, and suppress the original prompt pseudo-ring when the shared overlay paints focus. Hide the Style Options ring during both animations and return focus to its X/ellipsis button only after completion.
+
+**Reason:** Adam identified competing specimen rings, clipping during menu closure and preloaded focus examples being disturbed by live interaction. The explicit row-only exception preserves those examples without removing useful interaction from other panels.
+
+**Additional Refinements:** Prioritise the real H1 before theme/QR controls while leaving specimen tab order local; preserve normal visited-title ink. Fit the secret inscription ring to both text halves as a rectangle. Use a full accent tab underline with 4px content insets and no second selection marker, make rate-limit CTAs visibly inactive, and balance collapsed headings using actual first/last-line ink rather than cap height alone.
+
+**Owner:** [Interface](../docs/agent-guidance/interface.md#playground-keyboard-and-nested-scrolling).
