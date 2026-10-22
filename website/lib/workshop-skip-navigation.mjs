@@ -8,7 +8,7 @@ export function installSkipNavigation(){
  const install=()=>{
   const title=document.querySelector('.page-title-link'),playground=!!document.getElementById('playground-title');
   if(!title||document.querySelector('.skip-main'))return;
-  const brand=document.querySelector(playground?'.playground-brand-row':'.page-toolbar .brand');if(!brand)return;
+  const brand=document.querySelector(playground?'.playground-brand-row .brand':'.page-toolbar .brand');if(!brand)return;
   const wrapper=document.createElement('div');wrapper.className='skip-main-position';
   const link=document.createElement('a');link.className='skip-main';link.textContent='Skip to Main Content';link.tabIndex=1;
   link.href=playground?'#playground-main':'#resource-step-1';title.tabIndex=2;

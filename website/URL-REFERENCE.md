@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.22"
-  update_summary: "Preserve replay backdrops and renamed heading aliases"
-  updated_at: "Thu 22 Oct 2026 at 04:08:57 pm AEDT (+11:00)"
+  doc_revision: "26.0.23"
+  update_summary: "Bold legacy anchor fragments"
+  updated_at: "Thu 22 Oct 2026 at 04:23:30 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -126,9 +126,9 @@ Step links use the canonical Resources path with these fragments:
 
 | Section | Heading | Canonical Anchor URL | Legacy Fragment Alias |
 | --- | --- | --- | --- |
-| Resources / Node.js Setup | Step 1 | `/ai-workshop-resources`**`#step-1-node-js-setup`** | `#step-1` |
-| Resources / System Blueprint Creator | Step 2 | `/ai-workshop-resources`**`#step-2-system-blueprint-creator`** | `#step-2` |
-| Resources / System Build Assistant | Step 3 | `/ai-workshop-resources`**`#step-3-system-build-assistant`** | `#step-3` |
+| Resources / Node.js Setup | Step 1 | `/ai-workshop-resources`**`#step-1-node-js-setup`** | **`#step-1`** |
+| Resources / System Blueprint Creator | Step 2 | `/ai-workshop-resources`**`#step-2-system-blueprint-creator`** | **`#step-2`** |
+| Resources / System Build Assistant | Step 3 | `/ai-workshop-resources`**`#step-3-system-build-assistant`** | **`#step-3`** |
 
 Fragments stay in the browser and are not sent to the server. Opening a short alias scrolls to the same destination and rewrites the address bar to the descriptive fragment with `history.replaceState`, without an extra Back-button stop. JavaScript login retains the requested fragment. Unknown fragments remain unchanged.
 
@@ -145,7 +145,7 @@ Every collapsible outer H2/H3 also has a copyable heading anchor. The inventory 
 | Components | Login and Password Field (H2) | `/component-playground/components`**`#login-and-password-field`** | — |
 | Components | Resource Page and Controls (H2) | `/component-playground/components`**`#resource-page-and-controls`** | — |
 | Typography | Typography and Text Styles (H2) | `/component-playground/typography`**`#typography-and-text-styles`** | — |
-| Typography | Hyperlink Styles (H2) | `/component-playground/typography`**`#hyperlink-styles`** | `#defined-styles-used-in-playground` |
+| Typography | Hyperlink Styles (H2) | `/component-playground/typography`**`#hyperlink-styles`** | **`#defined-styles-used-in-playground`** |
 | Typography | Text Styles Not Used in the App (H2) | `/component-playground/typography`**`#text-styles-not-used-in-the-app`** | — |
 | Colours | Shared Colour Tokens (H2) | `/component-playground/colours`**`#shared-colour-tokens`** | — |
 | Colours | All App Colour Rules (H2) | `/component-playground/colours`**`#all-app-colour-rules`** | — |

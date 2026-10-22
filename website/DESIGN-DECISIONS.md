@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.79"
-  update_summary: "Preserve replay backdrops and renamed heading aliases"
-  updated_at: "Thu 22 Oct 2026 at 04:08:57 pm AEDT (+11:00)"
+  doc_revision: "26.0.80"
+  update_summary: "Align skip links and disable replay for looping previews"
+  updated_at: "Thu 22 Oct 2026 at 04:23:30 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -566,3 +566,5 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Keyboard Highlight Follow-up:** Skip links use the same decoration on keyboard focus as on hover. Accepted-password native text selections retain green ink and a green tint with a blue exterior ring. The passive success dialog must paint above the animation scrim; the earlier lower stacking position hid its completed appearance until iframe focus promoted it to the modal layer. Paired anchors reserve full text-rail clearance, and right-aligned examples align their Hover/Resting captions too. Rename the hyperlink group to Hyperlink Styles.
 
 **Replay and Alias Follow-up:** A queued close event from the previous passive dialog must not remove the next replay’s dimmer or restore focus. Hyperlink Styles uses `#hyperlink-styles` and retains `#defined-styles-used-in-playground` as a legacy fragment. The recent anchor-heading audit found no other renamed outer section since heading anchors were introduced; the other recent label changes were embedded specimens. Adam corrected the accepted-password requirement: its exterior focus ring is green, matching the field and selection. This supersedes the earlier blue-ring decision.
+
+**Skip Position and Replay Availability Follow-up:** Both skip links measure the actual logo container. Measuring the taller Playground row previously placed its link 7.5px higher at ordinary widths, despite identical logo positions. Automatically looping Easter Egg modes disable Replay Animation with native disabled semantics and shared grey styling; Success Dialog remains manually replayable. Expanded accepted-password fields already inherit the green native ring, now covered explicitly by mobile/desktop native-Tab regression checks.

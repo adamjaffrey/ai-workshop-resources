@@ -15,6 +15,7 @@ nav[role=tablist]{border-bottom:0;padding-bottom:0;gap:0!important;background:no
 .panel-actions,.panel-options{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:var(--control-related-gap);margin-top:24px}
 .control-footer{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:var(--control-row-gap) var(--control-column-gap);margin-top:32px}.control-footer>.panel-actions,.control-footer>.panel-options{margin:0}.control-footer>.choices{flex:1;min-width:180px}.control-footer>.checkbox-controls{flex:1}.control-footer .panel-actions{margin-left:auto}
 .icon-button,.preview-expand{display:inline-flex;flex-direction:row;align-items:center;justify-content:center;gap:8px;width:max-content;max-width:100%;min-height:50px;white-space:nowrap}
+:is(.icon-button,.preview-expand):disabled{background:var(--control-bg)!important;color:var(--muted-text)!important;border-color:var(--control-border)!important;box-shadow:none!important;cursor:not-allowed}
 .icon-button svg,.preview-expand svg{width:18px;height:18px;flex:none}.icon-button .action-label{display:inline}
 #perspective-replay{width:max-content;justify-self:start;grid-column:1/-1;align-self:end;margin:0;font-size:14px;font-weight:600;gap:8px}
 .preview-dialog:not(.is-expanded)>.frame-wrap{position:relative;isolation:isolate}

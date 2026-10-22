@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.326"
-  update_summary: "Preserve replay backdrops and renamed heading aliases"
-  updated_at: "Thu 22 Oct 2026 at 04:12:02 pm AEDT (+11:00)"
+  doc_revision: "26.0.327"
+  update_summary: "Align skip links and disable replay for looping previews"
+  updated_at: "Thu 22 Oct 2026 at 04:24:53 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.325 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 04:24:53 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Align skip links and disable replay for looping previews
+
+### Changed
+
+- Measure the actual logo container for both skip links, correcting the Playground link's higher position while preserving 14px text and 24px line height.
+- Confirm the existing shared green accepted-password outline inside Expand View through native Tab regression coverage on mobile and desktop.
+- Disable Replay Animation in Eligible Rainbow and Sparkles, Full Sentence, Discovery Reveal and After Closing Dialog. Apply grey inactive action styling and native disabled semantics; Success Dialog remains replayable.
+- Bold the four legacy fragment aliases in URL Reference and its rendered Playground table.
+- Record the matching logo reference and automatic replay rules in the Interface contract.
+
+### Validation
+
+- `npm --prefix website run build` — passed with saved backdrop geometry; built artefacts display v26.0.325.
+- Chrome and WebKit, 320/390/768/1440px — matching skip-link positions and visible green expanded-password outlines passed with native Tab entry.
+- Chrome and WebKit, 390/1440px — automatic replay disabled states, grey styling, non-focusability, normal success replay and expanded navigation passed.
+- Full Playground source parity — passed for the skip-position change; subsequent replay availability changes passed the focused checks above.
+- Rendered legacy aliases — all four are bold; mobile screenshots confirm matching skip-link positions. Physical devices were not tested.
 
 ## v26.0.324 — 2026-10-22
 

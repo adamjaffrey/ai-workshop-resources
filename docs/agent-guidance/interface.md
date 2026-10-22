@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.68"
-  update_summary: "Preserve replay backdrops and renamed heading aliases"
-  updated_at: "Thu 22 Oct 2026 at 04:08:57 pm AEDT (+11:00)"
+  doc_revision: "26.0.69"
+  update_summary: "Align skip links and disable replay for looping previews"
+  updated_at: "Thu 22 Oct 2026 at 04:23:30 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -360,7 +360,7 @@ Heading collapse height animations clip vertically only (`overflow-x: visible; o
 
 ### Playground Navigation and Paired Specimens
 
-- Skip to Main Content is the first keyboard stop on Resources and Playground, visible when focused. Place it left-aligned with the logo and vertically centred in the space above it; use the ordinary hyperlink decoration on hover and keyboard focus, with its tight shared exterior contour. Resources targets the first step anchor, bypassing H1, QR and selectors. Playground bypasses the title, floating actions, global selectors and tab bar, focusing the first eligible control in the active content panel. Do not inject page-level skip links into embedded specimens.
+- Skip to Main Content is the first keyboard stop on Resources and Playground, visible when focused. Place it left-aligned with the logo and vertically centred in the space above its actual `.brand` container on both pages, not the taller Playground brand row; use the ordinary hyperlink decoration on hover and keyboard focus, with its tight shared exterior contour. Resources targets the first step anchor, bypassing H1, QR and selectors. Playground bypasses the title, floating actions, global selectors and tab bar, focusing the first eligible control in the active content panel. Do not inject page-level skip links into embedded specimens.
 - Apply shared focus styling, state colours, keyboard groups and nested-scroll revelation inside Expand View on mobile and desktop. Do not let automatic iframe preview state changes take focus from the outer page. The Easter Egg success fixture completes its normal animation and paints the passive dialog above the animation scrim without requiring iframe focus; real-site discovery retains its modal heading focus.
 - Hyperlink Styles shows Resting State on the left and Hover State on the right for both short and multiline links. Keep text-selection demonstrations in Focus and Selection rather than duplicating them here.
 - Put H1 Heading · Clickable Link · Hover State before QR specimens. H2 anchor examples use Step 1 for left alignment and Step 2 for right alignment, with Copy Link, Copy Success and Copy Failure titles and a Right-Aligned suffix where applicable. Pair Hover on the left with Resting on the right, stacking when needed. Right-align both subheadings in right-aligned pairs. Reserve the full specimen text-rail gutter for anchor focus paint, including the left edge of paired examples. The neutral resting copy example is plain heading text without its hover hash.
@@ -370,3 +370,5 @@ Heading collapse height animations clip vertically only (`overflow-x: visible; o
 
 - Replaying a preview modal must keep the new background dimmer throughout the animation and completed dialog. A queued close event from the previous preview must not clear the replacement animation or move focus.
 - Heading renames follow [Playground Heading Fragments](authentication.md#playground-heading-fragments); specimen-only headings do not acquire section anchors.
+
+- Disable Replay Animation in the automatically looping Eligible Rainbow and Sparkles, Full Sentence, Discovery Reveal and After Closing Dialog modes. Use the shared inactive action-button colours, a not-allowed cursor and native disabled semantics so it cannot be clicked or focused. Keep Success Dialog replay enabled and preserve the existing hidden action in Natural Discovery/Locked modes.
