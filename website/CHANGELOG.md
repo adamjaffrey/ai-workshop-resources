@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.347"
-  update_summary: "Use heading-first anchor focus and balanced hyperlink H3 spacing"
-  updated_at: "Thu 22 Oct 2026 at 10:27:00 pm AEDT (+11:00)"
+  doc_revision: "26.0.348"
+  update_summary: "Refresh Resources and Colours backdrops for Sites publication"
+  updated_at: "Thu 22 Oct 2026 at 10:43:00 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.346 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 10:43:00 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refresh Resources and Colours backdrops for Sites publication
+
+### Changed
+
+- Refresh anonymous Resources and Colours geometry at 380, 660, 940, 1008 and 1248px after reviewing changes against confirmed Sites version 17, source `b1cb92b13fb87fec476e8d5e283f38f9ff871966`. Advance independent geometry revisions to 17 and 24.
+- Include the committed interface, keyboard-navigation and documentation updates since the previous publication in this candidate.
+
+### Validation
+
+- Both capture commands — passed all five widths; no nested frames.
+- `node website/tests/backdrop-capture-browser-check.mjs` — passed both backdrops at all five widths, anonymity, inert cursor/state, document extent and glyph/SVG regressions; representative narrow Resources and wide Colours screenshots inspected.
+- `node --test website/tests/placeholder.test.mjs website/tests/playground-placeholder.test.mjs` — four checks passed.
+- `node website/tests/playground-shortcut-browser-check.mjs` — passed all four widths, including locked login scrim hit testing and destination isolation.
+- Publication preflight against the confirmed deployed source — passed with current saved revisions.
+- `npm --prefix website run build` — passed; generated previews and two production bundles display v26.0.346.
 
 ## v26.0.345 — 2026-10-22
 
