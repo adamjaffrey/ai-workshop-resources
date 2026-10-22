@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.100"
-  update_summary: "Require unique heading icons and matching first-heading tab icons"
-  updated_at: "Thu 22 Oct 2026 at 10:18:24 pm AEDT (+11:00)"
+  doc_revision: "26.0.101"
+  update_summary: "Use heading-first anchor focus and shared H3 spacing"
+  updated_at: "Thu 22 Oct 2026 at 10:26:05 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -706,3 +706,13 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Reason:** Adam explicitly limited icon reuse to the heading/tab pair and required the first heading to match its tab, tightening the earlier general navigation-reuse allowance. This makes each section recognisable without assigning the same icon to unrelated headings. The current rendered inventory contains 40 unique section/subsection icons and 10 unique tab icons; all 10 first headings match their tabs.
 
 **Owners:** [Repository Instructions](../AGENTS.md#website-guardrails) and [Interface](../docs/agent-guidance/interface.md#website-appearance).
+
+## Heading-First Anchor Focus and Hyperlink Subsection Spacing
+
+**Decision:** Once anchor scrolling settles on Resources or Playground, invisibly focus the destination heading. The first forward Tab selects its anchor-copy control and subsequent Tabs follow document order. Remove the temporary header-control routes on desktop and mobile. Normal page entry continues to start at Skip to Main Content.
+
+**Reason:** Adam revised the earlier navigation decision to keep keyboard continuation at the content reached by the anchor. This supersedes the arrival-route portion of Consolidated Focus and Mobile Review Corrections.
+
+**Spacing:** Reuse URL Reference H3 geometry for Hyperlink Styles, with a divider above every subsection including the first. Collapsed hover surfaces have 20px clearance above and below at desktop and mobile widths. Keep expanded content spacing independent; no compensating padding belongs inside expanded views.
+
+**Owners:** [Interface](../docs/agent-guidance/interface.md), [Motion](../docs/agent-guidance/motion.md), `lib/workshop-keyboard-navigation.mjs` and `scripts/playground-section-collapse.mjs`.

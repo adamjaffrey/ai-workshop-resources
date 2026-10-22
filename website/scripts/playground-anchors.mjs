@@ -60,11 +60,11 @@ export function initPlaygroundAnchors({select,tabPaths,sticky,scheduleCaps,insta
  const feedback=installCopy(entries.map(e=>e.copy),button=>urlFor(entries.find(e=>e.copy===button)),timing,frames);
  const room=document.createElement('div');room.className='playground-anchor-room';room.setAttribute('aria-hidden','true');document.body.append(room);
  const resolve=url=>{let hash;try{hash=decodeURIComponent(url.hash.slice(1));}catch{return null;}return byURL.get(url.pathname.replace(/\/$/,'')+'#'+hash)||null;};
- let generation=0,arriving=false,active=null,hidden=[],lastY=scrollY,focusRoute=null,writing=false,intercepted=false,correcting=false,trimRoom=false,followLayout=false;
+ let generation=0,arriving=false,active=null,hidden=[],lastY=scrollY,writing=false,intercepted=false,correcting=false,trimRoom=false,followLayout=false;
  const frame=()=>new Promise(r=>requestAnimationFrame(r));
  function restore(){for(const el of hidden){el.removeAttribute('data-playground-anchor-hidden');el.inert=false;setTimeout(()=>{if(!hidden.includes(el))el.removeAttribute('data-playground-anchor-leaving');},motion.matches?0:600);}hidden=[];}
  function trim(){const amount=parseFloat(root.style.getPropertyValue('--playground-anchor-room'))||0;if(amount){const naturalMax=root.scrollHeight-innerHeight-amount;root.style.setProperty('--playground-anchor-room',Math.max(0,Math.ceil(scrollY-naturalMax))+'px');}}
- function leave(){if(arriving)scrollTo({top:scrollY,behavior:'instant'});root.removeAttribute('data-playground-disclosure-settling');generation++;arriving=false;active=null;followLayout=false;focusRoute=null;delete root.dataset.playgroundAnchorArriving;restore();trimRoom=true;trim();}
+ function leave(){if(arriving)scrollTo({top:scrollY,behavior:'instant'});root.removeAttribute('data-playground-disclosure-settling');generation++;arriving=false;active=null;followLayout=false;delete root.dataset.playgroundAnchorArriving;restore();trimRoom=true;trim();}
  function prepareDisclosure(panel){
   const y=scrollY,amount=parseFloat(root.style.getPropertyValue('--playground-anchor-room'))||0;
   // Reserve space before any layout contraction, then retain only the amount
@@ -130,18 +130,11 @@ export function initPlaygroundAnchors({select,tabPaths,sticky,scheduleCaps,insta
   hidden.forEach(el=>{el.setAttribute('data-playground-anchor-hidden','');el.inert=true;});
   delete root.dataset.playgroundAnchorArriving;arriving=false;active=entry;followLayout=true;lastY=scrollY;root.dataset.playgroundAnchorLanded=entry.id;
   if(rewrite)writeURL(urlFor(entry));
-  const agent=document.querySelector('#agent input:checked'),theme=document.querySelector('#theme input:checked');
-  const width=document.querySelector('#width input:checked'),hover=document.querySelector('#hover input:checked'),top=document.getElementById('back-to-top');
-  focusRoute=innerWidth>660?[agent,theme,width,hover,top,tabButton(entry),entry.copy]:[document.getElementById('style-options'),top,tabButton(entry),entry.copy];
-  focusRoute=focusRoute.filter(Boolean);entry.title.setAttribute('tabindex','-1');window.workshopFocusAtCurrentScroll(entry.title);return true;
+  window.workshopLandAnchor(entry.title,entry.copy);return true;
  }
  window.addEventListener('wheel',()=>{followLayout=false;if(arriving)leave();},{passive:true});window.addEventListener('touchstart',()=>{followLayout=false;if(arriving)leave();},{passive:true});
  window.addEventListener('keydown',event=>{if(['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].includes(event.key)&&!event.target.closest('input,button,[role=button]')){followLayout=false;if(arriving)leave();}});
  window.addEventListener('scroll',()=>{if(correcting)return;if(!arriving&&active&&scrollY<lastY-.5)leave();if(!arriving&&trimRoom)trim();lastY=scrollY;},{passive:true});
- // Claim the arrival route before document-level navigation can reveal another target.
- window.addEventListener('keydown',event=>{if(event.key!=='Tab'||!focusRoute)return;if(event.shiftKey){focusRoute=null;return;}const next=focusRoute.shift();if(next){event.preventDefault();window.workshopFocusAtCurrentScroll(next);}if(!focusRoute.length)focusRoute=null;},true);
- document.addEventListener('pointerdown',()=>{focusRoute=null;},{passive:true});
- document.addEventListener('beforetoggle',event=>{if(event.target.matches('dialog')&&event.newState==='open')focusRoute=null;},true);
  window.navigation?.addEventListener('navigate',event=>{const url=new URL(event.destination.url);if(writing||!event.canIntercept||!event.destination.sameDocument||!resolve(url))return;if(url.pathname===location.pathname&&url.hash===location.hash&&url.search!==location.search)return;intercepted=true;event.intercept({focusReset:'manual',scroll:'manual',handler:async()=>{const done=window.navigation.transition?.finished;try{const landed=await navigate(url.href,{rewrite:false}),token=generation;const finish=()=>{if(landed&&token===generation&&location.href===url.href)writeURL(urlFor(resolve(url)));intercepted=false;};if(done)done.then(finish,()=>{intercepted=false;});else setTimeout(finish,0);}catch(error){intercepted=false;throw error;}}});});
  let pending=0;const historyArrival=()=>{if(intercepted||writing)return;cancelAnimationFrame(pending);pending=requestAnimationFrame(()=>navigate(location.href));};
  window.addEventListener('hashchange',historyArrival);window.addEventListener('popstate',historyArrival);window.addEventListener('pageshow',e=>{if(e.persisted)historyArrival();});

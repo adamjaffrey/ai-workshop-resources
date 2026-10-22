@@ -10,9 +10,11 @@ try{for(const width of [390,1440]){
  for(const entry of entries){
   await p.evaluate(async entry=>{document.querySelector('[data-tab="'+entry.tab+'"]').click();await workshopPlaygroundAnchors.navigate(entry.path+'#'+entry.id);},entry);
   const y=await p.evaluate(()=>scrollY);
-  const route=width<=660?['#style-options','#back-to-top','[role=tab][aria-selected=true]']:['#agent input','#theme input','#width input','#hover input','#back-to-top','[role=tab][aria-selected=true]'];route.push('.heading-anchor[data-anchor="'+entry.id+'"]');
-  for(const selector of route){await p.keyboard.press('Tab');assert.equal(await p.locator(selector+':focus').count(),1,entry.id+' '+selector);}
+  assert.equal(await p.evaluate(()=>document.activeElement.matches('h2,h3')),true,'silent heading focus');
+  assert.equal(await p.evaluate(()=>getComputedStyle(document.activeElement).outlineStyle),'none');
+  await p.keyboard.press('Tab');assert.equal(await p.locator('.heading-anchor[data-anchor="'+entry.id+'"]:focus').count(),1,entry.id+' first Tab');
   await p.waitForTimeout(40);assert.ok(Math.abs(await p.evaluate(()=>scrollY)-y)<1,entry.id+' retains landing');
+  await p.keyboard.press('Tab');assert.equal(await p.evaluate(()=>document.activeElement.matches('.section-collapse')),true,entry.id+' document order');
  }
  console.log('PASS every Playground arrival route',width,entries.length,'headings');await p.close();
 }}finally{await browser.close();server.close()}

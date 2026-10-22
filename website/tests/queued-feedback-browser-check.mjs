@@ -17,7 +17,7 @@ try{for(const engine of [chromium,webkit].filter(e=>!process.env.ENGINE||e.name(
  for(const length of ['long','short']){
   if(length==='short')await p.evaluate(()=>scrollTo({top:scrollY-200,behavior:'instant'}));
   await p.evaluate(()=>window.workshopResourceAnchors.navigate('step-3'));const y=await p.evaluate(()=>scrollY);
-  for(const selector of ['.controls .toggle button','.theme-toggle button','button[data-copy="system-build-assistant"]']){
+  for(const selector of ['.step-anchor[data-anchor="step-3-system-build-assistant"]']){
    await p.keyboard.press('Tab');await p.waitForTimeout(100);assert.equal(await p.locator(selector+':focus').count(),1,selector+' '+await p.evaluate(()=>document.activeElement.outerHTML.slice(0,180)));assert.ok(Math.abs(await p.evaluate(()=>scrollY)-y)<1,'Resources landing preserved');
   }
  }
@@ -27,7 +27,7 @@ try{for(const engine of [chromium,webkit].filter(e=>!process.env.ENGINE||e.name(
  for(const length of ['long','short']){
   if(length==='short')await p.evaluate(()=>scrollTo({top:scrollY-200,behavior:'instant'}));
   await p.evaluate(()=>window.workshopPlaygroundAnchors.navigate('/component-playground/url-reference#public-query-parameters'));const y=await p.evaluate(()=>scrollY);
-  const route=width<=660?['#style-options','#back-to-top','[role=tab][aria-selected=true]','.heading-anchor[data-anchor="public-query-parameters"]']:['#agent input','#theme input','#width input','#hover input','#back-to-top','[role=tab][aria-selected=true]','.heading-anchor[data-anchor="public-query-parameters"]'];
+  const route=['.heading-anchor[data-anchor="public-query-parameters"]'];
   for(const selector of route){await p.keyboard.press('Tab');await p.waitForTimeout(100);assert.equal(await p.locator(selector+':focus').count(),1,'arrival '+selector+' '+await p.evaluate(()=>document.activeElement.outerHTML.slice(0,180)));assert.ok(Math.abs(await p.evaluate(()=>scrollY)-y)<1,'Playground landing preserved '+selector);}
   assert.equal(await p.locator('#style-dialog[open]').count(),0,'no automatic mobile modal');
  }

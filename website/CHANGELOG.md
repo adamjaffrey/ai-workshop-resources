@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.346"
-  update_summary: "Resolve queued focus, mobile navigation and specimen feedback"
-  updated_at: "Thu 22 Oct 2026 at 08:48:48 pm AEDT (+11:00)"
+  doc_revision: "26.0.347"
+  update_summary: "Use heading-first anchor focus and balanced hyperlink H3 spacing"
+  updated_at: "Thu 22 Oct 2026 at 10:27:00 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.345 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 10:27:00 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Use heading-first anchor focus and balanced hyperlink H3 spacing
+
+### Changed
+
+- Land focus invisibly on Resources and Playground anchor headings; the first Tab selects the heading copy control and subsequent traversal follows document order. Remove header-control arrival routes and update the owning contracts.
+- Apply URL Reference H3 spacing to Hyperlink Styles, with a divider above the first H3 and 20px clearance above and below every collapsed heading. Preserve the independent expanded-content gap.
+
+### Validation
+
+- `node website/tests/anchor-heading-focus-browser-check.mjs` — passed Chrome and WebKit at 360/1440px; all Resources steps, silent focus, first Tab, document order and collapsed/expanded H3 spacing. WebKit all-control traversal uses Option-Tab to respect its native keyboard preference.
+- `node website/tests/playground-arrival-inventory-browser-check.mjs` — passed all 40 headings at 390/1440px, with stable first-Tab landing and normal-entry Skip to Main Content.
+- `node website/tests/playground-anchor-interaction-browser-check.mjs` — passed Chrome/WebKit at 390/1440px for direct entry, re-entry, reload, landing, upward restoration and copy feedback.
+- `npm --prefix website run build` — passed; saved backdrop geometry reused. Generated previews and both production bundles display v26.0.345.
 
 ## v26.0.344 — 2026-10-22
 

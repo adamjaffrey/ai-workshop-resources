@@ -19,9 +19,10 @@ export function installKeyboardNavigation(){
  };
  let pointerOrigin=null,nextTabTarget=null;
  const preserveScroll=new WeakSet();
- // Anchor arrival owns the viewport while routing through its visible controls.
+ // Anchor focus and its first Tab retain the settled landing position.
  window.workshopFocusAtCurrentScroll=target=>{preserveScroll.add(target);target.focus({preventScroll:true});queueMicrotask(()=>preserveScroll.delete(target));};
  window.workshopSetNextTabTarget=target=>{pointerOrigin=null;nextTabTarget=target;};
+ window.workshopLandAnchor=(heading,control)=>{heading.tabIndex=-1;heading.setAttribute('data-panel-heading','');heading.style.outline='none';window.workshopSetNextTabTarget(control);window.workshopFocusAtCurrentScroll(heading);};
  document.addEventListener('pointerdown',event=>{
   if(!event.isPrimary||event.button!==0)return;
   nextTabTarget=null;
@@ -30,7 +31,7 @@ export function installKeyboardNavigation(){
  },true);
  document.addEventListener('keydown',event=>{
   if(event.key!=='Tab'||event.defaultPrevented)return;
-  if(nextTabTarget){const target=nextTabTarget;nextTabTarget=null;if(!event.shiftKey&&target.isConnected&&eligible(target)){event.preventDefault();document.documentElement.dataset.focusInput='keyboard';target.focus({preventScroll:true});return;}}
+  if(nextTabTarget){const target=nextTabTarget;nextTabTarget=null;if(!event.shiftKey&&target.isConnected&&eligible(target)){event.preventDefault();document.documentElement.dataset.focusInput='keyboard';window.workshopFocusAtCurrentScroll(target);return;}}
   if(!pointerOrigin){
    const active=document.activeElement;
    // Expanded views move the same controls into a modal; reorder their native

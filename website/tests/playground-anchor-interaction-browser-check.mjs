@@ -11,7 +11,7 @@ try{for(const engine of [chromium,webkit]){
   const landed=()=>p.waitForFunction(()=>document.documentElement.dataset.playgroundAnchorLanded==='login-aliases-and-validation'&&!document.documentElement.hasAttribute('data-playground-anchor-arriving'));
   const gap=()=>p.evaluate(()=>{const e=window.workshopPlaygroundAnchors.entries.find(e=>e.id==='login-aliases-and-validation');return e.target.getBoundingClientRect().top-document.querySelector('.tab-scroll-shell').getBoundingClientRect().bottom;});
   await p.goto(origin+route);await landed();assert.ok(Math.abs(await gap()-16)<1);
-  for(const expected of width>660?['#agent','#theme','#width','#hover','#back-to-top','#tab-url-reference','.heading-anchor']:['#style-options','#back-to-top','#tab-url-reference','.heading-anchor']){await p.keyboard.press('Tab');await p.waitForTimeout(50);assert.ok(Math.abs(await gap()-16)<1,'Tab preserves anchor arrival');assert.equal(await p.evaluate(sel=>!!document.activeElement.closest(sel),expected),true,'focus '+expected);}
+  for(const expected of ['.heading-anchor']){await p.keyboard.press('Tab');await p.waitForTimeout(50);assert.ok(Math.abs(await gap()-16)<1,'Tab preserves anchor arrival');assert.equal(await p.evaluate(sel=>!!document.activeElement.closest(sel),expected),true,'focus '+expected);}
   const hidden=await p.locator('[data-playground-anchor-hidden]').count();assert.ok(hidden>0);
   await p.mouse.wheel(0,80);await p.waitForTimeout(250);assert.equal(await p.locator('[data-playground-anchor-hidden]').count(),hidden,'downward scrolling retains hidden cards');
   await p.mouse.wheel(0,-40);await p.waitForTimeout(100);assert.equal(await p.locator('[data-playground-anchor-hidden]').count(),0,'upward scrolling restores');

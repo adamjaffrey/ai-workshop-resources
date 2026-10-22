@@ -28,30 +28,16 @@ export function initResourceAnchors(anchors,timing,measureHeading,frames,anchorG
  const motion=matchMedia('(prefers-reduced-motion:reduce)');
  const canonical=fragment=>{let value;try{value=decodeURIComponent(fragment.replace(/^#/,''));}catch{return null;}return anchors.includes(value)?value:anchors[/^step-([1-3])$/.exec(value)?.[1]-1]||null;};
  const copy=installCopy(document.querySelectorAll('.step-anchor'),button=>{const url=new URL('/ai-workshop-resources',location.origin==='null'?'https://workshop.adamjaffrey.chatgpt.site':location.origin);url.search=location.search;url.searchParams.delete('login');url.hash=button.dataset.anchor;return url;},timing,frames);
- let generation=0,arriving=false,active=false,lastY=scrollY,focusRoute=null,trimRoom=false,writingURL=false;
+ let generation=0,arriving=false,active=false,lastY=scrollY,trimRoom=false,writingURL=false;
  const restore=()=>{for(const row of rows){row.removeAttribute('data-anchor-hidden');row.removeAttribute('data-anchor-leaving');row.inert=false;}};
  function trim(){
   const room=parseFloat(root.style.getPropertyValue('--anchor-scroll-room'))||0;
   if(room){const naturalMax=root.scrollHeight-innerHeight-room;root.style.setProperty('--anchor-scroll-room',Math.max(0,Math.ceil(scrollY-naturalMax))+'px');}
  }
- function release(){active=false;focusRoute=null;restore();window.workshopStickyControls?.configure({pinned:false});window.workshopBrandHalo?.configure({hold:false});trimRoom=true;trim();}
+ function release(){active=false;restore();window.workshopStickyControls?.configure({pinned:false});window.workshopBrandHalo?.configure({hold:false});trimRoom=true;trim();}
  function cancel(){if(!arriving)return;scrollTo({top:scrollY,behavior:'instant'});generation++;arriving=false;delete root.dataset.resourceAnchorArriving;release();}
  window.addEventListener('wheel',cancel,{passive:true});window.addEventListener('touchstart',cancel,{passive:true});
  window.addEventListener('keydown',event=>{if(['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].includes(event.key)&&!event.target.matches('input,textarea,button'))cancel();});
- // Redirect only the arrival sequence, retaining native arrows within selectors
- // and native Tab order once the reader reaches the anchored content.
- window.addEventListener('keydown',event=>{
-  if(event.key!=='Tab'||!focusRoute||event.altKey||event.ctrlKey||event.metaKey)return;
-  const {agent,theme,next}=focusRoute,current=document.activeElement;
-  let target;
-  if(focusRoute.first&&!event.shiftKey)target=agent.querySelector('[aria-pressed="true"]')||agent.querySelector('button');
-  else if(agent.contains(current)&&!event.shiftKey)target=theme.querySelector('[aria-pressed="true"]')||theme.querySelector('button');
-  else if(theme.contains(current)&&!event.shiftKey){target=next;focusRoute=null;}
-  else if(theme.contains(current)&&event.shiftKey)target=agent.querySelector('[aria-pressed="true"]')||agent.querySelector('button');
-  else focusRoute=null;
-  if(target){event.preventDefault();window.workshopFocusAtCurrentScroll(target);if(focusRoute)focusRoute.first=false;}
- },true);
- document.addEventListener('pointerdown',()=>{focusRoute=null;},{passive:true});
  window.addEventListener('scroll',()=>{const y=scrollY;if(!arriving&&active&&y<lastY-.5)release();if(!arriving&&trimRoom)trim();lastY=y;},{passive:true});
  const frame=()=>new Promise(resolve=>requestAnimationFrame(resolve));
  function writeFragment(anchor){
@@ -61,7 +47,7 @@ export function initResourceAnchors(anchors,timing,measureHeading,frames,anchorG
  }
  async function navigate(fragment,rewrite=true){
   const anchor=canonical(fragment);if(!anchor){cancel();release();return;}
-  const token=++generation;arriving=true;active=false;trimRoom=false;focusRoute=null;restore();root.dataset.resourceAnchorArriving='';root.style.setProperty('--anchor-arrival-progress','0');
+  const token=++generation;arriving=true;active=false;trimRoom=false;restore();root.dataset.resourceAnchorArriving='';root.style.setProperty('--anchor-arrival-progress','0');
   rows.forEach(row=>row.classList.add('is-revealed'));
   await document.fonts.ready;await frame();await frame();if(token!==generation)return;
   window.workshopStickyControls?.configure({pinned:false});window.workshopBrandHalo?.configure({hold:true});
@@ -85,9 +71,7 @@ export function initResourceAnchors(anchors,timing,measureHeading,frames,anchorG
   if(rewrite)writeFragment(anchor);
   leaving.forEach(row=>{row.setAttribute('data-anchor-hidden','');row.removeAttribute('data-anchor-leaving');row.inert=true;});
   delete root.dataset.resourceAnchorArriving;arriving=false;active=true;lastY=scrollY;trim();
-  const next=rows[index].querySelector('article a[href],article button:not(:disabled),article [tabindex="0"]');
-  focusRoute={agent:document.querySelector('.controls .toggle'),theme:document.querySelector('.page-toolbar .theme-toggle'),next,first:true};
-  document.activeElement?.blur();
+  window.workshopLandAnchor(target.closest('h2'),target);
  }
  // The Navigation API also observes re-entering an unchanged fragment in the
  // address bar, including replacement navigation. Suppress only our own URL

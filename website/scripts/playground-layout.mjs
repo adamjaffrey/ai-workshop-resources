@@ -313,4 +313,4 @@ body :is(.icon-button,.preview-expand,#perspective-replay)[hidden]{display:none!
 .selector-row .choice-shell{max-width:100%}
 `;
 
-export const linkSubsectionCSS=`.playground-subsection{margin-top:24px}.playground-subheading{font-size:16px;line-height:24px;margin:0;display:flex;align-items:center;gap:12px}.playground-subheading>svg{flex:none}#playground-typography>.playground-subsection+.playground-subsection{border-top:1px solid var(--border)}`;
+export const linkSubsectionCSS=`.playground-subsection{margin-top:24px}.playground-subheading{font-size:16px;line-height:24px;margin:0;display:flex;align-items:center;gap:12px}.playground-subheading>svg{flex:none}#playground-typography>.playground-subsection{border-top:1px solid var(--border)}`;
