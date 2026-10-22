@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.313"
-  update_summary: "Unify action icons and manual keyboard focus"
-  updated_at: "Thu 22 Oct 2026 at 10:48:40 am AEDT (+11:00)"
+  doc_revision: "26.0.314"
+  update_summary: "Refine wrapped section headings and chevron alignment"
+  updated_at: "Thu 22 Oct 2026 at 11:05:14 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.312 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 11:05:14 am AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine wrapped section headings and chevron alignment
+
+### Changed
+
+- Move expanded section chevrons 1px down and retain the contracted 1px left shift, smoothly interpolating both offsets with rotation.
+- Tighten actual Playground H2/H3 section headings to 1.25 leading on mobile or when wrapped, preserving first-line alignment and exterior spacing. Leave other headings unchanged.
+- Extend the neutral collapse decoration over the complete wrapped heading row for pointer and keyboard activation.
+- Document the revised heading rules and rationale in the Interface contract and design decision log.
+
+### Validation
+
+- `npm --prefix website run build` — passed; reused saved backdrop geometry.
+- Wrapped-heading checks — passed in Chromium and WebKit at 320, 390, 768 and 1440px, including desktop wrapping, complete tint coverage, leading and chevron offsets.
+- Section-collapse, anchor interaction/presentation and all 35 heading-anchor checks — passed.
+- External-text-inset, nested-alignment and app/specimen parity checks — passed.
+- Mobile/desktop screenshots and both fresh LAN preview destinations — verified. Physical devices were not tested.
 
 ## v26.0.311 — 2026-10-22
 

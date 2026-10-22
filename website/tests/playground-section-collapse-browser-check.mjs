@@ -15,7 +15,7 @@ try{
     const button=panel.locator(':scope>.section-heading>.section-collapse');
     const expandedHeight=(await panel.boundingBox()).height;
     const geometry=await button.evaluate(e=>{const p=e.closest('.panel').getBoundingClientRect(),b=e.getBoundingClientRect(),r=e.querySelector('svg').getBoundingClientRect();return{gap:p.right-b.right-1,top:b.top-p.top-1,width:b.width,height:b.height,dx:(r.left+r.right-b.left-b.right)/2,dy:(r.top+r.bottom-b.top-b.bottom)/2,border:getComputedStyle(e).borderTopWidth};});
-    near(geometry.gap,20,'button right padding');near(geometry.top,20,'button top padding');near(geometry.width,50,'button width');near(geometry.height,50,'button height');near(geometry.dx,0,'SVG horizontal centre');near(geometry.dy,0,'SVG vertical centre');assert.equal(geometry.border,'1px');
+    near(geometry.gap,20,'button right padding');near(geometry.top,20,'button top padding');near(geometry.width,50,'button width');near(geometry.height,50,'button height');near(geometry.dx,0,'SVG horizontal centre');near(geometry.dy,1,'SVG expanded vertical offset');assert.equal(geometry.border,'1px');
     const next=await panel.evaluate(e=>e.nextElementSibling?e.nextElementSibling.getBoundingClientRect().top-e.getBoundingClientRect().top:undefined);
     await button.click({position:{x:18,y:18}});assert.equal(await button.getAttribute('aria-expanded'),'false');
     assert.ok((await panel.boundingBox()).height<expandedHeight,'Collapsed section shrinks');

@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.66"
-  update_summary: "Record action icon sizing and manual keyboard navigation"
-  updated_at: "Thu 22 Oct 2026 at 10:47:52 am AEDT (+11:00)"
+  doc_revision: "26.0.67"
+  update_summary: "Record compact wrapped headings and full-row hover paint"
+  updated_at: "Thu 22 Oct 2026 at 11:03:00 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -487,3 +487,11 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Reason:** Browsing should not unexpectedly change previews or navigate tabs. Earlier inset selector rings were clipped, and a symmetric native link-outline offset did not match asymmetric hover paint. Shared geometry and input handling replace per-control corrections.
 
 **Owner:** [Interface contract](../docs/agent-guidance/interface.md#focus-and-panel-opening), `workshop-group-focus.mjs`, `workshop-link-surfaces.mjs` and `playground-layout.mjs`.
+
+## Wrapped Section Heading Rhythm
+
+**Decision:** Actual outer section H2/H3 headings use 1.25 leading on mobile or when wrapped at any width. First-line cap alignment and exterior leading are compensated so existing card and subsection spacing is retained. Non-section headings and fullscreen specimen titles keep their existing treatment. The neutral collapse tint covers the entire row, replacing the earlier fixed 50px height. Expanded chevrons move 1px down; collapsed chevrons retain their 1px left shift, with both offsets interpolating with rotation over 160ms.
+
+**Reason:** Adam requested tighter multiline section headings, complete grey decoration on wrapped headings and an optical chevron adjustment without reopening established spacing decisions.
+
+**Owner:** [Playground Heading Anchor Controls](../docs/agent-guidance/interface.md#playground-heading-anchor-controls), `playground-heading-alignment.mjs` and `playground-section-collapse.mjs`.

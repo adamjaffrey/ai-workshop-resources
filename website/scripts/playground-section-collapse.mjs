@@ -10,22 +10,22 @@ html:has(#playground-title){scrollbar-gutter:stable}
 :is([data-panel]>.panel,.url-subsection)>.section-heading>.section-collapse{position:absolute;right:-8px;top:0;margin:0;z-index:0;display:grid;place-items:center;width:50px;height:50px;min-height:50px;padding:0;border:1px solid var(--control-border);border-radius:12px;background:transparent;color:var(--text);cursor:pointer;box-shadow:none;isolation:isolate;appearance:none;-webkit-tap-highlight-color:transparent;user-select:none;transition:none}
 :is([data-panel]>.panel,.url-subsection):not(.is-expanded)>.section-heading :is(h2,h3){position:relative;z-index:1;user-select:none}
 :is([data-panel]>.panel,.url-subsection):not(.is-expanded)>.section-heading :is(h2,h2 *,h3,h3 *,button,button *){cursor:pointer!important}
-.section-collapse>svg{position:relative;z-index:1;display:block;width:24px;height:24px;transform:translateX(0) rotate(0deg);transform-origin:center;transition:transform 160ms ease}
+.section-collapse>svg{position:relative;z-index:1;display:block;width:24px;height:24px;transform:translate(0,1px) rotate(0deg);transform-origin:center;transition:transform 160ms ease}
 #panel-url-reference .panel .url-subsection{padding-top:20px}
 #panel-url-reference .panel .url-subsection>.section-heading{min-height:50px;margin-bottom:20px}
 #panel-url-reference .panel .url-subsection[data-collapsed]{padding-bottom:20px}
 #panel-url-reference .panel .url-subsection[data-collapsed]+.url-subsection{margin-top:0}
 #panel-url-reference .panel .url-subsection[data-collapsed]:last-child{padding-bottom:0}
 #panel-url-reference .panel .url-subsection[data-collapsed]>.section-heading{margin-bottom:0}
-.section-heading::before{content:"";position:absolute;top:0;left:-8px;right:-8px;height:50px;border-radius:12px;background:var(--hover);opacity:0;pointer-events:none;z-index:-1;transition:none}
-.section-heading:is([data-collapse-hover],:has(>.section-collapse:hover))::before{opacity:1}
+.section-heading::before{content:"";position:absolute;top:0;left:-8px;right:-8px;height:100%;border-radius:12px;background:var(--hover);opacity:0;pointer-events:none;z-index:-1;transition:none}
+.section-heading:is([data-collapse-hover],:has(>.section-collapse:hover),:has(>.section-collapse:active))::before,:root[data-focus-input="keyboard"] .section-heading:has(>.section-collapse:focus)::before{opacity:1}
 .section-collapse::before,.section-collapse::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;opacity:0}
 .section-collapse::before{background:var(--control-bg);transition:opacity 160ms ease}
 .section-collapse::after{background:var(--hover)}
 .section-collapse:is(:hover,[data-region-hover]){background:transparent!important}
 .section-collapse:is(:hover,[data-region-hover])::after{opacity:1}
 :is([data-panel]>.panel,.url-subsection)[data-collapsed]>.section-heading>.section-collapse::before{opacity:1}
-[data-collapsed]>.section-heading>.section-collapse>svg{transform:translateX(-1px) rotate(90deg)}
+[data-collapsed]>.section-heading>.section-collapse>svg{transform:translate(-1px,0) rotate(90deg)}
 [data-panel]>.panel[data-collapsed]>:not(.section-heading),[data-panel]>.panel[data-collapsed]>.section-heading>:not(h2):not(.section-collapse){display:none!important}
 [data-panel]>.panel[data-collapsed]>.section-heading{margin-bottom:0}
 [data-panel]>.panel.is-expanded>.section-heading{padding-right:0}
