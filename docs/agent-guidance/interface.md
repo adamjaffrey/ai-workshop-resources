@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.72"
-  update_summary: "Reset Playground tab order after Jump to Top"
-  updated_at: "Thu 22 Oct 2026 at 04:47:41 pm AEDT (+11:00)"
+  doc_revision: "26.0.73"
+  update_summary: "Compare prompt focus corners with a shared offset"
+  updated_at: "Thu 22 Oct 2026 at 05:29:13 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -16,7 +16,8 @@ This is a mandatory scoped contract incorporated by [AGENTS.md](../../AGENTS.md)
 
 ## Focus and Panel Opening
 
-- Keep native focus corners slightly rounded using the shared `--focus-sharp-radius: 2px` token, including the upper prompt-ring corners; preserve larger established radii and straight edges.
+- For the current user-requested prompt comparison, use `--focus-ring-offset: 3px` for the shared native focus default and prompt ring. Set the prompt ring’s top-left base radius to zero and top-right to `--focus-sharp-radius`; retain the 11px lower corners. The Playground prompt overlay copies the canonical app pseudo-element’s outline, offset and radii so this comparison uses the same paint geometry above clipping layers. This is a review comparison, not a final asymmetric design choice.
+- Keep native focus corners slightly rounded using the shared `--focus-sharp-radius: 2px` token, including the upper prompt-ring corners except for the comparison above; preserve larger established radii and straight edges.
 - Keep real focus on the appropriate control for every interaction type. Do not blur controls or remove keyboard access merely to hide a ring.
 - Text-entry fields, including passwords, retain visible focused styling for pointer, touch and keyboard use.
 - Buttons, toggles, links and other non-text-entry controls show a focus ring only during keyboard navigation initiated by Tab or Shift+Tab. Preserve that indicator through keyboard activation and focus transfer; click or tap switches back to ring-free pointer focus.

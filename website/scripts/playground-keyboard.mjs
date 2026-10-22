@@ -20,7 +20,12 @@ export function installPlaygroundKeyboard(){
   if(active.matches('.focus-row')){const rows=[...document.querySelectorAll('.focus-row')],first=active===rows[0],last=active===rows.at(-1);const edgeTop=first?r.top-14:r.top+3,edgeBottom=last?r.bottom+14:r.bottom-parseFloat(c.borderBottomWidth)-3;top=edgeTop+6;height=edgeBottom-edgeTop-12;}
   if(active.matches('input[type=range]')){height=28;top=r.top+(r.height-height)/2;}
   const host=active.closest('dialog[open]')||document.body;if(overlay.parentElement!==host)host.append(overlay);if(overlay.showPopover&&!overlay.matches(':popover-open'))overlay.showPopover();
+  Object.assign(overlay.style,{outline:'none',outlineOffset:'0px',borderWidth:'3px'});
   Object.assign(overlay.style,{display:'block',borderColor:ringColour,left:r.left-6-extra+'px',top:top-6+'px',width:r.width+12+2*extra+'px',height:height+12+'px',borderRadius:active.matches('[role=tab]')?'11px 11px var(--focus-sharp-radius) var(--focus-sharp-radius)':['borderTopLeftRadius','borderTopRightRadius','borderBottomRightRadius','borderBottomLeftRadius'].map(key=>parseFloat(c[key])>3?parseFloat(c[key])+6+'px':'var(--focus-sharp-radius)').join(' ')});
+  if(active.matches('pre')&&active.closest('.code-wrap')){
+   const source=getComputedStyle(active.closest('.code-wrap'),'::after');
+   Object.assign(overlay.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px',borderWidth:'0px',outline:source.outline,outlineOffset:source.outlineOffset,borderRadius:source.borderRadius});
+  }
  }
  function reveal(target){window.workshopRevealFocus?.(target);}
  document.addEventListener('focusin',event=>{

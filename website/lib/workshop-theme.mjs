@@ -19,6 +19,7 @@ const control = `<div class="theme-toggle" role="group" aria-label="Colour Theme
 const styles = `
 :root {
   --focus-sharp-radius:2px;
+  --focus-ring-offset:3px;
   --floating-shadow: 0 0 80px #00000024;
   --floating-control-shadow: 0 0 12px #00000026, 0 0 28px #00000026; --agent-accent: #0285FF; --agent-ink: #fff; --page: #f3f3f3; --surface: #fff; --content-surface: #f8f9fa; --text: #1a1a1a;
   --muted-text: #5b6066; --border: #dedede; --panel-border: #d5d9dd;
@@ -100,7 +101,7 @@ html, body { overflow-x: hidden; }
 :root:not([data-focus-input="keyboard"]) :focus:not(input):not(textarea):not([contenteditable="true"]) { outline: none; }
 :root:not([data-focus-input="keyboard"]) input:is([type="radio"],[type="checkbox"],[type="range"]):focus { outline: none; }
 :root:not([data-focus-input="keyboard"]) .code-wrap:has(pre:focus)::after { outline: none; }
-:root[data-focus-input="keyboard"] :is(button, a[href], [tabindex]):focus:not(pre):not([data-panel-heading]) { outline: 3px solid var(--icon-ink); outline-offset: 3px; }
+:root[data-focus-input="keyboard"] :is(button, a[href], [tabindex]):focus:not(pre):not([data-panel-heading]) { outline: 3px solid var(--icon-ink); outline-offset: var(--focus-ring-offset); }
 [data-panel-heading]:focus { outline: none !important; box-shadow: none !important; }
 /* Button labels are controls; document and prompt text remain selectable. */
 button, button * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
@@ -131,7 +132,7 @@ button, button * { -webkit-user-select: none; user-select: none; -webkit-touch-c
 :is(.theme-toggle,.controls .toggle) button[aria-pressed="false"]:hover { background:transparent; color:var(--text); }
 .copy:hover{background:var(--hover)}
 .theme-toggle button[aria-pressed="true"] { background: transparent; color: var(--text); }
-.theme-toggle button:focus-visible { outline: 3px solid var(--icon-ink); outline-offset: 3px; }
+.theme-toggle button:focus-visible { outline: 3px solid var(--icon-ink); outline-offset: var(--focus-ring-offset); }
 .theme-toggle .icon { width: 20px; height: 20px; }
 .gate-toolbar { display: flex; justify-content: flex-end; margin-bottom: 20px; }
 /* Retain saved anonymous backdrop image styling until its next capture. */
@@ -157,7 +158,7 @@ a.page-title-link{display:block;width:fit-content;max-width:100%;color:inherit;t
 a.page-title-link[href]:is(:link,:visited){color:var(--text)}
 a.page-title-link h1,a.page-title-link h1 *{cursor:inherit}
 a.page-title-link:focus{outline:none}
-:root[data-focus-input="keyboard"] a.page-title-link:focus{outline:3px solid var(--icon-ink);outline-offset:3px}
+:root[data-focus-input="keyboard"] a.page-title-link:focus{outline:3px solid var(--icon-ink);outline-offset:var(--focus-ring-offset)}
 :where(p, h1, h2, h3, h4, h5, h6, span, label, li, dt, dd, blockquote, figcaption, pre, code, strong, em, small, b, i, td, th) { cursor: text; }
 :where(input:not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="image"]), textarea, [contenteditable="true"]) { cursor: text; }
 :where(button, a[href], summary, select, [role="button"], [role="switch"], [role="tab"], [role="checkbox"], [role="radio"], .segmented-toggle, input:is([type="button"], [type="submit"], [type="reset"], [type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"], [type="image"])) { cursor: pointer; }

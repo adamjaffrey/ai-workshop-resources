@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.331"
-  update_summary: "Share native anchor scrolling and travel-based arrival fades"
-  updated_at: "Thu 22 Oct 2026 at 05:09:07 pm AEDT (+11:00)"
+  doc_revision: "26.0.332"
+  update_summary: "Compare prompt focus corners with a shared offset"
+  updated_at: "Thu 22 Oct 2026 at 05:31:40 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.330 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 05:31:40 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Compare prompt focus corners with a shared offset
+
+### Changed
+
+- Share a named 3px outline-offset token between the native focus default and prompt ring, replacing the prompt’s separate 4px offset.
+- Set the prompt’s top-left base radius to zero and top-right to the shared 2px sharp token for the requested visual comparison; retain lower corners.
+- Derive the Playground prompt overlay’s outline, offset and radii from the canonical app pseudo-element while preserving its protection against clipping.
+- Record the temporary comparison in the Interface contract and design log.
+
+### Validation
+
+- Placeholder source checks and `npm --prefix website run build` — passed with saved backdrop geometry; active preview displays v26.0.330.
+- `node website/tests/prompt-focus-comparison-browser-check.mjs` — passed Chrome and WebKit at 320, 390, 768 and 1440px; app checks cover both agents/themes, specimen outline parity and pointer suppression.
+- `node website/tests/playground-browser-check.mjs` — passed full existing source-parity checks.
+- Active LAN app and Typography URLs returned HTTP 200; focused prompt screenshot inspected. Physical-device testing was not performed.
 
 ## v26.0.329 — 2026-10-22
 

@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.83"
-  update_summary: "Share native anchor scrolling and travel-based arrival fades"
-  updated_at: "Thu 22 Oct 2026 at 05:01:53 pm AEDT (+11:00)"
+  doc_revision: "26.0.84"
+  update_summary: "Compare prompt focus corners with a shared offset"
+  updated_at: "Thu 22 Oct 2026 at 05:29:13 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -581,3 +581,11 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Rationale:** Adam requested consistent scroll feel with Jump to Top and selected 30% to keep earlier content visible until near arrival. Distance-based fades adapt to each browser's duration and deceleration without guessing its timing. The previous custom speed, duration limits and fixed arrival fade window are superseded.
 
 **Owner:** [Shared Native Anchor Motion](../docs/agent-guidance/motion.md#shared-native-anchor-motion).
+
+## Prompt Focus Corner Comparison
+
+**Decision:** For Adam’s requested visual comparison, give the prompt ring a zero top-left base radius and the shared 2px sharp token at top-right. Share `--focus-ring-offset: 3px` between the native default and prompt ring. Retain the lower radii.
+
+**Reason:** The prompt previously used a separate 4px outline offset. Comparing both upper corners at a consistent gap makes the sharp token’s effect reviewable. Keep the Playground’s clipping-safe overlay, but derive its prompt outline properties from the app’s pseudo-element rather than calculating a different border radius. The asymmetric corners are pending user review.
+
+**Owner:** [Focus and Panel Opening](../docs/agent-guidance/interface.md#focus-and-panel-opening).
