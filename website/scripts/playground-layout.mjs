@@ -186,7 +186,7 @@ main.wrap{padding-top:24px}
 .preview-dialog:not(.is-expanded)>.frame-wrap{max-height:var(--embedded-preview-height,60dvh);overflow:clip}
 .preview-dialog:not(.is-expanded) iframe{height:min(var(--natural-frame-height,760px),calc(var(--embedded-preview-height,60dvh) - 2px))!important;max-height:calc(var(--embedded-preview-height,60dvh) - 2px)}
 .preview-dialog>.frame-wrap>.page-embed-scroll{width:100%;height:100%;overflow-x:auto;overflow-y:hidden}
-.panel>.frame-wrap:has(>#type-frame,>#icons-frame,>#errors-frame,>#focus-frame,>#link-type-frame){max-height:none;overflow-x:auto;overflow-y:hidden}
+:is(.panel,.playground-subsection)>.frame-wrap:has(>#type-frame,>#icons-frame,>#errors-frame,>#focus-frame,>[data-link-specimen]){max-height:none;overflow-x:auto;overflow-y:hidden}
 `;
 
 export const playgroundLayoutScript=String.raw`
@@ -317,3 +317,5 @@ body :is(.icon-button,.preview-expand,#perspective-replay)[hidden]{display:none!
 .selector-row>.choices,#login-preview .selector-row>.choices{flex:0 0 auto;width:max-content;max-width:100%;min-width:0;margin:0}
 .selector-row .choice-shell{max-width:100%}
 `;
+
+export const linkSubsectionCSS=`.playground-subsection{margin-top:24px}.playground-subheading{font-size:16px;line-height:24px;margin:0;display:flex;align-items:center;gap:12px}.playground-subheading>svg{flex:none}.playground-subsection>.frame-wrap{margin-inline:-4px}`;

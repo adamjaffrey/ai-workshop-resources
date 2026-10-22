@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.24"
-  update_summary: "Group shared link icons and compare navigation link variants"
-  updated_at: "Thu 22 Oct 2026 at 05:47:16 pm AEDT (+11:00)"
+  doc_revision: "26.0.25"
+  update_summary: "Organise collapsible link and list references with documented anchors"
+  updated_at: "Thu 22 Oct 2026 at 07:29:35 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -146,6 +146,10 @@ Every collapsible outer H2/H3 also has a copyable heading anchor. The inventory 
 | Components | Resource Page and Controls (H2) | `/component-playground/components`**`#resource-page-and-controls`** | — |
 | Typography | Typography and Text Styles (H2) | `/component-playground/typography`**`#typography-and-text-styles`** | — |
 | Typography | Hyperlink Styles (H2) | `/component-playground/typography`**`#hyperlink-styles`** | **`#defined-styles-used-in-playground`** |
+| Typography | External Links (H3) | `/component-playground/typography`**`#external-links`** | — |
+| Typography | Internal Links (H3) | `/component-playground/typography`**`#internal-links`** | — |
+| Typography | Link Colours (H3) | `/component-playground/typography`**`#link-colours`** | — |
+| Typography | Lists and Inline Code (H2) | `/component-playground/typography`**`#lists-and-inline-code`** | — |
 | Typography | Text Styles Not Used in the App (H2) | `/component-playground/typography`**`#text-styles-not-used-in-the-app`** | — |
 | Colours | Shared Colour Tokens (H2) | `/component-playground/colours`**`#shared-colour-tokens`** | — |
 | Colours | All App Colour Rules (H2) | `/component-playground/colours`**`#all-app-colour-rules`** | — |

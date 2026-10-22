@@ -14,7 +14,7 @@ function foldIconUsages(list){
 }
 function renderPlaygroundIcons(){
  const catalog=document.getElementById('playground-icon-catalog'),linkCatalog=document.getElementById('link-icon-catalog'),icons=new Map();
- const headingOrder=[...document.querySelectorAll('[data-tab]')].flatMap(tab=>[...document.querySelectorAll('[data-panel="'+tab.dataset.tab+'"] .section-heading h2>svg,[data-panel="'+tab.dataset.tab+'"] .url-reference-subheading>svg')].map(svg=>svg.dataset.iconName));
+ const headingOrder=[...document.querySelectorAll('[data-tab]')].flatMap(tab=>[...document.querySelectorAll('[data-panel="'+tab.dataset.tab+'"] .section-heading h2>svg,[data-panel="'+tab.dataset.tab+'"] :is(.url-reference-subheading,.playground-subheading)>svg')].map(svg=>svg.dataset.iconName));
  const uiOrder=['ellipsis','x','arrow-up-to-line','rotate-ccw','rotate-cw','copy','minimize-2','maximize-2','chevron-right','arrow-up-right'];
  for(const svg of document.querySelectorAll('svg[data-icon-provider]')){
   if(catalog.contains(svg)||linkCatalog.contains(svg))continue;
@@ -23,7 +23,7 @@ function renderPlaygroundIcons(){
   const key=provider+':'+name+(svg.dataset.iconVariant?':modified':'');
   if(!icons.has(key))icons.set(key,{svg,provider,name,variant:svg.dataset.iconVariant||undefined,usages:new Set(),groups:new Set()});
   const panel=svg.closest('.panel'),heading=svg.closest('h1,h2,h3'),control=svg.closest('button,a,summary');
- const group=svg.closest('#playground-title')?'playground':svg.closest('.heading-anchor')?'ui':svg.closest('.section-heading h2,.url-reference-subheading,[data-tab]')?'headings':svg.closest('button,a,summary,.breadcrumbs')?'ui':'other';
+ const group=svg.closest('#playground-title')?'playground':svg.closest('.heading-anchor')?'ui':svg.closest('.section-heading h2,:is(.url-reference-subheading,.playground-subheading),[data-tab]')?'headings':svg.closest('button,a,summary,.breadcrumbs')?'ui':'other';
  icons.get(key).groups.add(group);
   const location=panel?.querySelector('.section-heading h2')?.textContent.trim()||'Playground';
   // Hidden alternate icons describe their own action, not the button's resting label.
@@ -37,10 +37,11 @@ function renderPlaygroundIcons(){
   const template=document.createElement('template');template.innerHTML=html;const svg=template.content.querySelector('svg'),name=svg.dataset.iconName,variant=svg.dataset.iconVariant,key='lucide:'+name+':modified';
   if(!icons.has(key))icons.set(key,{svg,provider:'lucide',name,variant,groups:new Set(['ui']),usages:new Set()});
  }
+ for(const [key,item] of [...icons])if(linkVariants.includes(item.variant)&&item.groups.has('headings'))icons.set(key+':heading',{...item,headingOnly:true,groups:new Set(['headings']),usages:new Set([...item.usages].filter(use=>use.includes('playground-heading-')))});
  catalog.replaceChildren();linkCatalog.replaceChildren();
- const rank=item=>linkVariants.includes(item.variant)?-3+linkVariants.indexOf(item.variant):item.groups.has('playground')?0:item.groups.has('headings')?10+Math.max(0,headingOrder.indexOf(item.name)):item.groups.has('ui')?1000+(uiOrder.includes(item.name)?uiOrder.indexOf(item.name):uiOrder.length):2000;
- for(const {svg,provider,name,usages,groups,variant} of [...icons.values()].sort((a,b)=>rank(a)-rank(b)||a.name.localeCompare(b.name))){
-  const isLinkIcon=linkVariants.includes(variant);
+ const rank=item=>linkVariants.includes(item.variant)&&!item.headingOnly?-3+linkVariants.indexOf(item.variant):item.groups.has('playground')?0:item.groups.has('headings')?10+Math.max(0,headingOrder.indexOf(item.name)):item.groups.has('ui')?1000+(uiOrder.includes(item.name)?uiOrder.indexOf(item.name):uiOrder.length):2000;
+ for(const {svg,provider,name,usages,groups,variant,headingOnly} of [...icons.values()].sort((a,b)=>rank(a)-rank(b)||a.name.localeCompare(b.name))){
+  const isLinkIcon=linkVariants.includes(variant)&&!headingOnly;
   const entry=document.createElement('section');entry.className='playground-icon-entry';entry.dataset.catalogIcon=name;entry.dataset.iconFamily=provider;if(variant)entry.dataset.catalogVariant=variant;entry.dataset.iconGroups=[...groups].join(' ');
   const heading=document.createElement('h3'),sample=svg.cloneNode(true);
   sample.removeAttribute('id');if(sample.classList.contains('text-link-icon')){sample.removeAttribute('style');sample.classList.remove('text-link-icon','link-arrow','step-anchor-hash','step-anchor-success','step-anchor-failure');sample.setAttribute('stroke-width','2');}sample.setAttribute('width','24');sample.setAttribute('height','24');sample.setAttribute('aria-hidden','true');
@@ -69,7 +70,7 @@ function refreshLinkInventory(){
   list.replaceChildren(...[...usages].map(iconUsageItem));foldIconUsages(list);
  }
 }
-window.addEventListener('message',event=>{if(!['playground-links','playground-link-icons'].includes(event.data?.guide))return;const frame=[...document.querySelectorAll('#icons-frame,#link-type-frame')].find(f=>f.contentWindow===event.source);if(!frame)return;frameLinkInventory.set(frame.id==='link-type-frame'?'Typography':event.data.guide==='playground-link-icons'?'Resources':'App Icons and Symbols',event.data.links);refreshLinkInventory();});
+window.addEventListener('message',event=>{if(!['playground-links','playground-link-icons'].includes(event.data?.guide))return;const frame=[...document.querySelectorAll('#icons-frame,[data-link-specimen]')].find(f=>f.contentWindow===event.source);if(!frame)return;frameLinkInventory.set(frame.hasAttribute('data-link-specimen')?frame.title:event.data.guide==='playground-link-icons'?'Resources':'App Icons and Symbols',event.data.links);refreshLinkInventory();});
 refreshLinkInventory();
 // Page-level skip navigation is installed at DOMContentLoaded.
 document.addEventListener('DOMContentLoaded',()=>{renderPlaygroundIcons();filterPlaygroundIcons();refreshLinkInventory();});

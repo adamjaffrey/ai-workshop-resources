@@ -23,7 +23,7 @@ const iconSlot='<span class="step-anchor-icon text-link-slot" title="Copy Link">
 export function initPlaygroundAnchors({select,tabPaths,sticky,scheduleCaps,installCopy,timing,frames,journeyFor,slotHTML}){
  const root=document.documentElement,motion=matchMedia('(prefers-reduced-motion:reduce)'),entries=[],byURL=new Map();
  const slug=text=>text.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
- for(const panel of document.querySelectorAll('[data-panel]>.panel,.url-subsection')){
+ for(const panel of document.querySelectorAll('[data-panel]>.panel,.url-subsection,.playground-subsection')){
   const row=panel.querySelector(':scope>.section-heading'),title=row?.querySelector('h2,h3');if(!title)continue;
   const label=title.querySelector(':scope>span');if(!label)continue;
   const text=label.textContent.trim(),tab=panel.closest('[data-panel]').dataset.panel,path='/component-playground/'+(tabPaths[tab]||tab),id=slug(text);

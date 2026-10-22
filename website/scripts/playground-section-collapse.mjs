@@ -7,10 +7,10 @@ html:has(#playground-title){scrollbar-gutter:stable}
 /* The bordered target sits on the 24px surface rail; text retains its 28px rail. */
 [data-panel]>.panel:not(.is-expanded){padding-block:20px}
 [data-panel]>.panel:has(iframe):not(.is-expanded):not([data-collapsed]){padding-bottom:24px}
-:is([data-panel]>.panel,.url-subsection)>.section-heading{position:relative;padding-right:72px;min-height:var(--collapsed-heading-height,50px);margin-bottom:20px;isolation:isolate;-webkit-tap-highlight-color:transparent}
-:is([data-panel]>.panel,.url-subsection)>.section-heading>.section-collapse{position:absolute;right:-8px;top:0;margin:0;z-index:0;display:grid;place-items:center;width:50px;height:50px;min-height:50px;padding:0;border:1px solid var(--control-border);border-radius:12px;background:transparent;color:var(--text);cursor:pointer;box-shadow:none;isolation:isolate;appearance:none;-webkit-tap-highlight-color:transparent;user-select:none;transition:none}
-:is([data-panel]>.panel,.url-subsection):not(.is-expanded)>.section-heading :is(h2,h3){position:relative;z-index:1;user-select:none}
-:is([data-panel]>.panel,.url-subsection):not(.is-expanded)>.section-heading :is(h2,h2 *,h3,h3 *,button,button *){cursor:pointer!important}
+:is([data-panel]>.panel,.url-subsection,.playground-subsection)>.section-heading{position:relative;padding-right:72px;min-height:var(--collapsed-heading-height,50px);margin-bottom:20px;isolation:isolate;-webkit-tap-highlight-color:transparent}
+:is([data-panel]>.panel,.url-subsection,.playground-subsection)>.section-heading>.section-collapse{position:absolute;right:-8px;top:0;margin:0;z-index:0;display:grid;place-items:center;width:50px;height:50px;min-height:50px;padding:0;border:1px solid var(--control-border);border-radius:12px;background:transparent;color:var(--text);cursor:pointer;box-shadow:none;isolation:isolate;appearance:none;-webkit-tap-highlight-color:transparent;user-select:none;transition:none}
+:is([data-panel]>.panel,.url-subsection,.playground-subsection):not(.is-expanded)>.section-heading :is(h2,h3){position:relative;z-index:1;user-select:none}
+:is([data-panel]>.panel,.url-subsection,.playground-subsection):not(.is-expanded)>.section-heading :is(h2,h2 *,h3,h3 *,button,button *){cursor:pointer!important}
 .section-collapse>svg{position:relative;z-index:1;display:block;width:24px;height:24px;transform:translate(0,1px) rotate(0deg);transform-origin:center;transition:transform 160ms ease}
 #panel-url-reference .panel .url-subsection{padding-top:20px}
 #panel-url-reference .panel .url-subsection>.section-heading{min-height:var(--collapsed-heading-height,50px);margin-bottom:20px}
@@ -26,10 +26,10 @@ html:has(#playground-title){scrollbar-gutter:stable}
 .section-collapse::after{background:var(--hover)}
 .section-collapse:is(:hover,[data-region-hover]){background:transparent!important}
 .section-collapse:is(:hover,[data-region-hover])::after{opacity:1}
-:is([data-panel]>.panel,.url-subsection)[data-collapsed]>.section-heading>.section-collapse::before{opacity:1}
+:is([data-panel]>.panel,.url-subsection,.playground-subsection)[data-collapsed]>.section-heading>.section-collapse::before{opacity:1}
 [data-collapsed]>.section-heading>.section-collapse>svg{transform:translate(-1px,0) rotate(90deg)}
 [data-panel]>.panel[data-collapsed]>:not(.section-heading),[data-panel]>.panel[data-collapsed]>.section-heading>:not(h2):not(.section-collapse){display:none!important}
-:is([data-panel]>.panel,.url-subsection)[data-collapsed]>.section-heading{margin-bottom:0;min-height:var(--collapsed-heading-height,50px)}
+:is([data-panel]>.panel,.url-subsection,.playground-subsection)[data-collapsed]>.section-heading{margin-bottom:0;min-height:var(--collapsed-heading-height,50px)}
 [data-panel]>.panel.is-expanded>.section-heading{padding-right:0}
 [data-panel]>.panel.is-expanded>.section-heading>.section-collapse{display:none}
 @media(prefers-reduced-motion:reduce){.section-heading::before,.section-collapse::before,.section-collapse,.section-collapse>svg{transition:none}}
@@ -37,7 +37,7 @@ html:has(#playground-title){scrollbar-gutter:stable}
 export const sectionCollapseScript=String.raw`
 // Keep native section children in place: existing specimen and expansion selectors
 // continue to work. Hiding content removes it from layout and keyboard navigation.
-for(const [index,panel] of [...document.querySelectorAll('[data-panel]>.panel,.url-subsection')].entries()){
+for(const [index,panel] of [...document.querySelectorAll('[data-panel]>.panel,.url-subsection,.playground-subsection')].entries()){
  const heading=panel.querySelector(':scope>.section-heading'),title=heading?.querySelector('h2,h3');if(!title)continue;
  const button=document.createElement('button');button.type='button';button.className='section-collapse';button.innerHTML=${JSON.stringify(svg)};
  const name=title.textContent.trim();button.setAttribute('aria-expanded','true');button.setAttribute('aria-label','Collapse '+name);

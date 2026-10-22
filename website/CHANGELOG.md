@@ -3,14 +3,45 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.342"
-  update_summary: "Compare 1px visible outer bottom corners on tab focus rings"
-  updated_at: "Thu 22 Oct 2026 at 07:21:13 pm AEDT (+11:00)"
+  doc_revision: "26.0.343"
+  update_summary: "Organise collapsible link references and correct specimen layout checks"
+  updated_at: "Thu 22 Oct 2026 at 07:31:31 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.341 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 07:31:31 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Organise collapsible link references and correct specimen layout checks
+
+### Changed
+
+- Give External Links, Internal Links and Link Colours independent collapsible H3 sections, shared heading icons and canonical anchors. Move list and code examples into Lists and Inline Code with the list-tree icon.
+- Include both modified arrows in Playground Icons for their heading usages while retaining the separate Link Icons catalogue and source controls.
+- Update the URL Reference inventory and its rendered Playground page, preserving the existing Hyperlink Styles alias.
+
+### Fixed
+
+- Measure visible Typography samples instead of intentionally hidden base variants, and compare paired Status States controls against their own column rails. Both previously failing checks now pass without changing the established specimen geometry.
+
+### Validation
+
+- Specimen fidelity and external text inset browser checks — passed, including seven-width rail checks and both themes/agents.
+- All 40 anchors passed in Chrome and WebKit at 390 and 1440px, including collapse reveal, exact arrival and copying.
+- Link gallery checks passed in Chrome and WebKit at 320, 390, 768 and 1440px, including shared link styles, keyboard collapse, colour rows, lists, icon ownership and source controls.
+- Full Playground source parity, saved-placeholder checks and production build passed. Generated version displays match v26.0.341.
+- LAN preview and rendered URL mappings — passed; both destinations return HTTP 200 and display v26.0.341.
+- Physical-device testing — not performed.
 
 ## v26.0.340 — 2026-10-22
 

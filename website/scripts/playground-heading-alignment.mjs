@@ -1,17 +1,17 @@
 import {headingMetrics} from '../lib/workshop-heading-metrics.mjs';
 import ink from '../lib/workshop-icon-ink.generated.json' with {type:'json'};
 export const headingCapCSS=`
-:is(.url-reference-subheading,.playground-icon-entry h3){--heading-icon-size:1em}
-:is(.url-reference-subheading,.playground-icon-entry h3)>svg{width:1em!important;height:1em!important}
+:is(.url-reference-subheading,.playground-subheading,.playground-icon-entry h3){--heading-icon-size:1em}
+:is(.url-reference-subheading,.playground-subheading,.playground-icon-entry h3)>svg{width:1em!important;height:1em!important}
 .section-heading :is(h2,h3)[data-compact-leading]{line-height:1.25}
-:is(#playground-title,.section-heading h2,.url-reference-subheading,.playground-icon-entry h3)>svg{margin-top:var(--heading-icon-top,0px)!important;align-self:flex-start}
+:is(#playground-title,.section-heading h2,.url-reference-subheading,.playground-subheading,.playground-icon-entry h3)>svg{margin-top:var(--heading-icon-top,0px)!important;align-self:flex-start}
 `;
 export const headingCapScript=String.raw`
 const headingInk=${JSON.stringify(ink)},measureHeading=${headingMetrics.toString()};
 let capFrame=0;const collapsedHeightCache=new WeakMap();
 function alignHeadingCaps(){
  capFrame=0;
- for(const title of document.querySelectorAll('#playground-title,.section-heading h2,.url-reference-subheading,.playground-icon-entry h3')){
+ for(const title of document.querySelectorAll('#playground-title,.section-heading h2,.url-reference-subheading,.playground-subheading,.playground-icon-entry h3')){
   if(!title.getBoundingClientRect().width)continue;
   const icon=title.querySelector(':scope>svg');if(!icon)continue;
   const row=title.closest('.section-heading'),control=row?.querySelector(':scope>.section-collapse');

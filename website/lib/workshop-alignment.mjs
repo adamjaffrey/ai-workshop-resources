@@ -2,8 +2,8 @@ import ink from './workshop-icon-ink.generated.json' with {type:'json'};
 // Two rails per layout scope: text/square objects, and rounded surfaces 4px outward.
 // Explicit component boundaries prevent nested controls from accumulating offsets.
 const headingInkCSS=Object.entries(ink.icons).map(([name,{left}])=>`
-:is(#playground-title,.panel>.section-heading h2,.playground-icon-entry h3,.url-reference-subheading):has(>svg[data-icon-name="${name}"]){--icon-ink-fraction:${left/ink.viewBox};margin-inline-start:calc(-1 * var(--icon-ink-fraction) * var(--heading-icon-size,24px))}
-`).join('')+Object.entries(ink.variants).map(([key,m])=>{const [name,viewBox]=key.split(':'),selector=viewBox?`[data-icon-name="${name}"][viewBox="${viewBox}"]`:`[data-icon-variant="${key}"]`;return `:is(#playground-title,.panel>.section-heading h2,.playground-icon-entry h3,.url-reference-subheading):has(>svg${selector}){--icon-ink-fraction:${m.left/m.viewBox}}`;}).join('');
+:is(#playground-title,.panel>.section-heading h2,.playground-icon-entry h3,.url-reference-subheading,.playground-subheading):has(>svg[data-icon-name="${name}"]){--icon-ink-fraction:${left/ink.viewBox};margin-inline-start:calc(-1 * var(--icon-ink-fraction) * var(--heading-icon-size,24px))}
+`).join('')+Object.entries(ink.variants).map(([key,m])=>{const [name,viewBox]=key.split(':'),selector=viewBox?`[data-icon-name="${name}"][viewBox="${viewBox}"]`:`[data-icon-variant="${key}"]`;return `:is(#playground-title,.panel>.section-heading h2,.playground-icon-entry h3,.url-reference-subheading,.playground-subheading):has(>svg${selector}){--icon-ink-fraction:${m.left/m.viewBox}}`;}).join('');
 export function assertMeasuredHeadingIcon(name){if(!ink.icons[name])throw Error('Measure heading icon '+name+' with scripts/measure-alignment-icons.mjs');}
 export const alignmentCSS = String.raw`
 :root{--specimen-error-nudge:calc(-18px * ${ink.icons.x.left}/24);--specimen-text-rail:28px;--optical-offset:4px;--external-text-inset:var(--optical-offset);--playground-external-text-inset:var(--optical-offset)}

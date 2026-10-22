@@ -13,7 +13,8 @@ try{
   const p=await browser.newPage({viewport:{width,height:1000},reducedMotion:'reduce'}),errors=[];p.on('pageerror',e=>errors.push(e.message));
   await p.goto(origin+'/component-playground/typography');const type=p.frameLocator('#type-frame');await type.locator('.feedback-row').last().waitFor();
   assert.equal(await type.locator('style[data-specimen-layout]').count(),1,'one gallery layout owner');
-  const gaps=await type.locator('.type-row').evaluateAll(rows=>rows.slice(0,11).map(r=>r.querySelector('output').getBoundingClientRect().top-r.querySelector('[data-type-sample]').getBoundingClientRect().bottom));for(const gap of gaps)near(gap,16,'type annotation gap');
+  // Variant rows deliberately hide the base sample and output; their visible variants are checked below.
+  const gaps=await type.locator('.type-row').evaluateAll(rows=>rows.slice(0,11).filter(r=>r.querySelector('output')?.checkVisibility()&&r.querySelector('[data-type-sample]')?.checkVisibility()).map(r=>r.querySelector('output').getBoundingClientRect().top-r.querySelector('[data-type-sample]').getBoundingClientRect().bottom));for(const gap of gaps)near(gap,16,'type annotation gap');
   for(const sample of await type.locator('[data-in-situ].code-wrap,.feedback-preview>.code-wrap').all())near(await sample.evaluate(e=>e.getBoundingClientRect().width),promptWidth,'actual Resources prompt width');
   await p.waitForTimeout(300);const bottomGap=await type.locator('[data-gallery-last] output').evaluate(e=>innerHeight-e.getBoundingClientRect().bottom);assert.ok(bottomGap>=24&&bottomGap<25,'24px typography gutter plus iframe pixel rounding');
   for(const selector of ['.copy','.qr-copy']){const row=type.locator('[data-source-selector="'+selector+'"]');assert.equal(await row.locator('.specimen-context').first().isVisible(),false,'no duplicate base copy button');assert.equal(await row.locator('.button-variant').count(),3);}

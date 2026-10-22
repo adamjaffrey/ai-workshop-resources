@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.94"
-  update_summary: "Compare 1px visible outer bottom corners on tab focus rings"
-  updated_at: "Thu 22 Oct 2026 at 07:16:16 pm AEDT (+11:00)"
+  doc_revision: "26.0.95"
+  update_summary: "Organise collapsible link and list references with documented anchors"
+  updated_at: "Thu 22 Oct 2026 at 07:29:35 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -145,6 +145,8 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 **Approved Icon Modifications:** Adam supplied and compared modified Hash and Arrow Up Right variants in the icon palette, then selected `hash-modified` and `arrow-up-right-modified` for their visual balance with the text at body and heading sizes. Exact production-path reference exports are [Modified Hash](../docs/assets/link-icons/hash-modified.svg) and [Modified Arrow Up Right](../docs/assets/link-icons/arrow-up-right-modified.svg). The originals remain [Lucide Hash](https://lucide.dev/icons/hash) and [Lucide Arrow Up Right](https://lucide.dev/icons/arrow-up-right).
 
 **Internal Skip Link Exception:** Adam supplied [Modified Arrow Right](../docs/assets/link-icons/arrow-right-modified.svg), derived from Lucide Arrow Right, for only the Resources and Playground Skip to Main Content links. Its 18-unit horizontal shaft and approximately 10-unit diagonal edges distinguish this internal navigation from the up-right external-link affordance. Keep every other link unchanged. Both skip links reuse the shared renderer, non-wrapping final-word/icon tail, .2em gap, cap-height sizing, hover paint, hit targets and keyboard focus contours; explicit `.workshop-link--internal` and `.workshop-link--external` modifier classes select icon geometry while inheriting one shared CSS treatment. Only the skip links opt into the internal modifier; unmarked links retain the external modifier for backwards compatibility. No extra literal space is needed. This supersedes the earlier uniform-arrow rule only for these two links.
+
+**Collapsible Link Reference:** Adam requested dedicated H3 sections for External Links, Internal Links and Link Colours, plus a separate Lists and Inline Code section. Reuse shared collapse, heading alignment and anchor behaviour; retain the hyperlink alias. Arrow headings reuse canonical link geometry and also appear in Playground Icons as heading usages, while Link Icons retains its three navigation/copy variants.
 
 **Shared Link Gallery:** Adam requested separate Internal Links and External Links examples in Hyperlink Styles and a Link Icons section before Playground Icons. The latter owns the three modified link glyphs in right-arrow, up-right-arrow, Hash order. Derive their SVGs from the shared renderer, retain source and usage listings, and keep their source visibility independent from Playground tooling filters. Move standalone modified Hash out of App Icons and Symbols while preserving the full contextual heading and copy-feedback demonstrations.
 
