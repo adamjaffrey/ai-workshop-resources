@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.82"
-  update_summary: "Preserve bold code through shared typography"
-  updated_at: "Thu 22 Oct 2026 at 04:37:00 pm AEDT (+11:00)"
+  doc_revision: "26.0.83"
+  update_summary: "Share native anchor scrolling and travel-based arrival fades"
+  updated_at: "Thu 22 Oct 2026 at 05:01:53 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -36,6 +36,7 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 
 | Decision | Primary Subject |
 |---|---|
+| [Native Anchor Scrolling and Arrival Fades](#native-anchor-scrolling-and-arrival-fades) | Browser-native motion and final-30% arrival effects |
 | [Optical Rails and Specimen Clearance](#optical-rails-and-specimen-clearance) | Rails, outdents and clipping |
 | [Spacing and Responsive Control Grids](#spacing-and-responsive-control-grids) | Vertical rhythm, slider targets and grid gaps |
 | [Typography, Title Case and Literal Values](#typography-title-case-and-literal-values) | Editorial casing, type specimens and monospace |
@@ -368,7 +369,7 @@ Repository-wide permissions and task routing stay in [AGENTS.md](../AGENTS.md). 
 
 ## Resources Step Anchor Copying and Arrival
 
-**Decision:** Make Step N and its reserved icon region copy the descriptive anchor URL in place. Use the native multiline highlight, modified Hash, common proportional icon slot and instant hover treatment described in [Navigation Links and Copy Feedback](#navigation-links-and-copy-feedback). Check and X use the same slot and .2em gap. Follow the global alignment rule: put this slot left of right-aligned anchor text and right of all other anchor text. Resources Step 2 is the current responsive example, not the scope of the rule. No underline appears on anchor-copy headings. Handle same-URL replacement navigation as well as push navigation, and delay alias rewrites until an intercepted transition finishes. Use 600ms success entry and all exits, 300ms opacity-only failure entry, ease-out entrances and ease-in exits. Fully visible holds begin after entry: 3/6 seconds for anchor and QR success/failure, 6/12 seconds for prompt feedback. Keep existing short fragments as client-side aliases. On anchor opening or same-URL re-entry, cap scroll speed at 1200 CSS px/s with eased 300ms velocity ramps, let the selector become sticky naturally, and land 60px below pinned selectors (30px on mobile). Synchronise previous-pair fade-out, selector shadows and the Wavelength reveal over the final 600ms of the journey. Route the first three Tab stops through agent, theme and target-card content. Restore them with an eased fade on upward scrolling only.
+**Decision:** Make Step N and its reserved icon region copy the descriptive anchor URL in place. Use the native multiline highlight, modified Hash, common proportional icon slot and instant hover treatment described in [Navigation Links and Copy Feedback](#navigation-links-and-copy-feedback). Check and X use the same slot and .2em gap. Follow the global alignment rule: put this slot left of right-aligned anchor text and right of all other anchor text. Resources Step 2 is the current responsive example, not the scope of the rule. No underline appears on anchor-copy headings. Handle same-URL replacement navigation as well as push navigation, and delay alias rewrites until an intercepted transition finishes. Use 600ms success entry and all exits, 300ms opacity-only failure entry, ease-out entrances and ease-in exits. Fully visible holds begin after entry: 3/6 seconds for anchor and QR success/failure, 6/12 seconds for prompt feedback. Keep existing short fragments as client-side aliases. On anchor opening or same-URL re-entry, use browser-native smooth scrolling matching Jump to Top, let the selector become sticky naturally, and land 60px below pinned selectors (30px on mobile). Synchronise previous-pair fade-out, selector shadows and the Wavelength reveal over the final 30% of travel. Route the first three Tab stops through agent, theme and target-card content. Restore them with an eased fade on upward scrolling only.
 
 **Rationale:** Adam explicitly selected a consistent heading-copy convention and an exterior icon, with tooltip-only visible feedback. He requested a visible scroll journey, a clear selected step and a fully visible brand even at Step 1. The initial post-arrival fade was too conspicuous and fixed-duration scrolling made longer journeys frantic. Fading only during the final approach preserves visible context while completing the effects together. Retaining layout space prevents jumps when earlier content returns; only unavoidable landing space remains below the footer. The shorter icon cooldown reflects less feedback to read, and connected hover surfaces now group the regular feedback marks. The current reserved inline slot and paint-only background supersede the earlier gutter indicator. Playground heading anchors were initially deferred and are now covered by the following decision.
 
@@ -406,7 +407,7 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 
 ## Playground Heading Anchors
 
-**Decision:** Apply the Resources anchor-copy styling and feedback to every collapsible outer Playground H2/H3, retaining the decorative heading icons and limiting collapse/expand to a 44px square chevron target with a centred 24px SVG and a neutral 1px border. Use 24px top, bottom and right clearance around the normal heading button area, allowing wrapped headings to grow. Keep the decorative section icons neutral so the accent hash remains the copy affordance. Generate descriptive kebab-case fragments under each canonical tab path. Expand the target and its parent before travel. Reuse the Resources motion profile, with a Playground landing at the H2 card or H3 heading row 16px below the settled sticky tabs. Fade preceding cards/content during the final 600ms and restore on upward scroll. Embedded specimens are excluded.
+**Decision:** Apply the Resources anchor-copy styling and feedback to every collapsible outer Playground H2/H3, retaining the decorative heading icons and limiting collapse/expand to a 44px square chevron target with a centred 24px SVG and a neutral 1px border. Use 24px top, bottom and right clearance around the normal heading button area, allowing wrapped headings to grow. Keep the decorative section icons neutral so the accent hash remains the copy affordance. Generate descriptive kebab-case fragments under each canonical tab path. Expand the target and its parent before travel. Reuse the Resources motion profile, with a Playground landing at the H2 card or H3 heading row 16px below the settled sticky tabs. Fade preceding cards/content during the final 30% of travel and restore on upward scroll. Embedded specimens are excluded.
 
 **Rationale:** Adam requested the same heading-copy convention across Resources and Playground. Separating the chevron action removes ambiguity about whether a heading click copies or collapses. The 16px landing preserves the normal gap between sticky tabs and the incoming section. Sharing copy and motion helpers prevents timing and icon-state drift, while a Playground controller accounts for lazy specimen heights, nested H3s and its different sticky layout.
 
@@ -416,7 +417,7 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 
 **Decision:** The heading and area to its left copy its anchor; empty space to its right toggles collapse, alongside the existing bordered chevron. No full-width toggle overlay is used. Collapsed buttons use the neutral control fill; section height, tint and chevron rotation animate together over 160ms with `ease`. Reduced motion is immediate.
 
-**Rationale:** The split provides a larger mobile toggle region without changing the copy convention. Long anchor trips are capped at three seconds while preserving the shared 300ms smooth acceleration/deceleration and final 600ms fades. Tab changes retain the current header scroll depth while the bar is not pinned, including cross-tab anchor changes, so changing content does not unnecessarily hide the header.
+**Rationale:** The split provides a larger mobile toggle region without changing the copy convention. The original three-second cap, custom 300ms velocity ramps and fixed 600ms arrival fades have been superseded by shared native anchor motion below. Tab changes retain the current header scroll depth while the bar is not pinned, including cross-tab anchor changes, so changing content does not unnecessarily hide the header.
 
 **Owning Rules:** [Heading Controls](../docs/agent-guidance/interface.md#playground-heading-anchor-controls) and [Anchor Arrival](../docs/agent-guidance/motion.md#playground-anchor-arrival).
 
@@ -572,3 +573,11 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Heading Geometry and Alias Weight Follow-up:** Single-line section highlights use a fixed 50px height; the earlier content-ink calculation added descender depth to words containing letters such as g, p and y, producing inconsistent 52–54px rows. Expanded and collapsed rows now share their measured height, while wrapped headings keep the existing coverage and cap alignment. URL Reference applies bold code weight beyond the canonical URL column so legacy fragments visibly retain their Markdown emphasis. Expanded automatic-replay controls have explicit mobile/desktop disabled-state coverage.
 
 **Shared Code Emphasis Follow-up:** Replace the URL Reference-only bold-code override with semantic rules in shared body typography. Strong/b code inherits the emphasis despite component font shorthands and captured inline font declarations; strong/b text inside code remains emphasized too, while unmarked code stays normal. The wrapped-heading audit measured first/last ink clearance in both disclosure states, across responsive widths and forced desktop wrapping, and confirmed balance within one CSS pixel without another layout change.
+
+## Native Anchor Scrolling and Arrival Fades
+
+**Decision:** Both pages delegate anchor scrolling to the browser, matching Jump to Top. Arrival effects use monotonic, smoothstep-eased progress over the final 30% of actual travel. Preserve page-specific landing offsets, focus sequences, reduced-motion behaviour and the separate upward-restoration fade.
+
+**Rationale:** Adam requested consistent scroll feel with Jump to Top and selected 30% to keep earlier content visible until near arrival. Distance-based fades adapt to each browser's duration and deceleration without guessing its timing. The previous custom speed, duration limits and fixed arrival fade window are superseded.
+
+**Owner:** [Shared Native Anchor Motion](../docs/agent-guidance/motion.md#shared-native-anchor-motion).

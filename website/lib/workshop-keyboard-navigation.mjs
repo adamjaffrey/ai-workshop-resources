@@ -3,6 +3,9 @@ export function installKeyboardNavigation(){
  const selector='button,input,select,textarea,summary,a[href],[tabindex]';
  const eligible=e=>e instanceof HTMLElement&&e.tabIndex>=0&&!e.disabled&&!e.closest('[inert],[hidden]')&&e.checkVisibility({checkVisibilityCSS:true});
  let pointerOrigin=null,nextTabTarget=null;
+ const preserveScroll=new WeakSet();
+ // Anchor arrival owns the viewport while routing through its visible controls.
+ window.workshopFocusAtCurrentScroll=target=>{preserveScroll.add(target);target.focus({preventScroll:true});queueMicrotask(()=>preserveScroll.delete(target));};
  window.workshopSetNextTabTarget=target=>{pointerOrigin=null;nextTabTarget=target;};
  document.addEventListener('pointerdown',event=>{
   if(!event.isPrimary||event.button!==0)return;
@@ -22,7 +25,7 @@ export function installKeyboardNavigation(){
   if(next){event.preventDefault();document.documentElement.dataset.focusInput='keyboard';next.focus({preventScroll:true});}
  },true);
  window.workshopRevealFocus=element=>{
-  if(!(element instanceof HTMLElement)||!element.isConnected||!document.hasFocus())return;
+  if(!(element instanceof HTMLElement)||!element.isConnected||!document.hasFocus()||preserveScroll.has(element))return;
   const margin=16;
   let visual=element.matches('.choice input')?element.nextElementSibling:element.closest('.password-field')||element;
   for(let parent=visual.parentElement;parent&&parent!==document.body;parent=parent.parentElement){

@@ -35,7 +35,7 @@ export function initResourceAnchors(anchors,timing,measureHeading,frames,anchorG
   if(room){const naturalMax=root.scrollHeight-innerHeight-room;root.style.setProperty('--anchor-scroll-room',Math.max(0,Math.ceil(scrollY-naturalMax))+'px');}
  }
  function release(){active=false;focusRoute=null;restore();window.workshopStickyControls?.configure({pinned:false});window.workshopBrandHalo?.configure({hold:false});trimRoom=true;trim();}
- function cancel(){if(!arriving)return;generation++;arriving=false;delete root.dataset.resourceAnchorArriving;release();}
+ function cancel(){if(!arriving)return;scrollTo({top:scrollY,behavior:'instant'});generation++;arriving=false;delete root.dataset.resourceAnchorArriving;release();}
  window.addEventListener('wheel',cancel,{passive:true});window.addEventListener('touchstart',cancel,{passive:true});
  window.addEventListener('keydown',event=>{if(['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].includes(event.key)&&!event.target.matches('input,textarea,button'))cancel();});
  // Redirect only the arrival sequence, retaining native arrows within selectors
@@ -49,7 +49,7 @@ export function initResourceAnchors(anchors,timing,measureHeading,frames,anchorG
   else if(theme.contains(current)&&!event.shiftKey){target=next;focusRoute=null;}
   else if(theme.contains(current)&&event.shiftKey)target=agent.querySelector('[aria-pressed="true"]')||agent.querySelector('button');
   else focusRoute=null;
-  if(target){event.preventDefault();target.focus({preventScroll:true});if(focusRoute)focusRoute.first=false;}
+  if(target){event.preventDefault();window.workshopFocusAtCurrentScroll(target);if(focusRoute)focusRoute.first=false;}
  },true);
  document.addEventListener('pointerdown',()=>{focusRoute=null;},{passive:true});
  window.addEventListener('scroll',()=>{const y=scrollY;if(!arriving&&active&&y<lastY-.5)release();if(!arriving&&trimRoom)trim();lastY=y;},{passive:true});
@@ -77,18 +77,9 @@ export function initResourceAnchors(anchors,timing,measureHeading,frames,anchorG
   root.style.setProperty('--anchor-scroll-room',extra+'px');
   const index=anchors.indexOf(anchor),leaving=rows.slice(0,index);
   leaving.forEach(row=>row.setAttribute('data-anchor-leaving',''));
-  const start=scrollY,distance=Math.abs(destination-start),began=performance.now();
-  // Cruise at no more than 1200 CSS px/s, with 300ms acceleration/deceleration.
-  const journey=journeyFor(distance,motion.matches),duration=journey.duration;
-  root.dataset.anchorScrollDuration=String(duration);
-  await new Promise(resolve=>{function tick(now){
-   if(token!==generation){resolve();return;}
-   const elapsed=Math.min(duration,now-began),t=duration?elapsed/duration:1;
-   const progress=journey.position(elapsed);
-   root.style.setProperty('--anchor-arrival-progress',String(journey.fade(elapsed)));
-   scrollTo({top:start+(destination-start)*progress,behavior:'instant'});
-   if(t<1)requestAnimationFrame(tick);else resolve();
-  }requestAnimationFrame(tick);});
+  const journey=await journeyFor(destination,motion.matches,{current:()=>token===generation,update:fade=>root.style.setProperty('--anchor-arrival-progress',String(fade))});
+  root.dataset.anchorScrollDuration=String(journey.duration);
+  if(!journey.completed){if(token===generation)cancel();return;}
   if(token!==generation)return;
   window.workshopStickyControls?.configure({pinned:true});
   if(rewrite)writeFragment(anchor);

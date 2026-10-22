@@ -3,9 +3,9 @@ name: motion-contract
 description: Preserve theme transitions, selector movement and card reveal timing.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.6"
-  update_summary: "Define split heading actions and bounded anchor travel"
-  updated_at: "Thu 22 Oct 2026 at 08:21:06 am AEDT (+11:00)"
+  doc_revision: "26.0.7"
+  update_summary: "Share native anchor scrolling and travel-based arrival fades"
+  updated_at: "Thu 22 Oct 2026 at 05:01:53 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -51,17 +51,24 @@ Preserve the approved behaviour in `website/lib/workshop-theme.mjs`, `website/li
 - Reveal each pair once. Honour reduced motion by showing content immediately and cancelling queued reveals; without IntersectionObserver, keep the content visible.
 - Validate short/tall phone, tablet and desktop viewports, breakpoint boundaries, step-text-only initial visibility, tiny slivers, multiple initial cards, later step-text thresholds and additional-card fixtures.
 
+## Shared Native Anchor Motion
+
+- Resources and Playground anchor navigation use browser-native `scrollTo({behavior:'smooth'})`, matching Jump to Top within the same browser. The browser owns speed, acceleration, deceleration and duration; do not impose a custom velocity curve, minimum duration or travel-time cap.
+- Use the shared `workshop-anchor-motion.mjs` helper. Derive arrival progress from actual directed distance travelled. Keep fading at zero for the first 70% of travel, then apply smoothstep easing to the final 30%. Progress only increases during a journey; preceding-content opacity, selector shadows and brand/veil arrival effects share it where applicable. Complete the fades at arrival, including zero-distance journeys. Preserve the existing 600ms upward-restoration fade separately.
+- Wait for actual arrival and settled scroll position before finalising hidden/inert content and the existing focus route. Preserve each page's landing offsets and final layout corrections. Stop native motion and restore preceding content on interruption; stale journeys must not finalise a newer navigation. Detect interrupted/stalled motion without depending solely on `scrollend` support.
+- Reduced motion uses instant scrolling and immediate final visual state, including when the preference changes during travel. Validate short/long journeys, final-30% fades, interruption, landing offsets and focus routes in Chrome and WebKit at mobile/desktop widths. WebKit automation is not a claim of testing the Safari application or physical iOS devices.
+
 ## Resources Anchor Arrival
 
-- On opening or re-entering a recognised Resources step URL, wait for page load and stable font layout. Scroll at a baseline cruise speed of 1200 CSS px/s with 300ms acceleration/deceleration using a smoothstep velocity envelope, increasing speed for distances that would exceed a three-second journey. Allow at least 600ms for a short journey; reduced motion lands immediately. Place the visible top of Step N 60px below the floating selectors' bottom edge on desktop/tablet, or 30px at widths up to 660px.
-- Let the original selectors move naturally with the page and become sticky as their slots reach the sticky boundary; do not force-pin them before travel. Retain their pinned state at arrival and hold the existing Wavelength halo, including Step 1. Over the final 600ms of travel, use one eased progress value for fading preceding step/card pairs out, bringing both selector shadows to full opacity, and revealing the Wavelength mark and veil. All complete with the scroll. Keep preceding pairs visible before this final interval, retain their layout space, and make them inert at arrival. The normal initial card entrance sequence must not obscure an anchor journey.
+- On opening or re-entering a recognised Resources step URL, wait for page load and stable font layout. Use [Shared Native Anchor Motion](#shared-native-anchor-motion). Place the visible top of Step N 60px below the floating selectors' bottom edge on desktop/tablet, or 30px at widths up to 660px.
+- Let the original selectors move naturally with the page and become sticky as their slots reach the sticky boundary; do not force-pin them before travel. Retain their pinned state at arrival and hold the existing Wavelength halo, including Step 1. Over the final 30% of travel, use the shared eased progress value for fading preceding step/card pairs out, bringing both selector shadows to full opacity, and revealing the Wavelength mark and veil. All complete with the scroll. Keep preceding pairs visible before this final interval, retain their layout space, and make them inert at arrival. The normal initial card entrance sequence must not obscure an anchor journey.
 - Downward scrolling leaves preceding pairs hidden; upward scrolling restores them over 600ms with `cubic-bezier(.2,0,.2,1)` and releases forced sticky/brand state. Add only the bottom scroll room needed to reach the anchor; trim it at subsequent landings and progressively after upward restoration when removal cannot clamp the scroll position. A near-footer landing can require visible space below the footer.
 - Respect reduced motion for scrolling and fades. User wheel/touch/navigation-key input can interrupt arrival and restore earlier content. Clicking a step copy control never initiates this journey. Follow the Interface contract for the temporary agent → theme → target-card keyboard route.
 
 ## Playground Anchor Arrival
 
-- Reuse the Resources distance-based journey: 1200 CSS px/s baseline cruise speed, increasing speed to cap long journeys at three seconds, smoothstep velocity during 300ms acceleration and deceleration, and at least 600ms total duration. Reduced motion lands immediately. Wait for fonts and active-tab specimen layout to settle before measuring; correct late layout changes only until the reader starts scrolling.
+- Use [Shared Native Anchor Motion](#shared-native-anchor-motion), including its reduced-motion behaviour. Wait for fonts and active-tab specimen layout to settle before measuring; correct late layout changes only until the reader starts scrolling.
 - When changing tabs while the tab bar is not yet pinned and the header above it remains visible, retain the current scroll depth. Apply this to ordinary tab changes and same-document cross-tab anchor navigation; reveal the requested anchor and update its URL without forcing a landing. Initial anchor loads and navigation within the current tab retain normal anchor landing behaviour.
 - Land the outer H2 card top, or the H3 subsection heading-row top, 16px below the actual settled sticky tab bar. Use whole CSS-pixel scroll coordinates and the existing responsive sticky controller, letting controls pin naturally as the page travels. Do not apply the Resources 60/30px text clearance to Playground.
-- Fade earlier cards in the selected tab over the final 600ms of travel using the shared eased arrival progress. For an H3, also fade preceding content within its enclosing card without fading the ancestor containing the target. Retain all layout space and make hidden content inert after arrival. Restore over 600ms with the Resources easing on upward scroll; continuing downward leaves it hidden. Changing tab or using a chevron restores the normal page.
+- Fade earlier cards in the selected tab over the final 30% of travel using the shared eased arrival progress. For an H3, also fade preceding content within its enclosing card without fading the ancestor containing the target. Retain all layout space and make hidden content inert after arrival. Restore over 600ms with the Resources easing on upward scroll; continuing downward leaves it hidden. Changing tab or using a chevron restores the normal page.
 - Add only the minimum bottom space needed for the destination; trim it safely on subsequent navigation and upward restoration. When a user toggles a section with temporary bottom room present, reserve space before changing layout, retain the viewport throughout the 160ms contraction/expansion, and defer trimming until subsequent scrolling. Suppress browser scroll anchoring during this transition. Wheel, touch and navigation-key input can cancel an in-progress journey. Copying a heading does not scroll. Follow the Interface contract for focus routing.

@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.330"
-  update_summary: "Reset Playground tab order after Jump to Top"
-  updated_at: "Thu 22 Oct 2026 at 04:51:37 pm AEDT (+11:00)"
+  doc_revision: "26.0.331"
+  update_summary: "Share native anchor scrolling and travel-based arrival fades"
+  updated_at: "Thu 22 Oct 2026 at 05:09:07 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.329 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 05:09:07 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Share native anchor scrolling and travel-based arrival fades
+
+### Changed
+
+- Use browser-native smooth scrolling for Resources and Playground anchor journeys, matching Jump to Top within each browser.
+- Coordinate preceding-content, selector-shadow and brand arrival fades over the final 30% of actual travel with monotonic eased progress; retain the separate 600ms upward-restoration fade.
+- Preserve landing offsets, reduced-motion instant arrival, cancellation, same-URL navigation and existing keyboard sequences. Keep automatic focus revelation from moving the viewport during the prescribed arrival sequence.
+- Document the shared rule in the mandatory Motion contract, design log and README, superseding custom speed limits and fixed-duration arrival fades.
+
+### Validation
+
+- `npm --prefix website run build` — passed with saved backdrop geometry; generated previews and built server display v26.0.329.
+- Chrome and WebKit at 390 and 1440px — short/long journeys on both pages use native smooth scrolling; fades remain zero through 70% of travel, complete at arrival and remain monotonic. Interruption and instant reduced-motion journeys passed.
+- Resources anchor/refinement checks — passed responsive landing offsets, themes/agents, focus sequence, restoration, reload/re-entry, login and feedback checks.
+- Playground anchor inventory/interaction/presentation checks — all 35 anchors passed in Chrome/WebKit at mobile/desktop widths, including exact offsets, collapsed-target expansion, focus sequence, history, palettes and coordinated fades.
+- Full Playground source parity — passed on rerun without further source changes after an Inspector-hover assertion failed during the concurrent run.
+- Mobile anchor screenshot visually inspected; both automatic-sign-in LAN destinations returned HTTP 200. Safari application and physical-device testing were not performed; WebKit was tested headlessly.
 
 ## v26.0.328 — 2026-10-22
 

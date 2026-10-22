@@ -63,7 +63,7 @@ export function initPlaygroundAnchors({select,tabPaths,sticky,scheduleCaps,insta
  const frame=()=>new Promise(r=>requestAnimationFrame(r));
  function restore(){for(const el of hidden){el.removeAttribute('data-playground-anchor-hidden');el.inert=false;setTimeout(()=>{if(!hidden.includes(el))el.removeAttribute('data-playground-anchor-leaving');},motion.matches?0:600);}hidden=[];}
  function trim(){const amount=parseFloat(root.style.getPropertyValue('--playground-anchor-room'))||0;if(amount){const naturalMax=root.scrollHeight-innerHeight-amount;root.style.setProperty('--playground-anchor-room',Math.max(0,Math.ceil(scrollY-naturalMax))+'px');}}
- function leave(){root.removeAttribute('data-playground-disclosure-settling');generation++;arriving=false;active=null;followLayout=false;focusRoute=null;delete root.dataset.playgroundAnchorArriving;restore();trimRoom=true;trim();}
+ function leave(){if(arriving)scrollTo({top:scrollY,behavior:'instant'});root.removeAttribute('data-playground-disclosure-settling');generation++;arriving=false;active=null;followLayout=false;focusRoute=null;delete root.dataset.playgroundAnchorArriving;restore();trimRoom=true;trim();}
  function prepareDisclosure(panel){
   const y=scrollY,amount=parseFloat(root.style.getPropertyValue('--playground-anchor-room'))||0;
   // Reserve space before any layout contraction, then retain only the amount
@@ -115,14 +115,14 @@ export function initPlaygroundAnchors({select,tabPaths,sticky,scheduleCaps,insta
   await settle(entry,token);if(token!==generation)return false;
   if(keepHeader){delete root.dataset.playgroundAnchorArriving;arriving=false;scrollTo({top:savedY,behavior:'instant'});sticky.update();if(rewrite)writeURL(urlFor(entry));return true;}
   hidden=beforeTarget(entry);for(const el of hidden){el.setAttribute('data-playground-anchor-leaving','');el.inert=false;}
-  const start=scrollY;
   // Ensure the probe and final destination are reachable near the footer.
   root.style.setProperty('--playground-anchor-room',innerHeight+'px');
   let end=destination(entry);end=Math.max(0,end);
   const amount=parseFloat(root.style.getPropertyValue('--playground-anchor-room'))||0,naturalMax=root.scrollHeight-innerHeight-amount;
   root.style.setProperty('--playground-anchor-room',Math.max(0,Math.ceil(end-naturalMax))+'px');
-  const journey=journeyFor(end-start,motion.matches),began=performance.now();root.dataset.playgroundAnchorDuration=String(journey.duration);
-  await new Promise(done=>{function tick(now){if(token!==generation){done();return;}const elapsed=Math.min(journey.duration,now-began);root.style.setProperty('--playground-anchor-progress',String(journey.fade(elapsed)));scrollTo({top:start+(end-start)*journey.position(elapsed),behavior:'instant'});sticky.update();if(elapsed<journey.duration)requestAnimationFrame(tick);else done();}requestAnimationFrame(tick);});
+  const journey=await journeyFor(end,motion.matches,{current:()=>token===generation,update:fade=>{root.style.setProperty('--playground-anchor-progress',String(fade));sticky.update();}});
+  root.dataset.playgroundAnchorDuration=String(journey.duration);
+  if(!journey.completed){if(token===generation)leave();return false;}
   if(token!==generation)return false;
   // Final whole-pixel correction uses the now-pinned header, not stale sizes.
   correcting=true;scrollTo({top:Math.ceil(scrollY+entry.target.getBoundingClientRect().top-stickyBottom()-16),behavior:'instant'});sticky.update();correcting=false;
@@ -131,12 +131,12 @@ export function initPlaygroundAnchors({select,tabPaths,sticky,scheduleCaps,insta
   if(rewrite)writeURL(urlFor(entry));
   const agent=document.querySelector('#agent input:checked'),theme=document.querySelector('#theme input:checked');
   focusRoute=innerWidth>660?[agent,theme,entry.copy]:[document.getElementById('style-options'),tabButton(entry),entry.copy];
-  focusRoute=focusRoute.filter(Boolean);entry.title.setAttribute('tabindex','-1');entry.title.focus({preventScroll:true});return true;
+  focusRoute=focusRoute.filter(Boolean);entry.title.setAttribute('tabindex','-1');window.workshopFocusAtCurrentScroll(entry.title);return true;
  }
  window.addEventListener('wheel',()=>{followLayout=false;if(arriving)leave();},{passive:true});window.addEventListener('touchstart',()=>{followLayout=false;if(arriving)leave();},{passive:true});
  window.addEventListener('keydown',event=>{if(['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].includes(event.key)&&!event.target.closest('input,button,[role=button]')){followLayout=false;if(arriving)leave();}});
  window.addEventListener('scroll',()=>{if(correcting)return;if(!arriving&&active&&scrollY<lastY-.5)leave();if(!arriving&&trimRoom)trim();lastY=scrollY;},{passive:true});
- document.addEventListener('keydown',event=>{if(event.key!=='Tab'||!focusRoute)return;if(event.shiftKey){focusRoute=null;return;}const next=focusRoute.shift();if(next){event.preventDefault();next.focus({preventScroll:true});}if(!focusRoute.length)focusRoute=null;},true);
+ document.addEventListener('keydown',event=>{if(event.key!=='Tab'||!focusRoute)return;if(event.shiftKey){focusRoute=null;return;}const next=focusRoute.shift();if(next){event.preventDefault();window.workshopFocusAtCurrentScroll(next);}if(!focusRoute.length)focusRoute=null;},true);
  document.addEventListener('pointerdown',()=>{focusRoute=null;},{passive:true});
  window.navigation?.addEventListener('navigate',event=>{const url=new URL(event.destination.url);if(writing||!event.canIntercept||!event.destination.sameDocument||!resolve(url))return;if(url.pathname===location.pathname&&url.hash===location.hash&&url.search!==location.search)return;intercepted=true;event.intercept({focusReset:'manual',scroll:'manual',handler:async()=>{const done=window.navigation.transition?.finished;try{const landed=await navigate(url.href,{rewrite:false}),token=generation;const finish=()=>{if(landed&&token===generation&&location.href===url.href)writeURL(urlFor(resolve(url)));intercepted=false;};if(done)done.then(finish,()=>{intercepted=false;});else setTimeout(finish,0);}catch(error){intercepted=false;throw error;}}});});
  let pending=0;const historyArrival=()=>{if(intercepted||writing)return;cancelAnimationFrame(pending);pending=requestAnimationFrame(()=>navigate(location.href));};
