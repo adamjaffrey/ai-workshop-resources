@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.174"
-  update_summary: "Document shared action icons and manual keyboard navigation"
-  updated_at: "Thu 22 Oct 2026 at 10:47:52 am AEDT (+11:00)"
+  doc_revision: "26.0.175"
+  update_summary: "Document keyboard navigation in nested Playground specimens"
+  updated_at: "Thu 22 Oct 2026 at 11:55:45 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -448,3 +448,9 @@ All names and recognised values are case-insensitive and redirect with 301 in th
 ## Resources Step Links
 
 Each Step N heading copies a descriptive anchor link with hover-revealed Lucide Hash, Check and X icons whose visible strokes are `1cap` high, with an 8px visible gap after the text and a fixed slot sized to the widest icon. Anchors and hyperlinks share hover paint and accent text; anchors underline only on hover. A single rounded background covers the text, gap and icon slot. Anchor text, underline, background and Hash fade together over the shared 160ms curve, without a second container-opacity fade. Hyperlink text, underline and arrow colour use the same 160ms curve as their background. Anchor and QR results hold fully visible for 3 seconds on success and 6 seconds on failure; prompt results retain 6/12-second holds. Success entry and every exit take 600ms with 2px upward movement; failure entry takes 300ms with opacity only. Entrances use ease-out and exits use ease-in. Opening or re-entering the link scrolls at up to 1200 CSS px/s with eased 300ms velocity ramps to 60px beneath the floating controls (30px on mobile); preceding pairs, selector shadows and the floating mark finish fading with the journey. Earlier pairs return only on upward scroll. The first three Tab stops after arrival are the agent selector, theme selector and target-card content. Short step fragments remain aliases. See [URL Reference](URL-REFERENCE.md#resources-aliases), [Interface](../docs/agent-guidance/interface.md#resources-step-anchor-controls) and [Motion](../docs/agent-guidance/motion.md#resources-anchor-arrival) for the mappings and behaviour. Validate with `node website/tests/resource-anchors-browser-check.mjs`, `node website/tests/resource-anchor-refinements-browser-check.mjs`, `node website/tests/qr-copy-browser-check.mjs`, `node website/tests/copy-feedback-lifecycle-browser-check.mjs` and the existing source/specimen parity checks. Playground heading-link work remains deferred.
+
+### Keyboard Navigation in Playground Embeds
+
+The outer Playground and sandbox documents share `scripts/playground-keyboard.mjs`. Scrollable regions have labelled focus stops for arrow-key panning; contained controls retain their own keyboard navigation. Cloned theme/agent controls use the same manual-activation group handler, and disabled fields remain disabled exactly as in the app. Enter and Space toggle enabled checkboxes. Real focus rings remain outside clipping boundaries, reveal their target and inherit keyboard modality when entering an iframe. Expanded disclosure rings surround their entire border; slider rings follow the visible thumb height. The [Interface contract](../docs/agent-guidance/interface.md#playground-keyboard-and-nested-scrolling) owns the complete rules and validation.
+
+Easter Egg iframe entry follows agent, then theme. Switching to After Closing Dialog does not run user-dialog focus restoration. Right-aligned anchor examples begin at their right edge and avoid scrolling when their content fits. Selected and hovered tabs share selector colour tokens, and their focus ring has a straight bottom edge.

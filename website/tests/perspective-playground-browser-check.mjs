@@ -37,6 +37,6 @@ try{
  assert.deepEqual(await f.locator('body').evaluate(()=>window.workshopPerspective.config),await app.evaluate(()=>window.workshopPerspective.config));
  await guide.locator('input[name=egg][value=ready]').locator('..').click();await f.locator('.perspective-discover').hover();await guide.waitForTimeout(600);
  assert.ok(await f.locator('.perspective-particle').evaluateAll(points=>points.some(p=>new DOMMatrixReadOnly(getComputedStyle(p).transform).a>1.1)),'nearby sparkles respond to pointer gravity');
- await guide.setViewportSize({width:320,height:900});assert.ok(await guide.locator('#discovery-preview .section-heading').evaluate(e=>e.scrollWidth<=e.clientWidth+1),'copy/reset header fits mobile');
+ await guide.setViewportSize({width:320,height:900});assert.ok(await guide.locator('#discovery-preview').evaluate(e=>{const r=e.getBoundingClientRect();return [...e.querySelectorAll('#perspective-copy,#perspective-reset')].every(b=>{const x=b.getBoundingClientRect();return x.left>=r.left&&x.right<=r.right;})&&document.documentElement.scrollWidth<=innerWidth;}),'copy/reset actions fit mobile');
  console.log('PASS: dedicated Discovery tab matches independent app typography, colours and target geometry in 16 width/theme/agent combinations, plus success dialog');
 }finally{await b.close();await new Promise(r=>server.close(r));}

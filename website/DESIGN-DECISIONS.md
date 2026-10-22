@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.67"
-  update_summary: "Record compact wrapped headings and full-row hover paint"
-  updated_at: "Thu 22 Oct 2026 at 11:03:00 am AEDT (+11:00)"
+  doc_revision: "26.0.68"
+  update_summary: "Record visible focus and predictable specimen navigation"
+  updated_at: "Thu 22 Oct 2026 at 11:55:45 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -495,3 +495,13 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Reason:** Adam requested tighter multiline section headings, complete grey decoration on wrapped headings and an optical chevron adjustment without reopening established spacing decisions.
 
 **Owner:** [Playground Heading Anchor Controls](../docs/agent-guidance/interface.md#playground-heading-anchor-controls), `playground-heading-alignment.mjs` and `playground-section-collapse.mjs`.
+
+## Visible Keyboard Focus in Nested Playground Views
+
+**Decision:** Use a shared keyboard adapter for the Playground and sandbox documents. Give scrollable regions their own visible pan stop; keep control navigation separate. Restore group handlers to captured controls and preserve their source disabled states. Pass keyboard modality across iframe boundaries and reveal only the active target. Draw clipped control rings in an exterior overlay, with thumb-height slider rings and full-disclosure summary rings.
+
+**Reason:** Captured HTML retained Tab attributes without event handlers, and iframe entry could retain pointer modality or a stale focused control. Nested masks and scrollports clipped otherwise valid rings. The user requested predictable entry, visible focus and independent arrow-key panning. Preview-state changes must not trigger the real dialog-close focus restoration.
+
+**Decision:** Tabs use the same selected and hover palette as selectors, with a straight-bottom focus contour. Collapsed heading tint has equal text clearance; expanded titles share space with an intrinsic-width Contract View group. Right-aligned anchor examples fit their text and start at their right endpoint. Locations disclosures outdent 4px on each side.
+
+**Owner:** [Interface contract](../docs/agent-guidance/interface.md#playground-keyboard-and-nested-scrolling), `playground-keyboard.mjs`, `playground-layout.mjs` and `workshop-specimen-layout.mjs`.

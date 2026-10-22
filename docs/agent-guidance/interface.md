@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.57"
-  update_summary: "Refine wrapped section headings and chevron alignment"
-  updated_at: "Thu 22 Oct 2026 at 11:03:00 am AEDT (+11:00)"
+  doc_revision: "26.0.58"
+  update_summary: "Define shared keyboard focus and nested specimen scrolling"
+  updated_at: "Thu 22 Oct 2026 at 11:55:45 am AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -28,6 +28,17 @@ This is a mandatory scoped contract incorporated by [AGENTS.md](../../AGENTS.md)
 - The first Tab after heading focus must reach the first visible, enabled interactive element in logical DOM order and display its keyboard focus ring. Preserve the login order: day/night selector as one stop, password, then unlock.
 - Use the shared panel-heading focus helper for custom panels and the shared opening handling for native dialogs/popovers. Every such panel must have an accessible heading. Preserve native modal containment and focus restoration to the invoking control when a panel closes.
 - Validate initial/opening focus, Tab/Shift+Tab navigation, keyboard activation, pointer/touch ring suppression, input focus and selector destination focus on desktop and mobile layouts when modifying these flows.
+
+## Playground Keyboard and Nested Scrolling
+
+- Use `playground-keyboard.mjs` in the outer Playground and every sandbox document. Pass keyboard modality into frames before Tab entry so the first focused control has a visible ring. Restore arrow navigation for cloned selector groups with the shared manual-activation controller; retain the real app's disabled/read-only states. Enter toggles enabled checkboxes, as Space does.
+- Give overflowing specimen regions and full-page embed viewports a separate labelled Tab stop and an exterior ring. Arrow keys pan only while that region itself is focused; arrows on a contained selector, slider or field keep their control meaning. Preserve nested horizontal and vertical panning. Avoid implicit, unmarked scroll-container focus stops.
+- Reveal the actual focused target inside its scrolling ancestors, with room for the ring. Only the active iframe may ask its parent to reveal a target; inactive frames must never move the page. Frame entry starts at the first eligible control (last on reverse entry), instead of resuming a stale target. In the Easter Egg embed, the agent precedes the theme selector. Changing preview states must not restore focus to an unrelated iframe control.
+- Draw actual keyboard focus above clipping and fade layers through a non-interactive focus overlay, retaining the shared 3px ring and 3px gap. For expanded disclosure summaries, enclose the complete bordered disclosure. Preserve existing anchor-specific ring contours. Scroller padding must provide paint clearance without moving the established text rails; suppress masks while browsing focused content. A range input keeps its 44px hit target, but its ring follows the visible 28px thumb-and-keyline height, with 3px clearance above and below.
+- Focus and Selection specimens keep their held example rings when idle. While a specimen has real keyboard focus, show its actual target instead of a competing held ring.
+- Selected tabs use `--agent-accent` and `--agent-ink`; unselected hover/keyboard focus uses `--action-hover` and `--text`, matching the selectors. Tab rings follow the rounded top corners and straight bottom edge.
+- Right-aligned anchor specimens use their natural content width and begin at the right scroll endpoint, with no right fade. Only narrow containers should overflow to the left. Preserve the existing right text rail.
+- Validate with `playground-keyboard-regions-browser-check.mjs`, manual-control checks, expanded-preview and gallery alignment checks in Chromium and WebKit. Verify enabled login fields, disabled states, nested scrolling, frame entry/exit, actual focus visibility and pointer suppression.
 
 ## Cursor Behaviour
 
@@ -317,3 +328,9 @@ Heading collapse height animations clip vertically only (`overflow-x: visible; o
 
 - Ellipsis/close, Jump to Top, Reset Defaults, Copy Values, Replay Animation, Expand View and Contract View share 22px square Lucide canvases, a 24-unit viewBox and stroke width 2. Apply the rule centrally in `playground-layout.mjs` to normal, mobile and expanded controls. Keep sun/moon at 20px inside their selector component. Preserve the existing centred alignment, 50px button height, 12px radius and 16px horizontal padding; labelled actions use an 8px icon-to-text gap.
 - Validate these controls and manual keyboard activation with `node website/tests/control-keyboard-focus-browser-check.mjs`, including Chromium/WebKit, narrow and wide views, grey keyboard hover, QR timing and exterior ring geometry.
+
+### Collapsed Heading and Expanded Header Geometry
+
+- Collapsed Playground heading rows extend their 50px base height by one compact line-height for every additional text line. Preserve the first-line cap centre, giving the grey decoration equal clearance above and below visible text at all widths.
+- Expanded heading titles consume all width remaining beside the intrinsic-width, right-aligned Contract View group. Override captured heading width/flex constraints in this state; scroll the title only when it truly does not fit. Preserve page scroll position while the toolbar and restored controls settle on contraction.
+- Outdent Playground icon catalogue Locations disclosures by 4px on each side.

@@ -27,7 +27,7 @@ html:has(#playground-title){scrollbar-gutter:stable}
 :is([data-panel]>.panel,.url-subsection)[data-collapsed]>.section-heading>.section-collapse::before{opacity:1}
 [data-collapsed]>.section-heading>.section-collapse>svg{transform:translate(-1px,0) rotate(90deg)}
 [data-panel]>.panel[data-collapsed]>:not(.section-heading),[data-panel]>.panel[data-collapsed]>.section-heading>:not(h2):not(.section-collapse){display:none!important}
-[data-panel]>.panel[data-collapsed]>.section-heading{margin-bottom:0}
+:is([data-panel]>.panel,.url-subsection)[data-collapsed]>.section-heading{margin-bottom:0;min-height:var(--collapsed-heading-height,50px)}
 [data-panel]>.panel.is-expanded>.section-heading{padding-right:0}
 [data-panel]>.panel.is-expanded>.section-heading>.section-collapse{display:none}
 @media(prefers-reduced-motion:reduce){.section-heading::before,.section-collapse::before,.section-collapse,.section-collapse>svg{transition:none}}

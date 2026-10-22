@@ -1,3 +1,4 @@
+import {playgroundKeyboardCSS,playgroundKeyboardScript} from './playground-keyboard.mjs';
 import {resourceAnchorGap} from '../lib/workshop-resource-anchors.mjs';
 import {headingMetrics} from '../lib/workshop-heading-metrics.mjs';
 import {updateHorizontalOverflow} from '../lib/workshop-overflow.mjs';
@@ -202,11 +203,11 @@ function sandboxDoc(html,extra='') {
  const setup=`<script>${bridge}</script>`;
  const frameGuard=extra.includes('workshopRenderBackdropPreview')?guard.replace("default-src \'none\';","default-src \'none\'; frame-src about:;"):guard;
  html=html.replace('<head>','<head>'+frameGuard+setup);
- html=html.replace('</head>',`<style>${hover}
+ html=html.replace('</head>',`<style>${hover}${playgroundKeyboardCSS}
 /* Let gestures chain to the containing Playground page or expanded viewport. */
 html,body,.access-gate{overscroll-behavior:auto!important}</style></head>`);
 
- return html.replace('</body>',`<script>document.querySelectorAll('button,a,pre,.qr-card').forEach(e=>e.setAttribute('data-demo-hover-item',''));${extra}${galleryMaintenanceScript}${naturalPreviewScript}</script></body>`);
+ return html.replace('</body>',`<script>document.querySelectorAll('button,a,pre,.qr-card').forEach(e=>e.setAttribute('data-demo-hover-item',''));${extra}${galleryMaintenanceScript}${naturalPreviewScript}${playgroundKeyboardScript}</script></body>`);
 }
 // Typography specimens clone real nodes, including ancestor classes needed by contextual CSS.
 const typeManifest=[
@@ -303,6 +304,8 @@ export async function playgroundPage({authenticated=false,inlineAssets=true}={})
  if(start<0||end<0)throw Error('Resource session boundary missing');
  resources=resources.slice(0,start)+resources.slice(end);
  const discovery=sandboxDoc(resources, `let lastEgg,eggActive=true;
+// DOM order follows the visible pinned controls: agent, then theme.
+document.querySelector('.page-header').after(document.querySelector('.page-toolbar'));
 const eggHeadingMetrics=${headingMetrics.toString()},eggAnchorGap=${resourceAnchorGap.toString()};
 function sizeEggTopBoundary(){
  const main=document.querySelector('main'),heading=document.querySelector('.step-row:last-child .step-anchor');
@@ -399,7 +402,7 @@ window.addEventListener('message',e=>{
 .section-heading h2{display:flex;align-items:flex-start;gap:10px}.section-heading h2>svg{width:24px;height:24px;flex:none;margin-top:calc((1.5em - 24px)/2)}.section-heading h2>span{min-width:0}@media(max-width:660px){.section-heading h2{flex-basis:100%}}
  #playground-icon-catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:24px}.playground-icon-entry{min-width:0;border:1px solid var(--border);border-radius:12px;padding:24px}.playground-icon-entry h3{display:flex;align-items:center;gap:12px;font-size:18px;margin:0 0 12px;overflow-wrap:anywhere}.playground-icon-entry h3 svg{width:24px;height:24px;flex:none}.playground-icon-entry ul{padding-left:20px;font-size:14px;overflow-wrap:anywhere}.playground-icon-entry a{font-size:14px}
 ${playgroundBrandCSS}
-${playgroundLayoutCSS}${selectorRowCSS}
+${playgroundLayoutCSS}${selectorRowCSS}${playgroundKeyboardCSS}
 ${sectionCollapseCSS}
 ${playgroundAnchorCSS}
 ${headingCapCSS}
@@ -489,7 +492,7 @@ ${urlReferenceCSS}
  window.visualViewport?.addEventListener('resize',updatePreviewViewport);window.visualViewport?.addEventListener('scroll',updatePreviewViewport);window.addEventListener('resize',updatePreviewViewport);
  function setPreviewIcon(dialog,open){const b=dialog.querySelector('.preview-expand');b.setAttribute('aria-expanded',open);b.setAttribute('aria-label',open?'Contract View':'Expand View');b.title=open?'Contract View':'Expand View';b.querySelector('.expand-icon').hidden=open;b.querySelector('.contract-icon').hidden=!open;b.querySelector('.action-label').textContent=open?'Contract View':'Expand View';}
  async function expandPreview(dialog){if(optionsOpen)await setOptions(false,false);previewScroll=scrollY;expandedPreview=dialog;const controls=[...dialog.children].filter(node=>node.matches('.selector-row,.choices,.state-tools,.panel-actions,.panel-options,.checkbox-controls'));controlHomes=controls.map(node=>{const marker=document.createComment('preview-control-home');node.before(marker);dialog.querySelector('.expanded-state-controls').append(node);return {node,marker};});dialog.querySelector('.expanded-global-controls').append(globalControls);dialog.querySelectorAll('.preview-settings,.preview-state-settings').forEach(e=>e.hidden=false);dialog.querySelector('.preview-state-settings').open=true;dialog.close();dialog.classList.add('is-expanded');placePreviewActions(dialog,true);dialog.setAttribute('role','dialog');document.documentElement.classList.add('preview-modal-open');document.body.classList.add('preview-modal-open');document.body.style.top=-previewScroll+'px';updatePreviewViewport();setPreviewIcon(dialog,true);dialog.showModal();window.workshopFocusPanel(dialog);}
- function contractPreview(dialog){dialog.close();dialog.classList.remove('is-expanded');placePreviewActions(dialog,false);dialog.setAttribute('role','region');dialog.show();controlHomes.forEach(({node,marker})=>{marker.replaceWith(node);});controlHomes=[];dialog.querySelectorAll('.preview-settings,.preview-state-settings').forEach(e=>{e.hidden=true;});expandedPreview=null;positionControls();document.documentElement.classList.remove('preview-modal-open');document.body.classList.remove('preview-modal-open');document.body.style.top='';scrollTo({top:previewScroll,behavior:'instant'});setPreviewIcon(dialog,false);dialog.querySelector('.preview-expand').focus({preventScroll:true});}
+ function contractPreview(dialog){document.documentElement.setAttribute('data-preview-restoring','');dialog.close();dialog.classList.remove('is-expanded');placePreviewActions(dialog,false);dialog.setAttribute('role','region');dialog.show();controlHomes.forEach(({node,marker})=>{marker.replaceWith(node);});controlHomes=[];dialog.querySelectorAll('.preview-settings,.preview-state-settings').forEach(e=>{e.hidden=true;});expandedPreview=null;positionControls();document.documentElement.classList.remove('preview-modal-open');document.body.classList.remove('preview-modal-open');document.body.style.top='';scrollTo({top:previewScroll,behavior:'instant'});setPreviewIcon(dialog,false);dialog.querySelector('.preview-expand').focus({preventScroll:true});let settleFrames=0;const restore=()=>{if(expandedPreview){document.documentElement.removeAttribute('data-preview-restoring');return;}scrollTo({top:previewScroll,behavior:'instant'});if(++settleFrames<4)requestAnimationFrame(restore);else document.documentElement.removeAttribute('data-preview-restoring');};requestAnimationFrame(restore);}
  document.querySelectorAll('.preview-dialog').forEach(dialog=>{dialog.querySelector('.preview-expand').onclick=()=>expandedPreview===dialog?contractPreview(dialog):expandPreview(dialog);dialog.addEventListener('cancel',e=>{e.preventDefault();contractPreview(dialog);});});
  updatePreviewViewport();
  const specimenManifest=${JSON.stringify(typeManifest)};
@@ -513,7 +516,8 @@ ${urlReferenceCSS}
  for(const el of overflowControls){el.addEventListener('scroll',()=>{if(el.matches('.choice-options,nav[role=tablist]')&&el.scrollTop)el.scrollTop=0;scheduleOverflow();},{passive:true});overflowResize.observe(el);for(const child of el.children)overflowResize.observe(child);}
  new MutationObserver(scheduleOverflow).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class','hidden','open','style']});
  window.addEventListener('resize',scheduleOverflow);document.fonts.ready.then(scheduleOverflow);scheduleOverflow();
- new ResizeObserver(()=>document.documentElement.style.setProperty('--inspector-height',document.querySelector('.inspector-dock').offsetHeight+'px')).observe(document.querySelector('.inspector-dock'));
+ let inspectorResizeFrame=0;
+ new ResizeObserver(()=>{if(inspectorResizeFrame)return;inspectorResizeFrame=requestAnimationFrame(()=>{inspectorResizeFrame=0;document.documentElement.style.setProperty('--inspector-height',document.querySelector('.inspector-dock').offsetHeight+'px');});}).observe(document.querySelector('.inspector-dock'));
 
  $('freeze-inspector').onclick=()=>{inspectorFrozen=!inspectorFrozen;$('freeze-inspector').setAttribute('aria-pressed',inspectorFrozen);$('freeze-inspector').textContent=inspectorFrozen?'Resume':'Freeze';document.querySelectorAll('iframe').forEach(f=>f.contentWindow.postMessage({guide:'inspection',frozen:inspectorFrozen},'*'));};
  function rotateDisclosure(button,show){const svg=button.querySelector('svg'),from=getComputedStyle(svg).transform;svg.getAnimations().forEach(a=>a.cancel());button.setAttribute('aria-expanded',show);if(!reduced.matches)svg.animate([{transform:from},{transform:show?'rotate(90deg)':'rotate(0deg)'}],{duration:240,easing:'cubic-bezier(.2,0,.2,1)'});}
@@ -604,6 +608,7 @@ ${urlReferenceCSS}
  ${headingCapScript}
  ${playgroundAnchorScript}
  ${playgroundIconCatalogScript}
+ ${playgroundKeyboardScript}
  </script></body></html>`;
  if(inlineAssets)for(const [path,mime] of [['/assets/markpro-bold.ttf','font/ttf'],['/assets/wavelength-worm.png','image/png'],['/assets/workshop-resources-qr.png','image/png'],['/favicon.png','image/png']]){
   const bytes=await readFile(new URL('../public'+path,import.meta.url));shell=shell.replaceAll(path,'data:'+mime+';base64,'+bytes.toString('base64'));

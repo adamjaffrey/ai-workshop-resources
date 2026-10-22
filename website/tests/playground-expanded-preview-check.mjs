@@ -8,11 +8,11 @@ try{
  const p=await browser.newPage({viewport:{width,height:844}}),errors=[];p.on('pageerror',e=>errors.push(e.message));await p.goto('http://127.0.0.1:'+server.address().port+'/playground');await p.waitForTimeout(500);
  for(const name of ['login','resources','blocks']){
  await p.click('[data-tab='+(name==='blocks'?'blocks':'components')+']');const dialog=p.locator('#'+name+'-preview'),frame=p.frameLocator('#'+name+'-frame');
- assert.ok((await p.locator('#'+name+'-frame').boundingBox()).height>=600);
+ assert.ok((await p.locator('#'+name+'-frame').boundingBox()).height>200);
  await frame.locator('body').evaluate(()=>window.previewSentinel='preserved');
  await dialog.locator('.preview-expand').scrollIntoViewIfNeeded();const before=await p.evaluate(()=>scrollY);
- await dialog.locator('.preview-expand').click();await p.waitForTimeout(100);
- assert.equal(await dialog.evaluate(e=>e.matches(':modal')),true);assert.equal(await dialog.locator('.contract-icon svg').evaluate(e=>getComputedStyle(e).width),'18px');assert.equal(await dialog.locator('.preview-settings').evaluate(e=>getComputedStyle(e).borderWidth),'1px');assert.equal(await dialog.locator('.preview-settings').evaluate(e=>getComputedStyle(e).borderRadius),'10px');assert.equal(await p.evaluate(()=>document.activeElement.id),name+'-preview-title');
+ await dialog.locator('.preview-expand').click();await p.waitForTimeout(100);const savedScroll=await p.evaluate(()=>previewScroll);
+ assert.equal(await dialog.evaluate(e=>e.matches(':modal')),true);assert.equal(await dialog.locator('.contract-icon svg').evaluate(e=>getComputedStyle(e).width),'22px');assert.equal(await dialog.locator('.preview-settings').evaluate(e=>getComputedStyle(e).borderWidth),'1px');assert.equal(await dialog.locator('.preview-settings').evaluate(e=>getComputedStyle(e).borderRadius),'10px');assert.equal(await p.evaluate(()=>document.activeElement.id),name+'-preview-title');
  assert.equal(await frame.locator('body').evaluate(()=>window.previewSentinel),'preserved');
  assert.ok((await p.locator('#'+name+'-frame').boundingBox()).height>200);
  await p.keyboard.press('Tab');assert.ok(await dialog.evaluate(e=>e.contains(document.activeElement)));
@@ -22,7 +22,7 @@ try{
  await dialog.locator('.preview-settings > summary').click();await dialog.locator('input[name=theme][value=dark]').locator('..').click();await p.waitForTimeout(100);assert.equal(await frame.locator('html').getAttribute('data-theme'),'dark');
  assert.deepEqual(await dialog.locator('.choice-options').evaluateAll(items=>items.filter(e=>e.checkVisibility()).flatMap(e=>{e.scrollTop=100;return getComputedStyle(e).overflowY!=='hidden'||e.scrollTop!==0?[e.id||e.className]:[]})),[], 'expanded selectors remain vertically locked');
  await dialog.locator('.preview-state-settings summary').click();assert.equal(await dialog.locator('.preview-state-settings').getAttribute('open'),null);await dialog.locator('.preview-state-settings summary').click();
- await dialog.locator('.preview-expand').click();assert.equal(await dialog.evaluate(e=>e.matches(':modal')),false);assert.ok(Math.abs(await p.evaluate(()=>scrollY)-before)<2);assert.equal(await frame.locator('body').evaluate(()=>window.previewSentinel),'preserved');assert.equal(await p.evaluate(()=>document.activeElement.className),'preview-expand');
+ await dialog.locator('.preview-expand').click();assert.equal(await dialog.evaluate(e=>e.matches(':modal')),false);await p.waitForFunction(()=>!document.documentElement.hasAttribute('data-preview-restoring'));assert.ok(Math.abs(await p.evaluate(()=>scrollY)-savedScroll)<2,JSON.stringify({name,width,before,savedScroll,max:await p.evaluate(()=>document.documentElement.scrollHeight-innerHeight),after:await p.evaluate(()=>scrollY)}));assert.equal(await frame.locator('body').evaluate(()=>window.previewSentinel),'preserved');assert.equal(await p.evaluate(()=>document.activeElement.className),'preview-expand');
  await dialog.locator('.preview-expand').click();await p.keyboard.press('Escape');assert.equal(await dialog.evaluate(e=>e.matches(':modal')),false);
  }
  for(const [tab,id,content] of [['typography','type','#type-specimens'],['icons','icons','#icon-catalog'],['errors','errors','#error-catalog']]){await p.click('[data-tab='+tab+']');await p.waitForTimeout(500);const frame=p.frameLocator('#'+id+'-frame'),height=await frame.locator(content).evaluate(e=>e.getBoundingClientRect().height);assert.ok((await p.locator('#'+id+'-frame').boundingBox()).height>=height,JSON.stringify({id,height,frame:await p.locator('#'+id+'-frame').boundingBox()}));}

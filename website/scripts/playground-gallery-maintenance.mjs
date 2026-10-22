@@ -27,6 +27,7 @@ function maintainGallery(){
  const rails=getComputedStyle(document.documentElement),endClearance=parseFloat(rails.getPropertyValue('--specimen-text-rail'))-parseFloat(rails.getPropertyValue('--optical-offset'));
  for(const viewport of document.querySelectorAll('.icon-sample,.focus-preview,.agent-preview,.prompt-specimen-viewport,.feedback-preview,.specimen-viewport,.variant-preview')){
   if(!viewport.checkVisibility())continue;
+  if(viewport.dataset.specimenAlignment==='right'){viewport.removeAttribute('data-specimen-scroll-end');viewport.scrollLeft=0;refreshOverflow(viewport);continue;}
   const samples=[...viewport.querySelectorAll('[data-specimen-width]')].filter(e=>e.checkVisibility());if(!samples.length)continue;
   let right=Math.max(...samples.map(e=>e.getBoundingClientRect().right));
   for(const target of viewport.querySelectorAll('[data-held-focus]')){const c=getComputedStyle(target);right=Math.max(right,target.getBoundingClientRect().right+parseFloat(c.outlineWidth)+parseFloat(c.outlineOffset));}

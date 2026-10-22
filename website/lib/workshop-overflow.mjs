@@ -6,7 +6,8 @@ export const overflowFadeCSS=String.raw`
 `;
 export function updateHorizontalOverflow(el,previous=[0,0]){
  const c=getComputedStyle(el),horizontal=el.getClientRects().length>0&&/auto|scroll/.test(c.overflowX);
- const distances=[Math.max(0,el.scrollLeft),Math.max(0,el.scrollWidth-el.clientWidth-el.scrollLeft)];
+ const extent=Math.max(0,el.scrollWidth-el.clientWidth),left=c.direction==='rtl'?extent+el.scrollLeft:el.scrollLeft;
+ const distances=[Math.max(0,left),Math.max(0,extent-left)];
  const strength=distances.map((distance,i)=>horizontal&&distance>2?Math.max(previous[i],Math.min(1,distance/18)):0);
  for(const [i,edge] of ['left','right'].entries()){el.toggleAttribute('data-overflow-'+edge,strength[i]>0);const value=String(1-strength[i]),property='--overflow-'+edge+'-alpha';if(el.style.getPropertyValue(property)!==value)el.style.setProperty(property,value);}
  return strength;

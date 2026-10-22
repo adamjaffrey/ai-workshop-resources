@@ -3,14 +3,45 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.314"
-  update_summary: "Refine wrapped section headings and chevron alignment"
-  updated_at: "Thu 22 Oct 2026 at 11:05:14 am AEDT (+11:00)"
+  doc_revision: "26.0.315"
+  update_summary: "Unify Playground keyboard focus and nested scrolling"
+  updated_at: "Thu 22 Oct 2026 at 12:05:38 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.313 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 12:05:38 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Unify Playground keyboard focus and nested scrolling
+
+### Changed
+
+- Balance contracted heading decoration around wrapped text; use accent colours for selected tabs, shared hover colours and a straight-bottom tab focus ring.
+- Give expanded headings the available width alongside an intrinsic-width Contract View button group; preserve text rails while allowing exterior focus rings around complete disclosures and controls.
+- Draw visible focus rings outside clipped galleries and nested scroll regions; size slider rings to the thumb with 3px clearance and support Enter on enabled checkboxes.
+- Provide separate keyboard pan stops for nested scroll regions and iframe embeds, reveal focused controls and retain manual selector activation without arrow-key scrolling conflicts.
+- Restore functional keyboard navigation and enabled-field tab stops in captured login and focus specimens, including the JavaScript Unavailable theme selector.
+- Enter the Easter Egg preview through its agent selector before its theme selector and prevent simulated dialog closure from stealing focus to Log Out.
+- Align right-hand anchor specimens to their natural right endpoint without unnecessary scrolling or fading; outdent icon location disclosures by 4px on both sides.
+- Record shared keyboard, focus and layout rules in the Interface contract and design decision log.
+
+### Validation
+
+- `npm --prefix website run build` — passed; reused saved backdrop geometry.
+- Keyboard-region checks — passed in Chromium and WebKit at 390 and 1440px, covering cloned controls, enabled fields, nested panning, focus geometry and heading layout.
+- Shared control and link focus checks — passed in Chromium and WebKit at 320, 390, 768 and 1440px.
+- Expanded-preview, nested-alignment, external-inset, app/specimen parity, Easter Egg preview, selector-hold, tab, scroll-region, heading and overflow-fade checks — passed.
+- Mobile and desktop emulation and focus screenshots checked. Physical devices were not tested.
 
 ## v26.0.312 — 2026-10-22
 

@@ -1,6 +1,7 @@
 import {overflowFadeCSS} from '../lib/workshop-overflow.mjs';
 // Outer Playground tooling only; app specimens keep their canonical controls.
 export const playgroundLayoutCSS=String.raw`
+html[data-preview-restoring]{overflow-anchor:none}
 :root{--playground-inset-gap:32px;--control-related-gap:8px;--control-label-gap:16px;--control-column-gap:36px;--control-row-gap:32px}
 .egg-help{margin-top:12px}.egg-help summary{font-weight:600}.egg-help p{font-size:14px;color:var(--muted-text)}
 #playground-title{align-items:flex-start}#playground-title>svg{margin-top:.075em}
@@ -28,15 +29,19 @@ nav[role=tablist]{border-bottom:0;padding-bottom:0;gap:0!important;background:no
 #login-preview #login-destination{flex:0 0 auto}#login-preview #state{flex:1;min-width:0}
 /* Expanded actions share one fixed-height row; only the title scrolls. */
 .preview-dialog.is-expanded>.section-heading{display:flex;flex-wrap:nowrap;align-items:center;gap:8px;min-height:50px;flex:none}
-.preview-dialog.is-expanded>.section-heading h2{display:flex;align-items:center;flex:1 1 0;flex-basis:0;min-width:0;white-space:nowrap;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;padding:0;line-height:50px;height:50px}
+.preview-dialog.is-expanded>.section-heading h2{display:flex;align-items:center;flex:1 1 0!important;width:auto!important;max-width:none!important;flex-basis:0;min-width:0;white-space:nowrap;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;padding:0;line-height:50px;height:50px}
 .preview-dialog.is-expanded>.section-heading h2>span{flex:none;min-width:max-content}.preview-dialog.is-expanded>.section-heading h2>svg{align-self:center;margin:0}
-.heading-actions{margin-left:auto;display:flex;align-items:center;gap:8px;flex:none;position:relative;z-index:2}
+.heading-actions{width:max-content;max-width:max-content;margin-left:auto;display:flex;align-items:center;gap:8px;flex:none;position:relative;z-index:2}
 .heading-actions:empty{display:none}.heading-actions button{width:50px;height:50px;padding:10px;box-shadow:none}
 .heading-actions button .action-label{display:inline}
 .preview-dialog.is-expanded>.panel-actions{display:none}
 .expanded-state-controls>:is(.selector-row,.choices,.state-tools,.panel-actions,.panel-options,.control-footer,.checkbox-controls){margin-block:32px}.expanded-state-controls>.panel-actions{display:flex;justify-content:flex-start}.preview-dialog.is-expanded>.frame-wrap{margin-top:16px}
 .preview-dialog.is-expanded .expanded-state-controls{padding-bottom:12px}
 
+.preview-dialog.is-expanded .expanded-state-controls{padding-inline:12px;margin-inline-start:calc(var(--disclosure-text-inset) - var(--optical-offset) - 8px);margin-inline-end:-8px;width:auto;scroll-padding:12px}
+.preview-dialog.is-expanded .expanded-global-controls>#global-style-controls{padding-inline:12px;margin-inline:-12px;width:calc(100% + 24px);scroll-padding:12px}
+:root[data-focus-input=keyboard] .preview-dialog.is-expanded [data-group-focus]>.workshop-group-ring{display:none}
+.playground-icon-entry .icon-usages{margin-inline:-4px}
 /* Match the main app's pre-heading position and vertical type rhythm. */
 .wrap{padding-inline:24px}
 header.wrap{padding-top:40px;padding-bottom:0;width:calc(100% - 48px);max-width:1200px;padding-inline:0}
@@ -134,7 +139,10 @@ main.wrap{padding-top:24px}
 .choice-options,nav[role=tablist]{--overflow-feather:108px;--overflow-shoulder:36px}
 @media(max-width:660px){.choice-options,nav[role=tablist]{--overflow-feather:54px;--overflow-shoulder:18px}}
 .tab-scroll-shell nav[role=tablist]{padding-top:0}
-.tab-scroll-shell nav[role=tablist] button[aria-selected=true]{background:color-mix(in srgb,var(--agent-accent) 8%,var(--page))}
+.tab-scroll-shell nav[role=tablist] button[aria-selected=true]{background:var(--agent-accent);color:var(--agent-ink);border-bottom-color:var(--agent-accent)}
+.tab-scroll-shell nav[role=tablist] button:not([aria-selected=true]):hover,:root[data-focus-input=keyboard] .tab-scroll-shell nav[role=tablist] button:not([aria-selected=true]):focus{background:var(--action-hover);color:var(--text)}
+:root[data-focus-input=keyboard] .tab-scroll-shell nav[role=tablist] button[aria-selected=true]:focus{background:var(--agent-accent);color:var(--agent-ink)}
+.tab-scroll-shell>.workshop-group-ring{border-radius:8px 8px 0 0}
 .tab-scroll-shell::before{content:'';position:absolute;inset:-24px 0 100%;background:var(--page);pointer-events:none}
 @media(max-width:660px){
  /* WebKit samples the hit-tested fixed/sticky ancestor, not a backdrop sibling. */

@@ -109,7 +109,7 @@ window.addEventListener('message',async event=>{
  if(page==='login'){const noticeIcon=iconSnapshot(fallbackNode.querySelector('svg'),page,'JavaScript Unavailable · Shared Notice');noticeIcon.selector=fallbackSource;items.push(noticeIcon);}
  const noticeStyle=getComputedStyle(fallbackNode),noticeTypography={page,width:fallbackNode.getBoundingClientRect().width,selector:fallbackSource,html:fallbackNode.outerHTML,typography:[noticeStyle.fontFamily,noticeStyle.fontSize,noticeStyle.fontWeight,noticeStyle.lineHeight,noticeStyle.color]};
  const contextSource=page==='login'?document.getElementById('access-form'):document.getElementById('workshop-content'),context=contextSource.cloneNode(true);
- context.querySelectorAll('noscript,script').forEach(n=>n.remove());context.querySelectorAll('.theme-toggle').forEach(n=>n.hidden=true);
+ context.querySelectorAll('noscript,script').forEach(n=>n.remove());
  if(page==='resources'){for(const child of [...context.children])if(child.matches('footer'))child.remove();context.querySelectorAll('.step-row').forEach((row,i)=>{if(i)row.remove();else row.classList.add('is-revealed');});}
  else {context.querySelector('input').setAttribute('value','');context.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));}
  context.classList.add('fallback-context');if(page==='login'){context.classList.add('full-login-context');Object.assign(context.style,{position:'static',margin:'0',height:'auto',maxHeight:'none'});}
