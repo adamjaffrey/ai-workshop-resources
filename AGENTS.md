@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.83"
-  update_summary: "Require unique icons for distinct Playground section headings"
-  updated_at: "Thu 22 Oct 2026 at 08:48:48 pm AEDT (+11:00)"
+  doc_revision: "26.0.84"
+  update_summary: "Require unique heading icons and matching first-heading tab icons"
+  updated_at: "Thu 22 Oct 2026 at 10:18:24 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -84,7 +84,7 @@ Keep cross-cutting policy here. Put precise implementation constraints and test 
 - Change shared app sources first and keep Playground specimens in parity in the same change. Do not make independent optical copies. Validate affected app/specimen behaviours across relevant widths, agents, themes and input methods; follow the scoped test requirements without claiming physical-device coverage from emulation.
 - Use shared theme, alignment, typography, icon and interaction helpers. Preserve the 4px optical extension, 28px specimen text rail and 24px rounded-surface rail, 32px visible control-group gaps (36px layout gap where a 4px selector outdent applies), 40px Resources selector gap and 16px white-panel separation. Expanded views follow the same contracts.
 - New interface icons come from installed Lucide definitions. Obtain explicit approval for alternatives only when Lucide has no suitable icon; the existing two Lobe agent logos and Wavelength brand asset remain approved. Preserve official icon names, sources, licences and usage metadata.
-- Give distinct Playground sections unique heading icons; follow the Interface contract for the shared catalogue and usage metadata.
+- Give every distinct Playground section and subsection a unique heading icon. An icon may appear in only one section/subsection heading and, optionally, once in the tab bar; each tab’s first heading must use that tab’s icon. Follow the Interface contract for inventory verification and catalogue metadata.
 - Use CMOS 18 title case for headings and control labels, with the categories and grammatical rules in Interface. Preserve literal identifiers, code and official names.
 - Only agent/theme selectors and Playground segmented selectors may stretch on press/hold. Ordinary buttons and disclosures must not inherit that animation. Preserve accessible focus, keyboard access and theme-aware hover states.
 - Internal builds reuse saved backdrop geometry. Remeasure existing backdrops only for explicitly authorised publication when relevant layout has changed, or an explicit user exception. Follow the Backdrops contract to identify the actual published baseline; never treat old one-off authorisation as ongoing permission.

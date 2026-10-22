@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.99"
-  update_summary: "Record consolidated focus and mobile feedback decisions"
-  updated_at: "Thu 22 Oct 2026 at 08:48:48 pm AEDT (+11:00)"
+  doc_revision: "26.0.100"
+  update_summary: "Require unique heading icons and matching first-heading tab icons"
+  updated_at: "Thu 22 Oct 2026 at 10:18:24 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -698,3 +698,11 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Icons:** Give distinct headings unique installed Lucide icons: List for Lists and Inline Code, Paintbrush for Link Colours and File Check for the Lobe licence section. Keep modified arrows in both Link Icons and Playground Icons when actual heading usage warrants it; usage metadata and ordering remain DOM-derived.
 
 **Owners:** [Interface](../docs/agent-guidance/interface.md), [Motion](../docs/agent-guidance/motion.md) and [Repository Instructions](../AGENTS.md).
+
+## Unique Heading Icons and Matching Tab Icons
+
+**Decision:** Assign each Playground section/subsection heading a globally unique icon. Permit only one section-heading use and one matching tab-bar use of that icon. Each tab’s first heading must use its tab icon, and tab icons must be unique across the bar. Catalogue samples and embedded specimens document icons rather than create additional section identities.
+
+**Reason:** Adam explicitly limited icon reuse to the heading/tab pair and required the first heading to match its tab, tightening the earlier general navigation-reuse allowance. This makes each section recognisable without assigning the same icon to unrelated headings. The current rendered inventory contains 40 unique section/subsection icons and 10 unique tab icons; all 10 first headings match their tabs.
+
+**Owners:** [Repository Instructions](../AGENTS.md#website-guardrails) and [Interface](../docs/agent-guidance/interface.md#website-appearance).

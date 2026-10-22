@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.87"
-  update_summary: "Consolidate focus routes and queued mobile interface corrections"
-  updated_at: "Thu 22 Oct 2026 at 08:48:48 pm AEDT (+11:00)"
+  doc_revision: "26.0.88"
+  update_summary: "Require unique heading icons and matching first-heading tab icons"
+  updated_at: "Thu 22 Oct 2026 at 10:18:24 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -65,7 +65,7 @@ Follow [Uxcel: Types of Cursors & When to Use Them](https://uxcel.com/lessons/ba
 - Define success, error, warning and information roles centrally in `website/lib/workshop-theme.mjs`, shared by both agents and both pages. Use theme-specific success/error/warning colours and contrasting success/warning fill text. Keep information neutral through `--info`, aliased to `--muted-text`. Warning is reserved for future caution states; do not introduce warning UI without a product need. Check status foregrounds against page, card, field, tinted and hover surfaces when changing the palette. Pair status colours with text or icons.
 - Source every error colour on both pages from `var(--error)` in `website/lib/workshop-theme.mjs`. Define it once per light/dark theme; Codex and Claude share those values. Error text, icons, borders, focus rings, password text/autofill and copy-failure controls must reference or inherit that token, with no per-agent overrides or hard-coded component colours.
 - New interface icons MUST come from the installed Lucide Icons definitions. Only when Lucide has no suitable icon may an agent propose an alternative; obtain Adam’s explicit approval before adding or using it. Document the suitability gap and, after approval, retain the alternative’s official source, licence and Playground representation. The two existing Lobe Icons agent logos have standing approval and require neither renewed approval nor repeated reminders. The existing Wavelength brand asset remains approved. Do not interpret this standing approval as permission for additional Lobe icons.
-- Distinct Playground sections and subsections require unique heading icons, including distinct licence sections. Repeated uses of the same section icon in navigation or its catalogue remain valid. Audit the actual heading inventory when assigning an installed Lucide icon, and derive catalogue ordering and locations from current usage.
+- Distinct Playground sections and subsections require globally unique heading icons, including licence sections. Each icon may identify only one heading across all tabs. The sole permitted repetition among section headings and tab-bar items is one heading use plus one matching tab-bar use: every tab’s first section heading must use exactly that tab’s icon. Tab-bar icons must also be unique; never reuse a heading icon for a different heading or tab. Before assigning or changing an icon, audit the complete rendered heading and tab inventories, including URL Reference subsections, and verify heading uniqueness, tab uniqueness and every tab-to-first-heading match. Catalogue samples and embedded app specimens demonstrate icons rather than assign section identities; derive their usage metadata and ordering from the actual DOM.
 - Give every SVG icon a descriptive, stable `data-icon-use` identifying its purpose, plus `data-icon-name` for its official library name and `data-icon-provider` for its origin. Repeated uses may share a purpose name where they perform the same function. Preserve official Lucide and Lobe names independently of usage names; show both in the Playground and retain the original source links. Apply this to app and Playground tooling icons. Do not add redundant screen-reader labels to decorative icons whose controls already have accessible names.
 
 ## Responsive Layout Tiers
