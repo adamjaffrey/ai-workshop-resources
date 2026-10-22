@@ -81,24 +81,25 @@ window.addEventListener('message',async event=>{
   await agent('claude-code');agentTypography.push({agent:'claude-code',html:iconSnapshot(document.querySelector('.controls .toggle'),page,'Claude Code Selected',true).html});add(document.querySelector('[data-agent="claude-code"] svg'),'Selected · Claude Code');await agent(savedAgent);
   document.querySelectorAll('.symbol svg').forEach(node=>add(node,'Step Icon'));
   const titleLink=document.querySelector('a.page-title-link');
-  if(titleLink){const clone=titleLink.cloneNode(true);clone.querySelectorAll('.workshop-title-paint,.workshop-link-surface,.workshop-link-focus').forEach(e=>e.remove());clone.dataset.linkPreview='hover';clone.tabIndex=0;const heading=clone.querySelector('h1');Object.assign(heading.style,specimenTypography(titleLink.querySelector('h1')));heading.style.margin='0';preserveSpecimenSize(clone,titleLink);errors.push({page,state:'Clickable Link · Page Title',selector:'a.page-title-link',colour:getComputedStyle(titleLink).color,html:clone.outerHTML,text:clone.textContent});}
+  if(titleLink){const clone=titleLink.cloneNode(true);clone.querySelectorAll('.workshop-title-paint,.workshop-link-surface,.workshop-link-focus').forEach(e=>e.remove());clone.dataset.linkPreview='hover';clone.tabIndex=0;const heading=clone.querySelector('h1');Object.assign(heading.style,specimenTypography(titleLink.querySelector('h1')));heading.style.margin='0';preserveSpecimenSize(clone,titleLink);errors.push({page,state:'H1 Heading · Clickable Link · Hover State',selector:'a.page-title-link',colour:getComputedStyle(titleLink).color,html:clone.outerHTML,text:clone.textContent});}
+  const addAnchorPair=(node,title)=>{
+   node.setAttribute('data-anchor-preview','');finishCaptureMotion();addError(node,title);const hovered=errors.at(-1);
+   node.removeAttribute('data-anchor-preview');finishCaptureMotion();addError(node,title);hovered.restingHtml=errors.pop().html;
+   node.setAttribute('data-anchor-preview','');
+  };
   const stepAnchor=document.querySelector('.step-anchor');
   if(stepAnchor){
-   window.workshopResourceAnchors.resetCopy(stepAnchor);stepAnchor.setAttribute('data-anchor-preview','');finishCaptureMotion();
+   window.workshopResourceAnchors.resetCopy(stepAnchor);addAnchorPair(stepAnchor,'H2 Heading Anchor Link · Copy Link');
    add(stepAnchor.querySelector('.step-anchor-hash'),'Step Anchor · Copy Link');
-   await copy(stepAnchor,true);add(stepAnchor.querySelector('.step-anchor-success'),'Step Anchor · Link Copied');addError(stepAnchor,'Step Anchor Copy Success');
-   await copy(stepAnchor,false);add(stepAnchor.querySelector('.step-anchor-failure'),'Step Anchor · Copy Failed');addError(stepAnchor,'Step Anchor Copy Failure');
+   await copy(stepAnchor,true);add(stepAnchor.querySelector('.step-anchor-success'),'Step Anchor · Link Copied');addAnchorPair(stepAnchor,'H2 Heading Anchor Link · Copy Success');
+   await copy(stepAnchor,false);add(stepAnchor.querySelector('.step-anchor-failure'),'Step Anchor · Copy Failed');addAnchorPair(stepAnchor,'H2 Heading Anchor Link · Copy Failure');
    window.workshopResourceAnchors.resetCopy(stepAnchor);stepAnchor.removeAttribute('data-anchor-preview');
   }
-
   const rightAnchor=document.querySelector('.step-row:nth-child(2) .step-anchor');
   if(rightAnchor){
-   rightAnchor.setAttribute('data-anchor-preview','');finishCaptureMotion();
-   const row=rightAnchor.closest('.step-row'),home=row.parentElement,marker=document.createComment('step-two-home');row.before(marker);home.prepend(row);
-   finishCaptureMotion();addError(rightAnchor,'Left-Aligned Step 2 · Copy Link');marker.replaceWith(row);errors.at(-1).selector=sourceSelector(rightAnchor);
-   finishCaptureMotion();addError(rightAnchor,'Right-Aligned Step 2 · Copy Link');
-   await copy(rightAnchor,true);addError(rightAnchor,'Right-Aligned Step 2 · Link Copied');
-   await copy(rightAnchor,false);addError(rightAnchor,'Right-Aligned Step 2 · Copy Failed');
+   window.workshopResourceAnchors.resetCopy(rightAnchor);addAnchorPair(rightAnchor,'H2 Heading Anchor Link · Copy Link · Right-Aligned');
+   await copy(rightAnchor,true);addAnchorPair(rightAnchor,'H2 Heading Anchor Link · Copy Success · Right-Aligned');
+   await copy(rightAnchor,false);addAnchorPair(rightAnchor,'H2 Heading Anchor Link · Copy Failure · Right-Aligned');
    window.workshopResourceAnchors.resetCopy(rightAnchor);rightAnchor.removeAttribute('data-anchor-preview');
   }
 
@@ -178,5 +179,5 @@ function sizeContext(target){const context=target.querySelector('.fallback-conte
 const contextSizing=new ResizeObserver(entries=>entries.forEach(({target})=>sizeContext(target)));
 window.addEventListener('message',event=>{if(event.source===parent&&['settings','measure-reference'].includes(event.data?.guide))document.querySelectorAll('.error-sample').forEach(sizeContext);});
 const errorLabels={loading:'Checking Password',success:'Password Accepted',retryReady:'Ready to Retry',empty:'Empty Password',wrong:'Incorrect Password',network:'Connection Failure',service:'Sign-In Unavailable',generic:'Unexpected Sign-In Failure',limited:'Rate Limited · Example Countdown',limitedLater:'Rate Limited · No Countdown'};
-window.addEventListener('message',event=>{if(event.source!==parent||event.data?.guide!=='icon-catalog-data')return;const section=document.getElementById('errors-'+event.data.page);section.querySelectorAll('.error-sample').forEach(sample=>contextSizing.unobserve(sample));section.replaceChildren();for(const item of event.data.errors){const row=document.createElement('section');row.className='icon-row';row.dataset.state=item.state;row.dataset.sourcePage=item.page;row.dataset.sourceSelector=item.selector;const title=document.createElement('h3');title.textContent=errorLabels[item.state]||item.state;const sample=document.createElement('div');sample.className='icon-sample error-sample';if(item.alignment)sample.dataset.specimenAlignment=item.alignment;sample.innerHTML=item.html;const detail=document.createElement('p');detail.className='icon-meta';detail.textContent=(item.usage?'Use: '+item.usage+' · ':'')+item.page+' → '+item.selector+' · '+item.colour;if(item.state==='JavaScript Unavailable'||item.page==='login'){detail.textContent+=' · Full app context (scroll horizontally on narrow specimens)';contextSizing.observe(sample);}row.append(title,sample,detail);section.append(row);sizeContext(sample);}});
+window.addEventListener('message',event=>{if(event.source!==parent||event.data?.guide!=='icon-catalog-data')return;const section=document.getElementById('errors-'+event.data.page);section.querySelectorAll('.error-sample').forEach(sample=>contextSizing.unobserve(sample));section.replaceChildren();for(const item of [...event.data.errors].sort((a,b)=>Number(b.state.startsWith('H1 Heading'))-Number(a.state.startsWith('H1 Heading')))){const row=document.createElement('section');row.className='icon-row';row.dataset.state=item.state;row.dataset.sourcePage=item.page;row.dataset.sourceSelector=item.selector;const title=document.createElement('h3');title.textContent=errorLabels[item.state]||item.state;const sample=document.createElement('div');sample.className='icon-sample error-sample';if(item.alignment)sample.dataset.specimenAlignment=item.alignment;sample.innerHTML=item.html;const detail=document.createElement('p');detail.className='icon-meta';detail.textContent=(item.usage?'Use: '+item.usage+' · ':'')+item.page+' → '+item.selector+' · '+item.colour;if(item.state==='JavaScript Unavailable'||item.page==='login'){detail.textContent+=' · Full app context (scroll horizontally on narrow specimens)';contextSizing.observe(sample);}row.append(title);if(item.restingHtml){const pair=document.createElement('div');pair.className='anchor-state-pair';for(const [label,html] of [['Hover',item.html],['Resting',item.restingHtml]]){const column=document.createElement('section'),caption=document.createElement('p');caption.className='sample-label';caption.textContent=label;const viewport=sample.cloneNode(false);viewport.innerHTML=html;column.append(caption,viewport);pair.append(column);}row.append(pair);}else row.append(sample);row.append(detail);section.append(row);sizeContext(sample);}});
 `;

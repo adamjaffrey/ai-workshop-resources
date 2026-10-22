@@ -11,6 +11,9 @@ ${specimenTextSizingCSS}
    Native focus scrolling must not shift rows inside the measured iframe. */
 html[data-specimen-gallery]{overflow:clip}
 html[data-specimen-gallery] body{overflow:clip}
+.anchor-state-pair{display:flex;flex-wrap:wrap;gap:24px 40px}
+.anchor-state-pair>section{flex:1 1 200px;min-width:0}
+.anchor-state-pair .error-sample{margin-inline:-8px;width:calc(100% + 16px);padding-inline:8px}
 /* One content inset. The surrounding iframe adds none. */
 body{margin:0;padding-block:24px;padding-inline:0;background:var(--page);color:var(--text);overflow-y:hidden}
 :is(#type-specimens,#icon-catalog,#error-catalog,#focus-catalog,#link-type-specimens){padding-inline:var(--specimen-text-rail)}

@@ -19,18 +19,9 @@ export function installPlaygroundKeyboard(){
   const field=active.closest('.password-field'),ringColour=field?(field.closest('.is-password-error')?getComputedStyle(field).getPropertyValue('--error'):getComputedStyle(field).getPropertyValue('--password-ink')):getComputedStyle(active).getPropertyValue('--icon-ink');
   if(active.matches('input[type=range]')){height=28;top=r.top+(r.height-height)/2;}
   const host=active.closest('dialog[open]')||document.body;if(overlay.parentElement!==host)host.append(overlay);if(overlay.showPopover&&!overlay.matches(':popover-open'))overlay.showPopover();
-  Object.assign(overlay.style,{display:'block',borderColor:ringColour,left:r.left-6-extra+'px',top:top-6+'px',width:r.width+12+2*extra+'px',height:height+12+'px',borderRadius:active.matches('[role=tab]')?'11px 11px 3px 3px':['borderTopLeftRadius','borderTopRightRadius','borderBottomRightRadius','borderBottomLeftRadius'].map(key=>(parseFloat(c[key])||0)+6+'px').join(' ')});
+  Object.assign(overlay.style,{display:'block',borderColor:ringColour,left:r.left-6-extra+'px',top:top-6+'px',width:r.width+12+2*extra+'px',height:height+12+'px',borderRadius:active.matches('[role=tab]')?'11px 11px var(--focus-sharp-radius) var(--focus-sharp-radius)':['borderTopLeftRadius','borderTopRightRadius','borderBottomRightRadius','borderBottomLeftRadius'].map(key=>parseFloat(c[key])>3?parseFloat(c[key])+6+'px':'var(--focus-sharp-radius)').join(' ')});
  }
- function reveal(target){
-  const v=target.matches('.error-sample')?target:visual(target);
-  for(let p=v.parentElement;p&&p!==document.body;p=p.parentElement){
-   const c=getComputedStyle(p);if(!/auto|scroll/.test(c.overflowX+' '+c.overflowY))continue;
-   const r=v.getBoundingClientRect(),b=p.getBoundingClientRect(),gap=8;
-   if(/auto|scroll/.test(c.overflowX)){if(r.left<b.left+gap)p.scrollLeft-=b.left+gap-r.left;else if(r.right>b.right-gap)p.scrollLeft+=r.right-b.right+gap;}
-   if(/auto|scroll/.test(c.overflowY)){if(r.top<b.top+gap)p.scrollTop-=b.top+gap-r.top;else if(r.bottom>b.bottom-gap)p.scrollTop+=r.bottom-b.bottom+gap;}
-  }
-  if(window!==parent){const r=v.getBoundingClientRect();parent.postMessage({guide:'keyboard-target',rect:{top:r.top,bottom:r.bottom,left:r.left,right:r.right}},'*');}
- }
+ function reveal(target){window.workshopRevealFocus?.(target);}
  document.addEventListener('focusin',event=>{
   const e=event.target;if(!(e instanceof HTMLElement))return;
   if(document.documentElement.dataset.focusInput!=='keyboard')return;
@@ -72,7 +63,9 @@ export function installPlaygroundKeyboard(){
   if(event.source===parent&&event.data?.guide==='keyboard-pan')window.scrollBy({left:event.data.dx,top:event.data.dy,behavior:'instant'});
   if(event.data?.guide!=='keyboard-target')return;
   const frame=[...document.querySelectorAll('iframe')].find(e=>e.contentWindow===event.source);if(!frame||document.activeElement!==frame||frame.closest('[inert]'))return;
-  const r=frame.getBoundingClientRect(),rect=event.data.rect;if(!rect||!Number.isFinite(rect.top))return;
+  const rect=event.data.rect;if(!rect||!Number.isFinite(rect.top))return;
+  for(let container=frame.parentElement;container&&container!==document.body;container=container.parentElement){const css=getComputedStyle(container),box=container.getBoundingClientRect(),f=frame.getBoundingClientRect(),y=f.top+rect.top,end=f.top+rect.bottom;const delta=(start,end,min,max)=>end-start>max-min?start-min:start<min?start-min:end>max?end-max:0;if(/auto|scroll/.test(css.overflowY))container.scrollTop+=delta(y,end,box.top+16,box.bottom-16);if(/auto|scroll/.test(css.overflowX))container.scrollLeft+=delta(f.left+rect.left,f.left+rect.right,box.left+16,box.right-16);}
+  const r=frame.getBoundingClientRect();
   const top=(document.querySelector('.tab-scroll-shell.is-pinned')?.getBoundingClientRect().bottom||0)+12,bottom=innerHeight-(document.querySelector('.inspector-dock')?.getBoundingClientRect().height||0)-12;
   const y=r.top+rect.top, end=r.top+rect.bottom;if(y<top)window.scrollBy(0,y-top);else if(end>bottom)window.scrollBy(0,Math.min(end-bottom,y-top));
  });

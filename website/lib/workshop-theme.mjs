@@ -1,3 +1,4 @@
+import {keyboardNavigationScript} from './workshop-keyboard-navigation.mjs';
 import {groupFocusCSS} from './workshop-group-focus.mjs';
 import {bodyTypeCSS} from './workshop-body-type.mjs';
 import {themeAliases} from './workshop-url-preferences.mjs';
@@ -16,6 +17,7 @@ const moon = icon('moon','select-dark-theme','<path d="M20.985 12.486a9 9 0 1 1-
 const control = `<div class="theme-toggle" role="group" aria-label="Colour Theme" hidden><button type="button" data-theme-choice="light" aria-label="Light Mode" title="Light Mode" aria-pressed="false">${sun}</button><button type="button" data-theme-choice="dark" aria-label="Dark Mode" title="Dark Mode" aria-pressed="false">${moon}</button></div>`;
 const styles = `
 :root {
+  --focus-sharp-radius:2px;
   --floating-shadow: 0 0 80px #00000024;
   --floating-control-shadow: 0 0 12px #00000026, 0 0 28px #00000026; --agent-accent: #0285FF; --agent-ink: #fff; --page: #f3f3f3; --surface: #fff; --content-surface: #f8f9fa; --text: #1a1a1a;
   --muted-text: #5b6066; --border: #dedede; --panel-border: #d5d9dd;
@@ -82,8 +84,7 @@ html, body { overflow-x: hidden; }
   :root.theme-reveal[data-theme]::view-transition-old(root) { animation: none; }
 }
 /* Small default corners keep native outlines from producing needle-sharp joins. */
-:where(button,a[href],input,textarea,select,summary,[tabindex]){border-radius:3px}
-.code-wrap:has(pre:focus-visible)::after{border-top-left-radius:3px;border-top-right-radius:3px}
+:where(button,a[href],input,textarea,select,summary,[tabindex]){border-radius:var(--focus-sharp-radius)}
 /* Pointer focus remains real, but navigation rings belong to keyboard Tab use. */
 :root:not([data-focus-input="keyboard"]) :focus:not(input):not(textarea):not([contenteditable="true"]) { outline: none; }
 :root:not([data-focus-input="keyboard"]) input:is([type="radio"],[type="checkbox"],[type="range"]):focus { outline: none; }
@@ -156,23 +157,10 @@ a.page-title-link:focus{outline:none}
 const script = `(() => {
   const key = 'workshop-colour-theme';
   document.documentElement.dataset.focusInput = 'pointer';
-  let restartTitleNavigation = false;
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Tab') {
-      document.documentElement.dataset.focusInput = 'keyboard';
-      if (restartTitleNavigation && !event.shiftKey) {
-        const title = document.querySelector('.page-header .page-title-link');
-        if (title) { event.preventDefault(); title.focus({preventScroll:true}); }
-      }
-      restartTitleNavigation = false;
-    }
-  }, true);
+  document.addEventListener('keydown', event => {if(event.key==='Tab')document.documentElement.dataset.focusInput='keyboard';},true);
   document.addEventListener('pointerdown', event => {
     document.documentElement.dataset.focusInput = 'pointer';
     if (!event.isPrimary || event.button !== 0) return;
-    const interactive = event.target.closest('button,a[href],input,select,textarea,summary,[tabindex]');
-    const header = document.querySelector('.page-header');
-    restartTitleNavigation = !interactive && Boolean(header) && event.clientY >= 0 && event.clientY <= header.getBoundingClientRect().bottom && scrollY < 40;
     const target = event.target.closest('button, a[href], pre[tabindex]');
     if (target && !target.disabled) target.focus({preventScroll: true});
   }, true);
@@ -338,7 +326,7 @@ export function withTheme(html, login = false) {
     const path=heading.includes('Component Playground')?'/component-playground':heading.includes('AI Workshop Resources')?'/ai-workshop-resources':null;
     return path?`<a class="page-title-link" tabindex="1" data-no-link-decoration href="${path}">${heading}</a>`:heading;
   });
-  html = html.replace('</head>', `<style data-workshop-theme-styles>${styles}\n${groupFocusCSS}\n${linkCSS}\n${colourValueCSS}\n${alignmentCSS}\n${bodyTypeCSS}</style><script nonce="__NONCE__" data-workshop-theme>${agentScript}\n${playgroundFaviconScript}\n${toggleScript}\n${script}\n${linkScript}\n${colourValueScript}</script></head>`);
+  html = html.replace('</head>', `<style data-workshop-theme-styles>${styles}\n${groupFocusCSS}\n${linkCSS}\n${colourValueCSS}\n${alignmentCSS}\n${bodyTypeCSS}</style><script nonce="__NONCE__" data-workshop-theme>${agentScript}\n${playgroundFaviconScript}\n${toggleScript}\n${script}\n${keyboardNavigationScript}\n${linkScript}\n${colourValueScript}</script></head>`);
   if (login) return html.replace('</h2>', `</h2><div class="gate-toolbar"><p class="eyebrow">Workshop Access</p>${control}</div>`);
   return html.replace('<div class="brand" aria-label="Wavelength">', '<div class="page-toolbar"><div class="brand" aria-label="Wavelength">')
     .replace('    <header class="page-header">', `    ${control}</div>\n    <header class="page-header">`);

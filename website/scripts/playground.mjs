@@ -305,6 +305,9 @@ export async function playgroundPage({authenticated=false,inlineAssets=true}={})
  if(start<0||end<0)throw Error('Resource session boundary missing');
  resources=resources.slice(0,start)+resources.slice(end);
  const discovery=sandboxDoc(resources, `let lastEgg,eggActive=true;
+const originalPanelFocus=window.workshopFocusPanel;window.workshopFocusPanel=panel=>{if(document.hasFocus())originalPanelFocus(panel);};
+window.workshopPresentPreviewDialog=dialog=>{if(document.hasFocus())return false;dialog.setAttribute('data-passive-preview','');dialog.setAttribute('open','');Object.assign(dialog.style,{position:'fixed',inset:'0',margin:'auto',zIndex:'1001'});const title=dialog.querySelector('h2');title.setAttribute('data-panel-heading','');return true;};
+window.addEventListener('focus',()=>{const dialog=document.querySelector('dialog[open][data-passive-preview]');if(!dialog||!document.hasFocus())return;dialog.removeAttribute('data-passive-preview');dialog.removeAttribute('open');dialog.showModal();window.workshopFocusPanel(dialog);});
 // DOM order follows the visible pinned controls: agent, then theme.
 document.querySelector('.page-header').after(document.querySelector('.page-toolbar'));
 const eggHeadingMetrics=${headingMetrics.toString()},eggAnchorGap=${resourceAnchorGap.toString()};

@@ -3,14 +3,45 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.322"
-  update_summary: "Refine specimen fidelity and local focus order"
-  updated_at: "Thu 22 Oct 2026 at 02:08:54 pm AEDT (+11:00)"
+  doc_revision: "26.0.323"
+  update_summary: "Unify keyboard navigation and sharp focus corners"
+  updated_at: "Thu 22 Oct 2026 at 03:24:45 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.321 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 03:24:45 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Unify keyboard navigation and sharp focus corners
+
+### Changed
+
+- Define `--focus-sharp-radius: 2px` for sharp focus corners, including the tab baseline, prompt upper corners and exterior overlays; preserve established larger radii.
+- Add shared pointer-origin Tab continuation and focused-element revelation with 16px margins through nested scroll regions and Expand View.
+- Add a keyboard-visible Skip to Main Content link before Playground tooling, targeting the active panel's first eligible control.
+- Display automatic Easter Egg success fixtures without moving focus from the outer page; intentional iframe entry activates the modal. Preserve real-site dialog focus.
+- Pair short and multiline Resting State/Hover State links and remove the duplicate Typography text-selection sample.
+- Move the clickable H1 specimen above QR examples, rename the H2 anchor specimens, use Step 1 on the left and Step 2 on the right, and pair Hover/Resting examples responsively.
+- Update the Interface contract and design rationale.
+
+### Validation
+
+- `npm --prefix website run build` — passed using saved backdrop geometry; generated artefacts display v26.0.321.
+- Expanded navigation checks — passed in Chrome and WebKit at 390 and 1440px, including passive dialogs, skip links, paired states, expanded focus visibility and forward/reverse Tab after clicks.
+- Shared focus-boundary and control keyboard checks — passed in both engines at 320, 390, 768 and 1440px.
+- Main-site heading/discovery checks — passed in both engines at 390 and 1440px; live modal geometry and focus remain intact.
+- Full Playground source-parity checks — passed across responsive layouts, both agents/themes, held login states and typography.
+- Paired anchor and skip-link screenshots inspected. Physical devices were not tested.
 
 ## v26.0.320 — 2026-10-22
 
