@@ -2,14 +2,18 @@
 export function installKeyboardNavigation(){
  const selector='button,input,select,textarea,summary,a[href],[tabindex]';
  const eligible=e=>e instanceof HTMLElement&&e.tabIndex>=0&&!e.disabled&&!e.closest('[inert],[hidden]')&&e.checkVisibility({checkVisibilityCSS:true});
- let pointerOrigin=null;
+ let pointerOrigin=null,nextTabTarget=null;
+ window.workshopSetNextTabTarget=target=>{pointerOrigin=null;nextTabTarget=target;};
  document.addEventListener('pointerdown',event=>{
   if(!event.isPrimary||event.button!==0)return;
+  nextTabTarget=null;
   const interactive=event.target.closest(selector);
   pointerOrigin=interactive&&eligible(interactive)?null:{x:event.clientX,y:event.clientY,target:event.target};
  },true);
  document.addEventListener('keydown',event=>{
-  if(event.key!=='Tab'||!pointerOrigin)return;
+  if(event.key!=='Tab')return;
+  if(nextTabTarget){const target=nextTabTarget;nextTabTarget=null;if(!event.shiftKey&&target.isConnected&&eligible(target)){event.preventDefault();document.documentElement.dataset.focusInput='keyboard';target.focus({preventScroll:true});return;}}
+  if(!pointerOrigin)return;
   const {x,y,target}=pointerOrigin;pointerOrigin=null;
   const scope=target.closest('dialog[open]')||document;
   const items=[...scope.querySelectorAll(selector)].filter(eligible).filter(e=>!e.matches('.skip-main'));

@@ -486,7 +486,7 @@ ${urlReferenceCSS}
  reduced.addEventListener('change',()=>{if(reduced.matches){optionsAnimation?.finish();}});
 
  optionsButton.onclick=()=>setOptions(!optionsOpen);
- $('back-to-top').onclick=()=>{$('playground-title').focus({preventScroll:true});window.scrollTo({top:0,behavior:reduced.matches?'instant':'smooth'});};
+ $('back-to-top').onclick=()=>{$('playground-title').focus({preventScroll:true});window.workshopSetNextTabTarget(document.querySelector('.skip-main'));requestAnimationFrame(()=>window.scrollTo({top:0,behavior:reduced.matches?'instant':'smooth'}));};
 
  let expandedPreview=null,previewScroll=0,controlHomes=[];
  const updatePreviewViewport=()=>{document.documentElement.style.setProperty('--embedded-preview-height',((window.visualViewport?.height||innerHeight)*.6)+'px');document.documentElement.style.setProperty('--preview-height',(visualViewport?.height||innerHeight)+'px');document.documentElement.style.setProperty('--preview-top',(visualViewport?.offsetTop||0)+'px');};

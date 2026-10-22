@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.329"
-  update_summary: "Preserve bold code through shared typography"
-  updated_at: "Thu 22 Oct 2026 at 04:39:01 pm AEDT (+11:00)"
+  doc_revision: "26.0.330"
+  update_summary: "Reset Playground tab order after Jump to Top"
+  updated_at: "Thu 22 Oct 2026 at 04:51:37 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.328 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 04:51:37 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Reset Playground tab order after Jump to Top
+
+### Fixed
+
+- Make the next forward Tab after Jump to Top reach Skip to Main Content, then resume at H1; subsequent pointer input cancels the pending reset.
+- Let focus revelation settle before beginning the top-scroll animation so keyboard activation reaches the page top reliably.
+- Record the navigation rule in the mandatory Interface contract and add regression coverage for pointer/keyboard activation and neutral/checking password colours.
+
+### Validation
+
+- Chrome and WebKit at 320, 390, 768 and 1440px — Jump to Top and subsequent skip/H1 order passed; all three requested Icons/Status States password specimens retain 1px accent borders and matching exterior focus rings in both themes and for both agents. No password colour changes were required.
+- `node website/tests/playground-browser-check.mjs` — full source parity passed.
+- `npm --prefix website run build` — passed using saved backdrop geometry; generated previews and built server display v26.0.328.
+- LAN Resources and Playground destinations — HTTP 200 with automatic local sign-in. Physical devices were not tested.
 
 ## v26.0.327 — 2026-10-22
 

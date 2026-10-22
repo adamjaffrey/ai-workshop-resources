@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.71"
-  update_summary: "Preserve bold code through shared typography"
-  updated_at: "Thu 22 Oct 2026 at 04:37:00 pm AEDT (+11:00)"
+  doc_revision: "26.0.72"
+  update_summary: "Reset Playground tab order after Jump to Top"
+  updated_at: "Thu 22 Oct 2026 at 04:47:41 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -360,7 +360,7 @@ Heading collapse height animations clip vertically only (`overflow-x: visible; o
 
 ### Playground Navigation and Paired Specimens
 
-- Skip to Main Content is the first keyboard stop on Resources and Playground, visible when focused. Place it left-aligned with the logo and vertically centred in the space above its actual `.brand` container on both pages, not the taller Playground brand row; use the ordinary hyperlink decoration on hover and keyboard focus, with its tight shared exterior contour. Resources targets the first step anchor, bypassing H1, QR and selectors. Playground bypasses the title, floating actions, global selectors and tab bar, focusing the first eligible control in the active content panel. Do not inject page-level skip links into embedded specimens.
+- Skip to Main Content is the first keyboard stop on Resources and Playground, visible when focused. Place it left-aligned with the logo and vertically centred in the space above its actual `.brand` container on both pages, not the taller Playground brand row; use the ordinary hyperlink decoration on hover and keyboard focus, with its tight shared exterior contour. Resources targets the first step anchor, bypassing H1, QR and selectors. Playground bypasses the title, floating actions, global selectors and tab bar, focusing the first eligible control in the active content panel. Do not inject page-level skip links into embedded specimens. Activating Playground Jump to Top resets the next forward Tab to Skip to Main Content, then resumes at H1 and the normal page order; a subsequent pointer interaction cancels that pending reset.
 - Apply shared focus styling, state colours, keyboard groups and nested-scroll revelation inside Expand View on mobile and desktop. Do not let automatic iframe preview state changes take focus from the outer page. The Easter Egg success fixture completes its normal animation and paints the passive dialog above the animation scrim without requiring iframe focus; real-site discovery retains its modal heading focus.
 - Hyperlink Styles shows Resting State on the left and Hover State on the right for both short and multiline links. Keep text-selection demonstrations in Focus and Selection rather than duplicating them here.
 - Put H1 Heading · Clickable Link · Hover State before QR specimens. H2 anchor examples use Step 1 for left alignment and Step 2 for right alignment, with Copy Link, Copy Success and Copy Failure titles and a Right-Aligned suffix where applicable. Pair Hover on the left with Resting on the right, stacking when needed. Right-align both subheadings in right-aligned pairs. Reserve the full specimen text-rail gutter for anchor focus paint, including the left edge of paired examples. The neutral resting copy example is plain heading text without its hover hash.
