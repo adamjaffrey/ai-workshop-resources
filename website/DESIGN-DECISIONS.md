@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.101"
-  update_summary: "Use heading-first anchor focus and shared H3 spacing"
-  updated_at: "Thu 22 Oct 2026 at 10:26:05 pm AEDT (+11:00)"
+  doc_revision: "26.0.102"
+  update_summary: "Require both backdrop captures before every Sites publication"
+  updated_at: "Thu 22 Oct 2026 at 10:45:29 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -716,3 +716,11 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Spacing:** Reuse URL Reference H3 geometry for Hyperlink Styles, with a divider above every subsection including the first. Collapsed hover surfaces have 20px clearance above and below at desktop and mobile widths. Keep expanded content spacing independent; no compensating padding belongs inside expanded views.
 
 **Owners:** [Interface](../docs/agent-guidance/interface.md), [Motion](../docs/agent-guidance/motion.md), `lib/workshop-keyboard-navigation.mjs` and `scripts/playground-section-collapse.mjs`.
+
+## Fresh Login Backdrops Before Every Sites Publication
+
+**Decision:** Every authorised Sites publication requires fresh measurement and updated saved geometry for both Resources and Colours login backdrops, followed by validation and inclusion in the committed publication candidate. Apparent layout stability is no exemption. Internal builds and local previews continue to reuse saved geometry.
+
+**Reason:** Adam explicitly replaced the conditional layout-change trigger with a consistent publication requirement so backdrop refreshes cannot be overlooked. This supersedes earlier decisions limiting publication captures to affected layouts; source-baseline verification remains useful for review rather than deciding whether to capture.
+
+**Owners:** [Repository Instructions](../AGENTS.md#website-guardrails), [Anonymous Backdrops](../docs/agent-guidance/backdrops.md#blur-placeholder-geometry) and [Delivery](../docs/agent-guidance/delivery.md#sites-publication-preparation).

@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.85"
-  update_summary: "Keep canonical preview links and add nested component anchors"
-  updated_at: "Thu 22 Oct 2026 at 10:35:44 pm AEDT (+11:00)"
+  doc_revision: "26.0.86"
+  update_summary: "Require both backdrop captures before every Sites publication"
+  updated_at: "Thu 22 Oct 2026 at 10:45:29 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -87,7 +87,7 @@ Keep cross-cutting policy here. Put precise implementation constraints and test 
 - Give every distinct Playground section and subsection a unique heading icon. An icon may appear in only one section/subsection heading and, optionally, once in the tab bar; each tab’s first heading must use that tab’s icon. Follow the Interface contract for inventory verification and catalogue metadata.
 - Use CMOS 18 title case for headings and control labels, with the categories and grammatical rules in Interface. Preserve literal identifiers, code and official names.
 - Only agent/theme selectors and Playground segmented selectors may stretch on press/hold. Ordinary buttons and disclosures must not inherit that animation. Preserve accessible focus, keyboard access and theme-aware hover states.
-- Internal builds reuse saved backdrop geometry. Remeasure existing backdrops only for explicitly authorised publication when relevant layout has changed, or an explicit user exception. Follow the Backdrops contract to identify the actual published baseline; never treat old one-off authorisation as ongoing permission.
+- Internal builds and local previews reuse saved backdrop geometry. Before every authorised Sites publication, freshly remeasure and update both login backdrops (Resources and Colours), regardless of whether layout changes are apparent. Follow the Backdrops contract for capture, validation and committing the publication candidate.
 
 ## Recent Interface Learnings
 

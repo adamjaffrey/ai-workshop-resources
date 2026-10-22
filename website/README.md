@@ -3,9 +3,9 @@ name: workshop-website-access
 description: Configure and validate the workshop site's shared-password access.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.178"
-  update_summary: "Document shared native anchor scrolling"
-  updated_at: "Thu 22 Oct 2026 at 05:08:41 pm AEDT (+11:00)"
+  doc_revision: "26.0.179"
+  update_summary: "Require both backdrop captures before every Sites publication"
+  updated_at: "Thu 22 Oct 2026 at 10:45:29 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -114,15 +114,13 @@ Run `node website/scripts/preview-resources.mjs` from the repository root to gen
 
 - Default block strength is 40%: an opaque mix of 40% foreground ink and 60% of the containing surface colour. This is a colour blend, not element or page opacity.
 - Use the relevant surface for each word/icon: page, card, prompt panel, button or icon tile. Preserve those surfaces and their colours. For the QR centre, mix dark ink with white and leave its white padding untouched.
-- Apply the same Block strength setting to words, icons and the QR centre. Retain the separate 4px background blur default. Do not bake strength or blur into measured geometry; changing either never requires remeasurement.
+- Apply the same Block strength setting to words, icons and the QR centre. Retain the separate 4px background blur default. Do not bake strength or blur into measured geometry; changing either during internal development does not require remeasurement; publication still requires both fresh captures.
 
 ### Reuse And Remeasurement
 
-Resources and Colours have independent saved geometry. Every Playground login route uses Colours as its shared backdrop. Adam authorised the five-width migration capture after the October 2026 breakpoint cleanup. Subsequent remeasurement of either backdrop happens only during explicitly authorised Sites publication preparation, and only if the visible layout changed since the latest successful publication. Internal builds and local previews reuse saved geometry even when its layout revision is pending.
+Resources and Colours have independent saved geometry. Every Playground login route uses Colours as its shared backdrop. Before every authorised Sites publication, freshly remeasure and update both backdrops, even when no geometry changes are apparent. Internal builds and local previews continue to reuse saved geometry.
 
-Before publication, obtain the latest successful Sites deployment, its saved version and exact source commit, then compare that source checkout with the candidate (including all intervening internal builds and uncommitted changes). A saved version, local commit or GitHub push alone is not evidence of publication. Review structure, spacing, fonts, text metrics, wrapping, breakpoints, word/icon dimensions and QR bounds/padding for each backdrop. Non-layout changes, identical-geometry version labels and footer-only changes below the visible background need no remeasurement. If the published source cannot be verified, resolve it before publishing.
-
-Mark affected geometry with `placeholderLayoutRevision` (Resources) or `playgroundPlaceholderLayoutRevision` (Colours) in `lib/workshop-layout.mjs`. After final layout edits and only for the affected backdrop, run `npm --prefix website run blocks:measure` or `node website/scripts/measure-playground-placeholder.mjs` from the repository root. Run `node website/scripts/check-placeholder-publication.mjs --published-source PATH --published-commit SHA` against the verified publication checkout. It reports changed source files and rejects stale revisions; a human/agent review of the actual diff determines layout relevance. Validate and commit refreshed measurements with the publication candidate. Failed publication does not advance the comparison baseline; unchanged, validated candidate measurements can be reused on retry.
+Follow the [Anonymous Backdrops contract](../docs/agent-guidance/backdrops.md#blur-placeholder-geometry) for the mandatory workflow: confirm the deployed source, finish layout edits, capture both backdrops at the five required widths, validate, commit and package the candidate. Source comparison helps review accumulated changes; it never waives either capture. Run both `npm --prefix website run blocks:measure` and `node website/scripts/measure-playground-placeholder.mjs`, or the combined `node website/scripts/capture-backdrops.mjs`, from the repository root. The publication preflight must pass as well as the fresh captures.
 
 The scripts use installed headless Google Chrome and save anonymous geometry in `lib/workshop-placeholder.generated.json` and `lib/workshop-playground-placeholder.generated.json`. Internal rendering no longer rejects a pending layout revision. Source fingerprints record provenance only. Capture the Style Inspector as an expanded, neutral static section at the very bottom, without its floating shadow or reserved viewport spacing; the authenticated Playground retains its interactive dock. The public `/login-backdrop/components` endpoint serves only anonymous geometry, never app content or sessions. The compatibility endpoint now serves Colours in one inert, script-disabled document with no nested specimen frames. It never exposes protected text, commands or actions. Both backdrops follow the selected theme and agent, with Codex blue as the default. Original text is replaced before delivery; geometry is never measured in a visitor's browser. Neither normal build startup nor preview controls launch measurement.
 
@@ -352,7 +350,7 @@ In the v26.0.179 benchmark on 19 October, worst-theme sweep/hover main-thread oc
 
 The follow-up layout-cache/typed-transform pass retained identical visible particle/text styles (treating brightness(1) as the equivalent no filter), with fallback coverage for browsers without typed transforms. In a paired 4×-throttled mobile hover sample, light/dark frame counts increased from 244/230 to 247/237 over approximately 4.5 seconds. This is a modest, bounded result: median frame intervals remained 16.7ms and p95 about 33.3–33.4ms; sweeps did not show a consistent frame-count improvement. Do not describe remaining frame drops as eliminated. Paint-containment variants did not consistently help and were not adopted.
 
-`node website/tests/perspective-footer-browser-check.mjs` verifies footer placement, 40px spacing, unchanged footer typography, responsive layout caching and the canonical Playground specimen at phone/tablet/desktop widths in both themes. Footer-only placement does not affect the visible login placeholder geometry and requires no block remeasurement.
+`node website/tests/perspective-footer-browser-check.mjs` verifies footer placement, 40px spacing, unchanged footer typography, responsive layout caching and the canonical Playground specimen at phone/tablet/desktop widths in both themes. Footer-only placement does not affect visible login placeholder geometry during internal development; publication still requires both fresh captures.
 
 ## Playground Heading and Favicon
 

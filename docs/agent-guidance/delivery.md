@@ -3,9 +3,9 @@ name: preview-and-delivery
 description: Specify preview operation, authentication expectations and exact handoff wording.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.4"
-  update_summary: "Keep canonical preview links and add nested component anchors"
-  updated_at: "Thu 22 Oct 2026 at 10:35:44 pm AEDT (+11:00)"
+  doc_revision: "26.0.5"
+  update_summary: "Require both backdrop captures before every Sites publication"
+  updated_at: "Thu 22 Oct 2026 at 10:45:29 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -13,6 +13,10 @@ metadata:
 # Preview and Delivery Contract
 
 This is a mandatory scoped contract incorporated by [AGENTS.md](../../AGENTS.md). Read it before changing the behaviours it covers. Paths and commands in code spans are relative to the repository root. Documentation-only work does not trigger the software checks listed here.
+
+## Sites Publication Preparation
+
+Before every authorised Sites publication, freshly remeasure and update both Resources and Colours login backdrops, regardless of apparent layout changes. Follow [Anonymous Backdrops](backdrops.md#blur-placeholder-geometry) for capture, validation and committing the candidate before push/package/deploy. Ordinary internal builds and documentation-only handoffs without publication retain their existing lightweight workflow.
 
 ## Preview Operation
 
