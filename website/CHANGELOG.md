@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.324"
-  update_summary: "Align skip navigation and specimen focus boundaries"
-  updated_at: "Thu 22 Oct 2026 at 03:49:47 pm AEDT (+11:00)"
+  doc_revision: "26.0.325"
+  update_summary: "Complete passive dialog and keyboard highlight treatments"
+  updated_at: "Thu 22 Oct 2026 at 03:59:07 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.323 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 03:59:07 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Complete passive dialog and keyboard highlight treatments
+
+### Changed
+
+- Apply standard hyperlink hover paint to keyboard-focused Skip to Main Content links.
+- Keep the completed passive Easter Egg dialog above its animation scrim without capturing outer focus or changing main-site modal behaviour.
+- Right-align Hover/Resting captions for right-aligned Status States anchors and reserve enough gutter to prevent left anchor focus clipping.
+- Rename the Typography link group to Hyperlink Styles.
+- Preserve green selected password text and a green selection tint in accepted specimens, with blue outer rings. Test native Tab entry instead of only programmatic focus.
+
+### Validation
+
+- `npm --prefix website run build` — passed using saved backdrop geometry; generated artefacts display v26.0.323.
+- Expanded navigation checks — passed in Chrome and WebKit at 390 and 1440px, including normal-motion passive dialog completion, visible stacking without focus capture, inline/expanded views, anchor ring clearance and caption alignment.
+- Skip/password/row checks — passed in both engines at 320, 390, 768 and 1440px, including native Tab password selection colours.
+- Full Playground source-parity checks — passed across responsive layouts, agents/themes and held login states before the final selection-colour correction; that correction passed the focused native-Tab checks above.
+- Passive dialog and anchor screenshots inspected; physical devices were not tested.
 
 ## v26.0.322 — 2026-10-22
 

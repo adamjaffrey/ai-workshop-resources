@@ -92,6 +92,8 @@ html, body { overflow-x: hidden; }
 :is(.gate-panel.is-password-error .password-field,.password-field[data-password-state=wrong]){--password-focus-text:var(--error)}
 :root[data-focus-input=keyboard] .password-field:focus-within{border-color:var(--password-focus-text);outline-color:var(--icon-ink)}
 :root[data-focus-input=keyboard] .password-field:focus-within input{color:var(--password-focus-text)!important}
+:root[data-focus-input=keyboard] .password-field:focus-within input::selection{color:var(--password-focus-text);background:var(--selection)}
+:root[data-focus-input=keyboard] :is(.gate-panel.is-success .password-field,.password-field[data-password-state=success]):focus-within input::selection{color:var(--success);background:color-mix(in srgb,var(--success) 20%,var(--field-bg))}
 :root[data-focus-input=keyboard] :is(.gate-panel.is-password-error .password-field,.password-field[data-password-state=wrong]):focus-within{outline-color:var(--error)}
 /* Pointer focus remains real, but navigation rings belong to keyboard Tab use. */
 :root:not([data-focus-input="keyboard"]) :focus:not(input):not(textarea):not([contenteditable="true"]) { outline: none; }

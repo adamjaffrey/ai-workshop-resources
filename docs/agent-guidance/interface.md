@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.66"
-  update_summary: "Align skip navigation and specimen focus boundaries"
-  updated_at: "Thu 22 Oct 2026 at 03:49:04 pm AEDT (+11:00)"
+  doc_revision: "26.0.67"
+  update_summary: "Complete passive dialog and keyboard highlight treatments"
+  updated_at: "Thu 22 Oct 2026 at 03:58:16 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -356,14 +356,14 @@ Heading collapse height animations clip vertically only (`overflow-x: visible; o
 
 - The standalone prompt-text specimen retains square upper container corners as in the app; its exterior focus ring still softens those corners.
 - The isolated Scan to Open caption is left-aligned, independent of the header grid and Step N anchor alignment. Its viewport only scrolls when genuinely too narrow and is never a keyboard stop.
-- Frozen theme-icon examples retain their captured theme’s hover fill and foreground tokens. Password-icon captures retain their source state after removal from the login panel. Keyboard-focused neutral/checking fields use accent-blue text and borders; accepted fields retain green text and borders with an accent-blue exterior ring. Error fields retain their error-colour ring. Share this rule with full login contexts.
+- Frozen theme-icon examples retain their captured theme’s hover fill and foreground tokens. Password-icon captures retain their source state after removal from the login panel. Keyboard-focused neutral/checking fields use accent-blue text and borders; accepted fields retain green text and borders with an accent-blue exterior ring. Their selected password text uses green foreground and a 20% success-colour tint mixed with the field background, including isolated icon captures; native Tab selection must preserve this treatment. Error fields retain their error-colour ring. Share this rule with full login contexts.
 
 ### Playground Navigation and Paired Specimens
 
-- Skip to Main Content is the first keyboard stop on Resources and Playground, visible when focused. Place it left-aligned with the logo and vertically centred in the space above it; use the ordinary hyperlink decoration and its tight shared exterior contour. Resources targets the first step anchor, bypassing H1, QR and selectors. Playground bypasses the title, floating actions, global selectors and tab bar, focusing the first eligible control in the active content panel. Do not inject page-level skip links into embedded specimens.
-- Apply shared focus styling, state colours, keyboard groups and nested-scroll revelation inside Expand View on mobile and desktop. Do not let automatic iframe preview state changes take focus from the outer page. The Easter Egg success fixture may display its dialog passively; real-site discovery retains its modal heading focus.
-- Defined Styles shows Resting State on the left and Hover State on the right for both short and multiline links. Keep text-selection demonstrations in Focus and Selection rather than duplicating them here.
-- Put H1 Heading · Clickable Link · Hover State before QR specimens. H2 anchor examples use Step 1 for left alignment and Step 2 for right alignment, with Copy Link, Copy Success and Copy Failure titles and a Right-Aligned suffix where applicable. Pair Hover on the left with Resting on the right, stacking when needed. The neutral resting copy example is plain heading text without its hover hash.
+- Skip to Main Content is the first keyboard stop on Resources and Playground, visible when focused. Place it left-aligned with the logo and vertically centred in the space above it; use the ordinary hyperlink decoration on hover and keyboard focus, with its tight shared exterior contour. Resources targets the first step anchor, bypassing H1, QR and selectors. Playground bypasses the title, floating actions, global selectors and tab bar, focusing the first eligible control in the active content panel. Do not inject page-level skip links into embedded specimens.
+- Apply shared focus styling, state colours, keyboard groups and nested-scroll revelation inside Expand View on mobile and desktop. Do not let automatic iframe preview state changes take focus from the outer page. The Easter Egg success fixture completes its normal animation and paints the passive dialog above the animation scrim without requiring iframe focus; real-site discovery retains its modal heading focus.
+- Hyperlink Styles shows Resting State on the left and Hover State on the right for both short and multiline links. Keep text-selection demonstrations in Focus and Selection rather than duplicating them here.
+- Put H1 Heading · Clickable Link · Hover State before QR specimens. H2 anchor examples use Step 1 for left alignment and Step 2 for right alignment, with Copy Link, Copy Success and Copy Failure titles and a Right-Aligned suffix where applicable. Pair Hover on the left with Resting on the right, stacking when needed. Right-align both subheadings in right-aligned pairs. Reserve the full specimen text-rail gutter for anchor focus paint, including the left edge of paired examples. The neutral resting copy example is plain heading text without its hover hash.
 
 - Static Focus and Selection row rings sit 3px inside the horizontal divider lines. The first and last rings extend to 10px from the gallery container edges. Do not inherit the Resources footer padding between resource and login specimen groups.
 - Expanded URL H3 rows reserve their full measured hover height, just like collapsed rows, while retaining the independent 20px content gap.

@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.77"
-  update_summary: "Align skip navigation and specimen focus boundaries"
-  updated_at: "Thu 22 Oct 2026 at 03:49:04 pm AEDT (+11:00)"
+  doc_revision: "26.0.78"
+  update_summary: "Complete passive dialog and keyboard highlight treatments"
+  updated_at: "Thu 22 Oct 2026 at 03:58:16 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -562,3 +562,5 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Reason:** Adam requested equivalent mobile and desktop keyboard navigation, tighter skip-link focus geometry, green accepted fields with blue rings, and explicit row clearance. Expanded H3 paint previously exceeded its reserved row height and consumed part of the existing content gap.
 
 **Owner:** [Interface contract](../docs/agent-guidance/interface.md#playground-navigation-and-paired-specimens).
+
+**Keyboard Highlight Follow-up:** Skip links use the same decoration on keyboard focus as on hover. Accepted-password native text selections retain green ink and a green tint with a blue exterior ring. The passive success dialog must paint above the animation scrim; the earlier lower stacking position hid its completed appearance until iframe focus promoted it to the modal layer. Paired anchors reserve full text-rail clearance, and right-aligned examples align their Hover/Resting captions too. Rename the hyperlink group to Hyperlink Styles.
