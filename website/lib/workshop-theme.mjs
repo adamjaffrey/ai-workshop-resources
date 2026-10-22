@@ -19,6 +19,7 @@ const control = `<div class="theme-toggle" role="group" aria-label="Colour Theme
 const styles = `
 :root {
   --focus-sharp-radius:2px;
+  --focus-comparison-radius:1px;
   --focus-ring-offset:3px;
   --floating-shadow: 0 0 80px #00000024;
   --floating-control-shadow: 0 0 12px #00000026, 0 0 28px #00000026; --agent-accent: #0285FF; --agent-ink: #fff; --page: #f3f3f3; --surface: #fff; --content-surface: #f8f9fa; --text: #1a1a1a;

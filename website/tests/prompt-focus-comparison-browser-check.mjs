@@ -15,7 +15,7 @@ try{for(const engine of [chromium,webkit]){
    await page.evaluate(({theme,agent})=>{document.documentElement.dataset.theme=theme;window.workshopAgent.select(agent);document.documentElement.dataset.focusInput='keyboard';},{theme,agent});
    await page.locator('pre').first().focus();
    const actual=await page.locator('.code-wrap').first().evaluate(e=>{const c=getComputedStyle(e,'::after');return [c.outlineWidth,c.outlineOffset,c.borderTopLeftRadius,c.borderTopRightRadius,c.borderBottomRightRadius,c.outlineStyle];});
-   assert.deepEqual(actual,['3px','3px','0px','2px','11px','solid']);
+   assert.deepEqual(actual,['3px','3px','1px','2px','11px','solid']);
   }
   if(width===390){await page.locator('pre').first().scrollIntoViewIfNeeded();await page.screenshot({path:`/tmp/prompt-comparison-${engine.name()}.png`});}
   await page.goto(origin+'/component-playground');await page.locator('[data-tab=typography]').click();
@@ -23,7 +23,7 @@ try{for(const engine of [chromium,webkit]){
   await pre.waitFor();await pre.click();await page.keyboard.press('Tab');await pre.focus();
   await page.waitForTimeout(200);
   const overlay=frame.locator('.workshop-focus-overlay');
-  assert.deepEqual(await overlay.evaluate(readRing),['3px','3px','0px','2px','11px','solid']);
+  assert.deepEqual(await overlay.evaluate(readRing),['3px','3px','1px','2px','11px','solid']);
   assert.equal(await overlay.evaluate(e=>getComputedStyle(e).display),'block');
   assert.equal(await pre.evaluate(e=>getComputedStyle(e.closest('.code-wrap'),'::after').display),'none');
   await page.mouse.click(1,1);await page.waitForTimeout(50);

@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.74"
-  update_summary: "Distinguish internal skip links with Modified Arrow Right"
-  updated_at: "Thu 22 Oct 2026 at 05:34:33 pm AEDT (+11:00)"
+  doc_revision: "26.0.75"
+  update_summary: "Compare 1px and 2px prompt focus corners"
+  updated_at: "Thu 22 Oct 2026 at 05:38:34 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -16,7 +16,7 @@ This is a mandatory scoped contract incorporated by [AGENTS.md](../../AGENTS.md)
 
 ## Focus and Panel Opening
 
-- For the current user-requested prompt comparison, use `--focus-ring-offset: 3px` for the shared native focus default and prompt ring. Set the prompt ring’s top-left base radius to zero and top-right to `--focus-sharp-radius`; retain the 11px lower corners. The Playground prompt overlay copies the canonical app pseudo-element’s outline, offset and radii so this comparison uses the same paint geometry above clipping layers. This is a review comparison, not a final asymmetric design choice.
+- For the current user-requested prompt comparison, use `--focus-ring-offset: 3px` for the shared native focus default and prompt ring. Set the prompt ring’s top-left base radius to `--focus-comparison-radius: 1px` and top-right to `--focus-sharp-radius`; retain the 11px lower corners. The Playground prompt overlay copies the canonical app pseudo-element’s outline, offset and radii so this comparison uses the same paint geometry above clipping layers. This is a review comparison, not a final asymmetric design choice.
 - Keep native focus corners slightly rounded using the shared `--focus-sharp-radius: 2px` token, including the upper prompt-ring corners except for the comparison above; preserve larger established radii and straight edges.
 - Keep real focus on the appropriate control for every interaction type. Do not blur controls or remove keyboard access merely to hide a ring.
 - Text-entry fields, including passwords, retain visible focused styling for pointer, touch and keyboard use.

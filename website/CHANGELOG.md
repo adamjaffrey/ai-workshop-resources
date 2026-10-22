@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.333"
-  update_summary: "Use explicit internal link arrows for skip navigation"
-  updated_at: "Thu 22 Oct 2026 at 05:37:34 pm AEDT (+11:00)"
+  doc_revision: "26.0.334"
+  update_summary: "Compare 1px and 2px prompt focus corners"
+  updated_at: "Thu 22 Oct 2026 at 05:41:42 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.332 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 05:41:42 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Compare 1px and 2px prompt focus corners
+
+### Changed
+
+- Set the prompt ring’s top-left base radius to a 1px comparison token, retaining the shared 2px token at top-right and 3px offset.
+- Carry the comparison into Playground through the existing shared outline properties and update its documented review state.
+
+### Validation
+
+- Placeholder source checks and `npm --prefix website run build` — passed using saved backdrop geometry.
+- Prompt focus comparison check — passed Chrome and WebKit at 320, 390, 768 and 1440px, including app themes/agents, specimen parity and pointer suppression.
+- Full Playground browser/source-parity check — passed.
+- Active LAN app and Typography URLs returned HTTP 200; preview displays v26.0.332 and focused screenshot was visually inspected. No physical-device testing.
 
 ## v26.0.331 — 2026-10-22
 

@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.85"
-  update_summary: "Distinguish internal skip links with Modified Arrow Right"
-  updated_at: "Thu 22 Oct 2026 at 05:34:33 pm AEDT (+11:00)"
+  doc_revision: "26.0.86"
+  update_summary: "Compare 1px and 2px prompt focus corners"
+  updated_at: "Thu 22 Oct 2026 at 05:38:34 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -586,7 +586,7 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 
 ## Prompt Focus Corner Comparison
 
-**Decision:** For Adam’s requested visual comparison, give the prompt ring a zero top-left base radius and the shared 2px sharp token at top-right. Share `--focus-ring-offset: 3px` between the native default and prompt ring. Retain the lower radii.
+**Decision:** For Adam’s requested visual comparison, give the prompt ring a 1px top-left base radius using `--focus-comparison-radius` and the shared 2px sharp token at top-right. Share `--focus-ring-offset: 3px` between the native default and prompt ring. Retain the lower radii.
 
 **Reason:** The prompt previously used a separate 4px outline offset. Comparing both upper corners at a consistent gap makes the sharp token’s effect reviewable. Keep the Playground’s clipping-safe overlay, but derive its prompt outline properties from the app’s pseudo-element rather than calculating a different border radius. The asymmetric corners are pending user review.
 
