@@ -3,14 +3,34 @@ name: website-backlog
 description: Record unfinished proposed work for the workshop website.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.7"
-  update_summary: "Add System theme and Other agent options to the backlog"
-  updated_at: "Thu 22 Oct 2026 at 08:09:16 pm AEDT (+11:00)"
+  doc_revision: "26.0.8"
+  update_summary: "Add status-matched focus ring behaviour to the backlog"
+  updated_at: "Thu 22 Oct 2026 at 08:25:47 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Website Backlog
+
+## Match Focus Ring Colours to Success and Failure Status
+
+**Added at:** Thu 22 Oct 2026 at 08:25:47 pm AEDT (+11:00)
+
+**Added by:** Adam Jaffrey
+
+**Addition assisted by agent:** ChatGPT Codex
+
+### Outcome
+
+Match the focus ring colour to the current success or failure status of copy fields and other controls with success/failure feedback, showing the ring only while the relevant control is focused.
+
+### Acceptance Criteria
+
+- Use the corresponding success or failure colour for the focus ring while a focused control displays that status.
+- Apply the behaviour consistently to copy fields and other controls with success/failure conditions through the shared implementation and matching Playground specimens.
+- Do not display a focus ring or move focus merely because a success/failure status occurs; remove the ring when focus leaves the control.
+- Restore the normal focus ring colour when the status clears while the control remains focused.
+- Verify focus and status transitions across agents and themes, preserving accessible keyboard focus visibility.
 
 ## Add a System Theme Option
 
