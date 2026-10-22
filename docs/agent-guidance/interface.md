@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.60"
-  update_summary: "Share anchor decoration and wrapped focus with page titles"
-  updated_at: "Thu 22 Oct 2026 at 12:27:49 pm AEDT (+11:00)"
+  doc_revision: "26.0.61"
+  update_summary: "Keep initial page setup out of visible frames"
+  updated_at: "Thu 22 Oct 2026 at 12:44:49 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -341,3 +341,9 @@ Heading collapse height animations clip vertically only (`overflow-x: visible; o
 - Scale Playground H3 heading icons to 1em and retain measured cap-height alignment and optical outdents.
 - The Easter Egg keyboard focus ring encloses both halves of the inscription as one rounded block, including after closing and reopening its success dialog. Keep the dialog capped at 440px and exclude dialogs from normal page-child width rules so the rainbow path and displayed modal use identical geometry.
 - The Style Options ellipsis and its X state share the same 50px control and exterior 3px ring with 3px clearance; moving into the dialog must not clip or resize that ring.
+
+## Initial Page Presentation
+
+- Resources and the outer Playground share `workshop-first-paint.mjs`. Keep the page measurable but unpainted while initial DOM setup, font loading, brand-mask decoding and visible image decoding finish. Allow queued layout measurements to settle before showing it without an entrance animation. Do not wait for lazy specimen frames. Release preparation after four seconds if loading stalls, and leave the page visible when JavaScript is disabled.
+- Never measure a hidden Resources theme toggle into a sticky slot. Measure after its DOM-ready initialisation and refresh before presenting the page; retain restored-scroll positioning. Start the existing Resources card reveal sequence after page preparation so its lead-in remains visible.
+- Render the current Hover Preview Explainer markup directly with its copy initially hidden. Do not retain obsolete help markup for runtime replacement. Validate delayed assets, initial and scrolled refreshes, both engines, narrow/wide layouts and loading failures with `website/tests/first-paint-browser-check.mjs`.

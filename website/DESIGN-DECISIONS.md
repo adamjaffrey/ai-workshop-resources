@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.70"
-  update_summary: "Share anchor decoration and wrapped focus with page titles"
-  updated_at: "Thu 22 Oct 2026 at 12:27:49 pm AEDT (+11:00)"
+  doc_revision: "26.0.71"
+  update_summary: "Record stable first-paint preparation"
+  updated_at: "Thu 22 Oct 2026 at 12:44:49 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -521,3 +521,11 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Reason:** Adam requested identical hover decoration and exterior focus clearance, including wrapped titles. Shared paint tokens and one union mask keep hover, click coverage and focus boundaries consistent.
 
 **Owner:** [Page Titles and Discovery Focus](../docs/agent-guidance/interface.md#page-titles-and-discovery-focus).
+
+## Stable First Paint
+
+**Decision:** Share a bounded preparation phase between Resources and the outer Playground while retaining measurable layout. Wait for DOM setup, fonts, the Wavelength mask and visible images, then queued layout frames. Show the completed page without an added transition; leave lazy specimen loading independent and retain no-JavaScript and stalled-loading fallbacks. Measure Resources sticky controls only once the theme toggle is visible, and render the current hover explainer directly.
+
+**Rationale:** Refreshes exposed intermediate DOM states: independent buttons before selector assembly, missing tab icons, actions before relocation and obsolete hover help before replacement. Hidden theme measurements could also reserve an incorrect sticky footprint, while font/image arrival changed branding and QR presentation. Preparing before presentation addresses these related symptoms without changing the established final layout. A four-second release avoids an indefinitely blank page if an asset stalls.
+
+**Owning Rules and Sources:** [Initial Page Presentation](../docs/agent-guidance/interface.md#initial-page-presentation), `lib/workshop-first-paint.mjs`, `lib/workshop-sticky-controls.mjs` and `scripts/playground.mjs`.

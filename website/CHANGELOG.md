@@ -3,14 +3,43 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.317"
-  update_summary: "Share anchor decoration with clickable page titles"
-  updated_at: "Thu 22 Oct 2026 at 12:29:29 pm AEDT (+11:00)"
+  doc_revision: "26.0.318"
+  update_summary: "Prevent intermediate page setup from flickering on load"
+  updated_at: "Thu 22 Oct 2026 at 12:46:49 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.316 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 12:46:49 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Prevent intermediate page setup from flickering on load
+
+### Fixed
+
+- Present Resources and Playground after their initial controls, fonts, branding and visible images are ready, with a bounded loading fallback and unchanged no-JavaScript visibility.
+- Avoid measuring the hidden theme toggle into its sticky placeholder, including during refresh at a restored scroll position.
+- Render the current Hover Preview Explainer directly; remove the obsolete help markup and runtime replacement.
+- Retain the visible card entrance lead-in after page preparation and document the shared first-paint behaviour.
+
+### Validation
+
+- `npm --prefix website run build` — passed using saved backdrop geometry; generated artefacts display v26.0.316.
+- `node website/tests/first-paint-browser-check.mjs` — passed in Chromium and WebKit at 320, 390, 768 and 1440px, including delayed assets, initial and scrolled refreshes, stable visible branding/title/QR geometry, complete selectors/tab icons, explainer operation, failed assets and JavaScript-disabled visibility.
+- `node website/tests/control-keyboard-focus-browser-check.mjs` — passed in both engines at all four widths.
+- `node website/tests/initial-reveal-browser-check.mjs` — passed across nine sizes, card visibility thresholds, stagger timing and reduced motion.
+- `node --test website/tests/playground-structure.test.mjs` — passed.
+- Separate stalled-asset checks — passed in both engines; generated Playground markup and both LAN destinations verified, with HTTP 200 and v26.0.316.
+- Desktop screenshot inspected; physical devices were not tested.
 
 ## v26.0.315 — 2026-10-22
 
