@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.95"
-  update_summary: "Organise collapsible link and list references with documented anchors"
-  updated_at: "Thu 22 Oct 2026 at 07:29:35 pm AEDT (+11:00)"
+  doc_revision: "26.0.96"
+  update_summary: "Enable keyboard inspection of Colours without another Tab stop"
+  updated_at: "Thu 22 Oct 2026 at 07:42:39 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -657,3 +657,13 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Scope:** This explicitly overrides the earlier base-radius decision for the tab bottoms only and remains a visual comparison pending Adam’s review.
 
 **Owner:** [Focus and Panel Opening](../docs/agent-guidance/interface.md#focus-and-panel-opening), `scripts/playground-layout.mjs`.
+
+## Keyboard Scrolling of the Colours Background
+
+**Decision:** Use a direct, same-origin, script-disabled iframe for Colours No Blur and Blur and Darken inspection. The existing preview scroll stop owns keyboard focus and controls the capture root for vertical arrows, Page Up/Down and Home/End; horizontal arrows also pan the selected screen width. Keep the capture at `tabindex="-1"`, its contents inert and its sandbox without script permission. Retain the existing isolated interactive specimen for Resources and Password Panel modes. Reuse saved anonymous geometry without recapture.
+
+**Reason:** The previous Colours capture was nested under an opaque sandbox. Keyboard-pan messages stopped at the outer login specimen and could not reach the actual scrollable capture. Direct parent access resolves that boundary while preserving script-disabled content and the removed extra Tab stop. Wheel and touch retain native scrolling; theme, agent, strength, blur and dimming remain connected to the same preview controls.
+
+**Icon Follow-up:** Adam requested suffix-free modified icon basenames and Resources-first uses for `arrow-right-modified`, superseding the earlier `.svg` label convention.
+
+**Owners:** [Anonymous Backdrops](../docs/agent-guidance/backdrops.md#interaction-and-scrolling-policy), [Interface](../docs/agent-guidance/interface.md), `scripts/playground-colours-inspection.mjs` and `scripts/playground-keyboard.mjs`.

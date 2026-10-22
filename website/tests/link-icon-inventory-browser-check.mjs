@@ -6,6 +6,7 @@ try{for(const engine of [chromium,webkit]){const browser=await engine.launch(eng
  const p=await browser.newPage({viewport:{width,height:1000}});await p.goto('http://127.0.0.1:'+server.address().port+'/component-playground/icons');
  const right=p.locator('#link-icon-catalog [data-catalog-variant=arrow-right-modified]');
  await p.waitForFunction(()=>document.querySelector('#link-icon-catalog [data-catalog-variant=arrow-right-modified]')?.textContent.includes('Resources → Skip to Main Content'),undefined,{timeout:90000});
- for(const name of ['arrow-right-modified','arrow-up-right-modified','hash-modified'])assert.equal(await p.locator('#link-icon-catalog [data-catalog-variant='+name+'] h3').textContent(),name+'.svg');
+ for(const name of ['arrow-right-modified','arrow-up-right-modified','hash-modified'])assert.equal(await p.locator('#link-icon-catalog [data-catalog-variant='+name+'] h3').textContent(),name);
+ assert.match(await right.locator('li').first().textContent(),/^Resources → /);
  assert.match(await right.textContent(),/Resources → Skip to Main Content/);await p.close();console.log('PASS filenames and Resources skip usage',engine.name(),width);
  }}finally{await browser.close();}}}finally{server.close();}

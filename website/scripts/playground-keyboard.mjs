@@ -51,8 +51,10 @@ export function installPlaygroundKeyboard(){
   if(event.key==='Tab'&&!event.shiftKey&&e.matches?.('.error-sample:has(>.fallback-context):not(:has(>.full-login-context))')){const skip=e.querySelector('.skip-main');if(skip){event.preventDefault();skip.focus({preventScroll:true});return;}}
   if(e.matches?.('input[type=checkbox]')&&event.key==='Enter'){event.preventDefault();if(!event.repeat&&!e.disabled)e.click();return;}
   if(!e.hasAttribute?.('data-scroll-focus')||event.target!==e)return;
-  const direction={ArrowLeft:[-48,0],ArrowRight:[48,0],ArrowUp:[0,-48],ArrowDown:[0,48]}[event.key];
+  const capture=e.querySelector(':scope>iframe[data-static-scroll]:not([hidden])'),page=capture?.clientHeight||e.clientHeight;
+  const direction={ArrowLeft:[-48,0],ArrowRight:[48,0],ArrowUp:[0,-48],ArrowDown:[0,48],...(capture?{PageUp:[0,-page*.9],PageDown:[0,page*.9],Home:[0,-Infinity],End:[0,Infinity]}:{})}[event.key];
   if(!direction)return;event.preventDefault();event.stopPropagation();
+  if(capture?.contentDocument){e.scrollBy({left:direction[0],top:0,behavior:'instant'});const target=capture.contentDocument.scrollingElement;target.scrollTo({left:target.scrollLeft+direction[0],top:Number.isFinite(direction[1])?target.scrollTop+direction[1]:direction[1]>0?target.scrollHeight:0,behavior:'instant'});return;}
   const scroller=e.matches('.full-login-context')?e.closest('.error-sample')||e:e;
   scroller.scrollBy({left:direction[0],top:direction[1],behavior:'instant'});
   const frame=e.querySelector(':scope>iframe');if(frame)frame.contentWindow.postMessage({guide:'keyboard-pan',dx:direction[0],dy:direction[1]},'*');

@@ -3,14 +3,44 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.343"
-  update_summary: "Organise collapsible link references and correct specimen layout checks"
-  updated_at: "Thu 22 Oct 2026 at 07:31:31 pm AEDT (+11:00)"
+  doc_revision: "26.0.344"
+  update_summary: "Enable Colours keyboard scrolling and refine Link Icons labels"
+  updated_at: "Thu 22 Oct 2026 at 07:47:24 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.342 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 07:47:24 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Enable Colours keyboard scrolling and refine Link Icons labels
+
+### Fixed
+
+- Render Colours inspection in a direct, same-origin, script-disabled frame so its existing enclosing keyboard stop can scroll the captured document. Preserve inert content, native gestures, the removed extra Tab stop and the separate interactive Password Panel specimen.
+- Support vertical arrows, Page Up/Down and Home/End, plus horizontal arrows for a selected wide preview, inline and expanded. Keep all shared colour, blur and dimming controls connected to the saved capture.
+
+### Changed
+
+- List Resources uses first for `arrow-right-modified` and remove `.svg` from modified icon labels.
+- Record the scroll boundary and revised icon-label convention in the owning contracts and design decisions.
+
+### Validation
+
+- Colours backdrop scrolling — passed Chrome/WebKit at 390 and 1440px, inline/expanded, No Blur and Blur and Darken. Verified native Tab entry, arrows, Page Up/Down, Home/End, retained focus, no capture Tab stop, mobile horizontal panning at 1440px selected width, native wheel input and Chrome emulated touch.
+- Capture controls — passed dark/Claude selection, strength, blur, dimming, Password Panel locking/reset and Resources switching. Capture sandbox excludes scripts, captured content stays inert and source geometry was not remeasured. No physical-device test.
+- Link Icon labels/usage order and nested keyboard-region regression — passed desktop/mobile Chrome and WebKit.
+- Full Playground source/specimen regression — passed when rerun alone after an inspector hover timeout during concurrent checks.
+- Production website build and PVS validation — passed; built output contains the finalised version.
 
 ## v26.0.341 — 2026-10-22
 

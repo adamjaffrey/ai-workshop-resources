@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.84"
-  update_summary: "Organise collapsible link and list references with documented anchors"
-  updated_at: "Thu 22 Oct 2026 at 07:29:35 pm AEDT (+11:00)"
+  doc_revision: "26.0.85"
+  update_summary: "Use suffix-free modified icon names and Resources-first arrow uses"
+  updated_at: "Thu 22 Oct 2026 at 07:42:39 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -303,7 +303,7 @@ Rationale and superseded rules: [Specimen Palettes and Page Embeds](../../websit
 - In Typography and Icons, move the standalone login-error icon/message group together by the X icon's measured leading SVG whitespace (3.75px at 18px). Preserve its icon-to-text gap and do not move icons inside buttons or fields. Remove the first column's left cell padding in the Colours Across Themes and Agents table rather than shifting its boundary.
 - Use primary-text disclosure labels with accent-coloured chevrons and the shared tinted background for explanatory sections, including colour rules, icon licences, URL introduction, Easter Egg explanations and hover help. In prose, retain the body-sized label. Keep the expanded colour-rule grey surface in its existing position and give its content 24px horizontal padding.
 - Keep the same 16px gap between an icon’s Locations disclosure and its source link whether open or closed. The disclosure owns this gap; its expanded usage list adds no bottom margin.
-- Place Link Icons above Playground Icons in the Icons tab. Catalogue `arrow-right-modified`, `arrow-up-right-modified` and `hash-modified` there, in that order, using the canonical shared renderer and actual usage/source metadata. Display their literal `.svg` filenames and include the actual Resources Skip to Main Content arrow in the usage inventory. Exclude those standalone entries from the app catalogue; also list modified arrows in Playground Icons when used as section-heading icons, with heading usages and independent source visibility. Preserve contextual anchor and feedback specimens. Link Icons owns its Show Sources toggle independently of Playground Icons filters and source visibility.
+- Place Link Icons above Playground Icons in the Icons tab. Catalogue `arrow-right-modified`, `arrow-up-right-modified` and `hash-modified` there, in that order, using the canonical shared renderer and actual usage/source metadata. Display their literal basenames without the `.svg` suffix, include the actual Resources Skip to Main Content arrow in the usage inventory, and list Resources uses first for `arrow-right-modified`. Exclude those standalone entries from the app catalogue; also list modified arrows in Playground Icons when used as section-heading icons, with heading usages and independent source visibility. Preserve contextual anchor and feedback specimens. Link Icons owns its Show Sources toggle independently of Playground Icons filters and source visibility.
 - Order the Playground icon catalogue by purpose: Playground identity first; section and subsection headings in tab/page order; UI controls; then other uses. Deduplicate by provider/name (retaining deliberately distinct cropped variants), list all usage locations, and place an icon with multiple roles in its earliest category.
 - Whenever adding, changing or removing an icon, update its canonical library definition/usage metadata, inspect both app and Playground catalogues and filters, verify source/licence links and usage listings, and remove stale entries. Keep catalogue ordering derived from current heading DOM order, rather than a historical hard-coded inventory. Preserve real motion such as Loader Circle spinning, including reduced-motion behaviour; capture-time motion suppression must not freeze the gallery demonstration.
 - Run `node website/tests/specimen-mobile-parity-browser-check.mjs` for mobile Chrome/WebKit source-boundary preservation and actual Resources copy-feedback parity, including computed typography and rendered glyph height. A narrow desktop viewport alone does not cover mobile rendering.

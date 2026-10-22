@@ -1,3 +1,4 @@
+import {coloursInspectionScript} from './playground-colours-inspection.mjs';
 import {withFirstPaint} from '../lib/workshop-first-paint.mjs';
 import {playgroundKeyboardCSS,playgroundKeyboardScript} from './playground-keyboard.mjs';
 import {resourceAnchorGap} from '../lib/workshop-resource-anchors.mjs';
@@ -507,6 +508,7 @@ ${urlReferenceCSS}
  let referenceResizeTimer;window.addEventListener('resize',()=>{clearTimeout(referenceResizeTimer);referenceResizeTimer=setTimeout(()=>{refreshSpecimens();refreshIcons();},160);});
  function refreshIcons(){scheduler.refreshIcons();}
  function refreshSpecimens(){scheduler.refreshSpecimens();}
+ ${coloursInspectionScript}
  const blockOverrides={strength:false,blur:false,dim:false};
  let inspectorFrozen=false;
 
@@ -549,7 +551,7 @@ ${urlReferenceCSS}
  $('perspective-replay').addEventListener('click',()=>$('discovery-frame').contentWindow.postMessage({guide:'egg-replay'},'*'));
  $('perspective-reset').addEventListener('click',()=>{for(const [key,value] of Object.entries(perspectiveDefaults)){const input=$('perspective-'+key);input.value=value;$('perspective-'+key+'-value').textContent=(input.dataset.unit==='s'?value/1000:value)+input.dataset.unit;}sync();});
  function settings(){return {guide:'settings',iconFilter:document.querySelector('input[name=icon-filter]:checked').value,sources:$('show-sources').checked,theme:$('theme').value,agent:$('agent').value,hover:$('hover').value==='on',state:$('state').value,loginDestination:$('login-destination').value,copy:$('copy').value,egg:$('egg').value,eggActive:!$('panel-discovery').hidden,perspective:Object.fromEntries(Object.keys(perspectiveDefaults).map(key=>[key,Number($('perspective-'+key).value)])),blockDestination:$('block-destination').value,review:$('review').value,strength:blockOverrides.strength?$('strength').value:null,blur:blockOverrides.blur?$('blur').value:null,dim:blockOverrides.dim?$('dim').value:null};}
- function sync(){const s=settings();if(eggControlView!==s.egg){eggControlView=s.egg;eggLiveState='locked';}showEggControls();scheduler.sync();}
+ function sync(){const s=settings();syncColoursInspection(s);if(eggControlView!==s.egg){eggControlView=s.egg;eggLiveState='locked';}showEggControls();scheduler.sync();}
  const swatchCache=new Map();
  function swatches(){
   const key=JSON.stringify([$('theme').value,$('agent').value]),nodes=[...document.querySelectorAll('[data-token]')];
