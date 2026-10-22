@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.73"
-  update_summary: "Compare prompt focus corners with a shared offset"
-  updated_at: "Thu 22 Oct 2026 at 05:29:13 pm AEDT (+11:00)"
+  doc_revision: "26.0.74"
+  update_summary: "Distinguish internal skip links with Modified Arrow Right"
+  updated_at: "Thu 22 Oct 2026 at 05:34:33 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -116,10 +116,12 @@ Run `node website/tests/playground-external-text-inset-browser-check.mjs` for me
 
 These are global website rules for current and future text links and anchor-copy controls, including their Playground specimens. Reuse the shared implementation; do not create page-specific spacing or decoration variants.
 
+Use explicit modifier classes to select navigation icons: `.workshop-link--internal` selects Modified Arrow Right and `.workshop-link--external` selects Modified Arrow Up Right. Both inherit the shared `.workshop-link` styling and interaction helpers; modifiers select geometry only. Unmarked links retain the external modifier for backwards compatibility. Only the two Skip to Main Content links are marked internal in this change. Do not infer icon choice from label text, `.skip-main`, or automatic URL classification.
+
 - **Anchor icon placement follows the text’s actual alignment:** right-aligned text receives its Hash icon on the left; all other text receives it on the right, including left-aligned, centred and justified text. Re-evaluate the side when alignment changes responsively. This is a general rule, not an exception tied to Step 2 or desktop. Reserve the icon slot on the appropriate side even while hidden so hover and feedback never move the label. Keep the label on its intended alignment rail. Check and X occupy the same side and slot as Hash. Navigation-link arrows remain after the linked text; the side-switching rule applies to anchor icons.
 - Use the shared inline link treatment in `workshop-links.mjs` and proportional icons in `workshop-link-icons.mjs`. Set link and anchor layout padding to zero. Native `box-decoration-break:clone` repeats the solid background and zero-blur box shadows on every wrapped line. Paint extends 0 top, .125em right, .05em bottom and .075em left without affecting text alignment, spacing or wrapping. Keep the base .2em radius. Do not measure line fragments or use a single positioned pseudo-element for these backgrounds. Standalone Playground links use normal text alignment without compensating negative margins. The painted extension is separate from the text box; do not reintroduce padding to create it.
-- Regular hyperlinks retain a resting underline with automatic thickness and ink skipping at .1em offset, hiding its colour on hover; show the approved Modified Arrow Up Right persistently. Anchor-copy labels have no underline at rest or on hover; hover reveals the background and modified Hash. Both use shared accessible link ink. Paint the solid theme-specific hover fill immediately so overlapping fragments never alpha-compound, including during entry/exit. Text, underline, background and Hash opacity change instantly, with no hover transition. Preserve keyboard focus and existing copy-result timing.
-- Keep a trailing icon with the final word in a non-wrapping tail; keep a leading anchor icon with the first word (or keep the complete short label together), using a .2em CSS gap for all navigation links and anchor-copy icons on either side rather than adding a second literal space. Reuse the shared `textIconGap` value; do not define separate left/right or hyperlink/anchor gap values. Always reserve a 1cap slot, including when an anchor icon is hidden. Use the lab's common 24-unit SVG canvas at 1.2cap and a .08em stroke converted to viewBox units, multiplied by 1/1.3/1.5 for regular/semibold/bold text. Centre the canvas at the cap-height centre. Hash, Check and X share exactly the same slot, dimensions and gap; preserve their original internal geometry rather than independently stretching each symbol. The user-approved modified Hash and Modified Arrow Up Right are explicit Lucide derivative exceptions; retain the original official names, variant metadata and Lucide licence/source links.
+- Regular hyperlinks retain a resting underline with automatic thickness and ink skipping at .1em offset, hiding its colour on hover; show the approved Modified Arrow Up Right persistently, except the two page-level Skip to Main Content links, which use Modified Arrow Right for their internal destination. Anchor-copy labels have no underline at rest or on hover; hover reveals the background and modified Hash. Both use shared accessible link ink. Paint the solid theme-specific hover fill immediately so overlapping fragments never alpha-compound, including during entry/exit. Text, underline, background and Hash opacity change instantly, with no hover transition. Preserve keyboard focus and existing copy-result timing.
+- Keep a trailing icon with the final word in a non-wrapping tail; keep a leading anchor icon with the first word (or keep the complete short label together), using a .2em CSS gap for all navigation links and anchor-copy icons on either side rather than adding a second literal space. Reuse the shared `textIconGap` value; do not define separate left/right or hyperlink/anchor gap values. Always reserve a 1cap slot, including when an anchor icon is hidden. Use the lab's common 24-unit SVG canvas at 1.2cap and a .08em stroke converted to viewBox units, multiplied by 1/1.3/1.5 for regular/semibold/bold text. Centre the canvas at the cap-height centre. Hash, Check and X share exactly the same slot, dimensions and gap; preserve their original internal geometry rather than independently stretching each symbol. The user-approved modified Hash, Modified Arrow Up Right and Modified Arrow Right are explicit Lucide derivative exceptions; retain the original official names, variant metadata and Lucide licence/source links.
 - Copy success shows Lucide Check using the theme's success token; failure shows Lucide X using the error token. Visible anchor confirmation text is limited to an icon tooltip, with an assistive-technology announcement. Follow [Shared Success and Failure Feedback](#shared-success-and-failure-feedback) for motion, hold durations and future reuse.
 - Use the shared link ink, opaque hover/selection fill and contrasting selected-text foreground defined under [Website Appearance](#website-appearance). Both agents use the same blend percentages. Keep semantic success/error colours distinct; do not introduce local colour variants. Check normal-size link ink at a minimum 4.5:1 against the hover fill.
 - Hover styling is immediate on entry and exit; copy-result animations are separate and retain the durations, easing and fully visible holds in [Shared Success and Failure Feedback](#shared-success-and-failure-feedback). Preserve keyboard focus indicators, accessible names and result announcements. Icons remain decorative when the control already has an accessible name.
@@ -129,7 +131,7 @@ These are global website rules for current and future text links and anchor-copy
 | Property | Navigation Hyperlink | Anchor Copy |
 |---|---|---|
 | Resting label | Shared link ink, underlined | Existing heading/label colour, no underline |
-| Resting icon | Modified Arrow Up Right, always visible | Modified Hash hidden; space remains reserved |
+| Resting icon | Modified Arrow Up Right (Modified Arrow Right for Skip to Main Content), always visible | Modified Hash hidden; space remains reserved |
 | Hover label | Shared link ink; underline becomes transparent | Shared link ink; no underline |
 | Hover background | Shared opaque fill and painted extensions | Same shared treatment |
 | Icon position | After the final word | Left for right-aligned text; right otherwise |
@@ -138,7 +140,7 @@ These are global website rules for current and future text links and anchor-copy
 | Hover entry and exit | Immediate, 0ms | Immediate, 0ms |
 | Activation | Follow the link | Copy its canonical anchor URL in place |
 
-- Apply the same hyperlink colours to visited links. The navigation arrow indicates following a link, not specifically an external destination. Do not add an underline to the SVG itself.
+- Apply the same hyperlink colours to visited links. The two internal Skip to Main Content links use Modified Arrow Right; preserve the existing Modified Arrow Up Right on all other hyperlinks in this scoped change. Do not add an underline to the SVG itself.
 - Underline settings are explicitly `text-decoration-thickness:auto`, `text-decoration-skip-ink:auto` and `text-underline-offset:.1em`. Only navigation hyperlinks show the underline at rest. Do not restore the abandoned `from-font` thickness or automatic underline offset.
 - The .2em gap is measured from the text box to the reserved icon slot, not to the nearest painted SVG stroke. The gap scales with the text's computed font size. Retain the non-wrapping wrapper rather than adding a literal non-breaking space that would add extra spacing.
 - Highlight extensions are CSS paint, not padding, margin, line height or extra whitespace. The current shared zero-blur shadow recipe is `-.05em .025em 0 .025em var(--link-hover-bg), .1em .025em 0 .025em var(--link-hover-bg)`. Along with the background, it paints the approved asymmetric extensions. Native cloned decoration repeats on every line, including continuation-line left and right edges; overlapping solid fills do not compound. No JavaScript measures or draws the highlight. JavaScript still decorates link markup and converts icon stroke units.
@@ -151,11 +153,12 @@ These are global website rules for current and future text links and anchor-copy
 | Use | Official Lucide Name and Source | Rendered Variant | Repository SVG Reference |
 |---|---|---|---|
 | Navigation hyperlink | [Arrow Up Right (`arrow-up-right`)](https://lucide.dev/icons/arrow-up-right) | User-approved `arrow-up-right-modified` | [Modified Arrow Up Right](../assets/link-icons/arrow-up-right-modified.svg) |
+| Skip to Main Content (Resources and Playground only) | [Arrow Right (`arrow-right`)](https://lucide.dev/icons/arrow-right) | User-approved `arrow-right-modified` | [Modified Arrow Right](../assets/link-icons/arrow-right-modified.svg) |
 | Anchor copy affordance | [Hash (`hash`)](https://lucide.dev/icons/hash) | User-approved `hash-modified` | [Modified Hash](../assets/link-icons/hash-modified.svg) |
 | Anchor copy success | [Check (`check`)](https://lucide.dev/icons/check) | Unmodified installed Lucide path | Imported by the shared icon renderer |
 | Anchor copy failure | [X (`x`)](https://lucide.dev/icons/x) | Unmodified installed Lucide paths | Imported by the shared icon renderer |
 
-The exact modified path definitions are also included here for direct inspection and reuse. Both use `viewBox="0 0 24 24"`, `fill="none"`, `stroke="currentColor"`, `stroke-linecap="round"` and `stroke-linejoin="round"`; the shared renderer computes the production stroke width.
+The exact modified path definitions are also included here for direct inspection and reuse. All use `viewBox="0 0 24 24"`, `fill="none"`, `stroke="currentColor"`, `stroke-linecap="round"` and `stroke-linejoin="round"`; the shared renderer computes the production stroke width.
 
 Modified Hash (`hash-modified`):
 
@@ -174,9 +177,17 @@ Modified Arrow Up Right (`arrow-up-right-modified`):
 <path d="M9.5 4 L20 4"/>
 ```
 
-The two SVG files are documentation reference exports of the exact production path geometry, not a second runtime source. Their standalone 24px canvas and stroke width 2 are reference values; production uses the cap-height sizing and text-relative stroke rules above. Keep the exports synchronised if the approved paths change. Do not replace the renderer's paths with an earlier arrow variant, a cropped viewBox, a Unicode arrow, Circle Check or Circle X. Those alternatives were explored and superseded.
+Modified Arrow Right (`arrow-right-modified`), supplied by Adam for the two internal skip links:
 
-Preserve `data-icon-provider="lucide"`, the original official `data-icon-name`, a stable `data-icon-use`, and `data-icon-variant` for the two derivatives. Retain the [Lucide/Feather licence notices](../../website/public/assets/lucide-license.txt); the reference SVGs include the Lucide ISC notice. These two approved derivatives are specific exceptions to the installed-Lucide-only rule, not general permission to modify other icons.
+```svg
+<path d="M13.929 4.929 L21 12"/>
+<path d="M21 12 L13.929 19.071"/>
+<path d="M3 12 L21 12"/>
+```
+
+The three SVG files are documentation reference exports of the exact production path geometry, not a second runtime source. Their standalone 24px canvas and stroke width 2 are reference values; production uses the cap-height sizing and text-relative stroke rules above. Keep the exports synchronised if the approved paths change. Do not replace the renderer's paths with an earlier arrow variant, a cropped viewBox, a Unicode arrow, Circle Check or Circle X. Those alternatives were explored and superseded.
+
+Preserve `data-icon-provider="lucide"`, the original official `data-icon-name`, a stable `data-icon-use`, and `data-icon-variant` for the three derivatives. Retain the [Lucide/Feather licence notices](../../website/public/assets/lucide-license.txt); the reference SVGs include the Lucide ISC notice. These three approved derivatives are specific exceptions to the installed-Lucide-only rule, not general permission to modify other icons.
 
 Production sizing uses a 24-unit viewBox at 1.2cap inside a fixed 1cap-wide slot, centred on the text cap-height centre. Target stroke thickness is `.08 × font-size × weight-factor` CSS pixels, converted to viewBox units by multiplying by `24 / (1.2 × cap-height-in-pixels)`. Current factors are 1 below weight 600, 1.3 from 600 to 699, and 1.5 from 700 upward. This is the approved regular/semibold/bold mapping, not a linear multiplier of the numeric font weight or a live H-stem measurement. The same canvas and stroke calculation apply to Hash, Check, X and the arrow; preserve each path's internal proportions.
 

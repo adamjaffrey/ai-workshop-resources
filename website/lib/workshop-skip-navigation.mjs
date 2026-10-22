@@ -10,7 +10,7 @@ export function installSkipNavigation(){
   if(!title||document.querySelector('.skip-main'))return;
   const brand=document.querySelector(playground?'.playground-brand-row .brand':'.page-toolbar .brand');if(!brand)return;
   const wrapper=document.createElement('div');wrapper.className='skip-main-position';
-  const link=document.createElement('a');link.className='skip-main';link.textContent='Skip to Main Content';link.tabIndex=1;
+  const link=document.createElement('a');link.className='skip-main workshop-link--internal';link.textContent='Skip to Main Content';link.tabIndex=1;
   link.href=playground?'#playground-main':'#resource-step-1';title.tabIndex=2;
   if(playground)document.querySelector('main.wrap').id='playground-main';
   wrapper.append(link);document.body.prepend(wrapper);window.decorateWorkshopLinks?.();

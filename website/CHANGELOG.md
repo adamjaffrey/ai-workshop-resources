@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.332"
-  update_summary: "Compare prompt focus corners with a shared offset"
-  updated_at: "Thu 22 Oct 2026 at 05:31:40 pm AEDT (+11:00)"
+  doc_revision: "26.0.333"
+  update_summary: "Use explicit internal link arrows for skip navigation"
+  updated_at: "Thu 22 Oct 2026 at 05:37:34 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.331 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 05:37:34 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Use explicit internal link arrows for skip navigation
+
+### Changed
+
+- Use Adam’s supplied Modified Arrow Right geometry for only the Resources and Playground Skip to Main Content links.
+- Define explicit internal/external hyperlink modifier classes while retaining shared non-wrapping icon spacing, sizing, hover paint, hit targets and focus rings.
+- Catalogue the internal arrow with its actual skip-link usage and Lucide source; retain the SVG reference and document the approved exception.
+
+### Validation
+
+- `node --test website/tests/auth.test.mjs website/tests/placeholder.test.mjs` — passed all 13 tests.
+- `node website/tests/link-treatment-browser-check.mjs` — passed Chromium/WebKit at 320, 390, 768 and 1440px, both agents/themes.
+- Focused headless skip-link checks — passed exact supplied paths, non-wrapping tail, shared gap, hover/focus surfaces, keyboard activation and catalogue/source metadata on both pages in Chromium/WebKit at 320, 390, 768 and 1440px, both agents/themes; mobile and desktop screenshots inspected.
+- `node website/tests/playground-browser-check.mjs` — passed existing source-parity suite.
+- `npm --prefix website run build` — passed using saved backdrop geometry; built output and both verified LAN routes contain v26.0.331 and the internal icon modifier.
+- PVS document/product validation and Git whitespace checks — passed. Physical-device testing was not performed.
 
 ## v26.0.330 — 2026-10-22
 

@@ -1,6 +1,7 @@
 import {linkSurfaceCSS,installLinkSurfaces} from './workshop-link-surfaces.mjs';
 import {textIcon,textIconCSS,sizeTextLinkIcons} from './workshop-link-icons.mjs';
 export const linkArrowSVG='<span class="text-link-slot">'+textIcon('arrow-up-right-modified','follow-link','link-arrow')+'</span>';
+export const internalLinkArrowSVG='<span class="text-link-slot">'+textIcon('arrow-right-modified','follow-internal-link','link-arrow')+'</span>';
 const linkMotion='0ms';
 export const linkPaint={radius:'.2em',motion:linkMotion,padding:'0',shadow:'-.05em .025em 0 .025em var(--link-hover-bg), .1em .025em 0 .025em var(--link-hover-bg)',fill:'var(--link-hover-bg)',underline:'text-decoration-color:currentColor;text-decoration-thickness:auto;text-decoration-skip-ink:auto;text-underline-offset:.1em'};
 export const linkCSS=`
@@ -29,11 +30,12 @@ export const linkScript=`
 window.decorateWorkshopLinks=function(root=document){
  const anchors=[...(root.matches?.('a[href]')?[root]:[]),...root.querySelectorAll('a[href]')];
  for(const a of anchors){if(a.classList.contains('workshop-link')||a.hasAttribute('data-no-link-decoration'))continue;
+  const internal=a.classList.contains('workshop-link--internal');
   const label=document.createElement('span');label.className='link-label';label.append(...a.childNodes);a.append(label);
   const walker=document.createTreeWalker(label,NodeFilter.SHOW_TEXT);let node,last;while(node=walker.nextNode())if(node.textContent.trim())last=node;
   const tail=document.createElement('span');tail.className='link-tail';
   if(last){const match=last.textContent.match(/\\S+\\s*$/);const word=document.createElement('span');word.className='link-label';word.textContent=match[0].trimEnd();last.textContent=last.textContent.slice(0,match.index);tail.append(word);}
-  tail.insertAdjacentHTML('beforeend',${JSON.stringify(linkArrowSVG)});a.append(tail);a.classList.add('workshop-link');
+  tail.insertAdjacentHTML('beforeend',internal?${JSON.stringify(internalLinkArrowSVG)}:${JSON.stringify(linkArrowSVG)});a.append(tail);a.classList.add('workshop-link',internal?'workshop-link--internal':'workshop-link--external');
  }
  window.sizeTextLinkIcons(root);
 };
