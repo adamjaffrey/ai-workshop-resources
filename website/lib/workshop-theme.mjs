@@ -137,6 +137,10 @@ button, button * { -webkit-user-select: none; user-select: none; -webkit-touch-c
 @media (max-width: 380px) { .page-toolbar { gap: 8px; } .page-toolbar .brand { gap: 6px; } .page-toolbar .brand-name { font-size: 13px; } .page-toolbar .brand-worm { --brand-mark-width: 36px; } .page-toolbar .brand-mark img { width: 36px; } .theme-toggle button { width: 40px; } }
 /* Cursor semantics apply to both login and resources, including child hit targets. */
 html, body { cursor: default; }
+a.page-title-link{display:block;width:fit-content;max-width:100%;color:inherit;text-decoration:none;border-radius:8px;cursor:pointer}
+a.page-title-link h1,a.page-title-link h1 *{cursor:inherit}
+a.page-title-link:focus{outline:none}
+:root[data-focus-input="keyboard"] a.page-title-link:focus{outline:3px solid var(--icon-ink);outline-offset:3px}
 :where(p, h1, h2, h3, h4, h5, h6, span, label, li, dt, dd, blockquote, figcaption, pre, code, strong, em, small, b, i, td, th) { cursor: text; }
 :where(input:not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="image"]), textarea, [contenteditable="true"]) { cursor: text; }
 :where(button, a[href], summary, select, [role="button"], [role="switch"], [role="tab"], [role="checkbox"], [role="radio"], .segmented-toggle, input:is([type="button"], [type="submit"], [type="reset"], [type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"], [type="image"])) { cursor: pointer; }
@@ -314,6 +318,10 @@ const script = `(() => {
 })();`;
 
 export function withTheme(html, login = false) {
+  html=html.replace(/<h1\b[^>]*>[\s\S]*?<\/h1>/g,heading=>{
+    const path=heading.includes('Component Playground')?'/component-playground':heading.includes('AI Workshop Resources')?'/ai-workshop-resources':null;
+    return path?`<a class="page-title-link" data-no-link-decoration href="${path}">${heading}</a>`:heading;
+  });
   html = html.replace('</head>', `<style data-workshop-theme-styles>${styles}\n${groupFocusCSS}\n${linkCSS}\n${colourValueCSS}\n${alignmentCSS}\n${bodyTypeCSS}</style><script nonce="__NONCE__" data-workshop-theme>${agentScript}\n${playgroundFaviconScript}\n${toggleScript}\n${script}\n${linkScript}\n${colourValueScript}</script></head>`);
   if (login) return html.replace('</h2>', `</h2><div class="gate-toolbar"><p class="eyebrow">Workshop Access</p>${control}</div>`);
   return html.replace('<div class="brand" aria-label="Wavelength">', '<div class="page-toolbar"><div class="brand" aria-label="Wavelength">')

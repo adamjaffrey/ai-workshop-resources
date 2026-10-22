@@ -1,6 +1,8 @@
 import {headingMetrics} from '../lib/workshop-heading-metrics.mjs';
 import ink from '../lib/workshop-icon-ink.generated.json' with {type:'json'};
 export const headingCapCSS=`
+:is(.url-reference-subheading,.playground-icon-entry h3){--heading-icon-size:1em}
+:is(.url-reference-subheading,.playground-icon-entry h3)>svg{width:1em!important;height:1em!important}
 .section-heading :is(h2,h3)[data-compact-leading]{line-height:1.25}
 :is(#playground-title,.section-heading h2,.url-reference-subheading,.playground-icon-entry h3)>svg{margin-top:var(--heading-icon-top,0px)!important;align-self:flex-start}
 `;

@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.68"
-  update_summary: "Record visible focus and predictable specimen navigation"
-  updated_at: "Thu 22 Oct 2026 at 11:55:45 am AEDT (+11:00)"
+  doc_revision: "26.0.69"
+  update_summary: "Define title navigation and consistent discovery focus geometry"
+  updated_at: "Thu 22 Oct 2026 at 12:15:16 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -505,3 +505,11 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Decision:** Tabs use the same selected and hover palette as selectors, with a straight-bottom focus contour. Collapsed heading tint has equal text clearance; expanded titles share space with an intrinsic-width Contract View group. Right-aligned anchor examples fit their text and start at their right endpoint. Locations disclosures outdent 4px on each side.
 
 **Owner:** [Interface contract](../docs/agent-guidance/interface.md#playground-keyboard-and-nested-scrolling), `playground-keyboard.mjs`, `playground-layout.mjs` and `workshop-specimen-layout.mjs`.
+
+## Navigable Page Titles and Discovery Geometry
+
+**Decision:** Make the two page titles ordinary canonical-root navigation links, scale H3 icons with their text, and retain one rounded inscription focus boundary across discovery states. Keep the Style Options focus boundary unchanged when its ellipsis becomes an X.
+
+**Reason:** Adam requested keyboard-accessible title navigation without section-anchor behaviour and consistent focus geometry. A general main-child width rule stretched the real discovery dialog to the page rail while its detached animation measurement remained 440px; excluding dialogs restores the original bounded modal and matching rainbow path.
+
+**Owner:** [Page Titles and Discovery Focus](../docs/agent-guidance/interface.md#page-titles-and-discovery-focus).

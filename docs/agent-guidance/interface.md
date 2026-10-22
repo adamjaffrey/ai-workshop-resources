@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.58"
-  update_summary: "Define shared keyboard focus and nested specimen scrolling"
-  updated_at: "Thu 22 Oct 2026 at 11:55:45 am AEDT (+11:00)"
+  doc_revision: "26.0.59"
+  update_summary: "Define title navigation and consistent discovery focus geometry"
+  updated_at: "Thu 22 Oct 2026 at 12:15:16 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -334,3 +334,10 @@ Heading collapse height animations clip vertically only (`overflow-x: visible; o
 - Collapsed Playground heading rows extend their 50px base height by one compact line-height for every additional text line. Preserve the first-line cap centre, giving the grey decoration equal clearance above and below visible text at all widths.
 - Expanded heading titles consume all width remaining beside the intrinsic-width, right-aligned Contract View group. Override captured heading width/flex constraints in this state; scroll the title only when it truly does not fit. Preserve page scroll position while the toolbar and restored controls settle on contraction.
 - Outdent Playground icon catalogue Locations disclosures by 4px on each side.
+
+## Page Titles and Discovery Focus
+
+- The Resources and Playground H1 headings navigate to their canonical page roots as ordinary keyboard-focusable links. Preserve heading typography and omit section-anchor copying and link-arrow decoration.
+- Scale Playground H3 heading icons to 1em and retain measured cap-height alignment and optical outdents.
+- The Easter Egg keyboard focus ring encloses both halves of the inscription as one rounded block, including after closing and reopening its success dialog. Keep the dialog capped at 440px and exclude dialogs from normal page-child width rules so the rainbow path and displayed modal use identical geometry.
+- The Style Options ellipsis and its X state share the same 50px control and exterior 3px ring with 3px clearance; moving into the dialog must not clip or resize that ring.

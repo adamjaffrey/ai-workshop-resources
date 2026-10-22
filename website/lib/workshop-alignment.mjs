@@ -23,7 +23,7 @@ export const alignmentCSS = String.raw`
 .alignment-surface{margin-inline:calc(-1 * var(--optical-offset));width:calc(100% + 2 * var(--optical-offset));max-width:none}
 .alignment-square,.alignment-text{margin-inline:0}
 /* Main page: preserve the 24px surface gutter and move the shared text rail to 28px. */
-main:is(#workshop-content,.page-placeholder)>*{width:calc(100% - 56px);max-width:952px}
+main:is(#workshop-content,.page-placeholder)>:not(dialog){width:calc(100% - 56px);max-width:952px}
 :is(#workshop-content,.page-placeholder) .step-copy,:is(#workshop-content,.page-placeholder) .controls-label,:is(#workshop-content,.page-placeholder) .description{padding-inline:0}
 :is(#workshop-content,.page-placeholder) .step-row>article{margin-inline:calc(-1 * var(--optical-offset));padding-inline:calc(32px + var(--optical-offset))}
 :is(#workshop-content,.page-placeholder) .step-row>article>.code-wrap{margin-inline:calc(-1 * var(--optical-offset))}

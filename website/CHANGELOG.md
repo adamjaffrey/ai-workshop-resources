@@ -3,14 +3,43 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.315"
-  update_summary: "Unify Playground keyboard focus and nested scrolling"
-  updated_at: "Thu 22 Oct 2026 at 12:05:38 pm AEDT (+11:00)"
+  doc_revision: "26.0.316"
+  update_summary: "Refine title navigation and discovery focus geometry"
+  updated_at: "Thu 22 Oct 2026 at 12:16:22 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.314 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 12:16:22 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine title navigation and discovery focus geometry
+
+### Changed
+
+- Make both page H1s keyboard-focusable navigation links to their canonical roots without section-anchor behaviour.
+- Scale Playground H3 icons to their text size while retaining cap-height alignment.
+- Enclose both halves of the Easter Egg inscription in one rounded keyboard ring, preserving it after modal closure.
+- Exclude dialogs from page-rail width rules, restoring the 440px desktop discovery modal and matching its rainbow path measurement.
+- Preserve the ellipsis focus-ring size when its button becomes the Style Options X inside the dialog.
+- Document the shared title, icon and discovery focus rules.
+
+### Validation
+
+- `npm --prefix website run build` — passed using saved backdrop geometry; generated artefacts display v26.0.314.
+- Focused navigation, H3 sizing, discovery geometry and focus checks passed in Chromium and WebKit at 390 and 1440px.
+- Keyboard-region regression checks passed in both engines at 390 and 1440px.
+- Easter Egg app/specimen parity passed across 16 width/theme/agent combinations; rainbow-route parity passed for 24 routes.
+- Both LAN preview destinations returned HTTP 200 with the new version. Physical devices were not tested.
 
 ## v26.0.313 — 2026-10-22
 
