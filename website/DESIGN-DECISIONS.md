@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.93"
-  update_summary: "Remove expanded heading copying and resolve arrival focus conflicts"
-  updated_at: "Thu 22 Oct 2026 at 07:10:52 pm AEDT (+11:00)"
+  doc_revision: "26.0.94"
+  update_summary: "Compare 1px visible outer bottom corners on tab focus rings"
+  updated_at: "Thu 22 Oct 2026 at 07:16:16 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -645,3 +645,13 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Backdrop and Icon Follow-up:** Colours inspection had an explicit decorative-iframe Tab stop; remove it and give only the capture root scrolling overflow. Native wheel scrolling was not reproducibly broken in the checked baseline, so validation covers inline/expanded No Blur and Blur and Darken, Chrome/WebKit desktop/mobile widths and Chrome emulated touch. Captured content remains inert and script-disabled. Link Icons uses actual modified SVG filenames and captures the Resources skip-link usage from its source document.
 
 **Owners:** [Interface](../docs/agent-guidance/interface.md), [Anonymous Backdrops](../docs/agent-guidance/backdrops.md), `scripts/playground-anchors.mjs` and `lib/workshop-playground-placeholder.mjs`.
+
+## Tab Outer Bottom-Corner Comparison
+
+**Decision:** Following Adam’s request and the other chat’s go message, trial a 1px visible outer radius at the tab ring’s bottom corners while preserving its native upper-corner paint, 3px ring thickness and 3px gap.
+
+**Implementation:** Retain the existing sibling group-ring positioning. The original ring element retains and clips its native upper outline; a sibling layer positioned by the same controller paints a 3px border at the same outer extent with 1px bottom radii. The clipped halves overlap by 1px along their straight sides to avoid fractional-pixel seams. No separate keyboard overlay is added. The lower inner corners are square because the outer radius is smaller than the stroke thickness.
+
+**Scope:** This explicitly overrides the earlier base-radius decision for the tab bottoms only and remains a visual comparison pending Adam’s review.
+
+**Owner:** [Focus and Panel Opening](../docs/agent-guidance/interface.md#focus-and-panel-opening), `scripts/playground-layout.mjs`.

@@ -13,8 +13,8 @@ try{for(const engine of [chromium,webkit]){
    await p.evaluate(({theme,agent})=>{document.documentElement.dataset.theme=theme;document.documentElement.dataset.agent=agent;},{theme,agent});
    for(const tab of await p.locator('[role=tab]').all()){
     await tab.focus();await p.waitForTimeout(25);
-    const state=await tab.evaluate(e=>{const ring=document.querySelector('.tab-scroll-shell>.workshop-group-ring'),c=getComputedStyle(ring),overlay=document.querySelector('.workshop-focus-overlay');return {radii:[c.borderTopLeftRadius,c.borderTopRightRadius,c.borderBottomLeftRadius,c.borderBottomRightRadius],outline:[c.outlineWidth,c.outlineOffset,c.outlineStyle],ring:c.display,buttonOutline:getComputedStyle(e).outlineStyle,overlay:getComputedStyle(overlay).display,overlayEligible:Boolean(document.documentElement.dataset.specimenGallery||e.matches('[data-scroll-focus],input[type=range],#style-dialog #style-options')||e.closest('.preview-dialog.is-expanded')),marked:e.hasAttribute('data-overlay-focus')};});
-    assert.deepEqual(state.radii,['8px','8px','1px','1px']);assert.deepEqual(state.outline,['3px','3px','solid']);assert.notEqual(state.ring,'none');assert.equal(state.buttonOutline,'none');assert.equal(state.overlay,'none');assert.equal(state.overlayEligible,false);assert.equal(state.marked,false);
+    const state=await tab.evaluate(e=>{const ring=document.querySelector('.tab-scroll-shell>.workshop-group-ring'),c=getComputedStyle(ring),upper=c,lower=getComputedStyle(document.querySelector('.workshop-tab-ring-bottom'),'::after'),overlay=document.querySelector('.workshop-focus-overlay');return {radii:[c.borderTopLeftRadius,c.borderTopRightRadius,c.borderBottomLeftRadius,c.borderBottomRightRadius],outline:[upper.outlineWidth,upper.outlineOffset,upper.outlineStyle],lower:[lower.borderBottomLeftRadius,lower.borderBottomRightRadius,lower.borderBottomWidth,lower.left],hostOutline:c.outlineStyle,upperClip:upper.clipPath,lowerClip:lower.clipPath,ring:c.display,buttonOutline:getComputedStyle(e).outlineStyle,overlay:getComputedStyle(overlay).display,overlayEligible:Boolean(document.documentElement.dataset.specimenGallery||e.matches('[data-scroll-focus],input[type=range],#style-dialog #style-options')||e.closest('.preview-dialog.is-expanded')),marked:e.hasAttribute('data-overlay-focus')};});
+    assert.deepEqual(state.radii,['8px','8px','1px','1px']);assert.deepEqual(state.outline,['3px','3px','solid']);assert.deepEqual(state.lower,['1px','1px','3px','-6px']);assert.equal(state.hostOutline,'solid');assert.equal(state.upperClip,'inset(-6px -6px calc(50% - 1px))');assert.equal(state.lowerClip,'inset(50% 0px 0px)');assert.notEqual(state.ring,'none');assert.equal(state.buttonOutline,'none');assert.equal(state.overlay,'none');assert.equal(state.overlayEligible,false);assert.equal(state.marked,false);
    }
   }
   await p.evaluate(()=>{document.documentElement.dataset.theme='light';document.documentElement.dataset.agent='codex';});
@@ -25,6 +25,6 @@ try{for(const engine of [chromium,webkit]){
   await p.keyboard.press('Escape');await p.keyboard.press('Tab');await first.focus();await p.waitForTimeout(50);
   assert.equal(await p.locator('.workshop-focus-overlay').evaluate(e=>getComputedStyle(e).display),'none');
   await p.mouse.click(1,1);assert.equal(await p.locator('.tab-scroll-shell>.workshop-group-ring').evaluate(e=>getComputedStyle(e).display),'none');
-  console.log('PASS tab ownership, 1px base corners, single ring and modal restoration',engine.name(),width);await p.close();
+  console.log('PASS tab ownership, 1px outer bottom corners, single ring and modal restoration',engine.name(),width);await p.close();
  }}finally{await browser.close();}
 }}finally{await new Promise(r=>server.close(r));}

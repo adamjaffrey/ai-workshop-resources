@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.82"
-  update_summary: "Use plain expanded headings and exact link-icon filenames"
-  updated_at: "Thu 22 Oct 2026 at 07:10:52 pm AEDT (+11:00)"
+  doc_revision: "26.0.83"
+  update_summary: "Compare 1px visible outer bottom corners on tab focus rings"
+  updated_at: "Thu 22 Oct 2026 at 07:16:16 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -16,8 +16,8 @@ This is a mandatory scoped contract incorporated by [AGENTS.md](../../AGENTS.md)
 
 ## Focus and Panel Opening
 
-- Use `--focus-sharp-radius: 1px` as the base radius for intentionally sharp focus corners, including both prompt upper corners, URL Reference code focus and lower tab-ring corners. Preserve intentionally rounded controls, link highlights and non-focus decorative shapes. Keep the shared 3px outline offset and 3px ring thickness.
-- Border-based Playground overlays use `--focus-sharp-outer-radius`, derived from the base token plus the shared gap and ring thickness, rather than applying the base token directly at the outer edge. Prompt overlays continue copying their canonical app pseudo-element’s outline, offset and radii. Preserve the existing rounded overlay calculations. The outer Playground tabs use only their sibling group-focus ring (8px top and 1px bottom base radii, 3px outline and 3px offset); do not add a separate tab-specific overlay geometry branch. Native outline expansion is not a second radius override.
+- Use `--focus-sharp-radius: 1px` as the base radius for intentionally sharp focus corners, including both prompt upper corners and URL Reference code focus; the tab-bottom comparison below is an explicit outer-radius exception. Preserve intentionally rounded controls, link highlights and non-focus decorative shapes. Keep the shared 3px outline offset and 3px ring thickness.
+- Border-based Playground overlays use `--focus-sharp-outer-radius`, derived from the base token plus the shared gap and ring thickness, rather than applying the base token directly at the outer edge. Prompt overlays continue copying their canonical app pseudo-element’s outline, offset and radii. Preserve the existing rounded overlay calculations. The outer Playground tabs use only their sibling group-focus ring; do not add a separate tab-specific overlay geometry branch. For the current user-requested comparison, keep the native 8px-base upper outline unchanged and paint the lower half with a 3px border at the same 3px clearance, using the sharp token as its 1px visible outer radius. Overlap the two clipped straight-side halves by 1px to avoid fractional clipping seams. This is a tab-only comparison; other sharp rings retain their base-radius meaning.
 - Keep real focus on the appropriate control for every interaction type. Do not blur controls or remove keyboard access merely to hide a ring.
 - Text-entry fields, including passwords, retain visible focused styling for pointer, touch and keyboard use.
 - Buttons, toggles, links and other non-text-entry controls show a focus ring only during keyboard navigation initiated by Tab or Shift+Tab. Preserve that indicator through keyboard activation and focus transfer; click or tap switches back to ring-free pointer focus.

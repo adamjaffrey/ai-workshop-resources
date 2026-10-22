@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.341"
-  update_summary: "Fix anchor arrival and simplify expanded headings and backdrop focus"
-  updated_at: "Thu 22 Oct 2026 at 07:12:54 pm AEDT (+11:00)"
+  doc_revision: "26.0.342"
+  update_summary: "Compare 1px visible outer bottom corners on tab focus rings"
+  updated_at: "Thu 22 Oct 2026 at 07:21:13 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.340 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 07:21:13 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Compare 1px visible outer bottom corners on tab focus rings
+
+### Changed
+
+- Trial a true 1px outer radius on the tab focus ring’s bottom corners, keeping its 3px border thickness and 3px gap.
+- Preserve the original native upper outline element and its 8px base radius. Position a lower border layer through the same group-focus controller; overlap clipped straight-side paint by 1px to prevent fractional clipping seams.
+- Keep this an explicit tab-only comparison, with other focus rings retaining their existing geometry.
+
+### Validation
+
+- Placeholder checks and `npm --prefix website run build` — passed using saved backdrop geometry; LAN preview displays v26.0.340.
+- Tab focus geometry browser matrix — passed Chrome/WebKit at 320, 390, 768 and 1440px, checking every tab, both themes/agents, outer lower radii, thickness, clearance, overlay exclusion, pointer suppression and expanded-view restoration.
+- Expanded keyboard-region and full Playground source-parity checks — passed.
+- Before/after tab crops inspected. Top-radius geometry is unchanged; pixel comparison detects some browser anti-aliasing differences from clipping, so pixel-identical upper paint is not claimed.
+- Both LAN destinations returned HTTP 200. Physical-device testing was not performed.
 
 ## v26.0.339 — 2026-10-22
 

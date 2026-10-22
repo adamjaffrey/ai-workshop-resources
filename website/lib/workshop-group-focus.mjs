@@ -7,17 +7,19 @@ export const groupFocusCSS=`
 :root[data-focus-input="keyboard"] [data-group-focus]>.workshop-group-ring{display:block}
 :root[data-focus-input="keyboard"] [data-group-focus] :is(input,button):focus,:root[data-focus-input="keyboard"] [data-group-focus] .choice input:focus+span{outline:none!important}
 `;
-export function installGroupFocus(group,{items,selected,reveal,ringHost}={}){
+export function installGroupFocus(group,{items,selected,reveal,ringHost,outerBottomCorners=false}={}){
  const choices=()=>[...items()].filter(e=>!e.disabled&&!e.closest('[hidden]'));
  const visual=e=>e.matches('input')?e.nextElementSibling:e;
  const ring=ringHost?Object.assign(document.createElement('span'),{className:'workshop-group-ring'}):null;
  if(ring){ring.setAttribute('aria-hidden','true');ringHost.append(ring);}
+ const lowerRing=ring&&outerBottomCorners?Object.assign(document.createElement('span'),{className:'workshop-tab-ring-bottom'}):null;
+ if(lowerRing){lowerRing.setAttribute('aria-hidden','true');ringHost.append(lowerRing);}
  const updateRing=()=>{
   const active=choices().includes(document.activeElement)?document.activeElement:null;
   if(!ring)return;
   ringHost.toggleAttribute('data-group-focus',Boolean(active));if(!active)return;
   const r=visual(active).getBoundingClientRect(),h=ringHost.getBoundingClientRect(),css=getComputedStyle(ringHost);
-  Object.assign(ring.style,{left:r.left-h.left-parseFloat(css.borderLeftWidth)+'px',top:r.top-h.top-parseFloat(css.borderTopWidth)+'px',width:r.width+'px',height:r.height+'px'});
+  for(const layer of [ring,lowerRing].filter(Boolean))Object.assign(layer.style,{left:r.left-h.left-parseFloat(css.borderLeftWidth)+'px',top:r.top-h.top-parseFloat(css.borderTopWidth)+'px',width:r.width+'px',height:r.height+'px'});
  };
  const sync=(target=selected?.()||choices()[0])=>{if(!target)return;for(const item of choices())item.tabIndex=item===target?0:-1;updateRing();};
  group.addEventListener('focusin',event=>{if(!choices().includes(event.target))return;sync(event.target);if(document.documentElement.dataset.focusInput==='keyboard')reveal?.(event.target);requestAnimationFrame(updateRing);});

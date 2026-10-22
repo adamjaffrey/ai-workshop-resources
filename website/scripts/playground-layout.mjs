@@ -146,7 +146,12 @@ main.wrap{padding-top:24px}
 .tab-scroll-shell nav[role=tablist] button[aria-selected=true]{background:var(--agent-accent);color:var(--agent-ink);border-bottom-color:transparent}
 .tab-scroll-shell nav[role=tablist] button:not([aria-selected=true]):hover,:root[data-focus-input=keyboard] .tab-scroll-shell nav[role=tablist] button:not([aria-selected=true]):focus{background:var(--action-hover);color:var(--text)}
 :root[data-focus-input=keyboard] .tab-scroll-shell nav[role=tablist] button[aria-selected=true]:focus{background:var(--agent-accent);color:var(--agent-ink)}
-.tab-scroll-shell>.workshop-group-ring{border-radius:8px 8px var(--focus-sharp-radius) var(--focus-sharp-radius)}
+/* Preserve native upper outline geometry; compare a 1px outer lower radius. */
+.tab-scroll-shell{--tab-ring-outset:calc(var(--focus-ring-offset) + 3px)}
+.tab-scroll-shell>.workshop-group-ring{border-radius:8px 8px var(--focus-sharp-radius) var(--focus-sharp-radius);clip-path:inset(calc(-1 * var(--tab-ring-outset)) calc(-1 * var(--tab-ring-outset)) calc(50% - 1px))}
+.workshop-tab-ring-bottom{position:absolute;display:none;pointer-events:none;z-index:5}
+:root[data-focus-input="keyboard"] [data-group-focus]>.workshop-tab-ring-bottom{display:block}
+.workshop-tab-ring-bottom::after{content:'';position:absolute;inset:calc(-1 * var(--tab-ring-outset));box-sizing:border-box;border:3px solid var(--icon-ink);border-radius:0 0 var(--focus-sharp-radius) var(--focus-sharp-radius);clip-path:inset(50% 0 0)}
 .tab-scroll-shell::before{content:'';position:absolute;inset:-24px 0 100%;background:var(--page);pointer-events:none}
 @media(max-width:660px){
  /* WebKit samples the hit-tested fixed/sticky ancestor, not a backdrop sibling. */
