@@ -3,14 +3,50 @@ name: website-backlog
 description: Record unfinished proposed work for the workshop website.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.6"
-  update_summary: "Add palette simplification, contrast and colour origin work"
-  updated_at: "Thu 22 Oct 2026 at 08:08:50 pm AEDT (+11:00)"
+  doc_revision: "26.0.7"
+  update_summary: "Add System theme and Other agent options to the backlog"
+  updated_at: "Thu 22 Oct 2026 at 08:09:16 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Website Backlog
+
+## Add a System Theme Option
+
+**Added at:** Thu 22 Oct 2026 at 08:09:16 pm AEDT (+11:00)
+
+**Added by:** Adam Jaffrey
+
+**Addition assisted by agent:** ChatGPT Codex
+
+### Outcome
+
+Let users select System to follow their device’s light or dark appearance automatically.
+
+### Acceptance Criteria
+
+- Add a System option to the shared theme selector.
+- When System is selected, follow the device’s current light/dark preference and respond to preference changes.
+- Preserve the System choice across visits and keep the app and Playground specimens consistent.
+
+## Add an Other Agent Option
+
+**Added at:** Thu 22 Oct 2026 at 08:09:16 pm AEDT (+11:00)
+
+**Added by:** Adam Jaffrey
+
+**Addition assisted by agent:** ChatGPT Codex
+
+### Outcome
+
+Provide an agent-agnostic Other option alongside the existing named agents.
+
+### Acceptance Criteria
+
+- Add an Other option to the shared agent selector.
+- Use neutral presentation and agent-agnostic wording and resources where agent-specific alternatives currently appear.
+- Preserve the Other choice across visits and keep the app and Playground specimens consistent across themes.
 
 ## Simplify the Colour Palette
 
