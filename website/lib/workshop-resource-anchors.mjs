@@ -40,7 +40,7 @@ export function initResourceAnchors(anchors,timing,measureHeading,frames,anchorG
  window.addEventListener('keydown',event=>{if(['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].includes(event.key)&&!event.target.matches('input,textarea,button'))cancel();});
  // Redirect only the arrival sequence, retaining native arrows within selectors
  // and native Tab order once the reader reaches the anchored content.
- document.addEventListener('keydown',event=>{
+ window.addEventListener('keydown',event=>{
   if(event.key!=='Tab'||!focusRoute||event.altKey||event.ctrlKey||event.metaKey)return;
   const {agent,theme,next}=focusRoute,current=document.activeElement;
   let target;

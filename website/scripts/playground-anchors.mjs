@@ -131,7 +131,8 @@ export function initPlaygroundAnchors({select,tabPaths,sticky,scheduleCaps,insta
   delete root.dataset.playgroundAnchorArriving;arriving=false;active=entry;followLayout=true;lastY=scrollY;root.dataset.playgroundAnchorLanded=entry.id;
   if(rewrite)writeURL(urlFor(entry));
   const agent=document.querySelector('#agent input:checked'),theme=document.querySelector('#theme input:checked');
-  focusRoute=innerWidth>660?[agent,theme,entry.copy]:[document.getElementById('style-options'),tabButton(entry),entry.copy];
+  const width=document.querySelector('#width input:checked'),hover=document.querySelector('#hover input:checked'),top=document.getElementById('back-to-top');
+  focusRoute=innerWidth>660?[agent,theme,width,hover,top,tabButton(entry),entry.copy]:[document.getElementById('style-options'),top,tabButton(entry),entry.copy];
   focusRoute=focusRoute.filter(Boolean);entry.title.setAttribute('tabindex','-1');window.workshopFocusAtCurrentScroll(entry.title);return true;
  }
  window.addEventListener('wheel',()=>{followLayout=false;if(arriving)leave();},{passive:true});window.addEventListener('touchstart',()=>{followLayout=false;if(arriving)leave();},{passive:true});
@@ -140,6 +141,7 @@ export function initPlaygroundAnchors({select,tabPaths,sticky,scheduleCaps,insta
  // Claim the arrival route before document-level navigation can reveal another target.
  window.addEventListener('keydown',event=>{if(event.key!=='Tab'||!focusRoute)return;if(event.shiftKey){focusRoute=null;return;}const next=focusRoute.shift();if(next){event.preventDefault();window.workshopFocusAtCurrentScroll(next);}if(!focusRoute.length)focusRoute=null;},true);
  document.addEventListener('pointerdown',()=>{focusRoute=null;},{passive:true});
+ document.addEventListener('beforetoggle',event=>{if(event.target.matches('dialog')&&event.newState==='open')focusRoute=null;},true);
  window.navigation?.addEventListener('navigate',event=>{const url=new URL(event.destination.url);if(writing||!event.canIntercept||!event.destination.sameDocument||!resolve(url))return;if(url.pathname===location.pathname&&url.hash===location.hash&&url.search!==location.search)return;intercepted=true;event.intercept({focusReset:'manual',scroll:'manual',handler:async()=>{const done=window.navigation.transition?.finished;try{const landed=await navigate(url.href,{rewrite:false}),token=generation;const finish=()=>{if(landed&&token===generation&&location.href===url.href)writeURL(urlFor(resolve(url)));intercepted=false;};if(done)done.then(finish,()=>{intercepted=false;});else setTimeout(finish,0);}catch(error){intercepted=false;throw error;}}});});
  let pending=0;const historyArrival=()=>{if(intercepted||writing)return;cancelAnimationFrame(pending);pending=requestAnimationFrame(()=>navigate(location.href));};
  window.addEventListener('hashchange',historyArrival);window.addEventListener('popstate',historyArrival);window.addEventListener('pageshow',e=>{if(e.persisted)historyArrival();});

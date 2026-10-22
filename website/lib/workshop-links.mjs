@@ -17,9 +17,9 @@ a.workshop-link[hidden]{display:none!important}
 a.workshop-link[href]{display:inline;max-width:100%;padding:${linkPaint.padding};border-radius:${linkPaint.radius};text-decoration:none;overflow-wrap:normal;vertical-align:baseline;position:relative;background-color:transparent;box-decoration-break:clone;-webkit-box-decoration-break:clone;transition:color ${linkPaint.motion}}
 /* Zero-blur shadows extend each cloned fragment without occupying inline space.
    Paint switches atomically to an opaque tint: overlapping line fragments never compound. */
-a.workshop-link[href]:hover,a.workshop-link[href][data-link-preview="hover"],:root[data-focus-input="keyboard"] a.skip-main.workshop-link[href]:focus{background-color:${linkPaint.fill};box-shadow:${linkPaint.shadow};color:var(--link-hover)}
+a.workshop-link[href]:hover,a.workshop-link[href][data-link-preview="hover"],:root[data-focus-input="keyboard"] a.workshop-link[href]:focus{background-color:${linkPaint.fill};box-shadow:${linkPaint.shadow};color:var(--link-hover)}
 a.workshop-link[href] .link-label{text-decoration-line:underline;${linkPaint.underline};transition:text-decoration-color ${linkPaint.motion}}
-a.workshop-link[href]:hover .link-label,a.workshop-link[href][data-link-preview="hover"] .link-label,:root[data-focus-input="keyboard"] a.skip-main.workshop-link[href]:focus .link-label{text-decoration-color:transparent}
+a.workshop-link[href]:hover .link-label,a.workshop-link[href][data-link-preview="hover"] .link-label,:root[data-focus-input="keyboard"] a.workshop-link[href]:focus .link-label{text-decoration-color:transparent}
 a.workshop-link[href]:focus{outline:none!important}
 :root[data-focus-input="keyboard"] a.workshop-link[href]:focus{outline:3px solid var(--icon-ink)!important;outline-offset:3px}
 a.workshop-link[href] .link-arrow{color:inherit;text-decoration:none}

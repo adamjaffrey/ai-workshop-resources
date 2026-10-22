@@ -11,8 +11,8 @@ export const alignmentCSS = String.raw`
 /* A 20px marker column shares the prose-list indent. Lucide's visible ink is
    centred in that column, with rotation around its own ink centre. */
 :root{--disclosure-text-inset:var(--body-list-indent,20px);--disclosure-marker-centre:12px}
-:is(summary:has(>.disclosure-chevron),.hover-explainer,#inspector-toggle,#inspector-details){display:grid;grid-template-columns:var(--disclosure-text-inset) minmax(0,1fr);align-items:center;column-gap:0;margin-inline-start:0;padding-inline-start:0;text-align:left}
-:is(summary:has(>.disclosure-chevron),.hover-explainer,#inspector-toggle,#inspector-details)>svg{width:18px;height:18px;margin:0;margin-inline-start:calc(var(--disclosure-marker-centre) - ${((ink.icons['chevron-right'].left + 24 - ink.icons['chevron-right'].right)/2)/24*18}px);transform-box:fill-box;transform-origin:center}
+:is(summary:has(>.disclosure-chevron),.hover-explainer,#inspector-toggle,#inspector-details){display:grid;grid-template-columns:var(--disclosure-text-inset) minmax(0,1fr);align-items:start;column-gap:0;margin-inline-start:0;padding-inline-start:0;text-align:left}
+:is(summary:has(>.disclosure-chevron),.hover-explainer,#inspector-toggle,#inspector-details)>svg{width:18px;height:18px;margin:calc((1lh - 18px)/2) 0 0;margin-inline-start:calc(var(--disclosure-marker-centre) - ${((ink.icons['chevron-right'].left + 24 - ink.icons['chevron-right'].right)/2)/24*18}px);transform-box:fill-box;transform-origin:center}
 #inspector-toggle{padding-inline:0!important}
 /* Compact disclosures size their painted background around the complete label. */
 :is(.hover-explainer,#inspector-details){inline-size:max-content;max-inline-size:100%;min-inline-size:0;padding-inline-end:10px}
@@ -57,9 +57,9 @@ body:has(#playground-title)>main.wrap{padding-inline:28px}
 [data-panel]>.panel:not(.is-expanded){margin-inline:-4px;padding-inline:28px}
 .panel>.section-heading h2,.panel>p,.panel>.feather-notice>p{padding-inline:0}
 .panel>ul{margin-inline:0}
-.panel>.frame-wrap,.panel>#playground-icon-catalog,.panel>.samples{margin-inline:-4px;width:calc(100% + 8px);max-width:none}
+:is(.panel,.playground-subsection)>.frame-wrap,.panel>#playground-icon-catalog,.panel>.samples{margin-inline:-4px;width:calc(100% + 8px);max-width:none}
 /* The preview viewport stays on its rails; only its iframe may exceed it. */
-.panel>.frame-wrap,.preview-dialog.is-expanded>.frame-wrap{min-width:0;max-width:calc(100% + 8px);overflow:auto}
+:is(.panel,.playground-subsection)>.frame-wrap,.preview-dialog.is-expanded>.frame-wrap{min-width:0;max-width:calc(100% + 8px);overflow:auto}
 .choices legend{padding-inline:0;margin-inline-start:0}.field>.slider-label,#hover .hover-explanation{padding-inline:0}
 .choices>.choice-shell,.choices>.choice-options:not(:has(.choice-shell)){margin-inline-start:-4px;max-width:calc(100% + 8px)}
 .panel-actions,.panel-options,.heading-actions{margin-inline-end:-4px}

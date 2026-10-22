@@ -94,6 +94,12 @@
       "top": 1,
       "bottom": 1
     },
+    "file-check": {
+      "left": 3,
+      "right": 3,
+      "top": 1,
+      "bottom": 1
+    },
     "file-code-corner": {
       "left": 1,
       "right": 3,
@@ -147,6 +153,12 @@
       "right": 1.05,
       "top": 1.05,
       "bottom": 1.05
+    },
+    "list": {
+      "left": 2,
+      "right": 2,
+      "top": 4,
+      "bottom": 4
     },
     "list-checks": {
       "left": 2,
@@ -225,6 +237,12 @@
       "right": 1,
       "top": 1,
       "bottom": 2
+    },
+    "paintbrush": {
+      "left": 1,
+      "right": 1,
+      "top": 1,
+      "bottom": 1
     },
     "palette": {
       "left": 1,

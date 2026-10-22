@@ -23,7 +23,7 @@ function renderPlaygroundIcons(){
   const key=provider+':'+name+(svg.dataset.iconVariant?':modified':'');
   if(!icons.has(key))icons.set(key,{svg,provider,name,variant:svg.dataset.iconVariant||undefined,usages:new Set(),groups:new Set()});
   const panel=svg.closest('.panel'),heading=svg.closest('h1,h2,h3'),control=svg.closest('button,a,summary');
- const group=svg.closest('#playground-title')?'playground':svg.closest('.heading-anchor')?'ui':svg.closest('.section-heading h2,:is(.url-reference-subheading,.playground-subheading),[data-tab]')?'headings':svg.closest('button,a,summary,.breadcrumbs')?'ui':'other';
+ const group=svg.closest('#playground-title')?'playground':svg.closest('.heading-anchor')&&!use.startsWith('playground-heading-')?'ui':svg.closest('.section-heading h2,:is(.url-reference-subheading,.playground-subheading),[data-tab]')?'headings':svg.closest('button,a,summary,.breadcrumbs')?'ui':'other';
  icons.get(key).groups.add(group);
   const location=panel?.querySelector('.section-heading h2')?.textContent.trim()||'Playground';
   // Hidden alternate icons describe their own action, not the button's resting label.

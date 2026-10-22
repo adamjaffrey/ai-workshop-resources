@@ -51,7 +51,8 @@ export function installKeyboardNavigation(){
    let next=index>=0?order[index+(event.shiftKey?-1:1)]:null;
    if(document.querySelector('#style-dialog:modal')&&index>=0&&!next)next=event.shiftKey?order.at(-1):order[0];
    if(!next&&order.length){
-    const first=[...navigationRoot().querySelectorAll(selector)].find(e=>eligible(e)&&!order.includes(e)&&!e.closest('.playground-heading,.toolbar')&&e.matches('.step-anchor'));
+    const root=navigationRoot(),panel=root.querySelector('[data-panel]:not([hidden])');
+    const first=panel?[...panel.querySelectorAll(selector)].find(eligible):[...root.querySelectorAll(selector)].find(e=>eligible(e)&&!order.includes(e)&&e.matches('.step-anchor'));
     if(event.shiftKey&&active===first)next=order.at(-1);
     else if(!event.shiftKey&&index===order.length-1)next=first;
    }

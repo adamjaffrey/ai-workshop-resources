@@ -88,7 +88,7 @@ export function installPlaygroundKeyboard(){
    if(e.closest('.catalog-sources,[inert]')||!e.getClientRects().length)continue;
    if(e.closest('.type-row[data-source-selector=".qr-card figcaption"]')){e.removeAttribute('data-scroll-focus');e.tabIndex=-1;continue;}
    if(e.matches('.error-sample:has(>.full-login-context)')){e.removeAttribute('data-scroll-focus');e.removeAttribute('tabindex');continue;}
-   const c=getComputedStyle(e),scrollable=(/auto|scroll/.test(c.overflowX)&&e.scrollWidth>e.clientWidth+2)||(/auto|scroll/.test(c.overflowY)&&e.scrollHeight>e.clientHeight+2)||e.matches('.page-embed-scroll,.full-login-context,.error-sample:has(>.fallback-context):not(:has(>.full-login-context))');
+   const c=getComputedStyle(e),typographyStop=innerWidth<=660&&e.matches('.specimen-viewport')&&e.closest('.type-row:not([data-source-selector=".brand-name"]):not(.has-variants)'),scrollable=Boolean(typographyStop)||(/auto|scroll/.test(c.overflowX)&&e.scrollWidth>e.clientWidth+2)||(/auto|scroll/.test(c.overflowY)&&e.scrollHeight>e.clientHeight+2)||e.matches('.page-embed-scroll,.full-login-context,.error-sample:has(>.fallback-context):not(:has(>.full-login-context))');
    if(scrollable){e.setAttribute('data-scroll-focus','');e.tabIndex=0;if(!e.hasAttribute('aria-label'))e.setAttribute('aria-label',(e.querySelector(':scope>iframe')?.title||e.closest('section')?.querySelector('h2,h3')?.textContent?.trim()||'Specimen')+' — Scroll with Arrow Keys');}
    else if(e.hasAttribute('data-scroll-focus')){e.removeAttribute('data-scroll-focus');e.removeAttribute('tabindex');}
   }

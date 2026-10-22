@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.98"
-  update_summary: "Record focused testing and justified broader validation"
-  updated_at: "Thu 22 Oct 2026 at 08:21:41 pm AEDT (+11:00)"
+  doc_revision: "26.0.99"
+  update_summary: "Record consolidated focus and mobile feedback decisions"
+  updated_at: "Thu 22 Oct 2026 at 08:48:48 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -654,7 +654,7 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 
 **Implementation:** Retain the existing sibling group-ring positioning. The original ring element retains and clips its native upper outline; a sibling layer positioned by the same controller paints a 3px border at the same outer extent with 1px bottom radii. The clipped halves overlap by 1px along their straight sides to avoid fractional-pixel seams. No separate keyboard overlay is added. The lower inner corners are square because the outer radius is smaller than the stroke thickness.
 
-**Scope:** This explicitly overrides the earlier base-radius decision for the tab bottoms only and remains a visual comparison pending Adam’s review.
+**Outcome:** Adam rejected this comparison. The restoration below supersedes it; this entry records the experiment only.
 
 **Owner:** [Focus and Panel Opening](../docs/agent-guidance/interface.md#focus-and-panel-opening), `scripts/playground-layout.mjs`.
 
@@ -683,3 +683,18 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Reason:** Adam reported excessive build turnaround after overlapping scrolling, backdrop and broad Playground checks. The shared scrolling regression provides relevant coverage of both backgrounds; unrelated broad checks should not become a routine cost for narrow changes.
 
 **Owners:** [Proportionate Testing](../AGENTS.md#proportionate-testing), [Interface](../docs/agent-guidance/interface.md#mandatory-change-and-validation-contract).
+
+
+## Consolidated Focus and Mobile Review Corrections
+
+**Decision:** Restore the tab bar’s single native group outline with 8px upper and 1px lower base radii, 3px gap and 3px thickness. Remove the split lower layer, option and clipping. Keep intentionally rounded controls, prompt lower corners, custom link masks, URL code guards and the accent baseline.
+
+**Reason:** Adam preferred the prompt’s 1px base-radius treatment. A 1px visible outer radius has a different meaning and introduced unnecessary split-paint complexity. This supersedes Tab Outer Bottom-Corner Comparison.
+
+**Navigation:** Skip to Main Content remains first for normal page entry, as Adam clarified; anchor-link arrivals retain their separate temporary route. Give Resources arrival routing priority over general page traversal. Desktop Playground arrivals visit Agent, Theme, Width, Hover, Jump to Top, Tab Bar and target content. Adam explicitly rejected automatically opening mobile modals; mobile arrivals instead visit Style Options, Jump to Top, Tab Bar and target content. The modal retains its selector sequence when explicitly opened. Preserve landing position and ordinary navigation afterwards.
+
+**Specimens and Presentation:** Remove captured positive tab priorities, retain sequential text-region inspection and refresh colour annotations after transitions settle. Enter URL Reference through About This Reference during normal tabbing. Show hyperlink hover decoration during keyboard focus, align disclosure chevrons with the first line, and place mobile Hover Preview help below its selector. Reuse shared surface rails for Hyperlink Styles frames and scope its H3 dividers locally. Allow Done to close sandbox specimen dialogs locally.
+
+**Icons:** Give distinct headings unique installed Lucide icons: List for Lists and Inline Code, Paintbrush for Link Colours and File Check for the Lobe licence section. Keep modified arrows in both Link Icons and Playground Icons when actual heading usage warrants it; usage metadata and ordering remain DOM-derived.
+
+**Owners:** [Interface](../docs/agent-guidance/interface.md), [Motion](../docs/agent-guidance/motion.md) and [Repository Instructions](../AGENTS.md).

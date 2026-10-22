@@ -115,7 +115,7 @@ summary,summary *,.hover-explainer,.hover-explainer *{cursor:pointer!important}
 .icon-usages summary>svg{color:var(--icon-ink)}
 .panel>:is(.selector-row,.state-tools,.choices,.control-footer,.panel-actions,.panel-options,.checkbox-controls){margin-block:32px}
 .panel>:is(.selector-row,.state-tools,.choices,.control-footer,.panel-actions,.panel-options,.checkbox-controls)+*{margin-top:32px}summary>.disclosure-chevron{margin:0;vertical-align:initial}
-#hover legend{width:100%}.hover-label-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px 24px}
+#mobile-style-controls #hover>.hover-explainer{margin-top:16px}#hover legend{width:100%}.hover-label-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px 24px}
 .hover-explainer{display:inline-flex;align-items:center;gap:4px;border:0;padding:0;background:transparent;font-size:14px;line-height:21px;font-weight:400;color:var(--muted-text)}
 .hover-explainer svg{width:18px;height:18px;flex:none}.hover-explainer[aria-expanded=true] svg{transform:rotate(90deg)}
 #inspector-toggle,.inspector-actions button{gap:8px}
@@ -146,12 +146,7 @@ main.wrap{padding-top:24px}
 .tab-scroll-shell nav[role=tablist] button[aria-selected=true]{background:var(--agent-accent);color:var(--agent-ink);border-bottom-color:transparent}
 .tab-scroll-shell nav[role=tablist] button:not([aria-selected=true]):hover,:root[data-focus-input=keyboard] .tab-scroll-shell nav[role=tablist] button:not([aria-selected=true]):focus{background:var(--action-hover);color:var(--text)}
 :root[data-focus-input=keyboard] .tab-scroll-shell nav[role=tablist] button[aria-selected=true]:focus{background:var(--agent-accent);color:var(--agent-ink)}
-/* Preserve native upper outline geometry; compare a 1px outer lower radius. */
-.tab-scroll-shell{--tab-ring-outset:calc(var(--focus-ring-offset) + 3px)}
-.tab-scroll-shell>.workshop-group-ring{border-radius:8px 8px var(--focus-sharp-radius) var(--focus-sharp-radius);clip-path:inset(calc(-1 * var(--tab-ring-outset)) calc(-1 * var(--tab-ring-outset)) calc(50% - 1px))}
-.workshop-tab-ring-bottom{position:absolute;display:none;pointer-events:none;z-index:5}
-:root[data-focus-input="keyboard"] [data-group-focus]>.workshop-tab-ring-bottom{display:block}
-.workshop-tab-ring-bottom::after{content:'';position:absolute;inset:calc(-1 * var(--tab-ring-outset));box-sizing:border-box;border:3px solid var(--icon-ink);border-radius:0 0 var(--focus-sharp-radius) var(--focus-sharp-radius);clip-path:inset(50% 0 0)}
+.tab-scroll-shell>.workshop-group-ring{border-radius:8px 8px var(--focus-sharp-radius) var(--focus-sharp-radius)}
 .tab-scroll-shell::before{content:'';position:absolute;inset:-24px 0 100%;background:var(--page);pointer-events:none}
 @media(max-width:660px){
  /* WebKit samples the hit-tested fixed/sticky ancestor, not a backdrop sibling. */
@@ -318,4 +313,4 @@ body :is(.icon-button,.preview-expand,#perspective-replay)[hidden]{display:none!
 .selector-row .choice-shell{max-width:100%}
 `;
 
-export const linkSubsectionCSS=`.playground-subsection{margin-top:24px}.playground-subheading{font-size:16px;line-height:24px;margin:0;display:flex;align-items:center;gap:12px}.playground-subheading>svg{flex:none}.playground-subsection>.frame-wrap{margin-inline:-4px}`;
+export const linkSubsectionCSS=`.playground-subsection{margin-top:24px}.playground-subheading{font-size:16px;line-height:24px;margin:0;display:flex;align-items:center;gap:12px}.playground-subheading>svg{flex:none}#playground-typography>.playground-subsection+.playground-subsection{border-top:1px solid var(--border)}`;

@@ -3,9 +3,9 @@ name: motion-contract
 description: Preserve theme transitions, selector movement and card reveal timing.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.7"
-  update_summary: "Share native anchor scrolling and travel-based arrival fades"
-  updated_at: "Thu 22 Oct 2026 at 05:01:53 pm AEDT (+11:00)"
+  doc_revision: "26.0.8"
+  update_summary: "Clarify anchor-route priority and mobile modal boundaries"
+  updated_at: "Thu 22 Oct 2026 at 08:48:48 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -71,4 +71,4 @@ Preserve the approved behaviour in `website/lib/workshop-theme.mjs`, `website/li
 - When changing tabs while the tab bar is not yet pinned and the header above it remains visible, retain the current scroll depth. Apply this to ordinary tab changes and same-document cross-tab anchor navigation; reveal the requested anchor and update its URL without forcing a landing. Initial anchor loads and navigation within the current tab retain normal anchor landing behaviour.
 - Land the outer H2 card top, or the H3 subsection heading-row top, 16px below the actual settled sticky tab bar. Use whole CSS-pixel scroll coordinates and the existing responsive sticky controller, letting controls pin naturally as the page travels. Do not apply the Resources 60/30px text clearance to Playground.
 - Fade earlier cards in the selected tab over the final 30% of travel using the shared eased arrival progress. For an H3, also fade preceding content within its enclosing card without fading the ancestor containing the target. Retain all layout space and make hidden content inert after arrival. Restore over 600ms with the Resources easing on upward scroll; continuing downward leaves it hidden. Changing tab or using a chevron restores the normal page.
-- Add only the minimum bottom space needed for the destination; trim it safely on subsequent navigation and upward restoration. When a user toggles a section with temporary bottom room present, reserve space before changing layout, retain the viewport throughout the 160ms contraction/expansion, and defer trimming until subsequent scrolling. Suppress browser scroll anchoring during this transition. Wheel, touch and navigation-key input can cancel an in-progress journey. Copying a heading does not scroll. Follow the Interface contract for focus routing.
+- Add only the minimum bottom space needed for the destination; trim it safely on subsequent navigation and upward restoration. When a user toggles a section with temporary bottom room present, reserve space before changing layout, retain the viewport throughout the 160ms contraction/expansion, and defer trimming until subsequent scrolling. Suppress browser scroll anchoring during this transition. Wheel, touch and navigation-key input can cancel an in-progress journey. Copying a heading does not scroll. Follow the Interface contract for the complete desktop and mobile focus routes; temporary arrival routing runs before general keyboard traversal and preserves the settled landing through every stop. Mobile routing never opens a modal automatically.

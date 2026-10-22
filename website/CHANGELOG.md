@@ -3,14 +3,44 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.345"
-  update_summary: "Unify Resources and Colours background scrolling"
-  updated_at: "Thu 22 Oct 2026 at 08:19:05 pm AEDT (+11:00)"
+  doc_revision: "26.0.346"
+  update_summary: "Resolve queued focus, mobile navigation and specimen feedback"
+  updated_at: "Thu 22 Oct 2026 at 08:48:48 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.344 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 08:48:48 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Resolve queued focus, mobile navigation and specimen feedback
+
+### Fixed
+
+- Restore the single tab focus outline with 1px lower base corners, 3px gap and 3px thickness; remove the rejected split-layer experiment while preserving rounded upper corners and the accent baseline.
+- Give Resources anchor routing priority over general page navigation. Complete desktop Playground arrival stops through Agent, Theme, Width, Hover, Jump to Top and Tab Bar before target content. Mobile visits Style Options, Jump to Top, Tab Bar and content without automatically opening a modal; explicit modal opening releases the temporary route.
+- Keep Skip to Main Content first for normal page entry. Restore About This Reference in ordinary URL Reference traversal and remove the captured positive Page Title priority in Typography. Mobile text specimens follow their row/region order.
+- Show hyperlink hover decoration on keyboard focus, align disclosure chevrons to the first text line and place mobile Hover Preview help below its selector.
+- Refresh Typography colour annotations after transitions settle and let Done dismiss sandboxed Easter Egg dialogs without enabling real form submissions.
+- Reuse shared specimen surface rails and add scoped Hyperlink Styles dividers. Include modified heading arrows in Playground Icons while retaining Link Icons entries; give distinct section headings unique icons and document the rule.
+
+### Validation
+
+- Focused feedback regression — passed actual Chrome and Playwright WebKit at 390/1440px, including selector browsing/activation, arrival stops and viewport retention, normal URL entry, Typography order/annotations, specimen rails, icon inventories and Done dismissal. Mobile-only Typography refinement rechecked at 390px in both engines.
+- Complete Playground arrival inventory — all 40 headings passed at 390/1440px in Chrome; normal entry starts at Skip to Main Content.
+- Actual Safari 27.0.1 — both pages passed short/long journeys at 390/1440px with real Tab events, stable landing positions, expected offsets and monotonic final-30% fades. Mobile Resources left/right browsing and Enter activation passed; no remaining selector defect reproduced.
+- Tab geometry and sharp-focus parity checks — passed Chrome/WebKit at 320/390/768/1440px, themes and agents, including expanded/restored tabs, prompt native/overlay parity, URL code and static focus rows.
+- Mobile presentation checks — passed Chrome/WebKit for wrapped first-line chevrons, hyperlink focus decoration and explicit Style Options modal containment.
+- JavaScript syntax, icon-ink measurement, PVS validation, production build and generated/bundled v26.0.344 displays — passed. Saved backdrop geometry reused. No broad suite or physical-device test claimed.
 
 ## v26.0.343 — 2026-10-22
 
