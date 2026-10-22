@@ -18,6 +18,7 @@ html:has(#playground-title){scrollbar-gutter:stable}
 #panel-url-reference .panel .url-subsection[data-collapsed]+.url-subsection{margin-top:0}
 #panel-url-reference .panel .url-subsection[data-collapsed]:last-child{padding-bottom:0}
 #panel-url-reference .panel .url-subsection[data-collapsed]>.section-heading{margin-bottom:0;min-height:var(--collapsed-heading-height,50px)}
+#panel-url-reference .url-subsection>.section-heading::before{height:var(--collapsed-heading-height,100%)}
 .section-heading::before{content:"";position:absolute;top:0;left:-8px;right:-8px;height:100%;border-radius:12px;background:var(--hover);opacity:0;pointer-events:none;z-index:-1;transition:none}
 .section-heading:is([data-collapse-hover],:has(>.section-collapse:hover),:has(>.section-collapse:active))::before,:root[data-focus-input="keyboard"] .section-heading:has(>.section-collapse:focus)::before{opacity:1}
 .section-collapse::before,.section-collapse::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;opacity:0}

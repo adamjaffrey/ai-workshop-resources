@@ -81,6 +81,9 @@ html, body { overflow-x: hidden; }
   :root.theme-reveal[data-theme]::view-transition-new(root),
   :root.theme-reveal[data-theme]::view-transition-old(root) { animation: none; }
 }
+/* Small default corners keep native outlines from producing needle-sharp joins. */
+:where(button,a[href],input,textarea,select,summary,[tabindex]){border-radius:3px}
+.code-wrap:has(pre:focus-visible)::after{border-top-left-radius:3px;border-top-right-radius:3px}
 /* Pointer focus remains real, but navigation rings belong to keyboard Tab use. */
 :root:not([data-focus-input="keyboard"]) :focus:not(input):not(textarea):not([contenteditable="true"]) { outline: none; }
 :root:not([data-focus-input="keyboard"]) input:is([type="radio"],[type="checkbox"],[type="range"]):focus { outline: none; }

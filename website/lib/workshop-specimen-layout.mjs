@@ -89,6 +89,8 @@ html:is([data-specimen-gallery=icons],[data-specimen-gallery=errors]) body{font:
 .type-row .controls-label[data-type-sample]{line-height:21px}
 .type-row .password-field[data-in-situ]{display:flex}
 .type-row figcaption[data-type-sample]{text-align:left}
+.type-row[data-source-selector=".qr-card figcaption"] .specimen-context{justify-self:start!important;text-align:left!important}
+.type-row[data-source-selector="pre"] .code-wrap{border-top-left-radius:0;border-top-right-radius:0}
 .type-row .qr-copy-overlay{opacity:1}
 .type-row .copy-content{display:inline-flex}
 .type-row pre{max-height:none}

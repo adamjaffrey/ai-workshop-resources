@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.74"
-  update_summary: "Record local preview cookie isolation"
-  updated_at: "Thu 22 Oct 2026 at 01:46:29 pm AEDT (+11:00)"
+  doc_revision: "26.0.75"
+  update_summary: "Refine specimen fidelity and local focus order"
+  updated_at: "Thu 22 Oct 2026 at 02:06:24 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -541,6 +541,8 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Owner:** [Interface](../docs/agent-guidance/interface.md#playground-keyboard-and-nested-scrolling).
 
 **Focus Follow-up:** Explicitly clear the UA popover background so top-layer rings never obscure their targets. Full-height gallery roots do not scroll internally during row navigation. Round the text-sized secret ring, restart title navigation after blank top-area clicks, remove the tab marker’s reserved height and use a 2px accent rail. Let measured collapsed heights override the URL H3 minimum, and keep iframe bottom clearance at 24px independently of collapsed spacing. These corrections respond to visual and keyboard review of the previous implementation.
+
+**Specimen Fidelity Follow-up:** Isolate the QR caption from the source header’s grid positioning; keep standalone prompt upper corners square while softly rounding focus paint. Retain captured theme hover tokens and password state ink so isolated specimens remain legible and accurate. Give login contexts an enclosing stop and route the Resources fallback through H1 before its controls. Widen static row rings to clear the demonstrated rings, apply balanced hover height to expanded URL H3s, and lower tab contents by 1px. These changes follow direct visual and keyboard review.
 
 ## Local Preview Cookies Across Ports
 

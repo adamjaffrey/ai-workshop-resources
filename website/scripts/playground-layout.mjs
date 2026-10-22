@@ -141,11 +141,11 @@ main.wrap{padding-top:24px}
 .choice-options,nav[role=tablist]{--overflow-feather:108px;--overflow-shoulder:36px}
 @media(max-width:660px){.choice-options,nav[role=tablist]{--overflow-feather:54px;--overflow-shoulder:18px}}
 .tab-scroll-shell nav[role=tablist]{padding-top:0}
-.tab-scroll-shell nav[role=tablist] button{border-bottom:0!important}
+.tab-scroll-shell nav[role=tablist] button{border-bottom:0!important;padding-top:13px;padding-bottom:11px}
 .tab-scroll-shell nav[role=tablist] button[aria-selected=true]{background:var(--agent-accent);color:var(--agent-ink);border-bottom-color:transparent}
 .tab-scroll-shell nav[role=tablist] button:not([aria-selected=true]):hover,:root[data-focus-input=keyboard] .tab-scroll-shell nav[role=tablist] button:not([aria-selected=true]):focus{background:var(--action-hover);color:var(--text)}
 :root[data-focus-input=keyboard] .tab-scroll-shell nav[role=tablist] button[aria-selected=true]:focus{background:var(--agent-accent);color:var(--agent-ink)}
-.tab-scroll-shell>.workshop-group-ring{border-radius:8px 8px 0 0}
+.tab-scroll-shell>.workshop-group-ring{border-radius:8px 8px 3px 3px}
 .tab-scroll-shell::before{content:'';position:absolute;inset:-24px 0 100%;background:var(--page);pointer-events:none}
 @media(max-width:660px){
  /* WebKit samples the hit-tested fixed/sticky ancestor, not a backdrop sibling. */

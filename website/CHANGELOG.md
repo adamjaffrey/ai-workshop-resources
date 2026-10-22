@@ -3,14 +3,44 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.321"
-  update_summary: "Isolate local preview session cookies by port"
-  updated_at: "Thu 22 Oct 2026 at 01:47:40 pm AEDT (+11:00)"
+  doc_revision: "26.0.322"
+  update_summary: "Refine specimen fidelity and local focus order"
+  updated_at: "Thu 22 Oct 2026 at 02:08:54 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.320 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 02:08:54 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine specimen fidelity and local focus order
+
+### Changed
+
+- Lower tab labels and icons together by 1px without changing the tab containers.
+- Balance expanded URL H3 hover decoration using the same text-ink measurement as collapsed headings.
+- Give the standalone Typography prompt square upper container corners, and isolate the left-aligned QR caption from header positioning and keyboard scroll stops.
+- Soften sharp native focus corners, including prompt upper corners and tab lower corners; widen Focus and Selection row rings by 12px per side to clear preloaded specimen rings.
+- Retain captured dark-theme hover colours so the sun icon remains visible, and preserve state-specific password focus ink in Icons and Status States.
+- Enter the Resources JavaScript fallback through H1 before theme/QR, and give each login context an enclosing keyboard stop before its controls while retaining arrow panning.
+- Update Interface guidance and design rationale; preserve the separately committed preview cookie isolation fix.
+
+### Validation
+
+- `npm --prefix website run build` — passed using saved backdrop geometry; generated artefacts display v26.0.320.
+- `playground-browser-check.mjs` — passed for source typography, both agents/themes, responsive layouts, login states and navigation containment.
+- `specimen-focus-parity-browser-check.mjs` — passed in Chrome and WebKit at 390 and 1440px for caption geometry, prompt corners, password ring colours, fallback/login navigation and widened row rings.
+- Wrapped-heading and shared focus-boundary checks — passed in both engines at 320, 390, 768 and 1440px.
+- Dark-mode sun hover screenshot inspected; caption has no horizontal overflow at tested widths. Physical devices were not tested.
 
 ## v26.0.319 — 2026-10-22
 
