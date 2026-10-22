@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.23"
-  update_summary: "Bold legacy anchor fragments"
-  updated_at: "Thu 22 Oct 2026 at 04:23:30 pm AEDT (+11:00)"
+  doc_revision: "26.0.24"
+  update_summary: "Group shared link icons and compare navigation link variants"
+  updated_at: "Thu 22 Oct 2026 at 05:47:16 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -152,6 +152,7 @@ Every collapsible outer H2/H3 also has a copyable heading anchor. The inventory 
 | Colours | Source Coverage (H2) | `/component-playground/colours`**`#source-coverage`** | — |
 | Blocks and Blur | Blocks and Blur (H2) | `/component-playground/blocks-and-blur`**`#blocks-and-blur`** | — |
 | Icons | App Icons and Symbols (H2) | `/component-playground/icons`**`#app-icons-and-symbols`** | — |
+| Icons | Link Icons (H2) | `/component-playground/icons`**`#link-icons`** | — |
 | Icons | Playground Icons (H2) | `/component-playground/icons`**`#playground-icons`** | — |
 | Icons | Lucide Licence · ISC and MIT (H2) | `/component-playground/icons`**`#lucide-licence-isc-and-mit`** | — |
 | Icons | Lobe Icons Licence · MIT (H2) | `/component-playground/icons`**`#lobe-icons-licence-mit`** | — |

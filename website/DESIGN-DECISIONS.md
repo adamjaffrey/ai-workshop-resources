@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.86"
-  update_summary: "Compare 1px and 2px prompt focus corners"
-  updated_at: "Thu 22 Oct 2026 at 05:38:34 pm AEDT (+11:00)"
+  doc_revision: "26.0.87"
+  update_summary: "Group shared link icons and compare navigation link variants"
+  updated_at: "Thu 22 Oct 2026 at 05:47:16 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -145,6 +145,8 @@ The current root [README.md](../README.md) was introduced at the independent-pro
 **Approved Icon Modifications:** Adam supplied and compared modified Hash and Arrow Up Right variants in the icon palette, then selected `hash-modified` and `arrow-up-right-modified` for their visual balance with the text at body and heading sizes. Exact production-path reference exports are [Modified Hash](../docs/assets/link-icons/hash-modified.svg) and [Modified Arrow Up Right](../docs/assets/link-icons/arrow-up-right-modified.svg). The originals remain [Lucide Hash](https://lucide.dev/icons/hash) and [Lucide Arrow Up Right](https://lucide.dev/icons/arrow-up-right).
 
 **Internal Skip Link Exception:** Adam supplied [Modified Arrow Right](../docs/assets/link-icons/arrow-right-modified.svg), derived from Lucide Arrow Right, for only the Resources and Playground Skip to Main Content links. Its 18-unit horizontal shaft and approximately 10-unit diagonal edges distinguish this internal navigation from the up-right external-link affordance. Keep every other link unchanged. Both skip links reuse the shared renderer, non-wrapping final-word/icon tail, .2em gap, cap-height sizing, hover paint, hit targets and keyboard focus contours; explicit `.workshop-link--internal` and `.workshop-link--external` modifier classes select icon geometry while inheriting one shared CSS treatment. Only the skip links opt into the internal modifier; unmarked links retain the external modifier for backwards compatibility. No extra literal space is needed. This supersedes the earlier uniform-arrow rule only for these two links.
+
+**Shared Link Gallery:** Adam requested separate Internal Links and External Links examples in Hyperlink Styles and a Link Icons section before Playground Icons. The latter owns the three modified link glyphs in right-arrow, up-right-arrow, Hash order. Derive their SVGs from the shared renderer, retain source and usage listings, and keep their source visibility independent from Playground tooling filters. Move standalone modified Hash out of App Icons and Symbols while preserving the full contextual heading and copy-feedback demonstrations.
 
 **Geometry and Reason:** Compared with the installed Hash, the modified Hash moves the horizontal bars from y=9/15 to y=8/16 and moves the slanted stems outward by 0.5 viewBox units, giving the centre more space while preserving its overall height. The modified arrow expands the diagonal from the original 7–17 extent to 4–20 and uses 10.5-unit arrowhead arms, giving it a larger visible footprint in the common canvas. These are observable geometric changes supporting the optical balance chosen in the palette; the conversation does not establish a separate mathematical optimisation rationale for each coordinate. The common cap-height scale and weight-dependent stroke then keep the selected shapes consistent across text sizes. Plain Lucide Check and X were retained for feedback after the circled alternatives made the inner marks feel too small. Do not reintroduce the earlier cropped arrow, first modified arrow or Unicode arrow for these roles.
 

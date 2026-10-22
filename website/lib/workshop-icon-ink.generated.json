@@ -10,6 +10,12 @@
       "top": 1,
       "bottom": 1
     },
+    "arrow-right": {
+      "left": 4,
+      "right": 4,
+      "top": 4,
+      "bottom": 4
+    },
     "arrow-up-right": {
       "left": 6,
       "right": 6,
@@ -135,6 +141,12 @@
       "right": 2.5,
       "top": 2,
       "bottom": 2
+    },
+    "link": {
+      "left": 1.05,
+      "right": 1.05,
+      "top": 1.05,
+      "bottom": 1.05
     },
     "list-checks": {
       "left": 2,
@@ -361,6 +373,13 @@
       "right": 3,
       "top": 3,
       "bottom": 3,
+      "viewBox": 24
+    },
+    "arrow-right-modified": {
+      "left": 2,
+      "right": 2,
+      "top": 3.9,
+      "bottom": 3.9,
       "viewBox": 24
     }
   },

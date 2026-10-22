@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.75"
-  update_summary: "Compare 1px and 2px prompt focus corners"
-  updated_at: "Thu 22 Oct 2026 at 05:38:34 pm AEDT (+11:00)"
+  doc_revision: "26.0.76"
+  update_summary: "Group shared link icons and compare navigation link variants"
+  updated_at: "Thu 22 Oct 2026 at 05:47:16 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -300,6 +300,7 @@ Rationale and superseded rules: [Specimen Palettes and Page Embeds](../../websit
 - In Typography and Icons, move the standalone login-error icon/message group together by the X icon's measured leading SVG whitespace (3.75px at 18px). Preserve its icon-to-text gap and do not move icons inside buttons or fields. Remove the first column's left cell padding in the Colours Across Themes and Agents table rather than shifting its boundary.
 - Use primary-text disclosure labels with accent-coloured chevrons and the shared tinted background for explanatory sections, including colour rules, icon licences, URL introduction, Easter Egg explanations and hover help. In prose, retain the body-sized label. Keep the expanded colour-rule grey surface in its existing position and give its content 24px horizontal padding.
 - Keep the same 16px gap between an icon’s Locations disclosure and its source link whether open or closed. The disclosure owns this gap; its expanded usage list adds no bottom margin.
+- Place Link Icons above Playground Icons in the Icons tab. Catalogue `arrow-right-modified`, `arrow-up-right-modified` and `hash-modified` there, in that order, using the canonical shared renderer and actual usage/source metadata. Exclude those standalone entries from the app and Playground icon catalogues; preserve contextual anchor and feedback specimens. Link Icons owns its Show Sources toggle independently of Playground Icons filters and source visibility.
 - Order the Playground icon catalogue by purpose: Playground identity first; section and subsection headings in tab/page order; UI controls; then other uses. Deduplicate by provider/name (retaining deliberately distinct cropped variants), list all usage locations, and place an icon with multiple roles in its earliest category.
 - Whenever adding, changing or removing an icon, update its canonical library definition/usage metadata, inspect both app and Playground catalogues and filters, verify source/licence links and usage listings, and remove stale entries. Keep catalogue ordering derived from current heading DOM order, rather than a historical hard-coded inventory. Preserve real motion such as Loader Circle spinning, including reduced-motion behaviour; capture-time motion suppression must not freeze the gallery demonstration.
 - Run `node website/tests/specimen-mobile-parity-browser-check.mjs` for mobile Chrome/WebKit source-boundary preservation and actual Resources copy-feedback parity, including computed typography and rendered glyph height. A narrow desktop viewport alone does not cover mobile rendering.
@@ -374,7 +375,7 @@ Heading collapse height animations clip vertically only (`overflow-x: visible; o
 
 - Skip to Main Content is the first keyboard stop on Resources and Playground, visible when focused. Place it left-aligned with the logo and vertically centred in the space above its actual `.brand` container on both pages, not the taller Playground brand row; use the ordinary hyperlink decoration on hover and keyboard focus, with its tight shared exterior contour. Resources targets the first step anchor, bypassing H1, QR and selectors. Playground bypasses the title, floating actions, global selectors and tab bar, focusing the first eligible control in the active content panel. Do not inject page-level skip links into embedded specimens. Activating Playground Jump to Top resets the next forward Tab to Skip to Main Content, then resumes at H1 and the normal page order; a subsequent pointer interaction cancels that pending reset.
 - Apply shared focus styling, state colours, keyboard groups and nested-scroll revelation inside Expand View on mobile and desktop. Do not let automatic iframe preview state changes take focus from the outer page. The Easter Egg success fixture completes its normal animation and paints the passive dialog above the animation scrim without requiring iframe focus; real-site discovery retains its modal heading focus.
-- Hyperlink Styles shows Resting State on the left and Hover State on the right for both short and multiline links. Keep text-selection demonstrations in Focus and Selection rather than duplicating them here.
+- Hyperlink Styles groups External Links and Internal Links, each showing Resting State on the left and Hover State on the right for short and multiline links. Use the explicit shared link modifiers and renderer for both. Keep text-selection demonstrations in Focus and Selection rather than duplicating them here.
 - Put H1 Heading · Clickable Link · Hover State before QR specimens. H2 anchor examples use Step 1 for left alignment and Step 2 for right alignment, with Copy Link, Copy Success and Copy Failure titles and a Right-Aligned suffix where applicable. Pair Hover on the left with Resting on the right, stacking when needed. Right-align both subheadings in right-aligned pairs. Reserve the full specimen text-rail gutter for anchor focus paint, including the left edge of paired examples. The neutral resting copy example is plain heading text without its hover hash.
 
 - Static Focus and Selection row rings sit 3px inside the horizontal divider lines. The first and last rings extend to 10px from the gallery container edges. Do not inherit the Resources footer padding between resource and login specimen groups.

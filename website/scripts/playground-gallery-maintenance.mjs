@@ -37,7 +37,7 @@ function maintainGallery(){
  const rows=[...document.querySelectorAll('.icon-row,.focus-row,.type-row,.agent-row,.notice-type-row')].filter(e=>!e.hidden);
  for(const row of rows)row.toggleAttribute('data-gallery-last',row===rows.at(-1));
  const height=window.measureWorkshopGallery();if(height)parent.postMessage({guide:'reference-height',height},'*');
- const links=[...document.querySelectorAll('a[data-icon-source],#link-type-specimens a[href]')].map(a=>({label:(a.closest('section')?.querySelector('h3')?.textContent.trim()||a.textContent.trim()),href:a.getAttribute('href')}));
+ const links=[...document.querySelectorAll('a[data-icon-source],#link-type-specimens a[href]')].map(a=>({label:(a.closest('section')?.querySelector('h3')?.textContent.trim()||a.textContent.trim()),href:a.getAttribute('href'),variant:a.querySelector('[data-icon-variant]')?.dataset.iconVariant||'arrow-up-right-modified'}));
  const signature=JSON.stringify(links);if(signature!==lastLinks){lastLinks=signature;parent.postMessage({guide:'playground-links',links},'*');}
 }
 // Animation frames may be suspended for offscreen iframes. Geometry must be

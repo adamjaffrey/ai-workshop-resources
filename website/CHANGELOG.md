@@ -3,14 +3,46 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.334"
-  update_summary: "Compare 1px and 2px prompt focus corners"
-  updated_at: "Thu 22 Oct 2026 at 05:41:42 pm AEDT (+11:00)"
+  doc_revision: "26.0.335"
+  update_summary: "Compare link variants and group shared link icons"
+  updated_at: "Thu 22 Oct 2026 at 05:53:57 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.333 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 05:53:57 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Compare link variants and group shared link icons
+
+### Added
+
+- Show internal and external hyperlink groups with short and wrapped resting/hover specimens, using the shared link modifiers and renderer.
+- Add Link Icons above Playground Icons with Modified Arrow Right, Modified Arrow Up Right and Modified Hash, independent source visibility and shared usage metadata.
+- Register the Link Icons heading anchor in the shared URL Reference and measure the new heading and arrow glyphs through the existing optical-alignment system.
+
+### Changed
+
+- Move the three standalone link derivatives out of the Playground/app icon catalogues while retaining contextual anchor and feedback specimens.
+- Keep tooling filters scoped to Playground Icons and classify specimen-link inventories by actual icon variant.
+
+### Validation
+
+- `node --test website/tests/auth.test.mjs website/tests/placeholder.test.mjs` — passed all 13 tests.
+- `node website/tests/link-gallery-browser-check.mjs` — passed Chromium/WebKit at 320, 390, 768 and 1440px, both themes/agents; exact shared geometry, wrapping, style parity, gallery order, source toggles, filter isolation and relocated Hash usage verified.
+- `node website/tests/playground-browser-check.mjs` — passed full source-parity suite.
+- `node website/tests/playground-anchors-browser-check.mjs` — passed all 36 anchors in Chromium/WebKit at 390 and 1440px, including URL Reference parity, landing, copying and collapsed reveal.
+- `node website/scripts/measure-alignment-icons.mjs` and `npm --prefix website run build` — completed with saved backdrop geometry; built output and both LAN routes verified at v26.0.333.
+- Mobile/desktop screenshots inspected; PVS metadata/product and Git whitespace checks passed. Physical-device testing was not performed.
 
 ## v26.0.332 — 2026-10-22
 

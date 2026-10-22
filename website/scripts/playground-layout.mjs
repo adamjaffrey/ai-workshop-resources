@@ -25,7 +25,7 @@ nav[role=tablist]{border-bottom:0;padding-bottom:0;gap:0!important;background:no
 .preview-dialog.is-expanded>details:not(.preview-settings):not(.preview-state-settings){display:none}
 
 /* Every inset surface has the same breathing room after its preceding controls. */
-.panel>.frame-wrap,.panel>#playground-icon-catalog,.panel>.samples{margin-top:var(--playground-inset-gap)}
+.panel>.frame-wrap,.panel>#playground-icon-catalog,.panel>#link-icon-catalog,.panel>.samples{margin-top:var(--playground-inset-gap)}
 .panel>.state-tools,.panel>#copy,.panel>#icon-filter,.panel>.panel-options,.panel>.panel-actions{margin-bottom:0}
 .panel>.muted{margin-bottom:0}.panel>.state-tools{margin-top:32px}
 #login-preview .state-tools{display:flex!important;flex-flow:row nowrap;align-items:flex-start;gap:32px}
