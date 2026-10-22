@@ -3,14 +3,45 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.337"
-  update_summary: "Align page focus order and nearby-click keyboard continuation"
-  updated_at: "Thu 22 Oct 2026 at 06:11:25 pm AEDT (+11:00)"
+  doc_revision: "26.0.338"
+  update_summary: "Remove redundant tab overlay geometry without visual changes"
+  updated_at: "Thu 22 Oct 2026 at 06:18:33 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.336 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 06:18:33 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Remove redundant tab overlay geometry without visual changes
+
+### Removed
+
+- Remove the unreachable tab-specific 11px corner branch from the generic keyboard overlay. Current tabs use the sibling group-focus ring and do not meet overlay eligibility conditions.
+- Remove the resolved rounded-tab discussion item from the backlog; retain the finding and ownership rule in the design log and Interface contract.
+
+### Changed
+
+- Add tab focus regression coverage across every tab, both themes and agents, four widths and both engines, including restoration after expanded views.
+- Preserve the existing 8px upper and 1px lower base radii, 3px outline, 3px offset and 2px tab-bar baseline. The apparent lower-corner rounding is native outline paint, not a competing radius override or second ring.
+
+### Validation
+
+- Placeholder tests and `npm --prefix website run build` — passed using saved backdrop geometry; active preview displays v26.0.336.
+- `tests/tab-focus-geometry-browser-check.mjs` — passed before and after in Chrome/WebKit at 320, 390, 768 and 1440px; confirms a single visible group ring, inactive overlay and computed 1px bottom corners.
+- All eight before/after tab screenshots are byte-identical; a focused tab crop was visually inspected.
+- Playground keyboard-region checks — passed Chrome/WebKit at 390 and 1440px, including expanded controls.
+- Full Playground browser/source-parity checks — passed.
+- Both verified LAN destinations returned HTTP 200. Physical-device testing was not performed.
 
 ## v26.0.335 — 2026-10-22
 

@@ -21,7 +21,7 @@ export function installPlaygroundKeyboard(){
   if(active.matches('input[type=range]')){height=28;top=r.top+(r.height-height)/2;}
   const host=active.closest('dialog[open]')||document.body;if(overlay.parentElement!==host)host.append(overlay);if(overlay.showPopover&&!overlay.matches(':popover-open'))overlay.showPopover();
   Object.assign(overlay.style,{outline:'none',outlineOffset:'0px',borderWidth:'3px'});
-  Object.assign(overlay.style,{display:'block',borderColor:ringColour,left:r.left-6-extra+'px',top:top-6+'px',width:r.width+12+2*extra+'px',height:height+12+'px',borderRadius:active.matches('[role=tab]')?'11px 11px var(--focus-sharp-outer-radius) var(--focus-sharp-outer-radius)':['borderTopLeftRadius','borderTopRightRadius','borderBottomRightRadius','borderBottomLeftRadius'].map(key=>parseFloat(c[key])>3?parseFloat(c[key])+6+'px':'var(--focus-sharp-outer-radius)').join(' ')});
+  Object.assign(overlay.style,{display:'block',borderColor:ringColour,left:r.left-6-extra+'px',top:top-6+'px',width:r.width+12+2*extra+'px',height:height+12+'px',borderRadius:['borderTopLeftRadius','borderTopRightRadius','borderBottomRightRadius','borderBottomLeftRadius'].map(key=>parseFloat(c[key])>3?parseFloat(c[key])+6+'px':'var(--focus-sharp-outer-radius)').join(' ')});
   if(active.matches('pre')&&active.closest('.code-wrap')){
    const source=getComputedStyle(active.closest('.code-wrap'),'::after');
    if(source.outlineStyle!=='none'&&parseFloat(source.outlineWidth)>0)Object.assign(overlay.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px',borderWidth:'0px',outline:source.outline,outlineOffset:source.outlineOffset,borderRadius:source.borderRadius});

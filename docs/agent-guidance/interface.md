@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.78"
-  update_summary: "Define page focus order and spatial keyboard continuation"
-  updated_at: "Thu 22 Oct 2026 at 06:06:52 pm AEDT (+11:00)"
+  doc_revision: "26.0.79"
+  update_summary: "Remove unused tab overlay geometry and retain the native ring"
+  updated_at: "Thu 22 Oct 2026 at 06:15:52 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -17,7 +17,7 @@ This is a mandatory scoped contract incorporated by [AGENTS.md](../../AGENTS.md)
 ## Focus and Panel Opening
 
 - Use `--focus-sharp-radius: 1px` as the base radius for intentionally sharp focus corners, including both prompt upper corners, URL Reference code focus and lower tab-ring corners. Preserve intentionally rounded controls, link highlights and non-focus decorative shapes. Keep the shared 3px outline offset and 3px ring thickness.
-- Border-based Playground overlays use `--focus-sharp-outer-radius`, derived from the base token plus the shared gap and ring thickness, rather than applying the base token directly at the outer edge. Prompt overlays continue copying their canonical app pseudo-element’s outline, offset and radii. Preserve the existing rounded overlay calculations and the tab overlay’s 11px rounded upper corners pending the separate backlog discussion.
+- Border-based Playground overlays use `--focus-sharp-outer-radius`, derived from the base token plus the shared gap and ring thickness, rather than applying the base token directly at the outer edge. Prompt overlays continue copying their canonical app pseudo-element’s outline, offset and radii. Preserve the existing rounded overlay calculations. The outer Playground tabs use only their sibling group-focus ring (8px top and 1px bottom base radii, 3px outline and 3px offset); do not add a separate tab-specific overlay geometry branch. Native outline expansion is not a second radius override.
 - Keep real focus on the appropriate control for every interaction type. Do not blur controls or remove keyboard access merely to hide a ring.
 - Text-entry fields, including passwords, retain visible focused styling for pointer, touch and keyboard use.
 - Buttons, toggles, links and other non-text-entry controls show a focus ring only during keyboard navigation initiated by Tab or Shift+Tab. Preserve that indicator through keyboard activation and focus transfer; click or tap switches back to ring-free pointer focus.

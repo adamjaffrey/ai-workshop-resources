@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.89"
-  update_summary: "Record toolbar-first page focus sequences"
-  updated_at: "Thu 22 Oct 2026 at 06:06:52 pm AEDT (+11:00)"
+  doc_revision: "26.0.90"
+  update_summary: "Remove unused tab overlay geometry and retain the native ring"
+  updated_at: "Thu 22 Oct 2026 at 06:15:52 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -609,3 +609,13 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Decision:** Follow the explicit Resources and Playground sequences in the [Interface contract](../docs/agent-guidance/interface.md#page-titles-and-discovery-focus), including reverse traversal and the mobile Style Options selector sequence. Keep grouped selectors as one stop, use their visible group bounds for nearby blank-space clicks, and choose the nearest eligible target in the requested direction. Keep specimen navigation and modal containment local.
 
 **Reason:** Adam requested toolbar controls before H1, Hover Preview before its explainer, and predictable Tab continuation after clicks above or left of controls. The previous positive H1 priority and first matching DOM candidate could skip a nearby toolbar control or jump to a distant column. This supersedes the earlier H1-second page sequence while retaining existing responsive visibility and heading hit areas.
+
+## Tab Focus Ring Ownership
+
+**Decision:** Remove the unused tab-specific 11px overlay branch. Preserve the normal sibling group-focus ring with 8px upper and 1px lower base radii, a 3px outline and 3px offset.
+
+**Evidence:** The only tab controls are in the outer tab bar, outside specimen galleries and expanded dialogs, and are never marked as scroll-focus targets. They do not meet the keyboard overlay eligibility condition. The tab group controller owns their ring; native button outlines are suppressed. The apparent extra lower-corner rounding comes from the offset native outline, not overlapping rings. Browser coverage checks all tabs, themes, agents, four viewport widths and return from expanded views.
+
+**Rationale:** Adam authorised removal if redundant and requested preserving the normal appearance. No alternative rounded-tab geometry needs adoption. This resolves the earlier deferred backlog discussion.
+
+**Owner:** [Focus and Panel Opening](../docs/agent-guidance/interface.md#focus-and-panel-opening), `scripts/playground-keyboard.mjs`, `lib/workshop-group-focus.mjs`.

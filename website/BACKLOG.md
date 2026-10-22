@@ -3,36 +3,14 @@ name: website-backlog
 description: Record unfinished proposed work for the workshop website.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.4"
-  update_summary: "Standardise sharp focus corners and defer rounded tab review"
-  updated_at: "Thu 22 Oct 2026 at 05:58:15 pm AEDT (+11:00)"
+  doc_revision: "26.0.5"
+  update_summary: "Remove unused tab overlay geometry and retain the native ring"
+  updated_at: "Thu 22 Oct 2026 at 06:15:52 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Website Backlog
-
-## Review Rounded Tab Focus Geometry
-
-**Added at:** Thu 22 Oct 2026 at 05:58:15 pm AEDT (+11:00)
-
-**Added by:** Adam Jaffrey
-
-**Addition assisted by agent:** ChatGPT Codex
-
-### Outcome
-
-Discuss whether the Playground tab overlay’s hard-coded 11px outer top-corner radius should match the other rounded focus-ring calculations.
-
-### Acceptance Criteria
-
-- Compare the tab overlay with the native tab group ring and the ordinary component-radius-plus-6px overlay calculation in normal and expanded contexts.
-- Explain the visual difference and any clipping or alignment reason for the existing 11px value.
-- Obtain Adam’s decision before changing the rounded top corners; preserve the approved 1px base treatment for sharp lower corners.
-
-### Notes
-
-Adam explicitly requested preserving the current rounded tab implementation for now and logging it for discussion. Source: `scripts/playground-keyboard.mjs`, `scripts/playground-layout.mjs` and `lib/workshop-group-focus.mjs`. This item does not authorise changing the rounded tops.
 
 ## Render Final Page Structure Before JavaScript Setup
 
