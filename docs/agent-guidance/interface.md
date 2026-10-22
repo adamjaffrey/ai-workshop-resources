@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.69"
-  update_summary: "Align skip links and disable replay for looping previews"
-  updated_at: "Thu 22 Oct 2026 at 04:23:30 pm AEDT (+11:00)"
+  doc_revision: "26.0.70"
+  update_summary: "Stabilise heading hover heights and bold alias rendering"
+  updated_at: "Thu 22 Oct 2026 at 04:31:38 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -372,3 +372,6 @@ Heading collapse height animations clip vertically only (`overflow-x: visible; o
 - Heading renames follow [Playground Heading Fragments](authentication.md#playground-heading-fragments); specimen-only headings do not acquire section anchors.
 
 - Disable Replay Animation in the automatically looping Eligible Rainbow and Sparkles, Full Sentence, Discovery Reveal and After Closing Dialog modes. Use the shared inactive action-button colours, a not-allowed cursor and native disabled semantics so it cannot be clicked or focused. Keep Success Dialog replay enabled and preserve the existing hidden action in Natural Discovery/Locked modes.
+
+- Single-line collapsible H2/H3 heading highlights are exactly 50px high. Do not add descender depth to this fixed height. Wrapped headings retain measured full-line coverage; expanded and collapsed rows reserve the same height, and hover must not alter it. Preserve first-line cap-height/icon alignment at the centre of the 50px control and the existing exterior section gaps.
+- URL Reference must preserve bold emphasis for inline code in every column, including legacy fragment aliases. Verify computed font weight rather than only the presence of strong markup.

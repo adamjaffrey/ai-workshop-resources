@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.327"
-  update_summary: "Align skip links and disable replay for looping previews"
-  updated_at: "Thu 22 Oct 2026 at 04:24:53 pm AEDT (+11:00)"
+  doc_revision: "26.0.328"
+  update_summary: "Stabilise heading hover heights and bold alias rendering"
+  updated_at: "Thu 22 Oct 2026 at 04:33:06 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.326 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 04:33:06 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Stabilise heading hover heights and bold alias rendering
+
+### Changed
+
+- Fix single-line H2/H3 disclosure highlights at 50px instead of adding descender depth. Share row height across expanded/collapsed states while preserving multiline coverage, cap alignment and exterior gaps.
+- Apply bold inline-code styling throughout URL Reference so all four legacy fragment aliases visibly render bold, matching their existing markup.
+- Add explicit mobile/desktop Expand View coverage for disabled Replay Animation styling, cursor and non-focusability.
+- Document the fixed-height and rendered-font-weight rules.
+
+### Validation
+
+- `npm --prefix website run build` — passed using saved backdrop geometry; artefacts display v26.0.326.
+- Chrome and WebKit at 320, 390, 768 and 1440px — single-line 50px paint, stable hover/collapse heights, wrapped coverage, cap alignment and all four aliases at computed font weight 700 passed.
+- Chrome and WebKit at 390 and 1440px — disabled Replay controls passed inside Expand View, alongside existing inline/expanded animation and focus regressions.
+- Full Playground source parity — passed for heading geometry; the subsequent bold-rendering correction passed the targeted cross-browser checks above.
+- Public Query Parameters hover and legacy alias screenshots visually inspected. Physical devices were not tested.
 
 ## v26.0.325 — 2026-10-22
 

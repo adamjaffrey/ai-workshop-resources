@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.80"
-  update_summary: "Align skip links and disable replay for looping previews"
-  updated_at: "Thu 22 Oct 2026 at 04:23:30 pm AEDT (+11:00)"
+  doc_revision: "26.0.81"
+  update_summary: "Stabilise heading hover heights and bold alias rendering"
+  updated_at: "Thu 22 Oct 2026 at 04:31:38 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -568,3 +568,5 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Replay and Alias Follow-up:** A queued close event from the previous passive dialog must not remove the next replay’s dimmer or restore focus. Hyperlink Styles uses `#hyperlink-styles` and retains `#defined-styles-used-in-playground` as a legacy fragment. The recent anchor-heading audit found no other renamed outer section since heading anchors were introduced; the other recent label changes were embedded specimens. Adam corrected the accepted-password requirement: its exterior focus ring is green, matching the field and selection. This supersedes the earlier blue-ring decision.
 
 **Skip Position and Replay Availability Follow-up:** Both skip links measure the actual logo container. Measuring the taller Playground row previously placed its link 7.5px higher at ordinary widths, despite identical logo positions. Automatically looping Easter Egg modes disable Replay Animation with native disabled semantics and shared grey styling; Success Dialog remains manually replayable. Expanded accepted-password fields already inherit the green native ring, now covered explicitly by mobile/desktop native-Tab regression checks.
+
+**Heading Geometry and Alias Weight Follow-up:** Single-line section highlights use a fixed 50px height; the earlier content-ink calculation added descender depth to words containing letters such as g, p and y, producing inconsistent 52–54px rows. Expanded and collapsed rows now share their measured height, while wrapped headings keep the existing coverage and cap alignment. URL Reference applies bold code weight beyond the canonical URL column so legacy fragments visibly retain their Markdown emphasis. Expanded automatic-replay controls have explicit mobile/desktop disabled-state coverage.

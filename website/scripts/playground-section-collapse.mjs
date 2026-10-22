@@ -7,7 +7,7 @@ html:has(#playground-title){scrollbar-gutter:stable}
 /* The bordered target sits on the 24px surface rail; text retains its 28px rail. */
 [data-panel]>.panel:not(.is-expanded){padding-block:20px}
 [data-panel]>.panel:has(iframe):not(.is-expanded):not([data-collapsed]){padding-bottom:24px}
-:is([data-panel]>.panel,.url-subsection)>.section-heading{position:relative;padding-right:72px;min-height:50px;margin-bottom:20px;isolation:isolate;-webkit-tap-highlight-color:transparent}
+:is([data-panel]>.panel,.url-subsection)>.section-heading{position:relative;padding-right:72px;min-height:var(--collapsed-heading-height,50px);margin-bottom:20px;isolation:isolate;-webkit-tap-highlight-color:transparent}
 :is([data-panel]>.panel,.url-subsection)>.section-heading>.section-collapse{position:absolute;right:-8px;top:0;margin:0;z-index:0;display:grid;place-items:center;width:50px;height:50px;min-height:50px;padding:0;border:1px solid var(--control-border);border-radius:12px;background:transparent;color:var(--text);cursor:pointer;box-shadow:none;isolation:isolate;appearance:none;-webkit-tap-highlight-color:transparent;user-select:none;transition:none}
 :is([data-panel]>.panel,.url-subsection):not(.is-expanded)>.section-heading :is(h2,h3){position:relative;z-index:1;user-select:none}
 :is([data-panel]>.panel,.url-subsection):not(.is-expanded)>.section-heading :is(h2,h2 *,h3,h3 *,button,button *){cursor:pointer!important}
