@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.90"
-  update_summary: "Remove unused tab overlay geometry and retain the native ring"
-  updated_at: "Thu 22 Oct 2026 at 06:15:52 pm AEDT (+11:00)"
+  doc_revision: "26.0.91"
+  update_summary: "Extend page navigation to embeds and expanded Style Options"
+  updated_at: "Thu 22 Oct 2026 at 06:31:50 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -619,3 +619,11 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Rationale:** Adam authorised removal if redundant and requested preserving the normal appearance. No alternative rounded-tab geometry needs adoption. This resolves the earlier deferred backlog discussion.
 
 **Owner:** [Focus and Panel Opening](../docs/agent-guidance/interface.md#focus-and-panel-opening), `scripts/playground-keyboard.mjs`, `lib/workshop-group-focus.mjs`.
+
+## Embedded Page Navigation and Expanded Style Options
+
+**Decision:** Opt the Resource Page and Controls and Branding documents into shared page navigation, and install a context-scoped skip link for the Resources JavaScript Unavailable specimen. Reuse the Resources focus sequence and local first-H2 skip target, preserving iframe sandboxing and all other specimens’ navigation. Expanded Style Options uses the shared controls with Hover Preview before its explainer, while retaining modal boundaries and scroll-region stops.
+
+**Reason:** Adam requested the updated page navigation in these embedded contexts and their existing expanded views. Previously all frames suppressed skip links, the fallback had an H1-first special case, and expanded controls inherited the explainer’s earlier DOM position. Local skip activation is now allowed by the specimen bridge; ordinary navigation remains blocked. This supersedes the blanket exclusion of skip links from embedded specimens only for the named full-page contexts.
+
+**Owner:** [Playground Navigation and Paired Specimens](../docs/agent-guidance/interface.md#playground-navigation-and-paired-specimens).

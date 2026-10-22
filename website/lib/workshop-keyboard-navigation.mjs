@@ -3,10 +3,11 @@ export function installKeyboardNavigation(){
  const selector='button,input,select,textarea,summary,a[href],[tabindex]';
  const eligible=e=>e instanceof HTMLElement&&e.tabIndex>=0&&!e.disabled&&!e.closest('[inert],[hidden]')&&e.checkVisibility({checkVisibilityCSS:true});
  // Keep page-level traversal explicit while leaving specimens and modal traps local.
+ const navigationRoot=()=>document.activeElement?.closest('.fallback-context:not(.full-login-context)')||document;
  const pageOrder=()=>{
-  const skip=document.querySelector('.skip-main');if(!skip)return [];
+  const root=navigationRoot(),skip=root.querySelector('.skip-main');if(!skip||(root===document&&document.documentElement.dataset.specimenGallery))return [];
   const modal=document.querySelector('dialog:modal');if(modal&&modal.id!=='style-dialog')return [];
-  const one=selector=>[...document.querySelectorAll(selector)].find(eligible);
+  const one=selector=>[...root.querySelectorAll(selector)].find(eligible);
   if(modal)return ['#style-options','#agent input','#theme input','#width input','#hover input','.hover-explainer'].map(one).filter(Boolean);
   const playground=Boolean(document.getElementById('playground-title'));
   return [skip,...(playground?['#style-options','#back-to-top','.page-title-link','#agent input','#theme input','#width input','#hover input','.hover-explainer','[role=tablist] button']:['.theme-toggle button','.page-title-link','.qr-copy','button[data-agent]']).map(one)].filter(Boolean);
@@ -31,16 +32,30 @@ export function installKeyboardNavigation(){
   if(event.key!=='Tab'||event.defaultPrevented)return;
   if(nextTabTarget){const target=nextTabTarget;nextTabTarget=null;if(!event.shiftKey&&target.isConnected&&eligible(target)){event.preventDefault();document.documentElement.dataset.focusInput='keyboard';target.focus({preventScroll:true});return;}}
   if(!pointerOrigin){
-   const order=pageOrder(),active=document.activeElement;
+   const active=document.activeElement;
+   // Expanded views move the same controls into a modal; reorder their native
+   // traversal without pulling focus out of that modal or bypassing its scrollers.
+   const expanded=document.querySelector('.preview-dialog.is-expanded:modal');
+   if(expanded){
+    const controls=expanded.querySelector('#global-style-controls'),explainer=controls?.querySelector('.hover-explainer'),hover=controls?.querySelector('#hover input[tabindex="0"]');
+    if(explainer&&hover){
+     const items=[...expanded.querySelectorAll(selector+',iframe')].filter(eligible).filter(e=>e!==explainer);
+     items.splice(items.indexOf(hover)+1,0,explainer);
+     const index=items.indexOf(active),next=items[index+(event.shiftKey?-1:1)];
+     if(index>=0&&next&&(controls.contains(active)||controls.contains(next))){event.preventDefault();document.documentElement.dataset.focusInput='keyboard';next.focus({preventScroll:true});return;}
+    }
+   }
+   const order=pageOrder();
    // Arrow browsing may focus a different option within the same one-stop group.
    const index=order.findIndex(e=>e===active||(e.closest('.segmented-toggle,[role=tablist]')?.contains(active)));
    let next=index>=0?order[index+(event.shiftKey?-1:1)]:null;
    if(document.querySelector('#style-dialog:modal')&&index>=0&&!next)next=event.shiftKey?order.at(-1):order[0];
    if(!next&&order.length){
-    const first=[...document.querySelectorAll(selector)].find(e=>eligible(e)&&!order.includes(e)&&!e.closest('.playground-heading,.toolbar')&&e.matches('.step-anchor'));
+    const first=[...navigationRoot().querySelectorAll(selector)].find(e=>eligible(e)&&!order.includes(e)&&!e.closest('.playground-heading,.toolbar')&&e.matches('.step-anchor'));
     if(event.shiftKey&&active===first)next=order.at(-1);
     else if(!event.shiftKey&&index===order.length-1)next=first;
    }
+   if(!next&&event.shiftKey&&active===order[0]&&navigationRoot()!==document)next=navigationRoot().parentElement;
    if(next){event.preventDefault();document.documentElement.dataset.focusInput='keyboard';next.focus({preventScroll:true});}
    return;
   }

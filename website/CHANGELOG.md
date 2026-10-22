@@ -3,14 +3,43 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.338"
-  update_summary: "Remove redundant tab overlay geometry without visual changes"
-  updated_at: "Thu 22 Oct 2026 at 06:18:33 pm AEDT (+11:00)"
+  doc_revision: "26.0.339"
+  update_summary: "Share focus order with embeds and expanded Style Options"
+  updated_at: "Thu 22 Oct 2026 at 06:34:25 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.337 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 06:34:25 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Share focus order with embeds and expanded Style Options
+
+### Changed
+
+- Add Skip to Main Content and the shared Resources focus sequence to Resource Page and Controls, Branding and the Resources JavaScript Unavailable context, including existing expanded views.
+- Scope fallback skip placement and traversal to its own full-page context; retain the enclosing scroll stop and normal gallery navigation elsewhere.
+- Permit local skip-link focus activation inside sandboxed specimens while preserving blocked ordinary navigation.
+- Put Hover Preview before Hover Preview Explainer in every expanded Style Options panel, including reverse traversal, preserving modal containment and scroll stops.
+- Replace the old fallback H1-first special case and document the explicit full-page specimen exception.
+
+### Validation
+
+- `node website/tests/embedded-page-navigation-browser-check.mjs` — passed Chrome/WebKit at 390 and 1440px: native iframe/context entry, forward/reverse order, skip activation, inline/expanded contexts and every existing expanded Style Options panel.
+- `node website/tests/specimen-focus-parity-browser-check.mjs` and `node website/tests/playground-keyboard-regions-browser-check.mjs` — passed both engines at mobile/desktop widths.
+- `node website/tests/page-focus-order-browser-check.mjs` — passed both engines at 390, 768 and 1440px; top-level navigation retained.
+- `node website/tests/playground-browser-check.mjs` — passed full source parity, agents/themes, login states, navigation containment and hosted fail-closed checks.
+- Mobile and desktop fallback skip-link screenshots — inspected; placement and focus ring clear above the logo.
+- `npm --prefix website run build` — passed using saved backdrop geometry. PVS validation and Git whitespace checks — passed. Physical-device testing was not performed.
 
 ## v26.0.336 — 2026-10-22
 

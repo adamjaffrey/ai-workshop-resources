@@ -47,9 +47,8 @@ export function installPlaygroundKeyboard(){
  },true);
  document.addEventListener('keydown',event=>{
   const e=event.target;
-  if(event.key==='Tab'&&!event.shiftKey&&e.matches?.('.error-sample:has(>.fallback-context):not(:has(>.full-login-context))')){const title=e.querySelector('.page-title-link');if(title){event.preventDefault();title.focus({preventScroll:true});return;}}
-  if(event.key==='Tab'&&event.shiftKey&&e.matches?.('.fallback-context:not(.full-login-context) .theme-toggle button')){const title=e.closest('.fallback-context').querySelector('.page-title-link');if(title){event.preventDefault();title.focus({preventScroll:true});return;}}
-  if(event.key==='Tab'&&e.matches?.('.fallback-context .page-title-link')){const context=e.closest('.fallback-context'),theme=context.querySelector('.theme-toggle button[tabindex="0"]');if(event.shiftKey){event.preventDefault();context.parentElement.focus({preventScroll:true});return;}if(theme){event.preventDefault();theme.focus({preventScroll:true});return;}}
+  if(event.defaultPrevented)return;
+  if(event.key==='Tab'&&!event.shiftKey&&e.matches?.('.error-sample:has(>.fallback-context):not(:has(>.full-login-context))')){const skip=e.querySelector('.skip-main');if(skip){event.preventDefault();skip.focus({preventScroll:true});return;}}
   if(e.matches?.('input[type=checkbox]')&&event.key==='Enter'){event.preventDefault();if(!event.repeat&&!e.disabled)e.click();return;}
   if(!e.hasAttribute?.('data-scroll-focus')||event.target!==e)return;
   const direction={ArrowLeft:[-48,0],ArrowRight:[48,0],ArrowUp:[0,-48],ArrowDown:[0,48]}[event.key];
@@ -82,6 +81,7 @@ export function installPlaygroundKeyboard(){
    const controller=window.installWorkshopGroupFocus?.(group,{items:()=>group.querySelectorAll('button'),selected:()=>group.querySelector('[aria-pressed=true]')});
    group.addEventListener('click',event=>{const button=event.target.closest('button');if(!button||button.disabled)return;for(const b of group.querySelectorAll('button'))b.setAttribute('aria-pressed',String(b===button));window.layoutWorkshopToggle?.(group);controller?.sync(button);});
   }
+  for(const context of document.querySelectorAll('.fallback-context:not(.full-login-context)'))window.installWorkshopSkipNavigation?.(context);
   for(const e of document.querySelectorAll('.icon-sample,.full-login-context,.focus-preview,.agent-preview,.prompt-specimen-viewport,.feedback-preview,.specimen-viewport,.variant-preview,.page-embed-scroll,.frame-wrap,pre,.expanded-state-controls,.expanded-global-controls>#global-style-controls')){
    if(e.closest('.catalog-sources,[inert]')||!e.getClientRects().length)continue;
    if(e.closest('.type-row[data-source-selector=".qr-card figcaption"]')){e.removeAttribute('data-scroll-focus');e.tabIndex=-1;continue;}
