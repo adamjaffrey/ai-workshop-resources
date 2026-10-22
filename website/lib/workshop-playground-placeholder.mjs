@@ -37,18 +37,9 @@ window.workshopRenderBackdropPreview=(frame,theme,agent)=>{
  let html=${JSON.stringify(staticDocument).replaceAll('<','\\u003c')};
  html=html.replaceAll('--ph-strength:40%','--ph-strength:'+strength+'%');
  html=html.replace(/<html\\b[^>]*>|&lt;html\\b.*?&gt;/g,tag=>tag.replace(/(data-theme=(?:&(?:amp;)*quot;|"))(?:light|dark)/g,'$1'+theme).replace(/(data-selected-agent=(?:&(?:amp;)*quot;|"))(?:codex|claude-code|claude)/g,'$1'+(agent==='claude'?'claude-code':'codex')));
- // Only the outer document may scroll; nested captures remain inert and locked.
- const inspecting=document.getElementById('preview-scrim')&&document.body.dataset.review!=='panel';
- frame.parentElement.toggleAttribute('inert',!inspecting);
- // Native gestures reach the root scroller without adding a decorative Tab stop.
- frame.style.pointerEvents=inspecting?'auto':'none';frame.tabIndex=-1;
- if(inspecting){
-  const doc=new DOMParser().parseFromString(html,'text/html');
-  doc.body.removeAttribute('inert');
-  Array.from(doc.body.children).forEach(el=>el.setAttribute('inert',''));
-  const style=doc.createElement('style');style.textContent='html{overflow:auto!important;pointer-events:auto!important}body{overflow:visible!important;pointer-events:none!important}';doc.head.append(style);
-  html='<!doctype html>'+doc.documentElement.outerHTML;
- }
+ // Login/password specimens always keep their background locked. The shared
+ // direct inspection frame owns all scrollable No Blur/Blur and Darken views.
+ frame.parentElement.inert=true;frame.style.pointerEvents='none';frame.tabIndex=-1;
  frame.removeAttribute('src');frame.srcdoc=html;
 };
 window.workshopSyncBackdrop?.();

@@ -3,41 +3,26 @@ import {chromium,webkit} from 'playwright';
 import {createPhonePreview} from '../scripts/phone-preview.mjs';
 const app=createPhonePreview();await new Promise(r=>app.server.listen(0,'127.0.0.1',r));
 const engine=process.env.BACKDROP_WEBKIT?webkit:chromium;
-const browser=await engine.launch({...(engine===chromium?{channel:'chrome'}:{}),headless:true});
+const browser=await engine.launch(engine===chromium?{channel:'chrome'}:{});
 try{
  const page=await browser.newPage({reducedMotion:'reduce'});
+ const set=async(id,value)=>page.evaluate(({id,value})=>{const field=document.getElementById(id);field.value=value;field.dispatchEvent(new Event('change',{bubbles:true}));},{id,value});
  for(const width of [390,1440]){
   await page.setViewportSize({width,height:900});await page.goto('http://127.0.0.1:'+app.server.address().port+'/component-playground/blocks-and-blur');
-  const frame=await (await page.locator('#blocks-frame').elementHandle()).contentFrame();
-  await frame.waitForFunction(()=>typeof window.demoBlocks==='function');
-  for(const blockDestination of ['resources','playground']){
-   await frame.evaluate(blockDestination=>window.demoBlocks({blockDestination,review:'clear'}),blockDestination);
-   let captured=frame;
-   if(blockDestination==='playground'){
-    captured=await (await frame.locator('.playground-placeholder>iframe').elementHandle()).contentFrame();
-    await captured.waitForSelector('.ph-word');
-    for(const doc of [captured,...captured.childFrames()]){
-     assert.equal(await doc.locator('body *').evaluateAll(es=>es.every(e=>getComputedStyle(e).cursor==='default')),true,'No interactive cursors');
-     assert.equal(await doc.locator('body *').evaluateAll(es=>es.every(e=>getComputedStyle(e).pointerEvents==='none')),true,'No content hit targets');
-    }
-    await page.locator('#blocks-frame').scrollIntoViewIfNeeded();
-    await captured.evaluate(()=>scrollTo(0,0));
-    const bounds=await frame.locator('.playground-placeholder>iframe').boundingBox();
-    await page.mouse.move(bounds.x+Math.min(100,bounds.width/2),Math.max(200,Math.min(600,bounds.y+bounds.height/2)));
-    await page.mouse.wheel(0,250);await page.waitForTimeout(200);
-    assert.ok(await captured.evaluate(()=>scrollY)>0,'Wheel reaches outer document over inert content');
-    await captured.evaluate(()=>scrollTo(0,0));
-    assert.equal(captured.childFrames().length,0,'Colours has no nested captured frames');
-   }
-   if(await captured.evaluate(()=>document.documentElement.scrollHeight>innerHeight+200)){await captured.evaluate(()=>scrollTo(0,200));assert.ok(await captured.evaluate(()=>scrollY)>0,'Outer inspection scrolling');}
-   await frame.evaluate(blockDestination=>window.demoBlocks({blockDestination,review:'panel'}),blockDestination);
-   await frame.waitForTimeout(150);
-   assert.equal(await frame.evaluate(()=>scrollY),0);
-   assert.equal(await frame.evaluate(()=>getComputedStyle(document.documentElement).overflowY),'hidden');
-   if(blockDestination==='playground')assert.equal(await frame.locator('.playground-placeholder').getAttribute('inert'),'');
+  const panel=await page.locator('#blocks-frame').elementHandle().then(e=>e.contentFrame());
+  for(const destination of ['resources','playground']){
+   await set('block-destination',destination);await set('review','clear');
+   const capture=await page.locator('#backdrop-inspection-frame').elementHandle().then(e=>e.contentFrame());
+   await capture.waitForFunction(d=>document.documentElement.dataset.backdropDestination===d&&document.documentElement.dataset.review==='clear',destination);
+   assert.equal(capture.childFrames().length,0,'Neither inspection nests another capture');
+   assert.equal(await capture.locator('script').count(),0);
+   assert.ok(await capture.locator('body *').evaluateAll(es=>es.every(e=>getComputedStyle(e).cursor==='default'&&getComputedStyle(e).pointerEvents==='none')),'No interactive content targets');
+   await capture.evaluate(()=>scrollTo(0,200));assert.ok(await capture.evaluate(()=>scrollY)>0);
+   await set('review','panel');await page.locator('#blocks-frame').waitFor({state:'visible'});
+   assert.ok(await page.locator('#backdrop-inspection-frame').isHidden());
+   assert.equal(await panel.evaluate(()=>scrollY),0);assert.equal(await panel.evaluate(()=>getComputedStyle(document.documentElement).overflowY),'hidden');
+   assert.equal(await panel.locator('.page-placeholder').getAttribute('inert'),'');
   }
-  await page.locator('#blocks-frame').scrollIntoViewIfNeeded();
-  await page.screenshot({path:`/tmp/backdrop-interaction-${width}.png`});
-  console.log(`PASS ${width}: default cursors, inert nested captures, full-document dimming, inspection scroll and panel lock`);
+  console.log('PASS shared inert captures and locked Password Panel',engine.name(),width);
  }
 }finally{await browser.close();await new Promise(r=>app.server.close(r));}

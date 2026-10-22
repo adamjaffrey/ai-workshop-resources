@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.96"
-  update_summary: "Enable keyboard inspection of Colours without another Tab stop"
-  updated_at: "Thu 22 Oct 2026 at 07:42:39 pm AEDT (+11:00)"
+  doc_revision: "26.0.97"
+  update_summary: "Unify Resources and Colours backdrop inspection scrolling"
+  updated_at: "Thu 22 Oct 2026 at 08:07:12 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -667,3 +667,11 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Icon Follow-up:** Adam requested suffix-free modified icon basenames and Resources-first uses for `arrow-right-modified`, superseding the earlier `.svg` label convention.
 
 **Owners:** [Anonymous Backdrops](../docs/agent-guidance/backdrops.md#interaction-and-scrolling-policy), [Interface](../docs/agent-guidance/interface.md), `scripts/playground-colours-inspection.mjs` and `scripts/playground-keyboard.mjs`.
+
+## One Shared Background Inspection Renderer
+
+**Decision:** Resources and Colours No Blur and Blur and Darken views now use one direct, script-disabled inspection iframe, renderer, settings controller and keyboard-scroll implementation. Destination selection changes only the saved anonymous source document. Both use the same enclosing Tab stop, root scrolling, horizontal panning, mode reset, blur and dimming. Keep the existing interactive specimen solely for locked Password Panel mode and remove its former inspection-scroll branch. Reuse the canonical footer wrapping helper from the parent for anonymous Resources content.
+
+**Reason:** The initial keyboard fix gave Colours a direct inspection frame while Resources retained its earlier path. Adam requested one shared implementation to prevent recurrence and drift. A parameterised regression exercises both backgrounds through identical keyboard, wheel, touch, theme, width and expanded-view cases. Captures remain inert and script-disabled; saved geometry is reused.
+
+**Owners:** [Anonymous Backdrops](../docs/agent-guidance/backdrops.md#interaction-and-scrolling-policy), `scripts/playground-backdrop-inspection.mjs`, `scripts/playground-keyboard.mjs` and `tests/backdrop-scroll-browser-check.mjs`.

@@ -97,18 +97,18 @@ const dock=await p.locator('.inspector-dock').boundingBox();assert.ok(Math.abs(d
 // Same semantic specimen, even when crossing its generated metadata.
 await type.locator('[data-source-selector=".step-title"] output').hover();await p.waitForTimeout(260);assert.match(await p.locator('#inspection-summary').textContent(),/h2/);
 await p.click('#inspector-details');
-await p.click('[data-tab=blocks]');const blocks=p.frameLocator('#blocks-frame');
-await choose('review','clear');await p.locator('#blocks-frame').scrollIntoViewIfNeeded();
+await p.click('[data-tab=blocks]');const blocks=p.frameLocator('#backdrop-inspection-frame'),blockPanel=p.frameLocator('#blocks-frame');
+await choose('review','clear');await p.locator('#backdrop-inspection-frame').scrollIntoViewIfNeeded();
 assert.equal(await blocks.locator('.page-placeholder').getAttribute('inert'),'');
 assert.equal(await blocks.locator('.ph-word').first().evaluate(e=>getComputedStyle(e).cursor),'default');
-assert.equal(await blocks.locator('#block-highlight').isVisible(),false);
+assert.equal(await blocks.locator('script').count(),0);
 await p.locator('#strength').fill('70');await p.locator('#blur').fill('8.5');await choose('review','blurred');
-assert.equal(await blocks.locator('.page-placeholder').evaluate(e=>getComputedStyle(e).filter),'blur(8.5px)');
+assert.equal(await blocks.locator('body').evaluate(e=>getComputedStyle(e).filter),'blur(8.5px)');
 assert.equal(await blocks.locator('.page-placeholder').evaluate(e=>getComputedStyle(e).getPropertyValue('--ph-strength')),'70%');
-await p.locator('#dim').fill('25');await p.waitForTimeout(50);assert.equal(await blocks.locator('#preview-scrim').evaluate(e=>getComputedStyle(e).backgroundColor),'rgba(0, 0, 0, 0.25)');
-await choose('review','panel');assert.equal(await blocks.locator('.access-gate').isVisible(),true);
-assert.equal(await blocks.locator('.access-gate').evaluate(e=>getComputedStyle(e).backdropFilter),'none');
-await choose('review','clear');assert.equal(await blocks.locator('.page-placeholder').evaluate(e=>getComputedStyle(e).filter),'none');
+await p.locator('#dim').fill('25');await p.waitForTimeout(50);assert.equal(await blocks.locator('html').evaluate(e=>getComputedStyle(e,'::after').backgroundColor),'rgba(0, 0, 0, 0.25)');
+await choose('review','panel');assert.equal(await blockPanel.locator('.access-gate').isVisible(),true);
+assert.equal(await blockPanel.locator('.access-gate').evaluate(e=>getComputedStyle(e).backdropFilter),'none');
+await choose('review','clear');assert.equal(await blocks.locator('body').evaluate(e=>getComputedStyle(e).filter),'none');
 await p.click('#reset-blocks');await p.waitForFunction(()=>document.querySelector('#strength').value==='40'&&document.querySelector('#blur').value==='4');assert.equal(await p.locator('#strength').inputValue(),'40');assert.equal(await p.locator('#blur').inputValue(),'4');
 await p.screenshot({path:'/tmp/playground-blocks.png'});
 await p.click('[data-tab=colours]');assert.ok(await p.locator('[data-token]').count()>20);

@@ -3,9 +3,9 @@ name: anonymous-backdrop-contract
 description: Specify anonymous geometry, static capture and publication-only refresh.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.9"
-  update_summary: "Scroll the script-disabled Colours inspection from its parent"
-  updated_at: "Thu 22 Oct 2026 at 07:42:39 pm AEDT (+11:00)"
+  doc_revision: "26.0.10"
+  update_summary: "Share one inspection renderer and scroller for both backgrounds"
+  updated_at: "Thu 22 Oct 2026 at 08:07:12 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -46,7 +46,7 @@ This is a mandatory scoped contract incorporated by [AGENTS.md](../../AGENTS.md)
 ### Interaction and Scrolling Policy
 
 - Both anonymous backdrops use the default arrow throughout. Disable hover, active, focus, selection, dragging, resizing and animation feedback; retain inert content and script-disabled captured frames. Apply the same static policy when creating captures and when rendering previously saved geometry, without remeasuring word dimensions.
-- Decorative capture frames remain outside sequential keyboard navigation in every inspection mode. In scrollable Colours inspection, only the document root owns overflow; keep the body non-scrolling and captured descendants inert. Render the Colours inspection directly under the Playground in a same-origin, script-disabled sandbox, so the existing enclosing keyboard stop can scroll its root without focusing the capture. Keep the interactive login specimen separate for Password Panel mode. Support arrows, Page Up/Down and Home/End; horizontal arrows retain access to a selected wide viewport. Verify keyboard and native wheel input inline and expanded on desktop/mobile widths, plus emulated touch starting inside the frame.
+- Decorative capture frames remain outside sequential keyboard navigation in every inspection mode. In both Resources and Colours inspection, only the document root owns overflow; keep the body non-scrolling and captured descendants inert. Render both captures through the same inspection iframe and controller directly under the Playground in a same-origin, script-disabled sandbox, so the existing enclosing keyboard stop can scroll its root without focusing the capture. Only the saved anonymous source content varies by destination. Reuse the shared footer-wrap helper where that content includes a footer. Keep the interactive login specimen separate and locked for Password Panel mode; it must not retain a second scrollable inspection path. Support arrows, Page Up/Down and Home/End; horizontal arrows retain access to a selected wide viewport. Use one parameterised regression for both destinations: verify keyboard and native wheel input inline and expanded on desktop/mobile widths, plus emulated touch starting inside the frame.
 - In Blocks and Blur, allow only the outer inspection document to scroll in No Blur and Blur and Darken. Keep nested captured documents, controls and prompt areas locked, including captured login specimens. Never recursively remove inertness or enable pointer access in embedded frames. Remove block-click selection; the real controls outside the preview remain interactive.
 - Password Panel mode resets and locks the inspection background. Actual login panels retain keyboard access and their own scrolling for short viewports. Captured login dimming covers the entire captured document, including content beyond its initial viewport; it remains separate from the single background blur.
 - Preserve responsive widths and normal text wrapping; ordinary containers must grow with their contents. Lock existing overflow containers without imposing fixed content widths or replacing wrapped text with fixed lines. Test narrow and wide layouts, nested cursor/hit-target suppression, full-document dimming and switching between scrollable inspection and locked panel modes.

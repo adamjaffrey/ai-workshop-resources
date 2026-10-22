@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.344"
-  update_summary: "Enable Colours keyboard scrolling and refine Link Icons labels"
-  updated_at: "Thu 22 Oct 2026 at 07:47:24 pm AEDT (+11:00)"
+  doc_revision: "26.0.345"
+  update_summary: "Unify Resources and Colours background scrolling"
+  updated_at: "Thu 22 Oct 2026 at 08:19:05 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.343 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 08:19:05 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Unify Resources and Colours background scrolling
+
+### Changed
+
+- Use one script-disabled inspection iframe, settings controller and keyboard scrolling path for Resources and Colours, inline and in Expand View. Only saved anonymous source content varies; reuse the canonical footer wrapping helper.
+- Remove the previous separate inspection path from the locked Password Panel specimen. Preserve inert captures and the existing single enclosing Tab stop.
+- Consolidate both backgrounds into one parameterised scrolling regression and retain the old background-test entry point as an alias. Normal build commands remain unchanged.
+- Record the shared implementation in the backdrop contract and design decisions.
+
+### Validation
+
+- Shared scroll regression — passed Chrome/WebKit at 390 and 1440px, both backgrounds, inline/expanded and clear/blurred, including keyboard navigation, wheel input, Chrome emulated touch, controls and panel locking. No physical-device test.
+- Backdrop interaction, destination controls and saved-geometry comparison checks — passed.
+- Production build and generated version display — passed. Saved geometry reused without recapture.
+- Broad Playground regression — reached an unrelated typography inspector hover timeout; no full-suite pass claimed.
 
 ## v26.0.342 — 2026-10-22
 
