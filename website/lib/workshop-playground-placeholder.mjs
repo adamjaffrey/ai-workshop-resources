@@ -40,12 +40,13 @@ window.workshopRenderBackdropPreview=(frame,theme,agent)=>{
  // Only the outer document may scroll; nested captures remain inert and locked.
  const inspecting=document.getElementById('preview-scrim')&&document.body.dataset.review!=='panel';
  frame.parentElement.toggleAttribute('inert',!inspecting);
- frame.style.pointerEvents=inspecting?'auto':'none';frame.tabIndex=inspecting?0:-1;
+ // Native gestures reach the root scroller without adding a decorative Tab stop.
+ frame.style.pointerEvents=inspecting?'auto':'none';frame.tabIndex=-1;
  if(inspecting){
   const doc=new DOMParser().parseFromString(html,'text/html');
   doc.body.removeAttribute('inert');
   Array.from(doc.body.children).forEach(el=>el.setAttribute('inert',''));
-  const style=doc.createElement('style');style.textContent='html,body{overflow:auto!important;pointer-events:auto!important}';doc.head.append(style);
+  const style=doc.createElement('style');style.textContent='html{overflow:auto!important;pointer-events:auto!important}body{overflow:visible!important;pointer-events:none!important}';doc.head.append(style);
   html='<!doctype html>'+doc.documentElement.outerHTML;
  }
  frame.removeAttribute('src');frame.srcdoc=html;

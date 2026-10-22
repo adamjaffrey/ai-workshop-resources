@@ -3,14 +3,45 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.340"
-  update_summary: "Reset expanded controls and fix modal spacing and anchor copying"
-  updated_at: "Thu 22 Oct 2026 at 06:56:20 pm AEDT (+11:00)"
+  doc_revision: "26.0.341"
+  update_summary: "Fix anchor arrival and simplify expanded headings and backdrop focus"
+  updated_at: "Thu 22 Oct 2026 at 07:12:54 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.339 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 07:12:54 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Fix anchor arrival and simplify expanded headings and backdrop focus
+
+### Fixed
+
+- Give the temporary anchor-arrival Tab route priority over general page navigation, preventing an unintended scroll jump and restoration of preceding sections.
+- Remove the decorative Colours capture iframe’s explicit Tab stop and keep only its document root scrollable, with inert content and scripts still disabled.
+- Capture the Resources Skip to Main Content arrow in the actual Link Icons usage inventory.
+
+### Changed
+
+- Render all five Expand View titles as plain H2 headings; restore their original anchor-copy controls on contraction. Retain the opening defaults and full-viewport bounds.
+- Label modified Link Icons with their actual `.svg` filenames and update the owning interface/backdrop rules and design decisions.
+
+### Validation
+
+- Anchor-arrival interaction regression — passed Chrome/WebKit at 390 and 1440px, including stable 16px landing through every arrival Tab stop, upward-scroll restoration, re-entry and feedback.
+- Expanded defaults and headings — passed Chrome/WebKit at 320, 390, 768 and 1440px across all five modules, including reopened defaults, plain modal titles, inline copy restoration and viewport bounds.
+- Colours backdrop scroll — passed Chrome/WebKit at 390 and 1440px, inline/expanded, No Blur and Blur and Darken; Chrome emulated touch began inside the capture. The baseline wheel failure was not reproduced; the revised root scroller and removed Tab stop were verified. No physical-device test.
+- Link Icon filenames and Resources skip usage, nested keyboard regions, and backdrop inertness/panel locking — passed desktop/mobile Chrome and WebKit checks.
+- Full Playground source/specimen parity check and website production build — passed. Saved backdrop geometry reused without remeasurement.
 
 ## v26.0.338 — 2026-10-22
 

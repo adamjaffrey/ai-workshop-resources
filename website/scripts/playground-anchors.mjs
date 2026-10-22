@@ -8,6 +8,7 @@ ${anchorCopyCSS}
 .section-heading .heading-anchor:focus{outline:none}
 :root[data-focus-input=keyboard] .section-heading .heading-anchor:focus{outline:3px solid var(--icon-ink)}
 .section-heading :is(h2,h3){cursor:pointer}
+.is-expanded>.section-heading :is(h2,h3){cursor:default}
 .heading-anchor[data-icon-leading]>.link-tail{display:inline-flex;flex-direction:row-reverse;align-items:baseline}
 .heading-anchor[data-icon-leading] .step-anchor-icon{margin-left:0;margin-right:${textIconGap}}
 [data-playground-anchor-leaving]{transition:opacity 600ms cubic-bezier(.2,0,.2,1)}
@@ -40,9 +41,9 @@ export function initPlaygroundAnchors({select,tabPaths,sticky,scheduleCaps,insta
   };
   alignSide();window.addEventListener('resize',alignSide);
   title.style.flex='0 1 auto';title.style.width='max-content';title.style.maxWidth='100%';
-  title.addEventListener('pointerenter',()=>copy.setAttribute('data-anchor-preview',''));
+  title.addEventListener('pointerenter',()=>{if(!panel.classList.contains('is-expanded'))copy.setAttribute('data-anchor-preview','');});
   title.addEventListener('pointerleave',()=>copy.removeAttribute('data-anchor-preview'));
-  title.addEventListener('click',event=>{if(!copy.contains(event.target)){copy.focus({preventScroll:true});copy.click();}});
+  title.addEventListener('click',event=>{if(!panel.classList.contains('is-expanded')&&!copy.contains(event.target)){copy.focus({preventScroll:true});copy.click();}});
   const toggle=row.querySelector('.section-collapse');
   const side=event=>{const edge=title.getBoundingClientRect().right;return event.clientX<=edge?'copy':event.clientX<edge+20?'gap':'toggle';};
   const clearHover=()=>{copy.removeAttribute('data-anchor-preview');toggle?.removeAttribute('data-region-hover');row.removeAttribute('data-collapse-hover');row.style.cursor='';};
@@ -136,14 +137,16 @@ export function initPlaygroundAnchors({select,tabPaths,sticky,scheduleCaps,insta
  window.addEventListener('wheel',()=>{followLayout=false;if(arriving)leave();},{passive:true});window.addEventListener('touchstart',()=>{followLayout=false;if(arriving)leave();},{passive:true});
  window.addEventListener('keydown',event=>{if(['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].includes(event.key)&&!event.target.closest('input,button,[role=button]')){followLayout=false;if(arriving)leave();}});
  window.addEventListener('scroll',()=>{if(correcting)return;if(!arriving&&active&&scrollY<lastY-.5)leave();if(!arriving&&trimRoom)trim();lastY=scrollY;},{passive:true});
- document.addEventListener('keydown',event=>{if(event.key!=='Tab'||!focusRoute)return;if(event.shiftKey){focusRoute=null;return;}const next=focusRoute.shift();if(next){event.preventDefault();window.workshopFocusAtCurrentScroll(next);}if(!focusRoute.length)focusRoute=null;},true);
+ // Claim the arrival route before document-level navigation can reveal another target.
+ window.addEventListener('keydown',event=>{if(event.key!=='Tab'||!focusRoute)return;if(event.shiftKey){focusRoute=null;return;}const next=focusRoute.shift();if(next){event.preventDefault();window.workshopFocusAtCurrentScroll(next);}if(!focusRoute.length)focusRoute=null;},true);
  document.addEventListener('pointerdown',()=>{focusRoute=null;},{passive:true});
  window.navigation?.addEventListener('navigate',event=>{const url=new URL(event.destination.url);if(writing||!event.canIntercept||!event.destination.sameDocument||!resolve(url))return;if(url.pathname===location.pathname&&url.hash===location.hash&&url.search!==location.search)return;intercepted=true;event.intercept({focusReset:'manual',scroll:'manual',handler:async()=>{const done=window.navigation.transition?.finished;try{const landed=await navigate(url.href,{rewrite:false}),token=generation;const finish=()=>{if(landed&&token===generation&&location.href===url.href)writeURL(urlFor(resolve(url)));intercepted=false;};if(done)done.then(finish,()=>{intercepted=false;});else setTimeout(finish,0);}catch(error){intercepted=false;throw error;}}});});
  let pending=0;const historyArrival=()=>{if(intercepted||writing)return;cancelAnimationFrame(pending);pending=requestAnimationFrame(()=>navigate(location.href));};
  window.addEventListener('hashchange',historyArrival);window.addEventListener('popstate',historyArrival);window.addEventListener('pageshow',e=>{if(e.persisted)historyArrival();});
  let resizeFrame=0;const observe=new ResizeObserver(()=>{if(!active||!followLayout||arriving||resizeFrame)return;resizeFrame=requestAnimationFrame(()=>{resizeFrame=0;if(!active||!followLayout)return;correcting=true;const delta=active.target.getBoundingClientRect().top-stickyBottom()-16;if(Math.abs(delta)>1){const extra=Math.max(0,scrollY+delta-(root.scrollHeight-innerHeight));if(extra)root.style.setProperty('--playground-anchor-room',(parseFloat(root.style.getPropertyValue('--playground-anchor-room'))||0)+extra+'px');scrollTo({top:Math.ceil(scrollY+delta),behavior:'instant'});sticky.update();lastY=scrollY;}correcting=false;});});
  for(const panel of document.querySelectorAll('[data-panel]>.panel'))observe.observe(panel);
- window.workshopPlaygroundAnchors={navigate,leave,prepareDisclosure,entries,resetCopy:feedback.resetCopy};
+ function setExpanded(panel,expanded){const entry=entries.find(e=>e.panel===panel);if(!entry)return;feedback.resetCopy(entry.copy);entry.copy.removeAttribute('data-anchor-preview');entry.row.style.cursor='';entry.row.removeAttribute('data-collapse-hover');entry.title.querySelector(':scope>span').replaceChildren(expanded?document.createTextNode(entry.text):entry.copy);}
+ window.workshopPlaygroundAnchors={setExpanded,navigate,leave,prepareDisclosure,entries,resetCopy:feedback.resetCopy};
  const initial=window.workshopInitialPlaygroundURL||location.href;
  if(resolve(new URL(initial))){const start=()=>navigate(initial);if(document.readyState==='complete')start();else addEventListener('load',start,{once:true});}
  else if(window.workshopInitialPlaygroundURL)writeURL(new URL(initial));

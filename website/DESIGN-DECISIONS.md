@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.92"
-  update_summary: "Record expanded defaults and modal clipboard fixes"
-  updated_at: "Thu 22 Oct 2026 at 06:53:35 pm AEDT (+11:00)"
+  doc_revision: "26.0.93"
+  update_summary: "Remove expanded heading copying and resolve arrival focus conflicts"
+  updated_at: "Thu 22 Oct 2026 at 07:10:52 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -635,3 +635,13 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Reason:** Adam requested consistent reopening defaults and reported a grey top strip and false copy success in expanded views. Resources is the second Components panel, so it inherited a 16px top margin while first-panel rules concealed the issue elsewhere. The body-level fallback textarea was inert outside the modal: the platform copy command could return success while leaving the clipboard unchanged. Actual clipboard reads reproduced that failure and verified the corrected URL after moving the field inside the dialog.
 
 **Owner:** [Interface](../docs/agent-guidance/interface.md#playground-heading-anchor-controls) and its preview-layout rules.
+
+## Plain Expanded Headings and Anchor Focus Priority
+
+**Decision:** Expand View panel titles are ordinary H2 headings. Remove their copy control and restore it when the panel contracts. Keep the existing reset defaults and viewport bounds. Run the temporary anchor-arrival Tab route before general page navigation, preserving the landing position and hidden preceding sections throughout that route.
+
+**Reason:** Adam reconsidered anchor copying inside a full-page modal and requested its removal. This supersedes the expanded-heading copying behaviour above; the modal-safe shared clipboard fallback remains available to other callers. The anchor-arrival regression came from two Tab handlers moving focus in one event: general navigation revealed an unintended target before the arrival route corrected focus.
+
+**Backdrop and Icon Follow-up:** Colours inspection had an explicit decorative-iframe Tab stop; remove it and give only the capture root scrolling overflow. Native wheel scrolling was not reproducibly broken in the checked baseline, so validation covers inline/expanded No Blur and Blur and Darken, Chrome/WebKit desktop/mobile widths and Chrome emulated touch. Captured content remains inert and script-disabled. Link Icons uses actual modified SVG filenames and captures the Resources skip-link usage from its source document.
+
+**Owners:** [Interface](../docs/agent-guidance/interface.md), [Anonymous Backdrops](../docs/agent-guidance/backdrops.md), `scripts/playground-anchors.mjs` and `lib/workshop-playground-placeholder.mjs`.

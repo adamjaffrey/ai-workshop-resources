@@ -72,6 +72,7 @@ window.addEventListener('message',async event=>{
   const copy=async(button,success)=>{copyFailure=!success;button.click();await yieldCapture();finishCaptureMotion();};
   for(const button of document.querySelectorAll('.copy,.qr-copy'))setStatus(button,'');
   add(document.querySelector('.brand-worm'),'Default');
+  add(document.querySelector('.skip-main [data-icon-variant]'),'Skip to Main Content');
   await theme('light');add(document.querySelector('[data-theme-choice=light] svg'),'Selected · Light Mode');
   await theme('dark');add(document.querySelector('[data-theme-choice=dark] svg'),'Selected · Dark Mode');await theme(savedTheme);
   const qr=document.querySelector('.qr-copy');

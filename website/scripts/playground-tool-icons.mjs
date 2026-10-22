@@ -44,7 +44,7 @@ function renderPlaygroundIcons(){
   const entry=document.createElement('section');entry.className='playground-icon-entry';entry.dataset.catalogIcon=name;entry.dataset.iconFamily=provider;if(variant)entry.dataset.catalogVariant=variant;entry.dataset.iconGroups=[...groups].join(' ');
   const heading=document.createElement('h3'),sample=svg.cloneNode(true);
   sample.removeAttribute('id');if(sample.classList.contains('text-link-icon')){sample.removeAttribute('style');sample.classList.remove('text-link-icon','link-arrow','step-anchor-hash','step-anchor-success','step-anchor-failure');sample.setAttribute('stroke-width','2');}sample.setAttribute('width','24');sample.setAttribute('height','24');sample.setAttribute('aria-hidden','true');
-  if(variant)sample.style.cssText='width:24px;height:24px';heading.append(sample,document.createTextNode(variant==='hash-modified'?'Modified Hash':variant==='arrow-up-right-modified'?'Modified Arrow Up Right':variant==='arrow-right-modified'?'Modified Arrow Right':name));
+  if(variant)sample.style.cssText='width:24px;height:24px';heading.append(sample,document.createTextNode(variant==='hash-modified'?'hash-modified.svg':variant==='arrow-up-right-modified'?'arrow-up-right-modified.svg':variant==='arrow-right-modified'?'arrow-right-modified.svg':name));
   const list=document.createElement('ul');
   for(const usage of usages)list.append(iconUsageItem(usage));
   const link=document.createElement('a');
