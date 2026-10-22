@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.84"
-  update_summary: "Require unique heading icons and matching first-heading tab icons"
-  updated_at: "Thu 22 Oct 2026 at 10:18:24 pm AEDT (+11:00)"
+  doc_revision: "26.0.85"
+  update_summary: "Keep canonical preview links and add nested component anchors"
+  updated_at: "Thu 22 Oct 2026 at 10:35:44 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -74,7 +74,7 @@ Keep cross-cutting policy here. Put precise implementation constraints and test 
 - Never automatically open a user-facing browser or the Codex preview panel. Open a requested preview only on explicit instruction, using Chrome; headless validation is permitted for software work.
 - User-facing local previews use real automatic local sign-in (`preview:phone` or `createPhonePreview({autoLogin:true})`), never a production authentication bypass. Hosted Resources and Playground remain session-protected.
 - Verify the active process, reachable Wi-Fi/LAN IPv4 origin, linked destinations and process-generated test password before a preview handoff. Never substitute loopback, production credentials or a stale password. Follow the Delivery contract's unavailable wording when verification is impossible.
-- Routine previews contain only Main App and Playground links. Include a Login Form link only when explicitly requested. Link a Playground section only when it was specifically worked on or discussed in the current chat work and is the sole primary review destination; otherwise link `/component-playground`.
+- Every preview handoff includes Main App and Playground as top-level links at their canonical URLs, `/ai-workshop-resources` and `/component-playground`. Beneath Playground, add an indented list of direct links to the specific Playground pages or anchored sections worked on in the current chat turn. Include as many relevant destinations as needed, prefer the most specific existing anchor, and never replace the canonical Playground link. Follow Delivery for exact labels and destination verification. Include a Login Form link only when explicitly requested.
 - Use the exact Build and Delivery wording in the Delivery contract. Documentation-only updates omit preview/password sections unless explicitly requested and retain the current website artefact version. A local commit or push does not publish to Sites.
 
 ## Website Guardrails

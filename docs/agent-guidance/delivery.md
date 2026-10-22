@@ -3,9 +3,9 @@ name: preview-and-delivery
 description: Specify preview operation, authentication expectations and exact handoff wording.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.3"
-  update_summary: "Simplify canonical login and Claude URL components"
-  updated_at: "Thu 22 Oct 2026 at 09:24:01 am AEDT (+11:00)"
+  doc_revision: "26.0.4"
+  update_summary: "Keep canonical preview links and add nested component anchors"
+  updated_at: "Thu 22 Oct 2026 at 10:35:44 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -18,7 +18,7 @@ This is a mandatory scoped contract incorporated by [AGENTS.md](../../AGENTS.md)
 
 - Apply the standing LAN preview authorisation in [Repository Instructions](../../AGENTS.md#preview-and-handoff-essentials) when generating preview links; no fresh approval is needed to start or restart the automatically signed-in LAN server. GitHub pushes and Sites publication remain separate actions requiring explicit user approval.
 
-- Select the Playground destination using the exact rules and title/slug mapping under Required Update Handoff: link to a section only when that specific panel was worked on or discussed in the current chat work and is the primary review destination. For cross-cutting changes, multiple equally relevant panels, or no specifically worked-on/discussed panel, use `/component-playground`. Do not choose a subpage merely because it seems generally relevant. Always use the verified active Wi-Fi address and port for local links.
+- Every preview handoff includes canonical Main App and Playground links. Add an indented list beneath Playground for the specific pages or anchored sections worked on in the current chat turn, following Required Update Handoff. Include multiple destinations when relevant; do not choose unrelated subpages or carry forward old review links merely because they appeared earlier in the conversation. Always use the verified active Wi-Fi address and port for local links.
 
 - Start all user-facing local previews already signed in. Use `npm --prefix website run preview:phone` (automatic login enabled), or pass `{autoLogin:true}` to `createPhonePreview` for custom ports. Continue generating and displaying the process’s temporary test password. The local adapter must obtain a real session through the unchanged server-side login handler, using only its in-memory preview database and temporary credential; never add an authentication bypass to application handlers, production builds or hosted Sites. Keep low-level authentication tests explicit (`autoLogin:false`, the factory default). Keep `/ai-workshop-resources?login=false` available for inspecting the real login form, but provide its link only when the user explicitly requests it; local Log Out returns there. Verify a fresh browser opens Resources, the session endpoint recognises its cookie, logout invalidates it, and hosted access still requires authentication when changing this workflow.
 
@@ -53,7 +53,7 @@ This is an exact output contract for every completed update in this repository, 
 
 1. Start with a concise change summary and verification result, normally one or two sentences.
 2. Emit **📦 Build and Delivery** and its four bullets in the exact order shown below.
-3. Emit **🔗 Local Preview** with exactly two link bullets: Main App and Playground. Do not include a Login Form link in routine preview handoffs.
+3. Emit **🔗 Local Preview** with exactly two top-level link bullets: canonical Main App and canonical Playground. Beneath Playground, include an indented list of relevant page/anchor links for the current turn when applicable. Do not include a Login Form link in routine preview handoffs.
 4. Immediately follow with **🔑 Local App Test Password** and one fenced `text` block containing only the active process’s test password.
 5. Append **🌐 Live on Sites** only when publication succeeds for this update, or the user explicitly requests the existing live link. After every successful publication, include Main App and Playground links as two separate bullets.
 
@@ -81,8 +81,9 @@ If a build, commit, push or publication failed or was blocked, replace that item
 Define `LOCAL_ORIGIN` as the active preview’s verified `http://WIFI-IP:PORT`, without a trailing slash. Never hard-code an example IP address or port, assume the previous process still owns a port, substitute loopback, or show a production password.
 
 - Main App: `[Main App ↗](LOCAL_ORIGIN/ai-workshop-resources) — automatically signed in`. Link to `/ai-workshop-resources`, not a redirect alias, and do not put paths in the anchor text.
-- Playground, only when that specific panel was worked on or discussed in the current chat work and exactly one section is the primary review destination: `[Playground > SECTION TITLE ↗](LOCAL_ORIGIN/component-playground/SECTION-SLUG) — automatically signed in`. Use the title/slug mapping below, not a raw slug or invented title.
-- Playground, for cross-cutting changes or no specific section: `[Playground ↗](LOCAL_ORIGIN/component-playground) — automatically signed in`.
+- Playground, always: `[Playground ↗](LOCAL_ORIGIN/component-playground) — automatically signed in`. Never replace this canonical root link with a page or anchor link.
+- Direct review destinations: indent additional bullets beneath Playground, using `[TAB TITLE > HEADING TITLE ↗](LOCAL_ORIGIN/component-playground/SECTION-SLUG#CANONICAL-FRAGMENT) — automatically signed in` for an anchored section, or `[TAB TITLE ↗](LOCAL_ORIGIN/component-playground/SECTION-SLUG) — automatically signed in` for a whole tab. Include one to as many distinct destinations as needed to cover the components worked on in the current chat turn; omit this nested list when there are none. Prefer the most specific existing anchor, avoid redundant parent-tab links when an anchor suffices, and preserve page order.
+- Verify page slugs and heading fragments against the shared URL Reference or generated anchor inventory; do not invent fragments from component names. For a specimen without its own anchor, link its nearest existing containing section, or its tab when no section anchor exists. Use actual tab and heading titles as labels. Verify every supplied destination on the active preview during software handoff; a successful page response alone does not verify a fragment. The documentation-only preview exception remains unchanged.
 
 | Section Slug | Section Title |
 |---|---|
@@ -97,7 +98,7 @@ Define `LOCAL_ORIGIN` as the active preview’s verified `http://WIFI-IP:PORT`, 
 | `easter-egg` | Easter Egg |
 | `url-reference` | URL Reference |
 
-Do not use “Preview link”, inline-code paths in labels, “password free”, “password-free”, “logged out state” or additional lock icons in these handoff bullets. The exact local phrase “automatically signed in” describes the no-password-entry review experience; it does not change the authentication implementation. The app obtains a real local session, while local Playground access remains password-free as documented above. Never apply this phrase to hosted access or imply that either local route bypasses hosted authentication. If the user explicitly requests a login-form link, provide it separately from the routine two-link handoff; it revokes the current session before displaying the logged-out form.
+Do not use “Preview link”, inline-code paths in labels, “password free”, “password-free”, “logged out state” or additional lock icons in these handoff bullets. The exact local phrase “automatically signed in” describes the no-password-entry review experience; it does not change the authentication implementation. The app obtains a real local session, while local Playground access remains password-free as documented above. Never apply this phrase to hosted access or imply that either local route bypasses hosted authentication. If the user explicitly requests a login-form link, provide it separately from the canonical link pair and nested review destinations; it revokes the current session before displaying the logged-out form.
 
 Verify the active process, LAN origin and both linked destinations before handing them over. Verify a login-form URL separately only when explicitly requested or required by the authentication changes being tested. Read the password from that process’s startup output. Retained startup output is usable only after confirming that the same process is still serving those URLs; never copy a credential merely from a previous final response. If the process or password cannot be verified, restart and verify when safe and within scope, or use the unavailable case below.
 
@@ -105,11 +106,11 @@ If local preview is unavailable, retain **🔗 Local Preview** with `Unavailable
 
 #### Exact Live Link Selection
 
-Under **🌐 Live on Sites**, every successful publication must include two separate bullets: `[Main App ↗](VERIFIED-LIVE-ORIGIN/ai-workshop-resources)` and `[Playground ↗](VERIFIED-LIVE-ORIGIN/component-playground)`, without authentication suffixes. Use the verified hosted origin; the existing site is `https://workshop.adamjaffrey.chatgpt.site`. Link to the Playground root by default; use the documented section title/slug only when explicitly requested. When the user asks for an existing live link without publication, provide the requested destination(s). Never include the production password or describe hosted links as automatically signed in. If showing an existing live site without publishing this update, say `Existing live site; this update has not been published.` before the link. Keep the Publish status truthful.
+Under **🌐 Live on Sites**, every successful publication must include two separate bullets: `[Main App ↗](VERIFIED-LIVE-ORIGIN/ai-workshop-resources)` and `[Playground ↗](VERIFIED-LIVE-ORIGIN/component-playground)`, without authentication suffixes. Use the verified hosted origin; the existing site is `https://workshop.adamjaffrey.chatgpt.site`. Always retain both canonical top-level links. Add relevant current-turn page/anchor links beneath Playground using the same nested structure as Local Preview, verified against the published version and without automatic-sign-in suffixes. When the user asks for an existing live link without publication, provide the requested destination(s). Never include the production password or describe hosted links as automatically signed in. If showing an existing live site without publishing this update, say `Existing live site; this update has not been published.` before the link. Keep the Publish status truthful.
 
 ### Handoff Format
 
-Copy this structure literally for a successful new local build, replacing placeholders. For documentation-only work, use `unchanged, no new artefact produced.` and omit the preview and password sections as specified above. For a specifically worked-on or discussed panel that is the sole primary review destination, replace only the Playground bullet with the section form defined above. Do not emit placeholder text.
+Copy this structure literally for a successful new local build, replacing placeholders. For documentation-only work, use `unchanged, no new artefact produced.` and omit the preview and password sections as specified above. When specific components were worked on in the current turn, append their page/anchor links as indented bullets beneath the canonical Playground bullet, using the forms above. Do not emit placeholder text.
 
 ````markdown
 **📦 Build and Delivery**
@@ -140,4 +141,4 @@ When the live-link inclusion condition is met, append:
 - [Playground ↗](VERIFIED-LIVE-ORIGIN/component-playground)
 ```
 
-Before sending, check the exact four status labels and order, version/hash evidence, canonical Main App URL, Playground title/slug selection, literal authentication suffixes, active-process password, and whether a Live on Sites section is warranted. Do not substitute stylistic variants for this contract.
+Before sending, check the exact four status labels and order, version/hash evidence, both canonical root URLs, current-turn nested review destinations and their verified titles/slugs/fragments, literal authentication suffixes, active-process password, and whether a Live on Sites section is warranted. Do not substitute stylistic variants for this contract.
