@@ -3,14 +3,38 @@ name: website-backlog
 description: Record unfinished proposed work for the workshop website.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.2"
-  update_summary: "Add expanded-view, Style Inspector and button-state review work"
-  updated_at: "Tue 20 Oct 2026 at 05:13:26 pm AEDT (+11:00)"
+  doc_revision: "26.0.3"
+  update_summary: "Defer rendering final page structure before JavaScript setup"
+  updated_at: "Thu 22 Oct 2026 at 12:56:30 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Website Backlog
+
+## Render Final Page Structure Before JavaScript Setup
+
+**Added at:** Thu 22 Oct 2026 at 12:56:30 pm AEDT (+11:00)
+
+**Added by:** Adam Jaffrey
+
+**Addition assisted by agent:** ChatGPT Codex
+
+### Outcome
+
+Render Resources and Component Playground controls, icons and layout correctly in the initial HTML and CSS, reducing runtime DOM rearrangement and eventually removing the need to hide the whole page during initial preparation.
+
+### Acceptance Criteria
+
+- Assess the cost and dependencies before implementation, and split any approved work into small, independently reversible changes.
+- Generate static control structure, tab icons, disclosures, action placement and layout wrappers directly where practical, preserving shared app/specimen implementations and the established final appearance.
+- Retain JavaScript for interactions and genuinely necessary browser measurements; address font and image loading separately with stable geometry.
+- Verify first-visible-frame stability on initial loads and scrolled refreshes across relevant widths, themes, agents and browsers, including delayed or failed assets, keyboard operation and reduced motion.
+- Retain the current first-paint safeguard until regression checks demonstrate it can safely be removed; preserve sticky behaviour, alignment, card entrances and Playground specimen parity.
+
+### Notes
+
+Low-priority nice-to-have, explicitly deferred by Adam. This is expected to be expensive and time consuming, with a high risk of regressions across interconnected layout and interaction code. The existing flicker fix can remain in place; this item is not authorisation to begin the refactor. Reconsider only when its benefit justifies the effort and risk.
 
 ## Review All Expand View Sections
 
