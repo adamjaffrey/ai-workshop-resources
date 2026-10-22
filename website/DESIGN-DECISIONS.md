@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.97"
-  update_summary: "Unify Resources and Colours backdrop inspection scrolling"
-  updated_at: "Thu 22 Oct 2026 at 08:07:12 pm AEDT (+11:00)"
+  doc_revision: "26.0.98"
+  update_summary: "Record focused testing and justified broader validation"
+  updated_at: "Thu 22 Oct 2026 at 08:21:41 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -675,3 +675,11 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Reason:** The initial keyboard fix gave Colours a direct inspection frame while Resources retained its earlier path. Adam requested one shared implementation to prevent recurrence and drift. A parameterised regression exercises both backgrounds through identical keyboard, wheel, touch, theme, width and expanded-view cases. Captures remain inert and script-disabled; saved geometry is reused.
 
 **Owners:** [Anonymous Backdrops](../docs/agent-guidance/backdrops.md#interaction-and-scrolling-policy), `scripts/playground-backdrop-inspection.mjs`, `scripts/playground-keyboard.mjs` and `tests/backdrop-scroll-browser-check.mjs`.
+
+## Focused Testing by Default
+
+**Decision:** Select focused checks for changed behaviour and affected consumers. Broader suites require an explicit reason based on widespread effects, uncovered integration risk, failure evidence or a user request. Scope matrices to affected dimensions, avoid overlapping runs and stop after sufficient checks pass. Replace the blanket broad Playground source-parity requirement with this risk-based selection.
+
+**Reason:** Adam reported excessive build turnaround after overlapping scrolling, backdrop and broad Playground checks. The shared scrolling regression provides relevant coverage of both backgrounds; unrelated broad checks should not become a routine cost for narrow changes.
+
+**Owners:** [Proportionate Testing](../AGENTS.md#proportionate-testing), [Interface](../docs/agent-guidance/interface.md#mandatory-change-and-validation-contract).

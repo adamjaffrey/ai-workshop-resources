@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.85"
-  update_summary: "Use suffix-free modified icon names and Resources-first arrow uses"
-  updated_at: "Thu 22 Oct 2026 at 07:42:39 pm AEDT (+11:00)"
+  doc_revision: "26.0.86"
+  update_summary: "Scope interface validation to affected behaviour and risk"
+  updated_at: "Thu 22 Oct 2026 at 08:21:41 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -13,6 +13,8 @@ metadata:
 # Interface Contract
 
 This is a mandatory scoped contract incorporated by [AGENTS.md](../../AGENTS.md). Read it before changing the behaviours it covers. Paths and commands in code spans are relative to the repository root. Documentation-only work does not trigger the software checks listed here.
+
+Apply [Proportionate Testing](../../AGENTS.md#proportionate-testing) when selecting checks below. Run named tests only when their covered behaviour is affected; these lists are not a blanket suite for every interface change.
 
 ## Focus and Panel Opening
 
@@ -269,7 +271,7 @@ Apply this standard to:
 - Read dynamic typography content from the rendered source examples, including agent-specific labels and prompts. Label each specimen’s source page and selector. Do not present absent elements or reserved tokens as established app components.
 - Use `website/lib/workshop-login-messages.mjs` for login status messages and temporary button wording; both production and the playground consume it. Keep preview outcomes simulated and prevent navigation or real clipboard/authentication writes.
 - Read blur, strength and scrim defaults from app CSS. Local sliders must never change production settings or trigger block remeasurement.
-- Distinguish the playground’s own testing/navigation controls and explanatory annotations from app specimens. Keep source-parity checks for rendered text and computed typography across mobile/desktop, both agents and both themes when modifying the playground or specimen sources.
+- Distinguish the playground’s own testing/navigation controls and explanatory annotations from app specimens. Use focused source-parity checks for rendered text and computed typography when those properties or their capture paths change; include mobile/desktop, agents and themes where affected.
 
 - Show full login panels for held login states in Status States. Show JavaScript-disabled notices in their real surrounding page or panel context. Retain measured source dimensions for complete login/page contexts and every isolated specimen; permit horizontal inspection on narrow containers instead of scaling or squeezing controls. Capture boundary widths in the dedicated, measurable source frames, never hidden inline frames whose layout width may be zero. Use the shared centred floating-control shadow token for floating Playground panels, the inspector dock, the ellipsis and Back to Top buttons; keep dark shadows in dark mode with surface and border contrast, rather than white glows.
 
@@ -315,8 +317,8 @@ Rationale and superseded rules: [Specimen Palettes and Page Embeds](../../websit
 - Change the canonical app source first. Import or capture that source in the playground; never fix a mismatch by copying strings, CSS, SVGs or state logic into a second independently maintained implementation. If a source cannot be shared directly, extract a shared renderer or helper rather than creating an optical duplicate.
 - For each new, changed or removed component, setting or state, audit the Components, Typography, Colours, Icons, Status States, Focus and Selection, and Blocks and Blur views as applicable. Update specimen manifests, capture selectors, held-state adapters and source labels; remove obsolete examples and fail explicitly when an expected source is missing.
 - Held-state adapters may supply fixture data, simulated outcomes and time controls, but must use the app's renderers and messages. When app state transitions change, review every affected adapter in the same change. Keep intentional differences explicit: sample input, held transient states, isolated focus, and disabled real navigation, clipboard, session and authentication effects. Do not allow these exceptions to conceal visual or semantic drift.
-- Validate affected specimens against independently rendered main-app pages, not only against other playground frames. Compare text, computed typography, colours, icon geometry, state attributes and relevant interaction behaviour at 320, 390, 768 and 1440px, in light/dark mode and for Codex/Claude. Include relevant neutral, loading, success, failure, disabled, hover and focused states, plus pointer, keyboard and touch paths when affected.
-- Run the existing source-parity check (`node website/tests/playground-browser-check.mjs`) for app interface or specimen-source changes, plus focused checks for the changed behaviour. Add or extend regression coverage when fixing a parity defect. Resolve unexpected differences before declaring the work complete; report any unverified browser/device behaviour or intentional simulation difference honestly. Do not claim universal 100% parity based only on shared imports or a limited test pass.
+- Validate affected specimens against independently rendered main-app pages, not only against other playground frames. Compare the properties affected by the change: text, computed typography, colours, icon geometry, state attributes or interaction behaviour. Select relevant cases from 320, 390, 768 and 1440px, light/dark mode and Codex/Claude; run the full matrix only when the change affects all those dimensions. Include relevant neutral, loading, success, failure, disabled, hover and focused states, plus pointer, keyboard and touch paths when affected.
+- Use focused parity and behaviour checks by default. Run the broad source-parity check (`node website/tests/playground-browser-check.mjs`) only when widespread source/capture changes, integration risks or focused-test failures justify its additional coverage; state that reason first. Do not run it automatically for every app interface or specimen-source change. Add or extend regression coverage when fixing a parity defect. Resolve unexpected differences before declaring the work complete; report any unverified browser/device behaviour or intentional simulation difference honestly. Do not claim universal 100% parity based only on shared imports or a limited test pass.
 - Keep `/component-playground` canonical; redirect `/component`, `/components`, `/playground` and `/style-guide`, including descendants, with 301 responses. On Sites, protect the entire playground with the same server-validated session as the main app, including expiry and logout; never publish specimen HTML as a public static asset. On the local preview server, keep `/component-playground` password-free only when `login` is absent; either explicit boolean uses real session handling on every supported page. Keep testing controls distinct from app specimens, keep simulated actions sandboxed and never expose local test credentials or authentication bypasses through a production handler.
 
 ## URL Reference Tables and Subsections

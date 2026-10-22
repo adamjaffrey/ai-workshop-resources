@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.81"
-  update_summary: "Authorise LAN previews while retaining explicit publication approval"
-  updated_at: "Wed 21 Oct 2026 at 07:53:38 am AEDT (+11:00)"
+  doc_revision: "26.0.82"
+  update_summary: "Make focused testing the default and justify broader suites"
+  updated_at: "Thu 22 Oct 2026 at 08:21:41 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -32,6 +32,15 @@ metadata:
 - Keep documentation-only changes light: review the text and diff, validate affected document metadata, and create the required local commit. Do not run website or browser tests, build the website, start or restart a preview server, change its password, or perform preview/LAN checks solely for a documentation change.
 - For documentation-only handoffs, provide the concise change summary, relevant document links and Build and Delivery status. Omit Local Preview and Local App Test Password unless the user explicitly requests a preview handoff. These exceptions override the general preview and handoff requirements below. A change that modifies executable website behaviour still requires the relevant software validation.
 - URL-reference prose is rendered in the Playground from `website/URL-REFERENCE.md`; wording-only corrections remain documentation-only and do not require rebuilding the hosted site unless publication is explicitly requested.
+
+## Proportionate Testing
+
+- Use focused tests by default. Choose the smallest set that verifies the changed behaviour, its affected consumers and credible regression risks. Reuse existing coverage; do not stack overlapping suites or add tests that merely mirror implementation details.
+- Scope browser, viewport, theme, agent, state and input-method coverage to what the change can affect. Shared implementation changes require coverage of affected consumers, but do not automatically require every suite or every combination. Named checks and matrices in scoped contracts apply to their relevant behaviour, not to every edit in that area.
+- Run a broader suite only for a clear reason: a change with widespread effects, an integration risk the focused checks cannot cover, a failure suggesting wider regression, or an explicit user request. State the reason before running it. A routine local build alone is not a reason.
+- Once the relevant checks pass, proceed to delivery. Repeat or broaden testing only after a relevant code change, new failure or unresolved risk; do not rerun unchanged passing checks for reassurance. Avoid concurrent heavy browser suites that can create resource contention and misleading timeouts.
+- Investigate a failed check enough to assess its relevance. Fix failures caused by the change; report unrelated or pre-existing failures and any coverage limits without silently expanding the task or claiming a full-suite pass.
+- Keep routine build commands free of newly added broad test gates unless explicitly requested. Documentation-only changes follow the lightweight workflow above.
 
 ## URL Reference Maintenance
 
