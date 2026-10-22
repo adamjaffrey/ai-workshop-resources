@@ -10,7 +10,6 @@ import {networkInterfaces} from 'node:os';
 import {pathToFileURL} from 'node:url';
 import {handleRequest,makeVerifier,COOKIE} from '../lib/workshop-handler.mjs';
 
-const previewCookie='workshop_preview_session';
 const assets=new Map([
   ['/favicon.png','image/png'],
   ['/assets/markpro-bold.ttf','font/ttf'],
@@ -29,6 +28,9 @@ export function createPhonePreview({protectPlayground=false,autoLogin=false}={})
   };}};}}};
   const server=http.createServer(async(req,res)=>{
     try {
+      // Cookies ignore ports, but each listener has its own session database.
+      // Use the actual listening port, never the client-supplied Host header.
+      const previewCookie='workshop_preview_session_'+req.socket.localPort;
       const url=new URL(req.url,'http://'+req.headers.host);
       const redirect=canonicalRedirect(url);
       if(redirect&&['GET','HEAD'].includes(req.method)){res.writeHead(redirect.status,{Location:redirect.location});res.end();return;}

@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.320"
-  update_summary: "Correct transparent focus paint and keyboard navigation"
-  updated_at: "Thu 22 Oct 2026 at 01:34:55 pm AEDT (+11:00)"
+  doc_revision: "26.0.321"
+  update_summary: "Isolate local preview session cookies by port"
+  updated_at: "Thu 22 Oct 2026 at 01:47:40 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.319 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 01:47:40 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Isolate local preview session cookies by port
+
+### Fixed
+
+- Name local preview cookies by their actual listening port so simultaneous previews no longer overwrite one another’s sessions and reload on tab activation.
+- Apply the same isolation to automatic sign-in, manual login and logout; ignore legacy shared cookies and preserve production authentication and cookie settings.
+- Document the local-only boundary and add two-port browser coverage for Resources and protected Playground tabs.
+
+### Validation
+
+- `node --test website/tests/phone-preview.test.mjs` — all four tests passed, including manual and automatic login, logout, explicit login parameters and production authentication isolation.
+- `node website/tests/preview-port-session-browser-check.mjs` — passed in Chromium and WebKit; repeated tab activation caused no reloads, and logout/re-login remained isolated by port.
+- `npm --prefix website run build` — passed using saved backdrop geometry; generated version v26.0.319.
 
 ## v26.0.318 — 2026-10-22
 

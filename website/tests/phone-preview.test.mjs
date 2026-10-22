@@ -15,7 +15,7 @@ test('local sign-in, session, logout and independent preview credentials',async(
     assert.notEqual(a.password,b.password);
     assert.equal((await login(origin,'wrong')).status,401);
     const response=await login(origin,a.password);assert.equal(response.status,200);
-    const cookie=response.headers.get('set-cookie');assert.match(cookie,/^workshop_preview_session=/);assert.match(cookie,/HttpOnly/);assert.doesNotMatch(cookie,/; Secure/);
+    const cookie=response.headers.get('set-cookie');assert.match(cookie,new RegExp('^workshop_preview_session_'+new URL(origin).port+'='));assert.match(cookie,/HttpOnly/);assert.doesNotMatch(cookie,/; Secure/);
     const headers={cookie:cookie.split(';')[0]};
     assert.match(await(await fetch(origin,{headers})).text(),/id="workshop-content"/);
     assert.equal((await fetch(origin+'/auth/session',{headers})).status,200);
@@ -35,7 +35,7 @@ test('automatic preview sign-in uses an isolated real session and retains login 
  const {server,password}=createPhonePreview({autoLogin:true});server.listen(0,'127.0.0.1');await once(server,'listening');const origin='http://127.0.0.1:'+server.address().port;
  try{
   const first=await fetch(origin);assert.match(await first.text(),/id="workshop-content"/);assert.match(password,/^preview-/);
-  const cookie=first.headers.get('set-cookie').split(';')[0];assert.match(cookie,/^workshop_preview_session=/);
+  const cookie=first.headers.get('set-cookie').split(';')[0];assert.match(cookie,new RegExp('^workshop_preview_session_'+new URL(origin).port+'='));
   assert.equal((await fetch(origin+'/auth/session',{headers:{cookie}})).status,200);
   assert.equal((await fetch(origin+'/auth/session')).status,401);
   assert.match(await(await fetch(origin+'/?login=false')).text(),/id="access-form"/);

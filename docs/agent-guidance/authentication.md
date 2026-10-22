@@ -3,9 +3,9 @@ name: authentication-and-routing
 description: Preserve canonical routing, login states and the hidden navigation shortcut.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.9"
-  update_summary: "Simplify canonical login and Claude URL components"
-  updated_at: "Thu 22 Oct 2026 at 09:24:01 am AEDT (+11:00)"
+  doc_revision: "26.0.10"
+  update_summary: "Isolate local preview sessions by listening port"
+  updated_at: "Thu 22 Oct 2026 at 01:46:29 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -48,3 +48,7 @@ Use the canonical tab path plus the kebab-case outer H2/H3 title, as listed in [
 
 - Three taps or primary-button clicks on the Wavelength header logo within three seconds open the other page in a new tab/window using `_blank` with `noopener,noreferrer`: Resources opens `/component-playground`, and Playground opens `/ai-workshop-resources`, leaving the original page open. Reuse the same gesture handler and timing on both pages. Only the header brand area activates it; other clicks, leaving the window or changing visibility reset the sequence. Keep the existing brand markup unchanged: no Tab stop, programmatic focusability, focus ring, button/link role, action-specific screen-reader label, tooltip, hover treatment or visible affordance. Screen readers should encounter only the existing brand content. On both locked pages, recognise the coordinates of the actual blurred backdrop logo through the scrim without adding a hotspot element; never intercept the login panel. The parent may read logo bounds from the anonymous Colours iframe using `allow-same-origin`; the iframe remains inert and script-disabled (no `allow-scripts`, with CSP `script-src 'none'`). Never embed protected content or make the backdrop itself interactive. This intentionally undisclosed shortcut is an exception to the normal pointer-cursor rule. It does not grant access or bypass authentication.
 - Playground specimens exercise the same gesture handler but cancel navigation and report the simulated activation.
+
+## Local Preview Session Isolation
+
+- Local preview listeners use `workshop_preview_session_<port>`, deriving the suffix from the actual listening socket port rather than the request Host header. Translate only that cookie into the production handler at the local adapter boundary, and apply the same name to login, automatic sign-in and logout responses. Ignore the legacy shared cookie and other ports’ cookies. Keep Resources and protected Playground sessions shared within a port, and preserve production cookie settings and real session validation. Verify simultaneous browser tabs on different ports, visibility-return session checks, and logout isolation with `website/tests/preview-port-session-browser-check.mjs`.

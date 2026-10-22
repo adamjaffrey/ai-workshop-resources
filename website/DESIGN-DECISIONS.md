@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.73"
-  update_summary: "Correct transparent focus paint and keyboard navigation"
-  updated_at: "Thu 22 Oct 2026 at 01:33:44 pm AEDT (+11:00)"
+  doc_revision: "26.0.74"
+  update_summary: "Record local preview cookie isolation"
+  updated_at: "Thu 22 Oct 2026 at 01:46:29 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -541,3 +541,11 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Owner:** [Interface](../docs/agent-guidance/interface.md#playground-keyboard-and-nested-scrolling).
 
 **Focus Follow-up:** Explicitly clear the UA popover background so top-layer rings never obscure their targets. Full-height gallery roots do not scroll internally during row navigation. Round the text-sized secret ring, restart title navigation after blank top-area clicks, remove the tab marker’s reserved height and use a 2px accent rail. Let measured collapsed heights override the URL H3 minimum, and keep iframe bottom clearance at 24px independently of collapsed spacing. These corrections respond to visual and keyboard review of the previous implementation.
+
+## Local Preview Cookies Across Ports
+
+**Decision:** Give each local preview listening port its own cookie name while retaining separate in-memory session databases and the unchanged production handler. Derive the name from the actual socket port. Ignore the old shared cookie; ordinary local automatic sign-in obtains the new session.
+
+**Rationale:** Browsers share cookies across ports on a hostname. Two previews using the same cookie name replaced one another’s session token; returning to either tab then failed its visibility-triggered session check and caused repeated reloads. Distinct cookie names stop this cycle and isolate logout without weakening authentication.
+
+**Owning Rules and Sources:** [Local Preview Session Isolation](../docs/agent-guidance/authentication.md#local-preview-session-isolation), `scripts/phone-preview.mjs` and `tests/preview-port-session-browser-check.mjs`.
