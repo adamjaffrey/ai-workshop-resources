@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.81"
-  update_summary: "Stabilise heading hover heights and bold alias rendering"
-  updated_at: "Thu 22 Oct 2026 at 04:31:38 pm AEDT (+11:00)"
+  doc_revision: "26.0.82"
+  update_summary: "Preserve bold code through shared typography"
+  updated_at: "Thu 22 Oct 2026 at 04:37:00 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -570,3 +570,5 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Skip Position and Replay Availability Follow-up:** Both skip links measure the actual logo container. Measuring the taller Playground row previously placed its link 7.5px higher at ordinary widths, despite identical logo positions. Automatically looping Easter Egg modes disable Replay Animation with native disabled semantics and shared grey styling; Success Dialog remains manually replayable. Expanded accepted-password fields already inherit the green native ring, now covered explicitly by mobile/desktop native-Tab regression checks.
 
 **Heading Geometry and Alias Weight Follow-up:** Single-line section highlights use a fixed 50px height; the earlier content-ink calculation added descender depth to words containing letters such as g, p and y, producing inconsistent 52–54px rows. Expanded and collapsed rows now share their measured height, while wrapped headings keep the existing coverage and cap alignment. URL Reference applies bold code weight beyond the canonical URL column so legacy fragments visibly retain their Markdown emphasis. Expanded automatic-replay controls have explicit mobile/desktop disabled-state coverage.
+
+**Shared Code Emphasis Follow-up:** Replace the URL Reference-only bold-code override with semantic rules in shared body typography. Strong/b code inherits the emphasis despite component font shorthands and captured inline font declarations; strong/b text inside code remains emphasized too, while unmarked code stays normal. The wrapped-heading audit measured first/last ink clearance in both disclosure states, across responsive widths and forced desktop wrapping, and confirmed balance within one CSS pixel without another layout change.

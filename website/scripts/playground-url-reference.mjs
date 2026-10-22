@@ -73,7 +73,6 @@ ${copyTextCSS}
 #panel-url-reference .anchor-table th:nth-child(2){width:24%}
 #panel-url-reference .anchor-table th:nth-child(3){width:46%}
 #panel-url-reference .anchor-table th:nth-child(4){width:12%}
-#panel-url-reference strong code{font-weight:700}
 #panel-url-reference code{font:0.9em/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
 #panel-url-reference .url-code-block{position:relative;margin:16px -4px;border:1px solid var(--panel-border);border-radius:12px;background:var(--content-surface);color:var(--text)}
 #panel-url-reference .code-header{min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--panel-border);padding:12px 20px}

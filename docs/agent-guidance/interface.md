@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.70"
-  update_summary: "Stabilise heading hover heights and bold alias rendering"
-  updated_at: "Thu 22 Oct 2026 at 04:31:38 pm AEDT (+11:00)"
+  doc_revision: "26.0.71"
+  update_summary: "Preserve bold code through shared typography"
+  updated_at: "Thu 22 Oct 2026 at 04:37:00 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -374,4 +374,6 @@ Heading collapse height animations clip vertically only (`overflow-x: visible; o
 - Disable Replay Animation in the automatically looping Eligible Rainbow and Sparkles, Full Sentence, Discovery Reveal and After Closing Dialog modes. Use the shared inactive action-button colours, a not-allowed cursor and native disabled semantics so it cannot be clicked or focused. Keep Success Dialog replay enabled and preserve the existing hidden action in Natural Discovery/Locked modes.
 
 - Single-line collapsible H2/H3 heading highlights are exactly 50px high. Do not add descender depth to this fixed height. Wrapped headings retain measured full-line coverage; expanded and collapsed rows reserve the same height, and hover must not alter it. Preserve first-line cap-height/icon alignment at the centre of the 50px control and the existing exterior section gaps.
-- URL Reference must preserve bold emphasis for inline code in every column, including legacy fragment aliases. Verify computed font weight rather than only the presence of strong markup.
+- The shared body typography rules preserve semantic bold emphasis for code inside strong/b markup and strong/b text inside code, across both pages and all specimens. Component font shorthands and captured inline fonts must not reset this emphasis; keep ordinary code normal-weight. Do not add per-table fixes. Verify computed font weight, including legacy fragment aliases, rather than only the presence of strong markup.
+
+- Validate wrapped H2/H3 balance from first/last text ink bounds in both expanded and collapsed states at mobile and desktop widths, including forced desktop wrapping. Top and bottom clearance must match within one CSS pixel.

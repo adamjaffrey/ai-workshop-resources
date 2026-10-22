@@ -7,4 +7,7 @@ ul:not([role])>li{padding-inline-start:0}
 ul:not([role])>li+li{margin-top:8px}
 ul:not([role]) ul{margin-block:8px}
 code,kbd,samp{font-family:var(--body-code-font)}
+/* Semantic emphasis survives component font shorthands and captured inline fonts. */
+:is(strong,b) code{font-weight:inherit!important}
+code :is(strong,b){font-weight:bolder!important}
 `;

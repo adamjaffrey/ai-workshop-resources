@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.328"
-  update_summary: "Stabilise heading hover heights and bold alias rendering"
-  updated_at: "Thu 22 Oct 2026 at 04:33:06 pm AEDT (+11:00)"
+  doc_revision: "26.0.329"
+  update_summary: "Preserve bold code through shared typography"
+  updated_at: "Thu 22 Oct 2026 at 04:39:01 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.327 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 04:39:01 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Preserve bold code through shared typography
+
+### Changed
+
+- Replace the URL Reference-specific bold code override with shared semantic typography rules for both pages and embedded specimens.
+- Preserve strong/b emphasis around or inside code despite component font shorthands and captured inline fonts; leave ordinary code normal-weight.
+- Extend heading regression coverage to measure top/bottom text ink clearance in expanded and collapsed wrapped H2/H3 headings, including forced desktop wrapping. The existing geometry passes without another layout change.
+- Document the global emphasis rule and wrapped-heading measurement contract.
+
+### Validation
+
+- `npm --prefix website run build` — passed using saved backdrop geometry; artefacts display v26.0.327.
+- Chrome and WebKit at 320, 390, 768 and 1440px — wrapped H2/H3 text ink clearance matches within one CSS pixel in both disclosure states; fixed single-line heights and alias weights remain correct.
+- Chrome and WebKit at 390 and 1440px — shared code emphasis passed on Resources, Playground and its Typography iframe, including inline font overrides, normal code and all four legacy aliases.
+- Full Playground source parity — passed across responsive layouts, agents/themes and held states.
+- Wrapped-heading screenshot visually inspected. Physical devices were not tested.
 
 ## v26.0.326 — 2026-10-22
 
