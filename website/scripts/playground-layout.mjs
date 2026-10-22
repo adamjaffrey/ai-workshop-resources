@@ -1,9 +1,6 @@
 import {overflowFadeCSS} from '../lib/workshop-overflow.mjs';
 // Outer Playground tooling only; app specimens keep their canonical controls.
 export const playgroundLayoutCSS=String.raw`
-.skip-main{position:fixed;left:24px;top:12px;z-index:2147483647;padding:12px 16px;background:var(--surface);color:var(--text);border-radius:8px;transform:translateY(-200%)}
-.skip-main:focus{transform:none}
-
 html[data-preview-restoring]{overflow-anchor:none}
 :root[data-options-transition] #style-options{outline:none!important}
 :root[data-options-transition] .workshop-focus-overlay{visibility:hidden!important}
@@ -187,9 +184,6 @@ main.wrap{padding-top:24px}
 `;
 
 export const playgroundLayoutScript=String.raw`
-const skip=document.createElement('a');skip.className='skip-main';skip.href='#playground-main';skip.setAttribute('data-no-link-decoration','');document.querySelector('main.wrap').id='playground-main';skip.textContent='Skip to Main Content';skip.tabIndex=1;document.body.prepend(skip);
-const pageTitle=document.querySelector('.page-title-link');if(pageTitle)pageTitle.tabIndex=2;
-skip.addEventListener('click',event=>{event.preventDefault();const panel=[...document.querySelectorAll('[data-panel]')].find(e=>!e.hidden);const target=[...panel.querySelectorAll('button,input,summary,a[href],[tabindex],iframe')].find(e=>e.tabIndex>=0&&!e.disabled&&!e.closest('[inert],[hidden]')&&e.checkVisibility({checkVisibilityCSS:true}));target?.focus({preventScroll:true});window.workshopRevealFocus?.(target);});
 const tabRail=document.querySelector('nav[role=tablist]'),tabShell=document.createElement('div');tabShell.className='tab-scroll-shell mobile-edge-header';const tabAnchor=document.createElement('div');tabAnchor.className='tab-scroll-anchor';tabRail.before(tabAnchor,tabShell);tabShell.append(tabRail);
 // Keep the native scrollbar in the lower gap, outside the tab row's layout height.
 const measureTabRow=()=>{const height=tabRail.querySelector('button').getBoundingClientRect().height+'px';tabShell.style.setProperty('--tab-row-height',height);};

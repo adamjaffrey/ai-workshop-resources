@@ -17,6 +17,8 @@ html[data-specimen-gallery] body{overflow:clip}
 /* One content inset. The surrounding iframe adds none. */
 body{margin:0;padding-block:24px;padding-inline:0;background:var(--page);color:var(--text);overflow-y:hidden}
 :is(#type-specimens,#icon-catalog,#error-catalog,#focus-catalog,#link-type-specimens){padding-inline:var(--specimen-text-rail)}
+/* Resource footer space does not separate adjacent specimen groups. */
+#focus-catalog>#workshop-content{padding-bottom:0}
 html[data-specimen-gallery=icons] body{padding-bottom:16px}
 html:is([data-specimen-gallery=icons],[data-specimen-gallery=errors]) body{font:14px/1.5 system-ui}
 :is(.type-row,.agent-row,.notice-type-row,.icon-row,.focus-row){padding-block:24px;padding-inline:0;border-bottom:1px solid var(--border)}

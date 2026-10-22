@@ -7,7 +7,7 @@ try{for(const [name,engine] of Object.entries({chromium,webkit})){
  try{for(const width of [390,1440]){
  const page=await browser.newPage({viewport:{width,height:900}});
  for(const route of ['/ai-workshop-resources','/component-playground']){
- await page.goto(origin+route);const link=page.locator('a.page-title-link').first();assert.equal(await link.getAttribute('href'),route);assert.equal(await link.getAttribute('data-no-link-decoration'),'');assert.equal(await link.evaluate(e=>e.tabIndex),route.includes('component-playground')?2:1);await page.keyboard.press('Tab');await link.focus();assert.equal(await link.locator('.workshop-link-focus').evaluate(e=>getComputedStyle(e).opacity),'1');await link.press('Enter');await page.waitForURL(origin+route);
+ await page.goto(origin+route);const link=page.locator('a.page-title-link').first();assert.equal(await link.getAttribute('href'),route);assert.equal(await link.getAttribute('data-no-link-decoration'),'');assert.equal(await link.evaluate(e=>e.tabIndex),2);await page.keyboard.press('Tab');await link.focus();assert.equal(await link.locator('.workshop-link-focus').evaluate(e=>getComputedStyle(e).opacity),'1');await link.press('Enter');await page.waitForURL(origin+route);
  }
  await page.locator('[data-tab=icons]').click();await page.waitForTimeout(500);
  const icons=await page.locator('.playground-icon-entry h3').evaluateAll(es=>es.filter(e=>e.getBoundingClientRect().width).map(e=>({font:parseFloat(getComputedStyle(e).fontSize),icon:e.querySelector('svg').getBoundingClientRect().width})));assert.ok(icons.length);for(const i of icons)assert.ok(Math.abs(i.font-i.icon)<.1);

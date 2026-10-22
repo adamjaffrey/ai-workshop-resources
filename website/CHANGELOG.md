@@ -3,14 +3,43 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.323"
-  update_summary: "Unify keyboard navigation and sharp focus corners"
-  updated_at: "Thu 22 Oct 2026 at 03:24:45 pm AEDT (+11:00)"
+  doc_revision: "26.0.324"
+  update_summary: "Align skip navigation and specimen focus boundaries"
+  updated_at: "Thu 22 Oct 2026 at 03:49:47 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.322 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 03:49:47 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Align skip navigation and specimen focus boundaries
+
+### Changed
+
+- Share Skip to Main Content between Resources and Playground, placed above the logo with standard hyperlink paint and a tight contour ring. Resources skips directly to Step 1.
+- Reserve the full measured expanded URL H3 hover height without changing its surrounding content margins.
+- Move QR copy and caption typography specimens before Selector Label.
+- Keep focused neutral/checking password fields blue and accepted fields green, with blue exterior rings; retain error rings and isolated specimen state.
+- Place static row rings 3px clear of dividers and 10px from the first/last container edges. Remove inherited footer padding above Password · Neutral.
+- Document the shared navigation, field-colour and geometry rules.
+
+### Validation
+
+- `npm --prefix website run build` — passed with saved backdrop geometry; generated artefacts display v26.0.322.
+- Chrome and WebKit at 320, 390, 768 and 1440px: skip targets/placement, password colours, row clearances, typography order, control keyboard behaviour, focus boundaries and wrapped-heading geometry passed.
+- Chrome and WebKit at 390 and 1440px: expanded navigation and specimen parity checks passed.
+- Full Playground source-parity check passed across responsive layouts, agents/themes, typography and held login states.
+- Mobile skip-link and static row-ring screenshots inspected. Physical devices were not tested.
 
 ## v26.0.321 — 2026-10-22
 

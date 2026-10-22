@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.76"
-  update_summary: "Unify keyboard navigation and sharp focus corners"
-  updated_at: "Thu 22 Oct 2026 at 03:21:42 pm AEDT (+11:00)"
+  doc_revision: "26.0.77"
+  update_summary: "Align skip navigation and specimen focus boundaries"
+  updated_at: "Thu 22 Oct 2026 at 03:49:04 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -554,3 +554,11 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Rationale:** Browsers share cookies across ports on a hostname. Two previews using the same cookie name replaced one another’s session token; returning to either tab then failed its visibility-triggered session check and caused repeated reloads. Distinct cookie names stop this cycle and isolate logout without weakening authentication.
 
 **Owning Rules and Sources:** [Local Preview Session Isolation](../docs/agent-guidance/authentication.md#local-preview-session-isolation), `scripts/phone-preview.mjs` and `tests/preview-port-session-browser-check.mjs`.
+
+## Skip Navigation and Specimen Focus Boundaries
+
+**Decision:** Share the keyboard-visible skip link between Resources and Playground, with standard inline-link paint above the logo. Keep password state ink separate from its keyboard-location ring. Bound static row rings by their dividers and the gallery edges; remove inherited app footer spacing between specimen groups. Reserve the measured expanded URL H3 hover height in layout.
+
+**Reason:** Adam requested equivalent mobile and desktop keyboard navigation, tighter skip-link focus geometry, green accepted fields with blue rings, and explicit row clearance. Expanded H3 paint previously exceeded its reserved row height and consumed part of the existing content gap.
+
+**Owner:** [Interface contract](../docs/agent-guidance/interface.md#playground-navigation-and-paired-specimens).

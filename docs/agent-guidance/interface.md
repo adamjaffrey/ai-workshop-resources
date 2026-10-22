@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.65"
-  update_summary: "Unify keyboard navigation and sharp focus corners"
-  updated_at: "Thu 22 Oct 2026 at 03:21:42 pm AEDT (+11:00)"
+  doc_revision: "26.0.66"
+  update_summary: "Align skip navigation and specimen focus boundaries"
+  updated_at: "Thu 22 Oct 2026 at 03:49:04 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -341,7 +341,7 @@ Heading collapse height animations clip vertically only (`overflow-x: visible; o
 
 ## Page Titles and Discovery Focus
 
-- The Resources and Playground H1 headings navigate to their canonical page roots as ordinary keyboard-focusable links. Make the real page title the first native Tab stop, before theme and QR controls, using one priority title stop on Resources; Playground places its keyboard-visible Skip to Main Content link first and the H1 second; captured specimen links remain in ordinary row order. Clicking noninteractive content establishes a local keyboard origin: forward/reverse Tab continues to the next/previous eligible control near that click, using shared geometry instead of section-specific boundaries. Clicks on controls retain their native navigation. Resting and visited title text/icons retain the theme’s normal text ink. Preserve heading typography and omit section-anchor copying, hash icons and link arrows. Use the shared anchor hover/keyboard-focus fill, ink and optical shadow decoration on each wrapped line. The shared link-surface mask encloses the union of all painted fragments with a 3px exterior gap and 3px ring; hit areas cover that paint too. Status States demonstrates the clickable title treatment and left-aligned Step 1 and right-aligned Step 2 anchor-copy styles.
+- The Resources and Playground H1 headings navigate to their canonical page roots as ordinary keyboard-focusable links. Both pages place their keyboard-visible Skip to Main Content link first and the H1 second, before theme and QR controls; captured specimen links remain in ordinary row order. Clicking noninteractive content establishes a local keyboard origin: forward/reverse Tab continues to the next/previous eligible control near that click, using shared geometry instead of section-specific boundaries. Clicks on controls retain their native navigation. Resting and visited title text/icons retain the theme’s normal text ink. Preserve heading typography and omit section-anchor copying, hash icons and link arrows. Use the shared anchor hover/keyboard-focus fill, ink and optical shadow decoration on each wrapped line. The shared link-surface mask encloses the union of all painted fragments with a 3px exterior gap and 3px ring; hit areas cover that paint too. Status States demonstrates the clickable title treatment and left-aligned Step 1 and right-aligned Step 2 anchor-copy styles.
 - Scale Playground H3 heading icons to 1em and retain measured cap-height alignment and optical outdents.
 - The Easter Egg keyboard focus ring encloses the measured text bounds of both halves as one rounded rectangle with an 8px corner radius, never the full page rail, including after closing and reopening its success dialog. Keep the dialog capped at 440px and exclude dialogs from normal page-child width rules so the rainbow path and displayed modal use identical geometry.
 - The Style Options ellipsis and its X state share the same 50px control and exterior 3px ring with 3px clearance; moving into the dialog must not clip or resize that ring.
@@ -356,11 +356,14 @@ Heading collapse height animations clip vertically only (`overflow-x: visible; o
 
 - The standalone prompt-text specimen retains square upper container corners as in the app; its exterior focus ring still softens those corners.
 - The isolated Scan to Open caption is left-aligned, independent of the header grid and Step N anchor alignment. Its viewport only scrolls when genuinely too narrow and is never a keyboard stop.
-- Frozen theme-icon examples retain their captured theme’s hover fill and foreground tokens. Password-icon captures retain their source state focus ink after removal from the login panel.
+- Frozen theme-icon examples retain their captured theme’s hover fill and foreground tokens. Password-icon captures retain their source state after removal from the login panel. Keyboard-focused neutral/checking fields use accent-blue text and borders; accepted fields retain green text and borders with an accent-blue exterior ring. Error fields retain their error-colour ring. Share this rule with full login contexts.
 
 ### Playground Navigation and Paired Specimens
 
-- Skip to Main Content is the first Playground keyboard stop, visible when focused. It bypasses the title, floating actions, global selectors and tab bar, focusing the first eligible control in the active content panel.
+- Skip to Main Content is the first keyboard stop on Resources and Playground, visible when focused. Place it left-aligned with the logo and vertically centred in the space above it; use the ordinary hyperlink decoration and its tight shared exterior contour. Resources targets the first step anchor, bypassing H1, QR and selectors. Playground bypasses the title, floating actions, global selectors and tab bar, focusing the first eligible control in the active content panel. Do not inject page-level skip links into embedded specimens.
 - Apply shared focus styling, state colours, keyboard groups and nested-scroll revelation inside Expand View on mobile and desktop. Do not let automatic iframe preview state changes take focus from the outer page. The Easter Egg success fixture may display its dialog passively; real-site discovery retains its modal heading focus.
 - Defined Styles shows Resting State on the left and Hover State on the right for both short and multiline links. Keep text-selection demonstrations in Focus and Selection rather than duplicating them here.
 - Put H1 Heading · Clickable Link · Hover State before QR specimens. H2 anchor examples use Step 1 for left alignment and Step 2 for right alignment, with Copy Link, Copy Success and Copy Failure titles and a Right-Aligned suffix where applicable. Pair Hover on the left with Resting on the right, stacking when needed. The neutral resting copy example is plain heading text without its hover hash.
+
+- Static Focus and Selection row rings sit 3px inside the horizontal divider lines. The first and last rings extend to 10px from the gallery container edges. Do not inherit the Resources footer padding between resource and login specimen groups.
+- Expanded URL H3 rows reserve their full measured hover height, just like collapsed rows, while retaining the independent 20px content gap.

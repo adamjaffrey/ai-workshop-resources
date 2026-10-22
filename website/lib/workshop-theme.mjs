@@ -1,3 +1,4 @@
+import {skipNavigationCSS,skipNavigationScript} from './workshop-skip-navigation.mjs';
 import {keyboardNavigationScript} from './workshop-keyboard-navigation.mjs';
 import {groupFocusCSS} from './workshop-group-focus.mjs';
 import {bodyTypeCSS} from './workshop-body-type.mjs';
@@ -85,6 +86,13 @@ html, body { overflow-x: hidden; }
 }
 /* Small default corners keep native outlines from producing needle-sharp joins. */
 :where(button,a[href],input,textarea,select,summary,[tabindex]){border-radius:var(--focus-sharp-radius)}
+/* State ink and keyboard location are separate: success stays green, the ring stays accent. */
+.password-field{--password-focus-text:var(--icon-ink)}
+:is(.gate-panel.is-success .password-field,.password-field[data-password-state=success]){--password-focus-text:var(--success)}
+:is(.gate-panel.is-password-error .password-field,.password-field[data-password-state=wrong]){--password-focus-text:var(--error)}
+:root[data-focus-input=keyboard] .password-field:focus-within{border-color:var(--password-focus-text);outline-color:var(--icon-ink)}
+:root[data-focus-input=keyboard] .password-field:focus-within input{color:var(--password-focus-text)!important}
+:root[data-focus-input=keyboard] :is(.gate-panel.is-password-error .password-field,.password-field[data-password-state=wrong]):focus-within{outline-color:var(--error)}
 /* Pointer focus remains real, but navigation rings belong to keyboard Tab use. */
 :root:not([data-focus-input="keyboard"]) :focus:not(input):not(textarea):not([contenteditable="true"]) { outline: none; }
 :root:not([data-focus-input="keyboard"]) input:is([type="radio"],[type="checkbox"],[type="range"]):focus { outline: none; }
@@ -326,7 +334,7 @@ export function withTheme(html, login = false) {
     const path=heading.includes('Component Playground')?'/component-playground':heading.includes('AI Workshop Resources')?'/ai-workshop-resources':null;
     return path?`<a class="page-title-link" tabindex="1" data-no-link-decoration href="${path}">${heading}</a>`:heading;
   });
-  html = html.replace('</head>', `<style data-workshop-theme-styles>${styles}\n${groupFocusCSS}\n${linkCSS}\n${colourValueCSS}\n${alignmentCSS}\n${bodyTypeCSS}</style><script nonce="__NONCE__" data-workshop-theme>${agentScript}\n${playgroundFaviconScript}\n${toggleScript}\n${script}\n${keyboardNavigationScript}\n${linkScript}\n${colourValueScript}</script></head>`);
+  html = html.replace('</head>', `<style data-workshop-theme-styles>${styles}\n${groupFocusCSS}\n${linkCSS}\n${colourValueCSS}\n${alignmentCSS}\n${bodyTypeCSS}\n${skipNavigationCSS}</style><script nonce="__NONCE__" data-workshop-theme>${agentScript}\n${playgroundFaviconScript}\n${toggleScript}\n${script}\n${keyboardNavigationScript}\n${linkScript}\n${skipNavigationScript}\n${colourValueScript}</script></head>`);
   if (login) return html.replace('</h2>', `</h2><div class="gate-toolbar"><p class="eyebrow">Workshop Access</p>${control}</div>`);
   return html.replace('<div class="brand" aria-label="Wavelength">', '<div class="page-toolbar"><div class="brand" aria-label="Wavelength">')
     .replace('    <header class="page-header">', `    ${control}</div>\n    <header class="page-header">`);

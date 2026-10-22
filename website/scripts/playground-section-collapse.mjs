@@ -13,7 +13,7 @@ html:has(#playground-title){scrollbar-gutter:stable}
 :is([data-panel]>.panel,.url-subsection):not(.is-expanded)>.section-heading :is(h2,h2 *,h3,h3 *,button,button *){cursor:pointer!important}
 .section-collapse>svg{position:relative;z-index:1;display:block;width:24px;height:24px;transform:translate(0,1px) rotate(0deg);transform-origin:center;transition:transform 160ms ease}
 #panel-url-reference .panel .url-subsection{padding-top:20px}
-#panel-url-reference .panel .url-subsection>.section-heading{min-height:50px;margin-bottom:20px}
+#panel-url-reference .panel .url-subsection>.section-heading{min-height:var(--collapsed-heading-height,50px);margin-bottom:20px}
 #panel-url-reference .panel .url-subsection[data-collapsed]{padding-bottom:20px}
 #panel-url-reference .panel .url-subsection[data-collapsed]+.url-subsection{margin-top:0}
 #panel-url-reference .panel .url-subsection[data-collapsed]:last-child{padding-bottom:0}
