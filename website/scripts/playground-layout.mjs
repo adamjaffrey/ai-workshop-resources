@@ -294,7 +294,7 @@ document.fonts.ready.then(measureStickyControls);measureStickyControls();
 export const selectorRowCSS=`
 /* Keep the tab landing reachable while lazy specimen frames are still empty. */
 [data-panel]{min-height:calc(100dvh - var(--sticky-tab-top,24px))}
-[data-panel]>.panel{margin-block:16px}
+[data-panel]>.panel:where(:not(.is-expanded)){margin-block:16px}
 #panel-url-reference .url-reference-intro{margin-bottom:16px}
 #perspective-replay{padding:10px;gap:8px}
 /* Outer Playground actions share selector-group height; specimens stay canonical. */

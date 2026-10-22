@@ -3,14 +3,41 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.339"
-  update_summary: "Share focus order with embeds and expanded Style Options"
-  updated_at: "Thu 22 Oct 2026 at 06:34:25 pm AEDT (+11:00)"
+  doc_revision: "26.0.340"
+  update_summary: "Reset expanded controls and fix modal spacing and anchor copying"
+  updated_at: "Thu 22 Oct 2026 at 06:56:20 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.338 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 06:56:20 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Reset expanded controls and fix modal spacing and anchor copying
+
+### Fixed
+
+- Reset Style Options to contracted and Preview Controls to expanded every time any of the five Expand View modules opens.
+- Exclude expanded dialogs from normal panel margins, removing the Resources view’s extra 16px grey top strip while retaining inline spacing.
+- Put the shared anchor-copy fallback textarea inside its invoking modal so it can receive focus and select the URL. Verify focus, full selection and the copy result before showing success; restore heading focus afterwards.
+- Record the opening defaults and modal copy/viewport rules in the Interface contract and decision log.
+
+### Validation
+
+- `node website/tests/expanded-defaults-and-copy-browser-check.mjs` — passed Chrome/WebKit at 320, 390, 768 and 1440px for all five modules: initial/reopening state, viewport bounds, pointer/keyboard copy, failure feedback and focus restoration. Chrome read the actual clipboard for native and fallback copy; WebKit verified the fallback copy event and selected URL.
+- Embedded page/navigation checks — passed Chrome/WebKit at 390 and 1440px, including every expanded Style Options panel.
+- Full Playground anchor inventory, anchor presentation and independent app/specimen source-parity checks — passed.
+- Before/after Resources geometry — 16px top margin removed at mobile and desktop widths; corrected mobile screenshot inspected.
+- `npm --prefix website run build` — passed using saved backdrop geometry. PVS and Git whitespace validation — passed. Physical-device testing was not performed.
 
 ## v26.0.337 — 2026-10-22
 

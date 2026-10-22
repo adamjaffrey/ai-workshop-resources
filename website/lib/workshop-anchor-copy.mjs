@@ -28,7 +28,14 @@ export function installAnchorCopy(buttons,urlFor,timing,frames){
    const url=urlFor(button);
    try{
     if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(url.href);
-    else{const field=document.createElement('textarea');field.value=url.href;field.style.cssText='position:fixed;left:-10000px;top:0';document.body.append(field);try{field.select();if(!document.execCommand('copy'))throw Error('Copy unavailable');}finally{field.remove();button.focus({preventScroll:true});}}
+    else{
+     // Body siblings are inert while a native modal is open. Keep the fallback
+     // field inside the invoking modal so selection and copying reach this URL.
+     const field=document.createElement('textarea');field.value=url.href;field.readOnly=true;field.style.cssText='position:fixed;left:-10000px;top:0';
+     (button.closest('dialog:modal')||document.body).append(field);
+     try{field.focus({preventScroll:true});field.select();if(document.activeElement!==field||field.selectionStart!==0||field.selectionEnd!==field.value.length||!document.execCommand('copy'))throw Error('Copy unavailable');}
+     finally{field.remove();button.focus({preventScroll:true});}
+    }
     success=true;
    }catch{}
    if(feedback.get(button)!==state)return;

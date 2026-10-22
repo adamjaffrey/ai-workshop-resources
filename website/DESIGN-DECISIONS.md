@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.91"
-  update_summary: "Extend page navigation to embeds and expanded Style Options"
-  updated_at: "Thu 22 Oct 2026 at 06:31:50 pm AEDT (+11:00)"
+  doc_revision: "26.0.92"
+  update_summary: "Record expanded defaults and modal clipboard fixes"
+  updated_at: "Thu 22 Oct 2026 at 06:53:35 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -627,3 +627,11 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Reason:** Adam requested the updated page navigation in these embedded contexts and their existing expanded views. Previously all frames suppressed skip links, the fallback had an H1-first special case, and expanded controls inherited the explainer’s earlier DOM position. Local skip activation is now allowed by the specimen bridge; ordinary navigation remains blocked. This supersedes the blanket exclusion of skip links from embedded specimens only for the named full-page contexts.
 
 **Owner:** [Playground Navigation and Paired Specimens](../docs/agent-guidance/interface.md#playground-navigation-and-paired-specimens).
+
+## Expanded View Defaults, Viewport Bounds and Clipboard
+
+**Decision:** Reset Style Options closed and Preview Controls open on every expansion. Apply normal 16px inter-panel margins only to inline panels. Place fallback anchor-copy fields within the invoking modal and verify focus and full selection before issuing the copy command. Preserve ordinary Clipboard API behaviour, native focus containment and existing feedback timing.
+
+**Reason:** Adam requested consistent reopening defaults and reported a grey top strip and false copy success in expanded views. Resources is the second Components panel, so it inherited a 16px top margin while first-panel rules concealed the issue elsewhere. The body-level fallback textarea was inert outside the modal: the platform copy command could return success while leaving the clipboard unchanged. Actual clipboard reads reproduced that failure and verified the corrected URL after moving the field inside the dialog.
+
+**Owner:** [Interface](../docs/agent-guidance/interface.md#playground-heading-anchor-controls) and its preview-layout rules.
