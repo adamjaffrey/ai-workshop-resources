@@ -3,8 +3,8 @@
 export const linkSurfaceCSS=`
 .workshop-link-surface{position:absolute;display:block;box-sizing:border-box;padding:0;margin:0;border:0;border-radius:.2em;background:transparent;pointer-events:auto;cursor:inherit}
 .workshop-link-focus{position:absolute;display:block;pointer-events:none;background:var(--icon-ink);opacity:0;mask-size:100% 100%;mask-repeat:no-repeat}
-:root[data-focus-input="keyboard"] :is(a.workshop-link[href],.step-anchor):focus:has(>.workshop-link-focus){outline:none!important}
-:root[data-focus-input="keyboard"] :is(a.workshop-link[href],.step-anchor):focus>.workshop-link-focus{opacity:1}
+:root[data-focus-input="keyboard"] :is(a.workshop-link[href],.step-anchor,a.page-title-link):focus:has(>.workshop-link-focus){outline:none!important}
+:root[data-focus-input="keyboard"] :is(a.workshop-link[href],.step-anchor,a.page-title-link):focus>.workshop-link-focus{opacity:1}
 `;
 export function installLinkSurfaces(){
  let pending=false;
@@ -12,12 +12,25 @@ export function installLinkSurfaces(){
  function schedule(){if(!pending){pending=true;requestAnimationFrame(refresh);}}
  function refresh(){
   pending=false;
-  for(const link of document.querySelectorAll('a.workshop-link[href],.step-anchor')){
+  for(const link of document.querySelectorAll('a.workshop-link[href],.step-anchor,a.page-title-link')){
    const parent=link.parentElement;if(!watched.has(parent)){watched.add(parent);resize.observe(parent);}
-   const rects=[...link.getClientRects()].filter(r=>r.width&&r.height);
+   const heading=link.matches('.page-title-link')?link.querySelector('h1'):null;
+   let rects=[...link.getClientRects()].filter(r=>r.width&&r.height);
+   if(heading){
+    const pieces=[],walker=document.createTreeWalker(heading,NodeFilter.SHOW_TEXT);let text;
+    while(text=walker.nextNode()){if(!text.textContent.trim()||text.parentElement.closest('svg'))continue;const range=document.createRange();range.selectNodeContents(text);pieces.push(...range.getClientRects());}
+    pieces.push(...[...heading.querySelectorAll(':scope>svg')].map(e=>e.getBoundingClientRect()));
+    rects=[];
+    for(const r of pieces.sort((a,b)=>a.top-b.top||a.left-b.left)){
+     if(!r.width||!r.height)continue;
+     const line=rects.find(b=>Math.min(b.bottom,r.bottom)-Math.max(b.top,r.top)>Math.min(b.height,r.height)/2);
+     if(line){line.left=Math.min(line.left,r.left);line.top=Math.min(line.top,r.top);line.right=Math.max(line.right,r.right);line.bottom=Math.max(line.bottom,r.bottom);line.width=line.right-line.left;line.height=line.bottom-line.top;}
+     else rects.push({left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height});
+    }
+   }
    const old=[...link.querySelectorAll(':scope>.workshop-link-surface')];
    if(!rects.length){old.forEach(el=>el.remove());continue;}
-   const font=parseFloat(getComputedStyle(link).fontSize);
+   const font=parseFloat(getComputedStyle(heading||link).fontSize);
    // An absolute zero-origin probe handles inline containing blocks and transforms.
    const probe=old[0]||document.createElement('span');
    probe.className='workshop-link-surface';probe.setAttribute('aria-hidden','true');
@@ -30,6 +43,11 @@ export function installLinkSurfaces(){
     if(!surface.parentElement)link.append(surface);
    });
    old.slice(rects.length).forEach(el=>el.remove());
+   if(heading){
+    const paints=[...link.querySelectorAll(':scope>.workshop-title-paint')];
+    rects.forEach((r,i)=>{const paint=paints[i]||document.createElement('span');paint.className='workshop-title-paint';paint.setAttribute('aria-hidden','true');Object.assign(paint.style,{left:r.left-origin.left+'px',top:r.top-origin.top+'px',width:r.width+'px',height:r.height+'px',fontSize:font+'px'});if(!paint.parentElement)link.prepend(paint);});
+    paints.slice(rects.length).forEach(e=>e.remove());
+   }
    // The ring follows the union of the actual background and two shadow shapes.
    // A mask subtracts the 3px clearance region from the 6px outer extent, so
    // wrapped lines share one perimeter without internal overlapping outlines.
@@ -48,9 +66,9 @@ export function installLinkSurfaces(){
   }
  }
  window.refreshWorkshopLinkSurfaces=schedule;
- new MutationObserver(records=>{if(records.some(r=>!r.target.closest?.('.workshop-link-surface,.workshop-link-focus')&&[...r.addedNodes,...r.removedNodes].some(n=>!n.matches?.('.workshop-link-surface,.workshop-link-focus'))))schedule();}).observe(document.body,{childList:true,subtree:true});
+ new MutationObserver(records=>{if(records.some(r=>!r.target.closest?.('.workshop-link-surface,.workshop-link-focus,.workshop-title-paint')&&[...r.addedNodes,...r.removedNodes].some(n=>!n.matches?.('.workshop-link-surface,.workshop-link-focus,.workshop-title-paint'))))schedule();}).observe(document.body,{childList:true,subtree:true});
  document.addEventListener('toggle',schedule,true);
- document.addEventListener('focusin',event=>{if(event.target.matches('a.workshop-link[href],.step-anchor'))refresh();});
+ document.addEventListener('focusin',event=>{if(event.target.matches('a.workshop-link[href],.step-anchor,a.page-title-link'))refresh();});
  window.addEventListener('resize',schedule);
  document.fonts.ready.then(schedule);schedule();
 }

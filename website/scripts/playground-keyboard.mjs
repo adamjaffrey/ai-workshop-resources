@@ -33,7 +33,7 @@ export function installPlaygroundKeyboard(){
   const e=event.target;if(!(e instanceof HTMLElement))return;
   if(document.documentElement.dataset.focusInput!=='keyboard')return;
   if(gallery)showActualFocus(e);
-  const use=!e.matches('[data-panel-heading],.step-anchor,a.workshop-link,.perspective-discover')&&(gallery||e.matches('[data-scroll-focus],input[type=range],#style-dialog #style-options')||e.closest('.preview-dialog.is-expanded'));
+  const use=!e.matches('[data-panel-heading],.step-anchor,a.workshop-link,a.page-title-link,.perspective-discover')&&(gallery||e.matches('[data-scroll-focus],input[type=range],#style-dialog #style-options')||e.closest('.preview-dialog.is-expanded'));
   if(active)active.removeAttribute('data-overlay-focus');active=use?e:null;if(active)active.setAttribute('data-overlay-focus','');
   requestAnimationFrame(()=>{reveal(e);paint();});
  });
@@ -61,7 +61,7 @@ export function installPlaygroundKeyboard(){
    if(!document.hasFocus())entryDirection=Boolean(event.data.reverse);
    document.documentElement.dataset.focusInput='keyboard';
    for(const frame of document.querySelectorAll('iframe'))frame.contentWindow?.postMessage({guide:'keyboard-mode',reverse:event.data.reverse},'*');
-   const e=document.activeElement;if(document.hasFocus()&&e&&e!==document.body){const use=!e.matches('[data-panel-heading],.step-anchor,a.workshop-link,.perspective-discover')&&(gallery||e.matches('[data-scroll-focus],input[type=range],#style-dialog #style-options')||e.closest('.preview-dialog.is-expanded'));if(use){if(gallery)showActualFocus(e);active=e;e.setAttribute('data-overlay-focus','');requestAnimationFrame(()=>{reveal(e);paint();});}}
+   const e=document.activeElement;if(document.hasFocus()&&e&&e!==document.body){const use=!e.matches('[data-panel-heading],.step-anchor,a.workshop-link,a.page-title-link,.perspective-discover')&&(gallery||e.matches('[data-scroll-focus],input[type=range],#style-dialog #style-options')||e.closest('.preview-dialog.is-expanded'));if(use){if(gallery)showActualFocus(e);active=e;e.setAttribute('data-overlay-focus','');requestAnimationFrame(()=>{reveal(e);paint();});}}
   }
   if(event.source===parent&&event.data?.guide==='keyboard-pan')window.scrollBy({left:event.data.dx,top:event.data.dy,behavior:'instant'});
   if(event.data?.guide!=='keyboard-target')return;

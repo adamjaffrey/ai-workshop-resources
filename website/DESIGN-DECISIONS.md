@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.69"
-  update_summary: "Define title navigation and consistent discovery focus geometry"
-  updated_at: "Thu 22 Oct 2026 at 12:15:16 pm AEDT (+11:00)"
+  doc_revision: "26.0.70"
+  update_summary: "Share anchor decoration and wrapped focus with page titles"
+  updated_at: "Thu 22 Oct 2026 at 12:27:49 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -511,5 +511,13 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Decision:** Make the two page titles ordinary canonical-root navigation links, scale H3 icons with their text, and retain one rounded inscription focus boundary across discovery states. Keep the Style Options focus boundary unchanged when its ellipsis becomes an X.
 
 **Reason:** Adam requested keyboard-accessible title navigation without section-anchor behaviour and consistent focus geometry. A general main-child width rule stretched the real discovery dialog to the page rail while its detached animation measurement remained 440px; excluding dialogs restores the original bounded modal and matching rainbow path.
+
+**Owner:** [Page Titles and Discovery Focus](../docs/agent-guidance/interface.md#page-titles-and-discovery-focus).
+
+## Page-Title Anchor Decoration
+
+**Decision:** Reuse the shared anchor paint and link-surface focus contour for ordinary H1 navigation, measuring each text line and the existing leading heading icon without changing heading layout. Keep hash/copy affordances absent. Show the clickable-title treatment and left-aligned Step 2 copy style in Status States.
+
+**Reason:** Adam requested identical hover decoration and exterior focus clearance, including wrapped titles. Shared paint tokens and one union mask keep hover, click coverage and focus boundaries consistent.
 
 **Owner:** [Page Titles and Discovery Focus](../docs/agent-guidance/interface.md#page-titles-and-discovery-focus).

@@ -3,14 +3,40 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.316"
-  update_summary: "Refine title navigation and discovery focus geometry"
-  updated_at: "Thu 22 Oct 2026 at 12:16:22 pm AEDT (+11:00)"
+  doc_revision: "26.0.317"
+  update_summary: "Share anchor decoration with clickable page titles"
+  updated_at: "Thu 22 Oct 2026 at 12:29:29 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.315 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 12:29:29 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Share anchor decoration with clickable page titles
+
+### Changed
+
+- Give both clickable H1 titles the shared anchor hover and keyboard-focus decoration without hash or copy icons.
+- Reuse the shared hit-area and focus-mask renderer for wrapped title fragments, retaining a 3px ring outside 3px of clearance around the complete decoration.
+- Add Clickable Link · Page Title and Left-Aligned Step 2 · Copy Link examples to Status States using source styles.
+- Document the shared treatment and keep gallery focus from replacing its custom contour.
+
+### Validation
+
+- `npm --prefix website run build` — passed using saved backdrop geometry; generated artefacts display v26.0.315.
+- Title decoration, wrapped focus geometry and both new Status States specimens — passed in Chromium and WebKit at 320, 390, 768 and 1440px.
+- Shared link hit-area, focus, source-spacing and Step 2 regression checks — passed in both engines at all four widths.
+- Wrapped Resources and Playground focus screenshots inspected; both LAN preview destinations returned HTTP 200 with the new version. Physical devices were not tested.
 
 ## v26.0.314 — 2026-10-22
 

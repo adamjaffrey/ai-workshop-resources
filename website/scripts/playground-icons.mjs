@@ -78,6 +78,8 @@ window.addEventListener('message',async event=>{
   await agent('codex');agentTypography.push({agent:'codex',html:iconSnapshot(document.querySelector('.controls .toggle'),page,'Codex Selected',true).html});add(document.querySelector('[data-agent=codex] svg'),'Selected · Codex');
   await agent('claude-code');agentTypography.push({agent:'claude-code',html:iconSnapshot(document.querySelector('.controls .toggle'),page,'Claude Code Selected',true).html});add(document.querySelector('[data-agent="claude-code"] svg'),'Selected · Claude Code');await agent(savedAgent);
   document.querySelectorAll('.symbol svg').forEach(node=>add(node,'Step Icon'));
+  const titleLink=document.querySelector('a.page-title-link');
+  if(titleLink){const clone=titleLink.cloneNode(true);clone.querySelectorAll('.workshop-title-paint,.workshop-link-surface,.workshop-link-focus').forEach(e=>e.remove());clone.dataset.linkPreview='hover';const heading=clone.querySelector('h1');Object.assign(heading.style,specimenTypography(titleLink.querySelector('h1')));heading.style.margin='0';preserveSpecimenSize(clone,titleLink);errors.push({page,state:'Clickable Link · Page Title',selector:'a.page-title-link',colour:getComputedStyle(titleLink).color,html:clone.outerHTML,text:clone.textContent});}
   const stepAnchor=document.querySelector('.step-anchor');
   if(stepAnchor){
    window.workshopResourceAnchors.resetCopy(stepAnchor);stepAnchor.setAttribute('data-anchor-preview','');finishCaptureMotion();
@@ -90,7 +92,9 @@ window.addEventListener('message',async event=>{
   const rightAnchor=document.querySelector('.step-row:nth-child(2) .step-anchor');
   if(rightAnchor){
    rightAnchor.setAttribute('data-anchor-preview','');finishCaptureMotion();
-   addError(rightAnchor,'Right-Aligned Step 2 · Copy Link');
+   const row=rightAnchor.closest('.step-row'),home=row.parentElement,marker=document.createComment('step-two-home');row.before(marker);home.prepend(row);
+   finishCaptureMotion();addError(rightAnchor,'Left-Aligned Step 2 · Copy Link');marker.replaceWith(row);errors.at(-1).selector=sourceSelector(rightAnchor);
+   finishCaptureMotion();addError(rightAnchor,'Right-Aligned Step 2 · Copy Link');
    await copy(rightAnchor,true);addError(rightAnchor,'Right-Aligned Step 2 · Link Copied');
    await copy(rightAnchor,false);addError(rightAnchor,'Right-Aligned Step 2 · Copy Failed');
    window.workshopResourceAnchors.resetCopy(rightAnchor);rightAnchor.removeAttribute('data-anchor-preview');

@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.59"
-  update_summary: "Define title navigation and consistent discovery focus geometry"
-  updated_at: "Thu 22 Oct 2026 at 12:15:16 pm AEDT (+11:00)"
+  doc_revision: "26.0.60"
+  update_summary: "Share anchor decoration and wrapped focus with page titles"
+  updated_at: "Thu 22 Oct 2026 at 12:27:49 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -337,7 +337,7 @@ Heading collapse height animations clip vertically only (`overflow-x: visible; o
 
 ## Page Titles and Discovery Focus
 
-- The Resources and Playground H1 headings navigate to their canonical page roots as ordinary keyboard-focusable links. Preserve heading typography and omit section-anchor copying and link-arrow decoration.
+- The Resources and Playground H1 headings navigate to their canonical page roots as ordinary keyboard-focusable links. Preserve heading typography and omit section-anchor copying, hash icons and link arrows. Use the shared anchor hover/keyboard-focus fill, ink and optical shadow decoration on each wrapped line. The shared link-surface mask encloses the union of all painted fragments with a 3px exterior gap and 3px ring; hit areas cover that paint too. Status States demonstrates the clickable title treatment and both left- and right-aligned Step 2 anchor-copy styles.
 - Scale Playground H3 heading icons to 1em and retain measured cap-height alignment and optical outdents.
 - The Easter Egg keyboard focus ring encloses both halves of the inscription as one rounded block, including after closing and reopening its success dialog. Keep the dialog capped at 440px and exclude dialogs from normal page-child width rules so the rainbow path and displayed modal use identical geometry.
 - The Style Options ellipsis and its X state share the same 50px control and exterior 3px ring with 3px clearance; moving into the dialog must not clip or resize that ring.
