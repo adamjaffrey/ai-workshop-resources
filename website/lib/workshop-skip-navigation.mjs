@@ -11,7 +11,7 @@ export function installSkipNavigation(){
   const brand=document.querySelector(playground?'.playground-brand-row .brand':'.page-toolbar .brand');if(!brand)return;
   const wrapper=document.createElement('div');wrapper.className='skip-main-position';
   const link=document.createElement('a');link.className='skip-main workshop-link--internal';link.textContent='Skip to Main Content';link.tabIndex=1;
-  link.href=playground?'#playground-main':'#resource-step-1';title.tabIndex=2;
+  link.href=playground?'#playground-main':'#resource-step-1';title.tabIndex=0;
   if(playground)document.querySelector('main.wrap').id='playground-main';
   wrapper.append(link);document.body.prepend(wrapper);window.decorateWorkshopLinks?.();
   const position=()=>{const rect=brand.getBoundingClientRect();wrapper.style.setProperty('--skip-left',rect.left+scrollX+'px');wrapper.style.setProperty('--skip-top',Math.max(14,(rect.top+scrollY)/2)+'px');window.refreshWorkshopLinkSurfaces?.();};

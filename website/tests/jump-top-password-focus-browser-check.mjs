@@ -20,7 +20,7 @@ try {
     await page.keyboard.press('Tab');
     assert.equal(await page.locator('.skip-main').evaluate(e=>document.activeElement===e),true,activation+' returns next Tab to skip');
     await page.keyboard.press('Tab');
-    assert.equal(await page.locator('.page-title-link').evaluate(e=>document.activeElement===e),true,'normal order resumes at H1');
+    assert.equal(await page.locator(width<=660?'#style-options':'#back-to-top').evaluate(e=>document.activeElement===e),true,'normal order resumes at the first visible floating action');
    }
    for(const agent of ['codex','claude'])for(const theme of ['light','dark']) {
     await page.goto(origin+'/component-playground?agent='+agent+'&theme='+theme);

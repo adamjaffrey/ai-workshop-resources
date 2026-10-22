@@ -3,14 +3,43 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.336"
-  update_summary: "Standardise sharp focus corners on the shared 1px token"
-  updated_at: "Thu 22 Oct 2026 at 06:01:36 pm AEDT (+11:00)"
+  doc_revision: "26.0.337"
+  update_summary: "Align page focus order and nearby-click keyboard continuation"
+  updated_at: "Thu 22 Oct 2026 at 06:11:25 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.335 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 06:11:25 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Align page focus order and nearby-click keyboard continuation
+
+### Changed
+
+- Follow the requested Resources and Playground header focus sequences in both directions, retaining one stop per selector and tab bar, responsive visibility and the mobile Style Options menu.
+- Place Hover Preview before its explainer in page and menu traversal; continue from the last header control to the first H2 consistently in Chrome and WebKit.
+- Choose the nearest eligible visible control or selector group after a blank-space click, using its displayed bounds instead of DOM order or invisible radio geometry.
+- Update the Interface contract and design rationale, and retain Jump to Top’s reset through Skip to Main Content into the new order.
+
+### Validation
+
+- `node website/tests/page-focus-order-browser-check.mjs` — passed Chrome/WebKit at 390, 768 and 1440px for forward/reverse traversal, nearby above/left clicks and mobile menu order.
+- `node website/tests/control-keyboard-focus-browser-check.mjs` — passed both engines at 320, 390, 768 and 1440px.
+- `node website/tests/playground-keyboard-regions-browser-check.mjs` — passed both engines at 390 and 1440px, including nested frames and expanded controls.
+- `node website/tests/jump-top-password-focus-browser-check.mjs` — passed both engines at all four widths.
+- Resources and Playground anchor browser checks — passed, preserving anchor arrival, copy and collapse behaviour.
+- Authentication source tests — 11 passed. `npm --prefix website run build` — passed using saved backdrop geometry; generated server artefacts and both LAN destinations verified at v26.0.335.
+- PVS website validation and Git whitespace checks — passed. No physical-device testing performed.
 
 ## v26.0.334 — 2026-10-22
 

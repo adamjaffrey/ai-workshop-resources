@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.88"
-  update_summary: "Standardise sharp focus corners and defer rounded tab review"
-  updated_at: "Thu 22 Oct 2026 at 05:58:15 pm AEDT (+11:00)"
+  doc_revision: "26.0.89"
+  update_summary: "Record toolbar-first page focus sequences"
+  updated_at: "Thu 22 Oct 2026 at 06:06:52 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -603,3 +603,9 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Deferred:** Adam requested retaining the tab overlay’s existing 11px rounded top corners and logging their inconsistent calculation for discussion. Existing unrelated offset overrides remain unchanged; their removal is not needed for the clear sharp-corner rollout.
 
 **Owner:** [Focus and Panel Opening](../docs/agent-guidance/interface.md#focus-and-panel-opening) and [Website Backlog](BACKLOG.md#review-rounded-tab-focus-geometry).
+
+## Page Focus Order and Spatial Continuation
+
+**Decision:** Follow the explicit Resources and Playground sequences in the [Interface contract](../docs/agent-guidance/interface.md#page-titles-and-discovery-focus), including reverse traversal and the mobile Style Options selector sequence. Keep grouped selectors as one stop, use their visible group bounds for nearby blank-space clicks, and choose the nearest eligible target in the requested direction. Keep specimen navigation and modal containment local.
+
+**Reason:** Adam requested toolbar controls before H1, Hover Preview before its explainer, and predictable Tab continuation after clicks above or left of controls. The previous positive H1 priority and first matching DOM candidate could skip a nearby toolbar control or jump to a distant column. This supersedes the earlier H1-second page sequence while retaining existing responsive visibility and heading hit areas.
