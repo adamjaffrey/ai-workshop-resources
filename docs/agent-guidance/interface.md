@@ -3,9 +3,9 @@ name: interface-contract
 description: Specify shared appearance, alignment, interaction and Playground fidelity.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.67"
-  update_summary: "Complete passive dialog and keyboard highlight treatments"
-  updated_at: "Thu 22 Oct 2026 at 03:58:16 pm AEDT (+11:00)"
+  doc_revision: "26.0.68"
+  update_summary: "Preserve replay backdrops and renamed heading aliases"
+  updated_at: "Thu 22 Oct 2026 at 04:08:57 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -356,7 +356,7 @@ Heading collapse height animations clip vertically only (`overflow-x: visible; o
 
 - The standalone prompt-text specimen retains square upper container corners as in the app; its exterior focus ring still softens those corners.
 - The isolated Scan to Open caption is left-aligned, independent of the header grid and Step N anchor alignment. Its viewport only scrolls when genuinely too narrow and is never a keyboard stop.
-- Frozen theme-icon examples retain their captured theme’s hover fill and foreground tokens. Password-icon captures retain their source state after removal from the login panel. Keyboard-focused neutral/checking fields use accent-blue text and borders; accepted fields retain green text and borders with an accent-blue exterior ring. Their selected password text uses green foreground and a 20% success-colour tint mixed with the field background, including isolated icon captures; native Tab selection must preserve this treatment. Error fields retain their error-colour ring. Share this rule with full login contexts.
+- Frozen theme-icon examples retain their captured theme’s hover fill and foreground tokens. Password-icon captures retain their source state after removal from the login panel. Keyboard-focused neutral/checking fields use accent-blue text and borders; accepted fields retain green text, borders and exterior rings. Their selected password text uses green foreground and a 20% success-colour tint mixed with the field background, including isolated icon captures; native Tab selection must preserve this treatment. Error fields retain their error-colour ring. Share this rule with full login contexts.
 
 ### Playground Navigation and Paired Specimens
 
@@ -367,3 +367,6 @@ Heading collapse height animations clip vertically only (`overflow-x: visible; o
 
 - Static Focus and Selection row rings sit 3px inside the horizontal divider lines. The first and last rings extend to 10px from the gallery container edges. Do not inherit the Resources footer padding between resource and login specimen groups.
 - Expanded URL H3 rows reserve their full measured hover height, just like collapsed rows, while retaining the independent 20px content gap.
+
+- Replaying a preview modal must keep the new background dimmer throughout the animation and completed dialog. A queued close event from the previous preview must not clear the replacement animation or move focus.
+- Heading renames follow [Playground Heading Fragments](authentication.md#playground-heading-fragments); specimen-only headings do not acquire section anchors.

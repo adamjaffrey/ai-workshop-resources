@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.21"
-  update_summary: "Add the query summary heading and order login aliases"
-  updated_at: "Thu 22 Oct 2026 at 09:46:04 am AEDT (+11:00)"
+  doc_revision: "26.0.22"
+  update_summary: "Preserve replay backdrops and renamed heading aliases"
+  updated_at: "Thu 22 Oct 2026 at 04:08:57 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -138,14 +138,14 @@ Opening, reloading or re-entering a recognised step URL (including same-URL repl
 
 ### Playground Anchors
 
-Every collapsible outer H2/H3 also has a copyable heading anchor. The inventory follows visible tab order, then heading order within each tab; H3 rows name their enclosing H2 section. The two Anchor Links subsections and five query-parameter subsections are H3 targets; embedded specimens do not receive anchors.
+Every collapsible outer H2/H3 also has a copyable heading anchor. The inventory follows visible tab order, then heading order within each tab; H3 rows name their enclosing H2 section. The two Anchor Links subsections and five query-parameter subsections are H3 targets; embedded specimens do not receive anchors. When an anchored heading is renamed, its canonical slug follows the new heading and the former fragment remains a legacy alias. Legacy fragments land on the current section and replace the address-bar fragment without adding a history entry; unknown fragments remain unchanged.
 
 | Section | Heading | Canonical Anchor URL | Legacy Fragment Alias |
 | --- | --- | --- | --- |
 | Components | Login and Password Field (H2) | `/component-playground/components`**`#login-and-password-field`** | — |
 | Components | Resource Page and Controls (H2) | `/component-playground/components`**`#resource-page-and-controls`** | — |
 | Typography | Typography and Text Styles (H2) | `/component-playground/typography`**`#typography-and-text-styles`** | — |
-| Typography | Defined Styles Used in Playground (H2) | `/component-playground/typography`**`#defined-styles-used-in-playground`** | — |
+| Typography | Hyperlink Styles (H2) | `/component-playground/typography`**`#hyperlink-styles`** | `#defined-styles-used-in-playground` |
 | Typography | Text Styles Not Used in the App (H2) | `/component-playground/typography`**`#text-styles-not-used-in-the-app`** | — |
 | Colours | Shared Colour Tokens (H2) | `/component-playground/colours`**`#shared-colour-tokens`** | — |
 | Colours | All App Colour Rules (H2) | `/component-playground/colours`**`#all-app-colour-rules`** | — |

@@ -16,7 +16,7 @@ export function installPlaygroundKeyboard(){
  function paint(){
   if(!document.hasFocus()||!active?.isConnected||document.activeElement!==active||document.documentElement.dataset.focusInput!=='keyboard'){overlay.style.display='none';if(overlay.matches(':popover-open'))overlay.hidePopover();return;}
   const target=visual(active),r=target.getBoundingClientRect(),c=getComputedStyle(target),extra=active.matches('.focus-row')?12:0;let top=r.top,height=r.height;
-  const field=active.closest('.password-field'),ringColour=field?((field.closest('.is-password-error')||field.dataset.passwordState==='wrong')?getComputedStyle(field).getPropertyValue('--error'):getComputedStyle(field).getPropertyValue('--icon-ink')):getComputedStyle(active).getPropertyValue('--icon-ink');
+  const field=active.closest('.password-field'),ringColour=field?((field.closest('.is-password-error')||field.dataset.passwordState==='wrong')?getComputedStyle(field).getPropertyValue('--error'):(field.closest('.is-success')||field.dataset.passwordState==='success')?getComputedStyle(field).getPropertyValue('--success'):getComputedStyle(field).getPropertyValue('--icon-ink')):getComputedStyle(active).getPropertyValue('--icon-ink');
   if(active.matches('.focus-row')){const rows=[...document.querySelectorAll('.focus-row')],first=active===rows[0],last=active===rows.at(-1);const edgeTop=first?r.top-14:r.top+3,edgeBottom=last?r.bottom+14:r.bottom-parseFloat(c.borderBottomWidth)-3;top=edgeTop+6;height=edgeBottom-edgeTop-12;}
   if(active.matches('input[type=range]')){height=28;top=r.top+(r.height-height)/2;}
   const host=active.closest('dialog[open]')||document.body;if(overlay.parentElement!==host)host.append(overlay);if(overlay.showPopover&&!overlay.matches(':popover-open'))overlay.showPopover();

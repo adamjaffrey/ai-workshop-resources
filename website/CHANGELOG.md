@@ -3,14 +3,42 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.325"
-  update_summary: "Complete passive dialog and keyboard highlight treatments"
-  updated_at: "Thu 22 Oct 2026 at 03:59:07 pm AEDT (+11:00)"
+  doc_revision: "26.0.326"
+  update_summary: "Preserve replay backdrops and renamed heading aliases"
+  updated_at: "Thu 22 Oct 2026 at 04:12:02 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.324 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 04:12:02 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Preserve replay backdrops and renamed heading aliases
+
+### Changed
+
+- Ignore the previous preview dialog's queued close cleanup so replay retains its new dimmed background without capturing focus.
+- Correct accepted-password exterior rings to green, matching their field and selection, in shared native and Playground overlay styling.
+- Retain `#defined-styles-used-in-playground` as a legacy alias for `#hyperlink-styles`; update URL Reference and its rendered Playground inventory. Defer intercepted alias history replacement until navigation finishes.
+- Audit recent outer heading names since anchors were introduced: Hyperlink Styles is the only renamed anchored section; other recent renamed labels are embedded specimens.
+- Update the owning interface/routing contracts and design rationale.
+
+### Validation
+
+- `npm --prefix website run build` — passed using saved backdrop geometry; built artefacts display v26.0.324.
+- Replay and expanded-navigation checks — passed in Chrome and WebKit at 390 and 1440px, including retained dimmers, completed animations and outer focus preservation.
+- Native password keyboard checks — passed in both engines at 320, 390, 768 and 1440px with green success rings and selections.
+- All 35 Playground anchors — passed in both engines at 390 and 1440px, including inventory parity, old-fragment arrival, query retention, reload, same-document canonicalisation and copied canonical URLs.
+- Main-site modal geometry/focus and full Playground source-parity checks — passed. Physical devices were not tested.
 
 ## v26.0.323 — 2026-10-22
 
