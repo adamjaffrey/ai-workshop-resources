@@ -7,7 +7,7 @@ try{for(const engine of [chromium,webkit]){const browser=await engine.launch(eng
  const page=await browser.newPage({viewport:{width,height:1000},reducedMotion:'reduce'}),errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto(origin+'/component-playground');await page.evaluate(()=>document.fonts.ready);
  const tab=page.locator('[role=tab][aria-selected=true]');assert.equal(await tab.evaluate(e=>{const c=getComputedStyle(e),p=document.createElement('span');p.style.background='var(--agent-accent)';e.append(p);const same=c.backgroundColor===getComputedStyle(p).backgroundColor;p.remove();return same;}),true);
- await page.keyboard.press('Tab');await tab.focus();near(await page.locator('.tab-scroll-shell>.workshop-group-ring').evaluate(e=>parseFloat(getComputedStyle(e).borderBottomLeftRadius)),0);
+ await page.keyboard.press('Tab');await tab.focus();near(await page.locator('.tab-scroll-shell>.workshop-group-ring').evaluate(e=>parseFloat(getComputedStyle(e).borderBottomLeftRadius)),1);
  const row=page.locator('#login-preview>.section-heading');await row.locator('.section-collapse').click();await page.waitForTimeout(100);
  const gap=await row.evaluate(e=>{const h=e.querySelector('h2'),label=h.querySelector(':scope>span'),line=parseFloat(getComputedStyle(h).lineHeight),count=Math.round(label.getBoundingClientRect().height/line);return{height:e.getBoundingClientRect().height,expected:parseFloat(getComputedStyle(e).getPropertyValue("--collapsed-heading-height"))};});near(gap.height,gap.expected);await row.locator('.section-collapse').click();
  await page.locator('#login-preview .preview-expand').click();const expanded=page.locator('#login-preview.is-expanded');

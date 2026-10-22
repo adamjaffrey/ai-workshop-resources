@@ -3,14 +3,46 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.335"
-  update_summary: "Compare link variants and group shared link icons"
-  updated_at: "Thu 22 Oct 2026 at 05:53:57 pm AEDT (+11:00)"
+  doc_revision: "26.0.336"
+  update_summary: "Standardise sharp focus corners on the shared 1px token"
+  updated_at: "Thu 22 Oct 2026 at 06:01:36 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.0.334 — 2026-10-22
+
+**Built at:** Thu 22 Oct 2026 at 06:01:36 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Standardise sharp focus corners on the shared 1px token
+
+### Changed
+
+- Adopt a shared 1px sharp-focus base radius; apply it to both prompt top corners and remove the temporary comparison token.
+- Derive sharp Playground border-overlay corners from the base radius plus the existing gap and thickness, covering sharp scroll-region and static-row focus rings while preserving rounded geometry.
+- Apply the shared sharp corners to native and scrolling URL Reference code focus.
+- Retain deliberately rounded controls, link masks and decorative corners. Record the rounded tab overlay’s 11px upper-radius discrepancy in the backlog for discussion, as requested.
+
+### Fixed
+
+- Avoid suppressing URL code focus when a matching prompt pseudo-element has no visible outline; retain the normal overlay in that case.
+
+### Validation
+
+- Placeholder source checks and `npm --prefix website run build` — passed using saved backdrop geometry; active preview displays v26.0.334.
+- Sharp-focus browser matrix (now `tests/sharp-focus-browser-check.mjs`) — passed Chrome/WebKit at 320, 390, 768 and 1440px for app prompt themes/agents, specimen parity, native/overflowing URL code, static rows and pointer suppression.
+- Focus-boundary browser checks — passed Chrome/WebKit at all four widths; rounded controls and fallback/discovery geometry retained.
+- Keyboard-region checks — passed Chrome/WebKit at 390 and 1440px, including expanded views; updated obsolete zero-radius tab expectation to the approved 1px token.
+- Full Playground source-parity browser check — passed.
+- Final app and Playground row screenshots inspected; both LAN destinations returned HTTP 200. Physical-device testing was not performed.
 
 ## v26.0.333 — 2026-10-22
 

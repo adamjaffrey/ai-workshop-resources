@@ -79,7 +79,7 @@ ${copyTextCSS}
 #panel-url-reference .code-label{font-size:12px;color:var(--muted-text)}
 #panel-url-reference pre{white-space:pre-wrap;margin:0;padding:16px 20px;font:14px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;max-height:320px;overflow:auto;border-radius:0 0 11px 11px}
 #panel-url-reference pre code{font:inherit;color:inherit}
-#panel-url-reference pre:focus-visible{outline:3px solid var(--icon-ink);outline-offset:3px}
+#panel-url-reference pre:focus-visible{outline:3px solid var(--icon-ink);outline-offset:var(--focus-ring-offset);border-radius:var(--focus-sharp-radius) var(--focus-sharp-radius) 11px 11px}
 #panel-url-reference li+li{margin-top:8px}
 #panel-url-reference .url-reference-intro{margin:12px -4px 16px;padding:24px 28px;background:var(--surface);border:1px solid var(--border);border-radius:16px} .url-reference-intro>:first-child{margin-top:0}.url-reference-intro>:last-child{margin-bottom:0}#panel-url-reference .url-subsection{border-top:1px solid var(--border);padding-top:24px;margin-top:24px}#panel-url-reference .url-subsection h3{border:0;padding-top:0;margin:0}#panel-url-reference .url-subsection>.section-heading{margin-bottom:16px}#panel-url-reference .url-subsection[data-collapsed]>.section-heading{margin-bottom:0}
 .url-copy[data-result=success]{color:var(--success)}

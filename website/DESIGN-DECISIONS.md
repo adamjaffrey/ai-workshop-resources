@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.87"
-  update_summary: "Group shared link icons and compare navigation link variants"
-  updated_at: "Thu 22 Oct 2026 at 05:47:16 pm AEDT (+11:00)"
+  doc_revision: "26.0.88"
+  update_summary: "Standardise sharp focus corners and defer rounded tab review"
+  updated_at: "Thu 22 Oct 2026 at 05:58:15 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -593,3 +593,13 @@ All Lucide icons and the two Lobe agent logos use cached visible bounds, includi
 **Reason:** The prompt previously used a separate 4px outline offset. Comparing both upper corners at a consistent gap makes the sharp token’s effect reviewable. Keep the Playground’s clipping-safe overlay, but derive its prompt outline properties from the app’s pseudo-element rather than calculating a different border radius. The asymmetric corners are pending user review.
 
 **Owner:** [Focus and Panel Opening](../docs/agent-guidance/interface.md#focus-and-panel-opening).
+
+## Shared Sharp Focus Corners
+
+**Decision:** Adopt Adam’s preferred 1px prompt corner as the shared sharp-focus base radius. End the asymmetric comparison and remove its temporary token. Apply the shared base token to native sharp focus corners; derive the border overlay’s outer radius from that base plus the 3px gap and 3px ring thickness. Preserve rounded controls, custom link masks and decorative corners.
+
+**Reason:** The earlier overlay treated a base token as an outer radius, so nominally identical token values produced different curves. Prompt overlays already copy the canonical outline. URL Reference code blocks and static row/scroll-region overlays now use the same sharp-corner convention.
+
+**Deferred:** Adam requested retaining the tab overlay’s existing 11px rounded top corners and logging their inconsistent calculation for discussion. Existing unrelated offset overrides remain unchanged; their removal is not needed for the clear sharp-corner rollout.
+
+**Owner:** [Focus and Panel Opening](../docs/agent-guidance/interface.md#focus-and-panel-opening) and [Website Backlog](BACKLOG.md#review-rounded-tab-focus-geometry).
