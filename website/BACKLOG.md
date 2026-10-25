@@ -3,14 +3,76 @@ name: website-backlog
 description: Record unfinished proposed work for the workshop website.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.8"
-  update_summary: "Add status-matched focus ring behaviour to the backlog"
-  updated_at: "Thu 22 Oct 2026 at 08:25:47 pm AEDT (+11:00)"
+  doc_revision: "26.10.9"
+  update_summary: "Record phased private skill distribution and email authentication"
+  updated_at: "Sun 25 Oct 2026 at 12:05:04 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Website Backlog
+
+## Host Skills Privately and Introduce Participant Email Authentication
+
+**Added at:** Sun 25 Oct 2026 at 12:05:04 pm AEDT (+11:00)
+
+**Added by:** Adam Jaffrey
+
+**Addition assisted by agent:** ChatGPT Codex
+
+### Outcome
+
+Distribute the workshop skills from the existing ChatGPT Sites infrastructure so the development repository can become private. Preserve a single pasted installation prompt or command: participants must not manually download or extract an archive, run a command against a downloaded folder or obtain GitHub access. Progress from the existing shared-password login and a shared download token to email one-time-code authentication and download tokens tied to individual login sessions.
+
+### Acceptance Criteria
+
+- Deliver the work in the three phases below, with phase one useful independently. Design the initial download endpoint to accommodate both shared and session-linked credentials without replacing the distribution mechanism later.
+- Phase one: retain the existing shared-password website login; host complete skill archives on Sites behind one revocable, rotatable shared download token that may be forwarded to any user. Generate the packages during publication, update installation prompts and verify that one pasted command automatically downloads, extracts and installs every required skill file.
+- Phase two: let participants enter the email used to register for the workshop, receive a one-time code and enter it to authenticate. Retain a controlled shared-password fallback and the same shared download token. Support later visits and re-authentication, including resend and recovery flows.
+- Phase three: display a download-only token in each authenticated installation prompt, associated server-side with that login session. Use a proposed absolute 72-hour session lifetime from successful login, without extension on use; expire or revoke the download token on session expiry, logout or revocation. Returning participants can re-authenticate and copy a fresh prompt.
+- Integrate all eight considerations below into the relevant phase and its acceptance checks. Resolve the identified policy choices before implementing dependent behaviour.
+- Verify fresh installation, supporting-file completeness, repeat installation and updates for both supported agents, plus missing, invalid, rotated, expired and revoked credentials. Include a participant rehearsal and recovery scenarios before workshop use; define supported prerequisites and useful failure messages rather than promising error-free execution in every environment.
+- Verify all installation prompts and supporting-file references use the new distribution route before requesting a separate repository-visibility change. Making the repository private does not withdraw previously downloaded or cloned copies. Push, publication and visibility changes require separate explicit authorisation.
+- When implementing, update the owning authentication, routing, URL Reference, interface and delivery contracts and relevant design decisions coherently; preserve current behaviour until each authorised phase is validated.
+
+### Notes
+
+Deferred proposed work at Adam's request following concern about development cost. Logging this plan does not authorise implementation, a compatibility experiment, service provisioning, email sending, repository-visibility changes or publication. Reassess scope and estimates before starting an approved phase.
+
+#### Eight Implementation Considerations
+
+1. **Separate email ownership from workshop eligibility.** Select the authoritative registration source and define access for new registrations, changed email addresses, cancellations and past participants. Verify eligibility as well as code possession. Consider a locally synchronised eligibility list so registration-system downtime does not interrupt every login; define synchronisation and access-removal behaviour before choosing this approach.
+2. **Control the shared-password fallback.** Treat it as a facilitator-controlled recovery route that can be rotated or disabled. It bypasses email verification, so record password-authenticated sessions distinctly and never attribute them to an unverified email. In phase three, give fallback sessions their own expiring download tokens. Decide the fallback's availability and permissions explicitly.
+3. **Separate browser sessions and download credentials.** Keep the browser cookie as a secure session identifier; never copy it into an installation prompt. Issue a separate credential restricted to skill downloads, associate it with the server-side session and enforce the proposed 72-hour absolute expiry, logout and revocation on the server. The authenticated page supplies the command; the terminal does not inherit browser cookies. Preserve secure cookie handling and fail-closed authorisation.
+4. **Recognise forwarding limits.** Anyone holding a download token can use it during its validity period; session association supports expiry and revocation but does not prove the downloader's identity. Avoid IP binding that would fail when participants switch between workshop Wi-Fi, home and mobile networks. Expiry prevents future downloads, not use or redistribution of installed files.
+5. **Define the update experience.** Installed skills continue working after token expiry. Future downloads require current authorisation; the supported recovery flow is to revisit the site, authenticate and copy a fresh installation prompt. Test whether the chosen installer retains source URLs and how its update command behaves with expired credentials before promising standalone automatic updates.
+6. **Make email delivery and recovery reliable.** Establish the sending service and domain configuration, code lifetime, single-use verification, resend behaviour, attempt limits and send-rate limits. Avoid responses that reveal whether an email is registered. Test delays, undelivered codes and service failures, and provide a clear recovery route for legitimate participants. Email delivery is the principal new operational dependency in phase two.
+7. **Protect tokens from phase one.** Limit tokens to downloads, provide rotation/revocation and exclude credentials from application logs and analytics. Inspect terminal history, AI conversations, installer metadata and retained URLs as possible disclosure locations. Verify current installer telemetry behaviour and disable it in the installation prompts; do not assume a non-GitHub source URL is omitted. Review what third-party infrastructure records and document unavoidable retention limits.
+8. **Package once and publish deliberately.** Generate archives from the maintained skill sources rather than manually maintaining a second copy. Include all runtime files, retain identifiable package versions and rollback capability, and resolve a stable latest destination to the latest published package. Source edits alone must not alter hosted downloads. Serve archives only through the authorisation endpoint, with no public-static-file bypass or cache behaviour that exposes protected downloads across users. Preserve each skill's independent packaging/version authority and account for its recorded PVS packaging migration.
+
+#### Indicative Development Estimate
+
+| Work | Working Days | Scope |
+|---|---:|---|
+| Phase 1: website-hosted skills | 1–2 | Packaging, protected endpoint, shared token and rotation, prompts, installation/update checks and publication |
+| Phase 2: email-code login | 3–5 | Eligibility integration, sending, code and resend flows, abuse controls, password fallback, sessions, interface and delivery checks |
+| Phase 3: session-linked tokens | 1–2 | Session association, 72-hour expiry, logout/revocation, dynamic prompts and expired-token/update checks |
+| Final integration and workshop rehearsal | 0.5–1 | Fresh participant setup, both supported agents, recovery scenarios and deployment verification |
+
+The initial conversational estimate was approximately 6–10 working days overall; the individual ranges above sum to 5.5–10 days. These are unvalidated planning allowances, not a fixed quote, measured implementation effort or approved budget. They include implementation, focused testing and publication work, but do not grant publication permission. No hourly rate or monetary estimate has been established.
+
+Assumptions: existing Sites infrastructure can serve protected packages; one accessible registration source supplies participant emails; an email-sending service and domain are available or straightforward to configure; and the implementation retains `npx skills` rather than introducing a custom installer. Registration reconciliation or email-domain troubleshooting could add 1–3 working days, plus external verification delays. Ongoing email/hosting costs remain to be assessed.
+
+If phase one is later authorised, begin with a 2–4-hour compatibility check included in its estimate: prove that the intended installer version can fetch a token-protected archive from Sites, install supporting files and handle a subsequent update. Check URL/token retention and failure handling as part of that experiment, then revise the remaining estimate before implementing the full distribution flow.
+
+#### Research References
+
+These references informed the discussion and must be rechecked against the selected installer version and hosting capabilities before implementation; they are not evidence of a completed integration test.
+
+- [Skills installation and archive-source reference](https://github.com/vercel-labs/skills/blob/main/docs/commands.md)
+- [Skills telemetry and configuration](https://github.com/vercel-labs/skills/blob/main/docs/troubleshooting.md)
+- [OWASP authentication guidance](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)
+- [OWASP session-management guidance](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html)
 
 ## Match Focus Ring Colours to Success and Failure Status
 
