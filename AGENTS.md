@@ -3,9 +3,9 @@ name: repository-instructions
 description: Govern agent work and preview delivery in this repository.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.86"
-  update_summary: "Require both backdrop captures before every Sites publication"
-  updated_at: "Thu 22 Oct 2026 at 10:45:29 pm AEDT (+11:00)"
+  doc_revision: "26.10.87"
+  update_summary: "Point governance paths to the final PGS location"
+  updated_at: "Mon 26 Oct 2026 at 08:44:11 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -14,7 +14,7 @@ metadata:
 
 ## Project Versioning System
 
-- Before updating governed project documentation, changing project versioning or build workflows, or producing a software artefact, read `/Users/adamjaffrey/projects/project-versioning-system/package/project-versioning-system/SKILL.md` completely and follow it.
+- Before updating governed project documentation, changing project versioning or build workflows, or producing a software artefact, read `/Users/adamjaffrey/projects/project-governance-system/package/project-governance-system/SKILL.md` completely and follow it.
 - Treat that packaged skill as the sole Project Versioning System (PVS) authority for document revisions, artefact versions, changelogs, backlogs, and its required local-commit workflow.
 - Never push, tag, release, deploy, publish, or add an AI co-author trailer unless the user explicitly requests it.
 
