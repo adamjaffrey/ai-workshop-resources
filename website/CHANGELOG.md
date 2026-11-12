@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.11.351"
-  update_summary: "Route root and home entry points to Day 1 Resources"
-  updated_at: "Thu 12 Nov 2026 at 04:04:50 pm AEDT (+11:00)"
+  doc_revision: "26.11.352"
+  update_summary: "Refresh login backdrops for Day 1 publication"
+  updated_at: "Thu 12 Nov 2026 at 04:08:41 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.11.350 — 2026-11-12
+
+**Built at:** Thu 12 Nov 2026 at 04:08:41 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refresh login backdrops for Day 1 publication
+
+### Changed
+
+- Freshly capture Resources and Colours login geometry for the authorised publication. Retain layout revisions 17 and 24 because the shared backdrop layouts are unchanged.
+- Include Day 1 Resources, AI System Starter and the root/home redirects in the publication candidate.
+
+### Validation
+
+- Confirmed successful Sites version 19 and inspected source `f4b6d0ed8e08f5ada9091b508a9069cd2e0aefb0` against the candidate; publication preflight passed.
+- `node website/scripts/capture-backdrops.mjs` — both captures passed at 380, 660, 940, 1008 and 1248px.
+- Backdrop browser checks — passed both captures at all five widths, anonymity, inert state, complete document and glyph/icon regressions; narrow Resources and wide Colours screenshots reviewed.
+- Placeholder source tests — four checks passed.
+- Sites build helper — passed with built version v26.11.350 after correcting the provisional footer value.
 
 ## v26.11.349 — 2026-11-12
 
