@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.11.353"
-  update_summary: "Name the Day 1 prompt System Brick Builder"
-  updated_at: "Thu 12 Nov 2026 at 10:49:15 pm AEDT (+11:00)"
+  doc_revision: "26.11.354"
+  update_summary: "Describe the System Brick Builder workflow"
+  updated_at: "Thu 12 Nov 2026 at 10:52:48 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.11.352 — 2026-11-12
+
+**Built at:** Thu 12 Nov 2026 at 10:52:48 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Describe the System Brick Builder workflow
+
+### Changed
+
+- Replace the Day 1 Step 2 description with copy about building one working brick at a time: five questions, a simple approach, approval, a useful component and a real example to test and improve.
+- Preserve the prompt and original Resources description.
+
+### Validation
+
+- Source checks — verified new description, unchanged prompt and original-page isolation.
+- Headless Chrome — checked the description at 390 and 1440px without horizontal overflow; mobile rendering inspected.
+- `npm --prefix website run build` — passed, including both placeholder checks; built version verified as v26.11.352.
 
 ## v26.11.351 — 2026-11-12
 
