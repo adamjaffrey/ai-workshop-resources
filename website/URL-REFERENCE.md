@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.11.28"
-  update_summary: "Route root and home entry points to Day 1 Resources"
-  updated_at: "Thu 12 Nov 2026 at 04:03:43 pm AEDT (+11:00)"
+  doc_revision: "26.11.29"
+  update_summary: "Name the Day 1 prompt System Brick Builder"
+  updated_at: "Thu 12 Nov 2026 at 10:48:33 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -29,7 +29,7 @@ All paths in this document are relative to `https://workshop.adamjaffrey.chatgpt
 | Playground | `/component-playground` | Component Playground |
 | Playground Login | `/component-playground?login=false` | Component Playground |
 
-Day 1 Resources is a separate protected page at `/day-1-resources`. It shares the Resources layout, preferences and session handling, with a Day 1 heading, the supplied first-build prompt named AI System Starter (`ai-system-starter`) in Step 2 and no Step 3. The H1 and copied step links retain `/day-1-resources`; Step 1 retains `#step-1-node-js-setup`; Step 2 uses `#step-2-ai-system-starter`. The short `#step-1`/`#step-2` aliases remain supported. There is no Day 1 alias for the previous System Blueprint Creator name. Copied Step 2 links use the new fragment. Step 3 fragments are not recognised on this page. The QR code and its copy action retain the shared workshop address. Local automatic sign-in also supports this route; `?login=true` and `?login=false` retain the shared explicit-login behaviour, and successful login returns to Day 1 Resources with the other query parameters and fragment intact.
+Day 1 Resources is a separate protected page at `/day-1-resources`. It shares the Resources layout, preferences and session handling, with a Day 1 heading, the supplied first-build prompt named System Brick Builder (`system-brick-builder`) in Step 2 and no Step 3. The H1 and copied step links retain `/day-1-resources`; Step 1 retains `#step-1-node-js-setup`; Step 2 uses `#step-2-system-brick-builder`. The short `#step-1`/`#step-2` aliases remain supported. There are no Day 1 aliases for previous step names. Copied Step 2 links use the new fragment. Step 3 fragments are not recognised on this page. The QR code and its copy action retain the shared workshop address. Local automatic sign-in also supports this route; `?login=true` and `?login=false` retain the shared explicit-login behaviour, and successful login returns to Day 1 Resources with the other query parameters and fragment intact.
 
 Every supported Playground section uses the same browser title as the Playground root. Page titles do not select or rename URL paths.
 

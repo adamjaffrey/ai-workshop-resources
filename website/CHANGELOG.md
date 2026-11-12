@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.11.352"
-  update_summary: "Refresh login backdrops for Day 1 publication"
-  updated_at: "Thu 12 Nov 2026 at 04:08:41 pm AEDT (+11:00)"
+  doc_revision: "26.11.353"
+  update_summary: "Name the Day 1 prompt System Brick Builder"
+  updated_at: "Thu 12 Nov 2026 at 10:49:15 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.11.351 — 2026-11-12
+
+**Built at:** Thu 12 Nov 2026 at 10:49:15 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Name the Day 1 prompt System Brick Builder
+
+### Changed
+
+- Rename Day 1 Step 2 to System Brick Builder, with `system-brick-builder` as its prompt identifier and `#step-2-system-brick-builder` as its anchor. Update the corresponding labels and shared URL Reference without adding aliases for previous names.
+- Preserve the agreed prompt text and original Resources page.
+
+### Validation
+
+- Day 1 browser check — passed Chrome and WebKit at 390 and 1440px, both agents, exact prompt display/copy, labels, canonical links, login return and original-page preservation.
+- `npm --prefix website run build` — passed, including both placeholder checks; built name and version verified as v26.11.351.
 
 ## v26.11.350 — 2026-11-12
 
