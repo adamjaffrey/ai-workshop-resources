@@ -60,7 +60,7 @@ export function createPhonePreview({protectPlayground=false,autoLogin=false}={})
       let automaticCookie;
       // Local preview only: obtain a real session through the unchanged auth handler.
       // Test callers keep explicit login by default; the user-facing launcher opts in.
-      if(autoLogin && req.method==='GET' && url.pathname==='/ai-workshop-resources' && !url.searchParams.has('login')) {
+      if(autoLogin && req.method==='GET' && ['/ai-workshop-resources','/day-1-resources'].includes(url.pathname) && !url.searchParams.has('login')) {
         const session=await handleRequest(new Request(new URL('/auth/session',url),{headers}),env);
         if(session.status===401){
           const login=await handleRequest(new Request(new URL('/auth/login',url),{method:'POST',headers:{origin:url.origin,'content-type':'application/x-www-form-urlencoded',accept:'application/json','cf-connecting-ip':req.socket.remoteAddress||'local'},body:new URLSearchParams({password})}),env);

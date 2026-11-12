@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.25"
-  update_summary: "Organise collapsible link and list references with documented anchors"
-  updated_at: "Thu 22 Oct 2026 at 07:29:35 pm AEDT (+11:00)"
+  doc_revision: "26.11.26"
+  update_summary: "Document the protected Day 1 Resources page"
+  updated_at: "Thu 12 Nov 2026 at 03:47:09 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -22,9 +22,13 @@ All paths in this document are relative to `https://workshop.adamjaffrey.chatgpt
 | --- | --- | --- |
 | QR Code and Copy Link | `https://workshop.adamjaffrey.chatgpt.site` | Destination title |
 | Resources | `/ai-workshop-resources` | AI Workshop Resources |
+| Day 1 Resources | `/day-1-resources` | Day 1 Resources |
+| Day 1 Resources Login | `/day-1-resources?login=false` | Day 1 Resources |
 | Resources Login | `/ai-workshop-resources?login=false` | AI Workshop Resources |
 | Playground | `/component-playground` | Component Playground |
 | Playground Login | `/component-playground?login=false` | Component Playground |
+
+Day 1 Resources is a separate protected page at `/day-1-resources`. It shares the Resources layout, preferences and session handling, with a Day 1 heading, the supplied first-build prompt in Step 2 and no Step 3. The H1 and copied step links retain `/day-1-resources`; Steps 1 and 2 retain their existing descriptive fragments and `#step-1`/`#step-2` aliases. Step 3 fragments are not recognised on this page. The QR code and its copy action retain the shared workshop address. Local automatic sign-in also supports this route; `?login=true` and `?login=false` retain the shared explicit-login behaviour, and successful login returns to Day 1 Resources with the other query parameters and fragment intact.
 
 Every supported Playground section uses the same browser title as the Playground root. Page titles do not select or rename URL paths.
 

@@ -107,3 +107,25 @@ test('login=false logs out hosted sessions and true never authenticates',async()
   assert.match(await locked.text(),/id="access-form"/);
  }
 });
+
+test('Day 1 resources share authentication and isolate their content',async()=>{
+ const e=env(),path='/day-1-resources';
+ const anonymous=await(await handleRequest(get(path),e)).text();
+ assert.match(anonymous,/<title>Day 1 Resources<\/title>/);
+ assert.doesNotMatch(anonymous,/Help me build the first working component/);
+ const cookie=await login(e),now=1000001;
+ const page=await(await handleRequest(get(path,cookie),e,now)).text();
+ assert.match(page,/<h1>Day 1 Resources<\/h1>/);
+ assert.match(page,/Help me build the first working component/);
+ assert.doesNotMatch(page,/aria-labelledby="resource-step-3"/);
+ assert.match(page,/new URL\('\/day-1-resources'/);
+ const original=await(await handleRequest(get('/ai-workshop-resources',cookie),e,now)).text();
+ assert.match(original,/aria-labelledby="resource-step-3"/);
+ assert.doesNotMatch(original,/Help me build the first working component/);
+ const redirect=await handleRequest(get('/DAY-1-RESOURCES/?AI=Claude'),e);
+ assert.equal(redirect.status,301);assert.equal(redirect.headers.get('location'),path+'?agent=claude');
+ await handleRequest(get(path+'?login=false',cookie),e,now);
+ assert.equal((await handleRequest(get('/auth/session',cookie),e,now)).status,401);
+ const unavailable=await handleRequest(get(path),{});
+ assert.equal(unavailable.status,503);assert.doesNotMatch(await unavailable.text(),/Help me build the first working component/);
+});

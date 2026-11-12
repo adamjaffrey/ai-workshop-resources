@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.348"
-  update_summary: "Refresh Resources and Colours backdrops for Sites publication"
-  updated_at: "Thu 22 Oct 2026 at 10:43:00 pm AEDT (+11:00)"
+  doc_revision: "26.11.349"
+  update_summary: "Add the Day 1 Resources page"
+  updated_at: "Thu 12 Nov 2026 at 03:47:53 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.11.347 — 2026-11-12
+
+**Built at:** Thu 12 Nov 2026 at 03:47:53 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Add the Day 1 Resources page
+
+### Added
+
+- Add `/day-1-resources` using the shared Resources page, with the Day 1 heading, the exact supplied Step 2 prompt and no Step 3. Preserve the original page and the remaining content, styling and controls.
+- Retain real session protection, login return, page-specific H1 and copied step links, preference handling and local automatic sign-in. Document the route in the shared URL Reference rendered by Playground.
+
+### Validation
+
+- Authentication checks — 12 passed, including Day 1 content isolation, session revocation, canonicalisation and fail-closed responses.
+- Routing and phone-preview checks — 19 passed after allowing their local server sockets.
+- `node website/tests/day-one-browser-check.mjs` — passed Chrome and WebKit at 390 and 1440px, both agents, exact displayed/copied prompt, heading and step links, login return, absent Step 3, original-page preservation and overflow; mobile screenshot reviewed. Emulation only.
+- `npm --prefix website run build` — passed, including the two existing placeholder checks; built server and preview version displays verified as v26.11.347. Saved anonymous geometry retained for this local build.
 
 ## v26.0.346 — 2026-10-22
 

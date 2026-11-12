@@ -1,3 +1,4 @@
+import {dayOneResourcePage} from './workshop-day-one-page.mjs';
 import {playgroundPlaceholderDocument} from './workshop-playground-placeholder.mjs';
 import {isPlaygroundPath,canonicalRedirect} from './workshop-playground-routes.mjs';
 import { randomBytes, createHash, createHmac, scryptSync, timingSafeEqual } from 'node:crypto';
@@ -85,7 +86,7 @@ export async function handleRequest(request, env, now = Date.now(), options = {}
       'Content-Security-Policy':"default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'none'; frame-src 'self' about:; base-uri 'none'; form-action 'none'; frame-ancestors 'self'",
     });
   }
-  const destinationLoginPage=isPlaygroundPath(path)?playgroundLoginPage:loginPage;
+  const destinationLoginPage=isPlaygroundPath(path)?playgroundLoginPage:path==='/day-1-resources'?loginPage.replaceAll('AI Workshop Resources','Day 1 Resources'):loginPage;
   const unavailable = () => {
     const message = loginMessages.service;
     if (request.method === 'POST' || path === '/auth/session') return json({error:message},503);
@@ -126,7 +127,7 @@ export async function handleRequest(request, env, now = Date.now(), options = {}
       if(request.headers.get('accept')?.includes('application/json')) return json({ok:true,expiresAt:expires},200,extra);
       return reply(null,303,{...extra,'Location':'/ai-workshop-resources'});
     }
-    const showLogin=(path==='/ai-workshop-resources'||isPlaygroundPath(path))&&new URL(request.url).searchParams.get('login')==='false';
+    const showLogin=(['/ai-workshop-resources','/day-1-resources'].includes(path)||isPlaygroundPath(path))&&new URL(request.url).searchParams.get('login')==='false';
     if(showLogin){
       const token=tokenFrom(request);
       if(token)await env.DB.prepare('DELETE FROM workshop_sessions WHERE token_hash = ?').bind(sha(token)).run();
@@ -137,8 +138,8 @@ export async function handleRequest(request, env, now = Date.now(), options = {}
       const html=options.renderPlayground ? await options.renderPlayground() : (await import('./workshop-playground.generated.mjs')).playgroundPage;
       return reply(html.replaceAll('__SESSION_EXPIRES__',String(session.expires_at)),200,{'Content-Type':'text/html; charset=utf-8','Content-Security-Policy':"default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"});
     }
-    if(!['/ai-workshop-resources'].includes(path)&&!isPlaygroundPath(path)) return reply('Not found',404);
-    const page=session?resourcePage.replace('__SESSION_EXPIRES__',String(session.expires_at)):destinationLoginPage;
+    if(!['/ai-workshop-resources','/day-1-resources'].includes(path)&&!isPlaygroundPath(path)) return reply('Not found',404);
+    const page=session?(path==='/day-1-resources'?dayOneResourcePage:resourcePage).replace('__SESSION_EXPIRES__',String(session.expires_at)):destinationLoginPage;
     return reply(page.replaceAll('__NONCE__',nonce),200,{'Content-Type':'text/html; charset=utf-8',...(!session?{'Set-Cookie':cookie('',now,0)}:{})});
   } catch {
     // Fail closed. Do not log requests, passwords, verifier values or cookies.
@@ -255,6 +256,6 @@ form.addEventListener('submit',async event=>{
   password.setSelectionRange(password.value.length,password.value.length);password.readOnly=true;
   setStatus('success',loginMessages.success);button.removeAttribute('aria-busy');
   button.textContent=loginControlLabels.opening;
-  setTimeout(()=>{password.value='';const target=new URL(location.href);if(!target.pathname.startsWith('/component-playground')){target.pathname='/ai-workshop-resources';}target.searchParams.delete('login');location.replace(target.pathname+target.search+target.hash);},900);
+  setTimeout(()=>{password.value='';const target=new URL(location.href);if(!target.pathname.startsWith('/component-playground')&&target.pathname!=='/day-1-resources'){target.pathname='/ai-workshop-resources';}target.searchParams.delete('login');location.replace(target.pathname+target.search+target.hash);},900);
 });
 `;
