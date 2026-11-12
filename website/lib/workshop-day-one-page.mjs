@@ -35,5 +35,6 @@ export const dayOneResourcePage = resourcePage
  .replace('A guided interview to turn your chosen workflow into a clear System Blueprint: what to build, what it needs, and what success looks like. After installation, follow your facilitator’s instructions.',
   'Build your AI system one brick at a time. Your agent asks five focused questions, recommends the simplest build and helps you create the first working component.')
  .replace('<p class="step-purpose">Plan Your Build</p>', '<p class="step-purpose">Start Your Build</p>')
+ .replace('<p class="slug" data-skill-name="system-blueprint-creator">$system-blueprint-creator</p>', '<p class="slug">system-blueprint-creator</p>')
  .replaceAll('System Blueprint Creator', 'System Brick Builder')
  .replaceAll('system-blueprint-creator', 'system-brick-builder');

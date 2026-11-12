@@ -23,7 +23,10 @@ try {
     assert.equal(await page.locator('.step-row').nth(1).locator('h3').innerText(),'System Brick Builder');
     assert.equal(await page.locator('.step-row').nth(1).locator('.slug').innerText(),'system-brick-builder');
     for(const agent of ['codex','claude-code']){
-     await page.locator('[data-agent="'+agent+'"]').click();
+     const choice=page.locator('[data-agent="'+agent+'"]');
+     if(await choice.getAttribute('aria-pressed')!=='true')await choice.click();
+     await page.waitForFunction(agent=>document.querySelector('[data-agent="'+agent+'"]').getAttribute('aria-pressed')==='true',agent);
+     assert.deepEqual(await page.locator('.slug').allTextContents(),['nodejs-setup','system-brick-builder']);
      assert.equal(await page.locator('#system-brick-builder').textContent(),dayOnePrompt);
      await page.locator('[data-copy="system-brick-builder"]').click();
      assert.equal(await page.evaluate(()=>window.copied),dayOnePrompt);
@@ -35,6 +38,19 @@ try {
     await page.goto(origin+'/ai-workshop-resources');
     assert.equal(await page.locator('.step-row').count(),3);
     assert.notEqual(await page.locator('#system-blueprint-creator').textContent(),dayOnePrompt);
+    for(const agent of ['codex','claude-code']){
+     const choice=page.locator('[data-agent="'+agent+'"]');
+     if(await choice.getAttribute('aria-pressed')!=='true')await choice.click();
+     await page.waitForFunction(agent=>document.querySelector('[data-agent="'+agent+'"]').getAttribute('aria-pressed')==='true',agent);
+     const prefix=agent==='codex'?'$':'/';
+     const expected=['nodejs-setup',prefix+'system-blueprint-creator',prefix+'system-build-assistant'];
+     await page.waitForFunction(expected=>JSON.stringify([...document.querySelectorAll('.slug')].map(el=>el.textContent))===JSON.stringify(expected),expected);
+     assert.deepEqual(await page.locator('.slug').allTextContents(),expected);
+     await page.reload();
+     await page.waitForFunction(()=>!document.documentElement.hasAttribute('data-workshop-preparing'));
+     assert.deepEqual(await page.locator('.slug').allTextContents(),expected);
+     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+    }
     await page.goto(origin+'/day-1-resources?login=false&theme=dark#step-2');
     await page.locator('#workshop-password').fill(password);
     await page.locator('#access-form button[type="submit"]').click();

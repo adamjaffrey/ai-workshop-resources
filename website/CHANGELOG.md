@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.11.360"
-  update_summary: "Label Day 1 Step 2 Start Your Build"
-  updated_at: "Thu 12 Nov 2026 at 11:13:26 pm AEDT (+11:00)"
+  doc_revision: "26.11.361"
+  update_summary: "Show agent-specific prefixes for installed workshop skills"
+  updated_at: "Thu 12 Nov 2026 at 11:25:00 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.11.359 — 2026-11-12
+
+**Built at:** Thu 12 Nov 2026 at 11:25:00 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Show agent-specific prefixes for installed workshop skills
+
+### Changed
+
+- Show `$` for Codex and `/` for Claude Code before the System Blueprint Creator and System Build Assistant slugs, using the selected agent. Shared Playground specimens inherit the same behaviour.
+- Keep Node.js Setup and Day 1 System Brick Builder unprefixed because they are prompts rather than installed skills.
+
+### Validation
+
+- `node website/tests/day-one-browser-check.mjs` — passed in Chrome and WebKit at 390px and 1440px, covering both agents, prefix persistence after reload, unchanged Day 1 slugs and prompts, copying, anchors, login return and overflow.
+- `npm --prefix website run build` — passed, including both placeholder checks; generated version is v26.11.359.
 
 ## v26.11.358 — 2026-11-12
 
