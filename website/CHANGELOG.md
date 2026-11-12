@@ -3,14 +3,35 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.11.359"
-  update_summary: "Require command-line setup in shared installation prompts"
-  updated_at: "Thu 12 Nov 2026 at 11:11:32 pm AEDT (+11:00)"
+  doc_revision: "26.11.360"
+  update_summary: "Label Day 1 Step 2 Start Your Build"
+  updated_at: "Thu 12 Nov 2026 at 11:13:26 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.11.358 — 2026-11-12
+
+**Built at:** Thu 12 Nov 2026 at 11:13:26 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Label Day 1 Step 2 Start Your Build
+
+### Changed
+
+- Replace "Plan Your Build" with "Start Your Build" on Day 1 Resources only, after completion of the Node.js prompt review. Preserve its command-line setup changes and the System Brick Builder prompt.
+
+### Validation
+
+- Source checks — verified the Day 1 label, unchanged main-page label and preservation of both prompt updates.
+- `npm --prefix website run build` — passed, including both placeholder checks; built version verified as v26.11.358.
 
 ## v26.11.357 — 2026-11-12
 
