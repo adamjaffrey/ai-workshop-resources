@@ -3,14 +3,35 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.11.354"
-  update_summary: "Describe the System Brick Builder workflow"
-  updated_at: "Thu 12 Nov 2026 at 10:52:48 pm AEDT (+11:00)"
+  doc_revision: "26.11.355"
+  update_summary: "Shorten the System Brick Builder description"
+  updated_at: "Thu 12 Nov 2026 at 10:54:03 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.11.353 — 2026-11-12
+
+**Built at:** Thu 12 Nov 2026 at 10:54:03 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Shorten the System Brick Builder description
+
+### Changed
+
+- Remove the final sentence from the Day 1 Step 2 description, leaving 30 words to match the previous description's length. Preserve the prompt.
+
+### Validation
+
+- Source review — confirmed only the requested sentence was removed and the remaining description has 30 words.
+- `npm --prefix website run build` — passed, including both placeholder checks; built version verified as v26.11.353.
 
 ## v26.11.352 — 2026-11-12
 
