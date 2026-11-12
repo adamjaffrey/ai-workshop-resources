@@ -3,14 +3,39 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.11.358"
-  update_summary: "Simplify the System Brick Builder description"
-  updated_at: "Thu 12 Nov 2026 at 11:03:50 pm AEDT (+11:00)"
+  doc_revision: "26.11.359"
+  update_summary: "Require command-line setup in shared installation prompts"
+  updated_at: "Thu 12 Nov 2026 at 11:11:32 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.11.357 — 2026-11-12
+
+**Built at:** Thu 12 Nov 2026 at 11:11:32 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Require command-line setup in shared installation prompts
+
+### Changed
+
+- Require agents to perform prerequisite checks and installation through command-line tools, retaining permission approvals and stopping on failure instead of handing participants a graphical installer.
+- Explain setup failures in plain English, direct participants to their facilitator and permit a short useful diagnostic.
+- Apply the shared instructions to Node.js setup on both Resources pages and both main-page skill-installation prompts. Regenerate Playground content from the shared source; preserve the Day 1 System Brick Builder prompt.
+
+### Validation
+
+- Source checks — all affected prompts passed for Codex and Claude Code; the Day 1 System Brick Builder prompt remains unchanged.
+- `npm --prefix website run build` — passed, including both placeholder checks. Built server output contains v26.11.357 and the updated prompt; generated Playground output contains the new wording and omits the old installer recommendation.
+- Headless Chrome — rendered and copied prompts passed for both agents on both Resources pages; all three rendered Playground prompts exactly match the shared source. LAN destinations and the Playground review anchor were verified.
+- Actual installation on participant computers and agent adherence to the prompt were not tested.
 
 ## v26.11.356 — 2026-11-12
 
