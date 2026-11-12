@@ -3,14 +3,38 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.11.361"
-  update_summary: "Show agent-specific prefixes for installed workshop skills"
-  updated_at: "Thu 12 Nov 2026 at 11:25:00 pm AEDT (+11:00)"
+  doc_revision: "26.11.362"
+  update_summary: "Refresh login backdrops for the resources publication"
+  updated_at: "Thu 12 Nov 2026 at 11:30:59 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.11.360 — 2026-11-12
+
+**Built at:** Thu 12 Nov 2026 at 11:30:59 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refresh login backdrops for the resources publication
+
+### Changed
+
+- Refresh Resources and Colours anonymous login backdrops for publication of the accumulated resources copy, setup prompt and skill-prefix updates.
+- Advance the Resources geometry revision to 18 for its changed text layout; retain Colours revision 24.
+
+### Validation
+
+- `node website/scripts/capture-backdrops.mjs` — both backdrops captured at all five required widths.
+- `node website/tests/backdrop-capture-browser-check.mjs` and the two placeholder unit suites — passed; mobile captures visually inspected.
+- Publication preflight — passed against confirmed live Sites version 20 and source commit 630890d27cc66aebb7de020f43dc7ecf4de1a736.
+- `npm --prefix website run build` — passed with provisional version v26.11.360.
 
 ## v26.11.359 — 2026-11-12
 
