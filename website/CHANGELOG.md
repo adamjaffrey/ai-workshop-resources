@@ -3,14 +3,35 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.11.356"
-  update_summary: "Update the shared Node.js setup description"
-  updated_at: "Thu 12 Nov 2026 at 10:55:12 pm AEDT (+11:00)"
+  doc_revision: "26.11.357"
+  update_summary: "Refine the System Brick Builder description"
+  updated_at: "Thu 12 Nov 2026 at 11:00:27 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.11.355 — 2026-11-12
+
+**Built at:** Thu 12 Nov 2026 at 11:00:27 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Refine the System Brick Builder description
+
+### Changed
+
+- Apply Adam's exact revised Day 1 Step 2 description, describing one brick at a time, the simplest implementation approach and the first working component. Preserve the prompt and original Resources page.
+
+### Validation
+
+- Source checks — exact description verified alongside unchanged prompt and original-page isolation.
+- `npm --prefix website run build` — passed, including both placeholder checks; built version verified as v26.11.355.
 
 ## v26.11.354 — 2026-11-12
 
