@@ -33,6 +33,6 @@ export const dayOneResourcePage = resourcePage
  .replace('function installationPrompt(skill, agent) {',
   'function installationPrompt(skill, agent) {\n      if (skill === \'system-blueprint-creator\') return ' + JSON.stringify(dayOnePrompt) + ';')
  .replace('A guided interview to turn your chosen workflow into a clear System Blueprint: what to build, what it needs, and what success looks like. After installation, follow your facilitator’s instructions.',
-  'Build your AI system one brick at a time. Your agent asks five focused questions, recommends the simplest implementation approach and, with your approval, helps you build the first working component.')
+  'Build your AI system one brick at a time. Your agent asks five focused questions, recommends the simplest build and helps you create the first working component.')
  .replaceAll('System Blueprint Creator', 'System Brick Builder')
  .replaceAll('system-blueprint-creator', 'system-brick-builder');

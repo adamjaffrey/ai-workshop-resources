@@ -3,14 +3,35 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.11.357"
-  update_summary: "Refine the System Brick Builder description"
-  updated_at: "Thu 12 Nov 2026 at 11:00:27 pm AEDT (+11:00)"
+  doc_revision: "26.11.358"
+  update_summary: "Simplify the System Brick Builder description"
+  updated_at: "Thu 12 Nov 2026 at 11:03:50 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.11.356 — 2026-11-12
+
+**Built at:** Thu 12 Nov 2026 at 11:03:50 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Simplify the System Brick Builder description
+
+### Changed
+
+- Clarify the Day 1 Step 2 description with "the simplest build" and remove "with your approval". Preserve the prompt text.
+
+### Validation
+
+- Source checks — verified the revised description and unchanged prompt.
+- `npm --prefix website run build` — passed, including both placeholder checks; built version verified as v26.11.356.
 
 ## v26.11.355 — 2026-11-12
 
