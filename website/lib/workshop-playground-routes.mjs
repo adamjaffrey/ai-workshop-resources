@@ -2,7 +2,8 @@ import {agentAliases,themeAliases} from './workshop-url-preferences.mjs';
 export const playgroundSections=['components','typography','colours','blocks-and-blur','icons','status-states','focus-and-selection','branding','url-reference','easter-egg'];
 export const playgroundTabPaths={blocks:'blocks-and-blur',errors:'status-states',focus:'focus-and-selection',discovery:'easter-egg'};
 export const resourcesRoot='/ai-workshop-resources';
-const resourceRoots=new Set(['home','homes','index.html','workshop','workshops','resource','resources','workshop-resource','workshop-resources','workshops-resource','workshops-resources','ai','ais','ai-workshop-resource','ai-workshop-resources','ai-workshops-resource','ai-workshops-resources','ais-workshop-resource','ais-workshop-resources','ais-workshops-resource','ais-workshops-resources']);
+const homeRoots=new Set(['home','homes','index.html']);
+const resourceRoots=new Set(['workshop','workshops','resource','resources','workshop-resource','workshop-resources','workshops-resource','workshops-resources','ai','ais','ai-workshop-resource','ai-workshop-resources','ai-workshops-resource','ai-workshops-resources','ais-workshop-resource','ais-workshop-resources','ais-workshops-resource','ais-workshops-resources']);
 export const playgroundRoot='/component-playground';
 const roots=new Set(['component-playground','components-playground','component-playgrounds','components-playgrounds','component','components','playground','playgrounds','style-guide','style-guides','styles-guide','styles-guides','style','styles','guide','guides']);
 const urlReferenceAliases=['url','urls','reference','references','url-reference','url-references','urls-reference','urls-references'];
@@ -22,8 +23,8 @@ export function playgroundRedirect(path){
  const normalised=path.toLowerCase().replace(/\/+$/,'')||'/';
  const parts=normalised.split('/');
  // All registered path aliases retain descendants; the root is exact-only.
- if(normalised==='/'||resourceRoots.has(parts[1])){
-  parts[1]=resourcesRoot.slice(1);
+ if(normalised==='/'||homeRoots.has(parts[1])||resourceRoots.has(parts[1])){
+  parts[1]=normalised==='/'||homeRoots.has(parts[1])?'day-1-resources':resourcesRoot.slice(1);
   const location=parts.join('/');
   return location===path?null:{location,status:301};
  }

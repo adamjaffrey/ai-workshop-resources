@@ -36,15 +36,15 @@ test('renamed sections permanently redirect with query strings',async()=>{
 
 test('home redirects locally and on the hosted handler without bypassing login',async()=>{
  const {server}=createPhonePreview();await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
- try{for(const path of ['/home','/home/'])for(const method of ['GET','HEAD']){
-  for(const response of [await fetch(origin+path+'?login=0',{method,redirect:'manual'}),await handleRequest(new Request('https://production.example'+path+'?login=0',{method}),{})]){assert.equal(response.status,301);assert.equal(response.headers.get('location'),'/ai-workshop-resources?login=false');}
+ try{for(const path of ['/','/home','/home/','/homes','/index.html'])for(const method of ['GET','HEAD']){
+  for(const response of [await fetch(origin+path+'?login=0',{method,redirect:'manual'}),await handleRequest(new Request('https://production.example'+path+'?login=0',{method}),{})]){assert.equal(response.status,301);assert.equal(response.headers.get('location'),'/day-1-resources?login=false');}
  }assert.match(await(await fetch(origin+'/home')).text(),/id="access-form"/);
  }finally{await new Promise(r=>server.close(r));}
 });
 
 test('all aliases and slash variants redirect once locally and hosted, preserving exact queries',async()=>{
  const {server}=createPhonePreview();await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
- const aliases=[['/style-guide','/component-playground'],['/home','/ai-workshop-resources'],['/component-playground/colors','/component-playground/colours'],['/component-playground/blocks','/component-playground/blocks-and-blur'],['/component-playground/blur','/component-playground/blocks-and-blur'],['/component-playground/errors','/component-playground/status-states'],['/component-playground/statuses','/component-playground/status-states'],['/component-playground/status','/component-playground/status-states'],['/component-playground/states','/component-playground/status-states'],['/component-playground/focus','/component-playground/focus-and-selection'],['/component-playground/selection','/component-playground/focus-and-selection'],['/component-playground/discovery','/component-playground/easter-egg'],['/component-playground/easter','/component-playground/easter-egg'],['/component-playground/egg','/component-playground/easter-egg']];
+ const aliases=[['/style-guide','/component-playground'],['/home','/day-1-resources'],['/component-playground/colors','/component-playground/colours'],['/component-playground/blocks','/component-playground/blocks-and-blur'],['/component-playground/blur','/component-playground/blocks-and-blur'],['/component-playground/errors','/component-playground/status-states'],['/component-playground/statuses','/component-playground/status-states'],['/component-playground/status','/component-playground/status-states'],['/component-playground/states','/component-playground/status-states'],['/component-playground/focus','/component-playground/focus-and-selection'],['/component-playground/selection','/component-playground/focus-and-selection'],['/component-playground/discovery','/component-playground/easter-egg'],['/component-playground/easter','/component-playground/easter-egg'],['/component-playground/egg','/component-playground/easter-egg']];
  const canonical=['/component-playground',...['components','typography','colours','blocks-and-blur','icons','status-states','focus-and-selection','branding','easter-egg'].map(s=>'/component-playground/'+s)];
  const query='?theme=dark&value=a%2Fb&value=c+d&empty=';
  try{
@@ -91,8 +91,8 @@ test('Resources aliases, case, plural forms and queries share the canonical URL'
   const path='/'+alias.toUpperCase()+suffix;
   if(path==='//')continue;
   const url=new URL('https://www.example.com'+path+'?agent=Claude&theme=Moon');
-  assert.deepEqual(canonicalRedirect(url),{location:'https://example.com/ai-workshop-resources?agent=claude&theme=dark',status:301});
-  const r=await handleRequest(new Request(url),{});assert.equal(r.status,301);assert.equal(r.headers.get('location'),'https://example.com/ai-workshop-resources?agent=claude&theme=dark');
+  assert.deepEqual(canonicalRedirect(url),{location:'https://example.com/'+(['','home','homes','index.html'].includes(alias)?'day-1-resources':'ai-workshop-resources')+'?agent=claude&theme=dark',status:301});
+  const r=await handleRequest(new Request(url),{});assert.equal(r.status,301);assert.equal(r.headers.get('location'),'https://example.com/'+(['','home','homes','index.html'].includes(alias)?'day-1-resources':'ai-workshop-resources')+'?agent=claude&theme=dark');
  }
  assert.equal(canonicalRedirect(new URL('https://example.com/ai-workshop-resources')),null);
 });
@@ -135,14 +135,14 @@ test('login aliases redirect to canonical login booleans and invalid values disa
 
 test('all registered path alias families preserve descendants and word pluralisations',async()=>{
  const {canonicalRedirect}=await import('../lib/workshop-playground-routes.mjs');
- const resources=['home','homes','index.html','workshop','workshops','resource','resources','ai','ais'];
+ const resources=['workshop','workshops','resource','resources','ai','ais'];
  for(const workshop of ['workshop','workshops'])for(const resource of ['resource','resources']){
   resources.push(workshop+'-'+resource);
   for(const ai of ['ai','ais'])resources.push(ai+'-'+workshop+'-'+resource);
  }
  const playground=['style','styles','guide','guides','component','components','playground','playgrounds','component-playground','component-playgrounds','components-playground','components-playgrounds'];
  for(const style of ['style','styles'])for(const guide of ['guide','guides'])playground.push(style+'-'+guide);
- for(const [aliases,target] of [[resources,'/ai-workshop-resources'],[playground,'/component-playground']])for(const alias of aliases){
+ for(const [aliases,target] of [[['home','homes','index.html'],'/day-1-resources'],[resources,'/ai-workshop-resources'],[playground,'/component-playground']])for(const alias of aliases){
   const url=new URL('https://example.com/'+alias.toUpperCase()+'/Day-1-Resources/Notes/?Theme=SUN&Agent=CHATGPT&Keep=Case');
   const destination=target+'/day-1-resources/notes?theme=light&agent=codex&Keep=Case';
   assert.deepEqual(canonicalRedirect(url),{location:destination,status:301});

@@ -3,14 +3,37 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.11.350"
-  update_summary: "Name the Day 1 prompt AI System Starter"
-  updated_at: "Thu 12 Nov 2026 at 03:55:46 pm AEDT (+11:00)"
+  doc_revision: "26.11.351"
+  update_summary: "Route root and home entry points to Day 1 Resources"
+  updated_at: "Thu 12 Nov 2026 at 04:04:50 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.11.349 — 2026-11-12
+
+**Built at:** Thu 12 Nov 2026 at 04:04:50 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Route root and home entry points to Day 1 Resources
+
+### Changed
+
+- Redirect `/`, `/home`, `/homes` and `/index.html` to `/day-1-resources` with 301 responses. Preserve shared case, trailing-slash, query and named-alias descendant handling. Existing root-domain QR and copy links now lead to Day 1.
+- Preserve all workshop/resource aliases and the original `/ai-workshop-resources` page.
+- Update the shared URL Reference, delivery contract and routing decision record.
+
+### Validation
+
+- Routing and phone-preview tests — 18 passed initially; the remaining outdated root-destination assertion was updated and its focused rerun passed. All 19 checks passed across these runs.
+- `npm --prefix website run build` — passed, including both placeholder checks; built version verified as v26.11.349.
 
 ## v26.11.348 — 2026-11-12
 

@@ -3,9 +3,9 @@ name: website-url-reference
 description: Define canonical website URLs, redirect aliases, query parameters and authentication behaviour.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.11.27"
-  update_summary: "Name the Day 1 prompt AI System Starter"
-  updated_at: "Thu 12 Nov 2026 at 03:55:18 pm AEDT (+11:00)"
+  doc_revision: "26.11.28"
+  update_summary: "Route root and home entry points to Day 1 Resources"
+  updated_at: "Thu 12 Nov 2026 at 04:03:43 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -20,6 +20,7 @@ All paths in this document are relative to `https://workshop.adamjaffrey.chatgpt
 
 | Purpose | Canonical Address or Path | Browser Title |
 | --- | --- | --- |
+| Root and Home Redirects | `/`, `/home`, `/homes`, `/index.html` → `/day-1-resources` | Day 1 Resources |
 | QR Code and Copy Link | `https://workshop.adamjaffrey.chatgpt.site` | Destination title |
 | Resources | `/ai-workshop-resources` | AI Workshop Resources |
 | Day 1 Resources | `/day-1-resources` | Day 1 Resources |
@@ -57,11 +58,12 @@ The `www` rule requires hosting to accept that hostname and supply its HTTPS cer
 
 ## Resources Aliases
 
-Every alias below redirects with 301 to `/ai-workshop-resources`. Named aliases also preserve descendants. The canonical path itself does not redirect.
+The root and home paths `/`, `/home`, `/homes` and `/index.html` redirect with 301 to `/day-1-resources`, including case and trailing-slash variants. The root is exact-only; named home aliases preserve descendants. Query parameters follow the shared canonicalisation rules. The existing QR code and root-domain copy links therefore open Day 1 Resources.
+
+Every workshop/resource alias below continues to redirect with 301 to `/ai-workshop-resources`. Named aliases also preserve descendants. The canonical path itself does not redirect.
 
 | Group | Alias Paths |
 | --- | --- |
-| Root and Home | `/`, `/home`, `/homes`, `/index.html` |
 | Workshop | `/workshop`, `/workshops` |
 | Resources | `/resource`, `/resources` |
 | Workshop/Resource Combinations | `/workshop-resource`, `/workshop-resources`, `/workshops-resource`, `/workshops-resources` |

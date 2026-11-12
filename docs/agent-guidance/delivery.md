@@ -3,9 +3,9 @@ name: preview-and-delivery
 description: Specify preview operation, authentication expectations and exact handoff wording.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.5"
-  update_summary: "Require both backdrop captures before every Sites publication"
-  updated_at: "Thu 22 Oct 2026 at 10:45:29 pm AEDT (+11:00)"
+  doc_revision: "26.11.6"
+  update_summary: "Route root and home entry points to Day 1 Resources"
+  updated_at: "Thu 12 Nov 2026 at 04:03:43 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -43,8 +43,8 @@ The local column describes the user-facing preview started with automatic login 
 | URL | Local Preview | Hosted Sites |
 |---|---|---|
 | `/ai-workshop-resources` | Opens the app using a valid local session, obtaining one automatically through the real local login handler if needed. No password entry is required. | Opens the app when the server validates the existing session; otherwise shows the password form. |
-| `/`, `/workshop`, `/resources`, `/ai`, `/workshop-resources` and documented singular/plural aliases | Permanently redirects (301) to `/ai-workshop-resources`, preserving query parameters. | Permanently redirects (301) to `/ai-workshop-resources`, preserving query parameters; authentication is unchanged. |
-| `/home` or `/home/` | Permanently redirects (301) to `/ai-workshop-resources`, preserving query parameters; the destination follows local automatic-login rules. | Permanently redirects (301) to `/ai-workshop-resources`, preserving query parameters; the destination requires a valid hosted session or password login. |
+| `/workshop`, `/resources`, `/ai`, `/workshop-resources` and documented singular/plural aliases | Permanently redirects (301) to `/ai-workshop-resources`, preserving query parameters. | Permanently redirects (301) to `/ai-workshop-resources`, preserving query parameters; authentication is unchanged. |
+| `/`, `/home`, `/homes` or `/index.html`, including trailing-slash variants | Permanently redirects (301) to `/day-1-resources`, preserving query parameters; the destination follows local automatic-login rules. | Permanently redirects (301) to `/day-1-resources`, preserving query parameters; the destination requires a valid hosted session or password login. |
 | `/component-playground` or a supported section such as `/component-playground/branding` | Password-free by default; a section path selects that tab directly. | Requires the same server-validated session as the main app. Without one, shows the Playground login form; successful login retains the requested section. |
 | `/ai-workshop-resources?login=true` | Reuses an existing valid session or shows the password form; never automatically signs in. | Reuses an existing valid session or shows the password form; never signs in. |
 | `/ai-workshop-resources?login=false` | Revokes the current session, clears its cookie and shows the login form. | Revokes the current session, clears its cookie and shows the login form. |

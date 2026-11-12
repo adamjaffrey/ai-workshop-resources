@@ -3,9 +3,9 @@ name: website-design-decisions
 description: Index website design decisions, their known rationale and owning rules.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.0.102"
-  update_summary: "Require both backdrop captures before every Sites publication"
-  updated_at: "Thu 22 Oct 2026 at 10:45:29 pm AEDT (+11:00)"
+  doc_revision: "26.11.103"
+  update_summary: "Route root and home entry points to Day 1 Resources"
+  updated_at: "Thu 12 Nov 2026 at 04:03:43 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
@@ -313,6 +313,8 @@ Adam requested these gallery refinements to compare real component dimensions, r
 **Owning Rules and Sources:** [Performance Evidence](README.md#animation-performance-and-settings-audit); [Validation Boundaries](../docs/agent-guidance/interface.md#mandatory-change-and-validation-contract). Primary README source: [Animation Performance and Settings Audit](README.md#animation-performance-and-settings-audit).
 
 ## Canonical URLs, Preferences and Favicons
+
+**Day 1 Entry Point:** Adam requested that the bare domain and root/home aliases (`/`, `/home`, `/homes`, `/index.html`) open Day 1 Resources, while workshop/resource aliases continue to open the original Resources page. This also directs the existing root-domain QR code and copy links to Day 1 without replacing those assets. The shared [URL Reference](URL-REFERENCE.md#resources-aliases) owns the mapping.
 
 **Decision:** Use canonical Resources/Playground paths and shared alias parsing with application 301 redirects, descendant preservation and known-query normalisation. Preserve unrelated query data and never treat an alias as a new page. Explicit login=false revokes only the current session; true never authenticates. The Playground Toy Brick favicon follows agent and theme, including login. Keep the public mapping in one Markdown source rendered by Playground. Accept shared true/yes/1 and false/no/0 login value groups, canonicalising to login and inverting show-login/logout/logged-out/loggedout; parameter-name aliases ai and mode reuse the complete agent/theme vocabulary. Canonical URL values are agent=claude and login=true/false; internal Claude Code identifiers and stored preferences stay unchanged. Adam requested single-word canonical components for simpler URLs. Use Lucide Anchor for the Anchor Links heading and retain Hash for its hover copy action. Its Resource Anchors and Playground Anchors subsections use collapsible H3s with unique List Ordered and Signpost icons and copyable fragments. Login mapping columns name their resulting canonical URL components directly, in the same true-then-false order as the effects table, because outcome-only column labels left their relationship unclear. Canonical names lead alias lists; remaining aliases are alphabetical except Adam’s explicit agent-value and login-name ordering. The query overview is a collapsible Summary H3 with Lucide Table Properties and its own copyable anchor. Login names use login, loggedin, logged-in, hide-login; logout names use logout, loggedout, logged-out, show-login. Document equivalent boolean spellings in one table and parameter families by desired outcome in another. Adam found the true-group/false-group headings confusing and requested that login=true express logged-in intent, with logout and hide-login as inverse aliases. Existing login=1 links now preserve a valid session rather than revoke it; authentication is still required.
 
