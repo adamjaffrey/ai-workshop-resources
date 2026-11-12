@@ -31,4 +31,6 @@ export const dayOneResourcePage = resourcePage
  .replaceAll(',"step-3-system-build-assistant"', '')
  .replaceAll('step-[1-3]', 'step-[1-2]')
  .replace('function installationPrompt(skill, agent) {',
-  'function installationPrompt(skill, agent) {\n      if (skill === \'system-blueprint-creator\') return ' + JSON.stringify(dayOnePrompt) + ';');
+  'function installationPrompt(skill, agent) {\n      if (skill === \'system-blueprint-creator\') return ' + JSON.stringify(dayOnePrompt) + ';')
+ .replaceAll('System Blueprint Creator', 'AI System Starter')
+ .replaceAll('system-blueprint-creator', 'ai-system-starter');

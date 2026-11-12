@@ -3,14 +3,36 @@ name: changelog
 description: Record finalised software artefacts for this project.
 metadata:
   doc_schema: "doc/v3"
-  doc_revision: "26.11.349"
-  update_summary: "Add the Day 1 Resources page"
-  updated_at: "Thu 12 Nov 2026 at 03:47:53 pm AEDT (+11:00)"
+  doc_revision: "26.11.350"
+  update_summary: "Name the Day 1 prompt AI System Starter"
+  updated_at: "Thu 12 Nov 2026 at 03:55:46 pm AEDT (+11:00)"
   updated_by: "Adam Jaffrey"
   update_assisted_by_agent: "ChatGPT Codex"
 ---
 
 # Changelog
+
+## v26.11.348 — 2026-11-12
+
+**Built at:** Thu 12 Nov 2026 at 03:55:46 pm AEDT (+11:00)
+
+**Built by:** Adam Jaffrey
+
+**Build assisted by agent:** ChatGPT Codex
+
+### Summary
+
+Name the Day 1 prompt AI System Starter
+
+### Changed
+
+- Rename the Day 1 Step 2 heading, slug, prompt identifier and accessible labels to AI System Starter (`ai-system-starter`). Preserve the exact prompt and original Resources page. Use `#step-2-ai-system-starter` for Day 1 Step 2, with no alias for the previous name.
+- Update the shared URL Reference with the selected name.
+
+### Validation
+
+- `node website/tests/day-one-browser-check.mjs` — passed Chrome and WebKit at 390 and 1440px, including the heading and slug, exact prompt copying, both agents, canonical step links, login return and original page preservation.
+- `npm --prefix website run build` — passed, including both placeholder checks; built version and AI System Starter name verified.
 
 ## v26.11.347 — 2026-11-12
 

@@ -20,14 +20,16 @@ try {
     assert.equal(await page.locator('h1').innerText(),'Day 1 Resources');
     assert.equal(await page.locator('a.page-title-link').getAttribute('href'),'/day-1-resources');
     assert.equal(await page.locator('.step-row').count(),2);
+    assert.equal(await page.locator('.step-row').nth(1).locator('h3').innerText(),'AI System Starter');
+    assert.equal(await page.locator('.step-row').nth(1).locator('.slug').innerText(),'ai-system-starter');
     for(const agent of ['codex','claude-code']){
      await page.locator('[data-agent="'+agent+'"]').click();
-     assert.equal(await page.locator('#system-blueprint-creator').textContent(),dayOnePrompt);
-     await page.locator('[data-copy="system-blueprint-creator"]').click();
+     assert.equal(await page.locator('#ai-system-starter').textContent(),dayOnePrompt);
+     await page.locator('[data-copy="ai-system-starter"]').click();
      assert.equal(await page.evaluate(()=>window.copied),dayOnePrompt);
     }
-    await page.locator('[data-anchor="step-2-system-blueprint-creator"]').click();
-    assert.match(await page.evaluate(()=>window.copied),/\/day-1-resources(?:\?[^#]*)?#step-2-system-blueprint-creator$/);
+    await page.locator('[data-anchor="step-2-ai-system-starter"]').click();
+    assert.match(await page.evaluate(()=>window.copied),/\/day-1-resources(?:\?[^#]*)?#step-2-ai-system-starter$/);
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
     await page.screenshot({path:'/tmp/day-one-'+engine.name()+'-'+width+'.png',fullPage:true});
     await page.goto(origin+'/ai-workshop-resources');
@@ -36,8 +38,8 @@ try {
     await page.goto(origin+'/day-1-resources?login=false&theme=dark#step-2');
     await page.locator('#workshop-password').fill(password);
     await page.locator('#access-form button[type="submit"]').click();
-    await page.waitForURL('**/day-1-resources?theme=dark#step-2-system-blueprint-creator');
-    assert.equal(await page.locator('#system-blueprint-creator').textContent(),dayOnePrompt);
+    await page.waitForURL('**/day-1-resources?theme=dark#step-2-ai-system-starter');
+    assert.equal(await page.locator('#ai-system-starter').textContent(),dayOnePrompt);
     await page.goto(origin+'/day-1-resources#step-3');
     await page.waitForTimeout(200);
     assert.deepEqual(errors,[]);
